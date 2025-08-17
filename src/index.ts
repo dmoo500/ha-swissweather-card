@@ -1,12 +1,24 @@
 // Home Assistant 2025.8+ Card Registration
+console.log('📦 SwissMeteo Card module loading started...');
+console.log('📦 Browser support check:', {
+  customElements: !!window.customElements,
+  hasReflect: !!window.Reflect
+});
+
 import './swissmeteo-card.js';
+
+console.log('📦 SwissMeteo Card TypeScript file imported');
 
 // Debug: Check if element is registered
 setTimeout(() => {
   const element = customElements.get('swissmeteo-card');
-  console.log('SwissMeteo Card registration status:', element ? 'SUCCESS' : 'FAILED');
+  console.log('🔍 SwissMeteo Card registration status:', element ? 'SUCCESS ✅' : 'FAILED ❌');
   if (element) {
-    console.log('Element constructor:', element);
+    console.log('🔍 Element constructor:', element);
+    console.log('🔍 Element prototype:', element.prototype);
+  } else {
+    console.error('❌ Custom element "swissmeteo-card" was not registered!');
+    console.log('🔍 Checking custom elements registry...');
   }
 }, 100);
 
@@ -26,3 +38,5 @@ window.customCards.push({
   preview: false,
   documentationURL: 'https://github.com/your-username/ha-swissmeteo-card',
 });
+
+console.log('📦 SwissMeteo Card module loading completed');

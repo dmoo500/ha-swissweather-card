@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>SwissMeteo Card - Decorator vs Manual Registration Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; border-radius: 8px; }
+        #console-output { background: #1e1e1e; color: #fff; padding: 15px; margin: 10px 0; border-radius: 4px; font-family: monospace; max-height: 300px; overflow-y: auto; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 4px; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .pending { background: #fff3cd; color: #856404; }
+    </style>
+</head>
+<body>
+    <h1>SwissMeteo Card Registration Comparison</h1>
+    
+    <div id="console-output">Console output will appear here...<br></div>
+    
+    <div class="test-section">
+        <h2>Test 1: TypeScript with @customElement Decorator</h2>
+        <div id="status-decorator" class="status pending">Testing...</div>
+        <swissmeteo-card id="card-decorator"></swissmeteo-card>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 2: Manual Registration (No Decorators)</h2>
+        <div id="status-manual" class="status pending">Testing...</div>
+        <swissmeteo-card-alt id="card-manual"></swissmeteo-card-alt>
+    </div>
+    
+    <script>
+        // Console capture
+        const consoleOutput = document.getElementById('console-output');
+        const originalLog = console.log;
+        const originalInfo = console.info;
+        const originalError = console.error;
+        
+        function addToOutput(type, ...args) {
+            const timestamp = new Date().toLocaleTimeString();
+            const message = args.map(arg => 
+                typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
+            ).join(' ');
+            const color = type === 'error' ? '#ff6b6b' : type === 'info' ? '#4ecdc4' : '#fff';
+            consoleOutput.innerHTML += `<span style="color: ${color}">[${timestamp}] ${message}</span><br>`;
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+        }
+        
+        console.log = (...args) => { originalLog(...args); addToOutput('log', ...args); };
+        console.info = (...args) => { originalInfo(...args); addToOutput('info', ...args); };
+        console.error = (...args) => { originalError(...args); addToOutput('error', ...args); };
+    </script>
+    
+    <script type="module">
+        console.log('🔬 Starting registration comparison test...');
+        
+        // Test 1: TypeScript with decorators
+        try {
+            console.log('🔬 Loading TypeScript card with decorators...');
+            await import('./swissmeteo-card.js');
+            
+            setTimeout(() => testDecoratorCard(), 200);
+        } catch (error) {
+            console.error('❌ Error loading decorator card:', error);
+            document.getElementById('status-decorator').className = 'status error';
+            document.getElementById('status-decorator').textContent = 'Error loading: ' + error.message;
+        }
+        
+        // Test 2: Manual registration
+        try {
+            console.log('🔬 Loading manual registration card...');
+            await import('./src/swissmeteo-card-alt.js');
+            
+            setTimeout(() => testManualCard(), 200);
+        } catch (error) {
+            console.error('❌ Error loading manual card:', error);
+            document.getElementById('status-manual').className = 'status error';
+            document.getElementById('status-manual').textContent = 'Error loading: ' + error.message;
+        }
+        
+        function testDecoratorCard() {
+            const element = customElements.get('swissmeteo-card');
+            const statusEl = document.getElementById('status-decorator');
+            
+            if (element) {
+                statusEl.className = 'status success';
+                statusEl.textContent = '✅ Decorator registration successful!';
+                
+                const card = document.getElementById('card-decorator');
+                setupCard(card, 'Decorator Test');
+            } else {
+                statusEl.className = 'status error';
+                statusEl.textContent = '❌ Decorator registration failed!';
+            }
+        }
+        
+        function testManualCard() {
+            const element = customElements.get('swissmeteo-card-alt');
+            const statusEl = document.getElementById('status-manual');
+            
+            if (element) {
+                statusEl.className = 'status success';
+                statusEl.textContent = '✅ Manual registration successful!';
+                
+                const card = document.getElementById('card-manual');
+                setupCard(card, 'Manual Test');
+            } else {
+                statusEl.className = 'status error';
+                statusEl.textContent = '❌ Manual registration failed!';
+            }
+        }
+        
+        function setupCard(card, location) {
+            try {
+                card.hass = {
+                    states: {
+                        'weather.test': {
+                            state: 'sunny',
+                            attributes: {
+                                temperature: 22,
+                                humidity: 65,
+                                pressure: 1013
+                            }
+                        }
+                    }
+                };
+                
+                card.setConfig({
+                    entity: 'weather.test',
+                    location: location
+                });
+                
+                console.log(`✅ ${location} card configured successfully`);
+            } catch (error) {
+                console.error(`❌ Error configuring ${location} card:`, error);
+            }
+        }
+    </script>
+</body>
+</html>

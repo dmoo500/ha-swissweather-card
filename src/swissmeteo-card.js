@@ -1,48 +1,11 @@
-import { LitElement, html, css, PropertyValues, TemplateResult } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
-import type {
-  HomeAssistant,
-  HassEntity,
-  WeatherEntity,
-  WeatherForecast,
-  WeatherCondition,
-  SwissMeteoCardConfig,
-  SwissWeatherWarning,
-} from './types/home-assistant.js';
+import { LitElement, html, css } from 'lit';
 
-// Extend Window interface for customCards
-declare global {
-  interface Window {
-    customCards?: Array<{
-      type: string;
-      name: string;
-      description: string;
-      preview?: boolean;
-      documentationURL?: string;
-    }>;
-  }
-}
-
-// Debug: Log before decorator application
-console.log('🎯 About to apply @customElement decorator to SwissMeteoCard');
-console.log('🎯 customElements registry available:', !!customElements);
-
-@customElement('swissmeteo-card')
-export class SwissMeteoCard extends LitElement {
-  @property({ attribute: false }) public hass!: HomeAssistant;
-  @property({ attribute: false }) public config!: SwissMeteoCardConfig;
-
-  constructor() {
-    super();
-    console.log('🔧 SwissMeteoCard constructor called');
-    console.log('🔧 LitElement base:', LitElement);
-    console.log('🔧 customElement decorator applied');
-  }
-
-  connectedCallback() {
-    super.connectedCallback();
-    console.log('🔌 SwissMeteoCard connected to DOM');
-    console.log('🔌 Custom element defined:', customElements.get('swissmeteo-card'));
+class SwissMeteoCard extends LitElement {
+  static get properties() {
+    return {
+      hass: {},
+      config: {},
+    };
   }
 
   static get styles() {
@@ -328,23 +291,23 @@ export class SwissMeteoCard extends LitElement {
     `;
   }
 
-  public setConfig(config: SwissMeteoCardConfig): void {
+  setConfig(config) {
     if (!config.entity) {
       throw new Error('You need to define an entity');
     }
     this.config = config;
   }
 
-  public getCardSize(): number {
+  getCardSize() {
     return 8;
   }
 
-  private _getEntityState(entityId: string): HassEntity | undefined {
-    return this.hass?.states[entityId];
+  _getEntityState(entityId) {
+    return this.hass.states[entityId];
   }
 
-  private _getWeatherIcon(condition: WeatherCondition | string): string {
-    const iconMap: Record<WeatherCondition, string> = {
+  _getWeatherIcon(condition) {
+    const iconMap = {
       'clear-night': '🌙',
       'cloudy': '☁️',
       'fog': '🌫️',
@@ -361,38 +324,38 @@ export class SwissMeteoCard extends LitElement {
       'windy-variant': '💨',
       'exceptional': '🌪️'
     };
-    return iconMap[condition as WeatherCondition] || '☀️';
+    return iconMap[condition] || '☀️';
   }
 
-  private _getWarningLevel(warnings: SwissWeatherWarning[]): string {
+  _getWarningLevel(warnings) {
     if (!warnings || warnings.length === 0) return 'none';
     
-    const maxLevel = Math.max(...warnings.map((w: SwissWeatherWarning) => w.level || 0));
+    const maxLevel = Math.max(...warnings.map(w => w.level || 0));
     if (maxLevel >= 4) return 'danger';
     if (maxLevel >= 3) return 'severe';
     if (maxLevel >= 2) return 'warning';
     return 'info';
   }
 
-  private _formatWindDirection(degrees: number): string {
+  _formatWindDirection(degrees) {
     const directions = ['N', 'NNO', 'NO', 'ONO', 'O', 'OSO', 'SO', 'SSO', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
     const index = Math.round(degrees / 22.5) % 16;
     return directions[index];
   }
 
-  public render(): TemplateResult {
+  render() {
     if (!this.hass || !this.config) {
       return html``;
     }
 
-    const weatherEntity = this._getEntityState(this.config.entity) as WeatherEntity;
+    const weatherEntity = this._getEntityState(this.config.entity);
     if (!weatherEntity) {
       return html`<div>Entity not found: ${this.config.entity}</div>`;
     }
 
     const location = this.config.location || 'Schweiz';
     const temperature = weatherEntity.attributes.temperature;
-    const condition = weatherEntity.state as WeatherCondition;
+    const condition = weatherEntity.state;
     const forecast = weatherEntity.attributes.forecast || [];
     
     // Get additional sensor data
@@ -408,9 +371,7 @@ export class SwissMeteoCard extends LitElement {
     const pressure = weatherEntity.attributes.pressure || 0;
     const visibility = weatherEntity.attributes.visibility || 0;
 
-    const warnings: SwissWeatherWarning[] = warningEntity?.attributes?.warnings 
-      ? (Array.isArray(warningEntity.attributes.warnings) ? warningEntity.attributes.warnings : [])
-      : [];
+    const warnings = warningEntity ? (Array.isArray(warningEntity.attributes.warnings) ? warningEntity.attributes.warnings : []) : [];
     const warningLevel = this._getWarningLevel(warnings);
 
     return html`
@@ -512,7 +473,7 @@ export class SwissMeteoCard extends LitElement {
             7-Tage-Prognose
           </div>
           <div class="forecast-grid">
-            ${forecast.slice(0, 7).map((day: WeatherForecast) => html`
+            ${forecast.slice(0, 7).map(day => html`
               <div class="forecast-day">
                 <div class="forecast-date">${this._formatDate(day.datetime)}</div>
                 <div class="forecast-icon">${this._getWeatherIcon(day.condition)}</div>
@@ -528,8 +489,8 @@ export class SwissMeteoCard extends LitElement {
     `;
   }
 
-  private _translateCondition(condition: WeatherCondition | string): string {
-    const translations: Record<WeatherCondition, string> = {
+  _translateCondition(condition) {
+    const translations = {
       'clear-night': 'Klar',
       'cloudy': 'Bewölkt',
       'fog': 'Nebel',
@@ -546,12 +507,28 @@ export class SwissMeteoCard extends LitElement {
       'windy-variant': 'Böig',
       'exceptional': 'Sturm'
     };
-    return translations[condition as WeatherCondition] || condition;
+    return translations[condition] || condition;
   }
 
-  private _formatDate(dateStr: string): string {
+  _formatDate(dateStr) {
     const date = new Date(dateStr);
     const days = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
     return days[date.getDay()];
   }
 }
+
+customElements.define('swissmeteo-card', SwissMeteoCard);
+
+// Register the card with Home Assistant
+window.customCards = window.customCards || [];
+window.customCards.push({
+  type: 'swissmeteo-card',
+  name: 'SwissMeteo Card',
+  description: 'Eine Card im Stil der SwissMeteo App'
+});
+
+console.info(
+  `%c SWISSMETEO-CARD %c v1.0.0 `,
+  'color: orange; font-weight: bold; background: black',
+  'color: white; font-weight: bold; background: dimgray'
+);
