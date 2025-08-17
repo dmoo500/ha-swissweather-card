@@ -1,0 +1,7 @@
+{
+  "name": "SwissMeteo Card",
+  "render_readme": true,
+  "filename": "swissmeteo-card.js",
+  "country": ["CH"],
+  "homeassistant": "2025.8.0"
+}

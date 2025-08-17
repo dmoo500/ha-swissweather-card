@@ -1,0 +1,92 @@
+name: Bug Report
+description: Melden Sie einen Fehler in der SwissMeteo Card
+title: "[BUG] "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Danke, dass Sie einen Bug-Report erstellen! Bitte füllen Sie die folgenden Felder aus.
+
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Welche Version der SwissMeteo Card verwenden Sie?
+      placeholder: z.B. 1.0.0
+    validations:
+      required: true
+
+  - type: dropdown
+    id: ha-version
+    attributes:
+      label: Home Assistant Version
+      description: Welche Home Assistant Version verwenden Sie?
+      options:
+        - 2025.8.x
+        - 2025.7.x
+        - 2025.6.x
+        - Andere
+    validations:
+      required: true
+
+  - type: dropdown
+    id: installation
+    attributes:
+      label: Installationsmethode
+      description: Wie haben Sie die Card installiert?
+      options:
+        - HACS
+        - Manuell
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Beschreibung des Problems
+      description: Beschreiben Sie das Problem so detailliert wie möglich
+      placeholder: |
+        1. Was haben Sie getan?
+        2. Was haben Sie erwartet?
+        3. Was ist stattdessen passiert?
+    validations:
+      required: true
+
+  - type: textarea
+    id: config
+    attributes:
+      label: Konfiguration
+      description: Fügen Sie Ihre Card-Konfiguration ein
+      render: yaml
+      placeholder: |
+        type: custom:swissmeteo-card
+        entity: weather.home
+        # weitere Konfiguration...
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs/Fehlermeldungen
+      description: Browser-Konsole oder Home Assistant Logs
+      render: text
+      placeholder: |
+        Fügen Sie hier relevante Logs oder Fehlermeldungen ein
+
+  - type: textarea
+    id: browser
+    attributes:
+      label: Browser-Informationen
+      description: Browser und Version
+      placeholder: |
+        z.B. Chrome 116.0, Firefox 117.0, Safari 16.6
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Bestätigung
+      options:
+        - label: Ich habe die [Dokumentation](https://github.com/your-username/ha-swissmeteo-card) gelesen
+          required: true
+        - label: Ich habe nach ähnlichen Issues gesucht
+          required: true

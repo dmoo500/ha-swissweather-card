@@ -1,0 +1,111 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        
+    - name: Enable Corepack
+      run: corepack enable
+      
+    - name: Install dependencies
+      run: yarn install --immutable
+      
+    - name: Build
+      run: yarn build
+      
+    - name: Get version from tag
+      id: version
+      run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+      
+    - name: Update version in package.json
+      run: |
+        yarn version ${{ steps.version.outputs.VERSION }} --no-git-tag-version
+        
+    - name: Create release archive
+      run: |
+        mkdir -p release
+        cp dist/swissmeteo-card.js release/
+        cp README.md release/
+        cp LICENSE release/
+        cp hacs.json release/
+        cd release
+        zip -r ../swissmeteo-card-${{ steps.version.outputs.VERSION }}.zip .
+        
+    - name: Generate changelog
+      id: changelog
+      run: |
+        if [ -f CHANGELOG.md ]; then
+          # Extract current version changes
+          sed -n '/^## \[/,/^## \[/p' CHANGELOG.md | head -n -1 > current_changes.md
+          echo "CHANGELOG<<EOF" >> $GITHUB_OUTPUT
+          cat current_changes.md >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+        else
+          echo "CHANGELOG=Release ${{ steps.version.outputs.VERSION }}" >> $GITHUB_OUTPUT
+        fi
+        
+    - name: Create GitHub Release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v${{ steps.version.outputs.VERSION }}
+        release_name: SwissMeteo Card v${{ steps.version.outputs.VERSION }}
+        body: |
+          ## 🎉 SwissMeteo Card v${{ steps.version.outputs.VERSION }}
+          
+          ### 📦 Installation
+          
+          #### HACS (Empfohlen)
+          1. Fügen Sie dieses Repository zu HACS hinzu
+          2. Suchen Sie nach "SwissMeteo Card" 
+          3. Installieren Sie die neueste Version
+          
+          #### Manuell
+          1. Laden Sie `swissmeteo-card.js` herunter
+          2. Kopieren Sie es nach `config/www/`
+          3. Fügen Sie die Ressource zu Lovelace hinzu
+          
+          ### 📋 Changelog
+          ${{ steps.changelog.outputs.CHANGELOG }}
+          
+          ### 🔧 Kompatibilität
+          - Home Assistant 2025.8+
+          - Moderne Browser (Chrome 90+, Firefox 88+, Safari 14+)
+          
+        draft: false
+        prerelease: false
+        
+    - name: Upload release asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./swissmeteo-card-${{ steps.version.outputs.VERSION }}.zip
+        asset_name: swissmeteo-card-${{ steps.version.outputs.VERSION }}.zip
+        asset_content_type: application/zip
+        
+    - name: Upload individual file
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./dist/swissmeteo-card.js
+        asset_name: swissmeteo-card.js
+        asset_content_type: application/javascript
