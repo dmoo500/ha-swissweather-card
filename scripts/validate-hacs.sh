@@ -39,7 +39,7 @@ required_files=(
     "hacs.json"
     "README.md"
     "LICENSE"
-    "dist/swissmeteo-card.js"
+    "swissmeteo-card.js"
 )
 
 for file in "${required_files[@]}"; do
@@ -71,10 +71,10 @@ if [ -f "hacs.json" ]; then
             
             if [ -n "$filename" ]; then
                 success "Filename gesetzt: $filename"
-                if [ -f "dist/$filename" ]; then
+                if [ -f "$filename" ]; then
                     success "Datei $filename existiert"
                 else
-                    error "Datei dist/$filename nicht gefunden"
+                    error "Datei $filename nicht gefunden"
                 fi
             else
                 error "Filename fehlt in hacs.json"
@@ -90,9 +90,9 @@ fi
 echo ""
 echo "📦 Build Validierung..."
 
-# Prüfen ob dist/swissmeteo-card.js existiert und nicht leer ist
-if [ -f "dist/swissmeteo-card.js" ]; then
-    size=$(wc -c < "dist/swissmeteo-card.js")
+# Prüfen ob swissmeteo-card.js existiert und nicht leer ist
+if [ -f "swissmeteo-card.js" ]; then
+    size=$(wc -c < "swissmeteo-card.js")
     if [ "$size" -gt 1000 ]; then
         success "Build-Datei ist vorhanden und hat sinnvolle Größe ($size bytes)"
     else
@@ -100,19 +100,19 @@ if [ -f "dist/swissmeteo-card.js" ]; then
     fi
     
     # Prüfen ob moderne JS-Features verwendet werden
-    if grep -q "class.*extends.*LitElement" "dist/swissmeteo-card.js"; then
+    if grep -q "class.*extends.*LitElement" "swissmeteo-card.js"; then
         success "LitElement-Klasse gefunden"
     else
         warning "LitElement-Klasse nicht gefunden"
     fi
     
-    if grep -q "customElements.define" "dist/swissmeteo-card.js"; then
+    if grep -q "customElements.define" "swissmeteo-card.js"; then
         success "Custom Element Registrierung gefunden"
     else
         error "Custom Element Registrierung nicht gefunden"
     fi
 else
-    error "dist/swissmeteo-card.js nicht gefunden"
+    error "swissmeteo-card.js nicht gefunden"
 fi
 
 echo ""

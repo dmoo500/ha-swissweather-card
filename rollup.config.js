@@ -5,7 +5,7 @@ import typescript from '@rollup/plugin-typescript';
 export default {
   input: 'src/index.ts',
   output: {
-    file: 'dist/swissmeteo-card.js',
+    file: 'swissmeteo-card.js',
     format: 'es',
     sourcemap: true,
   },
