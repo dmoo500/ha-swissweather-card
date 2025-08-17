@@ -38,6 +38,17 @@ export interface HomeAssistant {
   connection: Connection;
 }
 
+export interface LovelaceCardEditor {
+  hass?: HomeAssistant;
+  lovelace?: any;
+  setConfig(config: LovelaceCardConfig): void;
+}
+
+export interface LovelaceCardConfig {
+  type: string;
+  [key: string]: any;
+}
+
 export interface HassEntity {
   entity_id: string;
   state: string;

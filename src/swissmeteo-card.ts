@@ -339,6 +339,23 @@ export class SwissMeteoCard extends LitElement {
     return 8;
   }
 
+  public static async getConfigElement() {
+    await import('./swissmeteo-card-editor.js');
+    return document.createElement('swissmeteo-card-editor');
+  }
+
+  public static getStubConfig() {
+    return {
+      type: 'custom:swissmeteo-card',
+      entity: '',
+      location: 'Schweiz',
+      show_forecast: true,
+      show_precipitation: true,
+      show_warnings: true,
+      compact_mode: false,
+    };
+  }
+
   private _getEntityState(entityId: string): HassEntity | undefined {
     return this.hass?.states[entityId];
   }

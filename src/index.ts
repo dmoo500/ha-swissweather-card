@@ -9,6 +9,10 @@ import './swissmeteo-card.js';
 
 console.log('📦 SwissMeteo Card TypeScript file imported');
 
+// Import editor for card picker
+import './swissmeteo-card-editor.js';
+console.log('🎨 SwissMeteo Card Editor imported');
+
 // Debug: Check if element is registered
 setTimeout(() => {
   const element = customElements.get('swissmeteo-card');

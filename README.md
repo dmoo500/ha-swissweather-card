@@ -67,6 +67,42 @@ lovelace:
 
 4. Starten Sie Home Assistant neu
 
+## 🎨 Visual Editor
+
+Die SwissMeteo Card verfügt über einen vollständigen visuellen Editor für die Lovelace UI:
+
+### Features des Visual Editors:
+- **🎯 Entity Picker**: Automatische Auswahl von Wetter-Entities
+- **📊 Sensor-Gruppierung**: Übersichtliche Gruppierung nach Wetter-Kategorien  
+- **⚡ Live-Vorschau**: Sofortige YAML-Generierung
+- **🔍 Validierung**: Automatische Überprüfung der Konfiguration
+- **📱 Responsive**: Optimiert für Desktop und Mobile
+
+### Verwendung:
+1. **Dashboard bearbeiten** → **Card hinzufügen**
+2. **"SwissMeteo Card"** aus der Liste wählen
+3. **Entities konfigurieren** mit den Dropdown-Menüs
+4. **Optionen anpassen** mit den Schaltern
+5. **Speichern** - fertig!
+
+### Editor-Kategorien:
+
+#### 🌦️ Grundkonfiguration
+- **Wetter Entity** (erforderlich): Ihre Haupt-Wetterintegration
+- **Standort**: Angezeigter Ortsname
+
+#### 📊 Zusätzliche Sensoren (Optional)
+- **💨 Wind**: Geschwindigkeit & Richtung  
+- **☀️ Sonnenschein**: Sonnenscheindauer
+- **🌧️ Niederschlag**: Regendaten & Prognosen
+- **⚠️ Warnungen**: Schweizer Wetterwarnungen
+
+#### 🎨 Anzeigeoptionen
+- **Wettervorhersage**: 7-Tage-Prognose ein/aus
+- **Niederschlagsdiagramm**: Stundenchart ein/aus  
+- **Wetterwarnungen**: Warnanzeige ein/aus
+- **Kompakter Modus**: Kleinere Card für mobile Geräte
+
 ## ⚙️ Konfiguration
 
 ### Basis-Konfiguration

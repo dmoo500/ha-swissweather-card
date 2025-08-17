@@ -60,6 +60,7 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
+    "custom-card-helpers": "^1.9.0",
     "lit": "^3.1.4"
   },
   "files": [
