@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>SwissMeteo Card Test</title>
+</head>
+<body>
+    <h1>SwissMeteo Card Test</h1>
+    
+    <div id="status">Loading...</div>
+    
+    <swissmeteo-card></swissmeteo-card>
+    
+    <script type="module">
+        import './swissmeteo-card.js';
+        
+        document.getElementById('status').textContent = 'Script loaded';
+        
+        // Check if custom element is defined
+        customElements.whenDefined('swissmeteo-card').then(() => {
+            document.getElementById('status').textContent = 'Custom element defined successfully!';
+            
+            const card = document.querySelector('swissmeteo-card');
+            
+            // Mock minimal data
+            card.hass = {
+                states: {
+                    'weather.test': {
+                        state: 'sunny',
+                        attributes: {
+                            temperature: 20,
+                            humidity: 60,
+                            pressure: 1013
+                        }
+                    }
+                }
+            };
+            
+            card.setConfig({
+                entity: 'weather.test',
+                location: 'Test Location'
+            });
+        }).catch(error => {
+            document.getElementById('status').textContent = 'Error: ' + error.message;
+            console.error('Custom element error:', error);
+        });
+    </script>
+</body>
+</html>

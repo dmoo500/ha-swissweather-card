@@ -47,7 +47,64 @@
         </div>
     </div>
 
-    <script type="module" src="dist/swissmeteo-card.js"></script>
+    <script type="module" src="swissmeteo-card.js"></script>
+    <script>
+        // Simulate Home Assistant environment for demo
+        document.addEventListener('DOMContentLoaded', function() {
+            const demoCard = document.getElementById('demo-card');
+            
+            // Mock Home Assistant object
+            const mockHass = {
+                states: {
+                    'weather.demo': {
+                        state: 'sunny',
+                        attributes: {
+                            temperature: 22,
+                            humidity: 65,
+                            pressure: 1013,
+                            wind_speed: 12,
+                            wind_bearing: 225,
+                            visibility: 10,
+                            forecast: [
+                                {
+                                    datetime: new Date().toISOString(),
+                                    condition: 'sunny',
+                                    temperature: 24,
+                                    templow: 15
+                                },
+                                {
+                                    datetime: new Date(Date.now() + 86400000).toISOString(),
+                                    condition: 'partlycloudy',
+                                    temperature: 21,
+                                    templow: 12
+                                },
+                                {
+                                    datetime: new Date(Date.now() + 2 * 86400000).toISOString(),
+                                    condition: 'rainy',
+                                    temperature: 18,
+                                    templow: 10
+                                }
+                            ]
+                        }
+                    }
+                }
+            };
+
+            // Mock configuration
+            const mockConfig = {
+                entity: 'weather.demo',
+                location: 'Zürich',
+                show_forecast: true,
+                show_precipitation: true
+            };
+
+            // Wait for custom element to be defined
+            customElements.whenDefined('swissmeteo-card').then(() => {
+                demoCard.hass = mockHass;
+                demoCard.setConfig(mockConfig);
+            });
+        });
+    </script>
     <script>
         // Mock HASS object for demo
         const mockHass = {

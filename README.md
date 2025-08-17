@@ -198,7 +198,44 @@ Die Card orientiert sich am offiziellen SwissMeteo Design:
 - ✅ Safari 14+
 - ✅ Edge 90+
 
-## 🔗 Links
+## � Troubleshooting
+
+### "Custom element doesn't exist: swissmeteo-card"
+
+**Mögliche Ursachen und Lösungen:**
+
+1. **Resource nicht geladen**
+   ```yaml
+   # In Ihrer Lovelace-Konfiguration (configuration.yaml oder UI):
+   lovelace:
+     resources:
+       - url: /hacsfiles/swissmeteo-card/swissmeteo-card.js
+         type: module
+   ```
+
+2. **Cache-Problem**
+   - Browser-Cache leeren (Strg+F5 oder Cmd+Shift+R)
+   - Home Assistant neu starten
+
+3. **Dateipfad prüfen**
+   - HACS: `/hacsfiles/swissmeteo-card/swissmeteo-card.js`
+   - Manuell: `/local/swissmeteo-card.js` (wenn in `config/www/`)
+
+4. **Browser-Konsole prüfen**
+   - F12 → Console Tab öffnen
+   - Nach JavaScript-Fehlern suchen
+
+5. **Home Assistant Version**
+   - Mindestens Home Assistant 2025.8+ erforderlich
+   - TypeScript-basierte Custom Cards benötigen moderne Browser
+
+### Weitere häufige Probleme
+
+- **Entity nicht gefunden**: Prüfen Sie, ob `entity: weather.xyz` in HA existiert
+- **Keine Daten**: Wetterintegration korrekt konfiguriert?
+- **Layout-Probleme**: Browser-Zoom auf 100% setzen
+
+## �🔗 Links
 
 - [📖 Dokumentation](docs/)
 - [🐛 Bug Reports](https://github.com/your-username/ha-swissmeteo-card/issues)
