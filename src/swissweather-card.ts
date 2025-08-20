@@ -344,7 +344,7 @@ export class SwissWeatherCard extends LitElement {
       .chart-line {
         display: flex;
         justify-content: space-between;
-        height: 50px;
+        height: 60px;
         margin-bottom: 10px;
       }
       .chart-line-wind {
@@ -527,6 +527,7 @@ export class SwissWeatherCard extends LitElement {
           number: {
             min: 6,
             max: 18,
+            step: 6,
             mode: 'box',
           },
         },
@@ -705,7 +706,7 @@ export class SwissWeatherCard extends LitElement {
                       style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end;margin-bottom:10px;"
                     >
                       <span
-                        style="font-size:11px; color:#db4a34; writing-mode:vertical-rl; transform:rotate(180deg); min-height:16px; font-variant-numeric:tabular-nums;"
+                        style="font-size:11px; color:#db4a34; writing-mode:vertical-rl; transform:rotate(180deg); min-height:30px; font-variant-numeric:tabular-nums;"
                       >
                         ${value !== null ? value.toFixed(1) + ' °C' : ''}
                       </span>
@@ -1487,8 +1488,8 @@ export class SwissweatherCardEditor extends LitElement implements LovelaceCardEd
         name: 'forecast_hours',
         selector: {
           number: {
-            min: 1,
-            max: 24,
+            min: 6,
+            max: 18,
             mode: 'box',
             unit_of_measurement: 'h',
             step: 6,
