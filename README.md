@@ -1,8 +1,5 @@
-yarn dev          # Development mit Live-Reload
-yarn type-check   # TypeScript-Prüfung
-yarn lint         # Code-Linting
-yarn format       # Code-Formatierung
-yarn build        # Production Build
+
+> **A modern Home Assistant custom card for Swiss weather, warnings, and forecasts. Integrates with hass-swissweather for accurate Swiss data.**
 
 # SwissWeather Home Assistant Card
 
@@ -128,15 +125,9 @@ theme: auto
 
 ## 🔧 Recommended Integrations
 
-### MeteoSwiss (Switzerland)
-```yaml
-# configuration.yaml
-meteoswiss:
-  locations:
-    - zip_code: 8001
-      name: "Zurich"
-  update_interval: 300
-```
+### hass-swissweather
+
+This card is compatible with the [hass-swissweather](https://github.com/izacus/hass-swissweather) integration by @izacus, which provides high-quality Swiss weather data and warnings directly in Home Assistant. For best results, use this integration as your data source for weather, warnings, and sensor entities.
 
 ## 🛠️ Development
 
