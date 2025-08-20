@@ -46,7 +46,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: build-artifacts
-        path: dist/
+        path: ./swissweather-card.js
 
   validate-hacs:
     runs-on: ubuntu-latest
@@ -85,7 +85,6 @@ jobs:
       
     - name: Create release asset
       run: |
-        cd dist
         zip -r ../swissweather-card-${{ github.event.release.tag_name }}.zip .
         
     - name: Upload release asset
