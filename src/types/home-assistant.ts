@@ -1,4 +1,4 @@
-// Home Assistant Types for 2025.8+
+// Home Assistant types for 2025.8+
 export interface HomeAssistant {
   states: { [entity_id: string]: HassEntity };
   config: HassConfig;
@@ -232,10 +232,10 @@ export interface MessageBase {
   type: string;
 }
 
-// Swiss Weather Warning Types
+// Swiss Weather Warning types
 export interface SwissWeatherWarning {
   id: string;
-  level: 1 | 2 | 3 | 4 | 5; // Warnstufen: 1=Info, 2=Gelb, 3=Orange, 4=Rot, 5=Violett
+  level: 1 | 2 | 3 | 4 | 5; // Warning levels: 1=Info, 2=Yellow, 3=Orange, 4=Red, 5=Violet
   type: WeatherWarningType;
   link: string;
   title: string;
@@ -258,7 +258,7 @@ export type WeatherWarningType =
   | 'avalanche'
   | 'forest_fire';
 
-// Card Configuration Types
+// Card configuration types
 export interface SwissWeatherCardConfig {
   type: 'custom:swissweather-card';
   entity: string;

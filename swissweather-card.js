@@ -1546,7 +1546,7 @@ let M = class extends E {
   static getConfigElement() {
     return document.createElement("swissweather-card-editor");
   }
-  // Schema für den Visual Editor
+  // Schema for the visual editor
   static getConfigSchema() {
     return [
       {
@@ -1653,7 +1653,7 @@ let M = class extends E {
   _getEntityState(i) {
     return this.hass?.states[i];
   }
-  // Liefert das passende MDI-Icon für einen Wetterzustand
+  // Returns the appropriate MDI icon for a weather condition
   _getWeatherMdiIcon(i) {
     return {
       "clear-night": "mdi:weather-night",
@@ -1796,7 +1796,7 @@ let M = class extends E {
   }
   _renderForecastSunshine(i, t, e) {
     return this.config.show_sunshine !== !1 ? (
-      // Typ-Erweiterung für Sonnenschein-Chart (Workaround)
+      // Type extension for sunshine chart (workaround)
       this._hourlyForecast.length > 0 && this._hourlyForecast.slice(0, e).some((n) => {
         const s = n;
         return typeof s.sunshine == "number" && !isNaN(s.sunshine) || typeof s.sunshine_duration == "number" && !isNaN(s.sunshine_duration);
@@ -2290,7 +2290,7 @@ let Z = class extends E {
       wind_entity: typeof this._config?.wind_entity == "string" ? this._config.wind_entity : void 0,
       wind_direction_entity: typeof this._config?.wind_direction_entity == "string" ? this._config.wind_direction_entity : void 0,
       sunshine_entity: typeof this._config?.sunshine_entity == "string" ? this._config.sunshine_entity : void 0,
-      // precipitation_entity entfernt
+      // precipitation_entity removed
       warning_entity: typeof this._config?.warning_entity == "string" ? this._config.warning_entity : void 0,
       show_forecast: this._config?.show_forecast ?? !1,
       forecast_hours: this._config?.forecast_hours ?? 6,
@@ -2337,7 +2337,7 @@ let Z = class extends E {
     wind_entity: h("config.wind_entity"),
     wind_direction_entity: h("config.wind_direction_entity"),
     sunshine_entity: h("config.sunshine_entity"),
-    // precipitation_entity entfernt
+    // precipitation_entity removed
     warning_entity: h("config.warning_entity"),
     show_forecast: h("config.show_forecast"),
     forecast_hours: h("config.forecast_hours"),

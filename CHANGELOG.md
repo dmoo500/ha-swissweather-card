@@ -3,66 +3,59 @@
 ## [1.0.0] - 2025-08-17
 
 ### ✨ Features
-- **Initial Release** der SwissWeather Card
-- **TypeScript-basierte Implementierung** für bessere Entwicklererfahrung
-- **Home Assistant 2025.8+ Kompatibilität**
-- **Moderne Lit Elements 3.x** mit Decorators
+- **Initial release** of the SwissWeather Card
+- **TypeScript-based implementation** for better developer experience
+- **Home Assistant 2025.8+ compatibility**
+- **Modern Lit Elements 3.x** with decorators
 
 ### 🎨 Design
-- **SwissWeather-inspiriertes Design** mit Schweizer Farbschema
-- **Responsive Layout** für Mobile und Desktop
-- **Glassmorphism-Effekte** für moderne Optik
-- **Accessibility-Standards** (WCAG 2.1)
+- **SwissWeather-inspired design** with Swiss color scheme
+- **Responsive layout** for mobile and desktop
+- **Glassmorphism effects** for a modern look
+- **Accessibility standards** (WCAG 2.1)
 
-### 📊 Funktionen
-- **Wetterwarnungen** mit farbcodierten Warnstufen (1-5)
-- **7-Tage-Wettervorhersage** mit Icons und Temperaturen
-- **Windkompass** mit grafischer Richtungsanzeige
-- **Niederschlagsdiagramm** für 6h-Vorhersage
-- **Sonnenscheindauer** und UV-Index
-- **Luftfeuchtigkeit, Luftdruck, Sichtweite**
+### 📊 Functionality
+- **Weather warnings** with color-coded alert levels (1-5)
+- **7-day weather forecast** with icons and temperatures
+- **Wind compass** with graphical direction indicator
+- **Precipitation chart** for 6h forecast
+- **Sunshine duration** and UV index
+- **Humidity, pressure, visibility**
 
-### 🔧 Technisch
-- **ES2022** Target für moderne Browser
-- **Yarn 4+** Package Manager mit PnP
-- **Rollup** Build-System mit TypeScript
-- **ESLint + Prettier** für Code-Qualität
-- **Strict TypeScript** für Typsicherheit
+### 🔧 Technical
+- **ES2022** target for modern browsers
+- **Yarn 4+** package manager with PnP
+- **Rollup** build system with TypeScript
+- **ESLint + Prettier** for code quality
+- **Strict TypeScript** for type safety
 
-### 📦 HACS-Integration
-- **HACS-kompatible Struktur**
-- **Automatische Updates** über HACS
-- **Einfache Installation** mit einem Klick
+### 📦 HACS Integration
+- **HACS-compatible structure**
+- **Automatic updates** via HACS
+- **Easy installation** with one click
 
-### 🌐 Lokalisierung
-- **Deutsche Übersetzungen** für alle UI-Elemente
-- **Schweizer Terminologie** (MeteoSchweiz-konform)
-- **Lokale Datumsformate** (So, Mo, Di, etc.)
+### 🌐 Localization
+- **German translations** for all UI elements
+- **Local date formats** (Sun, Mon, Tue, etc.)
 
-### 🔌 Integrationen
-- **OpenWeatherMap** Unterstützung
-- **MeteoSwiss** Integration (empfohlen)
-- **Generic Weather** Entities
-- **Template Sensoren** für erweiterte Daten
+### 🔌 Integrations
+- **OpenWeatherMap** support
+- **MeteoSwiss** integration (recommended)
+- **Generic weather** entities
+- **Template sensors** for extended data
 
 ### 📱 Responsive Design
-- **Mobile-first** Approach
-- **Touch-friendly** Interface
-- **Adaptive Layouts** je nach Bildschirmgröße
-- **Optimierte Performance** auf allen Geräten
+- **Mobile-first** approach
+- **Touch-friendly** interface
+- **Adaptive layouts** depending on screen size
+- **Optimized performance** on all devices
 
 ---
 
 ## Roadmap
 
-### 🔄 Version 1.1.0 (geplant)
-- [ ] **Erweiterte Warnungen** mit mehr Wetterphänomenen
-- [ ] **Animierte Übergänge** für bessere UX
-- [ ] **Konfigurationeditor** im UI
-- [ ] **Mehrsprachigkeit** (Französisch, Italienisch)
+### 🔄 Version 1.1.0 (planned)
+- [ ] **enable/disable wind chart** add config to enable/disable the wind chart
 
-### 🔄 Version 1.2.0 (geplant)
-- [ ] **Radar-Integration** mit echten Niederschlagsdaten
-- [ ] **Historical Data** für Trends
-- [ ] **Push-Benachrichtigungen** bei Warnungen
-- [ ] **Widget-Modus** für kompakte Anzeige
+### 🔄 Version 1.2.0 (planned)
+- [ ] **chart ordering** add configuration to ordering charts

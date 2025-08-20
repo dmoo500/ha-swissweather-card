@@ -1,13 +1,13 @@
 import { LitElement, html, css, TemplateResult } from 'lit';
 
-import {translations} from './translations.js';
+import { translations } from './translations.js';
+import type { TranslationDict } from './translations.d';
 import { use, get as _t, registerTranslateConfig } from 'lit-translate';
 import { customElement, property, state } from 'lit/decorators.js';
 import { fireEvent } from 'custom-card-helpers';
 import type {
   HomeAssistant,
   LovelaceCardEditor,
-  LovelaceCardConfig,
   SwissWeatherCardConfig,
 } from './types/home-assistant.js';
 
@@ -15,8 +15,8 @@ console.log('🎨 Loading SwissWeather Card Schema Editor...');
 
 registerTranslateConfig({
   // Loads the language by returning a JSON structure for a given language
-  loader: lang => {
-    return translations[lang];
+  loader: (lang: string) => {
+    return (translations as TranslationDict)[lang];
   },
 });
 
@@ -32,92 +32,92 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
       required: true,
       selector: {
         entity: {
-          domain: 'weather'
-        }
-      }
+          domain: 'weather',
+        },
+      },
     },
     {
       name: 'location',
       selector: {
-        text: {}
-      }
+        text: {},
+      },
     },
     {
       name: 'wind_entity',
       selector: {
         entity: {
-          domain: 'sensor'
-        }
-      }
+          domain: 'sensor',
+        },
+      },
     },
     {
       name: 'wind_direction_entity',
       selector: {
         entity: {
-          domain: 'sensor'
-        }
-      }
+          domain: 'sensor',
+        },
+      },
     },
     {
       name: 'sunshine_entity',
       selector: {
         entity: {
-          domain: 'sensor'
-        }
-      }
+          domain: 'sensor',
+        },
+      },
     },
     {
       name: 'precipitation_entity',
       selector: {
         entity: {
-          domain: 'sensor'
-        }
-      }
+          domain: 'sensor',
+        },
+      },
     },
     {
       name: 'warning_entity',
       selector: {
         entity: {
-          domain: 'sensor'
-        }
-      }
+          domain: 'sensor',
+        },
+      },
     },
     {
       name: 'show_forecast',
       selector: {
-        boolean: {}
-      }
+        boolean: {},
+      },
     },
     {
-        name: 'show_temperature',
-        selector: {
-        boolean: {}
-        }
+      name: 'show_temperature',
+      selector: {
+        boolean: {},
+      },
     },
     {
-        name: 'show_precipitation',
-        selector: {
-        boolean: {}
-        }
+      name: 'show_precipitation',
+      selector: {
+        boolean: {},
+      },
     },
     {
-        name: 'show_sunshine',
-        selector: {
-        boolean: {}
-        }
+      name: 'show_sunshine',
+      selector: {
+        boolean: {},
+      },
     },
     {
       name: 'show_warnings',
       selector: {
-        boolean: {}
-      }
+        boolean: {},
+      },
     },
     {
       name: 'compact_mode',
       selector: {
-        boolean: {}
-      }
-    }
+        boolean: {},
+      },
+    },
   ];
 
   public setConfig(config: SwissWeatherCardConfig): void {
@@ -269,7 +269,7 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
         .card-config {
           padding: 12px;
         }
-        
+
         .form-group {
           padding: 16px;
         }
@@ -281,19 +281,30 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
     if (!this.hass) {
       return html`<div>Loading...</div>`;
     }
-    use((this.hass.selectedLanguage || this.hass.language || 'en').substring(0,2));
+    use((this.hass.selectedLanguage || this.hass.language || 'en').substring(0, 2));
 
     // Split schema into logical groups
-    const basicSchema = this._schema.filter(item => 
-      ['entity', 'location'].includes(item.name)
+    const basicSchema = this._schema.filter(item => ['entity', 'location'].includes(item.name));
+
+    const sensorSchema = this._schema.filter(item =>
+      [
+        'wind_entity',
+        'wind_direction_entity',
+        'sunshine_entity',
+        'precipitation_entity',
+        'warning_entity',
+      ].includes(item.name)
     );
 
-    const sensorSchema = this._schema.filter(item => 
-      ['wind_entity', 'wind_direction_entity', 'sunshine_entity', 'precipitation_entity', 'warning_entity'].includes(item.name)
-    );
-
-    const displaySchema = this._schema.filter(item => 
-      ['show_forecast', 'show_temperature', 'show_precipitation', 'show_sunshine', 'show_warnings', 'compact_mode'].includes(item.name)
+    const displaySchema = this._schema.filter(item =>
+      [
+        'show_forecast',
+        'show_temperature',
+        'show_precipitation',
+        'show_sunshine',
+        'show_warnings',
+        'compact_mode',
+      ].includes(item.name)
     );
 
     return html`
@@ -302,31 +313,31 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
           <div>
             <div class="header-title">🌦️ SwissWeather Card</div>
             <div class="header-subtitle">
-              ${t('editor_subtitle') || 'SwissWeather Card configuration'}
+              ${_t('editor_subtitle') || 'SwissWeather Card configuration'}
             </div>
           </div>
         </div>
 
         <div class="info-box">
-          <div class="info-title">
-            💡 ${t('editor_visual_title') || 'Visual Editor'}
-          </div>
+          <div class="info-title">💡 ${_t('editor_visual_title') || 'Visual Editor'}</div>
           <div class="info-text">
-            ${t('editor_visual_desc') || 'Configure your SwissWeather Card with the options below. All changes are saved automatically.'}
+            ${_t('editor_visual_desc') ||
+            'Configure your SwissWeather Card with the options below. All changes are saved automatically.'}
           </div>
         </div>
 
         <!-- Grundkonfiguration -->
         <div class="section">
           <div class="section-header">
-            🌦️ ${t('editor_section_basic') || 'Basic configuration'}
+            🌦️ ${_t('editor_section_basic') || 'Basic configuration'}
           </div>
           <div class="section-description">
-            ${t('editor_section_basic_desc') || 'Basic settings for the SwissWeather Card. The weather entity is required.'}
+            ${_t('editor_section_basic_desc') ||
+            'Basic settings for the SwissWeather Card. The weather entity is required.'}
           </div>
-          
+
           <div class="form-group">
-            <div class="form-group-title">${t('editor_group_weather') || 'Weather data'}</div>
+            <div class="form-group-title">${_t('editor_group_weather') || 'Weather data'}</div>
             <ha-form
               .hass=${this.hass}
               .data=${this._config}
@@ -340,15 +351,16 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
         <!-- Zusätzliche Sensoren -->
         <div class="section">
           <div class="section-header">
-            📊 ${t('editor_section_sensors') || 'Additional sensors'}
-            <span class="optional-badge">${t('editor_optional') || 'Optional'}</span>
+            📊 ${_t('editor_section_sensors') || 'Additional sensors'}
+            <span class="optional-badge">${_t('editor_optional') || 'Optional'}</span>
           </div>
           <div class="section-description">
-            ${t('editor_section_sensors_desc') || 'Extended weather data for more detailed display. All fields are optional and improve the display.'}
+            ${_t('editor_section_sensors_desc') ||
+            'Extended weather data for more detailed display. All fields are optional and improve the display.'}
           </div>
-          
+
           <div class="form-group">
-            <div class="form-group-title">💨 ${t('editor_group_wind') || 'Wind sensors'}</div>
+            <div class="form-group-title">💨 ${_t('editor_group_wind') || 'Wind sensors'}</div>
             <ha-form
               .hass=${this.hass}
               .data=${this._config}
@@ -359,7 +371,9 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
           </div>
 
           <div class="form-group">
-            <div class="form-group-title">☀️ ${t('editor_group_other') || 'Other weather data'}</div>
+            <div class="form-group-title">
+              ☀️ ${_t('editor_group_other') || 'Other weather data'}
+            </div>
             <ha-form
               .hass=${this.hass}
               .data=${this._config}
@@ -372,15 +386,13 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
 
         <!-- Anzeigeoptionen -->
         <div class="section">
-          <div class="section-header">
-            🎨 ${t('editor_section_display') || 'Display options'}
-          </div>
+          <div class="section-header">🎨 ${_t('editor_section_display') || 'Display options'}</div>
           <div class="section-description">
-            ${t('editor_section_display_desc') || 'Customize the card display to your needs.'}
+            ${_t('editor_section_display_desc') || 'Customize the card display to your needs.'}
           </div>
-          
+
           <div class="form-group">
-            <div class="form-group-title">${t('editor_group_display') || 'Display settings'}</div>
+            <div class="form-group-title">${_t('editor_group_display') || 'Display settings'}</div>
             <ha-form
               .hass=${this.hass}
               .data=${this._config}
@@ -392,25 +404,27 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
         </div>
 
         <!-- Live-Vorschau -->
-        ${this._config?.entity ? html`
-          <div class="preview">
-            <div class="preview-title">
-              📋 ${t('editor_preview_title') || 'YAML configuration'}
-            </div>
-            <div class="preview-config">${this._renderConfigPreview()}</div>
-          </div>
-        ` : ''}
+        ${this._config?.entity
+          ? html`
+              <div class="preview">
+                <div class="preview-title">
+                  📋 ${_t('editor_preview_title') || 'YAML configuration'}
+                </div>
+                <div class="preview-config">${this._renderConfigPreview()}</div>
+              </div>
+            `
+          : ''}
       </div>
     `;
   }
 
   private _computeLabel = (schema: any) => {
-    return t(schema.name) || schema.name;
+    return _t(schema.name) || schema.name;
   };
 
   private _renderConfigPreview(): string {
     const config: any = { ...this._config };
-    
+
     // Remove undefined values for cleaner preview
     Object.keys(config).forEach(key => {
       if (config[key] === undefined || config[key] === '') {
@@ -434,9 +448,9 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
     }
 
     const newConfig = ev.detail.value;
-    
+
     console.log('🎨 Value changed:', newConfig);
-    
+
     this._config = { ...newConfig };
     fireEvent(this, 'config-changed', { config: this._config });
   }

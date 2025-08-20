@@ -1,142 +1,146 @@
+yarn dev          # Development mit Live-Reload
+yarn type-check   # TypeScript-Prüfung
+yarn lint         # Code-Linting
+yarn format       # Code-Formatierung
+yarn build        # Production Build
+
 # SwissWeather Home Assistant Card
 
-Eine benutzerdefinierte Home Assistant Card, die das Design und die Funktionen der offiziellen SwissWeather App nachbildet. **Optimiert für Home Assistant 2025.8+ mit TypeScript und modernen Web-Standards.**
+A custom Home Assistant card that recreates the look and feel of the official SwissWeather app. **Optimized for Home Assistant 2025.8+ with TypeScript and modern web standards.**
 
 ## ⭐ Features
 
-### 🚨 **Wetterwarnungen**
-- Farbcodierte Warnstufen (Grün, Gelb, Orange, Rot, Violett)
-- Aktuelle Warnmeldungen für ausgewählte Regionen
-- Icons für verschiedene Wettergefahren
-- Automatische Anzeige bei aktiven Warnungen
+### 🚨 **Weather Warnings**
+- Color-coded warning levels (green, yellow, orange, red, violet)
+- Current alerts for selected regions
+- Icons for various weather hazards
+- Automatic display when warnings are active
 
-### 🌧️ **Niederschlag & Prognose**
-- Stündliche Niederschlagsprognose mit Balkendiagramm  
-- 7-Tage-Wettervorhersage mit Icons
-- Niederschlagswahrscheinlichkeit
-- Radar-ähnliche Visualisierung
+### 🌧️ **Precipitation & Forecast**
+- Hourly precipitation forecast with bar chart  
+- 7-day weather forecast with icons
+- Precipitation probability
+- Radar-like visualization
 
-### ☀️ **Sonnenschein & UV**
-- Tägliche Sonnenscheindauer in Stunden
-- Integration mit HA Sonnenschein-Sensoren
-# SwissWeather Home Assistant Card
-- UV-Index Unterstützung
+### ☀️ **Sunshine & UV**
+- Daily sunshine duration in hours
+- Integration with HA sunshine sensors
+- UV index support
+- Gust forecast and Beaufort scale
+- Min/Max temperatures
 
-- Böenvorhersage und Beaufort-Skala
-- Min/Max Temperaturen
+- ✅ **Entity picker** for all sensors
+- **German localization** for all labels
+- **No separate files** – everything in `swissweather-card.js`
 
-- ✅ **Entity Picker** für alle Sensoren
+## 🛠️ Installation
 
-- **Deutsche Lokalisierung** aller Labels
-- **Keine separaten Dateien** - Alles in `swissweather-card.js`
-4. Fügen Sie diese URL hinzu: `https://github.com/your-username/ha-swissweather-card`
-5. Suchen Sie nach "SwissWeather Card" und installieren Sie sie
+### HACS (recommended)
+1. Add this URL as a custom repository: `https://github.com/your-username/ha-swissweather-card`
+2. Search for "SwissWeather Card" and install it
 
-### Manuell
-1. Laden Sie die neueste `swissweather-card.js` aus dem [Releases](https://github.com/your-username/ha-swissweather-card/releases) herunter
-2. Kopieren Sie sie in Ihren `config/www/` Ordner
-3. Fügen Sie die Ressource hinzu:
+### Manual
+1. Download the latest `swissweather-card.js` from [Releases](https://github.com/your-username/ha-swissweather-card/releases)
+2. Copy it to your `config/www/` folder
+3. Add the resource:
 
 ```yaml
 # configuration.yaml
 lovelace:
   resources:
     - url: /local/swissweather-card.js
-      type: module  # Wichtig für HA 2025.8+
+      type: module  # Important for HA 2025.8+
 ```
 
-4. Starten Sie Home Assistant neu
+4. Restart Home Assistant
 
 ## 🎨 Visual Editor
 
-Die SwissWeather Card verfügt über einen vollständigen visuellen Editor für die Lovelace UI:
+The SwissWeather Card comes with a full visual editor for the Lovelace UI:
 
-- ** Responsive**: Optimiert für Desktop und Mobile
+- **Responsive**: Optimized for desktop and mobile
 
-### Verwendung:
-1. **Dashboard bearbeiten** → **Card hinzufügen**
-2. **"SwissWeather Card"** aus der Liste wählen
-3. **Entities konfigurieren** mit den Dropdown-Menüs
-4. **Optionen anpassen** mit den Schaltern
-5. **Speichern** - fertig!
+### Usage:
+1. **Edit dashboard** → **Add card**
+2. Select **"SwissWeather Card"** from the list
+3. Configure entities using the dropdown menus
+4. Adjust options with the toggles
+5. **Save** – done!
 
-#### 📊 Zusätzliche Sensoren (Optional)
+#### 📊 Additional Sensors (Optional)
 
-#### 🎨 Anzeigeoptionen
-- **Wettervorhersage**: 7-Tage-Prognose ein/aus
-- **Niederschlagsdiagramm**: Stundenchart ein/aus  
-- **Wetterwarnungen**: Warnanzeige ein/aus
-- **Kompakter Modus**: Kleinere Card für mobile Geräte
+#### 🎨 Display Options
+- **Weather forecast**: Toggle 7-day forecast
+- **Precipitation chart**: Toggle hourly chart  
+- **Weather warnings**: Toggle warning display
+- **Compact mode**: Smaller card for mobile devices
 
-## ⚙️ Konfiguration
+## ⚙️ Configuration
 
-### Basis-Konfiguration
+### Basic Configuration
 ```yaml
 type: custom:swissweather-card
 entity: weather.home
-location: "Zürich"
+location: "Zurich"
 ```
 
-### Vollständige Konfiguration
+
+### Full Configuration
 ```yaml
 type: custom:swissweather-card
 entity: weather.openweathermap
-location: "Zürich"
+location: "Zurich"
+show_location: true
 warning_entity: sensor.meteoswiss_warnings
 wind_entity: sensor.wind_speed
 wind_direction_entity: sensor.wind_bearing
 sunshine_entity: sensor.sunshine_duration
 precipitation_entity: sensor.precipitation_forecast
+sun_entity: sun.sun
 show_forecast: true
+forecast_hours: 12
 show_hourly: true
+show_temperature: true
+show_sunshine: true
 show_warnings: true
 show_precipitation: true
 compact_mode: false
 theme: auto
 ```
 
-### Optionen
+### Options
 
-| Option | Typ | Standard | Beschreibung |
-|--------|-----|----------|--------------|
-| `entity` | string | **Erforderlich** | Haupt-Wetter-Entity |
-| `location` | string | `"Schweiz"` | Anzuzeigender Standort |
-| `warning_entity` | string | Optional | Entity für Wetterwarnungen |
-| `wind_entity` | string | Optional | Entity für Windgeschwindigkeit |
-| `wind_direction_entity` | string | Optional | Entity für Windrichtung |
-| `sunshine_entity` | string | Optional | Entity für Sonnenscheindauer |
-| `precipitation_entity` | string | Optional | Entity für Niederschlagsprognose |
-| `show_forecast` | boolean | `true` | 7-Tage-Prognose anzeigen |
-| `show_hourly` | boolean | `true` | Stündliche Prognose anzeigen |
-| `show_warnings` | boolean | `true` | Wetterwarnungen anzeigen |
-| `show_precipitation` | boolean | `true` | Niederschlagschart anzeigen |
-| `compact_mode` | boolean | `false` | Kompakte Ansicht |
-| `theme` | string | `"auto"` | Theme: `light`, `dark`, `auto` |
+| Option                | Type    | Default      | Description                       |
+|-----------------------|---------|--------------|-----------------------------------|
+| `entity`              | string  | **Required** | Main weather entity               |
+| `location`            | string  | "Switzerland" | Displayed location                |
+| `warning_entity`      | string  | Optional     | Entity for weather warnings        |
+| `wind_entity`         | string  | Optional     | Entity for wind speed              |
+| `wind_direction_entity`| string | Optional     | Entity for wind direction          |
+| `sunshine_entity`     | string  | Optional     | Entity for sunshine duration       |
+| `precipitation_entity`| string  | Optional     | Entity for precipitation forecast  |
+| `show_forecast`       | boolean | `true`       | Show 7-day forecast               |
+| `show_hourly`         | boolean | `true`       | Show hourly forecast              |
+| `show_warnings`       | boolean | `true`       | Show weather warnings             |
+| `show_precipitation`  | boolean | `true`       | Show precipitation chart          |
+| `compact_mode`        | boolean | `false`      | Compact view                      |
+| `theme`               | string  | "auto"      | Theme: `light`, `dark`, `auto`    |
 
-## 🔧 Empfohlene Integrationen
+## 🔧 Recommended Integrations
 
-### MeteoSwiss (Schweiz)
+### MeteoSwiss (Switzerland)
 ```yaml
 # configuration.yaml
 meteoswiss:
   locations:
     - zip_code: 8001
-      name: "Zürich"
+      name: "Zurich"
   update_interval: 300
-
-### OpenWeatherMap  
-```yaml
-weather:
-  - platform: openweathermap
-    api_key: YOUR_API_KEY
-    mode: freedaily
-    language: de
-    name: home
 ```
 
-## 🛠️ Entwicklung
+## 🛠️ Development
 
-### Voraussetzungen
+### Requirements
 - Node.js 18+
 - Yarn 4+
 
@@ -144,21 +148,21 @@ weather:
 ```bash
 git clone https://github.com/your-username/ha-swissweather-card.git
 cd ha-swissweather-card
-yarn dev          # Development mit Live-Reload
-yarn type-check   # TypeScript-Prüfung
-yarn lint         # Code-Linting
-yarn format       # Code-Formatierung
-yarn build        # Production Build
+yarn dev          # Development with live reload
+yarn type-check   # TypeScript check
+yarn lint         # Code linting
+yarn format       # Code formatting
+yarn build        # Production build
 ```
 
 ### Demo
 ```bash
-# Demo im Browser öffnen
+# Open demo in browser
 open demo.html
 ```
 
-- **Responsive Grid-Layout**
-- **Accessibility-Standards (WCAG 2.1)**
+- **Responsive grid layout**
+- **Accessibility standards (WCAG 2.1)**
 
 ## 📱 Screenshots
 
@@ -166,69 +170,69 @@ open demo.html
 |---------|--------|------------|
 | ![Desktop](docs/images/desktop.png) | ![Mobile](docs/images/mobile.png) | ![Dark](docs/images/dark.png) |
 
-## 🤝 Beitragen
+## 🤝 Contributing
 
-1. Fork das Repository
-2. Erstellen Sie einen Feature Branch: `git checkout -b feature/amazing-feature`
-3. Commit Ihre Änderungen: `git commit -m 'Add amazing feature'`
-4. Push zum Branch: `git push origin feature/amazing-feature`
-5. Öffnen Sie eine Pull Request
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/amazing-feature`
+3. Commit your changes: `git commit -m 'Add amazing feature'`
+4. Push to the branch: `git push origin feature/amazing-feature`
+5. Open a pull request
 
-## 📋 Anforderungen
+## 📋 Requirements
 
 ### Home Assistant
-- **Home Assistant 2025.8+** (für beste Kompatibilität)
-- **Modern Browser** mit ES2022-Unterstützung
+- **Home Assistant 2025.8+** (for best compatibility)
+- **Modern browser** with ES2022 support
 
-### Browser-Unterstützung
+### Browser Support
 - ✅ Edge 90+
 
-**Mögliche Ursachen und Lösungen:**
+**Possible causes and solutions:**
 
      resources:
        - url: /hacsfiles/swissweather-card/swissweather-card.js
          type: module
    ```
 
-2. **Cache-Problem**
-   - Browser-Cache leeren (Strg+F5 oder Cmd+Shift+R)
-   - Home Assistant neu starten
+2. **Cache issue**
+   - Clear browser cache (Ctrl+F5 or Cmd+Shift+R)
+   - Restart Home Assistant
 
-3. **Dateipfad prüfen**
+3. **Check file path**
    - HACS: `/hacsfiles/swissweather-card/swissweather-card.js`
-   - Manuell: `/local/swissweather-card.js` (wenn in `config/www/`)
+   - Manual: `/local/swissweather-card.js` (if in `config/www/`)
 
-4. **Browser-Konsole prüfen**
-   - F12 → Console Tab öffnen
-   - Nach JavaScript-Fehlern suchen
+4. **Check browser console**
+   - Open F12 → Console tab
+   - Look for JavaScript errors
 
-5. **Home Assistant Version**
-   - Mindestens Home Assistant 2025.8+ erforderlich
-   - TypeScript-basierte Custom Cards benötigen moderne Browser
+5. **Home Assistant version**
+   - At least Home Assistant 2025.8+ required
+   - TypeScript-based custom cards require modern browsers
 
-### Weitere häufige Probleme
+### Other common issues
 
-- **Entity nicht gefunden**: Prüfen Sie, ob `entity: weather.xyz` in HA existiert
-- **Keine Daten**: Wetterintegration korrekt konfiguriert?
-- **Layout-Probleme**: Browser-Zoom auf 100% setzen
+- **Entity not found**: Check if `entity: weather.xyz` exists in HA
+- **No data**: Is the weather integration configured correctly?
+- **Layout issues**: Set browser zoom to 100%
 
-## �🔗 Links
+## 🔗 Links
 
-- [📖 Dokumentation](docs/)
+- [📖 Documentation](docs/)
 - [🐛 Bug Reports](https://github.com/your-username/ha-swissweather-card/issues)
 - [💡 Feature Requests](https://github.com/your-username/ha-swissweather-card/discussions)
 - [📋 Changelog](CHANGELOG.md)
 
-## 📄 Lizenz
+## 📄 License
 
-MIT License - siehe [LICENSE](LICENSE) Datei
+MIT License – see [LICENSE](LICENSE) file
 
-## 🙏 Danksagungen
+## 🙏 Acknowledgements
 
-- **MeteoSchweiz** für die Inspiration
-- **Home Assistant Community** für die Unterstützung
-- **Lit Team** für die großartige Web Components Library
+- **MeteoSwiss** for the inspiration
+- **Home Assistant Community** for the support
+- **Lit Team** for the great web components library
 
 ---
 
-⭐ **Gefällt Ihnen diese Card? Geben Sie dem Repository einen Stern!**
+⭐ **Like this card? Give the repository a star!**

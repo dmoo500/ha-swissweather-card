@@ -70,22 +70,22 @@ jobs:
           
           ### 📦 Installation
           
-          #### HACS (Empfohlen)
-          1. Fügen Sie dieses Repository zu HACS hinzu
-          2. Suchen Sie nach "SwissWeather Card" 
-          3. Installieren Sie die neueste Version
-          
-          #### Manuell
-          1. Laden Sie `swissweather-card.js` herunter
-          2. Kopieren Sie es nach `config/www/`
-          3. Fügen Sie die Ressource zu Lovelace hinzu
-          
+          #### HACS (Recommended)
+          1. Add this repository to HACS
+          2. Search for "SwissWeather Card"
+          3. Install the latest version
+
+          #### Manual
+          1. Download `swissweather-card.js`
+          2. Copy it to `config/www/`
+          3. Add the resource to Lovelace
+
           ### 📋 Changelog
           ${{ steps.changelog.outputs.CHANGELOG }}
-          
-          ### 🔧 Kompatibilität
+
+          ### 🔧 Compatibility
           - Home Assistant 2025.8+
-          - Moderne Browser (Chrome 90+, Firefox 88+, Safari 14+)
+          - Modern browsers (Chrome 90+, Firefox 88+, Safari 14+)
           
         draft: false
         prerelease: false

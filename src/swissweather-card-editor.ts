@@ -2,15 +2,10 @@ import { LitElement, html, css, TemplateResult } from 'lit';
 import { use, get as _t, registerTranslateConfig } from 'lit-translate';
 import { customElement, property, state } from 'lit/decorators.js';
 import { fireEvent } from 'custom-card-helpers';
-import type {
-  HomeAssistant,
-  LovelaceCardEditor,
-  LovelaceCardConfig,
-  SwissWeatherCardConfig,
-} from './types/home-assistant.js';
+import type { HomeAssistant, LovelaceCardEditor } from './types/home-assistant.js';
 import { translations } from './translations.js';
 
-// Extend the config for editor
+// Extend the config for the editor
 interface SwissWeatherCardEditorConfig extends Record<string, any> {
   type?: string;
   entity?: string;
@@ -53,7 +48,7 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
 
   public setConfig(config: SwissWeatherCardEditorConfig): void {
     console.log('🎨 Editor setConfig called with:', config);
-    this._config = { 
+    this._config = {
       type: 'custom:swissweather-card',
       entity: '',
       location: 'Schweiz',
@@ -61,7 +56,7 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
       show_precipitation: true,
       show_warnings: true,
       compact_mode: false,
-      ...config 
+      ...config,
     };
   }
 
@@ -154,13 +149,11 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
   }
 
   protected render(): TemplateResult {
-    use((this.hass.selectedLanguage || this.hass.language || 'en').substring(0,2));
+    use((this.hass.selectedLanguage || this.hass.language || 'en').substring(0, 2));
     if (!this.hass) {
       return html`
         <div class="card-config">
-          <div class="warning">
-            ⚠️ Warten auf Home Assistant Verbindung...
-          </div>
+          <div class="warning">⚠️ Warten auf Home Assistant Verbindung...</div>
         </div>
       `;
     }
@@ -168,119 +161,115 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
     if (!this._config) {
       return html`
         <div class="card-config">
-          <div class="warning">
-            ⚠️ Konfiguration wird geladen...
-          </div>
+          <div class="warning">⚠️ Konfiguration wird geladen...</div>
         </div>
       `;
     }
 
     const schema = [
       {
-        name: "entity",
+        name: 'entity',
         required: true,
         selector: {
           entity: {
-            domain: "weather"
-          }
-        }
+            domain: 'weather',
+          },
+        },
       },
       {
-        name: "location",
+        name: 'location',
         selector: {
-          text: {}
-        }
+          text: {},
+        },
       },
       {
-        name: "wind_entity",
-        selector: {
-          entity: {
-            domain: "sensor"
-          }
-        }
-      },
-      {
-        name: "wind_direction_entity",
+        name: 'wind_entity',
         selector: {
           entity: {
-            domain: "sensor"
-          }
-        }
+            domain: 'sensor',
+          },
+        },
       },
       {
-        name: "sunshine_entity",
+        name: 'wind_direction_entity',
         selector: {
           entity: {
-            domain: "sensor"
-          }
-        }
+            domain: 'sensor',
+          },
+        },
       },
       {
-        name: "precipitation_entity",
+        name: 'sunshine_entity',
         selector: {
           entity: {
-            domain: "sensor"
-          }
-        }
+            domain: 'sensor',
+          },
+        },
       },
       {
-        name: "warning_entity",
+        name: 'precipitation_entity',
         selector: {
           entity: {
-            domain: "sensor"
-          }
-        }
+            domain: 'sensor',
+          },
+        },
       },
       {
-        name: "show_forecast",
+        name: 'warning_entity',
         selector: {
-          boolean: {}
-        }
+          entity: {
+            domain: 'sensor',
+          },
+        },
       },
       {
-        name: "show_precipitation",
+        name: 'show_forecast',
         selector: {
-          boolean: {}
-        }
+          boolean: {},
+        },
       },
       {
-        name: "show_warnings",
+        name: 'show_precipitation',
         selector: {
-          boolean: {}
-        }
+          boolean: {},
+        },
       },
       {
-        name: "compact_mode",
+        name: 'show_warnings',
         selector: {
-          boolean: {}
-        }
-      }
+          boolean: {},
+        },
+      },
+      {
+        name: 'compact_mode',
+        selector: {
+          boolean: {},
+        },
+      },
     ];
 
     const data = {
-      entity: this._config.entity || "",
-      location: this._config.location || "",
-      wind_entity: this._config.wind_entity || "",
-      wind_direction_entity: this._config.wind_direction_entity || "",
-      sunshine_entity: this._config.sunshine_entity || "",
-      precipitation_entity: this._config.precipitation_entity || "",
-      warning_entity: this._config.warning_entity || "",
+      entity: this._config.entity || '',
+      location: this._config.location || '',
+      wind_entity: this._config.wind_entity || '',
+      wind_direction_entity: this._config.wind_direction_entity || '',
+      sunshine_entity: this._config.sunshine_entity || '',
+      precipitation_entity: this._config.precipitation_entity || '',
+      warning_entity: this._config.warning_entity || '',
       show_forecast: this._config.show_forecast !== false,
       show_precipitation: this._config.show_precipitation !== false,
       show_warnings: this._config.show_warnings !== false,
-      compact_mode: this._config.compact_mode === true
+      compact_mode: this._config.compact_mode === true,
     };
 
     return html`
       <div class="card-config">
         <!-- Header -->
         <div class="section">
-          <div class="section-header">
-            🌦️ SwissWeather Card Konfiguration
-          </div>
+          <div class="section-header">🌦️ SwissWeather Card Konfiguration</div>
           <div class="section-description">
-            Konfigurieren Sie Ihre SwissWeather Card mit den untenstehenden Optionen. 
-            Alle Änderungen werden automatisch gespeichert.
+            Konfigurieren Sie Ihre SwissWeather Card mit den untenstehenden Optionen. Alle
+            Änderungen werden automatisch gespeichert.
           </div>
         </div>
 
@@ -294,16 +283,19 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
         ></ha-form>
 
         <!-- Configuration Preview -->
-        ${this._config.entity ? html`
-          <div class="preview">
-            <div class="preview-title">📋 YAML-Konfiguration</div>
-            <div class="preview-config">${this._renderConfigPreview()}</div>
-          </div>
-        ` : html`
-          <div class="warning">
-            ⚠️ Bitte wählen Sie eine Wetter-Entity aus, um die Konfiguration zu vervollständigen.
-          </div>
-        `}
+        ${this._config.entity
+          ? html`
+              <div class="preview">
+                <div class="preview-title">📋 YAML-Konfiguration</div>
+                <div class="preview-config">${this._renderConfigPreview()}</div>
+              </div>
+            `
+          : html`
+              <div class="warning">
+                ⚠️ Bitte wählen Sie eine Wetter-Entity aus, um die Konfiguration zu
+                vervollständigen.
+              </div>
+            `}
       </div>
     `;
   }
@@ -311,7 +303,7 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
   private _renderConfigPreview(): string {
     const config: any = {
       type: 'custom:swissweather-card',
-      ...this._config
+      ...this._config,
     };
 
     // Remove undefined and empty values for cleaner preview
@@ -343,7 +335,7 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
       show_forecast: _t('config.show_forecast'),
       show_precipitation: _t('config.show_precipitation'),
       show_warnings: _t('config.show_warnings'),
-      compact_mode: _t('config.compact_mode')
+      compact_mode: _t('config.compact_mode'),
     };
     return labels[schema.name] || schema.name;
   };
@@ -355,7 +347,7 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
 
     const newConfig = {
       type: 'custom:swissweather-card',
-      ...ev.detail.value
+      ...ev.detail.value,
     };
 
     // Remove empty values

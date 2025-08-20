@@ -2,7 +2,7 @@
 console.log('📦 SwissWeather Card module loading started...');
 console.log('📦 Browser support check:', {
   customElements: !!window.customElements,
-  hasReflect: !!window.Reflect
+  hasReflect: !!window.Reflect,
 });
 
 import './swissweather-card.js';
