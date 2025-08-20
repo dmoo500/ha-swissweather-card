@@ -157,9 +157,7 @@ open demo.html
 
 ## 📱 Screenshots
 
-| Desktop | Mobile | Dark Theme |
-|---------|--------|------------|
-| ![Desktop](docs/images/desktop.png) | ![Mobile](docs/images/mobile.png) | ![Dark](docs/images/dark.png) |
+[<img src="docs/images/desktop.png" width="250"/>]
 
 ## 🤝 Contributing
 
