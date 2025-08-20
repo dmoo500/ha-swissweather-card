@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# HACS Validierung für SwissMeteo Card
+# HACS Validierung für SwissWeather Card
 
-echo "🔍 HACS Validation für SwissMeteo Card"
+echo "🔍 HACS Validation für SwissWeather Card"
 echo "======================================"
 
 # Farben für Output
@@ -39,7 +39,7 @@ required_files=(
     "hacs.json"
     "README.md"
     "LICENSE"
-    "swissmeteo-card.js"
+    "swissweather-card.js"
 )
 
 for file in "${required_files[@]}"; do
@@ -90,9 +90,9 @@ fi
 echo ""
 echo "📦 Build Validierung..."
 
-# Prüfen ob swissmeteo-card.js existiert und nicht leer ist
-if [ -f "swissmeteo-card.js" ]; then
-    size=$(wc -c < "swissmeteo-card.js")
+# Prüfen ob swissweather-card.js existiert und nicht leer ist
+if [ -f "swissweather-card.js" ]; then
+    size=$(wc -c < "swissweather-card.js")
     if [ "$size" -gt 1000 ]; then
         success "Build-Datei ist vorhanden und hat sinnvolle Größe ($size bytes)"
     else
@@ -100,19 +100,19 @@ if [ -f "swissmeteo-card.js" ]; then
     fi
     
     # Prüfen ob moderne JS-Features verwendet werden
-    if grep -q "class.*extends.*LitElement" "swissmeteo-card.js"; then
+    if grep -q "class.*extends.*LitElement" "swissweather-card.js"; then
         success "LitElement-Klasse gefunden"
     else
         warning "LitElement-Klasse nicht gefunden"
     fi
     
-    if grep -q "customElements.define" "swissmeteo-card.js"; then
+    if grep -q "customElements.define" "swissweather-card.js"; then
         success "Custom Element Registrierung gefunden"
     else
         error "Custom Element Registrierung nicht gefunden"
     fi
 else
-    error "swissmeteo-card.js nicht gefunden"
+    error "swissweather-card.js nicht gefunden"
 fi
 
 echo ""

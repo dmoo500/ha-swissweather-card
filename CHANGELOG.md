@@ -3,13 +3,13 @@
 ## [1.0.0] - 2025-08-17
 
 ### ✨ Features
-- **Initial Release** der SwissMeteo Card
+- **Initial Release** der SwissWeather Card
 - **TypeScript-basierte Implementierung** für bessere Entwicklererfahrung
 - **Home Assistant 2025.8+ Kompatibilität**
 - **Moderne Lit Elements 3.x** mit Decorators
 
 ### 🎨 Design
-- **SwissMeteo-inspiriertes Design** mit Schweizer Farbschema
+- **SwissWeather-inspiriertes Design** mit Schweizer Farbschema
 - **Responsive Layout** für Mobile und Desktop
 - **Glassmorphism-Effekte** für moderne Optik
 - **Accessibility-Standards** (WCAG 2.1)

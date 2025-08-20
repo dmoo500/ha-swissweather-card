@@ -1,19 +1,20 @@
 {
-  "name": "ha-swissmeteo-card",
+  "name": "ha-swissweather-card",
   "version": "1.0.0",
-  "description": "Home Assistant custom card recreating the SwissMeteo app experience - optimized for HA 2025.8+",
-  "main": "dist/swissmeteo-card.js",
-  "homepage": "https://github.com/your-username/ha-swissmeteo-card",
+  "description": "Home Assistant custom card recreating the SwissWeather app experience - optimized for HA 2025.8+",
+  "main": "dist/swissweather-card.js",
+  "homepage": "https://github.com/your-username/ha-swissweather-card",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/your-username/ha-swissmeteo-card.git"
+    "url": "git+https://github.com/your-username/ha-swissweather-card.git"
   },
   "bugs": {
-    "url": "https://github.com/your-username/ha-swissmeteo-card/issues"
+    "url": "https://github.com/your-username/ha-swissweather-card/issues"
   },
   "scripts": {
-    "build": "rollup -c",
-    "dev": "rollup -c -w",
+    "build": "vite build",
+    "dev": "vite build --watch",
+    "serve": "python3 -m http.server 8000",
     "type-check": "tsc --noEmit",
     "lint": "eslint src/ --ext .ts,.js",
     "format": "prettier --write src/",
@@ -36,8 +37,8 @@
     "lit-element"
   ],
   "author": {
-    "name": "SwissMeteo Card Contributors",
-    "url": "https://github.com/your-username/ha-swissmeteo-card/graphs/contributors"
+    "name": "SwissWeather Card Contributors",
+    "url": "https://github.com/your-username/ha-swissweather-card/graphs/contributors"
   },
   "license": "MIT",
   "type": "module",
@@ -46,22 +47,20 @@
     "yarn": ">=4.0.0"
   },
   "devDependencies": {
-    "@rollup/plugin-node-resolve": "^15.2.3",
-    "@rollup/plugin-terser": "^0.4.4",
-    "@rollup/plugin-typescript": "^11.1.6",
-    "@types/node": "^20.14.0",
+    "@types/node": "^24.3.0",
     "@typescript-eslint/eslint-plugin": "^7.13.0",
     "@typescript-eslint/parser": "^7.13.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "prettier": "^3.3.0",
-    "rollup": "^4.18.0",
     "tslib": "^2.6.3",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "vite": "^7.1.2"
   },
   "dependencies": {
     "custom-card-helpers": "^1.9.0",
-    "lit": "^3.1.4"
+    "lit": "^3.1.4",
+    "lit-translate": "^2.0.1"
   },
   "files": [
     "dist/",
@@ -70,5 +69,10 @@
     "LICENSE",
     "CHANGELOG.md"
   ],
-  "packageManager": "yarn@4.3.1"
+  "packageManager": "yarn@4.3.1",
+  "dependenciesMeta": {
+    "lit-translate@2.0.1": {
+      "unplugged": true
+    }
+  }
 }

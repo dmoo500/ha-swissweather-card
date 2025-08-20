@@ -1,4 +1,4 @@
-# Detaillierte Installation der SwissMeteo Card
+# Detaillierte Installation der SwissWeather Card
 
 ## 🎯 Schritt-für-Schritt Installation
 
@@ -9,12 +9,12 @@
 
 2. **Custom Repository hinzufügen**
    - Menü → Custom repositories
-   - URL: `https://github.com/your-username/ha-swissmeteo-card`
+   - URL: `https://github.com/your-username/ha-swissweather-card`
    - Kategorie: "Lovelace"
    - "Add" klicken
 
 3. **Card installieren**
-   - "SwissMeteo Card" suchen
+   - "SwissWeather Card" suchen
    - "Download" klicken
    - Home Assistant neu starten
 
@@ -27,13 +27,13 @@
 1. **Datei herunterladen**
    ```bash
    # Latest Release von GitHub
-   wget https://github.com/your-username/ha-swissmeteo-card/releases/latest/download/swissmeteo-card.js
+   wget https://github.com/your-username/ha-swissweather-card/releases/latest/download/swissweather-card.js
    ```
 
 2. **Datei kopieren**
    ```bash
    # In Home Assistant config/www/ Verzeichnis
-   cp swissmeteo-card.js /path/to/homeassistant/config/www/
+   cp swissweather-card.js /path/to/homeassistant/config/www/
    ```
 
 3. **Resource registrieren**
@@ -41,7 +41,7 @@
    # configuration.yaml
    lovelace:
      resources:
-       - url: /local/swissmeteo-card.js
+       - url: /local/swissweather-card.js
          type: module
    ```
 
@@ -59,7 +59,7 @@
 
 **YAML-Konfiguration:**
 ```yaml
-type: custom:swissmeteo-card
+type: custom:swissweather-card
 entity: weather.openweathermap  # Ihre Wetter-Entity
 location: "Zürich"              # Ihr Standort
 ```
@@ -67,7 +67,7 @@ location: "Zürich"              # Ihr Standort
 ### 2. Erweiterte Konfiguration
 
 ```yaml
-type: custom:swissmeteo-card
+type: custom:swissweather-card
 entity: weather.openweathermap
 location: "Zürich"
 
@@ -94,18 +94,18 @@ compact_mode: false
 
 ```
 ✅ Erfolgreich:
-%c SWISSMETEO-CARD %c v1.0.0
-SwissMeteo Card registration status: SUCCESS
+%c SWISSWEATHER-CARD %c v1.0.0
+SwissWeather Card registration status: SUCCESS
 
 ❌ Fehler:
-Failed to load resource: swissmeteo-card.js
-Custom element doesn't exist: swissmeteo-card
+Failed to load resource: swissweather-card.js
+Custom element doesn't exist: swissweather-card
 ```
 
 ### Test-Konfiguration
 ```yaml
 # Minimale Test-Konfiguration
-type: custom:swissmeteo-card
+type: custom:swissweather-card
 entity: weather.openweathermap
 location: "Test"
 ```
@@ -118,11 +118,11 @@ location: "Test"
 lovelace:
   resources:
     # HACS Installation:
-    - url: /hacsfiles/swissmeteo-card/swissmeteo-card.js
+    - url: /hacsfiles/swissweather-card/swissweather-card.js
       type: module
     
     # Manuelle Installation:
-    - url: /local/swissmeteo-card.js
+    - url: /local/swissweather-card.js
       type: module
 ```
 
@@ -147,7 +147,7 @@ entity: weather.openweathermap  # Muss existieren!
 
 Temporär für Debugging:
 ```yaml
-type: custom:swissmeteo-card
+type: custom:swissweather-card
 entity: weather.openweathermap
 location: "Debug Test"
 debug: true  # Zeigt zusätzliche Konsolen-Logs
@@ -168,14 +168,14 @@ Die Card ist responsive und funktioniert auf:
 - Ein-Klick Update über HACS
 
 ### Manuelle Updates
-1. Neue `swissmeteo-card.js` herunterladen
+1. Neue `swissweather-card.js` herunterladen
 2. Alte Datei ersetzen
 3. Browser-Cache leeren
 4. Home Assistant neu starten
 
 ---
 
-**Bei Problemen:** Öffnen Sie ein [GitHub Issue](https://github.com/your-username/ha-swissmeteo-card/issues) mit:
+**Bei Problemen:** Öffnen Sie ein [GitHub Issue](https://github.com/your-username/ha-swissweather-card/issues) mit:
 - Home Assistant Version
 - Browser & Version
 - Fehlermeldungen aus der Konsole

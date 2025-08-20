@@ -237,6 +237,7 @@ export interface SwissWeatherWarning {
   id: string;
   level: 1 | 2 | 3 | 4 | 5; // Warnstufen: 1=Info, 2=Gelb, 3=Orange, 4=Rot, 5=Violett
   type: WeatherWarningType;
+  link: string;
   title: string;
   description: string;
   valid_from: string;
@@ -258,19 +259,24 @@ export type WeatherWarningType =
   | 'forest_fire';
 
 // Card Configuration Types
-export interface SwissMeteoCardConfig {
-  type: 'custom:swissmeteo-card';
+export interface SwissWeatherCardConfig {
+  type: 'custom:swissweather-card';
   entity: string;
+  show_location?: boolean;
   location?: string;
   warning_entity?: string;
+  sun_entity?: string;
   wind_entity?: string;
   wind_direction_entity?: string;
   sunshine_entity?: string;
   precipitation_entity?: string;
   show_forecast?: boolean;
+  forecast_hours?: number;
   show_hourly?: boolean;
   show_warnings?: boolean;
+  show_temperature?: boolean;
   show_precipitation?: boolean;
+  show_sunshine?: boolean;
   compact_mode?: boolean;
   theme?: 'light' | 'dark' | 'auto';
 }

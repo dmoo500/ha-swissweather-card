@@ -15,12 +15,12 @@
 2. **Repository hinzufügen**
    - Klicken Sie auf die drei Punkte (⋮)
    - Wählen Sie "Custom repositories"
-   - URL eingeben: `https://github.com/your-username/ha-swissmeteo-card`
+   - URL eingeben: `https://github.com/your-username/ha-swissweather-card`
    - Kategorie: "Lovelace"
    - Auf "Add" klicken
 
 3. **Card installieren**
-   - Suchen Sie nach "SwissMeteo Card"
+   - Suchen Sie nach "SwissWeather Card"
    - Klicken Sie auf "Download"
    - Wählen Sie die neueste Version
    - Bestätigen Sie die Installation
@@ -33,14 +33,14 @@
 
 ### Grundkonfiguration
 ```yaml
-type: custom:swissmeteo-card
+type: custom:swissweather-card
 entity: weather.home
 location: "Zürich"
 ```
 
 ### Erweiterte Konfiguration
 ```yaml
-type: custom:swissmeteo-card
+type: custom:swissweather-card
 entity: weather.openweathermap
 location: "Zürich"
 warning_entity: sensor.meteoswiss_warnings
@@ -79,7 +79,7 @@ meteoswiss:
 
 ### Kompakte Ansicht
 ```yaml
-type: custom:swissmeteo-card
+type: custom:swissweather-card
 entity: weather.home
 compact_mode: true
 show_forecast: false
@@ -87,7 +87,7 @@ show_forecast: false
 
 ### Nur Warnungen anzeigen
 ```yaml
-type: custom:swissmeteo-card
+type: custom:swissweather-card
 entity: weather.home
 warning_entity: sensor.meteoswiss_warnings
 show_forecast: false
@@ -103,7 +103,7 @@ show_precipitation: false
 
 ### Manuelle Update-Prüfung
 1. HACS > Frontend öffnen
-2. "SwissMeteo Card" suchen
+2. "SwissWeather Card" suchen
 3. Auf die Card klicken
 4. "Redownload" falls Update verfügbar
 
@@ -162,4 +162,4 @@ logger:
 
 ---
 
-**Viel Spaß mit der SwissMeteo Card! 🌤️**
+**Viel Spaß mit der SwissWeather Card! 🌤️**

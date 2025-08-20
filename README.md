@@ -1,6 +1,6 @@
-# SwissMeteo Home Assistant Card
+# SwissWeather Home Assistant Card
 
-Eine benutzerdefinierte Home Assistant Card, die das Design und die Funktionen der offiziellen SwissMeteo App nachbildet. **Optimiert für Home Assistant 2025.8+ mit TypeScript und modernen Web-Standards.**
+Eine benutzerdefinierte Home Assistant Card, die das Design und die Funktionen der offiziellen SwissWeather App nachbildet. **Optimiert für Home Assistant 2025.8+ mit TypeScript und modernen Web-Standards.**
 
 ## ⭐ Features
 
@@ -19,41 +19,21 @@ Eine benutzerdefinierte Home Assistant Card, die das Design und die Funktionen d
 ### ☀️ **Sonnenschein & UV**
 - Tägliche Sonnenscheindauer in Stunden
 - Integration mit HA Sonnenschein-Sensoren
+# SwissWeather Home Assistant Card
 - UV-Index Unterstützung
 
-### 💨 **Wind & Böen**
-- Windgeschwindigkeit und -richtung
-- Grafischer Windkompass mit Pfeil
-- Windrichtung in deutschen Bezeichnungen (N, NO, O, etc.)
 - Böenvorhersage und Beaufort-Skala
-
-### 📍 **Lokale Prognose**
-- 7-Tage-Wettervorhersage
-- Stündliche Details
 - Min/Max Temperaturen
-- Luftfeuchtigkeit und Luftdruck
 
-## 🚀 **Home Assistant 2025.8+ Features**
+- ✅ **Entity Picker** für alle Sensoren
 
-- ✅ **TypeScript** für bessere Typsicherheit
-- ✅ **Modern ES2022** für optimale Performance  
-- ✅ **Lit Elements 3.x** mit Decorators
-- ✅ **Automatische Theme-Erkennung**
-- ✅ **Responsive Design** für Mobile & Desktop
-- ✅ **Yarn** Package Manager
-- ✅ **ESLint + Prettier** für Code-Qualität
-
-## 📦 Installation
-
-### HACS (Empfohlen)
-1. Öffnen Sie HACS in Home Assistant
-2. Gehen Sie zu "Frontend"
-3. Klicken Sie auf die drei Punkte → "Custom repositories"
-4. Fügen Sie diese URL hinzu: `https://github.com/your-username/ha-swissmeteo-card`
-5. Suchen Sie nach "SwissMeteo Card" und installieren Sie sie
+- **Deutsche Lokalisierung** aller Labels
+- **Keine separaten Dateien** - Alles in `swissweather-card.js`
+4. Fügen Sie diese URL hinzu: `https://github.com/your-username/ha-swissweather-card`
+5. Suchen Sie nach "SwissWeather Card" und installieren Sie sie
 
 ### Manuell
-1. Laden Sie die neueste `swissmeteo-card.js` aus dem [Releases](https://github.com/your-username/ha-swissmeteo-card/releases) herunter
+1. Laden Sie die neueste `swissweather-card.js` aus dem [Releases](https://github.com/your-username/ha-swissweather-card/releases) herunter
 2. Kopieren Sie sie in Ihren `config/www/` Ordner
 3. Fügen Sie die Ressource hinzu:
 
@@ -61,7 +41,7 @@ Eine benutzerdefinierte Home Assistant Card, die das Design und die Funktionen d
 # configuration.yaml
 lovelace:
   resources:
-    - url: /local/swissmeteo-card.js
+    - url: /local/swissweather-card.js
       type: module  # Wichtig für HA 2025.8+
 ```
 
@@ -69,33 +49,18 @@ lovelace:
 
 ## 🎨 Visual Editor
 
-Die SwissMeteo Card verfügt über einen vollständigen visuellen Editor für die Lovelace UI:
+Die SwissWeather Card verfügt über einen vollständigen visuellen Editor für die Lovelace UI:
 
-### Features des Visual Editors:
-- **🎯 Entity Picker**: Automatische Auswahl von Wetter-Entities
-- **📊 Sensor-Gruppierung**: Übersichtliche Gruppierung nach Wetter-Kategorien  
-- **⚡ Live-Vorschau**: Sofortige YAML-Generierung
-- **🔍 Validierung**: Automatische Überprüfung der Konfiguration
-- **📱 Responsive**: Optimiert für Desktop und Mobile
+- ** Responsive**: Optimiert für Desktop und Mobile
 
 ### Verwendung:
 1. **Dashboard bearbeiten** → **Card hinzufügen**
-2. **"SwissMeteo Card"** aus der Liste wählen
+2. **"SwissWeather Card"** aus der Liste wählen
 3. **Entities konfigurieren** mit den Dropdown-Menüs
 4. **Optionen anpassen** mit den Schaltern
 5. **Speichern** - fertig!
 
-### Editor-Kategorien:
-
-#### 🌦️ Grundkonfiguration
-- **Wetter Entity** (erforderlich): Ihre Haupt-Wetterintegration
-- **Standort**: Angezeigter Ortsname
-
 #### 📊 Zusätzliche Sensoren (Optional)
-- **💨 Wind**: Geschwindigkeit & Richtung  
-- **☀️ Sonnenschein**: Sonnenscheindauer
-- **🌧️ Niederschlag**: Regendaten & Prognosen
-- **⚠️ Warnungen**: Schweizer Wetterwarnungen
 
 #### 🎨 Anzeigeoptionen
 - **Wettervorhersage**: 7-Tage-Prognose ein/aus
@@ -107,14 +72,14 @@ Die SwissMeteo Card verfügt über einen vollständigen visuellen Editor für di
 
 ### Basis-Konfiguration
 ```yaml
-type: custom:swissmeteo-card
+type: custom:swissweather-card
 entity: weather.home
 location: "Zürich"
 ```
 
 ### Vollständige Konfiguration
 ```yaml
-type: custom:swissmeteo-card
+type: custom:swissweather-card
 entity: weather.openweathermap
 location: "Zürich"
 warning_entity: sensor.meteoswiss_warnings
@@ -158,8 +123,6 @@ meteoswiss:
     - zip_code: 8001
       name: "Zürich"
   update_interval: 300
-  include_warnings: true
-```
 
 ### OpenWeatherMap  
 ```yaml
@@ -179,13 +142,8 @@ weather:
 
 ### Setup
 ```bash
-git clone https://github.com/your-username/ha-swissmeteo-card.git
-cd ha-swissmeteo-card
-yarn install
-```
-
-### Entwickeln
-```bash
+git clone https://github.com/your-username/ha-swissweather-card.git
+cd ha-swissweather-card
 yarn dev          # Development mit Live-Reload
 yarn type-check   # TypeScript-Prüfung
 yarn lint         # Code-Linting
@@ -199,12 +157,6 @@ yarn build        # Production Build
 open demo.html
 ```
 
-## 🎨 Design
-
-Die Card orientiert sich am offiziellen SwissMeteo Design:
-- **Schweizer Farbschema** (Rot #dc143c, Weiß)
-- **Moderne Typography** (SF Pro, Segoe UI)
-- **Glassmorphism-Effekte**
 - **Responsive Grid-Layout**
 - **Accessibility-Standards (WCAG 2.1)**
 
@@ -229,23 +181,12 @@ Die Card orientiert sich am offiziellen SwissMeteo Design:
 - **Modern Browser** mit ES2022-Unterstützung
 
 ### Browser-Unterstützung
-- ✅ Chrome 90+
-- ✅ Firefox 88+  
-- ✅ Safari 14+
 - ✅ Edge 90+
-
-## � Troubleshooting
-
-### "Custom element doesn't exist: swissmeteo-card"
 
 **Mögliche Ursachen und Lösungen:**
 
-1. **Resource nicht geladen**
-   ```yaml
-   # In Ihrer Lovelace-Konfiguration (configuration.yaml oder UI):
-   lovelace:
      resources:
-       - url: /hacsfiles/swissmeteo-card/swissmeteo-card.js
+       - url: /hacsfiles/swissweather-card/swissweather-card.js
          type: module
    ```
 
@@ -254,8 +195,8 @@ Die Card orientiert sich am offiziellen SwissMeteo Design:
    - Home Assistant neu starten
 
 3. **Dateipfad prüfen**
-   - HACS: `/hacsfiles/swissmeteo-card/swissmeteo-card.js`
-   - Manuell: `/local/swissmeteo-card.js` (wenn in `config/www/`)
+   - HACS: `/hacsfiles/swissweather-card/swissweather-card.js`
+   - Manuell: `/local/swissweather-card.js` (wenn in `config/www/`)
 
 4. **Browser-Konsole prüfen**
    - F12 → Console Tab öffnen
@@ -274,8 +215,8 @@ Die Card orientiert sich am offiziellen SwissMeteo Design:
 ## �🔗 Links
 
 - [📖 Dokumentation](docs/)
-- [🐛 Bug Reports](https://github.com/your-username/ha-swissmeteo-card/issues)
-- [💡 Feature Requests](https://github.com/your-username/ha-swissmeteo-card/discussions)
+- [🐛 Bug Reports](https://github.com/your-username/ha-swissweather-card/issues)
+- [💡 Feature Requests](https://github.com/your-username/ha-swissweather-card/discussions)
 - [📋 Changelog](CHANGELOG.md)
 
 ## 📄 Lizenz

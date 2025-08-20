@@ -1,8 +1,8 @@
 <!-- Use this file to provide workspace-specific custom instructions to Copilot. For more details, visit https://code.visualstudio.com/docs/copilot/copilot-customization#_use-a-githubcopilotinstructionsmd-file -->
 
-# SwissMeteo Home Assistant Card
+# SwissWeather Home Assistant Card
 
-This is a Home Assistant custom card project that recreates the SwissMeteo app experience. The card displays:
+This is a Home Assistant custom card project that recreates the SwissWeather app experience. The card displays:
 
 - Weather warnings with color-coded severity levels
 - Precipitation forecasts and radar data

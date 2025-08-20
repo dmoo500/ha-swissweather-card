@@ -1,4 +1,4 @@
-# SwissMeteo Card - Home Assistant Debug Anleitung
+# SwissWeather Card - Home Assistant Debug Anleitung
 
 ## 🔍 Schritt-für-Schritt Debugging für "Custom element doesn't exist"
 
@@ -13,20 +13,20 @@ Safari: Entwickler → JavaScript-Konsole
 
 #### ✅ **Erfolgreiche Registrierung:**
 ```
-📦 SwissMeteo Card module loading started...
+📦 SwissWeather Card module loading started...
 📦 Browser support check: {customElements: true, hasReflect: true}
-📦 SwissMeteo Card TypeScript file imported
-🎯 About to apply @customElement decorator to SwissMeteoCard
-🔧 SwissMeteoCard constructor called
-🔍 SwissMeteo Card registration status: SUCCESS ✅
- SWISSMETEO-CARD  v1.0.0 
-📦 SwissMeteo Card module loading completed
+📦 SwissWeather Card TypeScript file imported
+🎯 About to apply @customElement decorator to SwissWeatherCard
+🔧 SwissWeatheroCard constructor called
+🔍 SwissWeather Card registration status: SUCCESS ✅
+ SWISSWEATHER-CARD  v1.0.0 
+📦 SwissWeather Card module loading completed
 ```
 
 #### ❌ **Fehlgeschlagene Registrierung:**
 ```
-❌ Custom element "swissmeteo-card" was not registered!
-🔍 SwissMeteo Card registration status: FAILED ❌
+❌ Custom element "swissweather-card" was not registered!
+🔍 SwissWeather Card registration status: FAILED ❌
 ```
 
 ### 3. Home Assistant Installation prüfen
@@ -34,7 +34,7 @@ Safari: Entwickler → JavaScript-Konsole
 #### Option A: HACS Installation
 ```yaml
 # Automatisch registriert, keine manuelle Konfiguration nötig
-# HACS → Frontend → SwissMeteo Card
+# HACS → Frontend → SwissWeather Card
 ```
 
 #### Option B: Manuelle Installation
@@ -42,7 +42,7 @@ Safari: Entwickler → JavaScript-Konsole
 # configuration.yaml
 lovelace:
   resources:
-    - url: /local/swissmeteo-card.js
+    - url: /local/swissweather-card.js
       type: module
 ```
 
@@ -51,12 +51,12 @@ lovelace:
 #### In der Browser-Konsole testen:
 ```javascript
 // Test 1: Direkte URL aufrufen
-window.open('/local/swissmeteo-card.js', '_blank');
+window.open('/local/swissweather-card.js', '_blank');
 // oder für HACS:
-window.open('/hacsfiles/swissmeteo-card/swissmeteo-card.js', '_blank');
+window.open('/hacsfiles/swissweather-card/swissweather-card.js', '_blank');
 
 // Test 2: Element-Check
-customElements.get('swissmeteo-card');
+customElements.get('swissweather-card');
 // Sollte eine Funktion zurückgeben, nicht undefined
 ```
 
@@ -69,13 +69,13 @@ customElements.get('swissmeteo-card');
 #### Resource-Pfad korrigieren:
 ```yaml
 # HACS (automatisch):
-/hacsfiles/swissmeteo-card/swissmeteo-card.js
+/hacsfiles/swissweather-card/swissweather-card.js
 
 # Manuell in config/www/:
-/local/swissmeteo-card.js
+/local/swissweather-card.js
 
 # Manuell in config/www/community/:
-/local/community/swissmeteo-card/swissmeteo-card.js
+/local/community/swissweather-card/swissweather-card.js
 ```
 
 #### Home Assistant Version prüfen:
@@ -95,21 +95,21 @@ console.log('Available Cards:', window.customCards?.map(c => c.type));
 #### Network-Tab prüfen:
 1. F12 → Network Tab
 2. Seite neu laden
-3. Nach `swissmeteo-card.js` suchen
+3. Nach `swissweather-card.js` suchen
 4. Status: **200 OK** = Datei lädt korrekt
 
 ### 7. Test-Konfiguration
 
 #### Minimale funktionierende Konfiguration:
 ```yaml
-type: custom:swissmeteo-card
+type: custom:swissweather-card
 entity: weather.openweathermap  # Ihre Wetter-Entity
 location: "Test"
 ```
 
 #### Debug-Konfiguration mit Konsolen-Output:
 ```yaml
-type: custom:swissmeteo-card
+type: custom:swissweather-card
 entity: weather.openweathermap
 location: "Debug Test"
 debug: true  # Aktiviert zusätzliche Logs
@@ -121,13 +121,13 @@ debug: true  # Aktiviert zusätzliche Logs
 ```html
 <!DOCTYPE html>
 <html>
-<head><title>SwissMeteo Test</title></head>
+<head><title>SwissWeather Test</title></head>
 <body>
-    <swissmeteo-card></swissmeteo-card>
-    <script type="module" src="/local/swissmeteo-card.js"></script>
+    <swissweather-card></swissweather-card>
+    <script type="module" src="/local/swissweather-card.js"></script>
     <script>
         setTimeout(() => {
-            const el = customElements.get('swissmeteo-card');
+            const el = customElements.get('swissweather-card');
             console.log('Element registered:', !!el);
         }, 1000);
     </script>
@@ -137,7 +137,7 @@ debug: true  # Aktiviert zusätzliche Logs
 
 ### 9. Kontakt für Support
 
-Wenn alle Schritte fehlschlagen, erstellen Sie ein [GitHub Issue](https://github.com/your-username/ha-swissmeteo-card/issues) mit:
+Wenn alle Schritte fehlschlagen, erstellen Sie ein [GitHub Issue](https://github.com/your-username/ha-swissweather-card/issues) mit:
 
 - ✅ **Home Assistant Version:** `Settings → About`
 - ✅ **Browser & Version:** Chrome 118, Firefox 119, etc.

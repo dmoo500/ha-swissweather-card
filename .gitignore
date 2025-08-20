@@ -27,3 +27,7 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.temp
+
+# Built files (copied from dist for HACS compatibility)
+/swissweater-card.js
+/swissweater-card.js.map

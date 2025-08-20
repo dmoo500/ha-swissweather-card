@@ -83,7 +83,7 @@ jobs:
     - name: Create release asset
       run: |
         cd dist
-        zip -r ../swissmeteo-card-${{ github.event.release.tag_name }}.zip .
+        zip -r ../swissweather-card-${{ github.event.release.tag_name }}.zip .
         
     - name: Upload release asset
       uses: actions/upload-release-asset@v1
@@ -91,6 +91,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ github.event.release.upload_url }}
-        asset_path: ./swissmeteo-card-${{ github.event.release.tag_name }}.zip
-        asset_name: swissmeteo-card-${{ github.event.release.tag_name }}.zip
+        asset_path: ./swissweather-card-${{ github.event.release.tag_name }}.zip
+        asset_name: swissweather-card-${{ github.event.release.tag_name }}.zip
         asset_content_type: application/zip

@@ -1,22 +1,22 @@
 # Konfiguration für Home Assistant
 
-Hier finden Sie Beispielkonfigurationen für verschiedene Setup-Varianten der SwissMeteo Card.
+Hier finden Sie Beispielkonfigurationen für verschiedene Setup-Varianten der SwissWeather Card.
 
 ## Basis-Konfiguration
 
-Die minimale Konfiguration benötigt nur eine Wetter-Entity:
+type: custom:swissweather-card
 
 ```yaml
-type: custom:swissmeteo-card
+type: custom:swissweather-card
 entity: weather.home
 ```
 
 ## Vollständige Konfiguration
 
-Für alle Features verwenden Sie diese erweiterte Konfiguration:
+type: custom:swissweather-card
 
 ```yaml
-type: custom:swissmeteo-card
+type: custom:swissweather-card
 entity: weather.home
 location: "Zürich"
 warning_entity: sensor.meteoswiss_warnings
@@ -29,7 +29,7 @@ show_hourly: true
 show_warnings: true
 compact_mode: false
 ```
-
+type: custom:swissweather-card
 ## Empfohlene Integrationen
 
 ### MeteoSwiss Integration
@@ -37,7 +37,7 @@ compact_mode: false
 # configuration.yaml
 meteoswiss:
   - zip_code: 8001  # Zürich
-    monitored_conditions:
+type: custom:swissweather-card
       - temperature
       - humidity
       - pressure
@@ -96,7 +96,7 @@ template:
 
 ### Kompakte Ansicht
 ```yaml
-type: custom:swissmeteo-card
+type: custom:swissweather-card
 entity: weather.home
 compact_mode: true
 show_forecast: false
@@ -104,7 +104,7 @@ show_forecast: false
 
 ### Nur Warnungen
 ```yaml
-type: custom:swissmeteo-card
+type: custom:swissweather-card
 entity: weather.home
 warning_entity: sensor.meteoswiss_warnings
 show_forecast: false
@@ -119,13 +119,13 @@ Für verschiedene Standorte können Sie mehrere Cards konfigurieren:
 # Lovelace Dashboard
 type: horizontal-stack
 cards:
-  - type: custom:swissmeteo-card
+  - type: custom:swissweather-card
     entity: weather.zurich
     location: "Zürich"
-  - type: custom:swissmeteo-card
+  - type: custom:swissweather-card
     entity: weather.geneva
     location: "Genf"
-  - type: custom:swissmeteo-card
+  - type: custom:swissweather-card
     entity: weather.basel
     location: "Basel"
 ```

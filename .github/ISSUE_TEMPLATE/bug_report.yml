@@ -1,5 +1,5 @@
 name: Bug Report
-description: Melden Sie einen Fehler in der SwissMeteo Card
+description: Melden Sie einen Fehler in der SwissWeather Card
 title: "[BUG] "
 labels: ["bug", "triage"]
 body:
@@ -12,7 +12,7 @@ body:
     id: version
     attributes:
       label: Version
-      description: Welche Version der SwissMeteo Card verwenden Sie?
+      description: Welche Version der SwissWeather Card verwenden Sie?
       placeholder: z.B. 1.0.0
     validations:
       required: true
@@ -60,7 +60,7 @@ body:
       description: Fügen Sie Ihre Card-Konfiguration ein
       render: yaml
       placeholder: |
-        type: custom:swissmeteo-card
+        type: custom:swissweather-card
         entity: weather.home
         # weitere Konfiguration...
 
@@ -86,7 +86,7 @@ body:
     attributes:
       label: Bestätigung
       options:
-        - label: Ich habe die [Dokumentation](https://github.com/your-username/ha-swissmeteo-card) gelesen
+        - label: Ich habe die [Dokumentation](https://github.com/your-username/ha-swissweather-card) gelesen
           required: true
         - label: Ich habe nach ähnlichen Issues gesucht
           required: true

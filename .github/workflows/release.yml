@@ -38,12 +38,12 @@ jobs:
     - name: Create release archive
       run: |
         mkdir -p release
-        cp dist/swissmeteo-card.js release/
+        cp dist/swissweather-card.js release/
         cp README.md release/
         cp LICENSE release/
         cp hacs.json release/
         cd release
-        zip -r ../swissmeteo-card-${{ steps.version.outputs.VERSION }}.zip .
+        zip -r ../swissweather-card-${{ steps.version.outputs.VERSION }}.zip .
         
     - name: Generate changelog
       id: changelog
@@ -64,19 +64,19 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: v${{ steps.version.outputs.VERSION }}
-        release_name: SwissMeteo Card v${{ steps.version.outputs.VERSION }}
+        release_name: SwissWeather Card v${{ steps.version.outputs.VERSION }}
         body: |
-          ## 🎉 SwissMeteo Card v${{ steps.version.outputs.VERSION }}
+          ## 🎉 SwissWeather Card v${{ steps.version.outputs.VERSION }}
           
           ### 📦 Installation
           
           #### HACS (Empfohlen)
           1. Fügen Sie dieses Repository zu HACS hinzu
-          2. Suchen Sie nach "SwissMeteo Card" 
+          2. Suchen Sie nach "SwissWeather Card" 
           3. Installieren Sie die neueste Version
           
           #### Manuell
-          1. Laden Sie `swissmeteo-card.js` herunter
+          1. Laden Sie `swissweather-card.js` herunter
           2. Kopieren Sie es nach `config/www/`
           3. Fügen Sie die Ressource zu Lovelace hinzu
           
@@ -96,8 +96,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./swissmeteo-card-${{ steps.version.outputs.VERSION }}.zip
-        asset_name: swissmeteo-card-${{ steps.version.outputs.VERSION }}.zip
+        asset_path: ./swissweather-card-${{ steps.version.outputs.VERSION }}.zip
+        asset_name: swissweather-card-${{ steps.version.outputs.VERSION }}.zip
         asset_content_type: application/zip
         
     - name: Upload individual file
@@ -106,6 +106,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./dist/swissmeteo-card.js
-        asset_name: swissmeteo-card.js
+        asset_path: ./dist/swissweather-card.js
+        asset_name: swissweather-card.js
         asset_content_type: application/javascript

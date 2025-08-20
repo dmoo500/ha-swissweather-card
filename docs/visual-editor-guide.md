@@ -1,15 +1,15 @@
-# SwissMeteo Card - Visual Editor Guide
+# SwissWeather Card - Visual Editor Guide
 
 ## 🎨 Überblick
 
-Der SwissMeteo Card Visual Editor ermöglicht eine benutzerfreundliche Konfiguration direkt in der Home Assistant Lovelace UI. Keine YAML-Kenntnisse erforderlich!
+Der SwissWeather Card Visual Editor ermöglicht eine benutzerfreundliche Konfiguration direkt in der Home Assistant Lovelace UI. Keine YAML-Kenntnisse erforderlich!
 
 ## 🚀 Schnellstart
 
 ### 1. Card hinzufügen
 1. **Dashboard öffnen** → **Bearbeiten-Modus aktivieren**
 2. **"Card hinzufügen"** klicken
-3. **"Benutzerdefiniert: SwissMeteo Card"** auswählen
+3. **"Benutzerdefiniert: SwissWeather Card"** auswählen
 
 ### 2. Basis-Konfiguration
 1. **Wetter Entity** auswählen (erforderlich)
@@ -65,14 +65,14 @@ Der SwissMeteo Card Visual Editor ermöglicht eine benutzerfreundliche Konfigura
 
 ### Minimale Konfiguration
 ```yaml
-type: custom:swissmeteo-card
+type: custom:swissweather-card
 entity: weather.openweathermap
 location: "Zürich"
 ```
 
 ### Vollständige Konfiguration
 ```yaml
-type: custom:swissmeteo-card
+type: custom:swissweather-card
 entity: weather.openweathermap
 location: "Zürich"
 
@@ -148,26 +148,26 @@ console.log(hass.states['weather.openweathermap']);
 ### Custom CSS
 ```css
 /* Card-Container anpassen */
-swissmeteo-card {
-  --swissmeteo-primary-color: #dc143c;
-  --swissmeteo-background: #ffffff;
-  --swissmeteo-border-radius: 16px;
+swissweather-card {
+  --swissweather-primary-color: #dc143c;
+  --swissweather-background: #ffffff;
+  --swissweather-border-radius: 16px;
 }
 
 /* Kompakter Modus erzwingen */
-swissmeteo-card[compact] {
-  --swissmeteo-padding: 10px;
-  --swissmeteo-font-size: 14px;
+swissweather-card[compact] {
+  --swissweather-padding: 10px;
+  --swissweather-font-size: 14px;
 }
 ```
 
 ### Theme-Integration
 ```yaml
 # In themes.yaml
-swissmeteo_theme:
-  swissmeteo-primary-color: "#2196f3"
-  swissmeteo-warning-color: "#ff9800"
-  swissmeteo-success-color: "#4caf50"
+swissweather_theme:
+  swissweather-primary-color: "#2196f3"
+  swissweather-warning-color: "#ff9800"
+  swissweather-success-color: "#4caf50"
 ```
 
 ## 📚 Weiterführende Links

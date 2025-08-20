@@ -247,8 +247,8 @@ export type WeatherWarningType =
   | 'forest_fire';
 
 // Card Configuration Types
-export interface SwissMeteoCardConfig {
-  type: 'custom:swissmeteo-card';
+export interface SwissWeatherCardConfig {
+  type: 'custom:swissweather-card';
   entity: string;
   location?: string;
   warning_entity?: string;
