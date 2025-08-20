@@ -15,5 +15,4 @@ This is a Home Assistant custom card project that recreates the SwissWeather app
 - Follow Home Assistant custom card development patterns
 - Use Lit elements for web components
 - Implement responsive design for mobile and desktop
-- Follow Swiss design principles and MeteoSchweiz branding
 - Support Home Assistant weather entities and sensors
