@@ -25,7 +25,7 @@ jobs:
       run: corepack enable
     
     - name: Install Yarn 4.9.2
-      run: corepack install --global --cache-only yarn@4.9.2 --activate
+      run: corepack install --global --cache-only yarn@4.9.2
     
     - name: Check Yarn version
       run: yarn --version
