@@ -85,6 +85,12 @@ jobs:
       
     - name: Create release asset
       run: |
+        mkdir -p dist
+        cp swissweather-card.js dist/
+        cp README.md dist/
+        cp LICENSE dist/
+        cp hacs.json dist/
+        cd dist
         zip -r ../swissweather-card-${{ github.event.release.tag_name }}.zip .
         
     - name: Upload release asset
