@@ -17,7 +17,7 @@
     "isolatedModules": true,
     "verbatimModuleSyntax": false,
     "sourceMap": true,
-    "outDir": "dist",
+    "outDir": "./",
     "removeComments": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,

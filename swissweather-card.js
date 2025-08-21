@@ -15,7 +15,7 @@ const lt = {
       show_precipitation: "Niederschlagsdiagramm anzeigen",
       show_sunshine: "Sonnenscheindauerdiagramm anzeigen",
       show_warnings: "Wetterwarnungen anzeigen",
-      show_wind: "Wind anzeigen",
+      show_wind: "Winddiagramm anzeigen",
       enable_animate_weather_icons: "Animierte Wetter-Icons aktivieren"
     },
     location: "Schweiz",
@@ -99,7 +99,7 @@ const lt = {
       show_precipitation: "Show Precipitation Chart",
       show_sunshine: "Show Sunshine Duration Chart",
       show_warnings: "Show Weather Warnings",
-      show_wind: "Show Wind",
+      show_wind: "Show Wind Chart",
       enable_animate_weather_icons: "Enable Animated Weather Icons"
     },
     location: "Switzerland",
@@ -2226,7 +2226,6 @@ let Z = class extends N {
       "wind_entity",
       "wind_direction_entity",
       "sunshine_entity",
-      "precipitation_entity",
       "warning_entity"
     ];
     for (const i of t)
@@ -2430,7 +2429,6 @@ let Z = class extends N {
       wind_entity: typeof this._config?.wind_entity == "string" ? this._config.wind_entity : void 0,
       wind_direction_entity: typeof this._config?.wind_direction_entity == "string" ? this._config.wind_direction_entity : void 0,
       sunshine_entity: typeof this._config?.sunshine_entity == "string" ? this._config.sunshine_entity : void 0,
-      // precipitation_entity removed
       warning_entity: typeof this._config?.warning_entity == "string" ? this._config.warning_entity : void 0,
       show_forecast: this._config?.show_forecast ?? !1,
       forecast_hours: this._config?.forecast_hours ?? 6,
@@ -2476,7 +2474,6 @@ let Z = class extends N {
     wind_entity: h("config.wind_entity"),
     wind_direction_entity: h("config.wind_direction_entity"),
     sunshine_entity: h("config.sunshine_entity"),
-    // precipitation_entity removed
     warning_entity: h("config.warning_entity"),
     show_forecast: h("config.show_forecast"),
     forecast_hours: h("config.forecast_hours"),

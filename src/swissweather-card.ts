@@ -13,7 +13,7 @@ import type {
   SwissWeatherWarning,
   LovelaceCardEditor,
 } from './types/home-assistant.js';
-import { getWeatherIcon } from './icons/index.js';
+import { getWeatherIcon } from './icons/';
 
 // Extend the config interface for the new type
 type SwissWeatherCardConfig = Omit<BaseSwissWeatherCardConfig, 'type'> & {
