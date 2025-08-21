@@ -82,6 +82,9 @@ export const translations = {
     no_forecast_data_hint: 'Prüfen Sie die Developer Tools → Services → weather.get_forecasts',
     sunrise: 'Sonnenaufgang',
     sunset: 'Sonnenuntergang',
+    valid_from: 'Gültig ab',
+    valid_to: 'Gültig bis',
+    unknown: 'Unbekannt',
   },
   en: {
     config: {
@@ -164,5 +167,8 @@ export const translations = {
     no_forecast_data_hint: 'Check Developer Tools → Services → weather.get_forecasts',
     sunrise: 'Sunrise',
     sunset: 'Sunset',
+    valid_from: 'Valid from',
+    valid_to: 'Valid to',
+    unknown: 'Unknown',
   },
 };

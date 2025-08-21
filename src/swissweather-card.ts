@@ -3,6 +3,7 @@ import { translations } from './translations.js';
 import { LitElement, html, css, PropertyValues, TemplateResult, svg } from 'lit';
 import { use, translate as _t, registerTranslateConfig } from 'lit-translate';
 import { customElement, property, state } from 'lit/decorators.js';
+import { marked } from 'marked';
 import type {
   HomeAssistant,
   HassEntity,
@@ -632,34 +633,87 @@ export class SwissWeatherCard extends LitElement {
         });
     }
     const warningLevel = this._getWarningLevel(warnings);
+    // Helper: Map warning type to icon
+    const typeToIcon: Record<string, string> = {
+      storm: 'mdi:weather-lightning',
+      rain: 'mdi:weather-pouring',
+      snow: 'mdi:snowflake',
+      wind: 'mdi:weather-windy',
+      fog: 'mdi:weather-fog',
+      heat: 'mdi:weather-sunny-alert',
+      cold: 'mdi:snowflake-alert',
+      flood: 'mdi:waves',
+      // add more as needed
+      default: 'mdi:alert',
+    };
+
+    // Collapsible state for each warning
+    // Use a state property to track open/closed state
+    if (!this._openWarnings) this._openWarnings = {};
+    const toggleWarning = (id: string) => {
+      this._openWarnings = { ...this._openWarnings, [id]: !this._openWarnings[id] };
+      this.requestUpdate();
+    };
 
     return warnings.length > 0
       ? html`
           <div class="warning-section ${warningLevel}">
-            <div class="warning-icon">
-              <ha-icon icon="mdi:alert" style="color: var(--error-color, #dc143c);"></ha-icon>
-            </div>
             <div>
               <strong>${_t('weather_warning')}</strong>
               <ul style="margin: 6px 0 0 0; padding-left: 18px;">
                 ${warnings.map(
                   w => html`
-                    <li>
-                      ${w.title && w.description && w.link && w.type
-                        ? html`<strong>${w.title}</strong>: ${w.type}<br />${w.description} -
-                            <a
-                              href="${w.link}"
-                              target="_blank"
-                              style="color: var(--primary-text-color, #fff); text-decoration: underline;"
-                              >Link</a
-                            >`
-                        : w.title && w.description && w.type
-                          ? html`<strong>${w.title}</strong>: ${w.type}<br />${w.description}`
-                          : w.title && w.description
-                            ? html`<strong>${w.title}</strong>: ${w.description}`
-                            : w.title
-                              ? html`<strong>${w.title}</strong>`
-                              : w.description || _t('warnings')}
+                    <li style="margin-bottom: 12px;">
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <ha-icon
+                          icon="${typeToIcon[w.type?.toLowerCase?.()] || typeToIcon.default}"
+                          style="color: var(--error-color, #dc143c);"
+                        ></ha-icon>
+                        <span style="font-weight:bold;">${w.title}</span>
+                        ${w.link
+                          ? html`
+                              <a
+                                href="${w.link}"
+                                target="_blank"
+                                style="color: var(--primary-text-color, #fff); text-decoration: underline; display: flex; align-items: center;"
+                                title="More info"
+                              >
+                                <ha-icon
+                                  icon="mdi:link-variant"
+                                  style="font-size: 16px; margin-left: 2px;"
+                                ></ha-icon>
+                              </a>
+                            `
+                          : ''}
+                        <button
+                          @click=${() => toggleWarning(w.id)}
+                          style="background:none;border:none;cursor:pointer;color:var(--primary-text-color,#fff);font-size:16px;"
+                          title="${this._openWarnings[w.id] ? _t('collapse') : _t('expand')}"
+                          aria-label="${this._openWarnings[w.id] ? _t('collapse') : _t('expand')}"
+                        >
+                          <ha-icon
+                            icon="${this._openWarnings[w.id]
+                              ? 'mdi:chevron-up'
+                              : 'mdi:chevron-down'}"
+                          ></ha-icon>
+                        </button>
+                      </div>
+                      ${this._openWarnings[w.id] && w.description
+                        ? html`
+                            <div>
+                              <strong>${_t('valid_from')}: </strong>
+                              ${w.valid_from
+                                ? new Date(w.valid_from).toLocaleString()
+                                : _t('unknown')}
+                              <strong>${_t('valid_to')}: </strong>
+                              ${w.valid_to ? new Date(w.valid_to).toLocaleString() : _t('unknown')}
+                            </div>
+                            <div
+                              style="color: var(--primary-text-color, #fff); font-size: 14px; line-height: 1.4; margin-left: 2px; margin-top: 4px;"
+                              .innerHTML="${marked.parse(w.description || '')}"
+                            ></div>
+                          `
+                        : ''}
                     </li>
                   `
                 )}
@@ -669,6 +723,8 @@ export class SwissWeatherCard extends LitElement {
         `
       : html``;
   }
+  // Add this state property to your class:
+  @state() private _openWarnings: Record<string, boolean> = {};
 
   private _renderForecastTemperature(forecastHours: number): TemplateResult {
     return this.config.show_temperature !== false

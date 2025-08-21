@@ -40,6 +40,7 @@ const RAW_RUNTIME_STATE =
           ["ha-swissweather-card", "workspace:."],\
           ["lit", "npm:3.3.1"],\
           ["lit-translate", "npm:2.0.1"],\
+          ["marked", "npm:16.2.0"],\
           ["prettier", "npm:3.6.2"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.9.2#optional!builtin<compat/typescript>::version=5.9.2&hash=5786d5"],\
@@ -2549,6 +2550,7 @@ const RAW_RUNTIME_STATE =
           ["ha-swissweather-card", "workspace:."],\
           ["lit", "npm:3.3.1"],\
           ["lit-translate", "npm:2.0.1"],\
+          ["marked", "npm:16.2.0"],\
           ["prettier", "npm:3.6.2"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.9.2#optional!builtin<compat/typescript>::version=5.9.2&hash=5786d5"],\
@@ -3266,6 +3268,15 @@ const RAW_RUNTIME_STATE =
           ["proc-log", "npm:5.0.0"],\
           ["promise-retry", "npm:2.0.1"],\
           ["ssri", "npm:12.0.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["marked", [\
+      ["npm:16.2.0", {\
+        "packageLocation": "../../.yarn/berry/cache/marked-npm-16.2.0-9e1fe8e10c-10c0.zip/node_modules/marked/",\
+        "packageDependencies": [\
+          ["marked", "npm:16.2.0"]\
         ],\
         "linkType": "HARD"\
       }]\

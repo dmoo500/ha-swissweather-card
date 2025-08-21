@@ -2047,6 +2047,7 @@ __metadata:
     eslint-plugin-promise: "npm:^7.2.1"
     lit: "npm:^3.1.4"
     lit-translate: "npm:^2.0.1"
+    marked: "npm:^16.2.0"
     prettier: "npm:^3.3.0"
     tslib: "npm:^2.6.3"
     typescript: "npm:^5.4.5"
@@ -2687,6 +2688,15 @@ __metadata:
     promise-retry: "npm:^2.0.1"
     ssri: "npm:^12.0.0"
   checksum: 10c0/c40efb5e5296e7feb8e37155bde8eb70bc57d731b1f7d90e35a092fde403d7697c56fb49334d92d330d6f1ca29a98142036d6480a12681133a0a1453164cb2f0
+  languageName: node
+  linkType: hard
+
+"marked@npm:^16.2.0":
+  version: 16.2.0
+  resolution: "marked@npm:16.2.0"
+  bin:
+    marked: bin/marked.js
+  checksum: 10c0/aefc418370e916ffeb821d05a585f4311c529268880113ee3695857bfb335119b5b4cd202a5d198fc087f7f3c59f98170ba1994027b2a9b8a172b31e3047ca3a
   languageName: node
   linkType: hard
 

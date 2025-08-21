@@ -1,5 +1,39 @@
 # Release Notes
 
+## [1.2.0] - 2025-08-22
+
+### Added
+
+### Added
+- redesigned the warning display
+- collapsible warning description
+
+<img src="docs/images/warning1.png" width="250" />
+
+<img src="docs/images/warning2.png" width="250" />
+---
+
+### Added
+
+## [1.1.0] - 2025-08-21
+
+### Added
+- Visual Editor: Added options for `show_wind` and `enable_animate_weather_icons`
+- Animated weather icons can be enabled/disabled
+
+### Fixed
+- TypeScript and ESLint errors in CI/CD workflows
+
+### Removed
+- Deprecated `precipitation_entity` option (was not using)
+- Unused files and non-HACS relevant files from the repository
+
+### Other Changes
+- adjusted documentations
+- added more screenshots
+
+---
+
 ## [1.0.0] - 2025-08-17
 
 ### ✨ Features
@@ -48,26 +82,7 @@
 
 ---
 
-## [1.1.0] - 2025-08-21
-
-### Added
-- Visual Editor: Added options for `show_wind` and `enable_animate_weather_icons`
-- Animated weather icons can be enabled/disabled
-
-### Fixed
-- TypeScript and ESLint errors in CI/CD workflows
-
-### Removed
-- Deprecated `precipitation_entity` option (was not using)
-- Unused files and non-HACS relevant files from the repository
-
-### Other Changes
-- adjusted documentations
-- added more screenshots
-
----
-
 ## Roadmap
 
-### 🔄 Version 1.2.0
+### 🔄 Version 1.x.0
 - [ ] **chart ordering** add configuration to ordering charts
