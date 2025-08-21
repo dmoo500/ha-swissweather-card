@@ -15,7 +15,7 @@ import sun from './sun.svg';
 import overcast from './overcast.svg';
 
 // Returns the appropriate MDI icon for a weather condition
-const getMDIIcon = (iconName: string, fontSize?: string) : TemplateResult => {
+const getMDIIcon = (iconName: string, fontSize?: string): TemplateResult => {
   if (!iconName) {
     return html`<ha-icon icon="mdi:weather-sunny" style="font-size:${fontSize}" />`;
   }
@@ -23,13 +23,17 @@ const getMDIIcon = (iconName: string, fontSize?: string) : TemplateResult => {
     fontSize = '24px'; // Default size if not provided
   }
 
-  return html`<ha-icon .icon='${iconName}' style="font-size:${fontSize}" />`
-}
+  return html`<ha-icon .icon="${iconName}" style="font-size:${fontSize}" />`;
+};
 
-export const getWeatherIcon = (condition: WeatherCondition | string, iconType: string,fontSize?: string) : TemplateResult => {
+export const getWeatherIcon = (
+  condition: WeatherCondition | string,
+  iconType: string,
+  fontSize?: string
+): TemplateResult => {
   if (!condition) {
     return getMDIIcon('mdi:weather-sunny', fontSize);
-  }  
+  }
   const mdiMap: Record<WeatherCondition, TemplateResult> = {
     'clear-night': getMDIIcon('mdi:weather-night', fontSize),
     cloudy: getMDIIcon('mdi:weather-cloudy', fontSize),
@@ -47,7 +51,7 @@ export const getWeatherIcon = (condition: WeatherCondition | string, iconType: s
     'windy-variant': getMDIIcon('mdi:weather-windy-variant', fontSize),
     exceptional: getMDIIcon('mdi:weather-hurricane', fontSize),
   };
-    
+
   const svgMap: Record<WeatherCondition, TemplateResult> = {
     'clear-night': html`<img src="${clearNight}" style="font-size:${fontSize}" />`,
     cloudy: html`<img src="${overcast}" style="font-size:${fontSize}" />`,
@@ -66,6 +70,7 @@ export const getWeatherIcon = (condition: WeatherCondition | string, iconType: s
     exceptional: html`<img src="${hurricane}" style="font-size:${fontSize}" />`,
   };
 
-  return iconType === "mdi" ? mdiMap[condition as WeatherCondition] || getMDIIcon('mdi:weather-sunny', fontSize) : svgMap[condition as WeatherCondition] || html`<img src="${sun}" />`
-}
-
+  return iconType === 'mdi'
+    ? mdiMap[condition as WeatherCondition] || getMDIIcon('mdi:weather-sunny', fontSize)
+    : svgMap[condition as WeatherCondition] || html`<img src="${sun}" />`;
+};
