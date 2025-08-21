@@ -1,5 +1,5 @@
 
-> **A modern Home Assistant custom card for Swiss weather, warnings, and forecasts. Integrates with hass-swissweather for accurate Swiss data.**
+> **A modern Home Assistant custom card for Swiss weather, warnings, and forecasts. Use with [hass-swissweather](https://github.com/izacus/hass-swissweather) to show warnings and accurate Swiss data.**
 
 # SwissWeather Home Assistant Card
 
@@ -13,22 +13,29 @@ A custom Home Assistant card that recreates the look and feel of the official Sw
 - Icons for various weather hazards
 - Automatic display when warnings are active
 
-### 🌧️ **Precipitation & Forecast**
-- Hourly precipitation forecast with bar chart  
+### 🌧️ **Forecasts**
 - 7-day weather forecast with icons
-- Precipitation probability
-- Radar-like visualization
+- Min/Max temperatures on daily forecast
+- Hourly temperature forecast with line chart
+- Hourly precipitation forecast with bar chart  
+- Hourly Sunshine forecast with bar chart
+- Hourly wind and -direction forecast with line chart
+- wind direction in the chart
 
-### ☀️ **Sunshine & UV**
-- Daily sunshine duration in hours
-- Integration with HA sunshine sensors
-- UV index support
-- Gust forecast and Beaufort scale
-- Min/Max temperatures
 
-- ✅ **Entity picker** for all sensors
-- **German localization** for all labels
-- **No separate files** – everything in `swissweather-card.js`
+### ☀️ **Sunshine **
+- Hourly Sunshine forecast with bar chart
+- Integration with HA sunshine sensors to show sunset and sunrise in the chart
+
+### ✅ **animated Icons**
+- animated weather icons (can be switched off)
+
+## 📱 Screenshots
+
+
+| All enabled | All disabled | warn + forecast | temp diagram |
+| ----------- | ------------ | --------------- | ------------ |
+| <img src="docs/images/desktop_max.png" width="250"/> |  <img src="docs/images/desktop_minimal.png" width="250"/> | <img src="docs/images/desktop_warn_forecast.png" width="250"/> |  <img src="docs/images/desktop_temp.png" width="250"/> |
 
 ## 🛠️ Installation
 
@@ -55,8 +62,6 @@ lovelace:
 
 The SwissWeather Card comes with a full visual editor for the Lovelace UI:
 
-- **Responsive**: Optimized for desktop and mobile
-
 ### Usage:
 1. **Edit dashboard** → **Add card**
 2. Select **"SwissWeather Card"** from the list
@@ -67,10 +72,17 @@ The SwissWeather Card comes with a full visual editor for the Lovelace UI:
 #### 📊 Additional Sensors (Optional)
 
 #### 🎨 Display Options
-- **Weather forecast**: Toggle 7-day forecast
-- **Precipitation chart**: Toggle hourly chart  
 - **Weather warnings**: Toggle warning display
-- **Compact mode**: Smaller card for mobile devices
+- **Temprature chart**: Toggle hourly chart
+- **Precipitation chart**: Toggle hourly chart  
+- **Sunshine char**: Toggle hourly chart
+- **Wind chart**: Toggle hourly chart
+- **Weather forecast**: Toggle 7-day forecast
+- **Animated Weather Icons**: show animated Weather Icons
+- **forecast hours**: select 6, 12 or 18 hours to show
+
+## ⚠️ Known Issues
+If you select 12 or 18 hours in the forecast charts it is possible that some bars and/or some value texts are outside of the card
 
 ## ⚙️ Configuration
 
@@ -94,15 +106,14 @@ wind_direction_entity: sensor.wind_bearing
 sunshine_entity: sensor.sunshine_duration
 precipitation_entity: sensor.precipitation_forecast
 sun_entity: sun.sun
-show_forecast: true
+show_warnings: false
+show_temperature: false
+show_precipitation: false
+show_sunshine: false
+show_wind: false
+enable_animate_weather_icons: true
+show_forecast: false
 forecast_hours: 12
-show_hourly: true
-show_temperature: true
-show_sunshine: true
-show_warnings: true
-show_precipitation: true
-compact_mode: false
-theme: auto
 ```
 
 ### Options
@@ -116,18 +127,24 @@ theme: auto
 | `wind_direction_entity`| string | Optional     | Entity for wind direction          |
 | `sunshine_entity`     | string  | Optional     | Entity for sunshine duration       |
 | `precipitation_entity`| string  | Optional     | Entity for precipitation forecast  |
-| `show_forecast`       | boolean | `true`       | Show 7-day forecast               |
-| `show_hourly`         | boolean | `true`       | Show hourly forecast              |
 | `show_warnings`       | boolean | `true`       | Show weather warnings             |
-| `show_precipitation`  | boolean | `true`       | Show precipitation chart          |
-| `compact_mode`        | boolean | `false`      | Compact view                      |
-| `theme`               | string  | "auto"      | Theme: `light`, `dark`, `auto`    |
+| `show_temperature`    | boolean | `true`       | Show temperature hourly forecast chart |
+| `show_precipitation`  | boolean | `true`       | Show precipitation hourly forecastchart |
+| `show_sun`            | boolean | `true`       | Show sun hourly forecastchart     |
+| `show_wind`           | boolean | `false`      | Show wind hourly forecastchart    |
+| `enable_animate_weather_icons`| boolean | true | show HA MDI weather icons or animated weather icons |
+| `show_forecast`       | boolean | `true`       | Show 7-day forecast               |
+| `forecast_hours`      | number  | 6            | How many hours you will see on.   |
 
 ## 🔧 Recommended Integrations
 
 ### hass-swissweather
 
 This card is compatible with the [hass-swissweather](https://github.com/izacus/hass-swissweather) integration by @izacus, which provides high-quality Swiss weather data and warnings directly in Home Assistant. For best results, use this integration as your data source for weather, warnings, and sensor entities.
+
+### weather icons
+
+This card is using the animated svg icons from [Meteocons](https://github.com/basmilius/weather-icons)
 
 ## 🛠️ Development
 
@@ -145,19 +162,6 @@ yarn lint         # Code linting
 yarn format       # Code formatting
 yarn build        # Production build
 ```
-
-### Demo
-```bash
-# Open demo in browser
-open demo.html
-```
-
-- **Responsive grid layout**
-- **Accessibility standards (WCAG 2.1)**
-
-## 📱 Screenshots
-
-[<img src="docs/images/desktop.png" width="250"/>]
 
 ## 🤝 Contributing
 

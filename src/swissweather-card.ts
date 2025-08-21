@@ -13,6 +13,7 @@ import type {
   SwissWeatherWarning,
   LovelaceCardEditor,
 } from './types/home-assistant.js';
+import { getWeatherIcon } from './icons/index.js';
 
 // Extend the config interface for the new type
 type SwissWeatherCardConfig = Omit<BaseSwissWeatherCardConfig, 'type'> & {
@@ -450,7 +451,8 @@ export class SwissWeatherCard extends LitElement {
       show_precipitation: true,
       show_sunshine: true,
       show_warnings: true,
-      compact_mode: false,
+      show_wind: true,
+      enable_animate_weather_icons: true
     };
   }
 
@@ -516,20 +518,9 @@ export class SwissWeatherCard extends LitElement {
         },
       },
       {
-        name: 'show_forecast',
+        name: 'show_warnings',
         selector: {
           boolean: {},
-        },
-      },
-      {
-        name: 'forecast_hours',
-        selector: {
-          number: {
-            min: 6,
-            max: 18,
-            step: 6,
-            mode: 'box',
-          },
         },
       },
       {
@@ -551,15 +542,33 @@ export class SwissWeatherCard extends LitElement {
         },
       },
       {
-        name: 'show_warnings',
+        name: 'show_wind',
+        selector: {
+          boolean: {},
+        },
+      },    
+      {
+        name: 'enable_animate_weather_icons',
         selector: {
           boolean: {},
         },
       },
       {
-        name: 'compact_mode',
+        name: 'show_forecast',
         selector: {
           boolean: {},
+        },
+      },
+      {
+        name: 'forecast_hours',
+        selector: {
+          number: {
+            min: 6,
+            max: 18,
+            mode: 'box',
+            unit_of_measurement: 'h',
+            step: 6,
+          },
         },
       },
     ];
@@ -567,28 +576,6 @@ export class SwissWeatherCard extends LitElement {
 
   private _getEntityState(entityId: string): HassEntity | undefined {
     return this.hass?.states[entityId];
-  }
-
-  // Returns the appropriate MDI icon for a weather condition
-  private _getWeatherMdiIcon(condition: WeatherCondition | string): string {
-    const mdiMap: Record<WeatherCondition, string> = {
-      'clear-night': 'mdi:weather-night',
-      cloudy: 'mdi:weather-cloudy',
-      fog: 'mdi:weather-fog',
-      hail: 'mdi:weather-hail',
-      lightning: 'mdi:weather-lightning',
-      'lightning-rainy': 'mdi:weather-lightning-rainy',
-      partlycloudy: 'mdi:weather-partly-cloudy',
-      pouring: 'mdi:weather-pouring',
-      rainy: 'mdi:weather-rainy',
-      snowy: 'mdi:weather-snowy',
-      'snowy-rainy': 'mdi:weather-snowy-rainy',
-      sunny: 'mdi:weather-sunny',
-      windy: 'mdi:weather-windy',
-      'windy-variant': 'mdi:weather-windy-variant',
-      exceptional: 'mdi:weather-hurricane',
-    };
-    return mdiMap[condition as WeatherCondition] || 'mdi:weather-sunny';
   }
 
   private _getWarningLevel(warnings: SwissWeatherWarning[]): string {
@@ -697,11 +684,11 @@ export class SwissWeatherCard extends LitElement {
               </div>
               <div class="chart-line" style="position:relative;">
                 ${this._hourlyForecast.slice(0, forecastHours).map((hour: WeatherForecast) => {
-                  const value =
-                    typeof hour.temperature === 'number' && !isNaN(hour.temperature)
-                      ? hour.temperature
-                      : null;
-                  return html`
+          const value =
+            typeof hour.temperature === 'number' && !isNaN(hour.temperature)
+              ? hour.temperature
+              : null;
+          return html`
                     <div
                       style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end;margin-bottom:10px;"
                     >
@@ -712,51 +699,51 @@ export class SwissWeatherCard extends LitElement {
                       </span>
                     </div>
                   `;
-                })}
+        })}
               </div>
               <div style="width:100%;height:90px;overflow-x:auto;">
                 ${(() => {
-                  const tempsRaw = this._hourlyForecast
-                    .slice(0, forecastHours)
-                    .map(h =>
-                      typeof h.temperature === 'number' && !isNaN(h.temperature)
-                        ? h.temperature
-                        : null
-                    );
-                  const temps: number[] = tempsRaw.filter((t): t is number => t !== null);
-                  if (temps.length < 2) return '';
-                  const min = Math.min(...temps);
-                  const max = Math.max(...temps);
-                  const range = max - min || 1;
-                  const n = tempsRaw.length;
-                  const w = Math.max(360, Math.min(1600, n * 250));
-                  const h = 50;
-                  const step = w / (n - 1);
-                  const points = tempsRaw
-                    .map((t, i) => (t !== null ? `${i * step},${h - ((t - min) / range) * h}` : ''))
-                    .filter(Boolean)
-                    .join(' ');
-                  const svgWidth =
-                    forecastHours === 6
-                      ? '84%'
-                      : forecastHours === 12
-                        ? '90%'
-                        : forecastHours === 18
-                          ? '96%'
-                          : '100%';
-                  const svgPadding =
-                    forecastHours === 6
-                      ? '8%'
-                      : forecastHours === 12
-                        ? '5%'
-                        : forecastHours === 18
-                          ? '2%'
-                          : '0%';
-                  return svg`<svg width="${svgWidth}" height="${h}" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" style="display:block;padding-left:${svgPadding};">
+            const tempsRaw = this._hourlyForecast
+              .slice(0, forecastHours)
+              .map(h =>
+                typeof h.temperature === 'number' && !isNaN(h.temperature)
+                  ? h.temperature
+                  : null
+              );
+            const temps: number[] = tempsRaw.filter((t): t is number => t !== null);
+            if (temps.length < 2) return '';
+            const min = Math.min(...temps);
+            const max = Math.max(...temps);
+            const range = max - min || 1;
+            const n = tempsRaw.length;
+            const w = Math.max(360, Math.min(1600, n * 250));
+            const h = 50;
+            const step = w / (n - 1);
+            const points = tempsRaw
+              .map((t, i) => (t !== null ? `${i * step},${h - ((t - min) / range) * h}` : ''))
+              .filter(Boolean)
+              .join(' ');
+            const svgWidth =
+              forecastHours === 6
+                ? '84%'
+                : forecastHours === 12
+                  ? '90%'
+                  : forecastHours === 18
+                    ? '96%'
+                    : '100%';
+            const svgPadding =
+              forecastHours === 6
+                ? '8%'
+                : forecastHours === 12
+                  ? '5%'
+                  : forecastHours === 18
+                    ? '2%'
+                    : '0%';
+            return svg`<svg width="${svgWidth}" height="${h}" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" style="display:block;padding-left:${svgPadding};">
                         <polyline points="${points}" fill="none" stroke="#db4a34" stroke-width="3" />
                         ${tempsRaw.map((t, i) => (t !== null ? svg`<circle r="3" fill="#db4a34" cx="${i * step}" cy="${h - ((t - min) / range) * h}" />` : null))}
                         </svg>`;
-                })()}
+          })()}
               </div>
               ${this._showHoursChartLabel(forecastHours)}
             </div>
@@ -788,12 +775,12 @@ export class SwissWeatherCard extends LitElement {
               </div>
               <div class="chart-bars">
                 ${this._hourlyForecast.slice(0, forecastHours).map((hour: WeatherForecast) => {
-                  const value =
-                    typeof hour.precipitation === 'number' && !isNaN(hour.precipitation)
-                      ? hour.precipitation
-                      : null;
-                  const barHeight = value !== null ? Math.round(value * 10) : 2;
-                  return html`
+          const value =
+            typeof hour.precipitation === 'number' && !isNaN(hour.precipitation)
+              ? hour.precipitation
+              : null;
+          const barHeight = value !== null ? Math.round(value * 10) : 2;
+          return html`
                     <div
                       style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end;"
                     >
@@ -809,7 +796,7 @@ export class SwissWeatherCard extends LitElement {
                       <div class="chart-bar-precipitation" style="height: ${barHeight}px;"></div>
                     </div>
                   `;
-                })}
+        })}
               </div>
               ${this._showHoursChartLabel(forecastHours)}
             </div>
@@ -835,7 +822,7 @@ export class SwissWeatherCard extends LitElement {
   ): TemplateResult {
     return this.config.show_sunshine !== false
       ? // Type extension for sunshine chart (workaround)
-        this._hourlyForecast.length > 0 &&
+      this._hourlyForecast.length > 0 &&
         this._hourlyForecast.slice(0, forecastHours).some(h => {
           const hour = h as WeatherForecast & { sunshine?: number; sunshine_duration?: number };
           return (
@@ -851,36 +838,36 @@ export class SwissWeatherCard extends LitElement {
               </div>
               <div class="chart-bars" style="position:relative;">
                 ${(() => {
-                  // Calculate sunrise/sunset overlay
-                  // @ts-expect-error: sunrise/sunset are not in the type, but often present
-                  const sunrise = weatherEntity?.attributes?.sunrise
-                    ? new Date((weatherEntity.attributes as any).sunrise)
-                    : new Date((sun_entity?.attributes as any).next_rising) || null;
-                  // @ts-expect-error: sunrise/sunset are not in the type, but often present
-                  const sunset = weatherEntity?.attributes?.sunset
-                    ? new Date((weatherEntity.attributes as any).sunset)
-                    : new Date((sun_entity?.attributes as any).next_setting) || null;
-                  const firstHour = this._hourlyForecast[0]?.datetime
-                    ? new Date(this._hourlyForecast[0].datetime)
-                    : null;
-                  let sunriseIdx = -1,
-                    sunsetIdx = -1;
-                  if (sunrise && firstHour) {
-                    sunriseIdx = Math.round(
-                      (sunrise.getTime() - firstHour.getTime()) / (60 * 60 * 1000) + 1
-                    );
-                  }
-                  if (sunset && firstHour) {
-                    sunsetIdx = Math.round(
-                      (sunset.getTime() - firstHour.getTime()) / (60 * 60 * 1000) + 1
-                    );
-                  }
-                  return html`
+            // Calculate sunrise/sunset overlay
+            // @ts-expect-error: sunrise/sunset are not in the type, but often present
+            const sunrise = weatherEntity?.attributes?.sunrise
+              ? new Date((weatherEntity.attributes as any).sunrise)
+              : new Date((sun_entity?.attributes as any).next_rising) || null;
+            // @ts-expect-error: sunrise/sunset are not in the type, but often present
+            const sunset = weatherEntity?.attributes?.sunset
+              ? new Date((weatherEntity.attributes as any).sunset)
+              : new Date((sun_entity?.attributes as any).next_setting) || null;
+            const firstHour = this._hourlyForecast[0]?.datetime
+              ? new Date(this._hourlyForecast[0].datetime)
+              : null;
+            let sunriseIdx = -1,
+              sunsetIdx = -1;
+            if (sunrise && firstHour) {
+              sunriseIdx = Math.round(
+                (sunrise.getTime() - firstHour.getTime()) / (60 * 60 * 1000) + 1
+              );
+            }
+            if (sunset && firstHour) {
+              sunsetIdx = Math.round(
+                (sunset.getTime() - firstHour.getTime()) / (60 * 60 * 1000) + 1
+              );
+            }
+            return html`
                     ${sunriseIdx >= 0 && sunriseIdx < forecastHours
-                      ? html`
+                ? html`
                           <div
                             style="position:absolute;left:calc(${(sunriseIdx / forecastHours) *
-                            100}% - 10px);top:0;height:100%;width:20px;pointer-events:none;z-index:2;display:flex;flex-direction:column;align-items:center;"
+                  100}% - 10px);top:0;height:100%;width:20px;pointer-events:none;z-index:2;display:flex;flex-direction:column;align-items:center;"
                           >
                             <ha-icon
                               icon="mdi:weather-sunset-up"
@@ -889,20 +876,20 @@ export class SwissWeatherCard extends LitElement {
                             <span style="font-size:10px;color:#fbc02d;"
                               >${_t('sunrise')}
                               ${sunrise
-                                ? sunrise.toLocaleTimeString([], {
-                                    hour: '2-digit',
-                                    minute: '2-digit',
-                                  })
-                                : ''}</span
+                    ? sunrise.toLocaleTimeString([], {
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    })
+                    : ''}</span
                             >
                           </div>
                         `
-                      : ''}
+                : ''}
                     ${sunsetIdx >= 0 && sunsetIdx < forecastHours
-                      ? html`
+                ? html`
                           <div
                             style="position:absolute;left:calc(${(sunsetIdx / forecastHours) *
-                            100}% - 10px);top:0;height:100%;width:20px;pointer-events:none;z-index:2;display:flex;flex-direction:column;align-items:center;"
+                  100}% - 10px);top:0;height:100%;width:20px;pointer-events:none;z-index:2;display:flex;flex-direction:column;align-items:center;"
                           >
                             <ha-icon
                               icon="mdi:weather-sunset-down"
@@ -911,32 +898,32 @@ export class SwissWeatherCard extends LitElement {
                             <span style="font-size:10px;color:#fbc02d;align-items:center;"
                               >${_t('sunset')}
                               ${sunset
-                                ? sunset.toLocaleTimeString([], {
-                                    hour: '2-digit',
-                                    minute: '2-digit',
-                                  })
-                                : ''}</span
+                    ? sunset.toLocaleTimeString([], {
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    })
+                    : ''}</span
                             >
                           </div>
                         `
-                      : ''}
+                : ''}
                   `;
-                })()}
+          })()}
                 ${this._hourlyForecast.slice(0, forecastHours).map((h: WeatherForecast) => {
-                  const hour = h as WeatherForecast & {
-                    sunshine?: number;
-                    sunshine_duration?: number;
-                  };
-                  // Try both possible properties: sunshine or sunshine_duration
-                  const value =
-                    typeof hour.sunshine === 'number' && !isNaN(hour.sunshine)
-                      ? hour.sunshine
-                      : typeof hour.sunshine_duration === 'number' && !isNaN(hour.sunshine_duration)
-                        ? hour.sunshine_duration
-                        : null;
-                  // Bar height: 0-60 minutes → 0-60px
-                  const barHeight = value !== null ? Math.round(value) : 2;
-                  return html`
+            const hour = h as WeatherForecast & {
+              sunshine?: number;
+              sunshine_duration?: number;
+            };
+            // Try both possible properties: sunshine or sunshine_duration
+            const value =
+              typeof hour.sunshine === 'number' && !isNaN(hour.sunshine)
+                ? hour.sunshine
+                : typeof hour.sunshine_duration === 'number' && !isNaN(hour.sunshine_duration)
+                  ? hour.sunshine_duration
+                  : null;
+            // Bar height: 0-60 minutes → 0-60px
+            const barHeight = value !== null ? Math.round(value) : 2;
+            return html`
                     <div
                       style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end;"
                     >
@@ -948,7 +935,7 @@ export class SwissWeatherCard extends LitElement {
                       <div class="chart-bar-sunshine" style="height: ${barHeight}px;"></div>
                     </div>
                   `;
-                })}
+          })}
               </div>
               ${this._showHoursChartLabel(forecastHours)}
             </div>
@@ -968,11 +955,12 @@ export class SwissWeatherCard extends LitElement {
   }
 
   private _renderForecastWind(forecastHours: number): TemplateResult {
-    return this._hourlyForecast.length > 0 &&
-      this._hourlyForecast
-        .slice(0, forecastHours)
-        .some(h => typeof h.wind_speed === 'number' && !isNaN(h.wind_speed))
-      ? html`
+    return this.config.show_sunshine !== false ?
+      this._hourlyForecast.length > 0 &&
+        this._hourlyForecast
+          .slice(0, forecastHours)
+          .some(h => typeof h.wind_speed === 'number' && !isNaN(h.wind_speed))
+        ? html`
           <div class="chart">
             <div class="section-title">
               <ha-icon icon="mdi:weather-windy"></ha-icon>
@@ -980,11 +968,11 @@ export class SwissWeatherCard extends LitElement {
             </div>
             <div class="chart-line-wind" style="position:relative;">
               ${this._hourlyForecast.slice(0, forecastHours).map((hour: WeatherForecast) => {
-                const value =
-                  typeof hour.wind_speed === 'number' && !isNaN(hour.wind_speed)
-                    ? hour.wind_speed
-                    : null;
-                return html`
+          const value =
+            typeof hour.wind_speed === 'number' && !isNaN(hour.wind_speed)
+              ? hour.wind_speed
+              : null;
+          return html`
                   <div
                     style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end;"
                   >
@@ -995,16 +983,16 @@ export class SwissWeatherCard extends LitElement {
                     </span>
                   </div>
                 `;
-              })}
+        })}
             </div>
             <div class="chart-line-wind" style="position:relative;">
               ${this._hourlyForecast.slice(0, forecastHours).map((hour: WeatherForecast) => {
-                const value =
-                  typeof hour.wind_bearing === 'number' && !isNaN(hour.wind_bearing)
-                    ? hour.wind_bearing
-                    : null;
-                const windDirection = value !== null ? value : 0; // Fallback to 0 if no value is present
-                return html`
+          const value =
+            typeof hour.wind_bearing === 'number' && !isNaN(hour.wind_bearing)
+              ? hour.wind_bearing
+              : null;
+          const windDirection = value !== null ? value : 0; // Fallback to 0 if no value is present
+          return html`
                   <div
                     style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;"
                   >
@@ -1016,53 +1004,54 @@ export class SwissWeatherCard extends LitElement {
                     </div>
                   </div>
                 `;
-              })}
+        })}
             </div>
             <div style="width:100%;height:90px;overflow-x:auto;">
               ${(() => {
-                const windRaw = this._hourlyForecast
-                  .slice(0, forecastHours)
-                  .map(h =>
-                    typeof h.wind_speed === 'number' && !isNaN(h.wind_speed) ? h.wind_speed : null
-                  );
-                const winds: number[] = windRaw.filter((t): t is number => t !== null);
-                if (winds.length < 2) return '';
-                const min = Math.min(...winds);
-                const max = Math.max(...winds);
-                const range = max - min || 1;
-                const n = windRaw.length;
-                const w = Math.max(360, Math.min(1600, n * 250));
-                const h = 50;
-                const step = w / (n - 1);
-                const points = windRaw
-                  .map((t, i) => (t !== null ? `${i * step},${h - ((t - min) / range) * h}` : ''))
-                  .filter(Boolean)
-                  .join(' ');
-                const svgWidth =
-                  forecastHours === 6
-                    ? '84%'
-                    : forecastHours === 12
-                      ? '90%'
-                      : forecastHours === 18
-                        ? '96%'
-                        : '100%';
-                const svgPadding =
-                  forecastHours === 6
-                    ? '8%'
-                    : forecastHours === 12
-                      ? '5%'
-                      : forecastHours === 18
-                        ? '2%'
-                        : '0%';
-                return svg`<svg width="${svgWidth}" height="${h}" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" style="display:block;padding-left:${svgPadding};">
+            const windRaw = this._hourlyForecast
+              .slice(0, forecastHours)
+              .map(h =>
+                typeof h.wind_speed === 'number' && !isNaN(h.wind_speed) ? h.wind_speed : null
+              );
+            const winds: number[] = windRaw.filter((t): t is number => t !== null);
+            if (winds.length < 2) return '';
+            const min = Math.min(...winds);
+            const max = Math.max(...winds);
+            const range = max - min || 1;
+            const n = windRaw.length;
+            const w = Math.max(360, Math.min(1600, n * 250));
+            const h = 50;
+            const step = w / (n - 1);
+            const points = windRaw
+              .map((t, i) => (t !== null ? `${i * step},${h - ((t - min) / range) * h}` : ''))
+              .filter(Boolean)
+              .join(' ');
+            const svgWidth =
+              forecastHours === 6
+                ? '84%'
+                : forecastHours === 12
+                  ? '90%'
+                  : forecastHours === 18
+                    ? '96%'
+                    : '100%';
+            const svgPadding =
+              forecastHours === 6
+                ? '8%'
+                : forecastHours === 12
+                  ? '5%'
+                  : forecastHours === 18
+                    ? '2%'
+                    : '0%';
+            return svg`<svg width="${svgWidth}" height="${h}" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" style="display:block;padding-left:${svgPadding};">
                 <polyline points="${points}" fill="none" stroke="#44739e" stroke-width="3" />
                 ${windRaw.map((t, i) => (t !== null ? svg`<circle r="3" fill="#44739e" cx="${i * step}" cy="${h - ((t - min) / range) * h}" />` : null))}
               </svg>`;
-              })()}
+          })()}
             </div>
             ${this._showHoursChartLabel(forecastHours)}
           </div>
         `
+        : html``
       : html``;
   }
 
@@ -1093,8 +1082,8 @@ export class SwissWeatherCard extends LitElement {
                 <div class="section-title">
                   <ha-icon icon="mdi:calendar"></ha-icon>
                   ${forecast.length === 7
-                    ? _t('7d_forecast')
-                    : _t('xd_forecast', { days: forecast.length })}
+              ? _t('7d_forecast')
+              : _t('xd_forecast', { days: forecast.length })}
                   <small
                     style="font-size: 12px; color: var(--secondary-text-color, #666); margin-left: 10px;"
                   >
@@ -1102,24 +1091,21 @@ export class SwissWeatherCard extends LitElement {
                   </small>
                 </div>
                 ${forecast.length < 7
-                  ? html`
+              ? html`
                       <div
                         style="text-align: center; color: var(--warning-color, #b8860b); font-size: 13px; margin-bottom: 8px;"
                       >
                         ${_t('forecast_days_hint', { count: forecast.length })}
                       </div>
                     `
-                  : ''}
+              : ''}
                 <div class="forecast-grid">
                   ${forecast.slice(0, 7).map(
-                    (day: WeatherForecast) => html`
+                (day: WeatherForecast) => html`
                       <div class="forecast-day">
                         <div class="forecast-date">${this._formatDate(day.datetime)}</div>
                         <div class="forecast-icon">
-                          <ha-icon
-                            .icon=${this._getWeatherMdiIcon(day.condition)}
-                            style="font-size: 24px; color: var(--state-icon-color, #44739e);"
-                          ></ha-icon>
+                          ${getWeatherIcon(day.condition, this.config.enable_animate_weather_icons ? "animated" : "mdi", "24px")}
                         </div>
                         <div class="forecast-temps">
                           <span class="temp-high">${Math.round(day.temperature)}°</span>
@@ -1129,7 +1115,7 @@ export class SwissWeatherCard extends LitElement {
                         </div>
                       </div>
                     `
-                  )}
+              )}
                 </div>
               </div>
             `
@@ -1213,11 +1199,8 @@ export class SwissWeatherCard extends LitElement {
           <div class="condition">${_t(condition)}</div>
         </div>
         <div class="current-details">
-          <div class="weather-icon">
-            <ha-icon
-              .icon=${this._getWeatherMdiIcon(condition)}
-              style="font-size: 64px; color: var(--state-icon-color, #44739e);"
-            ></ha-icon>
+          <div class="weather-icon" style="color: var(--icon-color, #fff); width: 64px; height: 64px;">
+            ${getWeatherIcon(condition, this.config.enable_animate_weather_icons ? "animated" : "mdi", "64px")}
           </div>
         </div>
       </div>
@@ -1253,28 +1236,28 @@ export class SwissWeatherCard extends LitElement {
           <div class="metric-label">${_t('pressure')}</div>
         </div>
         ${sunshineEntity
-          ? html`
+        ? html`
               <div class="metric-card">
                 <div class="metric-icon"><ha-icon icon="mdi:white-balance-sunny"></ha-icon></div>
                 <div class="metric-value">${parseFloat(sunshineEntity.state).toFixed(1)}h</div>
                 <div class="metric-label">${_t('sunshine')}</div>
               </div>
             `
-          : ''}
+        : ''}
         ${visibility > 0
-          ? html`
+        ? html`
               <div class="metric-card">
                 <div class="metric-icon"><ha-icon icon="mdi:eye"></ha-icon></div>
                 <div class="metric-value">${visibility} km</div>
                 <div class="metric-label">${_t('visibility')}</div>
               </div>
             `
-          : ''}
+        : ''}
       </div>
 
       ${this.config.show_temperature === true ||
-      this.config.show_precipitation === true ||
-      this.config.show_sunshine === true
+        this.config.show_precipitation === true ||
+        this.config.show_sunshine === true
         ? html`
             <div class="section-title">
               <ha-icon icon="mdi:clock"></ha-icon>
@@ -1293,15 +1276,15 @@ export class SwissWeatherCard extends LitElement {
     return html`
       <div class="chart-labels">
         ${Array.from(
-          { length: hours },
-          (_, i) => html`
+      { length: hours },
+      (_, i) => html`
             <div
               style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end;"
             >
               <span>${i === 0 ? _t('now') : _t('hour', { h: i })}</span>
             </div>
           `
-        )}
+    )}
       </div>
     `;
   }
@@ -1329,7 +1312,6 @@ export class SwissweatherCardEditor extends LitElement implements LovelaceCardEd
       'wind_entity',
       'wind_direction_entity',
       'sunshine_entity',
-      'precipitation_entity',
       'warning_entity',
     ];
     for (const key of entityFields) {
@@ -1479,21 +1461,9 @@ export class SwissweatherCardEditor extends LitElement implements LovelaceCardEd
         },
       },
       {
-        name: 'show_forecast',
+        name: 'show_warnings',
         selector: {
           boolean: {},
-        },
-      },
-      {
-        name: 'forecast_hours',
-        selector: {
-          number: {
-            min: 6,
-            max: 18,
-            mode: 'box',
-            unit_of_measurement: 'h',
-            step: 6,
-          },
         },
       },
       {
@@ -1515,15 +1485,33 @@ export class SwissweatherCardEditor extends LitElement implements LovelaceCardEd
         },
       },
       {
-        name: 'show_warnings',
+        name: 'show_wind',
+        selector: {
+          boolean: {},
+        },
+      },    
+      {
+        name: 'enable_animate_weather_icons',
         selector: {
           boolean: {},
         },
       },
       {
-        name: 'compact_mode',
+        name: 'show_forecast',
         selector: {
           boolean: {},
+        },
+      },
+      {
+        name: 'forecast_hours',
+        selector: {
+          number: {
+            min: 6,
+            max: 18,
+            mode: 'box',
+            unit_of_measurement: 'h',
+            step: 6,
+          },
         },
       },
     ];
@@ -1544,7 +1532,6 @@ export class SwissweatherCardEditor extends LitElement implements LovelaceCardEd
         typeof this._config?.sunshine_entity === 'string'
           ? this._config.sunshine_entity
           : undefined,
-      // precipitation_entity removed
       warning_entity:
         typeof this._config?.warning_entity === 'string' ? this._config.warning_entity : undefined,
       show_forecast: this._config?.show_forecast ?? false,
@@ -1553,7 +1540,8 @@ export class SwissweatherCardEditor extends LitElement implements LovelaceCardEd
       show_precipitation: this._config?.show_precipitation ?? false,
       show_sunshine: this._config?.show_sunshine ?? false,
       show_warnings: this._config?.show_warnings ?? false,
-      compact_mode: this._config?.compact_mode ?? false,
+      show_wind: this._config?.show_wind ?? true,
+      enable_animate_weather_icons: this._config?.enable_animate_weather_icons ?? true,
     };
 
     return html`
@@ -1575,13 +1563,13 @@ export class SwissweatherCardEditor extends LitElement implements LovelaceCardEd
 
         <!-- Configuration Preview -->
         ${this._config?.entity
-          ? html`
+        ? html`
               <div class="preview">
                 <div class="preview-title">📋 YAML-Config</div>
                 <div class="preview-config">${this._renderConfigPreview()}</div>
               </div>
             `
-          : ''}
+        : ''}
       </div>
     `;
   }
@@ -1595,7 +1583,6 @@ export class SwissweatherCardEditor extends LitElement implements LovelaceCardEd
       wind_entity: _t('config.wind_entity'),
       wind_direction_entity: _t('config.wind_direction_entity'),
       sunshine_entity: _t('config.sunshine_entity'),
-      // precipitation_entity removed
       warning_entity: _t('config.warning_entity'),
       show_forecast: _t('config.show_forecast'),
       forecast_hours: _t('config.forecast_hours'),
@@ -1603,7 +1590,9 @@ export class SwissweatherCardEditor extends LitElement implements LovelaceCardEd
       show_precipitation: _t('config.show_precipitation'),
       show_sunshine: _t('config.show_sunshine'),
       show_warnings: _t('config.show_warnings'),
-      compact_mode: _t('config.compact_mode'),
+      show_wind: _t('config.show_wind'),
+      enable_animate_weather_icons: _t('config.enable_animate_weather_icons'),
+
     };
     return labels[schema.name] || schema.name;
   };
@@ -1642,7 +1631,11 @@ export class SwissweatherCardEditor extends LitElement implements LovelaceCardEd
         show_precipitation: true,
         show_sunshine: true,
         show_warnings: true,
-        compact_mode: false,
+        show_wind: true,
+        forecast_hours: 6,
+        enable_animate_weather_icons: true,
+        show_location: true,
+        sun_entity: 'sun.sun'
       };
     }
 

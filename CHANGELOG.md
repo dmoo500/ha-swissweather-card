@@ -9,7 +9,6 @@
 - **Modern Lit Elements 3.x** with decorators
 
 ### 🎨 Design
-- **SwissWeather-inspired design** with Swiss color scheme
 - **Responsive layout** for mobile and desktop
 - **Glassmorphism effects** for a modern look
 - **Accessibility standards** (WCAG 2.1)
@@ -25,7 +24,6 @@
 ### 🔧 Technical
 - **ES2022** target for modern browsers
 - **Yarn 4+** package manager with PnP
-- **Rollup** build system with TypeScript
 - **ESLint + Prettier** for code quality
 - **Strict TypeScript** for type safety
 
@@ -39,10 +37,8 @@
 - **Local date formats** (Sun, Mon, Tue, etc.)
 
 ### 🔌 Integrations
-- **OpenWeatherMap** support
-- **MeteoSwiss** integration (recommended)
+- **hass-swissweather** integration (recommended)
 - **Generic weather** entities
-- **Template sensors** for extended data
 
 ### 📱 Responsive Design
 - **Mobile-first** approach
@@ -52,10 +48,26 @@
 
 ---
 
+## [1.1.0] - 2025-08-21
+
+### Added
+- Visual Editor: Added options for `show_wind` and `enable_animate_weather_icons`
+- Animated weather icons can be enabled/disabled
+
+### Fixed
+- TypeScript and ESLint errors in CI/CD workflows
+
+### Removed
+- Deprecated `precipitation_entity` option (was not using)
+- Unused files and non-HACS relevant files from the repository
+
+### Other Changes
+- adjusted documentations
+- added more screenshots
+
+---
+
 ## Roadmap
 
-### 🔄 Version 1.1.0 (planned)
-- [ ] **enable/disable wind chart** add config to enable/disable the wind chart
-
-### 🔄 Version 1.2.0 (planned)
+### 🔄 Version 1.2.0
 - [ ] **chart ordering** add configuration to ordering charts
