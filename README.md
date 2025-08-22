@@ -37,6 +37,19 @@ A custom Home Assistant card that recreates the look and feel of the official Sw
 | ----------- | ------------ | --------------- | ------------ |
 | <img src="docs/images/desktop_max.png" width="250"/> |  <img src="docs/images/desktop_minimal.png" width="250"/> | <img src="docs/images/desktop_warn_forecast.png" width="250"/> |  <img src="docs/images/desktop_temp.png" width="250"/> |
 
+### since version 1.2.0
+
+new warning:
+
+<img src="docs/images/warning1.png" width="250" />
+
+<img src="docs/images/warning2.png" width="250" />
+
+### since version 1.3.0
+compact mode:
+
+<img src="docs/images/compact-mode.png" width="250" />
+
 ## 🛠️ Installation
 
 ### HACS (recommended)

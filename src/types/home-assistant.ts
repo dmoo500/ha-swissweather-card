@@ -279,5 +279,6 @@ export interface SwissWeatherCardConfig {
   show_sunshine?: boolean;
   show_wind?: boolean;
   enable_animate_weather_icons?: boolean;
+  compact_mode?: boolean;
   theme?: 'mdi' | 'animated';
 }
