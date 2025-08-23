@@ -259,7 +259,7 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
       show_forecast: this._config.show_forecast !== false,
       show_precipitation: this._config.show_precipitation !== false,
       show_warnings: this._config.show_warnings !== false,
-      compact_mode: this._config.compact_mode === true,
+      compact_mode: this._config.compact_mode !== false,
     };
 
     return html`

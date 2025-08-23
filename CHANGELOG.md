@@ -1,8 +1,13 @@
 # Release Notes
 
-## [1.2.0] - 2025-08-22
+## [1.3.0] - 2025-08-23
 
 ### Added
+- compact mode of additional informations of the day (like windspeed or humidity)
+
+<img src="docs/images/compact-mode.png" width="250" />
+
+## [1.2.0] - 2025-08-22
 
 ### Added
 - redesigned the warning display

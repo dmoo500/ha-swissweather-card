@@ -239,6 +239,45 @@ export class SwissWeatherCard extends LitElement {
         gap: 15px;
         margin-bottom: 25px;
       }
+      .metrics-table {
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+      }
+      .metrics-table .metric-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: none;
+        border: none;
+        min-width: 0;
+        box-shadow: none;
+        transition: none;
+      }
+      .metrics-table .metric-card:hover {
+        background: none;
+        border: none;
+        box-shadow: none;
+        transform: none;
+      }
+      .metrics-table > .metric-card > .metric-icon {
+        margin-bottom: 0;
+        margin-right: 8px;
+      }
+      .metrics-table > .metric-card > .wind-compass {
+        min-width: 16px;
+        width: 16px;
+        height: 16px;
+        margin: 13px auto 8px;
+        margin-right: 8px;
+      }
+      .metrics-table > .metric-card > .metric-value {
+        font-size: 12px;
+        font-weight: bold;
+        color: var(--primary-text-color, #2c3e50);
+        margin-bottom: 0;
+        margin-right: 8px;
+      }
 
       .metric-card {
         background: var(--card-background-color, rgba(255, 255, 255, 0.7));
@@ -454,6 +493,7 @@ export class SwissWeatherCard extends LitElement {
       show_warnings: true,
       show_wind: true,
       enable_animate_weather_icons: true,
+      compact_mode: false,
     };
   }
 
@@ -570,6 +610,12 @@ export class SwissWeatherCard extends LitElement {
             unit_of_measurement: 'h',
             step: 6,
           },
+        },
+      },
+      {
+        name: 'compact_mode',
+        selector: {
+          boolean: {},
         },
       },
     ];
@@ -1199,79 +1245,70 @@ export class SwissWeatherCard extends LitElement {
       : html``;
   }
 
-  public render(): TemplateResult {
-    use((this.hass.selectedLanguage || this.hass.language || 'en').substring(0, 2));
-
-    if (!this.hass || !this.config) {
-      return html``;
-    }
-
-    const weatherEntity = this._getEntityState(this.config.entity) as WeatherEntity;
-    const sun_entity = this._getEntityState(this.config.sun_entity || 'sun.sun');
-    if (!weatherEntity) {
-      return html`<div>Entity not found: ${this.config.entity}</div>`;
-    }
-    const showLocation = this.config.show_location !== false;
-    const location = this.config.location || _t('location');
-    const temperature = weatherEntity.attributes.temperature;
-    const condition = weatherEntity.state as WeatherCondition;
-    const forecast = this._forecast; // Use state instead of attributes
-
-    // Get additional sensor data
-    const windEntity = this.config.wind_entity
-      ? this._getEntityState(this.config.wind_entity)
-      : null;
-    const windDirectionEntity = this.config.wind_direction_entity
-      ? this._getEntityState(this.config.wind_direction_entity)
-      : null;
-    const sunshineEntity = this.config.sunshine_entity
-      ? this._getEntityState(this.config.sunshine_entity)
-      : null;
-    // precipitationEntity removed
-    const warningEntity = this.config.warning_entity
-      ? this._getEntityState(this.config.warning_entity)
-      : null;
-
-    const windSpeed = windEntity
-      ? parseFloat(windEntity.state)
-      : weatherEntity.attributes.wind_speed || 0;
-    const windDirection = windDirectionEntity
-      ? parseFloat(windDirectionEntity.state)
-      : weatherEntity.attributes.wind_bearing || 0;
-    const humidity = weatherEntity.attributes.humidity || 0;
-    const pressure = weatherEntity.attributes.pressure || 0;
-    const visibility = weatherEntity.attributes.visibility || 0;
-    const forecastHours = this.config.forecast_hours ?? 6;
-
+  private _renderCurrentWeatherCompactMode(
+    windSpeed: number,
+    windDirection: number,
+    humidity: number,
+    pressure: number,
+    visibility: number,
+    sunshineEntity: HassEntity | null | undefined
+  ): TemplateResult {
     return html`
-      ${showLocation
-        ? html`
-            <div class="header">
-              <div class="location">${location}</div>
-            </div>
-          `
-        : ''}
-      ${this.config.show_warnings ? this._renderWarningSection(warningEntity) : ''}
-
-      <div class="current-weather">
-        <div>
-          <div class="current-temp">${temperature}°</div>
-          <div class="condition">${_t(condition)}</div>
+      <div class="metrics-table">
+        <div class="metric-card">
+          <div class="metric-icon"><ha-icon icon="mdi:weather-windy"></ha-icon></div>
+          <div class="metric-value">${Math.round(windSpeed)} km/h</div>
         </div>
-        <div class="current-details">
-          <div
-            class="weather-icon"
-            style="color: var(--icon-color, #fff); width: 64px; height: 64px;"
-          >
-            ${getWeatherIcon(
-              condition,
-              this.config.enable_animate_weather_icons ? 'animated' : 'mdi',
-              '64px'
-            )}
+        <div class="metric-card">
+          <div class="wind-compass">
+            <div
+              class="wind-arrow"
+              style="transform: translate(-50%, -100%) rotate(${windDirection}deg);"
+            ></div>
           </div>
+          <div class="metric-value">${this._formatWindDirection(windDirection)}</div>
         </div>
-      </div>
+        <div class="metric-card">
+          <div class="metric-icon"><ha-icon icon="mdi:water-percent"></ha-icon></div>
+          <div class="metric-value">${humidity}%</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-icon"><ha-icon icon="mdi:gauge"></ha-icon></div>
+          <div class="metric-value">${pressure} hPa</div>
+        </div>
+        ${
+          sunshineEntity
+            ? html`
+                <div class="metric-card">
+                  <div class="metric-icon"><ha-icon icon="mdi:white-balance-sunny"></ha-icon></div>
+                  <div class="metric-value">${parseFloat(sunshineEntity.state).toFixed(1)}h</div>
+                </div>
+              `
+            : ''
+        }
+        ${
+          visibility > 0
+            ? html`
+                <div class="metric-card">
+                  <div class="metric-icon"><ha-icon icon="mdi:eye"></ha-icon></div>
+                  <div class="metric-value">${visibility} km</div>
+                </div>
+              `
+            : ''
+        }
+      </div
+      `;
+  }
 
+  private _renderCurrentWeather(
+    windSpeed: number,
+    windDirection: number,
+    humidity: number,
+    pressure: number,
+    visibility: number,
+    sunshineEntity: HassEntity | null | undefined
+  ): TemplateResult {
+    return html`
       <div class="section-title">
         <ha-icon icon="mdi:calendar"></ha-icon>
         ${_t('current_weather')}
@@ -1321,10 +1358,127 @@ export class SwissWeatherCard extends LitElement {
             `
           : ''}
       </div>
+    `;
+  }
 
-      ${this.config.show_temperature === true ||
-      this.config.show_precipitation === true ||
-      this.config.show_sunshine === true
+  private _renderCurrentWeatherSection(
+    windSpeed: number,
+    windDirection: number,
+    humidity: number,
+    pressure: number,
+    visibility: number,
+    sunshineEntity: HassEntity | null | undefined
+  ): TemplateResult {
+    return html`
+      <div class="current-weather-section">
+        ${this.config.compact_mode === true
+          ? html`
+              ${this._renderCurrentWeatherCompactMode(
+                windDirection,
+                windSpeed,
+                humidity,
+                pressure,
+                visibility,
+                sunshineEntity
+              )}
+            `
+          : html`
+              ${this._renderCurrentWeather(
+                windDirection,
+                windSpeed,
+                humidity,
+                pressure,
+                visibility,
+                sunshineEntity
+              )}
+            `}
+      </div>
+    `;
+  }
+  public render(): TemplateResult {
+    use((this.hass.selectedLanguage || this.hass.language || 'en').substring(0, 2));
+
+    if (!this.hass || !this.config) {
+      return html``;
+    }
+
+    const weatherEntity = this._getEntityState(this.config.entity) as WeatherEntity;
+    const sun_entity = this._getEntityState(this.config.sun_entity || 'sun.sun');
+    if (!weatherEntity) {
+      return html`<div>Entity not found: ${this.config.entity}</div>`;
+    }
+    const showLocation = this.config.show_location !== false;
+    const location = this.config.location || _t('location');
+    const temperature = weatherEntity.attributes.temperature;
+    const condition = weatherEntity.state as WeatherCondition;
+    const forecast = this._forecast; // Use state instead of attributes
+
+    // Get additional sensor data
+    const windEntity = this.config.wind_entity
+      ? this._getEntityState(this.config.wind_entity)
+      : null;
+    const windDirectionEntity = this.config.wind_direction_entity
+      ? this._getEntityState(this.config.wind_direction_entity)
+      : null;
+    const sunshineEntity = this.config.sunshine_entity
+      ? this._getEntityState(this.config.sunshine_entity)
+      : null;
+    const warningEntity = this.config.warning_entity
+      ? this._getEntityState(this.config.warning_entity)
+      : null;
+
+    const windSpeed = windEntity
+      ? parseFloat(windEntity.state)
+      : weatherEntity.attributes.wind_speed || 0;
+    const windDirection = windDirectionEntity
+      ? parseFloat(windDirectionEntity.state)
+      : weatherEntity.attributes.wind_bearing || 0;
+    const humidity = weatherEntity.attributes.humidity || 0;
+    const pressure = weatherEntity.attributes.pressure || 0;
+    const visibility = weatherEntity.attributes.visibility || 0;
+    const forecastHours = this.config.forecast_hours ?? 6;
+
+    return html`
+      ${showLocation
+        ? html`
+            <div class="header">
+              <div class="location">${location}</div>
+            </div>
+          `
+        : ''}
+      ${this.config.show_warnings ? this._renderWarningSection(warningEntity) : ''}
+
+      <div class="current-weather">
+        <div>
+          <div class="current-temp">${temperature}°</div>
+          <div class="condition">${_t(condition)}</div>
+        </div>
+        <div class="current-details">
+          <div
+            class="weather-icon"
+            style="color: var(--icon-color, #fff); width: 64px; height: 64px;"
+          >
+            ${getWeatherIcon(
+              condition,
+              this.config.enable_animate_weather_icons ? 'animated' : 'mdi',
+              '64px'
+            )}
+          </div>
+        </div>
+      </div>
+
+      ${this._renderCurrentWeatherSection(
+        windSpeed,
+        windDirection,
+        humidity,
+        pressure,
+        visibility,
+        sunshineEntity
+      )}
+      ${this.config.compact_mode === false &&
+      (this.config.show_temperature === true ||
+        this.config.show_precipitation === true ||
+        this.config.show_sunshine === true)
         ? html`
             <div class="section-title">
               <ha-icon icon="mdi:clock"></ha-icon>
@@ -1581,6 +1735,12 @@ export class SwissweatherCardEditor extends LitElement implements LovelaceCardEd
           },
         },
       },
+      {
+        name: 'compact_mode',
+        selector: {
+          boolean: {},
+        },
+      },
     ];
 
     const data = {
@@ -1609,6 +1769,7 @@ export class SwissweatherCardEditor extends LitElement implements LovelaceCardEd
       show_warnings: this._config?.show_warnings ?? false,
       show_wind: this._config?.show_wind ?? true,
       enable_animate_weather_icons: this._config?.enable_animate_weather_icons ?? true,
+      compact_mode: this._config?.compact_mode ?? false,
     };
 
     return html`
@@ -1659,6 +1820,7 @@ export class SwissweatherCardEditor extends LitElement implements LovelaceCardEd
       show_warnings: _t('config.show_warnings'),
       show_wind: _t('config.show_wind'),
       enable_animate_weather_icons: _t('config.enable_animate_weather_icons'),
+      compact_mode: _t('config.compact_mode'),
     };
     return labels[schema.name] || schema.name;
   };
@@ -1702,6 +1864,7 @@ export class SwissweatherCardEditor extends LitElement implements LovelaceCardEd
         enable_animate_weather_icons: true,
         show_location: true,
         sun_entity: 'sun.sun',
+        compact_mode: false,
       };
     }
 
