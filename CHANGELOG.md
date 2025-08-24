@@ -1,4 +1,8 @@
 # Release Notes
+## [1.3.1] - 2025-08-24
+
+- the github release workflow have uploaded the zip file with version number, but not the js file itself
+- with this changes it should be available via HACS again (the last 2 version 1.2.0 and 1.3.0 are not working)
 
 ## [1.3.0] - 2025-08-23
 
