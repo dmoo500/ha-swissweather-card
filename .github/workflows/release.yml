@@ -102,10 +102,6 @@ jobs:
         asset_content_type: application/zip
       continue-on-error: true
         
-    - name: List release folder (for debugging)
-      run: ls -l release/
-      continue-on-error: true
-
     - name: Upload individual file
       uses: actions/upload-release-asset@v1
       env:
