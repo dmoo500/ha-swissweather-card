@@ -108,7 +108,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        upload_url: ${{ steps.create_release.upload_url }}
         asset_path: ./swissweather-card.js
         asset_name: swissweather-card.js
         asset_content_type: application/javascript
