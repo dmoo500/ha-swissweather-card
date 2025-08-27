@@ -1300,6 +1300,128 @@ export class SwissWeatherCard extends LitElement {
       `;
   }
 
+  private _renderDailyForecastDiagram(): TemplateResult {
+    const days = this._forecast?.slice(0, 7) ?? [];
+    const hours = this._hourlyForecast?.slice(0, days.length * 24) ?? [];
+    console.log('Rendering daily forecast diagram with hours:', hours, 'and days:', days);
+    if (!hours.length) return html`<div>Keine Stundenprognose verfügbar</div>`;
+
+    // Temperaturdaten
+    const temps = hours.map(h => typeof h.temperature === 'number' ? h.temperature : null);
+    const minTemp = Math.min(...temps.filter(t => t !== null) as number[]);
+    const maxTemp = Math.max(...temps.filter(t => t !== null) as number[]);
+    const tempRange = maxTemp - minTemp || 1;
+
+    // Niederschlagsdaten
+    const precs = hours.map(h => typeof h.precipitation === 'number' ? h.precipitation : 0);
+    const maxPrecip = Math.max(...precs);
+
+    // SVG-Grundwerte
+    const width = 440;
+    const height = 120;
+    const padding = 32;
+    const n = hours.length;
+    const xStep = (width - 2 * padding) / (n - 1);
+
+    // Temperatur-Linie
+    const tempPoints = temps.map((t, i) =>
+      t !== null
+        ? `${padding + i * xStep},${padding + ((maxTemp - t) / tempRange) * (height - 2 * padding)}`
+        : ''
+    ).filter(Boolean).join(' ');
+
+    // Regen-Balken
+    const barWidth = Math.max(6, Math.floor((width - 2 * padding) / n) - 2);
+    const bars = precs.map((p, i) => {
+      const x = padding + i * xStep - barWidth / 2;
+      const barMax = 40; // px
+      const barHeight = maxPrecip > 0 ? (p / maxPrecip) * barMax : 0;
+      return svg`
+        <rect x="${x}" y="${height - padding - barHeight}" width="${barWidth}" height="${barHeight}"
+          fill="#3498db" opacity="${p > 0 ? 0.7 : 0.15}" rx="2"/>
+      `;
+    });
+
+
+    // Vertikale Linien nur für Tagesanfang
+    const verticals: unknown[] = [];
+    if (days.length > 1) {
+      for (let d = 1; d < days.length; d++) {
+        // Finde Index der ersten Stunde dieses Tages (ab Tag 2)
+        const dayDate = new Date(days[d].datetime);
+        const firstHourIdx = hours.findIndex(h => {
+          const hDate = new Date(h.datetime);
+          return hDate.getDate() === dayDate.getDate() && hDate.getMonth() === dayDate.getMonth();
+        });
+        if (firstHourIdx >= 0) {
+          const x = padding + firstHourIdx * xStep;
+          verticals.push(svg`<line x1="${x}" y1="${padding}" x2="${x}" y2="${height-padding}" stroke="#bbb" stroke-width="1" stroke-dasharray="2,2"/>`);
+        }
+      }
+    }
+
+    // Icons: Nur 1x pro Tag, mittig über dem Tag, min/max links/rechts daneben
+    const icons: unknown[] = [];
+    if (days.length > 0) {
+      for (let d = 0; d < days.length; d++) {
+        // Finde alle Stunden dieses Tages
+        const dayDate = new Date(days[d].datetime);
+        const hourIdxs = hours
+          .map((h, i) => ({ h, i }))
+          .filter(({ h }) => {
+            const hDate = new Date(h.datetime);
+            return hDate.getDate() === dayDate.getDate() && hDate.getMonth() === dayDate.getMonth();
+          })
+          .map(({ i }) => i);
+        if (hourIdxs.length > 0) {
+          const midIdx = hourIdxs[Math.floor(hourIdxs.length / 2)];
+          const x = padding + midIdx * xStep;
+          const iconY = padding - 24; // Icon oben
+          const minTemp = typeof days[d].templow === 'number' ? Math.round(days[d].templow || days[d].temperature - 5) : '';
+          const maxTemp = typeof days[d].temperature === 'number' ? Math.round(days[d].temperature) : '';
+          icons.push(svg`
+            <g>
+              <!-- Min-Temp links -->
+              <text x="${x - 22}" y="${iconY + 18}" text-anchor="end" font-size="12" fill="#3498db">${minTemp}°</text>
+              <!-- Icon mittig -->
+              <foreignObject x="${x - 12}" y="${iconY}" width="24" height="24">
+                <div style="display:flex;justify-content:center;align-items:center;width:24px;height:24px;">
+                  ${getWeatherIcon(days[d].condition || '', 'mdi', '18px')}
+                </div>
+              </foreignObject>
+              <!-- Max-Temp rechts -->
+              <text x="${x + 22}" y="${iconY + 18}" text-anchor="start" font-size="12" fill="#e74c3c">${maxTemp}°</text>
+              <!-- Wochentag unter Icon -->
+              <text x="${x}" y="${height - 4}" text-anchor="middle" font-size="10" fill="#888">
+                ${(() => {
+                  const dt = new Date(days[d].datetime);
+                  return dt.toLocaleDateString(undefined, { weekday: 'short' });
+                })()}
+              </text>
+            </g>
+          `);
+        }
+      }
+    }
+
+    return html`
+      <div class="forecast-7days">
+        <svg width="${width}" height="${height}" style="width:100%;max-width:500px;display:block;">
+          <!-- Icons & Tageslabels (Icons nur aus daily forecast, 1x pro Tag) -->
+          ${icons}
+          <!-- Vertikale Linien für Tagesanfang/-ende -->
+          ${verticals}
+          <!-- Regen-Balken -->
+          ${bars}
+          <!-- Temperatur-Linie -->
+          <polyline points="${tempPoints}" fill="none" stroke="#e74c3c" stroke-width="2"/>
+          
+          
+        </svg>
+      </div>
+    `;
+  }
+
   private _renderCurrentWeather(
     windSpeed: number,
     windDirection: number,
@@ -1395,6 +1517,7 @@ export class SwissWeatherCard extends LitElement {
       </div>
     `;
   }
+
   public render(): TemplateResult {
     use((this.hass.selectedLanguage || this.hass.language || 'en').substring(0, 2));
 
@@ -1486,10 +1609,13 @@ export class SwissWeatherCard extends LitElement {
             </div>
           `
         : ''}
+      
       ${this._renderForecastTemperature(forecastHours)}
       ${this._renderForecastPrecipitation(forecastHours)}
       ${this._renderForecastSunshine(weatherEntity, sun_entity, forecastHours)}
-      ${this._renderForecastWind(forecastHours)} ${this._renderDailyForecast(forecast)}
+      ${this._renderForecastWind(forecastHours)} 
+      ${this._renderDailyForecastDiagram()}
+      ${this._renderDailyForecast(forecast)}
     `;
   }
 
@@ -1546,6 +1672,26 @@ export class SwissweatherCardEditor extends LitElement implements LovelaceCardEd
 
   static get styles() {
     return css`
+      .forecast-7days {
+        background: var(--code-editor-background-color, #f8f8f8);
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        margin-bottom: 8px; 
+      }
+      .forecast-day { 
+        text-align: center; 
+        flex: 1; 
+      }
+      .forecast-day img { 
+        width: 24px; 
+        height: 24px; 
+      }
+      .chart-container {
+         width: 100%;
+         height: 180px; 
+      }
+      
       .card-config {
         padding: 16px;
       }
