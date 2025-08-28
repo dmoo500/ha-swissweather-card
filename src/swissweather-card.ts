@@ -412,9 +412,10 @@ export class SwissWeatherCard extends LitElement {
       }
       .chart-bar-precipitation-prob {
         width: 18px;
-        background: linear-gradient(to top, #323335ff, #87898eff);
+        background: #87898eff;
         border-radius: 2px 2px 0 0;
         min-height: 2px;
+        opacity: 0.6;
       }
 
       .chart-bar-sunshine {
@@ -784,17 +785,17 @@ export class SwissWeatherCard extends LitElement {
                     typeof hour.precipitation === 'number' && !isNaN(hour.precipitation)
                       ? hour.precipitation
                       : null;
-                  const precBarHeight = precValue !== null ? Math.round(precValue * 10) : 2;
+                  const precBarHeight = precValue !== null ? Math.round(precValue) : 2;
                   const precProbValue =
                     typeof hour.precipitation_probability === 'number' &&
                     !isNaN(hour.precipitation_probability)
                       ? hour.precipitation_probability
                       : null;
                   const precProbBarHeight =
-                    precProbValue !== null ? Math.round(precProbValue / 5) : 2;
+                    precProbValue !== null ? Math.round(precProbValue % 10) : 2;
                   return html`
                     <div
-                      style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end;"
+                      style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; position:relative;"
                     >
                       <div
                         style="height:32px; display:flex; align-items:flex-end; justify-content:center;"
@@ -806,12 +807,12 @@ export class SwissWeatherCard extends LitElement {
                         </span>
                       </div>
                       <div
-                        class="chart-bar-precipitation"
-                        style="height: ${precBarHeight}px;"
+                        class="chart-bar-precipitation-prob"
+                        style="height: ${precProbBarHeight}px; position:absolute; bottom:0; left:50%; transform:translateX(-50%); z-index:0; width:18px;"
                       ></div>
                       <div
-                        class="chart-bar-precipitation-prob"
-                        style="height: ${precProbBarHeight}px;"
+                        class="chart-bar-precipitation"
+                        style="height: ${precBarHeight}px; position:relative; z-index:1; width:18px;"
                       ></div>
                     </div>
                   `;

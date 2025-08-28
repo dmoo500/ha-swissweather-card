@@ -32,10 +32,35 @@ A custom Home Assistant card that recreates the look and feel of the official Sw
 
 ## 📱 Screenshots
 
+All enabled
 
-| All enabled | All disabled | warn + forecast | temp diagram |
-| ----------- | ------------ | --------------- | ------------ |
-| <img src="docs/images/desktop_max.png" width="250"/> |  <img src="docs/images/desktop_minimal.png" width="250"/> | <img src="docs/images/desktop_warn_forecast.png" width="250"/> |  <img src="docs/images/desktop_temp.png" width="250"/> |
+<img src="docs/images/desktop_max.png" width="250"/> 
+
+All disabled 
+
+<img src="docs/images/desktop_minimal.png" width="250"/>
+
+warn + forecast
+
+<img src="docs/images/desktop_warn_forecast.png" width="250"/> 
+
+temp diagram
+
+<img src="docs/images/desktop_temp.png" width="250"/> 
+
+
+### since version 1.4.0
+
+compact mode for forecast (enable forecast and compact mode)
+
+<img src="docs/images/compact_mode_forecast.png" width="250"/>
+
+
+### since version 1.3.0
+
+compact mode (without forecast)
+
+<img src="docs/images/compact-mode.png" width="250"/>
 
 ### since version 1.2.0
 

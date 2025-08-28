@@ -2731,9 +2731,10 @@ let F = class extends Q {
       }
       .chart-bar-precipitation-prob {
         width: 18px;
-        background: linear-gradient(to top, #323335ff, #87898eff);
+        background: #87898eff;
         border-radius: 2px 2px 0 0;
         min-height: 2px;
+        opacity: 0.6;
       }
 
       .chart-bar-sunshine {
@@ -3011,10 +3012,10 @@ let F = class extends Q {
               </div>
               <div class="chart-bars">
                 ${this._hourlyForecast.slice(0, i).map((e) => {
-      const t = typeof e.precipitation == "number" && !isNaN(e.precipitation) ? e.precipitation : null, s = t !== null ? Math.round(t * 10) : 2, n = typeof e.precipitation_probability == "number" && !isNaN(e.precipitation_probability) ? e.precipitation_probability : null, r = n !== null ? Math.round(n / 5) : 2;
+      const t = typeof e.precipitation == "number" && !isNaN(e.precipitation) ? e.precipitation : null, s = t !== null ? Math.round(t) : 2, n = typeof e.precipitation_probability == "number" && !isNaN(e.precipitation_probability) ? e.precipitation_probability : null, r = n !== null ? Math.round(n % 10) : 2;
       return p`
                     <div
-                      style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end;"
+                      style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; position:relative;"
                     >
                       <div
                         style="height:32px; display:flex; align-items:flex-end; justify-content:center;"
@@ -3026,12 +3027,12 @@ let F = class extends Q {
                         </span>
                       </div>
                       <div
-                        class="chart-bar-precipitation"
-                        style="height: ${s}px;"
+                        class="chart-bar-precipitation-prob"
+                        style="height: ${r}px; position:absolute; bottom:0; left:50%; transform:translateX(-50%); z-index:0; width:18px;"
                       ></div>
                       <div
-                        class="chart-bar-precipitation-prob"
-                        style="height: ${r}px;"
+                        class="chart-bar-precipitation"
+                        style="height: ${s}px; position:relative; z-index:1; width:18px;"
                       ></div>
                     </div>
                   `;

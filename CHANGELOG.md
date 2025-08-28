@@ -1,4 +1,20 @@
 # Release Notes
+
+## [1.4.0] - 2025-08-28
+
+### Added
+- compact mode for the daily forecast
+- show the hourly temperature as a line chart
+- show the hourly precipitation and precipitation_proberly as bar chart in the same chart
+
+<img src="docs/images/compact_mode_forecast.png" width="250" />
+
+### Changed
+
+- use night and day for partly cloudy icon
+- use extrem rain icon for pouring
+- show the precipitation_proberly in the precipitation chart
+
 ## [1.3.1] - 2025-08-24
 
 - the github release workflow have uploaded the zip file with version number, but not the js file itself
