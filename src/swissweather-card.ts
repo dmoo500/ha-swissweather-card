@@ -1127,7 +1127,8 @@ export class SwissWeatherCard extends LitElement {
                           ${getWeatherIcon(
                             day.condition,
                             this.config.enable_animate_weather_icons ? 'animated' : 'mdi',
-                            '24px'
+                            '24px',
+                            this.isDay()
                           )}
                         </div>
                         <div class="forecast-temps">
@@ -1224,7 +1225,6 @@ export class SwissWeatherCard extends LitElement {
     if (!hours.length) return html`<div>no hour forecast available</div>`;
 
     const nDays = days.length;
-    const nHours = hours.length;
     const width = Math.max(180, nDays * 100); // min 100px pro Tag, aber dynamisch
     const dayWidth = nDays > 0 ? width / nDays : 100;
     // Chart deutlich kompakter
@@ -1263,7 +1263,7 @@ export class SwissWeatherCard extends LitElement {
     // rain data
     const precs = hours.map(h => (typeof h.precipitation === 'number' ? h.precipitation : 0));
     const precsProberly = hours.map(h =>
-      typeof h.precipitation_probability === 'number' ? h.precipitation_probability % 10: 0
+      typeof h.precipitation_probability === 'number' ? h.precipitation_probability % 10 : 0
     );
     // Skala für Balken: immer vollen Bereich nutzen
     const maxPrecip = Math.max(...precs, ...precsProberly, 1); // nie 0, damit Balken sichtbar
@@ -1393,7 +1393,7 @@ export class SwissWeatherCard extends LitElement {
             </text>
             <!-- Icon -->
             <foreignObject x="${x - iconSize / 2}" y="${iconY}" width="${iconSize}" height="${iconSize}">
-                ${getWeatherIcon(days[d].condition || '', this.config.enable_animate_weather_icons ? 'animated' : 'mdiAsSVG', iconSize + 'px')}
+                ${getWeatherIcon(days[d].condition || '', this.config.enable_animate_weather_icons ? 'animated' : 'mdiAsSVG', iconSize + 'px', true)}
             </foreignObject>
             <!-- Min/Max temp -->
             <text class="weather-temp" x="${x}" y="${minmaxY}" text-anchor="middle" font-size="${minmaxFont}"">${minTemp}°<tspan fill="#aaa"> | </tspan><tspan class="weather-temp">${maxTemp}°</tspan></text>
@@ -1402,9 +1402,8 @@ export class SwissWeatherCard extends LitElement {
       }
     }
 
-    // Horizontale neutrale Linien (ohne Farbe/Wert) für Temperatur- und Regenskala (gleiche Höhe)
+    // horizontal temperature lines (every 5°C, always 0°C and minTemp)
     const horizontalLines: unknown[] = [];
-    // Immer Linie für 0°C und minTemp anzeigen
     const lineStep = (5 / tempRange) * (tempLineY0 - tempLineYMax);
     const nLines = Math.floor((tempLineY0 - tempLineYMax) / lineStep);
     const lineYs = new Set<number>();
@@ -1535,6 +1534,23 @@ export class SwissWeatherCard extends LitElement {
     `;
   }
 
+  private isDay(): boolean {
+    const now = new Date();
+    // Calculate sunrise/sunset overlay
+    const weatherEntity = this._getEntityState(this.config.entity) as WeatherEntity;
+    const sun_entity = this._getEntityState(this.config.sun_entity || 'sun.sun');
+    // @ts-expect-error: sunrise/sunset are not in the type, but often present
+    const sunrise = weatherEntity?.attributes?.sunrise
+      ? new Date((weatherEntity.attributes as any).sunrise)
+      : new Date((sun_entity?.attributes as any).next_rising) || null;
+    // @ts-expect-error: sunrise/sunset are not in the type, but often present
+    const sunset = weatherEntity?.attributes?.sunset
+      ? new Date((weatherEntity.attributes as any).sunset)
+      : new Date((sun_entity?.attributes as any).next_setting) || null;
+    if (!sunrise || !sunset) return true; // Fallback: immer Tag
+    return now >= sunrise && now < sunset;
+  }
+
   public render(): TemplateResult {
     use((this.hass.selectedLanguage || this.hass.language || 'en').substring(0, 2));
 
@@ -1601,7 +1617,8 @@ export class SwissWeatherCard extends LitElement {
             ${getWeatherIcon(
               condition,
               this.config.enable_animate_weather_icons ? 'animated' : 'mdi',
-              '64px'
+              '64px',
+              this.isDay()
             )}
           </div>
         </div>
