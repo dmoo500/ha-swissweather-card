@@ -28,6 +28,7 @@ const RAW_RUNTIME_STATE =
       [null, {\
         "packageLocation": "./",\
         "packageDependencies": [\
+          ["@mdi/js", "npm:7.4.47"],\
           ["@types/node", "npm:24.3.0"],\
           ["@typescript-eslint/eslint-plugin", "virtual:5b40a9eedcdee4df7ecee065837c5d7ab4aa3f5b69655048faa6780950ecbdb28951c64e7f141eefb4d0187d059b0d926eb94d4d4e7ab0878613335583c5bcff#npm:8.40.0"],\
           ["@typescript-eslint/parser", "virtual:5b40a9eedcdee4df7ecee065837c5d7ab4aa3f5b69655048faa6780950ecbdb28951c64e7f141eefb4d0187d059b0d926eb94d4d4e7ab0878613335583c5bcff#npm:8.40.0"],\
@@ -493,6 +494,15 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@lit-labs/ssr-dom-shim", "npm:1.4.0"],\
           ["@lit/reactive-element", "npm:2.1.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@mdi/js", [\
+      ["npm:7.4.47", {\
+        "packageLocation": "../../.yarn/berry/cache/@mdi-js-npm-7.4.47-4b323b7a24-10c0.zip/node_modules/@mdi/js/",\
+        "packageDependencies": [\
+          ["@mdi/js", "npm:7.4.47"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -2538,6 +2548,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:.", {\
         "packageLocation": "./",\
         "packageDependencies": [\
+          ["@mdi/js", "npm:7.4.47"],\
           ["@types/node", "npm:24.3.0"],\
           ["@typescript-eslint/eslint-plugin", "virtual:5b40a9eedcdee4df7ecee065837c5d7ab4aa3f5b69655048faa6780950ecbdb28951c64e7f141eefb4d0187d059b0d926eb94d4d4e7ab0878613335583c5bcff#npm:8.40.0"],\
           ["@typescript-eslint/parser", "virtual:5b40a9eedcdee4df7ecee065837c5d7ab4aa3f5b69655048faa6780950ecbdb28951c64e7f141eefb4d0187d059b0d926eb94d4d4e7ab0878613335583c5bcff#npm:8.40.0"],\

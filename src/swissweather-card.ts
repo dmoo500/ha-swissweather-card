@@ -14,6 +14,7 @@ import type {
   SwissWeatherWarning,
   LovelaceCardEditor,
 } from './types/home-assistant.js';
+import { schema } from './types/home-assistant.js';
 import { getWeatherIcon } from './icons/';
 
 // Extend the config interface for the new type
@@ -226,7 +227,9 @@ export class SwissWeatherCard extends LitElement {
         font-size: 64px;
         margin-bottom: 10px;
       }
-
+      .weather-temp {
+        fill: var(--primary-text-color, #fff);
+      }
       .condition {
         font-size: 16px;
         color: var(--primary-text-color, #fff);
@@ -327,6 +330,14 @@ export class SwissWeatherCard extends LitElement {
         gap: 8px;
       }
 
+      .forecast-7days {
+        background: var(--code-editor-background-color, #f8f8f8);
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        margin-bottom: 8px;
+      }
+
       .forecast-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
@@ -398,6 +409,13 @@ export class SwissWeatherCard extends LitElement {
         background: linear-gradient(to top, #3498db, #85c5e5);
         border-radius: 2px 2px 0 0;
         min-height: 2px;
+      }
+      .chart-bar-precipitation-prob {
+        width: 18px;
+        background: #87898eff;
+        border-radius: 2px 2px 0 0;
+        min-height: 2px;
+        opacity: 0.6;
       }
 
       .chart-bar-sunshine {
@@ -504,121 +522,7 @@ export class SwissWeatherCard extends LitElement {
 
   // Schema for the visual editor
   public static getConfigSchema() {
-    return [
-      {
-        name: 'entity',
-        required: true,
-        selector: {
-          entity: {
-            domain: 'weather',
-          },
-        },
-      },
-      {
-        name: 'show_location',
-        selector: {
-          boolean: {},
-        },
-      },
-      {
-        name: 'location',
-        selector: {
-          text: {},
-        },
-      },
-      {
-        name: 'wind_entity',
-        selector: {
-          entity: {
-            domain: 'sensor',
-          },
-        },
-      },
-      {
-        name: 'wind_direction_entity',
-        selector: {
-          entity: {
-            domain: 'sensor',
-          },
-        },
-      },
-      {
-        name: 'sunshine_entity',
-        selector: {
-          entity: {
-            domain: 'sensor',
-          },
-        },
-      },
-      {
-        name: 'warning_entity',
-        selector: {
-          entity: {
-            domain: 'sensor',
-          },
-        },
-      },
-      {
-        name: 'show_warnings',
-        selector: {
-          boolean: {},
-        },
-      },
-      {
-        name: 'show_temperature',
-        selector: {
-          boolean: {},
-        },
-      },
-      {
-        name: 'show_precipitation',
-        selector: {
-          boolean: {},
-        },
-      },
-      {
-        name: 'show_sunshine',
-        selector: {
-          boolean: {},
-        },
-      },
-      {
-        name: 'show_wind',
-        selector: {
-          boolean: {},
-        },
-      },
-      {
-        name: 'enable_animate_weather_icons',
-        selector: {
-          boolean: {},
-        },
-      },
-      {
-        name: 'show_forecast',
-        selector: {
-          boolean: {},
-        },
-      },
-      {
-        name: 'forecast_hours',
-        selector: {
-          number: {
-            min: 6,
-            max: 18,
-            mode: 'box',
-            unit_of_measurement: 'h',
-            step: 6,
-          },
-        },
-      },
-      {
-        name: 'compact_mode',
-        selector: {
-          boolean: {},
-        },
-      },
-    ];
+    return schema;
   }
 
   private _getEntityState(entityId: string): HassEntity | undefined {
@@ -877,14 +781,21 @@ export class SwissWeatherCard extends LitElement {
               </div>
               <div class="chart-bars">
                 ${this._hourlyForecast.slice(0, forecastHours).map((hour: WeatherForecast) => {
-                  const value =
+                  const precValue =
                     typeof hour.precipitation === 'number' && !isNaN(hour.precipitation)
                       ? hour.precipitation
                       : null;
-                  const barHeight = value !== null ? Math.round(value * 10) : 2;
+                  const precBarHeight = precValue !== null ? Math.round(precValue) : 2;
+                  const precProbValue =
+                    typeof hour.precipitation_probability === 'number' &&
+                    !isNaN(hour.precipitation_probability)
+                      ? hour.precipitation_probability
+                      : null;
+                  const precProbBarHeight =
+                    precProbValue !== null ? Math.round(precProbValue % 10) : 2;
                   return html`
                     <div
-                      style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end;"
+                      style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; position:relative;"
                     >
                       <div
                         style="height:32px; display:flex; align-items:flex-end; justify-content:center;"
@@ -892,10 +803,17 @@ export class SwissWeatherCard extends LitElement {
                         <span
                           style="font-size:11px; color:#3498db; margin-bottom:2px; min-height:16px; font-variant-numeric:tabular-nums;"
                         >
-                          ${value !== null ? value.toFixed(1) + ' mm' : ''}
+                          ${precValue !== null ? precValue.toFixed(1) + ' mm' : ''}
                         </span>
                       </div>
-                      <div class="chart-bar-precipitation" style="height: ${barHeight}px;"></div>
+                      <div
+                        class="chart-bar-precipitation-prob"
+                        style="height: ${precProbBarHeight}px; position:absolute; bottom:0; left:50%; transform:translateX(-50%); z-index:0; width:18px;"
+                      ></div>
+                      <div
+                        class="chart-bar-precipitation"
+                        style="height: ${precBarHeight}px; position:relative; z-index:1; width:18px;"
+                      ></div>
                     </div>
                   `;
                 })}
@@ -1210,7 +1128,8 @@ export class SwissWeatherCard extends LitElement {
                           ${getWeatherIcon(
                             day.condition,
                             this.config.enable_animate_weather_icons ? 'animated' : 'mdi',
-                            '24px'
+                            '24px',
+                            this.isDay()
                           )}
                         </div>
                         <div class="forecast-temps">
@@ -1300,6 +1219,226 @@ export class SwissWeatherCard extends LitElement {
       `;
   }
 
+  private _renderDailyForecastDiagram(): TemplateResult {
+    // ...wird nach der Definition von width, barYBase, barMax, maxPrecip eingefügt...
+    const days = this._forecast?.slice(0, 7) ?? [];
+    const hours = this._hourlyForecast?.slice(0, days.length * 24) ?? [];
+    if (!hours.length) return html`<div>no hour forecast available</div>`;
+
+    const nDays = days.length;
+    const width = Math.max(180, nDays * 100); // min 100px pro Tag, aber dynamisch
+    const dayWidth = nDays > 0 ? width / nDays : 100;
+    // Chart deutlich kompakter
+    const height = 200;
+    // Immer 24 Stunden pro Tag für die X-Achse
+    const hoursPerDay = 24;
+    // x-position per hour in px (immer 24 Abschnitte pro Tag)
+    const hourStep = dayWidth / hoursPerDay;
+    // Ermittle den Timestamp (Mitternacht) des ersten Tages
+    let firstDayStart = 0;
+    if (hours.length > 0 && hours[0].datetime) {
+      const dt = new Date(hours[0].datetime);
+      firstDayStart = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate()).getTime();
+    }
+
+    // temprature data
+    const temps = hours.map(h => (typeof h.temperature === 'number' ? h.temperature : null));
+    let minTemp = Math.min(...(temps.filter(t => t !== null) as number[]));
+    const maxTemp = Math.max(...(temps.filter(t => t !== null) as number[]));
+    // Skala immer mindestens von 0 bis maxTemp
+    if (minTemp > 0) minTemp = 0;
+    // temprature line layout
+    const weekdayFont = 13;
+    const iconSize = 64;
+    const minmaxFont = 20;
+    const dayTop = 18; // statisch, da kein padding mehr
+    const dayGap = 8;
+    const minmaxY = dayTop + weekdayFont + dayGap + iconSize + dayGap + 2;
+    // Chart weiter nach unten verschieben, damit mehr Abstand zu min/max temp entsteht
+    const chartOffset = 32;
+    const chartHeight = 60;
+    const tempLineYMax = minmaxY + chartOffset; // Startpunkt des Charts
+    const tempLineY0 = tempLineYMax + chartHeight; // y=0 (unten)
+    const tempRange = maxTemp - minTemp || 1;
+
+    // rain data
+    const precs = hours.map(h => (typeof h.precipitation === 'number' ? h.precipitation : 0));
+    const precsProberly = hours.map(h =>
+      typeof h.precipitation_probability === 'number' ? h.precipitation_probability % 10 : 0
+    );
+    // Skala für Balken: immer vollen Bereich nutzen
+    const maxPrecip = Math.max(...precs, ...precsProberly, 1); // nie 0, damit Balken sichtbar
+
+    // Temperatur-Linie: Skaliere auf vollen Bereich (tempLineYMax bis tempLineY0)
+    // Die X-Position so berechnen, dass die erste Stunde ("jetzt") an der passenden Stelle im Tag steht
+    // Berechne für jede Stunde den Tag-Index und die Stunde-im-Tag anhand des Datums
+    function getDayAndHourIdx(dt: Date, firstDayStart: number) {
+      const msPerDay = 24 * 60 * 60 * 1000;
+      const dayStart = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate()).getTime();
+      const dayIdx = Math.round((dayStart - firstDayStart) / msPerDay);
+      const hourInDay = Math.round((dt.getTime() - dayStart) / (60 * 60 * 1000));
+      return { dayIdx, hourInDay };
+    }
+    // entfernt, da bereits oben deklariert
+    const tempPoints = temps
+      .map((t, i) => {
+        if (!hours[i] || !hours[i].datetime) return '';
+        const dt = new Date(hours[i].datetime);
+        const { dayIdx, hourInDay } = getDayAndHourIdx(dt, firstDayStart);
+        const x = dayIdx * dayWidth + hourInDay * hourStep + hourStep / 2;
+        return t !== null
+          ? `${x},${tempLineY0 - ((t - minTemp) / tempRange) * (tempLineY0 - tempLineYMax)}`
+          : '';
+      })
+      .filter(Boolean)
+      .join(' ');
+
+    // rain bars
+    const barWidth = Math.max(3, Math.floor(hourStep) - 2);
+    const barYBase = tempLineY0;
+    // Skala: 5mm Regen = 5°C Temperaturhöhe (1mm = 1°C)
+    // Skala: Maximaler Balken entspricht Temperaturbereich (maxPrecip = voller Bereich)
+    // Der höchste Niederschlagswert (maxPrecip) nutzt die volle Höhe (tempLineY0 - tempLineYMax)
+    const barMax = tempLineY0 - tempLineYMax;
+    // Farbskala für Niederschlag
+    function getPrecipColor(p: number): string {
+      // Farbverlauf von unten (#5994b1ff) nach oben, oben die jeweilige Farbe bei 5, 10, 15, 20+ mm
+      if (p <= 0) return 'transparent';
+      // Stufenfarben oben
+      const stops = [
+        { val: 0, color: { r: 89, g: 148, b: 177 } }, // #5994b1ff
+        { val: 5, color: { r: 33, g: 150, b: 243 } }, // #2196f3
+        { val: 10, color: { r: 0, g: 100, b: 0 } }, // #006400
+        { val: 15, color: { r: 76, g: 175, b: 80 } }, // #4caf50
+        { val: 20, color: { r: 255, g: 224, b: 102 } }, // #ffe066
+      ];
+      let lower = stops[0],
+        upper = stops[stops.length - 1];
+      for (let i = 1; i < stops.length; i++) {
+        if (p < stops[i].val) {
+          upper = stops[i];
+          lower = stops[i - 1];
+          break;
+        }
+      }
+      // Interpolation zwischen lower und upper
+      const t = (p - lower.val) / (upper.val - lower.val);
+      const r = Math.round(lower.color.r + (upper.color.r - lower.color.r) * t);
+      const g = Math.round(lower.color.g + (upper.color.g - lower.color.g) * t);
+      const b = Math.round(lower.color.b + (upper.color.b - lower.color.b) * t);
+      return `rgb(${r},${g},${b})`;
+    }
+
+    // precipitation_proberly Balken (transparentes darkgrey)
+    const barsProberly = precsProberly.map((p, i) => {
+      if (!hours[i] || !hours[i].datetime) return null;
+      const dt = new Date(hours[i].datetime);
+      const { dayIdx, hourInDay } = getDayAndHourIdx(dt, firstDayStart);
+      const x = dayIdx * dayWidth + hourInDay * hourStep + hourStep / 2 - barWidth / 2;
+      const barHeight = maxPrecip > 0 ? (p / maxPrecip) * barMax : 0;
+      return p > 0
+        ? svg`<rect x="${x}" y="${barYBase - barHeight}" width="${barWidth}" height="${barHeight}"
+            fill="#988d8dff" opacity="0.4" rx="1.5"/>`
+        : null;
+    });
+
+    const bars = precs.map((p, i) => {
+      if (!hours[i] || !hours[i].datetime) return null;
+      const dt = new Date(hours[i].datetime);
+      const { dayIdx, hourInDay } = getDayAndHourIdx(dt, firstDayStart);
+      const x = dayIdx * dayWidth + hourInDay * hourStep + hourStep / 2 - barWidth / 2;
+      const barHeight = maxPrecip > 0 ? (p / maxPrecip) * barMax : 0;
+      const color = getPrecipColor(p);
+      return p > 0
+        ? svg`<rect x="${x}" y="${barYBase - barHeight}" width="${barWidth}" height="${barHeight}"
+            fill="${color}" opacity="1" rx="1.5"/>`
+        : null;
+    });
+
+    // vertical day lines exakt an Tageswechseln
+    const verticals: unknown[] = [];
+    if (nDays > 1 && hours.length > 0) {
+      for (let d = 1; d < nDays; d++) {
+        // Finde die X-Position von Mitternacht für Tag d
+        const midnight = new Date(firstDayStart + d * 24 * 60 * 60 * 1000);
+        const { dayIdx, hourInDay } = getDayAndHourIdx(midnight, firstDayStart);
+        const x = dayIdx * dayWidth + hourInDay * hourStep;
+        verticals.push(
+          svg`<line x1="${x}" y1="16" x2="${x}" y2="${height - 16}" stroke="#bbb" stroke-width="1" stroke-dasharray="2,2"/>`
+        );
+      }
+    }
+
+    const dayGroups: unknown[] = [];
+    const paddingBottom = 6;
+    if (nDays > 0) {
+      for (let d = 0; d < nDays; d++) {
+        const x = d * dayWidth + dayWidth / 2;
+        const weekdayY = dayTop + weekdayFont;
+        const iconY = weekdayY + dayGap + paddingBottom;
+        const minmaxY = iconY + iconSize + dayGap + paddingBottom + 2;
+        const minTemp =
+          typeof days[d].templow === 'number'
+            ? Math.round(days[d].templow || days[d].temperature - 5)
+            : '';
+        const maxTemp =
+          typeof days[d].temperature === 'number' ? Math.round(days[d].temperature) : '';
+        dayGroups.push(svg`
+          <g>
+            <!-- Weekday -->
+            <text x="${x}" y="${weekdayY}" text-anchor="middle" font-size="${weekdayFont}" fill="#888">
+              ${(() => {
+                const dt = new Date(days[d].datetime);
+                return dt.toLocaleDateString(undefined, { weekday: 'short' });
+              })()}
+            </text>
+            <!-- Icon -->
+            <foreignObject x="${x - iconSize / 2}" y="${iconY}" width="${iconSize}" height="${iconSize}">
+                ${getWeatherIcon(days[d].condition || '', this.config.enable_animate_weather_icons ? 'animated' : 'mdiAsSVG', iconSize + 'px', true)}
+            </foreignObject>
+            <!-- Min/Max temp -->
+            <text class="weather-temp" x="${x}" y="${minmaxY}" text-anchor="middle" font-size="${minmaxFont}"">${minTemp}°<tspan fill="#aaa"> | </tspan><tspan class="weather-temp">${maxTemp}°</tspan></text>
+          </g>
+        `);
+      }
+    }
+
+    // horizontal temperature lines (every 5°C, always 0°C and minTemp)
+    const horizontalLines: unknown[] = [];
+    const lineStep = (5 / tempRange) * (tempLineY0 - tempLineYMax);
+    const nLines = Math.floor((tempLineY0 - tempLineYMax) / lineStep);
+    const lineYs = new Set<number>();
+    for (let i = 0; i <= nLines; i++) {
+      lineYs.add(tempLineY0 - i * lineStep);
+    }
+    // 0°C-Linie
+    if (minTemp > 0) {
+      const y0 = tempLineY0 - ((0 - minTemp) / tempRange) * (tempLineY0 - tempLineYMax);
+      if (y0 <= tempLineY0 && y0 >= tempLineYMax) lineYs.add(y0);
+    }
+    // minTemp-Linie
+    const ymin = tempLineY0 - ((minTemp - minTemp) / tempRange) * (tempLineY0 - tempLineYMax);
+    lineYs.add(ymin);
+    Array.from(lineYs)
+      .sort((a, b) => b - a)
+      .forEach((y, idx) => {
+        horizontalLines.push(
+          svg`<line x1="0" y1="${y}" x2="${width}" y2="${y}" stroke="#bbb" stroke-width="${idx % 2 === 0 ? 2 : 1}" stroke-dasharray="${idx % 2 === 0 ? 'none' : '4,3'}" />`
+        );
+      });
+    return html`
+      <div class="chart">
+        <svg width="100%" height="100%" viewBox="0 0 ${width} ${height}" style="display:block;">
+          ${horizontalLines} ${dayGroups} ${verticals} ${barsProberly}
+          <!-- Niederschlagsbalken -->
+          ${bars}
+
+          <polyline points="${tempPoints}" fill="none" stroke="#e74c3c" stroke-width="2" />
+        </svg>
+      </div>
+    `;
+  }
+
   private _renderCurrentWeather(
     windSpeed: number,
     windDirection: number,
@@ -1374,8 +1513,8 @@ export class SwissWeatherCard extends LitElement {
         ${this.config.compact_mode === true
           ? html`
               ${this._renderCurrentWeatherCompactMode(
-                windDirection,
                 windSpeed,
+                windDirection,
                 humidity,
                 pressure,
                 visibility,
@@ -1384,8 +1523,8 @@ export class SwissWeatherCard extends LitElement {
             `
           : html`
               ${this._renderCurrentWeather(
-                windDirection,
                 windSpeed,
+                windDirection,
                 humidity,
                 pressure,
                 visibility,
@@ -1395,6 +1534,24 @@ export class SwissWeatherCard extends LitElement {
       </div>
     `;
   }
+
+  private isDay(): boolean {
+    const now = new Date();
+    // Calculate sunrise/sunset overlay
+    const weatherEntity = this._getEntityState(this.config.entity) as WeatherEntity;
+    const sun_entity = this._getEntityState(this.config.sun_entity || 'sun.sun');
+    // @ts-expect-error: sunrise/sunset are not in the type, but often present
+    const sunrise = weatherEntity?.attributes?.sunrise
+      ? new Date((weatherEntity.attributes as any).sunrise)
+      : new Date((sun_entity?.attributes as any).next_rising) || null;
+    // @ts-expect-error: sunrise/sunset are not in the type, but often present
+    const sunset = weatherEntity?.attributes?.sunset
+      ? new Date((weatherEntity.attributes as any).sunset)
+      : new Date((sun_entity?.attributes as any).next_setting) || null;
+    if (!sunrise || !sunset) return true; // Fallback: immer Tag
+    return now >= sunrise && now < sunset;
+  }
+
   public render(): TemplateResult {
     use((this.hass.selectedLanguage || this.hass.language || 'en').substring(0, 2));
 
@@ -1461,7 +1618,8 @@ export class SwissWeatherCard extends LitElement {
             ${getWeatherIcon(
               condition,
               this.config.enable_animate_weather_icons ? 'animated' : 'mdi',
-              '64px'
+              '64px',
+              this.isDay()
             )}
           </div>
         </div>
@@ -1489,7 +1647,11 @@ export class SwissWeatherCard extends LitElement {
       ${this._renderForecastTemperature(forecastHours)}
       ${this._renderForecastPrecipitation(forecastHours)}
       ${this._renderForecastSunshine(weatherEntity, sun_entity, forecastHours)}
-      ${this._renderForecastWind(forecastHours)} ${this._renderDailyForecast(forecast)}
+      ${this._renderForecastWind(forecastHours)}
+      ${this.config.compact_mode === true && this.config.show_forecast === true
+        ? this._renderDailyForecastDiagram()
+        : html``}
+      ${this.config.compact_mode === false ? this._renderDailyForecast(forecast) : html``}
     `;
   }
 
@@ -1906,7 +2068,7 @@ window.customCards.push({
   name: 'SwissWeather Card',
   description: 'Eine Custom Card für Schweizer Wetterinformationen im MeteoSchweiz-Design',
   preview: true,
-  documentationURL: 'https://github.com/user/ha-swissweather-card',
+  documentationURL: 'https://github.com/dmoo500/ha-swissweather-card',
 });
 
 console.log('✅ SwissWeatherCard fully loaded and registered');

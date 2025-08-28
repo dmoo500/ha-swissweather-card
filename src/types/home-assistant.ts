@@ -282,3 +282,85 @@ export interface SwissWeatherCardConfig {
   compact_mode?: boolean;
   theme?: 'mdi' | 'animated';
 }
+
+export const schema = [
+  {
+    name: 'entity',
+    required: true,
+    selector: {
+      entity: {
+        domain: 'weather',
+      },
+    },
+  },
+  {
+    name: 'location',
+    selector: {
+      text: {},
+    },
+  },
+  {
+    name: 'wind_entity',
+    selector: {
+      entity: {
+        domain: 'sensor',
+      },
+    },
+  },
+  {
+    name: 'wind_direction_entity',
+    selector: {
+      entity: {
+        domain: 'sensor',
+      },
+    },
+  },
+  {
+    name: 'sunshine_entity',
+    selector: {
+      entity: {
+        domain: 'sensor',
+      },
+    },
+  },
+  {
+    name: 'precipitation_entity',
+    selector: {
+      entity: {
+        domain: 'sensor',
+      },
+    },
+  },
+  {
+    name: 'warning_entity',
+    selector: {
+      entity: {
+        domain: 'sensor',
+      },
+    },
+  },
+  {
+    name: 'show_forecast',
+    selector: {
+      boolean: {},
+    },
+  },
+  {
+    name: 'show_precipitation',
+    selector: {
+      boolean: {},
+    },
+  },
+  {
+    name: 'show_warnings',
+    selector: {
+      boolean: {},
+    },
+  },
+  {
+    name: 'compact_mode',
+    selector: {
+      boolean: {},
+    },
+  },
+];
