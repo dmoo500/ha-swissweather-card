@@ -3,8 +3,8 @@ import { use, get as _t, registerTranslateConfig } from 'lit-translate';
 import { customElement, property, state } from 'lit/decorators.js';
 import { fireEvent } from 'custom-card-helpers';
 import type { HomeAssistant, LovelaceCardEditor } from './types/home-assistant.js';
+import { schema } from './types/home-assistant.js';
 import { translations } from './translations.js';
-
 // Extend the config for the editor
 interface SwissWeatherCardEditorConfig extends Record<string, any> {
   type?: string;
@@ -166,95 +166,10 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
       `;
     }
 
-    const schema = [
-      {
-        name: 'entity',
-        required: true,
-        selector: {
-          entity: {
-            domain: 'weather',
-          },
-        },
-      },
-      {
-        name: 'location',
-        selector: {
-          text: {},
-        },
-      },
-      {
-        name: 'wind_entity',
-        selector: {
-          entity: {
-            domain: 'sensor',
-          },
-        },
-      },
-      {
-        name: 'wind_direction_entity',
-        selector: {
-          entity: {
-            domain: 'sensor',
-          },
-        },
-      },
-      {
-        name: 'sunshine_entity',
-        selector: {
-          entity: {
-            domain: 'sensor',
-          },
-        },
-      },
-      {
-        name: 'precipitation_entity',
-        selector: {
-          entity: {
-            domain: 'sensor',
-          },
-        },
-      },
-      {
-        name: 'warning_entity',
-        selector: {
-          entity: {
-            domain: 'sensor',
-          },
-        },
-      },
-      {
-        name: 'show_forecast',
-        selector: {
-          boolean: {},
-        },
-      },
-      {
-        name: 'show_precipitation',
-        selector: {
-          boolean: {},
-        },
-      },
-      {
-        name: 'show_warnings',
-        selector: {
-          boolean: {},
-        },
-      },
-      {
-        name: 'compact_mode',
-        selector: {
-          boolean: {},
-        },
-      },
-    ];
-
     const data = {
-      entity: this._config.entity || '',
+      device_id: this._config.device_id || '',
       location: this._config.location || '',
-      wind_entity: this._config.wind_entity || '',
-      wind_direction_entity: this._config.wind_direction_entity || '',
       sunshine_entity: this._config.sunshine_entity || '',
-      precipitation_entity: this._config.precipitation_entity || '',
       warning_entity: this._config.warning_entity || '',
       show_forecast: this._config.show_forecast !== false,
       show_precipitation: this._config.show_precipitation !== false,
@@ -283,7 +198,7 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
         ></ha-form>
 
         <!-- Configuration Preview -->
-        ${this._config.entity
+        ${this._config.device_id
           ? html`
               <div class="preview">
                 <div class="preview-title">📋 YAML-Konfiguration</div>
@@ -292,8 +207,7 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
             `
           : html`
               <div class="warning">
-                ⚠️ Bitte wählen Sie eine Wetter-Entity aus, um die Konfiguration zu
-                vervollständigen.
+                ⚠️ Bitte wählen Sie ein Gerät aus, um die Konfiguration zu vervollständigen.
               </div>
             `}
       </div>
@@ -325,12 +239,9 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
 
   private _computeLabel = (schema: any) => {
     const labels: Record<string, string> = {
-      entity: _t('config.entity'),
+      device_id: 'Gerät',
       location: _t('config.location'),
-      wind_entity: _t('config.wind_entity'),
-      wind_direction_entity: _t('config.wind_direction_entity'),
       sunshine_entity: _t('config.sunshine_entity'),
-      precipitation_entity: _t('config.precipitation_entity'),
       warning_entity: _t('config.warning_entity'),
       show_forecast: _t('config.show_forecast'),
       show_precipitation: _t('config.show_precipitation'),
