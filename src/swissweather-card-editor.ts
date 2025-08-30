@@ -47,17 +47,25 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
   }
 
   public setConfig(config: SwissWeatherCardEditorConfig): void {
-    console.log('🎨 Editor setConfig called with:', config);
-    this._config = {
+    // Only set defaults if a value is truly missing, never overwrite existing config values
+    // This prevents unnecessary resets when grid_options or other Lovelace options change
+    const defaults = {
       type: 'custom:swissweather-card',
       entity: '',
-      location: 'Schweiz',
+      location: 'Switzerland',
       show_forecast: true,
       show_precipitation: true,
       show_warnings: true,
       compact_mode: false,
-      ...config,
     };
+    // Only use default if config[key] is undefined
+    const merged: SwissWeatherCardEditorConfig = { ...defaults };
+    for (const key of Object.keys(config)) {
+      if (config[key] !== undefined) {
+        merged[key] = config[key];
+      }
+    }
+    this._config = merged;
   }
 
   static get styles() {
@@ -153,7 +161,7 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
     if (!this.hass) {
       return html`
         <div class="card-config">
-          <div class="warning">⚠️ Warten auf Home Assistant Verbindung...</div>
+          <div class="warning">⚠️ Waiting for Home Assistant connection...</div>
         </div>
       `;
     }
@@ -161,7 +169,7 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
     if (!this._config) {
       return html`
         <div class="card-config">
-          <div class="warning">⚠️ Konfiguration wird geladen...</div>
+          <div class="warning">⚠️ Loading configuration...</div>
         </div>
       `;
     }
@@ -181,10 +189,10 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
       <div class="card-config">
         <!-- Header -->
         <div class="section">
-          <div class="section-header">🌦️ SwissWeather Card Konfiguration</div>
+          <div class="section-header">🌦️ SwissWeather Card Configuration</div>
           <div class="section-description">
-            Konfigurieren Sie Ihre SwissWeather Card mit den untenstehenden Optionen. Alle
-            Änderungen werden automatisch gespeichert.
+            Configure your SwissWeather Card with the options below. All changes are saved
+            automatically.
           </div>
         </div>
 
@@ -201,14 +209,12 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
         ${this._config.device_id
           ? html`
               <div class="preview">
-                <div class="preview-title">📋 YAML-Konfiguration</div>
+                <div class="preview-title">📋 YAML Configuration</div>
                 <div class="preview-config">${this._renderConfigPreview()}</div>
               </div>
             `
           : html`
-              <div class="warning">
-                ⚠️ Bitte wählen Sie ein Gerät aus, um die Konfiguration zu vervollständigen.
-              </div>
+              <div class="warning">⚠️ Please select a device to complete the configuration.</div>
             `}
       </div>
     `;
@@ -239,7 +245,7 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
 
   private _computeLabel = (schema: any) => {
     const labels: Record<string, string> = {
-      device_id: 'Gerät',
+      device_id: 'Device',
       location: _t('config.location'),
       sunshine_entity: _t('config.sunshine_entity'),
       warning_entity: _t('config.warning_entity'),

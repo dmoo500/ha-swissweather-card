@@ -51,10 +51,13 @@ temp diagram
 
 ### since version 1.4.0
 
-compact mode for forecast (enable forecast and compact mode)
+- compact mode for forecast (enable forecast and compact mode)
+- Use night and day variants for the partly cloudy icon
+- Use extreme rain icon for pouring
+- Show precipitation probability in the precipitation chart
+- fixed the handling of wind speed and direction entity - was a mistake on the implementation of compact mode
 
 <img src="docs/images/compact_mode_forecast.png" width="250"/>
-
 
 ### since version 1.3.0
 
