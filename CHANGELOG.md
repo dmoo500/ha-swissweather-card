@@ -1,19 +1,26 @@
 # Release Notes
 
+## [1.4.1] - 2025-08-30
+
+### Fixed
+- disabled some debug logs
+- correcting the isday handling to show the right partly cloudy
+- adjusted some documentations
+
 ## [1.4.0] - 2025-08-28
 
 ### Added
-- compact mode for the daily forecast
-- show the hourly temperature as a line chart
-- show the hourly precipitation and precipitation_proberly as bar chart in the same chart
+- Compact mode for the daily forecast
+- Display hourly temperature as a line chart
+- Display hourly precipitation and precipitation probability as bar charts in the same chart
 
 <img src="docs/images/compact_mode_forecast.png" width="250" />
 
 ### Changed
 
-- use night and day for partly cloudy icon
-- use extrem rain icon for pouring
-- show the precipitation_proberly in the precipitation chart
+- Use night and day variants for the partly cloudy icon
+- Use extreme rain icon for pouring
+- Show precipitation probability in the precipitation chart
 
 ## [1.3.1] - 2025-08-24
 

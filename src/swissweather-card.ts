@@ -56,15 +56,17 @@ export class SwissWeatherCard extends LitElement {
 
   constructor() {
     super();
-    console.log('🔧 SwissweatherCard constructor called');
-    console.log('🔧 LitElement base:', LitElement);
-    console.log('🔧 customElement decorator applied');
+    // Debug: SwissweatherCard constructor
+    // console.log('🔧 SwissweatherCard constructor called');
+    // console.log('🔧 LitElement base:', LitElement);
+    // console.log('🔧 customElement decorator applied');
   }
 
   connectedCallback() {
     super.connectedCallback();
-    console.log('🔌 SwissweatherCard connected to DOM');
-    console.log('🔌 Custom element defined:', customElements.get('swissweather-card'));
+    // Debug: SwissweatherCard connected to DOM
+    // console.log('🔌 SwissweatherCard connected to DOM');
+    // console.log('🔌 Custom element defined:', customElements.get('swissweather-card'));
   }
 
   private _lastEntityId: string | undefined;
@@ -597,8 +599,7 @@ export class SwissWeatherCard extends LitElement {
       default: 'mdi:alert',
     };
 
-    // Collapsible state for each warning
-    // Use a state property to track open/closed state
+    // Collapsible state for each warning (open/closed)
     if (!this._openWarnings) this._openWarnings = {};
     const toggleWarning = (id: string) => {
       this._openWarnings = { ...this._openWarnings, [id]: !this._openWarnings[id] };
@@ -677,6 +678,7 @@ export class SwissWeatherCard extends LitElement {
   @state() private _openWarnings: Record<string, boolean> = {};
 
   private _renderForecastTemperature(forecastHours: number): TemplateResult {
+    // Show hourly temperature as a line chart if available
     return this.config.show_temperature !== false
       ? this._hourlyForecast.length > 0 &&
         this._hourlyForecast
@@ -709,6 +711,7 @@ export class SwissWeatherCard extends LitElement {
               </div>
               <div style="width:100%;height:90px;overflow-x:auto;">
                 ${(() => {
+                  // Prepare data for SVG line chart
                   const tempsRaw = this._hourlyForecast
                     .slice(0, forecastHours)
                     .map(h =>
@@ -840,9 +843,9 @@ export class SwissWeatherCard extends LitElement {
     sun_entity: HassEntity | null | undefined,
     forecastHours: number
   ): TemplateResult {
+    // Show hourly sunshine duration as bar chart if available
     return this.config.show_sunshine !== false
-      ? // Type extension for sunshine chart (workaround)
-        this._hourlyForecast.length > 0 &&
+      ? this._hourlyForecast.length > 0 &&
         this._hourlyForecast.slice(0, forecastHours).some(h => {
           const hour = h as WeatherForecast & { sunshine?: number; sunshine_duration?: number };
           return (
@@ -1220,58 +1223,58 @@ export class SwissWeatherCard extends LitElement {
   }
 
   private _renderDailyForecastDiagram(): TemplateResult {
-    // ...wird nach der Definition von width, barYBase, barMax, maxPrecip eingefügt...
+    // Daily forecast SVG diagram for temperature and precipitation
     const days = this._forecast?.slice(0, 7) ?? [];
     const hours = this._hourlyForecast?.slice(0, days.length * 24) ?? [];
-    if (!hours.length) return html`<div>no hour forecast available</div>`;
+    if (!hours.length) return html`<div>No hourly forecast available</div>`;
 
     const nDays = days.length;
-    const width = Math.max(180, nDays * 100); // min 100px pro Tag, aber dynamisch
+    const width = Math.max(180, nDays * 100); // Minimum 100px per day, dynamic
     const dayWidth = nDays > 0 ? width / nDays : 100;
-    // Chart deutlich kompakter
+    // More compact chart
     const height = 200;
-    // Immer 24 Stunden pro Tag für die X-Achse
+    // Always 24 hours per day for the X axis
     const hoursPerDay = 24;
-    // x-position per hour in px (immer 24 Abschnitte pro Tag)
+    // X position per hour in px (always 24 sections per day)
     const hourStep = dayWidth / hoursPerDay;
-    // Ermittle den Timestamp (Mitternacht) des ersten Tages
+    // Get the timestamp (midnight) of the first day
     let firstDayStart = 0;
     if (hours.length > 0 && hours[0].datetime) {
       const dt = new Date(hours[0].datetime);
       firstDayStart = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate()).getTime();
     }
 
-    // temprature data
+    // Temperature data
     const temps = hours.map(h => (typeof h.temperature === 'number' ? h.temperature : null));
     let minTemp = Math.min(...(temps.filter(t => t !== null) as number[]));
     const maxTemp = Math.max(...(temps.filter(t => t !== null) as number[]));
-    // Skala immer mindestens von 0 bis maxTemp
+    // Scale always at least from 0 to maxTemp
     if (minTemp > 0) minTemp = 0;
-    // temprature line layout
+    // Temperature line layout
     const weekdayFont = 13;
     const iconSize = 64;
     const minmaxFont = 20;
-    const dayTop = 18; // statisch, da kein padding mehr
+    const dayTop = 18; // Static, no more padding
     const dayGap = 8;
     const minmaxY = dayTop + weekdayFont + dayGap + iconSize + dayGap + 2;
-    // Chart weiter nach unten verschieben, damit mehr Abstand zu min/max temp entsteht
+    // Move chart further down for more space between min/max temp
     const chartOffset = 32;
     const chartHeight = 60;
-    const tempLineYMax = minmaxY + chartOffset; // Startpunkt des Charts
-    const tempLineY0 = tempLineYMax + chartHeight; // y=0 (unten)
+    const tempLineYMax = minmaxY + chartOffset; // Chart start Y
+    const tempLineY0 = tempLineYMax + chartHeight; // y=0 (bottom)
     const tempRange = maxTemp - minTemp || 1;
 
-    // rain data
+    // Precipitation data
     const precs = hours.map(h => (typeof h.precipitation === 'number' ? h.precipitation : 0));
     const precsProberly = hours.map(h =>
       typeof h.precipitation_probability === 'number' ? h.precipitation_probability % 10 : 0
     );
-    // Skala für Balken: immer vollen Bereich nutzen
-    const maxPrecip = Math.max(...precs, ...precsProberly, 1); // nie 0, damit Balken sichtbar
+    // Scale for bars: always use full range
+    const maxPrecip = Math.max(...precs, ...precsProberly, 1); // never 0, so bars are visible
 
-    // Temperatur-Linie: Skaliere auf vollen Bereich (tempLineYMax bis tempLineY0)
-    // Die X-Position so berechnen, dass die erste Stunde ("jetzt") an der passenden Stelle im Tag steht
-    // Berechne für jede Stunde den Tag-Index und die Stunde-im-Tag anhand des Datums
+    // Temperature line: scale to full range (tempLineYMax to tempLineY0)
+    // Calculate X position so the first hour ("now") is at the correct place in the day
+    // For each hour, calculate the day index and hour-in-day from the date
     function getDayAndHourIdx(dt: Date, firstDayStart: number) {
       const msPerDay = 24 * 60 * 60 * 1000;
       const dayStart = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate()).getTime();
@@ -1279,7 +1282,7 @@ export class SwissWeatherCard extends LitElement {
       const hourInDay = Math.round((dt.getTime() - dayStart) / (60 * 60 * 1000));
       return { dayIdx, hourInDay };
     }
-    // entfernt, da bereits oben deklariert
+    // Already declared above
     const tempPoints = temps
       .map((t, i) => {
         if (!hours[i] || !hours[i].datetime) return '';
@@ -1293,18 +1296,18 @@ export class SwissWeatherCard extends LitElement {
       .filter(Boolean)
       .join(' ');
 
-    // rain bars
+    // Rain bars
     const barWidth = Math.max(3, Math.floor(hourStep) - 2);
     const barYBase = tempLineY0;
-    // Skala: 5mm Regen = 5°C Temperaturhöhe (1mm = 1°C)
-    // Skala: Maximaler Balken entspricht Temperaturbereich (maxPrecip = voller Bereich)
-    // Der höchste Niederschlagswert (maxPrecip) nutzt die volle Höhe (tempLineY0 - tempLineYMax)
+    // Scale: 5mm rain = 5°C temperature height (1mm = 1°C)
+    // Scale: Maximum bar equals temperature range (maxPrecip = full range)
+    // The highest precipitation value (maxPrecip) uses the full height (tempLineY0 - tempLineYMax)
     const barMax = tempLineY0 - tempLineYMax;
-    // Farbskala für Niederschlag
+    // Color scale for precipitation
     function getPrecipColor(p: number): string {
-      // Farbverlauf von unten (#5994b1ff) nach oben, oben die jeweilige Farbe bei 5, 10, 15, 20+ mm
+      // Color gradient from bottom (#5994b1ff) to top, top color at 5, 10, 15, 20+ mm
       if (p <= 0) return 'transparent';
-      // Stufenfarben oben
+      // Color stops at the top
       const stops = [
         { val: 0, color: { r: 89, g: 148, b: 177 } }, // #5994b1ff
         { val: 5, color: { r: 33, g: 150, b: 243 } }, // #2196f3
@@ -1321,7 +1324,7 @@ export class SwissWeatherCard extends LitElement {
           break;
         }
       }
-      // Interpolation zwischen lower und upper
+      // Interpolate between lower and upper
       const t = (p - lower.val) / (upper.val - lower.val);
       const r = Math.round(lower.color.r + (upper.color.r - lower.color.r) * t);
       const g = Math.round(lower.color.g + (upper.color.g - lower.color.g) * t);
@@ -1329,7 +1332,7 @@ export class SwissWeatherCard extends LitElement {
       return `rgb(${r},${g},${b})`;
     }
 
-    // precipitation_proberly Balken (transparentes darkgrey)
+    // precipitation_proberly bars (transparent dark grey)
     const barsProberly = precsProberly.map((p, i) => {
       if (!hours[i] || !hours[i].datetime) return null;
       const dt = new Date(hours[i].datetime);
@@ -1355,7 +1358,7 @@ export class SwissWeatherCard extends LitElement {
         : null;
     });
 
-    // vertical day lines exakt an Tageswechseln
+    // Vertical day lines exactly at day changes
     const verticals: unknown[] = [];
     if (nDays > 1 && hours.length > 0) {
       for (let d = 1; d < nDays; d++) {
@@ -1403,7 +1406,7 @@ export class SwissWeatherCard extends LitElement {
       }
     }
 
-    // horizontal temperature lines (every 5°C, always 0°C and minTemp)
+    // Horizontal temperature lines (every 5°C, always 0°C and minTemp)
     const horizontalLines: unknown[] = [];
     const lineStep = (5 / tempRange) * (tempLineY0 - tempLineYMax);
     const nLines = Math.floor((tempLineY0 - tempLineYMax) / lineStep);
@@ -1411,12 +1414,12 @@ export class SwissWeatherCard extends LitElement {
     for (let i = 0; i <= nLines; i++) {
       lineYs.add(tempLineY0 - i * lineStep);
     }
-    // 0°C-Linie
+    // 0°C line
     if (minTemp > 0) {
       const y0 = tempLineY0 - ((0 - minTemp) / tempRange) * (tempLineY0 - tempLineYMax);
       if (y0 <= tempLineY0 && y0 >= tempLineYMax) lineYs.add(y0);
     }
-    // minTemp-Linie
+    // minTemp line
     const ymin = tempLineY0 - ((minTemp - minTemp) / tempRange) * (tempLineY0 - tempLineYMax);
     lineYs.add(ymin);
     Array.from(lineYs)
@@ -1430,7 +1433,7 @@ export class SwissWeatherCard extends LitElement {
       <div class="chart">
         <svg width="100%" height="100%" viewBox="0 0 ${width} ${height}" style="display:block;">
           ${horizontalLines} ${dayGroups} ${verticals} ${barsProberly}
-          <!-- Niederschlagsbalken -->
+          <!-- Precipitation bars -->
           ${bars}
 
           <polyline points="${tempPoints}" fill="none" stroke="#e74c3c" stroke-width="2" />
@@ -1537,18 +1540,45 @@ export class SwissWeatherCard extends LitElement {
 
   private isDay(): boolean {
     const now = new Date();
-    // Calculate sunrise/sunset overlay
+    // Try to get today's sunrise/sunset from weather entity, else fallback to sun.sun
     const weatherEntity = this._getEntityState(this.config.entity) as WeatherEntity;
     const sun_entity = this._getEntityState(this.config.sun_entity || 'sun.sun');
-    // @ts-expect-error: sunrise/sunset are not in the type, but often present
-    const sunrise = weatherEntity?.attributes?.sunrise
-      ? new Date((weatherEntity.attributes as any).sunrise)
-      : new Date((sun_entity?.attributes as any).next_rising) || null;
-    // @ts-expect-error: sunrise/sunset are not in the type, but often present
-    const sunset = weatherEntity?.attributes?.sunset
-      ? new Date((weatherEntity.attributes as any).sunset)
-      : new Date((sun_entity?.attributes as any).next_setting) || null;
-    if (!sunrise || !sunset) return true; // Fallback: immer Tag
+    let sunrise: Date | null = null;
+    let sunset: Date | null = null;
+    // Try weather entity first
+    if (
+      weatherEntity &&
+      weatherEntity.attributes &&
+      'sunrise' in weatherEntity.attributes &&
+      'sunset' in weatherEntity.attributes &&
+      (weatherEntity.attributes as any).sunrise &&
+      (weatherEntity.attributes as any).sunset
+    ) {
+      sunrise = new Date((weatherEntity.attributes as any).sunrise);
+      sunset = new Date((weatherEntity.attributes as any).sunset);
+    } else if (sun_entity?.attributes) {
+      // sun.sun gives next_rising/next_setting, which may be in the future (next day)
+      const nextRising = sun_entity.attributes.next_rising
+        ? new Date(sun_entity.attributes.next_rising)
+        : null;
+      const nextSetting = sun_entity.attributes.next_setting
+        ? new Date(sun_entity.attributes.next_setting)
+        : null;
+      if (nextRising && nextSetting) {
+        // Last sunrise: if next_rising is in the future, lastSunrise = next_rising - 1 day; else next_rising
+        const lastSunrise =
+          nextRising > now ? new Date(nextRising.getTime() - 24 * 60 * 60 * 1000) : nextRising;
+        // Next sunset is always next_setting
+        const nextSunset = nextSetting;
+        sunrise = lastSunrise;
+        sunset = nextSunset;
+      }
+    }
+    // Debug
+    // console.log('Sunrise:', sunrise, 'Sunset:', sunset, 'Now:', now, 'isDay:', sunrise && sunset ? now >= sunrise && now < sunset : 'unknown' );
+    // Fallback: if still missing, treat as day
+    if (!sunrise || !sunset) return true;
+    // If now is between sunrise and sunset, it's day
     return now >= sunrise && now < sunset;
   }
 
