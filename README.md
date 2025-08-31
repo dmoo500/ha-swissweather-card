@@ -1,5 +1,8 @@
 
-> **A modern Home Assistant custom card for Swiss weather, warnings, and forecasts. Use with [hass-swissweather](https://github.com/izacus/hass-swissweather) to show warnings and accurate Swiss data.**
+[![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/hacs/integration)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/dmoo500/ha-swissweather-card)](https://github.com/dmoo500/ha-swissweather-card/releases)
+[![GitHub](https://img.shields.io/github/license/dmoo500/ha-swissweather-card)](LICENSE)
+
 
 # SwissWeather Home Assistant Card
 
@@ -78,26 +81,32 @@ compact mode:
 
 <img src="docs/images/compact-mode.png" width="250" />
 
-## 🛠️ Installation
+## 📦 Installation
 
-### HACS (recommended)
-1. Add this URL as a custom repository: `https://github.com/your-username/ha-swissweather-card`
-2. Search for "SwissWeather Card" and install it
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=dmoo500&repository=ha-swissweather-card&category=frontend)
+
+1. Open HACS in Home Assistant
+2. Go to "Frontend" 
+3. Click the three dots menu → "Custom repositories"
+4. Add repository URL: `https://github.com/dmoo500/ha-swissweather-card`
+5. Category: Lovelace
+6. Install the "Enhanced Person Card"
+7. Restart Home Assistant
+8. Add the card resource to your dashboard
 
 ### Manual
-1. Download the latest `swissweather-card.js` from [Releases](https://github.com/your-username/ha-swissweather-card/releases)
-2. Copy it to your `config/www/` folder
-3. Add the resource:
-
-```yaml
-# configuration.yaml
-lovelace:
-  resources:
-    - url: /local/swissweather-card.js
-      type: module  # Important for HA 2025.8+
-```
-
-4. Restart Home Assistant
+1. Download the latest `swissweather-card.js` from [Releases](https://github.com/dmoo500/ha-swissweather-card/releases)
+2. Copy it to your `config/www/` folder (so the path is `/config/www/swissweather-card.js`)
+3. In Home Assistant, go to **Settings → Dashboards → More Options (⋮) → Resources**
+4. Click **Add Resource** and enter:
+   - **URL:** `/local/swissweather-card.js`
+   - **Type:** `module`
+5. Click **Create** and reload the dashboard (or restart Home Assistant if required)
+6. Now add a new card to your dashboard:
+   - Click **Edit Dashboard**
+   - Click **Add Card**
+   - Search for **SwissWeather Card** or choose **Custom: SwissWeather Card**
+   - Configure the card as desired and save
 
 ## 🎨 Visual Editor
 
