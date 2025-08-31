@@ -214,7 +214,7 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
               </div>
             `
           : html`
-              <div class="warning">⚠️ Please select a device to complete the configuration.</div>
+              <div class="warning">⚠️ Please select a person to complete the configuration.</div>
             `}
       </div>
     `;
