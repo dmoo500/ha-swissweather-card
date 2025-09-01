@@ -1,5 +1,11 @@
 # Release Notes
 
+## [1.4.2] - 2025-09-01
+
+## Fixed
+- show the right animated weather image for lightning-rainy
+- namimg of "lightning-rainy" is adjusted
+
 ## [1.4.1] - 2025-08-30
 
 ### Fixed

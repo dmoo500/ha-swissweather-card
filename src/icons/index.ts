@@ -6,7 +6,7 @@ import partlyCloudyDay from './partly-cloudy-day.svg';
 import partlyCloudyNight from './partly-cloudy-night.svg';
 import fog from './fog.svg';
 import hail from './hail.svg';
-import thunderstormsDayRain from './thunderstorms-day-rain.svg';
+import thunderstormsRain from './thunderstorms-rain.svg';
 import thunderstorms from './thunderstorms.svg';
 import rain from './rain.svg';
 import snow from './snow.svg';
@@ -113,7 +113,7 @@ export const getWeatherIcon = (
     fog: html`<img src="${fog}}" style="font-size:${fontSize}" />`,
     hail: html`<img src="${hail}" style="font-size:${fontSize}" />`,
     lightning: html`<img src="${thunderstorms}" style="font-size:${fontSize}" />`,
-    'lightning-rainy': html`<img src="${thunderstormsDayRain}" style="font-size:${fontSize}" />`,
+    'lightning-rainy': html`<img src="${thunderstormsRain}" style="font-size:${fontSize}" />`,
     partlycloudy: html`<img
       src="${daytime ? partlyCloudyDay : partlyCloudyNight}"
       style="font-size:${fontSize}"
