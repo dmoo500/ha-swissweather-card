@@ -58,7 +58,7 @@ export const translations = {
     fog: 'Nebel',
     hail: 'Hagel',
     lightning: 'Blitz',
-    'lightning-rainy': 'Blitz mit Regen',
+    'lightning-rainy': 'Gewitter, regnerisch',
     partlycloudy: 'Teilweise bewölkt',
     pouring: 'Starker Regen',
     rainy: 'Regen',

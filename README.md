@@ -51,7 +51,6 @@ temp diagram
 
 <img src="docs/images/desktop_temp.png" width="250"/> 
 
-
 ### since version 1.4.0
 
 - compact mode for forecast (enable forecast and compact mode)
@@ -76,10 +75,11 @@ new warning:
 
 <img src="docs/images/warning2.png" width="250" />
 
-### since version 1.3.0
-compact mode:
+### since version 1.1.0
 
-<img src="docs/images/compact-mode.png" width="250" />
+- enable showing animated icons
+- show wind diagram
+
 
 ## 📦 Installation
 
