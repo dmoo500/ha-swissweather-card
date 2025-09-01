@@ -1,25 +1,14 @@
 import { LitElement, html, css, TemplateResult } from 'lit';
 import { use, get as _t, registerTranslateConfig } from 'lit-translate';
-import { customElement, property, state } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 import { fireEvent } from 'custom-card-helpers';
-import type { HomeAssistant, LovelaceCardEditor } from './types/home-assistant.js';
+import type {
+  HomeAssistant,
+  LovelaceCardEditor,
+  SwissWeatherCardConfig,
+} from './types/home-assistant.js';
 import { schema } from './types/home-assistant.js';
 import { translations } from './translations.js';
-// Extend the config for the editor
-interface SwissWeatherCardEditorConfig extends Record<string, any> {
-  type?: string;
-  entity?: string;
-  location?: string;
-  wind_entity?: string;
-  wind_direction_entity?: string;
-  sunshine_entity?: string;
-  precipitation_entity?: string;
-  warning_entity?: string;
-  show_forecast?: boolean;
-  show_precipitation?: boolean;
-  show_warnings?: boolean;
-  compact_mode?: boolean;
-}
 
 registerTranslateConfig({
   // Loads the language by returning a JSON structure for a given language
@@ -29,43 +18,34 @@ registerTranslateConfig({
 });
 
 @customElement('swissweather-card-editor')
-export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEditor {
+export class SwissweatherCardEditor extends LitElement implements LovelaceCardEditor {
   @property({ attribute: false }) public hass!: HomeAssistant;
   @property({ attribute: false }) public lovelace?: any;
-  @state() private _config!: SwissWeatherCardEditorConfig;
-  @state() private _toggle?: boolean;
+  @property({ attribute: false }) private _config!: SwissWeatherCardConfig;
 
   constructor() {
     super();
-    console.log('🎨 SwissWeatherCardEditor constructor called');
+    console.log('🎨 SwissweatherCardEditor constructor called');
   }
 
-  connectedCallback() {
-    super.connectedCallback();
-    console.log('🎨 SwissWeatherCardEditor connected to DOM');
-    console.log('🎨 HASS available:', !!this.hass);
-  }
-
-  public setConfig(config: SwissWeatherCardEditorConfig): void {
-    // Only set defaults if a value is truly missing, never overwrite existing config values
-    // This prevents unnecessary resets when grid_options or other Lovelace options change
-    const defaults = {
-      type: 'custom:swissweather-card',
-      entity: '',
-      location: 'Switzerland',
-      show_forecast: true,
-      show_precipitation: true,
-      show_warnings: true,
-      compact_mode: false,
-    };
-    // Only use default if config[key] is undefined
-    const merged: SwissWeatherCardEditorConfig = { ...defaults };
-    for (const key of Object.keys(config)) {
-      if (config[key] !== undefined) {
-        merged[key] = config[key];
+  public setConfig(config: SwissWeatherCardConfig): void {
+    // Set entity fields with '' to undefined so the visual editor displays them correctly
+    const cleanConfig = { ...config };
+    const entityFields = [
+      'entity',
+      'sun_entity',
+      'wind_entity',
+      'wind_direction_entity',
+      'sunshine_entity',
+      'warning_entity',
+    ];
+    for (const key of entityFields) {
+      if (cleanConfig[key as keyof SwissWeatherCardConfig] === '') {
+        delete cleanConfig[key as keyof SwissWeatherCardConfig];
       }
     }
-    this._config = merged;
+    this._config = cleanConfig;
+    (this as LitElement).requestUpdate(); // Force re-render
   }
 
   static get styles() {
@@ -74,48 +54,30 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
         padding: 16px;
       }
 
-      .section {
-        margin-bottom: 24px;
-      }
-
-      .section-header {
-        font-size: 18px;
-        font-weight: 600;
-        margin-bottom: 12px;
-        color: var(--primary-text-color);
+      .header {
         display: flex;
         align-items: center;
         gap: 8px;
-        padding-bottom: 8px;
-        border-bottom: 1px solid var(--divider-color);
+        margin-bottom: 24px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid var(--card-divider-color);
       }
 
-      .section-description {
+      .header-title {
+        font-size: 24px;
+        font-weight: bold;
+        color: var(--primary-text-color, #dc143c);
+      }
+
+      .header-subtitle {
         font-size: 14px;
         color: var(--secondary-text-color);
-        margin-bottom: 20px;
-        line-height: 1.5;
-        background: var(--card-background-color);
-        padding: 12px 16px;
-        border-radius: 8px;
-        border-left: 4px solid #dc143c;
+        margin-top: 4px;
       }
 
       ha-form {
         display: block;
         margin-bottom: 24px;
-      }
-
-      .warning {
-        background: var(--warning-color);
-        color: var(--text-primary-color);
-        padding: 12px 16px;
-        border-radius: 8px;
-        margin-bottom: 16px;
-        font-size: 14px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
       }
 
       .preview {
@@ -157,42 +119,45 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
   }
 
   protected render(): TemplateResult {
-    use((this.hass.selectedLanguage || this.hass.language || 'en').substring(0, 2));
     if (!this.hass) {
-      return html`
-        <div class="card-config">
-          <div class="warning">⚠️ Waiting for Home Assistant connection...</div>
-        </div>
-      `;
+      return html`<div>Loading...</div>`;
     }
-
-    if (!this._config) {
-      return html`
-        <div class="card-config">
-          <div class="warning">⚠️ Loading configuration...</div>
-        </div>
-      `;
-    }
-
+    use((this.hass.selectedLanguage || this.hass.language || 'en').substring(0, 2));
+    // Prepare data for ha-form
     const data = {
-      device_id: this._config.device_id || '',
-      location: this._config.location || '',
-      sunshine_entity: this._config.sunshine_entity || '',
-      warning_entity: this._config.warning_entity || '',
-      show_forecast: this._config.show_forecast !== false,
-      show_precipitation: this._config.show_precipitation !== false,
-      show_warnings: this._config.show_warnings !== false,
-      compact_mode: this._config.compact_mode !== false,
+      entity: typeof this._config?.entity === 'string' ? this._config.entity : undefined,
+      show_location: this._config?.show_location ?? true,
+      location: this._config?.location ?? '',
+      sun_entity:
+        typeof this._config?.sun_entity === 'string' ? this._config.sun_entity : undefined,
+      wind_entity:
+        typeof this._config?.wind_entity === 'string' ? this._config.wind_entity : undefined,
+      wind_direction_entity:
+        typeof this._config?.wind_direction_entity === 'string'
+          ? this._config.wind_direction_entity
+          : undefined,
+      sunshine_entity:
+        typeof this._config?.sunshine_entity === 'string'
+          ? this._config.sunshine_entity
+          : undefined,
+      warning_entity:
+        typeof this._config?.warning_entity === 'string' ? this._config.warning_entity : undefined,
+      show_forecast: this._config?.show_forecast ?? false,
+      forecast_hours: this._config?.forecast_hours ?? 6,
+      show_temperature: this._config?.show_temperature ?? false,
+      show_precipitation: this._config?.show_precipitation ?? false,
+      show_sunshine: this._config?.show_sunshine ?? false,
+      show_warnings: this._config?.show_warnings ?? false,
+      show_wind: this._config?.show_wind ?? true,
+      enable_animate_weather_icons: this._config?.enable_animate_weather_icons ?? true,
+      compact_mode: this._config?.compact_mode ?? false,
     };
 
     return html`
       <div class="card-config">
-        <!-- Header -->
-        <div class="section">
-          <div class="section-header">🌦️ SwissWeather Card Configuration</div>
-          <div class="section-description">
-            Configure your SwissWeather Card with the options below. All changes are saved
-            automatically.
+        <div class="header">
+          <div>
+            <div class="header-title">🌦️ SwissWeather Card</div>
           </div>
         </div>
 
@@ -206,27 +171,48 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
         ></ha-form>
 
         <!-- Configuration Preview -->
-        ${this._config.device_id
+        ${this._config?.entity
           ? html`
               <div class="preview">
-                <div class="preview-title">📋 YAML Configuration</div>
+                <div class="preview-title">📋 YAML-Config</div>
                 <div class="preview-config">${this._renderConfigPreview()}</div>
               </div>
             `
-          : html`
-              <div class="warning">⚠️ Please select a person to complete the configuration.</div>
-            `}
+          : ''}
       </div>
     `;
   }
 
-  private _renderConfigPreview(): string {
-    const config: any = {
-      type: 'custom:swissweather-card',
-      ...this._config,
+  private _computeLabel = (schema: any) => {
+    const labels: Record<string, string> = {
+      entity: _t('config.entity'),
+      show_location: _t('config.show_location'),
+      sun_entity: _t('config.sun_entity'),
+      location: _t('config.location'),
+      wind_entity: _t('config.wind_entity'),
+      wind_direction_entity: _t('config.wind_direction_entity'),
+      sunshine_entity: _t('config.sunshine_entity'),
+      warning_entity: _t('config.warning_entity'),
+      show_forecast: _t('config.show_forecast'),
+      forecast_hours: _t('config.forecast_hours'),
+      show_temperature: _t('config.show_temperature'),
+      show_precipitation: _t('config.show_precipitation'),
+      show_sunshine: _t('config.show_sunshine'),
+      show_warnings: _t('config.show_warnings'),
+      show_wind: _t('config.show_wind'),
+      enable_animate_weather_icons: _t('config.enable_animate_weather_icons'),
+      compact_mode: _t('config.compact_mode'),
     };
+    return labels[schema.name] || schema.name;
+  };
 
-    // Remove undefined and empty values for cleaner preview
+  private _renderConfigPreview(): string {
+    const config: any = { ...this._config };
+    if (!config.type) {
+      config.type = 'custom:swissweather-card';
+    }
+
+    // Remove undefined values for cleaner preview
     Object.keys(config).forEach(key => {
       if (config[key] === undefined || config[key] === '') {
         delete config[key];
@@ -243,46 +229,42 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
       .join('\n');
   }
 
-  private _computeLabel = (schema: any) => {
-    const labels: Record<string, string> = {
-      device_id: 'Device',
-      location: _t('config.location'),
-      sunshine_entity: _t('config.sunshine_entity'),
-      warning_entity: _t('config.warning_entity'),
-      show_forecast: _t('config.show_forecast'),
-      show_precipitation: _t('config.show_precipitation'),
-      show_warnings: _t('config.show_warnings'),
-      compact_mode: _t('config.compact_mode'),
-    };
-    return labels[schema.name] || schema.name;
-  };
-
-  private _valueChanged(ev: any): void {
-    if (!this._config || !this.hass) {
-      return;
+  private _valueChanged(ev: CustomEvent): void {
+    if (!this._config) {
+      this._config = {
+        type: 'custom:swissweather-card',
+        entity: '',
+        location: 'Schweiz',
+        show_forecast: true,
+        show_temperature: true,
+        show_precipitation: true,
+        show_sunshine: true,
+        show_warnings: true,
+        show_wind: true,
+        forecast_hours: 6,
+        enable_animate_weather_icons: true,
+        show_location: true,
+        sun_entity: 'sun.sun',
+        compact_mode: false,
+      };
     }
 
-    const newConfig = {
-      type: 'custom:swissweather-card',
-      ...ev.detail.value,
-    };
+    // Handle ha-form events
+    if (ev.type === 'value-changed') {
+      const newConfig = {
+        type: 'custom:swissweather-card',
+        ...ev.detail.value,
+      };
 
-    // Remove empty values
-    Object.keys(newConfig).forEach(key => {
-      if ((newConfig as any)[key] === '' || (newConfig as any)[key] === undefined) {
-        delete (newConfig as any)[key];
-      }
-    });
+      // Remove empty values
+      Object.keys(newConfig).forEach(key => {
+        if ((newConfig as any)[key] === '' || (newConfig as any)[key] === undefined) {
+          delete (newConfig as any)[key];
+        }
+      });
 
-    this._config = newConfig;
-    fireEvent(this, 'config-changed', { config: this._config });
-  }
-
-  static get properties() {
-    return {
-      hass: {},
-      _config: {},
-      _toggle: {},
-    };
+      this._config = newConfig;
+      fireEvent(this, 'config-changed', { config: this._config });
+    }
   }
 }

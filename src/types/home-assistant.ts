@@ -259,7 +259,7 @@ export type WeatherWarningType =
   | 'forest_fire';
 
 // Card configuration types
-export interface SwissWeatherCardConfig {
+export interface BaseSwissWeatherCardConfig {
   type: 'custom:swissweather-card';
   entity: string;
   show_location?: boolean;
@@ -281,6 +281,23 @@ export interface SwissWeatherCardConfig {
   enable_animate_weather_icons?: boolean;
   compact_mode?: boolean;
   theme?: 'mdi' | 'animated';
+}
+export type SwissWeatherCardConfig = Omit<BaseSwissWeatherCardConfig, 'type'> & {
+  type: 'custom:swissweather-card';
+};
+export interface SwissWeatherCardEditorConfig extends Record<string, any> {
+  type?: string;
+  entity?: string;
+  location?: string;
+  wind_entity?: string;
+  wind_direction_entity?: string;
+  sunshine_entity?: string;
+  precipitation_entity?: string;
+  warning_entity?: string;
+  show_forecast?: boolean;
+  show_precipitation?: boolean;
+  show_warnings?: boolean;
+  compact_mode?: boolean;
 }
 
 export const schema = [
