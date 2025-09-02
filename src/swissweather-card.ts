@@ -509,6 +509,7 @@ export class SwissWeatherCard extends LitElement {
       show_wind: true,
       enable_animate_weather_icons: true,
       compact_mode: false,
+      chart_order: ['temperature', 'precipitation', 'sunshine', 'wind'],
     };
   }
 
@@ -1577,6 +1578,18 @@ export class SwissWeatherCard extends LitElement {
     return now >= sunrise && now < sunset;
   }
 
+  private _showDailyForecast(): TemplateResult {
+    const forecast = this._forecast; // Use state instead of attributes
+    return this.config.show_forecast !== false
+      ? html`
+          ${this.config.compact_mode === true && this.config.show_forecast === true
+            ? this._renderDailyForecastDiagram()
+            : html``}
+          ${this.config.compact_mode === false ? this._renderDailyForecast(forecast) : html``}
+        `
+      : html``;
+  }
+
   public render(): TemplateResult {
     use((this.hass.selectedLanguage || this.hass.language || 'en').substring(0, 2));
 
@@ -1593,7 +1606,6 @@ export class SwissWeatherCard extends LitElement {
     const location = this.config.location || _t('location');
     const temperature = weatherEntity.attributes.temperature;
     const condition = weatherEntity.state as WeatherCondition;
-    const forecast = this._forecast; // Use state instead of attributes
 
     // Get additional sensor data
     const windEntity = this.config.wind_entity
@@ -1669,14 +1681,30 @@ export class SwissWeatherCard extends LitElement {
             </div>
           `
         : ''}
-      ${this._renderForecastTemperature(forecastHours)}
-      ${this._renderForecastPrecipitation(forecastHours)}
-      ${this._renderForecastSunshine(weatherEntity, sun_entity, forecastHours)}
-      ${this._renderForecastWind(forecastHours)}
-      ${this.config.compact_mode === true && this.config.show_forecast === true
-        ? this._renderDailyForecastDiagram()
-        : html``}
-      ${this.config.compact_mode === false ? this._renderDailyForecast(forecast) : html``}
+      ${(
+        (this.config.chart_order || [
+          'temperature',
+          'precipitation',
+          'sunshine',
+          'wind',
+          'forecast',
+        ]) as string[]
+      ).map(chart => {
+        switch (chart) {
+          case 'temperature':
+            return this._renderForecastTemperature(forecastHours);
+          case 'precipitation':
+            return this._renderForecastPrecipitation(forecastHours);
+          case 'sunshine':
+            return this._renderForecastSunshine(weatherEntity, sun_entity, forecastHours);
+          case 'wind':
+            return this._renderForecastWind(forecastHours);
+          case 'forecast':
+            return this._showDailyForecast();
+          default:
+            return '';
+        }
+      })}
     `;
   }
 

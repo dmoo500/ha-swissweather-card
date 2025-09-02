@@ -281,6 +281,7 @@ export interface BaseSwissWeatherCardConfig {
   enable_animate_weather_icons?: boolean;
   compact_mode?: boolean;
   theme?: 'mdi' | 'animated';
+  chart_order?: string[];
 }
 export type SwissWeatherCardConfig = Omit<BaseSwissWeatherCardConfig, 'type'> & {
   type: 'custom:swissweather-card';
@@ -350,26 +351,34 @@ export const schema = [
   },
   {
     name: 'show_forecast',
-    selector: {
-      boolean: {},
-    },
+    selector: { boolean: {} },
   },
   {
     name: 'show_precipitation',
-    selector: {
-      boolean: {},
-    },
+    selector: { boolean: {} },
+  },
+  {
+    name: 'show_temperature',
+    selector: { boolean: {} },
+  },
+  {
+    name: 'show_sunshine',
+    selector: { boolean: {} },
+  },
+  {
+    name: 'show_wind',
+    selector: { boolean: {} },
+  },
+  {
+    name: 'enable_animate_weather_icons',
+    selector: { boolean: {} },
   },
   {
     name: 'show_warnings',
-    selector: {
-      boolean: {},
-    },
+    selector: { boolean: {} },
   },
   {
     name: 'compact_mode',
-    selector: {
-      boolean: {},
-    },
+    selector: { boolean: {} },
   },
 ];
