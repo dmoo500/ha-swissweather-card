@@ -349,6 +349,7 @@ export const schema = [
       },
     },
   },
+  { name: 'forecast_hours', selector: { number: { min: 6, max: 18, step: 1 } } },
   {
     name: 'show_forecast',
     selector: { boolean: {} },

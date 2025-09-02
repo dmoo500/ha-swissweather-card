@@ -76,7 +76,7 @@ export const translations = {
     'lightning-rainy': 'Gewitter, regnerisch',
     partlycloudy: 'Teilweise bewölkt',
     pouring: 'Strömender Regen',
-    rainy: 'Regen',
+    rainy: 'Regnerisch',
     snowy: 'Schnee',
     'snowy-rainy': 'Schnee mit Regen',
     sunny: 'Sonnig',

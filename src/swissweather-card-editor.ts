@@ -238,7 +238,7 @@ export class SwissweatherCardEditor extends LitElement implements LovelaceCardEd
           </div>
         </div>
 
-        <!-- Allgemein -->
+        <!-- General -->
         <div class="group">
           <div class="group-title">${_t('config.group_general') || 'General'}</div>
           <ha-form
@@ -253,7 +253,7 @@ export class SwissweatherCardEditor extends LitElement implements LovelaceCardEd
           ></ha-form>
         </div>
 
-        <!-- Sensoren -->
+        <!-- Sensors -->
         <div class="group">
           <div class="group-title">${_t('config.group_sensors') || 'Sensors'}</div>
           <ha-form
@@ -271,13 +271,14 @@ export class SwissweatherCardEditor extends LitElement implements LovelaceCardEd
           ></ha-form>
         </div>
 
-        <!-- Anzeigeoptionen -->
+        <!-- Display options -->
         <div class="group">
           <div class="group-title">${_t('config.group_display') || 'Display Options'}</div>
           <ha-form
             .hass=${this.hass}
             .data=${data}
             .schema=${[
+              schema.find(s => s.name === 'forecast_hours'),
               schema.find(s => s.name === 'show_forecast'),
               schema.find(s => s.name === 'show_precipitation'),
               schema.find(s => s.name === 'show_temperature'),
@@ -291,7 +292,7 @@ export class SwissweatherCardEditor extends LitElement implements LovelaceCardEd
             @value-changed=${this._valueChanged}
           ></ha-form>
         </div>
-        <!-- Chart-Reihenfolge -->
+        <!-- Chart order -->
         <div class="group">
           <div class="group-title">${_t('config.group_chart_order') || 'Chart Order'}</div>
           <ul style="list-style:none;padding:0;margin:0;">

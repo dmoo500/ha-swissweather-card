@@ -1,6 +1,11 @@
+import { renderDailyForecastDiagram } from './charts/daily-forecast-diagram.js';
+import { renderForecastSunshine } from './charts/sunshine-chart.js';
+import { renderForecastWind } from './charts/wind-chart.js';
+import { renderDailyForecast } from './charts/daily-forecast-chart.js';
 import { translations } from './translations.js';
+import { showHoursChartLabel, formatDateToWeekDay } from './charts/index.js';
 
-import { LitElement, html, css, PropertyValues, TemplateResult, svg } from 'lit';
+import { LitElement, html, css, PropertyValues, TemplateResult } from 'lit';
 import { use, translate as _t, registerTranslateConfig } from 'lit-translate';
 import { customElement, property, state } from 'lit/decorators.js';
 import { marked } from 'marked';
@@ -16,6 +21,8 @@ import type {
 import { schema } from './types/home-assistant.js';
 import { getWeatherIcon } from './icons/';
 import { SwissweatherCardEditor } from './swissweather-card-editor.js';
+import { renderForecastTemperature } from './charts/forecast-temperature-chart.js';
+import { renderForecastPrecipitation } from './charts/precipitation-chart.js';
 
 // Extend Window interface for customCards
 declare global {
@@ -674,164 +681,22 @@ export class SwissWeatherCard extends LitElement {
   @state() private _openWarnings: Record<string, boolean> = {};
 
   private _renderForecastTemperature(forecastHours: number): TemplateResult {
-    // Show hourly temperature as a line chart if available
-    return this.config.show_temperature !== false
-      ? this._hourlyForecast.length > 0 &&
-        this._hourlyForecast
-          .slice(0, forecastHours)
-          .some(h => typeof h.temperature === 'number' && !isNaN(h.temperature))
-        ? html`
-            <div class="chart">
-              <div class="section-title">
-                <ha-icon icon="mdi:thermometer"></ha-icon>
-                ${_t('temperature_hours', { hours: forecastHours })}
-              </div>
-              <div class="chart-line" style="position:relative;">
-                ${this._hourlyForecast.slice(0, forecastHours).map((hour: WeatherForecast) => {
-                  const value =
-                    typeof hour.temperature === 'number' && !isNaN(hour.temperature)
-                      ? hour.temperature
-                      : null;
-                  return html`
-                    <div
-                      style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end;margin-bottom:10px;"
-                    >
-                      <span
-                        style="font-size:11px; color:#db4a34; writing-mode:vertical-rl; transform:rotate(180deg); min-height:30px; font-variant-numeric:tabular-nums;"
-                      >
-                        ${value !== null ? value.toFixed(1) + ' °C' : ''}
-                      </span>
-                    </div>
-                  `;
-                })}
-              </div>
-              <div style="width:100%;height:90px;overflow-x:auto;">
-                ${(() => {
-                  // Prepare data for SVG line chart
-                  const tempsRaw = this._hourlyForecast
-                    .slice(0, forecastHours)
-                    .map(h =>
-                      typeof h.temperature === 'number' && !isNaN(h.temperature)
-                        ? h.temperature
-                        : null
-                    );
-                  const temps: number[] = tempsRaw.filter((t): t is number => t !== null);
-                  if (temps.length < 2) return '';
-                  const min = Math.min(...temps);
-                  const max = Math.max(...temps);
-                  const range = max - min || 1;
-                  const n = tempsRaw.length;
-                  const w = Math.max(360, Math.min(1600, n * 250));
-                  const h = 50;
-                  const step = w / (n - 1);
-                  const points = tempsRaw
-                    .map((t, i) => (t !== null ? `${i * step},${h - ((t - min) / range) * h}` : ''))
-                    .filter(Boolean)
-                    .join(' ');
-                  const svgWidth =
-                    forecastHours === 6
-                      ? '84%'
-                      : forecastHours === 12
-                        ? '90%'
-                        : forecastHours === 18
-                          ? '96%'
-                          : '100%';
-                  const svgPadding =
-                    forecastHours === 6
-                      ? '8%'
-                      : forecastHours === 12
-                        ? '5%'
-                        : forecastHours === 18
-                          ? '2%'
-                          : '0%';
-                  return svg`<svg width="${svgWidth}" height="${h}" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" style="display:block;padding-left:${svgPadding};">
-                        <polyline points="${points}" fill="none" stroke="#db4a34" stroke-width="3" />
-                        ${tempsRaw.map((t, i) => (t !== null ? svg`<circle r="3" fill="#db4a34" cx="${i * step}" cy="${h - ((t - min) / range) * h}" />` : null))}
-                        </svg>`;
-                })()}
-              </div>
-              ${this._showHoursChartLabel(forecastHours)}
-            </div>
-          `
-        : html`
-            <div class="chart">
-              <div class="section-title">
-                <ha-icon icon="mdi:thermometer"></ha-icon>
-                ${_t('temperature_hours', { hours: forecastHours })}
-              </div>
-              <div style="text-align:center; color:#888; padding:16px; font-size:14px;">
-                ${_t('no_temperature_data')}
-              </div>
-            </div>
-          `
-      : html``;
+    return renderForecastTemperature(
+      this._hourlyForecast,
+      forecastHours,
+      this.config.show_temperature === false ? false : true,
+      _t,
+      (h: number) => showHoursChartLabel(h, _t)
+    );
   }
   private _renderForecastPrecipitation(forecastHours: number): TemplateResult {
-    return this.config.show_precipitation !== false
-      ? this._hourlyForecast.length > 0 &&
-        this._hourlyForecast
-          .slice(0, forecastHours)
-          .some(h => typeof h.precipitation === 'number' && !isNaN(h.precipitation))
-        ? html`
-            <div class="chart">
-              <div class="section-title">
-                <ha-icon icon="mdi:weather-pouring"></ha-icon>
-                ${_t('precipitation_hours', { hours: forecastHours })}
-              </div>
-              <div class="chart-bars">
-                ${this._hourlyForecast.slice(0, forecastHours).map((hour: WeatherForecast) => {
-                  const precValue =
-                    typeof hour.precipitation === 'number' && !isNaN(hour.precipitation)
-                      ? hour.precipitation
-                      : null;
-                  const precBarHeight = precValue !== null ? Math.round(precValue) : 2;
-                  const precProbValue =
-                    typeof hour.precipitation_probability === 'number' &&
-                    !isNaN(hour.precipitation_probability)
-                      ? hour.precipitation_probability
-                      : null;
-                  const precProbBarHeight =
-                    precProbValue !== null ? Math.round(precProbValue % 10) : 2;
-                  return html`
-                    <div
-                      style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; position:relative;"
-                    >
-                      <div
-                        style="height:32px; display:flex; align-items:flex-end; justify-content:center;"
-                      >
-                        <span
-                          style="font-size:11px; color:#3498db; margin-bottom:2px; min-height:16px; font-variant-numeric:tabular-nums;"
-                        >
-                          ${precValue !== null ? precValue.toFixed(1) + ' mm' : ''}
-                        </span>
-                      </div>
-                      <div
-                        class="chart-bar-precipitation-prob"
-                        style="height: ${precProbBarHeight}px; position:absolute; bottom:0; left:50%; transform:translateX(-50%); z-index:0; width:18px;"
-                      ></div>
-                      <div
-                        class="chart-bar-precipitation"
-                        style="height: ${precBarHeight}px; position:relative; z-index:1; width:18px;"
-                      ></div>
-                    </div>
-                  `;
-                })}
-              </div>
-              ${this._showHoursChartLabel(forecastHours)}
-            </div>
-          `
-        : html`
-            <div class="chart">
-              <div class="section-title">
-                <ha-icon icon="mdi:weather-pouring"></ha-icon>
-                ${_t('precipitation_hours', { hours: forecastHours })}
-              </div>
-              <div style="text-align:center; color:#888; padding:16px; font-size:14px;">
-                ${_t('no_precipitation_data')}
-              </div>
-            </div>
-          `
-      : html``;
+    return renderForecastPrecipitation(
+      this._hourlyForecast,
+      forecastHours,
+      this.config.show_precipitation === false ? false : true,
+      _t,
+      (h: number) => showHoursChartLabel(h, _t)
+    );
   }
 
   private _renderForecastSunshine(
@@ -839,603 +704,38 @@ export class SwissWeatherCard extends LitElement {
     sun_entity: HassEntity | null | undefined,
     forecastHours: number
   ): TemplateResult {
-    // Show hourly sunshine duration as bar chart if available
-    return this.config.show_sunshine !== false
-      ? this._hourlyForecast.length > 0 &&
-        this._hourlyForecast.slice(0, forecastHours).some(h => {
-          const hour = h as WeatherForecast & { sunshine?: number; sunshine_duration?: number };
-          return (
-            (typeof hour.sunshine === 'number' && !isNaN(hour.sunshine)) ||
-            (typeof hour.sunshine_duration === 'number' && !isNaN(hour.sunshine_duration))
-          );
-        })
-        ? html`
-            <div class="chart" style="position:relative;">
-              <div class="section-title">
-                <ha-icon icon="mdi:white-balance-sunny"></ha-icon>
-                ${_t('sunshine_hours', { hours: forecastHours })}
-              </div>
-              <div class="chart-bars" style="position:relative;">
-                ${(() => {
-                  // Calculate sunrise/sunset overlay
-                  // @ts-expect-error: sunrise/sunset are not in the type, but often present
-                  const sunrise = weatherEntity?.attributes?.sunrise
-                    ? new Date((weatherEntity.attributes as any).sunrise)
-                    : new Date((sun_entity?.attributes as any).next_rising) || null;
-                  // @ts-expect-error: sunrise/sunset are not in the type, but often present
-                  const sunset = weatherEntity?.attributes?.sunset
-                    ? new Date((weatherEntity.attributes as any).sunset)
-                    : new Date((sun_entity?.attributes as any).next_setting) || null;
-                  const firstHour = this._hourlyForecast[0]?.datetime
-                    ? new Date(this._hourlyForecast[0].datetime)
-                    : null;
-                  let sunriseIdx = -1,
-                    sunsetIdx = -1;
-                  if (sunrise && firstHour) {
-                    sunriseIdx = Math.round(
-                      (sunrise.getTime() - firstHour.getTime()) / (60 * 60 * 1000) + 1
-                    );
-                  }
-                  if (sunset && firstHour) {
-                    sunsetIdx = Math.round(
-                      (sunset.getTime() - firstHour.getTime()) / (60 * 60 * 1000) + 1
-                    );
-                  }
-                  return html`
-                    ${sunriseIdx >= 0 && sunriseIdx < forecastHours
-                      ? html`
-                          <div
-                            style="position:absolute;left:calc(${(sunriseIdx / forecastHours) *
-                            100}% - 10px);top:0;height:100%;width:20px;pointer-events:none;z-index:2;display:flex;flex-direction:column;align-items:center;"
-                          >
-                            <ha-icon
-                              icon="mdi:weather-sunset-up"
-                              style="color:#fbc02d;font-size:18px;"
-                            ></ha-icon>
-                            <span style="font-size:10px;color:#fbc02d;"
-                              >${_t('sunrise')}
-                              ${sunrise
-                                ? sunrise.toLocaleTimeString([], {
-                                    hour: '2-digit',
-                                    minute: '2-digit',
-                                  })
-                                : ''}</span
-                            >
-                          </div>
-                        `
-                      : ''}
-                    ${sunsetIdx >= 0 && sunsetIdx < forecastHours
-                      ? html`
-                          <div
-                            style="position:absolute;left:calc(${(sunsetIdx / forecastHours) *
-                            100}% - 10px);top:0;height:100%;width:20px;pointer-events:none;z-index:2;display:flex;flex-direction:column;align-items:center;"
-                          >
-                            <ha-icon
-                              icon="mdi:weather-sunset-down"
-                              style="color:#fbc02d;font-size:18px;"
-                            ></ha-icon>
-                            <span style="font-size:10px;color:#fbc02d;align-items:center;"
-                              >${_t('sunset')}
-                              ${sunset
-                                ? sunset.toLocaleTimeString([], {
-                                    hour: '2-digit',
-                                    minute: '2-digit',
-                                  })
-                                : ''}</span
-                            >
-                          </div>
-                        `
-                      : ''}
-                  `;
-                })()}
-                ${this._hourlyForecast.slice(0, forecastHours).map((h: WeatherForecast) => {
-                  const hour = h as WeatherForecast & {
-                    sunshine?: number;
-                    sunshine_duration?: number;
-                  };
-                  // Try both possible properties: sunshine or sunshine_duration
-                  const value =
-                    typeof hour.sunshine === 'number' && !isNaN(hour.sunshine)
-                      ? hour.sunshine
-                      : typeof hour.sunshine_duration === 'number' && !isNaN(hour.sunshine_duration)
-                        ? hour.sunshine_duration
-                        : null;
-                  // Bar height: 0-60 minutes → 0-60px
-                  const barHeight = value !== null ? Math.round(value) : 2;
-                  return html`
-                    <div
-                      style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end;"
-                    >
-                      <span
-                        style="font-size:11px; color:#fbc02d; margin-bottom:2px; min-height:16px; font-variant-numeric:tabular-nums;"
-                      >
-                        ${value !== null ? value.toFixed(0) + ' min' : ''}
-                      </span>
-                      <div class="chart-bar-sunshine" style="height: ${barHeight}px;"></div>
-                    </div>
-                  `;
-                })}
-              </div>
-              ${this._showHoursChartLabel(forecastHours)}
-            </div>
-          `
-        : html`
-            <div class="chart">
-              <div class="section-title">
-                <ha-icon icon="mdi:white-balance-sunny"></ha-icon>
-                ${_t('sunshine_hours', { hours: forecastHours })}
-              </div>
-              <div style="text-align:center; color:#888; padding:16px; font-size:14px;">
-                ${_t('no_sunshine_data')}
-              </div>
-            </div>
-          `
-      : html``;
+    return renderForecastSunshine(
+      this._hourlyForecast,
+      forecastHours,
+      this.config.show_sunshine === false ? false : true,
+      weatherEntity,
+      sun_entity,
+      _t,
+      (h: number) => showHoursChartLabel(h, _t)
+    );
   }
 
   private _renderForecastWind(forecastHours: number): TemplateResult {
-    return this.config.show_sunshine !== false
-      ? this._hourlyForecast.length > 0 &&
-        this._hourlyForecast
-          .slice(0, forecastHours)
-          .some(h => typeof h.wind_speed === 'number' && !isNaN(h.wind_speed))
-        ? html`
-            <div class="chart">
-              <div class="section-title">
-                <ha-icon icon="mdi:weather-windy"></ha-icon>
-                ${_t('wind_hours', { hours: forecastHours })}
-              </div>
-              <div class="chart-line-wind" style="position:relative;">
-                ${this._hourlyForecast.slice(0, forecastHours).map((hour: WeatherForecast) => {
-                  const value =
-                    typeof hour.wind_speed === 'number' && !isNaN(hour.wind_speed)
-                      ? hour.wind_speed
-                      : null;
-                  return html`
-                    <div
-                      style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end;"
-                    >
-                      <span
-                        style="font-size:11px; color:#44739e; writing-mode:vertical-rl; transform:rotate(180deg); min-height:16px; font-variant-numeric:tabular-nums;"
-                      >
-                        ${value !== null ? value.toFixed(1) + ' km/h' : ''}
-                      </span>
-                    </div>
-                  `;
-                })}
-              </div>
-              <div class="chart-line-wind" style="position:relative;">
-                ${this._hourlyForecast.slice(0, forecastHours).map((hour: WeatherForecast) => {
-                  const value =
-                    typeof hour.wind_bearing === 'number' && !isNaN(hour.wind_bearing)
-                      ? hour.wind_bearing
-                      : null;
-                  const windDirection = value !== null ? value : 0; // Fallback to 0 if no value is present
-                  return html`
-                    <div
-                      style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;"
-                    >
-                      <div class="wind-compass" style="width: 12px; height: 12px; margin: 0 auto;">
-                        <div
-                          class="wind-arrow"
-                          style="transform: translate(-50%, -100%) rotate(${windDirection}deg);"
-                        ></div>
-                      </div>
-                    </div>
-                  `;
-                })}
-              </div>
-              <div style="width:100%;height:90px;overflow-x:auto;">
-                ${(() => {
-                  const windRaw = this._hourlyForecast
-                    .slice(0, forecastHours)
-                    .map(h =>
-                      typeof h.wind_speed === 'number' && !isNaN(h.wind_speed) ? h.wind_speed : null
-                    );
-                  const winds: number[] = windRaw.filter((t): t is number => t !== null);
-                  if (winds.length < 2) return '';
-                  const min = Math.min(...winds);
-                  const max = Math.max(...winds);
-                  const range = max - min || 1;
-                  const n = windRaw.length;
-                  const w = Math.max(360, Math.min(1600, n * 250));
-                  const h = 50;
-                  const step = w / (n - 1);
-                  const points = windRaw
-                    .map((t, i) => (t !== null ? `${i * step},${h - ((t - min) / range) * h}` : ''))
-                    .filter(Boolean)
-                    .join(' ');
-                  const svgWidth =
-                    forecastHours === 6
-                      ? '84%'
-                      : forecastHours === 12
-                        ? '90%'
-                        : forecastHours === 18
-                          ? '96%'
-                          : '100%';
-                  const svgPadding =
-                    forecastHours === 6
-                      ? '8%'
-                      : forecastHours === 12
-                        ? '5%'
-                        : forecastHours === 18
-                          ? '2%'
-                          : '0%';
-                  return svg`<svg width="${svgWidth}" height="${h}" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" style="display:block;padding-left:${svgPadding};">
-                <polyline points="${points}" fill="none" stroke="#44739e" stroke-width="3" />
-                ${windRaw.map((t, i) => (t !== null ? svg`<circle r="3" fill="#44739e" cx="${i * step}" cy="${h - ((t - min) / range) * h}" />` : null))}
-              </svg>`;
-                })()}
-              </div>
-              ${this._showHoursChartLabel(forecastHours)}
-            </div>
-          `
-        : html``
-      : html``;
+    return renderForecastWind(
+      this._hourlyForecast,
+      forecastHours,
+      this.config.show_wind === false ? false : true,
+      _t,
+      (h: number) => showHoursChartLabel(h, _t)
+    );
   }
 
   private _renderDailyForecast(forecast: WeatherForecast[]): TemplateResult {
-    return this.config.show_forecast !== false
-      ? this._forecastLoading && forecast.length === 0
-        ? html`
-            <div class="forecast-section">
-              <div class="section-title">
-                <ha-icon icon="mdi:calendar"></ha-icon>
-                ${_t('7d_forecast')}
-                <small
-                  style="font-size: 12px; color: var(--secondary-text-color, #666); margin-left: 10px;"
-                  >${_t('loading')}</small
-                >
-              </div>
-              <div
-                style="text-align: center; padding: 20px; color: var(--secondary-text-color, #666); font-style: italic;"
-              >
-                ⏳ ${_t('loading_forecast')}<br />
-                <small>Service: weather.get_forecasts</small>
-              </div>
-            </div>
-          `
-        : forecast.length > 0
-          ? html`
-              <div class="forecast-section">
-                <div class="section-title">
-                  <ha-icon icon="mdi:calendar"></ha-icon>
-                  ${forecast.length === 7
-                    ? _t('7d_forecast')
-                    : _t('xd_forecast', { days: forecast.length })}
-                  <small
-                    style="font-size: 12px; color: var(--secondary-text-color, #666); margin-left: 10px;"
-                  >
-                    (${forecast.length} ${_t('days_available')})
-                  </small>
-                </div>
-                ${forecast.length < 7
-                  ? html`
-                      <div
-                        style="text-align: center; color: var(--warning-color, #b8860b); font-size: 13px; margin-bottom: 8px;"
-                      >
-                        ${_t('forecast_days_hint', { count: forecast.length })}
-                      </div>
-                    `
-                  : ''}
-                <div class="forecast-grid">
-                  ${forecast.slice(0, 7).map(
-                    (day: WeatherForecast) => html`
-                      <div class="forecast-day">
-                        <div class="forecast-date">${this._formatDate(day.datetime)}</div>
-                        <div class="forecast-icon">
-                          ${getWeatherIcon(
-                            day.condition,
-                            this.config.enable_animate_weather_icons ? 'animated' : 'mdi',
-                            '24px',
-                            this.isDay()
-                          )}
-                        </div>
-                        <div class="forecast-temps">
-                          <span class="temp-high">${Math.round(day.temperature)}°</span>
-                          <span class="temp-low"
-                            >${Math.round(day.templow || day.temperature - 5)}°</span
-                          >
-                        </div>
-                      </div>
-                    `
-                  )}
-                </div>
-              </div>
-            `
-          : html`
-              <div class="forecast-section">
-                <div class="section-title">
-                  <ha-icon icon="mdi:calendar"></ha-icon>
-                  ${_t('7d_forecast')}
-                  <small style="font-size: 12px; color: #666; margin-left: 10px;">
-                    (0 ${_t('days_available')})
-                  </small>
-                </div>
-                <div style="text-align: center; padding: 20px; color: #666; font-style: italic;">
-                  ⚠️ ${_t('no_forecast_data')}<br />
-                  <small>Entity: ${this.config.entity}</small><br />
-                  <small>${_t('check_devtools')}</small><br />
-                  <small style="color: #999;">${_t('try_other_entity')}</small>
-                </div>
-              </div>
-            `
-      : html``;
-  }
-
-  private _renderCurrentWeatherCompactMode(
-    windSpeed: number,
-    windDirection: number,
-    humidity: number,
-    pressure: number,
-    visibility: number,
-    sunshineEntity: HassEntity | null | undefined
-  ): TemplateResult {
-    return html`
-      <div class="metrics-table">
-        <div class="metric-card">
-          <div class="metric-icon"><ha-icon icon="mdi:weather-windy"></ha-icon></div>
-          <div class="metric-value">${Math.round(windSpeed)} km/h</div>
-        </div>
-        <div class="metric-card">
-          <div class="wind-compass">
-            <div
-              class="wind-arrow"
-              style="transform: translate(-50%, -100%) rotate(${windDirection}deg);"
-            ></div>
-          </div>
-          <div class="metric-value">${this._formatWindDirection(windDirection)}</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-icon"><ha-icon icon="mdi:water-percent"></ha-icon></div>
-          <div class="metric-value">${humidity}%</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-icon"><ha-icon icon="mdi:gauge"></ha-icon></div>
-          <div class="metric-value">${pressure} hPa</div>
-        </div>
-        ${
-          sunshineEntity
-            ? html`
-                <div class="metric-card">
-                  <div class="metric-icon"><ha-icon icon="mdi:white-balance-sunny"></ha-icon></div>
-                  <div class="metric-value">${parseFloat(sunshineEntity.state).toFixed(1)}h</div>
-                </div>
-              `
-            : ''
-        }
-        ${
-          visibility > 0
-            ? html`
-                <div class="metric-card">
-                  <div class="metric-icon"><ha-icon icon="mdi:eye"></ha-icon></div>
-                  <div class="metric-value">${visibility} km</div>
-                </div>
-              `
-            : ''
-        }
-      </div
-      `;
-  }
-
-  private _renderDailyForecastDiagram(): TemplateResult {
-    // Daily forecast SVG diagram for temperature and precipitation
-    const days = this._forecast?.slice(0, 7) ?? [];
-    const hours = this._hourlyForecast?.slice(0, days.length * 24) ?? [];
-    if (!hours.length) return html`<div>No hourly forecast available</div>`;
-
-    const nDays = days.length;
-    const width = Math.max(180, nDays * 100); // Minimum 100px per day, dynamic
-    const dayWidth = nDays > 0 ? width / nDays : 100;
-    // More compact chart
-    const height = 200;
-    // Always 24 hours per day for the X axis
-    const hoursPerDay = 24;
-    // X position per hour in px (always 24 sections per day)
-    const hourStep = dayWidth / hoursPerDay;
-    // Get the timestamp (midnight) of the first day
-    let firstDayStart = 0;
-    if (hours.length > 0 && hours[0].datetime) {
-      const dt = new Date(hours[0].datetime);
-      firstDayStart = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate()).getTime();
-    }
-
-    // Temperature data
-    const temps = hours.map(h => (typeof h.temperature === 'number' ? h.temperature : null));
-    let minTemp = Math.min(...(temps.filter(t => t !== null) as number[]));
-    const maxTemp = Math.max(...(temps.filter(t => t !== null) as number[]));
-    // Scale always at least from 0 to maxTemp
-    if (minTemp > 0) minTemp = 0;
-    // Temperature line layout
-    const weekdayFont = 13;
-    const iconSize = 64;
-    const minmaxFont = 20;
-    const dayTop = 18; // Static, no more padding
-    const dayGap = 8;
-    const minmaxY = dayTop + weekdayFont + dayGap + iconSize + dayGap + 2;
-    // Move chart further down for more space between min/max temp
-    const chartOffset = 32;
-    const chartHeight = 60;
-    const tempLineYMax = minmaxY + chartOffset; // Chart start Y
-    const tempLineY0 = tempLineYMax + chartHeight; // y=0 (bottom)
-    const tempRange = maxTemp - minTemp || 1;
-
-    // Precipitation data
-    const precs = hours.map(h => (typeof h.precipitation === 'number' ? h.precipitation : 0));
-    const precsProberly = hours.map(h =>
-      typeof h.precipitation_probability === 'number' ? h.precipitation_probability % 10 : 0
+    return renderDailyForecast(
+      forecast,
+      this._forecastLoading,
+      this.config.show_forecast === false ? false : true,
+      this.config,
+      _t,
+      getWeatherIcon,
+      this.isDay.bind(this),
+      formatDateToWeekDay
     );
-    // Scale for bars: always use full range
-    const maxPrecip = Math.max(...precs, ...precsProberly, 1); // never 0, so bars are visible
-
-    // Temperature line: scale to full range (tempLineYMax to tempLineY0)
-    // Calculate X position so the first hour ("now") is at the correct place in the day
-    // For each hour, calculate the day index and hour-in-day from the date
-    function getDayAndHourIdx(dt: Date, firstDayStart: number) {
-      const msPerDay = 24 * 60 * 60 * 1000;
-      const dayStart = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate()).getTime();
-      const dayIdx = Math.round((dayStart - firstDayStart) / msPerDay);
-      const hourInDay = Math.round((dt.getTime() - dayStart) / (60 * 60 * 1000));
-      return { dayIdx, hourInDay };
-    }
-    // Already declared above
-    const tempPoints = temps
-      .map((t, i) => {
-        if (!hours[i] || !hours[i].datetime) return '';
-        const dt = new Date(hours[i].datetime);
-        const { dayIdx, hourInDay } = getDayAndHourIdx(dt, firstDayStart);
-        const x = dayIdx * dayWidth + hourInDay * hourStep + hourStep / 2;
-        return t !== null
-          ? `${x},${tempLineY0 - ((t - minTemp) / tempRange) * (tempLineY0 - tempLineYMax)}`
-          : '';
-      })
-      .filter(Boolean)
-      .join(' ');
-
-    // Rain bars
-    const barWidth = Math.max(3, Math.floor(hourStep) - 2);
-    const barYBase = tempLineY0;
-    // Scale: 5mm rain = 5°C temperature height (1mm = 1°C)
-    // Scale: Maximum bar equals temperature range (maxPrecip = full range)
-    // The highest precipitation value (maxPrecip) uses the full height (tempLineY0 - tempLineYMax)
-    const barMax = tempLineY0 - tempLineYMax;
-    // Color scale for precipitation
-    function getPrecipColor(p: number): string {
-      // Color gradient from bottom (#5994b1ff) to top, top color at 5, 10, 15, 20+ mm
-      if (p <= 0) return 'transparent';
-      // Color stops at the top
-      const stops = [
-        { val: 0, color: { r: 89, g: 148, b: 177 } }, // #5994b1ff
-        { val: 5, color: { r: 33, g: 150, b: 243 } }, // #2196f3
-        { val: 10, color: { r: 0, g: 100, b: 0 } }, // #006400
-        { val: 15, color: { r: 76, g: 175, b: 80 } }, // #4caf50
-        { val: 20, color: { r: 255, g: 224, b: 102 } }, // #ffe066
-      ];
-      let lower = stops[0],
-        upper = stops[stops.length - 1];
-      for (let i = 1; i < stops.length; i++) {
-        if (p < stops[i].val) {
-          upper = stops[i];
-          lower = stops[i - 1];
-          break;
-        }
-      }
-      // Interpolate between lower and upper
-      const t = (p - lower.val) / (upper.val - lower.val);
-      const r = Math.round(lower.color.r + (upper.color.r - lower.color.r) * t);
-      const g = Math.round(lower.color.g + (upper.color.g - lower.color.g) * t);
-      const b = Math.round(lower.color.b + (upper.color.b - lower.color.b) * t);
-      return `rgb(${r},${g},${b})`;
-    }
-
-    // precipitation_proberly bars (transparent dark grey)
-    const barsProberly = precsProberly.map((p, i) => {
-      if (!hours[i] || !hours[i].datetime) return null;
-      const dt = new Date(hours[i].datetime);
-      const { dayIdx, hourInDay } = getDayAndHourIdx(dt, firstDayStart);
-      const x = dayIdx * dayWidth + hourInDay * hourStep + hourStep / 2 - barWidth / 2;
-      const barHeight = maxPrecip > 0 ? (p / maxPrecip) * barMax : 0;
-      return p > 0
-        ? svg`<rect x="${x}" y="${barYBase - barHeight}" width="${barWidth}" height="${barHeight}"
-            fill="#988d8dff" opacity="0.4" rx="1.5"/>`
-        : null;
-    });
-
-    const bars = precs.map((p, i) => {
-      if (!hours[i] || !hours[i].datetime) return null;
-      const dt = new Date(hours[i].datetime);
-      const { dayIdx, hourInDay } = getDayAndHourIdx(dt, firstDayStart);
-      const x = dayIdx * dayWidth + hourInDay * hourStep + hourStep / 2 - barWidth / 2;
-      const barHeight = maxPrecip > 0 ? (p / maxPrecip) * barMax : 0;
-      const color = getPrecipColor(p);
-      return p > 0
-        ? svg`<rect x="${x}" y="${barYBase - barHeight}" width="${barWidth}" height="${barHeight}"
-            fill="${color}" opacity="1" rx="1.5"/>`
-        : null;
-    });
-
-    // Vertical day lines exactly at day changes
-    const verticals: unknown[] = [];
-    if (nDays > 1 && hours.length > 0) {
-      for (let d = 1; d < nDays; d++) {
-        // Finde die X-Position von Mitternacht für Tag d
-        const midnight = new Date(firstDayStart + d * 24 * 60 * 60 * 1000);
-        const { dayIdx, hourInDay } = getDayAndHourIdx(midnight, firstDayStart);
-        const x = dayIdx * dayWidth + hourInDay * hourStep;
-        verticals.push(
-          svg`<line x1="${x}" y1="16" x2="${x}" y2="${height - 16}" stroke="#bbb" stroke-width="1" stroke-dasharray="2,2"/>`
-        );
-      }
-    }
-
-    const dayGroups: unknown[] = [];
-    const paddingBottom = 6;
-    if (nDays > 0) {
-      for (let d = 0; d < nDays; d++) {
-        const x = d * dayWidth + dayWidth / 2;
-        const weekdayY = dayTop + weekdayFont;
-        const iconY = weekdayY + dayGap + paddingBottom;
-        const minmaxY = iconY + iconSize + dayGap + paddingBottom + 2;
-        const minTemp =
-          typeof days[d].templow === 'number'
-            ? Math.round(days[d].templow || days[d].temperature - 5)
-            : '';
-        const maxTemp =
-          typeof days[d].temperature === 'number' ? Math.round(days[d].temperature) : '';
-        dayGroups.push(svg`
-          <g>
-            <!-- Weekday -->
-            <text x="${x}" y="${weekdayY}" text-anchor="middle" font-size="${weekdayFont}" fill="#888">
-              ${(() => {
-                const dt = new Date(days[d].datetime);
-                return dt.toLocaleDateString(undefined, { weekday: 'short' });
-              })()}
-            </text>
-            <!-- Icon -->
-            <foreignObject x="${x - iconSize / 2}" y="${iconY}" width="${iconSize}" height="${iconSize}">
-                ${getWeatherIcon(days[d].condition || '', this.config.enable_animate_weather_icons ? 'animated' : 'mdiAsSVG', iconSize + 'px', true)}
-            </foreignObject>
-            <!-- Min/Max temp -->
-            <text class="weather-temp" x="${x}" y="${minmaxY}" text-anchor="middle" font-size="${minmaxFont}"">${minTemp}°<tspan fill="#aaa"> | </tspan><tspan class="weather-temp">${maxTemp}°</tspan></text>
-          </g>
-        `);
-      }
-    }
-
-    // Horizontal temperature lines (every 5°C, always 0°C and minTemp)
-    const horizontalLines: unknown[] = [];
-    const lineStep = (5 / tempRange) * (tempLineY0 - tempLineYMax);
-    const nLines = Math.floor((tempLineY0 - tempLineYMax) / lineStep);
-    const lineYs = new Set<number>();
-    for (let i = 0; i <= nLines; i++) {
-      lineYs.add(tempLineY0 - i * lineStep);
-    }
-    // 0°C line
-    if (minTemp > 0) {
-      const y0 = tempLineY0 - ((0 - minTemp) / tempRange) * (tempLineY0 - tempLineYMax);
-      if (y0 <= tempLineY0 && y0 >= tempLineYMax) lineYs.add(y0);
-    }
-    // minTemp line
-    const ymin = tempLineY0 - ((minTemp - minTemp) / tempRange) * (tempLineY0 - tempLineYMax);
-    lineYs.add(ymin);
-    Array.from(lineYs)
-      .sort((a, b) => b - a)
-      .forEach((y, idx) => {
-        horizontalLines.push(
-          svg`<line x1="0" y1="${y}" x2="${width}" y2="${y}" stroke="#bbb" stroke-width="${idx % 2 === 0 ? 2 : 1}" stroke-dasharray="${idx % 2 === 0 ? 'none' : '4,3'}" />`
-        );
-      });
-    return html`
-      <div class="chart">
-        <svg width="100%" height="100%" viewBox="0 0 ${width} ${height}" style="display:block;">
-          ${horizontalLines} ${dayGroups} ${verticals} ${barsProberly}
-          <!-- Precipitation bars -->
-          ${bars}
-
-          <polyline points="${tempPoints}" fill="none" stroke="#e74c3c" stroke-width="2" />
-        </svg>
-      </div>
-    `;
   }
 
   private _renderCurrentWeather(
@@ -1707,31 +1007,72 @@ export class SwissWeatherCard extends LitElement {
       })}
     `;
   }
-
-  private _showHoursChartLabel(hours: number): TemplateResult {
+  private _renderCurrentWeatherCompactMode(
+    windSpeed: number,
+    windDirection: number,
+    humidity: number,
+    pressure: number,
+    visibility: number,
+    sunshineEntity: HassEntity | null | undefined
+  ): TemplateResult {
     return html`
-      <div class="chart-labels">
-        ${Array.from(
-          { length: hours },
-          (_, i) => html`
+      <div class="metrics-table">
+        <div class="metric-card">
+          <div class="metric-icon"><ha-icon icon="mdi:weather-windy"></ha-icon></div>
+          <div class="metric-value">${Math.round(windSpeed)} km/h</div>
+        </div>
+        <div class="metric-card">
+          <div class="wind-compass">
             <div
-              style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end;"
-            >
-              <span>${i === 0 ? _t('now') : _t('hour', { h: i })}</span>
-            </div>
-          `
-        )}
-      </div>
-    `;
+              class="wind-arrow"
+              style="transform: translate(-50%, -100%) rotate(${windDirection}deg);"
+            ></div>
+          </div>
+          <div class="metric-value">${this._formatWindDirection(windDirection)}</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-icon"><ha-icon icon="mdi:water-percent"></ha-icon></div>
+          <div class="metric-value">${humidity}%</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-icon"><ha-icon icon="mdi:gauge"></ha-icon></div>
+          <div class="metric-value">${pressure} hPa</div>
+        </div>
+        ${
+          sunshineEntity
+            ? html`
+                <div class="metric-card">
+                  <div class="metric-icon"><ha-icon icon="mdi:white-balance-sunny"></ha-icon></div>
+                  <div class="metric-value">${parseFloat(sunshineEntity.state).toFixed(1)}h</div>
+                </div>
+              `
+            : ''
+        }
+        ${
+          visibility > 0
+            ? html`
+                <div class="metric-card">
+                  <div class="metric-icon"><ha-icon icon="mdi:eye"></ha-icon></div>
+                  <div class="metric-value">${visibility} km</div>
+                </div>
+              `
+            : ''
+        }
+      </div
+      `;
   }
 
-  private _formatDate(dateStr: string): string {
-    const date = new Date(dateStr);
-    const days = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
-    return days[date.getDay()];
+  private _renderDailyForecastDiagram(): TemplateResult {
+    return renderDailyForecastDiagram(
+      this._forecast?.slice(0, 7) ?? [],
+      this._hourlyForecast?.slice(0, (this._forecast?.length ?? 0) * 24) ?? [],
+      this.config,
+      getWeatherIcon
+    );
   }
 }
-export default SwissweatherCardEditor;
+
+export { SwissweatherCardEditor };
 
 // Register card in window.customCards for HA UI discovery
 if (!window.customCards) {
