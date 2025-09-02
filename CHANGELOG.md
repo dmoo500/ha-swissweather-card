@@ -1,5 +1,14 @@
 # Release Notes
 
+## [1.5.0] - 2025-09-02
+
+### Fixed
+- some configuration details was removed in visual editor (like show_temperature)
+
+### Added
+- a little bit more structure in the Visual Editor
+- configurable order of charts incl. forecast
+
 ## [1.4.2] - 2025-09-01
 
 ## Fixed
