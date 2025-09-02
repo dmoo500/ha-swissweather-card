@@ -1,3 +1,5 @@
+import { group } from 'console';
+
 export const translations = {
   de: {
     config: {
@@ -19,6 +21,12 @@ export const translations = {
       enable_animate_weather_icons: 'Animierte Wetter-Icons aktivieren',
       forecast_hours: 'Prognose Stunden (Standard: 6)',
       compact_mode: 'Kompakter Modus',
+      group_general: 'Allgemeineinstellungen',
+      group_current: 'Aktuelles Wetter',
+      group_forecast: 'Wettervorhersage',
+      group_charts: 'Diagramme',
+      group_sensors: 'Sensoren',
+      group_display: 'Anzeigeeinstellungen',
     },
     location: 'Schweiz',
     wind: 'Wind',
@@ -108,6 +116,12 @@ export const translations = {
       enable_animate_weather_icons: 'Enable Animated Weather Icons',
       forecast_hours: 'Forecast Hours (default: 6)',
       compact_mode: 'Compact Mode',
+      group_general: 'General Settings',
+      group_current: 'Current Weather',
+      group_forecast: 'Weather Forecast',
+      group_charts: 'Charts',
+      group_sensors: 'Sensors',
+      group_display: 'Display Settings',
     },
     location: 'Switzerland',
     wind: 'Wind',

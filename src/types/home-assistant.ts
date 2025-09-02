@@ -341,14 +341,6 @@ export const schema = [
     },
   },
   {
-    name: 'precipitation_entity',
-    selector: {
-      entity: {
-        domain: 'sensor',
-      },
-    },
-  },
-  {
     name: 'warning_entity',
     selector: {
       entity: {
