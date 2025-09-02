@@ -1,5 +1,18 @@
 # Release Notes
 
+## [1.5.0] - 2025-09-02
+
+### Fixed
+- some configuration details was removed in visual editor (like show_temperature, forecast_hours)
+- sunset and sunrise displaying was 1 hour to late
+
+### Added
+- a little bit more structure in the Visual Editor
+- configurable order of charts incl. forecast
+
+### Changed
+- structure of chart code changed
+
 ## [1.4.2] - 2025-09-01
 
 ## Fixed

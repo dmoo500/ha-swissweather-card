@@ -1,19 +1,19 @@
 name: Bug Report
-description: Melden Sie einen Fehler in der SwissWeather Card
+description: Report a bug in the SwissWeather Card
 title: "[BUG] "
 labels: ["bug", "triage"]
 body:
   - type: markdown
     attributes:
       value: |
-        Danke, dass Sie einen Bug-Report erstellen! Bitte füllen Sie die folgenden Felder aus.
+        Thank you for creating a bug report! Please fill out the following fields.
 
   - type: input
     id: version
     attributes:
-      label: Version
-      description: Welche Version der SwissWeather Card verwenden Sie?
-      placeholder: z.B. 1.0.0
+      label: Card Version
+      description: Which version of the SwissWeather Card are you using?
+      placeholder: e.g. 1.0.0
     validations:
       required: true
 
@@ -21,72 +21,72 @@ body:
     id: ha-version
     attributes:
       label: Home Assistant Version
-      description: Welche Home Assistant Version verwenden Sie?
+      description: Which version of Home Assistant are you using?
       options:
         - 2025.8.x
         - 2025.7.x
         - 2025.6.x
-        - Andere
+        - Other
     validations:
       required: true
 
   - type: dropdown
     id: installation
     attributes:
-      label: Installationsmethode
-      description: Wie haben Sie die Card installiert?
+      label: Installation Method
+      description: How did you install the card?
       options:
         - HACS
-        - Manuell
+        - Manual
     validations:
       required: true
 
   - type: textarea
     id: description
     attributes:
-      label: Beschreibung des Problems
-      description: Beschreiben Sie das Problem so detailliert wie möglich
+      label: Problem Description
+      description: Please describe the problem as detailed as possible
       placeholder: |
-        1. Was haben Sie getan?
-        2. Was haben Sie erwartet?
-        3. Was ist stattdessen passiert?
+        1. What did you do?
+        2. What did you expect to happen?
+        3. What happened instead?
     validations:
       required: true
 
   - type: textarea
     id: config
     attributes:
-      label: Konfiguration
-      description: Fügen Sie Ihre Card-Konfiguration ein
+      label: Configuration
+      description: Paste your card configuration here
       render: yaml
       placeholder: |
         type: custom:swissweather-card
         entity: weather.home
-        # weitere Konfiguration...
+        # more configuration...
 
   - type: textarea
     id: logs
     attributes:
-      label: Logs/Fehlermeldungen
-      description: Browser-Konsole oder Home Assistant Logs
+      label: Logs/Error Messages
+      description: Browser console or Home Assistant logs
       render: text
       placeholder: |
-        Fügen Sie hier relevante Logs oder Fehlermeldungen ein
+        Paste relevant logs or error messages here
 
   - type: textarea
     id: browser
     attributes:
-      label: Browser-Informationen
-      description: Browser und Version
+      label: Browser Information
+      description: Browser and version
       placeholder: |
-        z.B. Chrome 116.0, Firefox 117.0, Safari 16.6
+        e.g. Chrome 116.0, Firefox 117.0, Safari 16.6
 
   - type: checkboxes
     id: terms
     attributes:
-      label: Bestätigung
+      label: Confirmation
       options:
-        - label: Ich habe die [Dokumentation](https://github.com/your-username/ha-swissweather-card) gelesen
+        - label: I have read the [documentation](https://github.com/your-username/ha-swissweather-card)
           required: true
-        - label: Ich habe nach ähnlichen Issues gesucht
+        - label: I have searched for similar issues
           required: true

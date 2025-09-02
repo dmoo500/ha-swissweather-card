@@ -109,6 +109,71 @@ export class SwissweatherCardEditor extends LitElement implements LovelaceCardEd
         line-height: 1.4;
         border: 1px solid var(--divider-color);
       }
+      .group {
+        margin-bottom: 24px;
+        padding: 16px 0 0 0;
+        border-top: 1px solid var(--divider-color, #e0e0e0);
+      }
+      .group-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--primary-text-color, #dc143c);
+        margin-bottom: 8px;
+        margin-top: 0;
+      }
+      .card-config {
+        padding: 16px;
+      }
+      .header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 24px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid var(--card-divider-color);
+      }
+      .header-title {
+        font-size: 24px;
+        font-weight: bold;
+        color: var(--primary-text-color, #dc143c);
+      }
+      .header-subtitle {
+        font-size: 14px;
+        color: var(--secondary-text-color);
+        margin-top: 4px;
+      }
+      ha-form {
+        display: block;
+        margin-bottom: 24px;
+      }
+      .preview {
+        background: var(--card-background-color);
+        border: 1px solid var(--divider-color);
+        border-radius: 12px;
+        padding: 20px;
+        margin-top: 24px;
+      }
+      .preview-title {
+        font-weight: 600;
+        margin-bottom: 12px;
+        color: var(--primary-text-color);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .preview-config {
+        font-family: 'SFMono-Regular', 'Monaco', 'Consolas', monospace;
+        font-size: 13px;
+        color: var(--secondary-text-color);
+        background: var(--code-editor-background-color, #f8f8f8);
+        padding: 16px;
+        border-radius: 8px;
+        overflow-x: auto;
+        white-space: pre-wrap;
+        line-height: 1.4;
+        border: 1px solid var(--divider-color);
+      }
 
       @media (max-width: 768px) {
         .card-config {
@@ -119,6 +184,18 @@ export class SwissweatherCardEditor extends LitElement implements LovelaceCardEd
   }
 
   protected render(): TemplateResult {
+    // Chart order for the visual editor
+    const chartOptions = [
+      { key: 'temperature', label: _t('config.chart_temperature') || 'Temperature' },
+      { key: 'precipitation', label: _t('config.chart_precipitation') || 'Precipitation' },
+      { key: 'sunshine', label: _t('config.chart_sunshine') || 'Sunshine' },
+      { key: 'wind', label: _t('config.chart_wind') || 'Wind' },
+      { key: 'forecast', label: _t('config.chart_forecast') || 'Forecast' },
+    ];
+    const chartOrder = Array.isArray(this._config?.chart_order)
+      ? this._config.chart_order
+      : chartOptions.map(o => o.key);
+
     if (!this.hass) {
       return html`<div>Loading...</div>`;
     }
@@ -161,15 +238,88 @@ export class SwissweatherCardEditor extends LitElement implements LovelaceCardEd
           </div>
         </div>
 
-        <!-- HA Form -->
-        <ha-form
-          .hass=${this.hass}
-          .data=${data}
-          .schema=${schema}
-          .computeLabel=${this._computeLabel}
-          @value-changed=${this._valueChanged}
-        ></ha-form>
+        <!-- General -->
+        <div class="group">
+          <div class="group-title">${_t('config.group_general') || 'General'}</div>
+          <ha-form
+            .hass=${this.hass}
+            .data=${data}
+            .schema=${[
+              schema.find(s => s.name === 'entity'),
+              schema.find(s => s.name === 'location'),
+            ].filter(Boolean)}
+            .computeLabel=${this._computeLabel}
+            @value-changed=${this._valueChanged}
+          ></ha-form>
+        </div>
 
+        <!-- Sensors -->
+        <div class="group">
+          <div class="group-title">${_t('config.group_sensors') || 'Sensors'}</div>
+          <ha-form
+            .hass=${this.hass}
+            .data=${data}
+            .schema=${[
+              schema.find(s => s.name === 'wind_entity'),
+              schema.find(s => s.name === 'wind_direction_entity'),
+              schema.find(s => s.name === 'sunshine_entity'),
+              schema.find(s => s.name === 'precipitation_entity'),
+              schema.find(s => s.name === 'warning_entity'),
+            ].filter(Boolean)}
+            .computeLabel=${this._computeLabel}
+            @value-changed=${this._valueChanged}
+          ></ha-form>
+        </div>
+
+        <!-- Display options -->
+        <div class="group">
+          <div class="group-title">${_t('config.group_display') || 'Display Options'}</div>
+          <ha-form
+            .hass=${this.hass}
+            .data=${data}
+            .schema=${[
+              schema.find(s => s.name === 'forecast_hours'),
+              schema.find(s => s.name === 'show_forecast'),
+              schema.find(s => s.name === 'show_precipitation'),
+              schema.find(s => s.name === 'show_temperature'),
+              schema.find(s => s.name === 'show_sunshine'),
+              schema.find(s => s.name === 'show_wind'),
+              schema.find(s => s.name === 'enable_animate_weather_icons'),
+              schema.find(s => s.name === 'show_warnings'),
+              schema.find(s => s.name === 'compact_mode'),
+            ].filter(Boolean)}
+            .computeLabel=${this._computeLabel}
+            @value-changed=${this._valueChanged}
+          ></ha-form>
+        </div>
+        <!-- Chart order -->
+        <div class="group">
+          <div class="group-title">${_t('config.group_chart_order') || 'Chart Order'}</div>
+          <ul style="list-style:none;padding:0;margin:0;">
+            ${chartOrder.map((key, idx) => {
+              const opt = chartOptions.find(o => o.key === key);
+              return html` <li style="display:flex;align-items:center;margin-bottom:6px;">
+                <span style="flex:1;">${opt?.label || key}</span>
+                <button
+                  style="margin-left:8px;"
+                  @click=${() => this._moveChart(idx, -1)}
+                  ?disabled=${idx === 0}
+                  title="${_t('config.move_up') || 'Up'}"
+                >
+                  ⬆️
+                </button>
+                <button
+                  style="margin-left:2px;"
+                  @click=${() => this._moveChart(idx, 1)}
+                  ?disabled=${idx === chartOrder.length - 1}
+                  title="${_t('config.move_down') || 'Down'}"
+                >
+                  ⬇️
+                </button>
+              </li>`;
+            })}
+          </ul>
+        </div>
         <!-- Configuration Preview -->
         ${this._config?.entity
           ? html`
@@ -181,6 +331,22 @@ export class SwissweatherCardEditor extends LitElement implements LovelaceCardEd
           : ''}
       </div>
     `;
+  }
+
+  private _moveChart(idx: number, dir: number) {
+    // Move a chart up or down in the order list
+    if (!this._config) return;
+    const chartOrder = Array.isArray(this._config.chart_order)
+      ? [...this._config.chart_order]
+      : ['temperature', 'precipitation', 'sunshine', 'wind', 'forecast'];
+    const newIdx = idx + dir;
+    if (newIdx < 0 || newIdx >= chartOrder.length) return;
+    const tmp = chartOrder[idx];
+    chartOrder[idx] = chartOrder[newIdx];
+    chartOrder[newIdx] = tmp;
+    this._config = { ...this._config, chart_order: chartOrder };
+    fireEvent(this, 'config-changed', { config: this._config });
+    (this as LitElement).requestUpdate();
   }
 
   private _computeLabel = (schema: any) => {
@@ -251,12 +417,20 @@ export class SwissweatherCardEditor extends LitElement implements LovelaceCardEd
 
     // Handle ha-form events
     if (ev.type === 'value-changed') {
-      const newConfig = {
+      // Preserve chart_order and other fields not present in the form
+      const keepConfig: Partial<SwissWeatherCardConfig> = {};
+      if (this._config && this._config.chart_order !== undefined) {
+        keepConfig.chart_order = this._config.chart_order;
+      }
+      const { ...rest } = ev.detail.value || {};
+      const newConfig: SwissWeatherCardConfig = {
+        ...this._config,
+        ...rest,
+        ...keepConfig,
         type: 'custom:swissweather-card',
-        ...ev.detail.value,
       };
 
-      // Remove empty values
+      // Remove empty values for a cleaner config
       Object.keys(newConfig).forEach(key => {
         if ((newConfig as any)[key] === '' || (newConfig as any)[key] === undefined) {
           delete (newConfig as any)[key];

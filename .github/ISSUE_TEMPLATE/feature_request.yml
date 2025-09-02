@@ -1,63 +1,63 @@
 name: Feature Request
-description: Schlagen Sie eine neue Funktion vor
+description: Suggest a new feature for the project
 title: "[FEATURE] "
 labels: ["enhancement"]
 body:
   - type: markdown
     attributes:
       value: |
-        Vielen Dank für Ihren Feature-Vorschlag! 
+        Thank you for your feature suggestion!
 
   - type: textarea
     id: problem
     attributes:
       label: Problem/Motivation
-      description: Welches Problem löst Ihr Feature?
-      placeholder: Als Benutzer möchte ich...
+      description: What problem does your feature solve?
+      placeholder: As a user, I want to...
     validations:
       required: true
 
   - type: textarea
     id: solution
     attributes:
-      label: Gewünschte Lösung
-      description: Beschreiben Sie die gewünschte Funktionalität
-      placeholder: Die Card sollte...
+      label: Desired Solution
+      description: Describe the desired functionality
+      placeholder: The card should...
     validations:
       required: true
 
   - type: textarea
     id: alternatives
     attributes:
-      label: Alternativen
-      description: Haben Sie alternative Lösungen erwogen?
-      placeholder: Alternativ könnte man...
+      label: Alternatives
+      description: Have you considered alternative solutions?
+      placeholder: Alternatively, one could...
 
   - type: dropdown
     id: priority
     attributes:
-      label: Priorität
-      description: Wie wichtig ist dieses Feature für Sie?
+      label: Priority
+      description: How important is this feature to you?
       options:
-        - Niedrig (nice to have)
-        - Mittel (würde helfen)
-        - Hoch (sehr wichtig)
-        - Kritisch (blockiert mich)
+        - Low (nice to have)
+        - Medium (would help)
+        - High (very important)
+        - Critical (blocking)
 
   - type: textarea
     id: context
     attributes:
-      label: Zusätzlicher Kontext
-      description: Screenshots, Mockups oder weitere Informationen
+      label: Additional Context
+      description: Screenshots, mockups, or further information
       placeholder: |
-        Anhänge, Links oder weitere Details...
+        Attachments, links, or further details...
 
   - type: checkboxes
     id: checks
     attributes:
-      label: Bestätigung
+      label: Confirmation
       options:
-        - label: Ich habe nach ähnlichen Feature Requests gesucht
+        - label: I have searched for similar feature requests
           required: true
-        - label: Dieses Feature passt zum Scope der SwissWeather Card
+        - label: This feature fits the scope of the SwissWeather Card
           required: true

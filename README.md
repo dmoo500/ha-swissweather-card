@@ -2,7 +2,9 @@
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/hacs/integration)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/dmoo500/ha-swissweather-card)](https://github.com/dmoo500/ha-swissweather-card/releases)
 [![GitHub](https://img.shields.io/github/license/dmoo500/ha-swissweather-card)](LICENSE)
-
+[![Issues](https://img.shields.io/github/issues-raw/dmoo500/ha-swissweather-card?maxAge=25000)](https://github.comdmoo500/ha-swissweather-card/issues)  
+[![GitHub stars](https://img.shields.io/github/stars/dmoo500/ha-swissweather-card?style=social&label=Stars&style=plastic)]()
+[![GitHub watchers](https://img.shields.io/github/watchers/dmoo500/ha-swissweather-card?style=social&label=Watch&style=plastic)]()
 
 # SwissWeather Home Assistant Card
 
@@ -26,7 +28,7 @@ A custom Home Assistant card that recreates the look and feel of the official Sw
 - wind direction in the chart
 
 
-### ☀️ **Sunshine **
+### ☀️ **Sunshine**
 - Hourly Sunshine forecast with bar chart
 - Integration with HA sunshine sensors to show sunset and sunrise in the chart
 
