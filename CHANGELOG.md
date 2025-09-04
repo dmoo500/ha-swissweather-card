@@ -1,5 +1,13 @@
 # Release Notes
 
+## [1.5.1] - 2025-09-04
+
+### Fixed
+- missing show_location entry on visual editor
+
+### Added
+- description on visual editor configuration
+
 ## [1.5.0] - 2025-09-02
 
 ### Fixed
