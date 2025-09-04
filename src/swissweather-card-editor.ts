@@ -6,9 +6,9 @@ import type {
   HomeAssistant,
   LovelaceCardEditor,
   SwissWeatherCardConfig,
-} from './types/home-assistant.js';
-import { schema } from './types/home-assistant.js';
-import { translations } from './translations.js';
+} from './types/home-assistant';
+import { schema } from './types/home-assistant';
+import { translations } from './translations';
 
 registerTranslateConfig({
   // Loads the language by returning a JSON structure for a given language
