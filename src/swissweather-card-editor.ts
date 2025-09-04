@@ -247,8 +247,10 @@ export class SwissweatherCardEditor extends LitElement implements LovelaceCardEd
             .schema=${[
               schema.find(s => s.name === 'entity'),
               schema.find(s => s.name === 'location'),
+              schema.find(s => s.name === 'show_location'),
             ].filter(Boolean)}
             .computeLabel=${this._computeLabel}
+            .computeHelper=${this._computeHelper}
             @value-changed=${this._valueChanged}
           ></ha-form>
         </div>
@@ -260,13 +262,15 @@ export class SwissweatherCardEditor extends LitElement implements LovelaceCardEd
             .hass=${this.hass}
             .data=${data}
             .schema=${[
+              schema.find(s => s.name === 'warning_entity'),
+              schema.find(s => s.name === 'precipitation_entity'),
+              schema.find(s => s.name === 'sun_entity'),
+              schema.find(s => s.name === 'sunshine_entity'),
               schema.find(s => s.name === 'wind_entity'),
               schema.find(s => s.name === 'wind_direction_entity'),
-              schema.find(s => s.name === 'sunshine_entity'),
-              schema.find(s => s.name === 'precipitation_entity'),
-              schema.find(s => s.name === 'warning_entity'),
             ].filter(Boolean)}
             .computeLabel=${this._computeLabel}
+            .computeHelper=${this._computeHelper}
             @value-changed=${this._valueChanged}
           ></ha-form>
         </div>
@@ -289,6 +293,7 @@ export class SwissweatherCardEditor extends LitElement implements LovelaceCardEd
               schema.find(s => s.name === 'compact_mode'),
             ].filter(Boolean)}
             .computeLabel=${this._computeLabel}
+            .computeHelper=${this._computeHelper}
             @value-changed=${this._valueChanged}
           ></ha-form>
         </div>
@@ -370,6 +375,13 @@ export class SwissweatherCardEditor extends LitElement implements LovelaceCardEd
       compact_mode: _t('config.compact_mode'),
     };
     return labels[schema.name] || schema.name;
+  };
+
+  private _computeHelper = (schema: any) => {
+    if (schema.description) {
+      return _t(schema.description);
+    }
+    return '';
   };
 
   private _renderConfigPreview(): string {
