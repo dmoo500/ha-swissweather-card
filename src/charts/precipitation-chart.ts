@@ -11,61 +11,59 @@ export class PrecipitationChart extends LitElement {
   @property({ type: Function }) showHoursChartLabel!: (hours: number) => TemplateResult;
 
   static styles = css`
-    
-      .section-title {
-        font-size: 18px;
-        font-weight: bold;
-        color: var(--primary-text-color, #fff);
-        margin-bottom: 15px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
+    .section-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: var(--primary-text-color, #fff);
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-      .chart {
-        background: var(--card-background-color, #fff);
-        border-radius: 12px;
-        padding: 15px;
-        margin-top: 15px;
-        border: 1px solid var(--border-color, rgba(220, 20, 60, 0.1));
-      }
+    .chart {
+      background: var(--card-background-color, #fff);
+      border-radius: 12px;
+      padding: 15px;
+      margin-top: 15px;
+      border: 1px solid var(--border-color, rgba(220, 20, 60, 0.1));
+    }
 
-      .chart-bars {
-        display: flex;
-        justify-content: space-between;
-        height: 120px;
-        margin-bottom: 10px;
-      }
+    .chart-bars {
+      display: flex;
+      justify-content: space-between;
+      height: 120px;
+      margin-bottom: 10px;
+    }
 
-      .chart-line {
-        display: flex;
-        justify-content: space-between;
-        height: 60px;
-        margin-bottom: 10px;
-      }
+    .chart-line {
+      display: flex;
+      justify-content: space-between;
+      height: 60px;
+      margin-bottom: 10px;
+    }
 
-      .chart-bar-precipitation {
-        width: 18px;
-        background: linear-gradient(to top, #3498db, #85c5e5);
-        border-radius: 2px 2px 0 0;
-        min-height: 2px;
-      }
-      .chart-bar-precipitation-prob {
-        width: 18px;
-        background: #87898eff;
-        border-radius: 2px 2px 0 0;
-        min-height: 2px;
-        opacity: 0.6;
-      }
+    .chart-bar-precipitation {
+      width: 18px;
+      background: linear-gradient(to top, #3498db, #85c5e5);
+      border-radius: 2px 2px 0 0;
+      min-height: 2px;
+    }
+    .chart-bar-precipitation-prob {
+      width: 18px;
+      background: #87898eff;
+      border-radius: 2px 2px 0 0;
+      min-height: 2px;
+      opacity: 0.6;
+    }
 
-      .chart-labels {
-        display: flex;
-        justify-content: space-between;
-        font-size: 11px;
-        color: var(--secondary-text-color, #000);
-      }
-
-    `;
+    .chart-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--secondary-text-color, #000);
+    }
+  `;
 
   render(): TemplateResult {
     if (this.show_precipitation === false) return html``;

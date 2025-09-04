@@ -52,10 +52,12 @@ export class DailyForecastDiagram extends LitElement {
       font-size: 11px;
       color: var(--secondary-text-color, #000);
     }
+    .weather-temp {
+      fill: var(--primary-text-color, #fff);
+    }
   `;
 
   render(): TemplateResult {
-
     // Daily forecast SVG diagram for temperature and precipitation
     const days = this.forecast.slice(0, 7);
     const hours = this.hourlyForecast.slice(0, days.length * 24);

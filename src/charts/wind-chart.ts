@@ -33,10 +33,10 @@ export class WindChart extends LitElement {
       margin-bottom: 10px;
     }
     .chart-line-wind {
-        display: flex;
-        justify-content: space-between;
-        height: 50px;
-      }
+      display: flex;
+      justify-content: space-between;
+      height: 50px;
+    }
 
     .chart-labels {
       display: flex;
@@ -77,20 +77,20 @@ export class WindChart extends LitElement {
       border-bottom: 8px solid var(--state-icon-color, #dc143c);
       transform: translateX(-50%);
     }
-      .section-title {
-        font-weight: bold;
-        font-size: 16px;
-        margin-bottom: 10px;
-        color: var(--primary-text-color, #000);
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
+    .section-title {
+      font-weight: bold;
+      font-size: 16px;
+      margin-bottom: 10px;
+      color: var(--primary-text-color, #000);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-      .section-title ha-icon {
-        color: var(--primary-color, #dc143c);  
-        font-size: 20px
-      }
+    .section-title ha-icon {
+      color: var(--primary-color, #dc143c);
+      font-size: 20px;
+    }
     @media (max-width: 768px) {
       :host {
         padding: 15px;
@@ -104,7 +104,6 @@ export class WindChart extends LitElement {
         grid-template-columns: repeat(4, 1fr);
       }
     }
-      
   `;
 
   render(): TemplateResult {
@@ -180,13 +179,9 @@ export class WindChart extends LitElement {
                     .filter(Boolean)
                     .join(' ');
                   const svgWidth =
-                    this.forecastHours === 6
-                      ? '84%'
-                    : (this.forecastHours - 6 + 84) + '%' //84% base + 3% for each additional 6 hours
+                    this.forecastHours === 6 ? '84%' : this.forecastHours - 6 + 84 + '%'; //84% base + 3% for each additional 6 hours
                   const svgPadding =
-                    this.forecastHours === 6
-                      ? '8%'
-                      : ((18 - this.forecastHours) * 0.5 + 2) + '%'
+                    this.forecastHours === 6 ? '8%' : (18 - this.forecastHours) * 0.5 + 2 + '%';
                   return svg`<svg width="${svgWidth}" height="${h}" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" style="display:block;padding-left:${svgPadding};">
                 <polyline points="${points}" fill="none" stroke="#44739e" stroke-width="3" />
                 ${windRaw.map((t, i) => (t !== null ? svg`<circle r="3" fill="#44739e" cx="${i * step}" cy="${h - ((t - min) / range) * h}" />` : null))}

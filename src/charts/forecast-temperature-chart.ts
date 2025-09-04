@@ -11,47 +11,44 @@ export class ForecastTemperatureChart extends LitElement {
   @property({ type: Function }) showHoursChartLabel!: (hours: number) => TemplateResult;
 
   static styles = css`
-   
-      .section-title {
-        font-size: 18px;
-        font-weight: bold;
-        color: var(--primary-text-color, #fff);
-        margin-bottom: 15px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
+    .section-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: var(--primary-text-color, #fff);
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-      .chart {
-        background: var(--card-background-color, #fff);
-        border-radius: 12px;
-        padding: 15px;
-        margin-top: 15px;
-        border: 1px solid var(--border-color, rgba(220, 20, 60, 0.1));
-      }
+    .chart {
+      background: var(--card-background-color, #fff);
+      border-radius: 12px;
+      padding: 15px;
+      margin-top: 15px;
+      border: 1px solid var(--border-color, rgba(220, 20, 60, 0.1));
+    }
 
-      .chart-bars {
-        display: flex;
-        justify-content: space-between;
-        height: 120px;
-        margin-bottom: 10px;
-      }
+    .chart-bars {
+      display: flex;
+      justify-content: space-between;
+      height: 120px;
+      margin-bottom: 10px;
+    }
 
-      .chart-line {
-        display: flex;
-        justify-content: space-between;
-        height: 60px;
-        margin-bottom: 10px;
-      }
+    .chart-line {
+      display: flex;
+      justify-content: space-between;
+      height: 60px;
+      margin-bottom: 10px;
+    }
 
-      .chart-labels {
-        display: flex;
-        justify-content: space-between;
-        font-size: 11px;
-        color: var(--secondary-text-color, #000);
-      }
-
-
+    .chart-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--secondary-text-color, #000);
+    }
   `;
 
   render(): TemplateResult {
@@ -100,14 +97,9 @@ export class ForecastTemperatureChart extends LitElement {
               .map((t, i) => (t !== null ? `${i * step},${h - ((t - min) / range) * h}` : ''))
               .filter(Boolean)
               .join(' ');
-            const svgWidth =
-            this.forecastHours === 6
-                ? '84%'
-            : (this.forecastHours - 6 + 84) + '%' //84% base + 3% for each additional 6 hours
+            const svgWidth = this.forecastHours === 6 ? '84%' : this.forecastHours - 6 + 84 + '%'; //84% base + 3% for each additional 6 hours
             const svgPadding =
-            this.forecastHours === 6
-                ? '8%'
-                : ((18 - this.forecastHours) * 0.5 + 2) + '%'
+              this.forecastHours === 6 ? '8%' : (18 - this.forecastHours) * 0.5 + 2 + '%';
             return svg`<svg width="${svgWidth}" height="${h}" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" style="display:block;padding-left:${svgPadding};">
                 <polyline points="${points}" fill="none" stroke="#db4a34" stroke-width="3" />
                 ${tempsRaw.map((t, i) => (t !== null ? svg`<circle r="3" fill="#db4a34" cx="${i * step}" cy="${h - ((t - min) / range) * h}" />` : null))}

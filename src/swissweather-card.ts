@@ -236,9 +236,7 @@ export class SwissWeatherCard extends LitElement {
         font-size: 64px;
         margin-bottom: 10px;
       }
-      .weather-temp {
-        fill: var(--primary-text-color, #fff);
-      }
+
       .condition {
         font-size: 16px;
         color: var(--primary-text-color, #fff);

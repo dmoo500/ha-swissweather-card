@@ -13,78 +13,78 @@ export class SunshineChart extends LitElement {
   @property({ type: Function }) showHoursChartLabel!: (hours: number) => TemplateResult;
 
   static styles = css`
-      .chart {
-        background: var(--card-background-color, #fff);
-        border-radius: 12px;
-        padding: 15px;
-        margin-top: 15px;
-        border: 1px solid var(--border-color, rgba(220, 20, 60, 0.1));
-      }
-      .chart-sunshine {
-        background: var(--card-background-color, #fff);
-        border-radius: 12px;
-        padding: 15px;
-        margin-top: 15px;
-        border: 1px solid var(--border-color, rgba(220, 20, 60, 0.1));
-      }
+    .chart {
+      background: var(--card-background-color, #fff);
+      border-radius: 12px;
+      padding: 15px;
+      margin-top: 15px;
+      border: 1px solid var(--border-color, rgba(220, 20, 60, 0.1));
+    }
+    .chart-sunshine {
+      background: var(--card-background-color, #fff);
+      border-radius: 12px;
+      padding: 15px;
+      margin-top: 15px;
+      border: 1px solid var(--border-color, rgba(220, 20, 60, 0.1));
+    }
 
-      .chart-bars {
-        display: flex;
-        justify-content: space-between;
-        height: 120px;
-        margin-bottom: 10px;
-      }
+    .chart-bars {
+      display: flex;
+      justify-content: space-between;
+      height: 120px;
+      margin-bottom: 10px;
+    }
 
-      .chart-bar-sunshine {
-        width: 18px;
-        background: linear-gradient(to top, #ffe082, #fbc02d);
-        border-radius: 2px 2px 0 0;
-        min-height: 2px;
-      }
+    .chart-bar-sunshine {
+      width: 18px;
+      background: linear-gradient(to top, #ffe082, #fbc02d);
+      border-radius: 2px 2px 0 0;
+      min-height: 2px;
+    }
 
-      .chart-line {
-        display: flex;
-        justify-content: space-between;
-        height: 60px;
-        margin-bottom: 10px;
-      }
+    .chart-line {
+      display: flex;
+      justify-content: space-between;
+      height: 60px;
+      margin-bottom: 10px;
+    }
 
-      .chart-labels {
-        display: flex;
-        justify-content: space-between;
-        font-size: 11px;
-        color: var(--secondary-text-color, #000);
-      }
+    .chart-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--secondary-text-color, #000);
+    }
 
-      .section-title {
-        font-weight: bold;
-        font-size: 16px;
-        margin-bottom: 10px;
-        color: var(--primary-text-color, #000);
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
+    .section-title {
+      font-weight: bold;
+      font-size: 16px;
+      margin-bottom: 10px;
+      color: var(--primary-text-color, #000);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-      .section-title ha-icon {
-        color: var(--primary-color, #dc143c);  
-        font-size: 20px
-      }
+    .section-title ha-icon {
+      color: var(--primary-color, #dc143c);
+      font-size: 20px;
+    }
 
-      .forecast-section {
-        margin-top: 20px;
-      }
+    .forecast-section {
+      margin-top: 20px;
+    }
 
-      .section-title {
-        font-size: 18px;
-        font-weight: bold;
-        color: var(--primary-text-color, #fff);
-        margin-bottom: 15px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-    `;
+    .section-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: var(--primary-text-color, #fff);
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+  `;
 
   render(): TemplateResult {
     return this.show_sunshine !== false
