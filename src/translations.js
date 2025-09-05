@@ -112,7 +112,7 @@ export const translations = {
     partlycloudy: 'Teilweise bewölkt',
     pouring: 'Strömender Regen',
     rainy: 'Regnerisch',
-    snowy: 'Schnee',
+    snowy: 'Schneefall',
     'snowy-rainy': 'Schnee mit Regen',
     sunny: 'Sonnig',
     windy: 'Windig',
