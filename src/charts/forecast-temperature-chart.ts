@@ -52,6 +52,7 @@ export class ForecastTemperatureChart extends LitElement {
   `;
 
   render(): TemplateResult {
+    if (this.show_temperature === false) return html``;
     return html`
       <div class="chart">
         <div class="section-title">
