@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# HACS Validierung für SwissWeather Card
+# HACS validation script for SwissWeather Card
 
-echo "🔍 HACS Validation für SwissWeather Card"
+echo "🔍 HACS Validation for SwissWeather Card"
 echo "======================================"
 
-# Farben für Output
+# Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -14,27 +14,27 @@ NC='\033[0m' # No Color
 errors=0
 warnings=0
 
-# Funktion für Erfolg
+# Success function
 success() {
     echo -e "${GREEN}✅ $1${NC}"
 }
 
-# Funktion für Fehler
+# Error function
 error() {
     echo -e "${RED}❌ $1${NC}"
     ((errors++))
 }
 
-# Funktion für Warnung
+# Warning function
 warning() {
     echo -e "${YELLOW}⚠️  $1${NC}"
     ((warnings++))
 }
 
 echo ""
-echo "📁 Datei-Struktur Prüfung..."
+echo "📁 Checking file structure..."
 
-# Erforderliche Dateien prüfen
+# Check for required files
 required_files=(
     "hacs.json"
     "README.md"
@@ -44,131 +44,126 @@ required_files=(
 
 for file in "${required_files[@]}"; do
     if [ -f "$file" ]; then
-        success "Datei gefunden: $file"
+        success "File found: $file"
     else
-        error "Fehlende Datei: $file"
+        error "Missing file: $file"
     fi
 done
 
 echo ""
-echo "🔧 hacs.json Validierung..."
+echo "🔧 Validating hacs.json..."
 
-# hacs.json validieren
+# Validate hacs.json
 if [ -f "hacs.json" ]; then
     if command -v jq &> /dev/null; then
         if jq . hacs.json > /dev/null 2>&1; then
-            success "hacs.json ist valides JSON"
+            success "hacs.json is valid JSON"
             
-            # Erforderliche Felder prüfen
+            # Check required fields
             name=$(jq -r '.name // empty' hacs.json)
             filename=$(jq -r '.filename // empty' hacs.json)
             
             if [ -n "$name" ]; then
-                success "Name gesetzt: $name"
+                success "Name set: $name"
             else
-                error "Name fehlt in hacs.json"
+                error "Name missing in hacs.json"
             fi
             
             if [ -n "$filename" ]; then
-                success "Filename gesetzt: $filename"
+                success "Filename set: $filename"
                 if [ -f "$filename" ]; then
-                    success "Datei $filename existiert"
+                    success "File $filename exists"
                 else
-                    error "Datei $filename nicht gefunden"
+                    error "File $filename not found"
                 fi
             else
-                error "Filename fehlt in hacs.json"
+                error "Filename missing in hacs.json"
             fi
         else
-            error "hacs.json ist kein valides JSON"
+            error "hacs.json is not valid JSON"
         fi
     else
-        warning "jq nicht installiert - JSON-Validierung übersprungen"
+        warning "jq not installed - skipping JSON validation"
     fi
 fi
 
 echo ""
-echo "📦 Build Validierung..."
+echo "📦 Build validation..."
 
-# Prüfen ob swissweather-card.js existiert und nicht leer ist
+# Check if swissweather-card.js exists and is not empty
 if [ -f "swissweather-card.js" ]; then
     size=$(wc -c < "swissweather-card.js")
     if [ "$size" -gt 1000 ]; then
-        success "Build-Datei ist vorhanden und hat sinnvolle Größe ($size bytes)"
+        success "Build file exists and has reasonable size ($size bytes)"
     else
-        error "Build-Datei zu klein ($size bytes) - möglicherweise fehlerhaft"
+        error "Build file too small ($size bytes) - possibly faulty"
     fi
-    
-    # Prüfen ob moderne JS-Features verwendet werden
+    # Check for modern JS features
     if grep -q "class.*extends.*LitElement" "swissweather-card.js"; then
-        success "LitElement-Klasse gefunden"
+        success "LitElement class found"
     else
-        warning "LitElement-Klasse nicht gefunden"
+        warning "LitElement class not found"
     fi
-    
     if grep -q "customElements.define" "swissweather-card.js"; then
-        success "Custom Element Registrierung gefunden"
+        success "Custom element registration found"
     else
-        error "Custom Element Registrierung nicht gefunden"
+        error "Custom element registration not found"
     fi
 else
-    error "swissweather-card.js nicht gefunden"
+    error "swissweather-card.js not found"
 fi
 
 echo ""
-echo "📄 README Validierung..."
+echo "📄 README validation..."
 
 if [ -f "README.md" ]; then
-    # Prüfen auf wichtige Abschnitte
+    # Check for important sections
     if grep -q "Installation" README.md; then
-        success "Installation-Abschnitt gefunden"
+        success "Installation section found"
     else
-        warning "Installation-Abschnitt fehlt"
+        warning "Installation section missing"
     fi
-    
     if grep -q "Configuration\|Konfiguration" README.md; then
-        success "Konfiguration-Abschnitt gefunden"
+        success "Configuration section found"
     else
-        warning "Konfiguration-Abschnitt fehlt"
+        warning "Configuration section missing"
     fi
-    
     if grep -qi "hacs" README.md; then
-        success "HACS-Hinweise gefunden"
+        success "HACS notes found"
     else
-        warning "HACS-Hinweise fehlen"
+        warning "HACS notes missing"
     fi
-    
-    # Prüfen auf Code-Beispiele  
+    # Check for code examples  
     if grep -q '```yaml' README.md; then
-        success "YAML-Konfigurationsbeispiele gefunden"
+        success "YAML configuration examples found"
     else
-        warning "Keine YAML-Beispiele gefunden"
+        warning "No YAML examples found"
     fi
 fi
 
 echo ""
-echo "🏷️  Git Tags Prüfung..."
+echo "🏷️  Git tags check..."
 
-# Prüfen ob Git-Tags vorhanden sind
+# Check for git tags
 if git tag --list | grep -q "v[0-9]"; then
-    latest_tag=$(git tag --list | grep "v[0-9]" | sort -V | tail -n1)
-    success "Git Tags gefunden, neuester: $latest_tag"
+    latest_tag=$(git tag --list | grep "^[[:digit:]]" | sort -V | tail -n1)
+    success "Git tags found, latest: $latest_tag"
 else
-    warning "Keine Git Tags gefunden - für Releases benötigt"
+    warning "No git tags found - required for releases"
 fi
 
 echo ""
-echo "📊 Validierung Zusammenfassung"
+echo "📊 Validation summary"
 echo "=============================="
 
 if [ $errors -eq 0 ] && [ $warnings -eq 0 ]; then
-    echo -e "${GREEN}🎉 Alle Prüfungen bestanden! HACS-ready!${NC}"
+    echo -e "${GREEN}🎉 All checks passed! HACS-ready!${NC}"
     exit 0
 elif [ $errors -eq 0 ]; then
-    echo -e "${YELLOW}⚠️  $warnings Warnungen, aber HACS-kompatibel${NC}"
+    echo -e "${YELLOW}⚠️  $warnings warnings, but HACS compatible${NC}"
     exit 0
 else
-    echo -e "${RED}❌ $errors Fehler und $warnings Warnungen gefunden${NC}"
-    echo -e "${RED}Bitte beheben Sie die Fehler vor der HACS-Einreichung${NC}"
+    echo -e "${RED}❌ $errors errors and $warnings warnings found${NC}"
+    echo -e "${RED}Please fix the errors before submitting to HACS${NC}"
     exit 1
 fi

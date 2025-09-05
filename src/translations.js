@@ -1,4 +1,5 @@
 import { group } from 'console';
+import { showHoursChartLabel } from './charts';
 
 export const translations = {
   de: {
@@ -34,6 +35,40 @@ export const translations = {
       chart_sunshine: 'Sonnenschein',
       chart_wind: 'Wind',
       chart_forecast: 'Prognose-Diagramm',
+      descr: {
+        entity:
+          'Die Wetter-Entity ist erforderlich und sollte von der Integration SwissWeather sein. Wenn eine andere Wetter Entity genutzt wird kann es passieren, das nicht alle Daten korrekt angezeuigt werden.',
+        sun_entity:
+          'Die Sonnen-Entity ist erforderlich, um Sonnenaufgangs- und Sonnenuntergangszeiten anzuzeigen.',
+        sunshine_entity:
+          'Die Sonnenscheindauer-Entity wird benötigt, um die Sonnenscheindauer anzuzeigen.',
+        wind_entity: 'Die Wind-Entity wird benötigt, um die Windgeschwindigkeit anzuzeigen.',
+        wind_direction_entity:
+          'Die Windrichtungs-Entity wird benötigt, um die Windrichtung anzuzeigen.',
+        warning_entity:
+          'Die Wetterwarnungen Entity wird von SiwssWeather angelegt und kann hier verwendet werden. Sollte sie nicht gesetzt sein, werden keine Wetterwarnungen angezeigt.',
+        precipitation_entity:
+          'Die Niederschlags-Entity wird benötigt, um die Niederschlagsprognose anzuzeigen.',
+        show_forecast:
+          'Die Wettervorhersage zeigt die Vorhersage mit maximal 7 Tagen an, je nach dem, was der Wetterdienst liefert.',
+        show_temperature:
+          'Zeige das Temperaturdiagramm an, mit den Vorhersage anhand der eingestellten Stunden',
+        show_precipitation:
+          'Zeige das Niederschlags an, mit den Vorhersage anhand der eingestellten Stunden',
+        show_sunshine:
+          'Zeige das Sonnenscheindauerdiagramm an, mit den Vorhersage anhand der eingestellten Stunden',
+        show_wind: 'Zeige das Winddiagramm anm it den Vorhersage anhand der eingestellten Stunden',
+        show_warnings:
+          'Zeige Wetterwarnungen an, wenn die Wetterwarnung Entity gesetzt ist und aktuelle Warnungen existieren.',
+        enable_animate_weather_icons:
+          'Zeige animierte Icons an. Wenn ausgeschaltet, werden statische Icons angezeigt.',
+        compact_mode:
+          'Im kompakten Modus werden weniger Details angezeigt für die Tagesvorhersage und den aktuellen Daten (z.B. Windrichtung)',
+        forecast_hours:
+          'Anzahl der Stunden für die Anzeige der stündlichen Vorhersage (Standard: 6, maximal 18)',
+        show_location: 'Zeige den Standortnamen über dem aktuellen Wetter an',
+        location: 'Zeigt diesen Namen als Standort an.',
+      },
     },
     location: 'Schweiz',
     wind: 'Wind',
@@ -77,7 +112,7 @@ export const translations = {
     partlycloudy: 'Teilweise bewölkt',
     pouring: 'Strömender Regen',
     rainy: 'Regnerisch',
-    snowy: 'Schnee',
+    snowy: 'Schneefall',
     'snowy-rainy': 'Schnee mit Regen',
     sunny: 'Sonnig',
     windy: 'Windig',
@@ -136,6 +171,33 @@ export const translations = {
       chart_sunshine: 'Sunshine',
       chart_wind: 'Wind',
       chart_forecast: 'Forecast Chart',
+      descr: {
+        entity:
+          'The weather entity is required and should be from the SwissWeather integration. If another weather entity is used, not all data may be displayed correctly.',
+        sun_entity: 'The sun entity is required to display sunrise and sunset times.',
+        sunshine_entity: 'The sunshine entity is required to display sunshine duration.',
+        wind_entity: 'The wind entity is required to display wind speed.',
+        wind_direction_entity: 'The wind direction entity is required to display wind direction.',
+        warning_entity:
+          'The weather warnings entity is created by SwissWeather and can be used here. If it is not set, no weather warnings will be displayed.',
+        precipitation_entity:
+          'The precipitation entity is required to display the precipitation forecast.',
+        show_forecast:
+          'The weather forecast displays the forecast with up to 7 days, depending on what the weather service provides.',
+        show_temperature: 'Show the temperature chart with the forecast based on the set hours',
+        show_precipitation: 'Show the precipitation chart with the forecast based on the set hours',
+        show_sunshine: 'Show the sunshine duration chart with the forecast based on the set hours',
+        show_wind: 'Show the wind chart with the forecast based on the set hours',
+        show_warnings:
+          'Show weather warnings if the weather warning entity is set and the actul warning exists.',
+        enable_animate_weather_icons:
+          'Show animated icons. If disabled, static icons are displayed.',
+        compact_mode:
+          'In compact mode, fewer details are displayed for the daily forecast and current data (e.g. wind direction)',
+        forecast_hours: 'Number of hours to show in the hourly forecast (default: 6, maximum 18)',
+        show_location: 'Show the location name above the current weather',
+        location: 'Displays this name as location.',
+      },
     },
     location: 'Switzerland',
     wind: 'Wind',
