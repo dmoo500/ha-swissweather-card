@@ -60,14 +60,14 @@ export class SunshineChart extends LitElement {
       font-weight: bold;
       font-size: 16px;
       margin-bottom: 10px;
-      color: var(--primary-text-color, #000);
+      color: var(--primary-text-color, #fff);
       display: flex;
       align-items: center;
       gap: 8px;
     }
 
     .section-title ha-icon {
-      color: var(--primary-color, #dc143c);
+      color: var(--primary-text-color, #fff);
       font-size: 20px;
     }
 
