@@ -22,7 +22,7 @@ let bi = class {
     return this.cssText;
   }
 };
-const dr = (i) => new bi(typeof i == "string" ? i : i + "", void 0, kt), ee = (i, ...e) => {
+const dr = (i) => new bi(typeof i == "string" ? i : i + "", void 0, kt), J = (i, ...e) => {
   const t = i.length === 1 ? i[0] : e.reduce(((n, r, s) => n + ((a) => {
     if (a._$cssResult$ === !0) return a.cssText;
     if (typeof a == "number") return a;
@@ -262,7 +262,7 @@ ue.elementStyles = [], ue.shadowRootOptions = { mode: "open" }, ue[Me("elementPr
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const Ct = globalThis, Ye = Ct.trustedTypes, Kt = Ye ? Ye.createPolicy("lit-html", { createHTML: (i) => i }) : void 0, xi = "$lit$", q = `lit$${Math.random().toFixed(9).slice(2)}$`, vi = "?" + q, xr = `<${vi}>`, oe = document, Le = () => oe.createComment(""), Ne = (i) => i === null || typeof i != "object" && typeof i != "function", St = Array.isArray, vr = (i) => St(i) || typeof i?.[Symbol.iterator] == "function", ht = `[ 	
+const Ct = globalThis, Ye = Ct.trustedTypes, Kt = Ye ? Ye.createPolicy("lit-html", { createHTML: (i) => i }) : void 0, xi = "$lit$", Z = `lit$${Math.random().toFixed(9).slice(2)}$`, vi = "?" + Z, xr = `<${vi}>`, oe = document, Le = () => oe.createComment(""), Ne = (i) => i === null || typeof i != "object" && typeof i != "function", St = Array.isArray, vr = (i) => St(i) || typeof i?.[Symbol.iterator] == "function", ht = `[ 	
 \f\r]`, ke = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, Xt = /-->/g, Jt = />/g, re = RegExp(`>|${ht}(?:([^\\s"'>=/]+)(${ht}*=${ht}*(?:[^ 	
 \f\r"'\`<>=]|("|')|))|$)`, "g"), ei = /'/g, ti = /"/g, $i = /^(?:script|style|textarea|title)$/i, ki = (i) => (e, ...t) => ({ _$litType$: i, strings: e, values: t }), h = ki(1), D = ki(2), fe = Symbol.for("lit-noChange"), M = Symbol.for("lit-nothing"), ii = /* @__PURE__ */ new WeakMap(), se = oe.createTreeWalker(oe, 129);
 function Ai(i, e) {
@@ -277,7 +277,7 @@ const $r = (i, e) => {
     let c, d, u = -1, p = 0;
     for (; p < l.length && (a.lastIndex = p, d = a.exec(l), d !== null); ) p = a.lastIndex, a === ke ? d[1] === "!--" ? a = Xt : d[1] !== void 0 ? a = Jt : d[2] !== void 0 ? ($i.test(d[2]) && (r = RegExp("</" + d[2], "g")), a = re) : d[3] !== void 0 && (a = re) : a === re ? d[0] === ">" ? (a = r ?? ke, u = -1) : d[1] === void 0 ? u = -2 : (u = a.lastIndex - d[2].length, c = d[1], a = d[3] === void 0 ? re : d[3] === '"' ? ti : ei) : a === ti || a === ei ? a = re : a === Xt || a === Jt ? a = ke : (a = re, r = void 0);
     const g = a === re && i[o + 1].startsWith("/>") ? " " : "";
-    s += a === ke ? l + xr : u >= 0 ? (n.push(c), l.slice(0, u) + xi + l.slice(u) + q + g) : l + q + (u === -2 ? o : g);
+    s += a === ke ? l + xr : u >= 0 ? (n.push(c), l.slice(0, u) + xi + l.slice(u) + Z + g) : l + Z + (u === -2 ? o : g);
   }
   return [Ai(i, s + (i[t] || "<?>") + (e === 2 ? "</svg>" : e === 3 ? "</math>" : "")), n];
 };
@@ -294,11 +294,11 @@ let gt = class Ci {
     for (; (r = se.nextNode()) !== null && l.length < o; ) {
       if (r.nodeType === 1) {
         if (r.hasAttributes()) for (const u of r.getAttributeNames()) if (u.endsWith(xi)) {
-          const p = d[a++], g = r.getAttribute(u).split(q), y = /([.?@])?(.*)/.exec(p);
+          const p = d[a++], g = r.getAttribute(u).split(Z), y = /([.?@])?(.*)/.exec(p);
           l.push({ type: 1, index: s, name: y[2], strings: g, ctor: y[1] === "." ? Ar : y[1] === "?" ? Cr : y[1] === "@" ? Sr : nt }), r.removeAttribute(u);
-        } else u.startsWith(q) && (l.push({ type: 6, index: s }), r.removeAttribute(u));
+        } else u.startsWith(Z) && (l.push({ type: 6, index: s }), r.removeAttribute(u));
         if ($i.test(r.tagName)) {
-          const u = r.textContent.split(q), p = u.length - 1;
+          const u = r.textContent.split(Z), p = u.length - 1;
           if (p > 0) {
             r.textContent = Ye ? Ye.emptyScript : "";
             for (let g = 0; g < p; g++) r.append(u[g], Le()), se.nextNode(), l.push({ type: 2, index: ++s });
@@ -308,7 +308,7 @@ let gt = class Ci {
       } else if (r.nodeType === 8) if (r.data === vi) l.push({ type: 2, index: s });
       else {
         let u = -1;
-        for (; (u = r.data.indexOf(q, u + 1)) !== -1; ) l.push({ type: 7, index: s }), u += q.length - 1;
+        for (; (u = r.data.indexOf(Z, u + 1)) !== -1; ) l.push({ type: 7, index: s }), u += Z.length - 1;
       }
       s++;
     }
@@ -783,7 +783,7 @@ const Mi = {
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const te = (i) => (e, t) => {
+const ee = (i) => (e, t) => {
   t !== void 0 ? t.addInitializer((() => {
     customElements.define(i, e);
   })) : customElements.define(i, e);
@@ -828,19 +828,18 @@ function m(i) {
 function st(i) {
   return m({ ...i, state: !0, attribute: !1 });
 }
-var Ti = Object.defineProperty, Wr = Object.getOwnPropertyDescriptor, zr = (i, e, t) => e in i ? Ti(i, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : i[e] = t, j = (i, e, t, n) => {
+var Ti = Object.defineProperty, Wr = Object.getOwnPropertyDescriptor, zr = (i, e, t) => e in i ? Ti(i, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : i[e] = t, te = (i, e, t, n) => {
   for (var r = n > 1 ? void 0 : n ? Wr(e, t) : e, s = i.length - 1, a; s >= 0; s--)
     (a = i[s]) && (r = (n ? a(e, t, r) : a(r)) || r);
   return n && r && Ti(e, t, r), r;
 }, Dr = (i, e, t) => zr(i, e + "", t);
-let R = class extends P {
+let O = class extends P {
   forecast = [];
   forecastLoading = !1;
   show_forecast = !0;
   config = {};
   _t;
   getWeatherIcon;
-  isDay;
   formatDate;
   render() {
     return this.config.show_forecast !== !1 ? this.forecastLoading && this.forecast.length === 0 ? h`
@@ -888,7 +887,7 @@ let R = class extends P {
         i.condition,
         this.config.enable_animate_weather_icons ? "animated" : "mdi",
         "24px",
-        this.isDay()
+        !0
       )}
                         </div>
                         <div class="forecast-temps">
@@ -921,7 +920,7 @@ let R = class extends P {
             ` : h``;
   }
 };
-Dr(R, "styles", ee`
+Dr(O, "styles", J`
     .forecast-section {
       margin-top: 20px;
     }
@@ -994,39 +993,36 @@ Dr(R, "styles", ee`
       }
     }
   `);
-j([
+te([
   m({ type: Array })
-], R.prototype, "forecast", 2);
-j([
+], O.prototype, "forecast", 2);
+te([
   m({ type: Boolean })
-], R.prototype, "forecastLoading", 2);
-j([
+], O.prototype, "forecastLoading", 2);
+te([
   m({ type: Boolean })
-], R.prototype, "show_forecast", 2);
-j([
+], O.prototype, "show_forecast", 2);
+te([
   m({ type: Object })
-], R.prototype, "config", 2);
-j([
+], O.prototype, "config", 2);
+te([
   m({ type: Function })
-], R.prototype, "_t", 2);
-j([
+], O.prototype, "_t", 2);
+te([
   m({ type: Function })
-], R.prototype, "getWeatherIcon", 2);
-j([
+], O.prototype, "getWeatherIcon", 2);
+te([
   m({ type: Function })
-], R.prototype, "isDay", 2);
-j([
-  m({ type: Function })
-], R.prototype, "formatDate", 2);
-R = j([
-  te("daily-forecast-chart")
-], R);
+], O.prototype, "formatDate", 2);
+O = te([
+  ee("daily-forecast-chart")
+], O);
 var Hi = Object.defineProperty, Rr = Object.getOwnPropertyDescriptor, Or = (i, e, t) => e in i ? Hi(i, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : i[e] = t, _e = (i, e, t, n) => {
   for (var r = n > 1 ? void 0 : n ? Rr(e, t) : e, s = i.length - 1, a; s >= 0; s--)
     (a = i[s]) && (r = (n ? a(e, t, r) : a(r)) || r);
   return n && r && Hi(e, t, r), r;
-}, Fr = (i, e, t) => Or(i, e + "", t);
-let Y = class extends P {
+}, Ur = (i, e, t) => Or(i, e + "", t);
+let Q = class extends P {
   hourlyForecast = [];
   forecastHours = 12;
   show_temperature = !0;
@@ -1073,7 +1069,7 @@ let Y = class extends P {
     `;
   }
 };
-Fr(Y, "styles", ee`
+Ur(Q, "styles", J`
     .section-title {
       font-weight: bold;
       font-size: 16px;
@@ -1120,28 +1116,28 @@ Fr(Y, "styles", ee`
   `);
 _e([
   m({ type: Array })
-], Y.prototype, "hourlyForecast", 2);
+], Q.prototype, "hourlyForecast", 2);
 _e([
   m({ type: Number })
-], Y.prototype, "forecastHours", 2);
+], Q.prototype, "forecastHours", 2);
 _e([
   m({ type: Boolean })
-], Y.prototype, "show_temperature", 2);
+], Q.prototype, "show_temperature", 2);
 _e([
   m({ type: Function })
-], Y.prototype, "_t", 2);
+], Q.prototype, "_t", 2);
 _e([
   m({ type: Function })
-], Y.prototype, "showHoursChartLabel", 2);
-Y = _e([
-  te("forecast-temperature-chart")
-], Y);
-var Li = Object.defineProperty, Ur = Object.getOwnPropertyDescriptor, Ir = (i, e, t) => e in i ? Li(i, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : i[e] = t, be = (i, e, t, n) => {
-  for (var r = n > 1 ? void 0 : n ? Ur(e, t) : e, s = i.length - 1, a; s >= 0; s--)
+], Q.prototype, "showHoursChartLabel", 2);
+Q = _e([
+  ee("forecast-temperature-chart")
+], Q);
+var Li = Object.defineProperty, Fr = Object.getOwnPropertyDescriptor, Ir = (i, e, t) => e in i ? Li(i, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : i[e] = t, be = (i, e, t, n) => {
+  for (var r = n > 1 ? void 0 : n ? Fr(e, t) : e, s = i.length - 1, a; s >= 0; s--)
     (a = i[s]) && (r = (n ? a(e, t, r) : a(r)) || r);
   return n && r && Li(e, t, r), r;
 }, Br = (i, e, t) => Ir(i, e + "", t);
-let K = class extends P {
+let Y = class extends P {
   hourlyForecast = [];
   forecastHours = 12;
   show_precipitation = !0;
@@ -1197,7 +1193,7 @@ let K = class extends P {
     `;
   }
 };
-Br(K, "styles", ee`
+Br(Y, "styles", J`
     .section-title {
       font-weight: bold;
       font-size: 16px;
@@ -1258,28 +1254,28 @@ Br(K, "styles", ee`
   `);
 be([
   m({ type: Array })
-], K.prototype, "hourlyForecast", 2);
+], Y.prototype, "hourlyForecast", 2);
 be([
   m({ type: Number })
-], K.prototype, "forecastHours", 2);
+], Y.prototype, "forecastHours", 2);
 be([
   m({ type: Boolean })
-], K.prototype, "show_precipitation", 2);
+], Y.prototype, "show_precipitation", 2);
 be([
   m({ type: Function })
-], K.prototype, "_t", 2);
+], Y.prototype, "_t", 2);
 be([
   m({ type: Function })
-], K.prototype, "showHoursChartLabel", 2);
-K = be([
-  te("precipitation-chart")
-], K);
+], Y.prototype, "showHoursChartLabel", 2);
+Y = be([
+  ee("precipitation-chart")
+], Y);
 var Ni = Object.defineProperty, Gr = Object.getOwnPropertyDescriptor, jr = (i, e, t) => e in i ? Ni(i, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : i[e] = t, ie = (i, e, t, n) => {
   for (var r = n > 1 ? void 0 : n ? Gr(e, t) : e, s = i.length - 1, a; s >= 0; s--)
     (a = i[s]) && (r = (n ? a(e, t, r) : a(r)) || r);
   return n && r && Ni(e, t, r), r;
 }, Vr = (i, e, t) => jr(i, e + "", t);
-let F = class extends P {
+let U = class extends P {
   hourlyForecast = [];
   forecastHours = 12;
   show_sunshine = !0;
@@ -1371,7 +1367,7 @@ let F = class extends P {
           ` : h``;
   }
 };
-Vr(F, "styles", ee`
+Vr(U, "styles", J`
     .chart {
       background: var(--card-background-color, #fff);
       border-radius: 12px;
@@ -1446,34 +1442,34 @@ Vr(F, "styles", ee`
   `);
 ie([
   m({ type: Array })
-], F.prototype, "hourlyForecast", 2);
+], U.prototype, "hourlyForecast", 2);
 ie([
   m({ type: Number })
-], F.prototype, "forecastHours", 2);
+], U.prototype, "forecastHours", 2);
 ie([
   m({ type: Boolean })
-], F.prototype, "show_sunshine", 2);
+], U.prototype, "show_sunshine", 2);
 ie([
   m({ type: Object })
-], F.prototype, "weatherEntity", 2);
+], U.prototype, "weatherEntity", 2);
 ie([
   m({ type: Object })
-], F.prototype, "sun_entity", 2);
+], U.prototype, "sun_entity", 2);
 ie([
   m({ type: Function })
-], F.prototype, "_t", 2);
+], U.prototype, "_t", 2);
 ie([
   m({ type: Function })
-], F.prototype, "showHoursChartLabel", 2);
-F = ie([
-  te("sunshine-chart")
-], F);
+], U.prototype, "showHoursChartLabel", 2);
+U = ie([
+  ee("sunshine-chart")
+], U);
 var Ei = Object.defineProperty, Zr = Object.getOwnPropertyDescriptor, qr = (i, e, t) => e in i ? Ei(i, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : i[e] = t, xe = (i, e, t, n) => {
   for (var r = n > 1 ? void 0 : n ? Zr(e, t) : e, s = i.length - 1, a; s >= 0; s--)
     (a = i[s]) && (r = (n ? a(e, t, r) : a(r)) || r);
   return n && r && Ei(e, t, r), r;
 }, Qr = (i, e, t) => qr(i, e + "", t);
-let X = class extends P {
+let K = class extends P {
   hourlyForecast = [];
   forecastHours = 12;
   show_wind = !0;
@@ -1537,7 +1533,7 @@ let X = class extends P {
           ` : h`` : h``;
   }
 };
-Qr(X, "styles", ee`
+Qr(K, "styles", J`
     .chart {
       background: var(--card-background-color, #fff);
       border-radius: 12px;
@@ -1634,22 +1630,22 @@ Qr(X, "styles", ee`
   `);
 xe([
   m({ type: Array })
-], X.prototype, "hourlyForecast", 2);
+], K.prototype, "hourlyForecast", 2);
 xe([
   m({ type: Number })
-], X.prototype, "forecastHours", 2);
+], K.prototype, "forecastHours", 2);
 xe([
   m({ type: Boolean })
-], X.prototype, "show_wind", 2);
+], K.prototype, "show_wind", 2);
 xe([
   m({ type: Function })
-], X.prototype, "_t", 2);
+], K.prototype, "_t", 2);
 xe([
   m({ type: Function })
-], X.prototype, "showHoursChartLabel", 2);
-X = xe([
-  te("wind-chart")
-], X);
+], K.prototype, "showHoursChartLabel", 2);
+K = xe([
+  ee("wind-chart")
+], K);
 var Pi = Object.defineProperty, Yr = Object.getOwnPropertyDescriptor, Kr = (i, e, t) => e in i ? Pi(i, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : i[e] = t, ze = (i, e, t, n) => {
   for (var r = n > 1 ? void 0 : n ? Yr(e, t) : e, s = i.length - 1, a; s >= 0; s--)
     (a = i[s]) && (r = (n ? a(e, t, r) : a(r)) || r);
@@ -1673,18 +1669,18 @@ let le = class extends P {
     let d = Math.min(...c.filter((f) => f !== null));
     const u = Math.max(...c.filter((f) => f !== null));
     d > 0 && (d = 0);
-    const p = 13, g = 64, y = 20, v = 18, U = 8, ve = v + p + U + g + U + 2, Re = 32, Oe = 60, W = ve + Re, E = W + Oe, V = u - d || 1, Z = e.map((f) => typeof f.precipitation == "number" ? f.precipitation : 0), Ot = e.map(
+    const p = 13, g = 64, y = 20, v = 18, F = 8, ve = v + p + F + g + F + 2, Re = 32, Oe = 60, W = ve + Re, E = W + Oe, j = u - d || 1, V = e.map((f) => typeof f.precipitation == "number" ? f.precipitation : 0), Ot = e.map(
       (f) => typeof f.precipitation_probability == "number" ? f.precipitation_probability % 10 : 0
-    ), Fe = Math.max(...Z, ...Ot, 1);
-    function Ue(f, w) {
+    ), Ue = Math.max(...V, ...Ot, 1);
+    function Fe(f, w) {
       const C = new Date(f.getFullYear(), f.getMonth(), f.getDate()).getTime(), H = Math.round((C - w) / 864e5), z = Math.round((f.getTime() - C) / (3600 * 1e3));
       return { dayIdx: H, hourInDay: z };
     }
     const sr = c.map((f, w) => {
       if (!e[w] || !e[w].datetime) return "";
-      const k = new Date(e[w].datetime), { dayIdx: C, hourInDay: H } = Ue(k, l), z = C * r + H * o + o / 2;
-      return f !== null ? `${z},${E - (f - d) / V * (E - W)}` : "";
-    }).filter(Boolean).join(" "), Ie = Math.max(3, Math.floor(o) - 2), Ft = E, Ut = E - W;
+      const k = new Date(e[w].datetime), { dayIdx: C, hourInDay: H } = Fe(k, l), z = C * r + H * o + o / 2;
+      return f !== null ? `${z},${E - (f - d) / j * (E - W)}` : "";
+    }).filter(Boolean).join(" "), Ie = Math.max(3, Math.floor(o) - 2), Ut = E, Ft = E - W;
     function ar(f) {
       if (f <= 0) return "transparent";
       const w = [
@@ -1710,18 +1706,18 @@ let le = class extends P {
     }
     const or = Ot.map((f, w) => {
       if (!e[w] || !e[w].datetime) return null;
-      const k = new Date(e[w].datetime), { dayIdx: C, hourInDay: H } = Ue(k, l), z = C * r + H * o + o / 2 - Ie / 2, I = Fe > 0 ? f / Fe * Ut : 0;
-      return f > 0 ? D`<rect x="${z}" y="${Ft - I}" width="${Ie}" height="${I}"
+      const k = new Date(e[w].datetime), { dayIdx: C, hourInDay: H } = Fe(k, l), z = C * r + H * o + o / 2 - Ie / 2, I = Ue > 0 ? f / Ue * Ft : 0;
+      return f > 0 ? D`<rect x="${z}" y="${Ut - I}" width="${Ie}" height="${I}"
           fill="#988d8dff" opacity="0.4" rx="1.5"/>` : null;
-    }), lr = Z.map((f, w) => {
+    }), lr = V.map((f, w) => {
       if (!e[w] || !e[w].datetime) return null;
-      const k = new Date(e[w].datetime), { dayIdx: C, hourInDay: H } = Ue(k, l), z = C * r + H * o + o / 2 - Ie / 2, I = Fe > 0 ? f / Fe * Ut : 0, Ge = ar(f);
-      return f > 0 ? D`<rect x="${z}" y="${Ft - I}" width="${Ie}" height="${I}"
+      const k = new Date(e[w].datetime), { dayIdx: C, hourInDay: H } = Fe(k, l), z = C * r + H * o + o / 2 - Ie / 2, I = Ue > 0 ? f / Ue * Ft : 0, Ge = ar(f);
+      return f > 0 ? D`<rect x="${z}" y="${Ut - I}" width="${Ie}" height="${I}"
           fill="${Ge}" opacity="1" rx="1.5"/>` : null;
     }), It = [];
     if (t > 1 && e.length > 0)
       for (let f = 1; f < t; f++) {
-        const w = new Date(l + f * 24 * 60 * 60 * 1e3), { dayIdx: k, hourInDay: C } = Ue(w, l), H = k * r + C * o;
+        const w = new Date(l + f * 24 * 60 * 60 * 1e3), { dayIdx: k, hourInDay: C } = Fe(w, l), H = k * r + C * o;
         It.push(
           D`<line x1="${H}" y1="16" x2="${H}" y2="${s - 16}" stroke="#bbb" stroke-width="1" stroke-dasharray="2,2"/>`
         );
@@ -1729,7 +1725,7 @@ let le = class extends P {
     const Bt = [], Gt = 6;
     if (t > 0)
       for (let f = 0; f < t; f++) {
-        const w = f * r + r / 2, k = v + p, C = k + U + Gt, H = C + g + U + Gt + 2, z = typeof i[f].templow == "number" ? Math.round(i[f].templow || i[f].temperature - 5) : "", I = typeof i[f].temperature == "number" ? Math.round(i[f].temperature) : "";
+        const w = f * r + r / 2, k = v + p, C = k + F + Gt, H = C + g + F + Gt + 2, z = typeof i[f].templow == "number" ? Math.round(i[f].templow || i[f].temperature - 5) : "", I = typeof i[f].temperature == "number" ? Math.round(i[f].temperature) : "";
         Bt.push(D`
         <g>
           <!-- Weekday -->
@@ -1745,14 +1741,14 @@ let le = class extends P {
         </g>
       `);
       }
-    const jt = [], Vt = 5 / V * (E - W), cr = Math.floor((E - W) / Vt), Be = /* @__PURE__ */ new Set();
+    const jt = [], Vt = 5 / j * (E - W), cr = Math.floor((E - W) / Vt), Be = /* @__PURE__ */ new Set();
     for (let f = 0; f <= cr; f++)
       Be.add(E - f * Vt);
     if (d > 0) {
-      const f = E - (0 - d) / V * (E - W);
+      const f = E - (0 - d) / j * (E - W);
       f <= E && f >= W && Be.add(f);
     }
-    const hr = E - (d - d) / V * (E - W);
+    const hr = E - (d - d) / j * (E - W);
     return Be.add(hr), Array.from(Be).sort((f, w) => w - f).forEach((f, w) => {
       jt.push(
         D`<line x1="0" y1="${f}" x2="${n}" y2="${f}" stroke="#bbb" stroke-width="${w % 2 === 0 ? 2 : 1}" stroke-dasharray="${w % 2 === 0 ? "none" : "4,3"}" />`
@@ -1770,7 +1766,7 @@ let le = class extends P {
     `;
   }
 };
-Xr(le, "styles", ee`
+Xr(le, "styles", J`
     .chart {
       background: var(--card-background-color, #fff);
       border-radius: 12px;
@@ -1830,7 +1826,7 @@ ze([
   m({ type: Function })
 ], le.prototype, "getWeatherIcon", 2);
 le = ze([
-  te("daily-forecast-diagram")
+  ee("daily-forecast-diagram")
 ], le);
 const mt = "langChanged";
 function Jr(i, e, t) {
@@ -1908,9 +1904,9 @@ let Ri = class {
  * SPDX-License-Identifier: BSD-3-Clause
  */
 var dt;
-const Ke = window, me = Ke.trustedTypes, ri = me ? me.createPolicy("lit-html", { createHTML: (i) => i }) : void 0, wt = "$lit$", Q = `lit$${(Math.random() + "").slice(9)}$`, Oi = "?" + Q, on = `<${Oi}>`, ce = document, Xe = () => ce.createComment(""), Pe = (i) => i === null || typeof i != "object" && typeof i != "function", Fi = Array.isArray, ln = (i) => Fi(i) || typeof i?.[Symbol.iterator] == "function", pt = `[ 	
+const Ke = window, me = Ke.trustedTypes, ri = me ? me.createPolicy("lit-html", { createHTML: (i) => i }) : void 0, wt = "$lit$", q = `lit$${(Math.random() + "").slice(9)}$`, Oi = "?" + q, on = `<${Oi}>`, ce = document, Xe = () => ce.createComment(""), Pe = (i) => i === null || typeof i != "object" && typeof i != "function", Ui = Array.isArray, ln = (i) => Ui(i) || typeof i?.[Symbol.iterator] == "function", pt = `[ 	
 \f\r]`, Ae = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, ni = /-->/g, si = />/g, ne = RegExp(`>|${pt}(?:([^\\s"'>=/]+)(${pt}*=${pt}*(?:[^ 	
-\f\r"'\`<>=]|("|')|))|$)`, "g"), ai = /'/g, oi = /"/g, Ui = /^(?:script|style|textarea|title)$/i, ye = Symbol.for("lit-noChange"), A = Symbol.for("lit-nothing"), li = /* @__PURE__ */ new WeakMap(), ae = ce.createTreeWalker(ce, 129, null, !1);
+\f\r"'\`<>=]|("|')|))|$)`, "g"), ai = /'/g, oi = /"/g, Fi = /^(?:script|style|textarea|title)$/i, ye = Symbol.for("lit-noChange"), A = Symbol.for("lit-nothing"), li = /* @__PURE__ */ new WeakMap(), ae = ce.createTreeWalker(ce, 129, null, !1);
 function Ii(i, e) {
   if (!Array.isArray(i) || !i.hasOwnProperty("raw")) throw Error("invalid template strings array");
   return ri !== void 0 ? ri.createHTML(e) : e;
@@ -1921,9 +1917,9 @@ const cn = (i, e) => {
   for (let o = 0; o < t; o++) {
     const l = i[o];
     let c, d, u = -1, p = 0;
-    for (; p < l.length && (a.lastIndex = p, d = a.exec(l), d !== null); ) p = a.lastIndex, a === Ae ? d[1] === "!--" ? a = ni : d[1] !== void 0 ? a = si : d[2] !== void 0 ? (Ui.test(d[2]) && (r = RegExp("</" + d[2], "g")), a = ne) : d[3] !== void 0 && (a = ne) : a === ne ? d[0] === ">" ? (a = r ?? Ae, u = -1) : d[1] === void 0 ? u = -2 : (u = a.lastIndex - d[2].length, c = d[1], a = d[3] === void 0 ? ne : d[3] === '"' ? oi : ai) : a === oi || a === ai ? a = ne : a === ni || a === si ? a = Ae : (a = ne, r = void 0);
+    for (; p < l.length && (a.lastIndex = p, d = a.exec(l), d !== null); ) p = a.lastIndex, a === Ae ? d[1] === "!--" ? a = ni : d[1] !== void 0 ? a = si : d[2] !== void 0 ? (Fi.test(d[2]) && (r = RegExp("</" + d[2], "g")), a = ne) : d[3] !== void 0 && (a = ne) : a === ne ? d[0] === ">" ? (a = r ?? Ae, u = -1) : d[1] === void 0 ? u = -2 : (u = a.lastIndex - d[2].length, c = d[1], a = d[3] === void 0 ? ne : d[3] === '"' ? oi : ai) : a === oi || a === ai ? a = ne : a === ni || a === si ? a = Ae : (a = ne, r = void 0);
     const g = a === ne && i[o + 1].startsWith("/>") ? " " : "";
-    s += a === Ae ? l + on : u >= 0 ? (n.push(c), l.slice(0, u) + wt + l.slice(u) + Q + g) : l + Q + (u === -2 ? (n.push(void 0), o) : g);
+    s += a === Ae ? l + on : u >= 0 ? (n.push(c), l.slice(0, u) + wt + l.slice(u) + q + g) : l + q + (u === -2 ? (n.push(void 0), o) : g);
   }
   return [Ii(i, s + (i[t] || "<?>") + (e === 2 ? "</svg>" : "")), n];
 };
@@ -1941,17 +1937,17 @@ let _t = class Bi {
       if (r.nodeType === 1) {
         if (r.hasAttributes()) {
           const u = [];
-          for (const p of r.getAttributeNames()) if (p.endsWith(wt) || p.startsWith(Q)) {
+          for (const p of r.getAttributeNames()) if (p.endsWith(wt) || p.startsWith(q)) {
             const g = d[a++];
             if (u.push(p), g !== void 0) {
-              const y = r.getAttribute(g.toLowerCase() + wt).split(Q), v = /([.?@])?(.*)/.exec(g);
+              const y = r.getAttribute(g.toLowerCase() + wt).split(q), v = /([.?@])?(.*)/.exec(g);
               l.push({ type: 1, index: s, name: v[2], strings: y, ctor: v[1] === "." ? dn : v[1] === "?" ? un : v[1] === "@" ? fn : at });
             } else l.push({ type: 6, index: s });
           }
           for (const p of u) r.removeAttribute(p);
         }
-        if (Ui.test(r.tagName)) {
-          const u = r.textContent.split(Q), p = u.length - 1;
+        if (Fi.test(r.tagName)) {
+          const u = r.textContent.split(q), p = u.length - 1;
           if (p > 0) {
             r.textContent = me ? me.emptyScript : "";
             for (let g = 0; g < p; g++) r.append(u[g], Xe()), ae.nextNode(), l.push({ type: 2, index: ++s });
@@ -1961,7 +1957,7 @@ let _t = class Bi {
       } else if (r.nodeType === 8) if (r.data === Oi) l.push({ type: 2, index: s });
       else {
         let u = -1;
-        for (; (u = r.data.indexOf(Q, u + 1)) !== -1; ) l.push({ type: 7, index: s }), u += Q.length - 1;
+        for (; (u = r.data.indexOf(q, u + 1)) !== -1; ) l.push({ type: 7, index: s }), u += q.length - 1;
       }
       s++;
     }
@@ -2052,7 +2048,7 @@ let hn = class {
     return t === void 0 && li.set(e.strings, t = new _t(e)), t;
   }
   T(e) {
-    Fi(this._$AH) || (this._$AH = [], this._$AR());
+    Ui(this._$AH) || (this._$AH = [], this._$AR());
     const t = this._$AH;
     let n, r = 0;
     for (const s of e) r === t.length ? t.push(n = new ji(this.k(Xe()), this.k(Xe()), this, this.options)) : n = t[r], n._$AI(s), r++;
@@ -2292,8 +2288,8 @@ function b(i, e = "") {
   return n;
 }
 var N = { codeRemoveIndent: /^(?: {1,4}| {0,3}\t)/gm, outputLinkReplace: /\\([\[\]])/g, indentCodeCompensation: /^(\s+)(?:```)/, beginningSpace: /^\s+/, endingHash: /#$/, startingSpaceChar: /^ /, endingSpaceChar: / $/, nonSpaceChar: /[^ ]/, newLineCharGlobal: /\n/g, tabCharGlobal: /\t/g, multipleSpaceGlobal: /\s+/g, blankLine: /^[ \t]*$/, doubleBlankLine: /\n[ \t]*\n[ \t]*$/, blockquoteStart: /^ {0,3}>/, blockquoteSetextReplace: /\n {0,3}((?:=+|-+) *)(?=\n|$)/g, blockquoteSetextReplace2: /^ {0,3}>[ \t]?/gm, listReplaceTabs: /^\t+/, listReplaceNesting: /^ {1,4}(?=( {4})*[^ ])/g, listIsTask: /^\[[ xX]\] /, listReplaceTask: /^\[[ xX]\] +/, anyLine: /\n.*\n/, hrefBrackets: /^<(.*)>$/, tableDelimiter: /[:|]/, tableAlignChars: /^\||\| *$/g, tableRowBlankLine: /\n[ \t]*$/, tableAlignRight: /^ *-+: *$/, tableAlignCenter: /^ *:-+: *$/, tableAlignLeft: /^ *:-+ *$/, startATag: /^<a /i, endATag: /^<\/a>/i, startPreScriptTag: /^<(pre|code|kbd|script)(\s|>)/i, endPreScriptTag: /^<\/(pre|code|kbd|script)(\s|>)/i, startAngleBracket: /^</, endAngleBracket: />$/, pedanticHrefTitle: /^([^'"]*[^\s])\s+(['"])(.*)\2/, unicodeAlphaNumeric: /[\p{L}\p{N}]/u, escapeTest: /[&<>"']/, escapeReplace: /[&<>"']/g, escapeTestNoEncode: /[<>"']|&(?!(#\d{1,7}|#[Xx][a-fA-F0-9]{1,6}|\w+);)/, escapeReplaceNoEncode: /[<>"']|&(?!(#\d{1,7}|#[Xx][a-fA-F0-9]{1,6}|\w+);)/g, unescapeTest: /&(#(?:\d+)|(?:#x[0-9A-Fa-f]+)|(?:\w+));?/ig, caret: /(^|[^\[])\^/g, percentDecode: /%25/g, findPipe: /\|/g, splitPipe: / \|/, slashPipe: /\\\|/g, carriageReturn: /\r\n|\r/g, spaceLine: /^ +$/gm, notSpaceStart: /^\S*/, endingNewline: /\n$/, listItemRegex: (i) => new RegExp(`^( {0,3}${i})((?:[	 ][^\\n]*)?(?:\\n|$))`), nextBulletRegex: (i) => new RegExp(`^ {0,${Math.min(3, i - 1)}}(?:[*+-]|\\d{1,9}[.)])((?:[ 	][^\\n]*)?(?:\\n|$))`), hrRegex: (i) => new RegExp(`^ {0,${Math.min(3, i - 1)}}((?:- *){3,}|(?:_ *){3,}|(?:\\* *){3,})(?:\\n+|$)`), fencesBeginRegex: (i) => new RegExp(`^ {0,${Math.min(3, i - 1)}}(?:\`\`\`|~~~)`), headingBeginRegex: (i) => new RegExp(`^ {0,${Math.min(3, i - 1)}}#`), htmlBeginRegex: (i) => new RegExp(`^ {0,${Math.min(3, i - 1)}}<(?:[a-z].*>|!--)`, "i") }, $n = /^(?:[ \t]*(?:\n|$))+/, kn = /^((?: {4}| {0,3}\t)[^\n]+(?:\n(?:[ \t]*(?:\n|$))*)?)+/, An = /^ {0,3}(`{3,}(?=[^`\n]*(?:\n|$))|~{3,})([^\n]*)(?:\n|$)(?:|([\s\S]*?)(?:\n|$))(?: {0,3}\1[~`]* *(?=\n|$)|$)/, De = /^ {0,3}((?:-[\t ]*){3,}|(?:_[ \t]*){3,}|(?:\*[ \t]*){3,})(?:\n+|$)/, Cn = /^ {0,3}(#{1,6})(?=\s|$)(.*)(?:\n+|$)/, Lt = /(?:[*+-]|\d{1,9}[.)])/, qi = /^(?!bull |blockCode|fences|blockquote|heading|html|table)((?:.|\n(?!\s*?\n|bull |blockCode|fences|blockquote|heading|html|table))+?)\n {0,3}(=+|-+) *(?:\n+|$)/, Qi = b(qi).replace(/bull/g, Lt).replace(/blockCode/g, /(?: {4}| {0,3}\t)/).replace(/fences/g, / {0,3}(?:`{3,}|~{3,})/).replace(/blockquote/g, / {0,3}>/).replace(/heading/g, / {0,3}#{1,6}/).replace(/html/g, / {0,3}<[^\n>]+>\n/).replace(/\|table/g, "").getRegex(), Sn = b(qi).replace(/bull/g, Lt).replace(/blockCode/g, /(?: {4}| {0,3}\t)/).replace(/fences/g, / {0,3}(?:`{3,}|~{3,})/).replace(/blockquote/g, / {0,3}>/).replace(/heading/g, / {0,3}#{1,6}/).replace(/html/g, / {0,3}<[^\n>]+>\n/).replace(/table/g, / {0,3}\|?(?:[:\- ]*\|)+[\:\- ]*\n/).getRegex(), Nt = /^([^\n]+(?:\n(?!hr|heading|lheading|blockquote|fences|list|html|table| +\n)[^\n]+)*)/, Mn = /^[^\n]+/, Et = /(?!\s*\])(?:\\.|[^\[\]\\])+/, Tn = b(/^ {0,3}\[(label)\]: *(?:\n[ \t]*)?([^<\s][^\s]*|<.*?>)(?:(?: +(?:\n[ \t]*)?| *\n[ \t]*)(title))? *(?:\n+|$)/).replace("label", Et).replace("title", /(?:"(?:\\"?|[^"\\])*"|'[^'\n]*(?:\n[^'\n]+)*\n?'|\([^()]*\))/).getRegex(), Hn = b(/^( {0,3}bull)([ \t][^\n]+?)?(?:\n|$)/).replace(/bull/g, Lt).getRegex(), ot = "address|article|aside|base|basefont|blockquote|body|caption|center|col|colgroup|dd|details|dialog|dir|div|dl|dt|fieldset|figcaption|figure|footer|form|frame|frameset|h[1-6]|head|header|hr|html|iframe|legend|li|link|main|menu|menuitem|meta|nav|noframes|ol|optgroup|option|p|param|search|section|summary|table|tbody|td|tfoot|th|thead|title|tr|track|ul", Pt = /<!--(?:-?>|[\s\S]*?(?:-->|$))/, Ln = b("^ {0,3}(?:<(script|pre|style|textarea)[\\s>][\\s\\S]*?(?:</\\1>[^\\n]*\\n+|$)|comment[^\\n]*(\\n+|$)|<\\?[\\s\\S]*?(?:\\?>\\n*|$)|<![A-Z][\\s\\S]*?(?:>\\n*|$)|<!\\[CDATA\\[[\\s\\S]*?(?:\\]\\]>\\n*|$)|</?(tag)(?: +|\\n|/?>)[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$)|<(?!script|pre|style|textarea)([a-z][\\w-]*)(?:attribute)*? */?>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$)|</(?!script|pre|style|textarea)[a-z][\\w-]*\\s*>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$))", "i").replace("comment", Pt).replace("tag", ot).replace("attribute", / +[a-zA-Z:_][\w.:-]*(?: *= *"[^"\n]*"| *= *'[^'\n]*'| *= *[^\s"'=<>`]+)?/).getRegex(), Yi = b(Nt).replace("hr", De).replace("heading", " {0,3}#{1,6}(?:\\s|$)").replace("|lheading", "").replace("|table", "").replace("blockquote", " {0,3}>").replace("fences", " {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list", " {0,3}(?:[*+-]|1[.)]) ").replace("html", "</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag", ot).getRegex(), Nn = b(/^( {0,3}> ?(paragraph|[^\n]*)(?:\n|$))+/).replace("paragraph", Yi).getRegex(), Wt = { blockquote: Nn, code: kn, def: Tn, fences: An, heading: Cn, hr: De, html: Ln, lheading: Qi, list: Hn, newline: $n, paragraph: Yi, table: He, text: Mn }, di = b("^ *([^\\n ].*)\\n {0,3}((?:\\| *)?:?-+:? *(?:\\| *:?-+:? *)*(?:\\| *)?)(?:\\n((?:(?! *\\n|hr|heading|blockquote|code|fences|list|html).*(?:\\n|$))*)\\n*|$)").replace("hr", De).replace("heading", " {0,3}#{1,6}(?:\\s|$)").replace("blockquote", " {0,3}>").replace("code", "(?: {4}| {0,3}	)[^\\n]").replace("fences", " {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list", " {0,3}(?:[*+-]|1[.)]) ").replace("html", "</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag", ot).getRegex(), En = { ...Wt, lheading: Sn, table: di, paragraph: b(Nt).replace("hr", De).replace("heading", " {0,3}#{1,6}(?:\\s|$)").replace("|lheading", "").replace("table", di).replace("blockquote", " {0,3}>").replace("fences", " {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list", " {0,3}(?:[*+-]|1[.)]) ").replace("html", "</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag", ot).getRegex() }, Pn = { ...Wt, html: b(`^ *(?:comment *(?:\\n|\\s*$)|<(tag)[\\s\\S]+?</\\1> *(?:\\n{2,}|\\s*$)|<tag(?:"[^"]*"|'[^']*'|\\s[^'"/>\\s]*)*?/?> *(?:\\n{2,}|\\s*$))`).replace("comment", Pt).replace(/tag/g, "(?!(?:a|em|strong|small|s|cite|q|dfn|abbr|data|time|code|var|samp|kbd|sub|sup|i|b|u|mark|ruby|rt|rp|bdi|bdo|span|br|wbr|ins|del|img)\\b)\\w+(?!:|[^\\w\\s@]*@)\\b").getRegex(), def: /^ *\[([^\]]+)\]: *<?([^\s>]+)>?(?: +(["(][^\n]+[")]))? *(?:\n+|$)/, heading: /^(#{1,6})(.*)(?:\n+|$)/, fences: He, lheading: /^(.+?)\n {0,3}(=+|-+) *(?:\n+|$)/, paragraph: b(Nt).replace("hr", De).replace("heading", ` *#{1,6} *[^
-]`).replace("lheading", Qi).replace("|table", "").replace("blockquote", " {0,3}>").replace("|fences", "").replace("|list", "").replace("|html", "").replace("|tag", "").getRegex() }, Wn = /^\\([!"#$%&'()*+,\-./:;<=>?@\[\]\\^_`{|}~])/, zn = /^(`+)([^`]|[^`][\s\S]*?[^`])\1(?!`)/, Ki = /^( {2,}|\\)\n(?!\s*$)/, Dn = /^(`+|[^`])(?:(?= {2,}\n)|[\s\S]*?(?:(?=[\\<!\[`*_]|\b_|$)|[^ ](?= {2,}\n)))/, lt = /[\p{P}\p{S}]/u, zt = /[\s\p{P}\p{S}]/u, Xi = /[^\s\p{P}\p{S}]/u, Rn = b(/^((?![*_])punctSpace)/, "u").replace(/punctSpace/g, zt).getRegex(), Ji = /(?!~)[\p{P}\p{S}]/u, On = /(?!~)[\s\p{P}\p{S}]/u, Fn = /(?:[^\s\p{P}\p{S}]|~)/u, Un = /\[[^[\]]*?\]\((?:\\.|[^\\\(\)]|\((?:\\.|[^\\\(\)])*\))*\)|`[^`]*?`|<(?! )[^<>]*?>/g, er = /^(?:\*+(?:((?!\*)punct)|[^\s*]))|^_+(?:((?!_)punct)|([^\s_]))/, In = b(er, "u").replace(/punct/g, lt).getRegex(), Bn = b(er, "u").replace(/punct/g, Ji).getRegex(), tr = "^[^_*]*?__[^_*]*?\\*[^_*]*?(?=__)|[^*]+(?=[^*])|(?!\\*)punct(\\*+)(?=[\\s]|$)|notPunctSpace(\\*+)(?!\\*)(?=punctSpace|$)|(?!\\*)punctSpace(\\*+)(?=notPunctSpace)|[\\s](\\*+)(?!\\*)(?=punct)|(?!\\*)punct(\\*+)(?!\\*)(?=punct)|notPunctSpace(\\*+)(?=notPunctSpace)", Gn = b(tr, "gu").replace(/notPunctSpace/g, Xi).replace(/punctSpace/g, zt).replace(/punct/g, lt).getRegex(), jn = b(tr, "gu").replace(/notPunctSpace/g, Fn).replace(/punctSpace/g, On).replace(/punct/g, Ji).getRegex(), Vn = b("^[^_*]*?\\*\\*[^_*]*?_[^_*]*?(?=\\*\\*)|[^_]+(?=[^_])|(?!_)punct(_+)(?=[\\s]|$)|notPunctSpace(_+)(?!_)(?=punctSpace|$)|(?!_)punctSpace(_+)(?=notPunctSpace)|[\\s](_+)(?!_)(?=punct)|(?!_)punct(_+)(?!_)(?=punct)", "gu").replace(/notPunctSpace/g, Xi).replace(/punctSpace/g, zt).replace(/punct/g, lt).getRegex(), Zn = b(/\\(punct)/, "gu").replace(/punct/g, lt).getRegex(), qn = b(/^<(scheme:[^\s\x00-\x1f<>]*|email)>/).replace("scheme", /[a-zA-Z][a-zA-Z0-9+.-]{1,31}/).replace("email", /[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+(@)[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+(?![-_])/).getRegex(), Qn = b(Pt).replace("(?:-->|$)", "-->").getRegex(), Yn = b("^comment|^</[a-zA-Z][\\w:-]*\\s*>|^<[a-zA-Z][\\w-]*(?:attribute)*?\\s*/?>|^<\\?[\\s\\S]*?\\?>|^<![a-zA-Z]+\\s[\\s\\S]*?>|^<!\\[CDATA\\[[\\s\\S]*?\\]\\]>").replace("comment", Qn).replace("attribute", /\s+[a-zA-Z:_][\w.:-]*(?:\s*=\s*"[^"]*"|\s*=\s*'[^']*'|\s*=\s*[^\s"'=<>`]+)?/).getRegex(), et = /(?:\[(?:\\.|[^\[\]\\])*\]|\\.|`[^`]*`|[^\[\]\\`])*?/, Kn = b(/^!?\[(label)\]\(\s*(href)(?:(?:[ \t]*(?:\n[ \t]*)?)(title))?\s*\)/).replace("label", et).replace("href", /<(?:\\.|[^\n<>\\])+>|[^ \t\n\x00-\x1f]*/).replace("title", /"(?:\\"?|[^"\\])*"|'(?:\\'?|[^'\\])*'|\((?:\\\)?|[^)\\])*\)/).getRegex(), ir = b(/^!?\[(label)\]\[(ref)\]/).replace("label", et).replace("ref", Et).getRegex(), rr = b(/^!?\[(ref)\](?:\[\])?/).replace("ref", Et).getRegex(), Xn = b("reflink|nolink(?!\\()", "g").replace("reflink", ir).replace("nolink", rr).getRegex(), Dt = { _backpedal: He, anyPunctuation: Zn, autolink: qn, blockSkip: Un, br: Ki, code: zn, del: He, emStrongLDelim: In, emStrongRDelimAst: Gn, emStrongRDelimUnd: Vn, escape: Wn, link: Kn, nolink: rr, punctuation: Rn, reflink: ir, reflinkSearch: Xn, tag: Yn, text: Dn, url: He }, Jn = { ...Dt, link: b(/^!?\[(label)\]\((.*?)\)/).replace("label", et).getRegex(), reflink: b(/^!?\[(label)\]\s*\[([^\]]*)\]/).replace("label", et).getRegex() }, bt = { ...Dt, emStrongRDelimAst: jn, emStrongLDelim: Bn, url: b(/^((?:ftp|https?):\/\/|www\.)(?:[a-zA-Z0-9\-]+\.?)+[^\s<]*|^email/, "i").replace("email", /[A-Za-z0-9._+-]+(@)[a-zA-Z0-9-_]+(?:\.[a-zA-Z0-9-_]*[a-zA-Z0-9])+(?![-_])/).getRegex(), _backpedal: /(?:[^?!.,:;*_'"~()&]+|\([^)]*\)|&(?![a-zA-Z0-9]+;$)|[?!.,:;*_'"~)]+(?!$))+/, del: /^(~~?)(?=[^\s~])((?:\\.|[^\\])*?(?:\\.|[^\s~\\]))\1(?=[^~]|$)/, text: /^([`~]+|[^`~])(?:(?= {2,}\n)|(?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@)|[\s\S]*?(?:(?=[\\<!\[`*~_]|\b_|https?:\/\/|ftp:\/\/|www\.|$)|[^ ](?= {2,}\n)|[^a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-](?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@)))/ }, es = { ...bt, br: b(Ki).replace("{2,}", "*").getRegex(), text: b(bt.text).replace("\\b_", "\\b_| {2,}\\n").replace(/\{2,\}/g, "*").getRegex() }, Ve = { normal: Wt, gfm: En, pedantic: Pn }, Ce = { normal: Dt, gfm: bt, breaks: es, pedantic: Jn }, ts = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }, pi = (i) => ts[i];
-function O(i, e) {
+]`).replace("lheading", Qi).replace("|table", "").replace("blockquote", " {0,3}>").replace("|fences", "").replace("|list", "").replace("|html", "").replace("|tag", "").getRegex() }, Wn = /^\\([!"#$%&'()*+,\-./:;<=>?@\[\]\\^_`{|}~])/, zn = /^(`+)([^`]|[^`][\s\S]*?[^`])\1(?!`)/, Ki = /^( {2,}|\\)\n(?!\s*$)/, Dn = /^(`+|[^`])(?:(?= {2,}\n)|[\s\S]*?(?:(?=[\\<!\[`*_]|\b_|$)|[^ ](?= {2,}\n)))/, lt = /[\p{P}\p{S}]/u, zt = /[\s\p{P}\p{S}]/u, Xi = /[^\s\p{P}\p{S}]/u, Rn = b(/^((?![*_])punctSpace)/, "u").replace(/punctSpace/g, zt).getRegex(), Ji = /(?!~)[\p{P}\p{S}]/u, On = /(?!~)[\s\p{P}\p{S}]/u, Un = /(?:[^\s\p{P}\p{S}]|~)/u, Fn = /\[[^[\]]*?\]\((?:\\.|[^\\\(\)]|\((?:\\.|[^\\\(\)])*\))*\)|`[^`]*?`|<(?! )[^<>]*?>/g, er = /^(?:\*+(?:((?!\*)punct)|[^\s*]))|^_+(?:((?!_)punct)|([^\s_]))/, In = b(er, "u").replace(/punct/g, lt).getRegex(), Bn = b(er, "u").replace(/punct/g, Ji).getRegex(), tr = "^[^_*]*?__[^_*]*?\\*[^_*]*?(?=__)|[^*]+(?=[^*])|(?!\\*)punct(\\*+)(?=[\\s]|$)|notPunctSpace(\\*+)(?!\\*)(?=punctSpace|$)|(?!\\*)punctSpace(\\*+)(?=notPunctSpace)|[\\s](\\*+)(?!\\*)(?=punct)|(?!\\*)punct(\\*+)(?!\\*)(?=punct)|notPunctSpace(\\*+)(?=notPunctSpace)", Gn = b(tr, "gu").replace(/notPunctSpace/g, Xi).replace(/punctSpace/g, zt).replace(/punct/g, lt).getRegex(), jn = b(tr, "gu").replace(/notPunctSpace/g, Un).replace(/punctSpace/g, On).replace(/punct/g, Ji).getRegex(), Vn = b("^[^_*]*?\\*\\*[^_*]*?_[^_*]*?(?=\\*\\*)|[^_]+(?=[^_])|(?!_)punct(_+)(?=[\\s]|$)|notPunctSpace(_+)(?!_)(?=punctSpace|$)|(?!_)punctSpace(_+)(?=notPunctSpace)|[\\s](_+)(?!_)(?=punct)|(?!_)punct(_+)(?!_)(?=punct)", "gu").replace(/notPunctSpace/g, Xi).replace(/punctSpace/g, zt).replace(/punct/g, lt).getRegex(), Zn = b(/\\(punct)/, "gu").replace(/punct/g, lt).getRegex(), qn = b(/^<(scheme:[^\s\x00-\x1f<>]*|email)>/).replace("scheme", /[a-zA-Z][a-zA-Z0-9+.-]{1,31}/).replace("email", /[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+(@)[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+(?![-_])/).getRegex(), Qn = b(Pt).replace("(?:-->|$)", "-->").getRegex(), Yn = b("^comment|^</[a-zA-Z][\\w:-]*\\s*>|^<[a-zA-Z][\\w-]*(?:attribute)*?\\s*/?>|^<\\?[\\s\\S]*?\\?>|^<![a-zA-Z]+\\s[\\s\\S]*?>|^<!\\[CDATA\\[[\\s\\S]*?\\]\\]>").replace("comment", Qn).replace("attribute", /\s+[a-zA-Z:_][\w.:-]*(?:\s*=\s*"[^"]*"|\s*=\s*'[^']*'|\s*=\s*[^\s"'=<>`]+)?/).getRegex(), et = /(?:\[(?:\\.|[^\[\]\\])*\]|\\.|`[^`]*`|[^\[\]\\`])*?/, Kn = b(/^!?\[(label)\]\(\s*(href)(?:(?:[ \t]*(?:\n[ \t]*)?)(title))?\s*\)/).replace("label", et).replace("href", /<(?:\\.|[^\n<>\\])+>|[^ \t\n\x00-\x1f]*/).replace("title", /"(?:\\"?|[^"\\])*"|'(?:\\'?|[^'\\])*'|\((?:\\\)?|[^)\\])*\)/).getRegex(), ir = b(/^!?\[(label)\]\[(ref)\]/).replace("label", et).replace("ref", Et).getRegex(), rr = b(/^!?\[(ref)\](?:\[\])?/).replace("ref", Et).getRegex(), Xn = b("reflink|nolink(?!\\()", "g").replace("reflink", ir).replace("nolink", rr).getRegex(), Dt = { _backpedal: He, anyPunctuation: Zn, autolink: qn, blockSkip: Fn, br: Ki, code: zn, del: He, emStrongLDelim: In, emStrongRDelimAst: Gn, emStrongRDelimUnd: Vn, escape: Wn, link: Kn, nolink: rr, punctuation: Rn, reflink: ir, reflinkSearch: Xn, tag: Yn, text: Dn, url: He }, Jn = { ...Dt, link: b(/^!?\[(label)\]\((.*?)\)/).replace("label", et).getRegex(), reflink: b(/^!?\[(label)\]\s*\[([^\]]*)\]/).replace("label", et).getRegex() }, bt = { ...Dt, emStrongRDelimAst: jn, emStrongLDelim: Bn, url: b(/^((?:ftp|https?):\/\/|www\.)(?:[a-zA-Z0-9\-]+\.?)+[^\s<]*|^email/, "i").replace("email", /[A-Za-z0-9._+-]+(@)[a-zA-Z0-9-_]+(?:\.[a-zA-Z0-9-_]*[a-zA-Z0-9])+(?![-_])/).getRegex(), _backpedal: /(?:[^?!.,:;*_'"~()&]+|\([^)]*\)|&(?![a-zA-Z0-9]+;$)|[?!.,:;*_'"~)]+(?!$))+/, del: /^(~~?)(?=[^\s~])((?:\\.|[^\\])*?(?:\\.|[^\s~\\]))\1(?=[^~]|$)/, text: /^([`~]+|[^`~])(?:(?= {2,}\n)|(?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@)|[\s\S]*?(?:(?=[\\<!\[`*~_]|\b_|https?:\/\/|ftp:\/\/|www\.|$)|[^ ](?= {2,}\n)|[^a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-](?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@)))/ }, es = { ...bt, br: b(Ki).replace("{2,}", "*").getRegex(), text: b(bt.text).replace("\\b_", "\\b_| {2,}\\n").replace(/\{2,\}/g, "*").getRegex() }, Ve = { normal: Wt, gfm: En, pedantic: Pn }, Ce = { normal: Dt, gfm: bt, breaks: es, pedantic: Jn }, ts = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }, pi = (i) => ts[i];
+function R(i, e) {
   if (e) {
     if (N.escapeTest.test(i)) return i.replace(N.escapeReplace, pi);
   } else if (N.escapeTestNoEncode.test(i)) return i.replace(N.escapeReplaceNoEncode, pi);
@@ -2452,23 +2448,23 @@ ${d}` : d;
 `, i = i.substring(p.length + 1), l = !0), !l) {
           let ve = this.rules.other.nextBulletRegex(y), Re = this.rules.other.hrRegex(y), Oe = this.rules.other.fencesBeginRegex(y), W = this.rules.other.headingBeginRegex(y), E = this.rules.other.htmlBeginRegex(y);
           for (; i; ) {
-            let V = i.split(`
-`, 1)[0], Z;
-            if (p = V, this.options.pedantic ? (p = p.replace(this.rules.other.listReplaceNesting, "  "), Z = p) : Z = p.replace(this.rules.other.tabCharGlobal, "    "), Oe.test(p) || W.test(p) || E.test(p) || ve.test(p) || Re.test(p)) break;
-            if (Z.search(this.rules.other.nonSpaceChar) >= y || !p.trim()) d += `
-` + Z.slice(y);
+            let j = i.split(`
+`, 1)[0], V;
+            if (p = j, this.options.pedantic ? (p = p.replace(this.rules.other.listReplaceNesting, "  "), V = p) : V = p.replace(this.rules.other.tabCharGlobal, "    "), Oe.test(p) || W.test(p) || E.test(p) || ve.test(p) || Re.test(p)) break;
+            if (V.search(this.rules.other.nonSpaceChar) >= y || !p.trim()) d += `
+` + V.slice(y);
             else {
               if (g || u.replace(this.rules.other.tabCharGlobal, "    ").search(this.rules.other.nonSpaceChar) >= 4 || Oe.test(u) || W.test(u) || Re.test(u)) break;
               d += `
 ` + p;
             }
-            !g && !p.trim() && (g = !0), c += V + `
-`, i = i.substring(V.length + 1), u = Z.slice(y);
+            !g && !p.trim() && (g = !0), c += j + `
+`, i = i.substring(j.length + 1), u = V.slice(y);
           }
         }
         r.loose || (a ? r.loose = !0 : this.rules.other.doubleBlankLine.test(c) && (a = !0));
-        let v = null, U;
-        this.options.gfm && (v = this.rules.other.listIsTask.exec(d), v && (U = v[0] !== "[ ] ", d = d.replace(this.rules.other.listReplaceTask, ""))), r.items.push({ type: "list_item", raw: c, task: !!v, checked: U, loose: !1, text: d, tokens: [] }), r.raw += c;
+        let v = null, F;
+        this.options.gfm && (v = this.rules.other.listIsTask.exec(d), v && (F = v[0] !== "[ ] ", d = d.replace(this.rules.other.listReplaceTask, ""))), r.items.push({ type: "list_item", raw: c, task: !!v, checked: F, loose: !1, text: d, tokens: [] }), r.raw += c;
       }
       let o = r.items.at(-1);
       if (o) o.raw = o.raw.trimEnd(), o.text = o.text.trimEnd();
@@ -2850,8 +2846,8 @@ ${d}` : d;
   code({ text: i, lang: e, escaped: t }) {
     let n = (e || "").match(N.notSpaceStart)?.[0], r = i.replace(N.endingNewline, "") + `
 `;
-    return n ? '<pre><code class="language-' + O(n) + '">' + (t ? r : O(r, !0)) + `</code></pre>
-` : "<pre><code>" + (t ? r : O(r, !0)) + `</code></pre>
+    return n ? '<pre><code class="language-' + R(n) + '">' + (t ? r : R(r, !0)) + `</code></pre>
+` : "<pre><code>" + (t ? r : R(r, !0)) + `</code></pre>
 `;
   }
   blockquote({ tokens: i }) {
@@ -2888,7 +2884,7 @@ ${this.parser.parse(i)}</blockquote>
     let e = "";
     if (i.task) {
       let t = this.checkbox({ checked: !!i.checked });
-      i.loose ? i.tokens[0]?.type === "paragraph" ? (i.tokens[0].text = t + " " + i.tokens[0].text, i.tokens[0].tokens && i.tokens[0].tokens.length > 0 && i.tokens[0].tokens[0].type === "text" && (i.tokens[0].tokens[0].text = t + " " + O(i.tokens[0].tokens[0].text), i.tokens[0].tokens[0].escaped = !0)) : i.tokens.unshift({ type: "text", raw: t + " ", text: t + " ", escaped: !0 }) : e += t + " ";
+      i.loose ? i.tokens[0]?.type === "paragraph" ? (i.tokens[0].text = t + " " + i.tokens[0].text, i.tokens[0].tokens && i.tokens[0].tokens.length > 0 && i.tokens[0].tokens[0].type === "text" && (i.tokens[0].tokens[0].text = t + " " + R(i.tokens[0].tokens[0].text), i.tokens[0].tokens[0].escaped = !0)) : i.tokens.unshift({ type: "text", raw: t + " ", text: t + " ", escaped: !0 }) : e += t + " ";
     }
     return e += this.parser.parse(i.tokens, !!i.loose), `<li>${e}</li>
 `;
@@ -2934,7 +2930,7 @@ ${i}</tr>
     return `<em>${this.parser.parseInline(i)}</em>`;
   }
   codespan({ text: i }) {
-    return `<code>${O(i, !0)}</code>`;
+    return `<code>${R(i, !0)}</code>`;
   }
   br(i) {
     return "<br>";
@@ -2947,18 +2943,18 @@ ${i}</tr>
     if (r === null) return n;
     i = r;
     let s = '<a href="' + i + '"';
-    return e && (s += ' title="' + O(e) + '"'), s += ">" + n + "</a>", s;
+    return e && (s += ' title="' + R(e) + '"'), s += ">" + n + "</a>", s;
   }
   image({ href: i, title: e, text: t, tokens: n }) {
     n && (t = this.parser.parseInline(n, this.parser.textRenderer));
     let r = ui(i);
-    if (r === null) return O(t);
+    if (r === null) return R(t);
     i = r;
     let s = `<img src="${i}" alt="${t}"`;
-    return e && (s += ` title="${O(e)}"`), s += ">", s;
+    return e && (s += ` title="${R(e)}"`), s += ">", s;
   }
   text(i) {
-    return "tokens" in i && i.tokens ? this.parser.parseInline(i.tokens) : "escaped" in i && i.escaped ? i.text : O(i.text);
+    return "tokens" in i && i.tokens ? this.parser.parseInline(i.tokens) : "escaped" in i && i.escaped ? i.text : R(i.text);
   }
 }, Rt = class {
   strong({ text: i }) {
@@ -3297,7 +3293,7 @@ ${i}</tr>
     return (t) => {
       if (t.message += `
 Please report this to https://github.com/markedjs/marked.`, i) {
-        let n = "<p>An error occurred:</p><pre>" + O(t.message + "", !0) + "</pre>";
+        let n = "<p>An error occurred:</p><pre>" + R(t.message + "", !0) + "</pre>";
         return e ? Promise.resolve(n) : n;
       }
       if (e) return Promise.reject(t);
@@ -3545,7 +3541,7 @@ let We = class extends P {
     this._config = e, this.requestUpdate();
   }
   static get styles() {
-    return ee`
+    return J`
       .card-config {
         padding: 16px;
       }
@@ -3888,7 +3884,7 @@ ct([
   m({ attribute: !1 })
 ], We.prototype, "_config", 2);
 We = ct([
-  te("swissweather-card-editor")
+  ee("swissweather-card-editor")
 ], We);
 var Ps = Object.defineProperty, Ws = Object.getOwnPropertyDescriptor, pe = (i, e, t, n) => {
   for (var r = n > 1 ? void 0 : n ? Ws(e, t) : e, s = i.length - 1, a; s >= 0; s--)
@@ -3901,7 +3897,7 @@ Wi({
 });
 console.log("🎯 About to apply @customElement decorator to SwissweatherCard");
 console.log("🎯 customElements registry available:", !!customElements);
-let J = class extends P {
+let X = class extends P {
   hass;
   config;
   _forecast = [];
@@ -3957,7 +3953,7 @@ let J = class extends P {
     }
   }
   static get styles() {
-    return ee`
+    return J`
       :host {
         display: block;
         background: var(--ha-card-background, var(--card-background-color, #fff));
@@ -4537,8 +4533,8 @@ let J = class extends P {
       "sunshine",
       "wind",
       "forecast"
-    ]).map((U) => {
-      switch (U) {
+    ]).map((F) => {
+      switch (F) {
         case "temperature":
           return this._renderForecastTemperature(v);
         case "precipitation":
@@ -4616,7 +4612,6 @@ let J = class extends P {
           .config=${this.config}
           ._t=${$}
           .getWeatherIcon=${ft}
-          .isDay=${this.isDay()}
           .formatDate=${Nr}
         ></daily-forecast-chart>` : h``;
   }
@@ -4636,25 +4631,25 @@ let J = class extends P {
 };
 pe([
   m({ attribute: !1 })
-], J.prototype, "hass", 2);
+], X.prototype, "hass", 2);
 pe([
   m({ attribute: !1 })
-], J.prototype, "config", 2);
+], X.prototype, "config", 2);
 pe([
   st()
-], J.prototype, "_forecast", 2);
+], X.prototype, "_forecast", 2);
 pe([
   st()
-], J.prototype, "_hourlyForecast", 2);
+], X.prototype, "_hourlyForecast", 2);
 pe([
   st()
-], J.prototype, "_forecastLoading", 2);
+], X.prototype, "_forecastLoading", 2);
 pe([
   st()
-], J.prototype, "_openWarnings", 2);
-J = pe([
-  te("swissweather-card")
-], J);
+], X.prototype, "_openWarnings", 2);
+X = pe([
+  ee("swissweather-card")
+], X);
 window.customCards || (window.customCards = []);
 window.customCards.push({
   type: "swissweather-card",
@@ -4665,13 +4660,13 @@ window.customCards.push({
 });
 console.log("✅ SwissWeatherCard fully loaded and registered");
 export {
-  R as DailyForecastChart,
+  O as DailyForecastChart,
   le as DailyForecastDiagram,
-  Y as ForecastTemperatureChart,
-  K as PrecipitationChart,
-  F as SunshineChart,
-  J as SwissWeatherCard,
+  Q as ForecastTemperatureChart,
+  Y as PrecipitationChart,
+  U as SunshineChart,
+  X as SwissWeatherCard,
   We as SwissweatherCardEditor,
-  X as WindChart
+  K as WindChart
 };
 //# sourceMappingURL=swissweather-card.js.map

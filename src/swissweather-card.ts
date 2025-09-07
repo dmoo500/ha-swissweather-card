@@ -980,7 +980,6 @@ export class SwissWeatherCard extends LitElement {
           .config=${this.config}
           ._t=${_t}
           .getWeatherIcon=${getWeatherIcon}
-          .isDay=${this.isDay()}
           .formatDate=${formatDateToWeekDay}
         ></daily-forecast-chart>`
       : html``;

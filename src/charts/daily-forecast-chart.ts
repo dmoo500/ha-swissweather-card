@@ -10,7 +10,6 @@ export class DailyForecastChart extends LitElement {
   @property({ type: Object }) config: any = {};
   @property({ type: Function }) _t!: (key: string, vars?: Record<string, any>) => string;
   @property({ type: Function }) getWeatherIcon!: (...args: any[]) => TemplateResult;
-  @property({ type: Function }) isDay!: () => boolean;
   @property({ type: Function }) formatDate!: (dateStr: string) => string;
 
   static styles = css`
@@ -141,7 +140,7 @@ export class DailyForecastChart extends LitElement {
                             day.condition,
                             this.config.enable_animate_weather_icons ? 'animated' : 'mdi',
                             '24px',
-                            this.isDay()
+                            true
                           )}
                         </div>
                         <div class="forecast-temps">
