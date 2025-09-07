@@ -322,6 +322,38 @@ export class SwissWeatherCard extends LitElement {
         text-transform: uppercase;
         letter-spacing: 0.5px;
       }
+      .wind-compass {
+        width: 24px;
+        height: 24px;
+        border: 2px solid var(--state-icon-color, #dc143c);
+        border-radius: 50%;
+        position: relative;
+        margin: 0 auto 10px;
+      }
+
+      .wind-arrow {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 2px;
+        height: 8px;
+        background: var(--state-icon-color, #dc143c);
+        transform-origin: bottom center;
+        transform: translate(-50%, -100%);
+      }
+
+      .wind-arrow::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+        border-bottom: 8px solid var(--state-icon-color, #dc143c);
+        transform: translateX(-50%);
+      }
 
       @media (max-width: 768px) {
         :host {
