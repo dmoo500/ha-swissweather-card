@@ -4,6 +4,7 @@
 
 ### Fixed
 - missing show_location entry on visual editor
+- fixed fog animate svg icon
 
 ### Added
 - description on visual editor configuration
