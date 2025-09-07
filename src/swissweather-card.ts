@@ -981,6 +981,7 @@ export class SwissWeatherCard extends LitElement {
           ._t=${_t}
           .getWeatherIcon=${getWeatherIcon}
           .isDay=${this.isDay()}
+          .formatDate=${formatDateToWeekDay}
         ></daily-forecast-chart>`
       : html``;
   }
@@ -996,7 +997,6 @@ export class SwissWeatherCard extends LitElement {
           .hourlyForecast=${[...this._hourlyForecast]}
           ._t=${_t}
           .getWeatherIcon=${getWeatherIcon}
-          .formatDate=${formatDateToWeekDay}
         ></daily-forecast-diagram>`
       : html``;
   }

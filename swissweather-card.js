@@ -4617,6 +4617,7 @@ let J = class extends P {
           ._t=${$}
           .getWeatherIcon=${ft}
           .isDay=${this.isDay()}
+          .formatDate=${Nr}
         ></daily-forecast-chart>` : h``;
   }
   // @property({ type: Array }) forecast: WeatherForecast[] = [];
@@ -4630,7 +4631,6 @@ let J = class extends P {
           .hourlyForecast=${[...this._hourlyForecast]}
           ._t=${$}
           .getWeatherIcon=${ft}
-          .formatDate=${Nr}
         ></daily-forecast-diagram>` : h``;
   }
 };

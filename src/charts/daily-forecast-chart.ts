@@ -135,7 +135,7 @@ export class DailyForecastChart extends LitElement {
                   ${this.forecast.slice(0, 7).map(
                     (day: WeatherForecast) => html`
                       <div class="forecast-day">
-                        <div class="forecast-date">${this.formatDate(day.datetime)}</div>
+                        <div class="forecast-date">${this.formatDate!(day.datetime)}</div>
                         <div class="forecast-icon">
                           ${this.getWeatherIcon(
                             day.condition,
