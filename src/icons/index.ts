@@ -110,7 +110,7 @@ export const getWeatherIcon = (
   const svgMap: Record<WeatherCondition, TemplateResult> = {
     'clear-night': html`<img src="${clearNight}" style="font-size:${fontSize}" />`,
     cloudy: html`<img src="${cloudy}" style="font-size:${fontSize}" />`,
-    fog: html`<img src="${fog}}" style="font-size:${fontSize}" />`,
+    fog: html`<img src="${fog}" style="font-size:${fontSize}" />`,
     hail: html`<img src="${hail}" style="font-size:${fontSize}" />`,
     lightning: html`<img src="${thunderstorms}" style="font-size:${fontSize}" />`,
     'lightning-rainy': html`<img src="${thunderstormsRain}" style="font-size:${fontSize}" />`,
