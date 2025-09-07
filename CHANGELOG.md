@@ -1,5 +1,10 @@
 # Release Notes
 
+## [1.5.2] - 2025-09-07
+
+### Fixed
+- fixed displaying daily forecast (non compact mode)
+
 ## [1.5.1] - 2025-09-04
 
 ### Fixed
