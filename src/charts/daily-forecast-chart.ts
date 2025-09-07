@@ -19,13 +19,18 @@ export class DailyForecastChart extends LitElement {
     }
 
     .section-title {
-      font-size: 18px;
       font-weight: bold;
+      font-size: 16px;
+      margin-bottom: 10px;
       color: var(--primary-text-color, #fff);
-      margin-bottom: 15px;
       display: flex;
       align-items: center;
       gap: 8px;
+    }
+
+    .section-title ha-icon {
+      color: var(--primary-text-color, #fff);
+      font-size: 20px;
     }
 
     .forecast-7days {
