@@ -1,5 +1,5 @@
 import { translations } from './translations';
-import { showHoursChartLabel } from './charts/index';
+import { formatDateToWeekDay, showHoursChartLabel } from './charts/index';
 import { DailyForecastChart } from './charts/daily-forecast-chart';
 import { ForecastTemperatureChart } from './charts/forecast-temperature-chart';
 import { PrecipitationChart } from './charts/precipitation-chart';
@@ -568,13 +568,14 @@ export class SwissWeatherCard extends LitElement {
   // @property({ type: Function }) _t!: (key: string, vars?: Record<string, any>) => string;
   // @property({ type: Function }) showHoursChartLabel!: (hours: number) => TemplateResult;
   private _renderForecastTemperature(forecastHours: number): TemplateResult {
+    const tString = (key: string, vars?: Record<string, any>) => `${_t(key, vars)}`;
     return this._forecast.length > 0 && this._hourlyForecast.length > 0
       ? html`<forecast-temperature-chart
           .hourlyForecast=${this._hourlyForecast}
           .forecastHours=${forecastHours}
           .show_temperature=${this.config.show_temperature !== false}
           ._t=${_t}
-          .showHoursChartLabel=${(h: number) => showHoursChartLabel(h, _t)}
+          .showHoursChartLabel=${(h: number) => showHoursChartLabel(h, tString)}
         ></forecast-temperature-chart>`
       : html``;
   }
@@ -584,13 +585,14 @@ export class SwissWeatherCard extends LitElement {
   // @property({ type: Function }) _t!: (key: string, vars?: Record<string, any>) => string;
   // @property({ type: Function }) showHoursChartLabel!: (hours: number) => TemplateResult;
   private _renderForecastPrecipitation(forecastHours: number): TemplateResult {
+    const tString = (key: string, vars?: Record<string, any>) => `${_t(key, vars)}`;
     return this._forecast.length > 0 && this._hourlyForecast.length > 0
       ? html`<precipitation-chart
           .hourlyForecast=${this._hourlyForecast}
           .forecastHours=${forecastHours}
           .show_precipitation=${this.config.show_precipitation !== false}
           ._t=${_t}
-          .showHoursChartLabel=${(h: number) => showHoursChartLabel(h, _t)}
+          .showHoursChartLabel=${(h: number) => showHoursChartLabel(h, tString)}
         ></precipitation-chart>`
       : html``;
   }
@@ -606,6 +608,7 @@ export class SwissWeatherCard extends LitElement {
     sun_entity: HassEntity | null | undefined,
     forecastHours: number
   ): TemplateResult {
+    const tString = (key: string, vars?: Record<string, any>) => `${_t(key, vars)}`;
     return this._forecast.length > 0 && this._hourlyForecast.length > 0
       ? html`<sunshine-chart
           .hourlyForecast=${this._hourlyForecast}
@@ -614,7 +617,7 @@ export class SwissWeatherCard extends LitElement {
           .weatherEntity=${weatherEntity}
           .sun_entity=${sun_entity}
           ._t=${_t}
-          .showHoursChartLabel=${(h: number) => showHoursChartLabel(h, _t)}
+          .showHoursChartLabel=${(h: number) => showHoursChartLabel(h, tString)}
         ></sunshine-chart>`
       : html``;
   }
@@ -624,13 +627,14 @@ export class SwissWeatherCard extends LitElement {
   // @property({ type: Function }) _t!: (key: string, vars?: Record<string, any>) => string;
   // @property({ type: Function }) showHoursChartLabel!: (hours: number) => TemplateResult;
   private _renderForecastWind(forecastHours: number): TemplateResult {
+    const tString = (key: string, vars?: Record<string, any>) => `${_t(key, vars)}`;
     return this._forecast.length > 0 && this._hourlyForecast.length > 0
       ? html`<wind-chart
           .hourlyForecast=${this._hourlyForecast}
           .forecastHours=${forecastHours}
           .show_wind=${this.config.show_wind !== false}
           ._t=${_t}
-          .showHoursChartLabel=${(h: number) => showHoursChartLabel(h, _t)}
+          .showHoursChartLabel=${(h: number) => showHoursChartLabel(h, tString)}
         ></wind-chart>`
       : html``;
   }
@@ -992,6 +996,7 @@ export class SwissWeatherCard extends LitElement {
           .hourlyForecast=${[...this._hourlyForecast]}
           ._t=${_t}
           .getWeatherIcon=${getWeatherIcon}
+          .formatDate=${formatDateToWeekDay}
         ></daily-forecast-diagram>`
       : html``;
   }
