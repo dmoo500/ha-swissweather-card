@@ -32,7 +32,7 @@ export class DailyForecastChart extends LitElement {
       color: var(--primary-text-color, #fff);
       font-size: 20px;
     }
-      
+
     .forecast-7days {
       background: var(--code-editor-background-color, #f8f8f8);
       display: flex;
