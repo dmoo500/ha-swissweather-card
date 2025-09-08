@@ -4,7 +4,12 @@ import { customElement, property } from 'lit/decorators.js';
 import { fireEvent } from 'custom-card-helpers';
 import type { HomeAssistant, LovelaceCardEditor } from '../../types/home-assistant';
 import { translations } from '../../translations';
-import { ANIMATED_BACKGROUND_CARD_EDITOR_NAME, ANIMATED_BACKGROUND_CARD_NAME, schema, type CardConfig } from './const';
+import {
+  ANIMATED_BACKGROUND_CARD_EDITOR_NAME,
+  ANIMATED_BACKGROUND_CARD_NAME,
+  schema,
+  type CardConfig,
+} from './const';
 
 registerTranslateConfig({
   // Loads the language by returning a JSON structure for a given language
@@ -260,7 +265,7 @@ export class SwissWeatherBGCardEditor extends LitElement implements LovelaceCard
     if (!this._config) {
       this._config = {
         type: `custom:${ANIMATED_BACKGROUND_CARD_NAME}`,
-        entity: ''
+        entity: '',
       };
     }
 

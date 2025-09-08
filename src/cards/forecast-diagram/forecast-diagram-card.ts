@@ -65,12 +65,11 @@ export class ForecastDiagramCard extends LitElement {
           sans-serif
         );
         color: var(--primary-text-color, #fff);
-        
+
         /* Calculate height according to HA docs: rows * 56px + (rows-1) * 8px gap */
         /* Simplified: height = rows * 64px - 8px */
         height: calc(var(--card-grid-rows, 3) * 64px - 8px);
         min-height: calc(var(--card-grid-rows, 3) * 64px - 8px);
-
       }
 
       .chart {
@@ -156,7 +155,7 @@ export class ForecastDiagramCard extends LitElement {
   public static getStubConfig() {
     return {
       type: `custom:${FORECAST_DIAGRAM_CARD_NAME}`,
-      entity: ''
+      entity: '',
     };
   }
 
@@ -187,10 +186,10 @@ export class ForecastDiagramCard extends LitElement {
   public render(): TemplateResult {
     const weatherEntity = getEntityState(this.hass, this.config.entity) as WeatherEntity;
     const gridRows = this.config?.grid_options?.rows ?? 3;
-    
+
     // Set CSS variable for card height calculation
     this.style.setProperty('--card-grid-rows', gridRows.toString());
-    
+
     if (!weatherEntity) {
       return html`<div>Entity not found: ${this.config.entity}</div>`;
     }

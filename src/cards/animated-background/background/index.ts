@@ -236,7 +236,6 @@ const rainBG = (width: number): TemplateResult => {
   <!-- background -->
   <rect width="100%" height="80%" fill="url(#background)" />
   ${Array.from({ length: Math.ceil(width / 100) }, (v, i) => i).map(i => {
-  
     const yOffset = Math.floor(Math.random() * 100);
     const xOffset = Math.floor(Math.random() * 10);
     const yOffsetAdj = (yOffset - 50) / 5 + i * Math.floor(Math.random() * 25); //to spread drops vertically a bit more
@@ -561,11 +560,11 @@ const partlyCloudyDayBG = (width: number): TemplateResult => {
     const xFinal = i * 100 + xOffset;
     const scale = Math.floor(Math.random() * 2) + 1; // to vary cloud sizes a bit
     const opacity = 0.5 + Math.random() * 0.5;
-    const duration =  44 + Math.floor(Math.random() * 100);
-    const fadeDuration =  10 + Math.floor(Math.random() * 100);
+    const duration = 44 + Math.floor(Math.random() * 100);
+    const fadeDuration = 10 + Math.floor(Math.random() * 100);
     return svg`
     <g>
-      <use href="#partlyCloudyDayIcon" x="${xFinal}" y="${i}" width="80" height="40" transform="scale(${scale})" opacity="0">
+      <use href="#partlyCloudyDayIcon" x="${xFinal}" y="${yOffsetAdj}" width="80" height="40" transform="scale(${scale})" opacity="0">
         <animate attributeName="opacity" values="0;${opacity};${opacity};0" dur="${fadeDuration}s" repeatCount="indefinite"/>
       </use>
       <animateTransform attributeName="transform" type="translate" values="-150,20;450,20" dur="${duration}s" repeatCount="indefinite"/>
@@ -603,12 +602,12 @@ const partlyCloudyNightBG = (width: number): TemplateResult => {
     const xFinal = i * 100 + xOffset;
     const scale = Math.floor(Math.random() * 2) + 1; // to vary cloud sizes a bit
     const opacity = 0.5 + Math.random() * 0.5;
-    const duration =  44 + Math.floor(Math.random() * 100);
-    const fadeDuration =  10 + Math.floor(Math.random() * 100);
+    const duration = 44 + Math.floor(Math.random() * 100);
+    const fadeDuration = 10 + Math.floor(Math.random() * 100);
     console.log(duration);
     return svg`
     <g>
-      <use href="#partlyCloudyNighIcon" x="${xFinal}" y="${i}" width="80" height="40" transform="scale(${scale})" opacity="0">
+      <use href="#partlyCloudyNighIcon" x="${xFinal}" y="${yOffsetAdj}" width="80" height="40" transform="scale(${scale})" opacity="0">
         <animate attributeName="opacity" values="0;${opacity};${opacity};0" dur="${fadeDuration}s" repeatCount="indefinite"/>
       </use>
       <animateTransform attributeName="transform" type="translate" values="-150,20;450,20" dur="${duration}s" repeatCount="indefinite"/>

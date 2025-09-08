@@ -10,7 +10,7 @@ export const schema = [
     required: true,
     selector: { entity: { domain: 'weather' } },
     description: 'config.descr.entity',
-  }
+  },
 ];
 
 export type CardConfig = BasicCardConfig;

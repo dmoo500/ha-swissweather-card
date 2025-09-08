@@ -8,16 +8,8 @@ export class DailyForecastDiagram extends LitElement {
   @property({ type: Array }) hourlyForecast: WeatherForecast[] = [];
   @property({ type: Object }) config: any;
   @property({ type: Function }) getWeatherIcon!: (...args: any[]) => TemplateResult;
-
+  @property({ type: Boolean }) standalone = false;
   static styles = css`
-    .chart {
-      background: var(--card-background-color, #fff);
-      border-radius: 12px;
-      padding: 15px;
-      margin-top: 15px;
-      border: 1px solid var(--border-color, rgba(220, 20, 60, 0.1));
-    }
-
     .chart-bars {
       display: flex;
       justify-content: space-between;
@@ -55,7 +47,15 @@ export class DailyForecastDiagram extends LitElement {
     .weather-temp {
       fill: var(--primary-text-color, #fff);
     }
+    .weather-day {
+      fill: var(--primary-text-color, #fff);
+    }
   `;
+  // fallback function to get a CSS variable with a default value
+  getCSSVariable(varName: string, fallback = '50'): number {
+    const value = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+    return Number.parseInt(value || fallback);
+  }
 
   render(): TemplateResult {
     // Daily forecast SVG diagram for temperature and precipitation
@@ -64,40 +64,94 @@ export class DailyForecastDiagram extends LitElement {
     if (!hours.length) return html`<div>No hourly forecast available</div>`;
 
     const nDays = days.length;
-    const width = Math.max(180, nDays * 100); // Minimum 100px per day, dynamic
-    const dayWidth = nDays > 0 ? width / nDays : 100;
-    // More compact chart
-    const height = 200;
-    // Always 24 hours per day for the X axis
-    const hoursPerDay = 24;
-    // X position per hour in px (always 24 sections per day)
-    const hourStep = dayWidth / hoursPerDay;
-    // Get the timestamp (midnight) of the first day
-    let firstDayStart = 0;
-    if (hours.length > 0 && hours[0].datetime) {
-      const dt = new Date(hours[0].datetime);
-      firstDayStart = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate()).getTime();
-    }
 
-    // Temperature data
+    // Use full available space in standalone mode, fixed 200px for non-standalone
+    const rows = this.standalone ? this.config.grid_options?.rows || 2 : 2;
+    const containerHeight = this.standalone
+      ? rows * this.getCSSVariable('--row-height', '56')
+      : 200;
+    const containerWidth = this.standalone ? 400 : 400; // Use available width
+
+    // SVG dimensions use full container
+    const width = containerWidth;
+    const height = containerHeight;
+
+    // Calculate time span and create proper scaling
+    const firstHour = new Date(hours[0].datetime);
+    const lastHour = new Date(hours[hours.length - 1].datetime);
+    const totalHours = (lastHour.getTime() - firstHour.getTime()) / (60 * 60 * 1000) + 1; // +1 for inclusive
+
+    // Layout calculations - responsive based on available height
+    const padding = 16; // Border radius space
+    const usableHeight = height - padding * 2;
+    const usableWidth = width - padding * 2; // Also account for horizontal padding
+
+    // Fixed day width - each day gets equal space of usable width (excluding padding)
+    const dayWidth = usableWidth / nDays;
+
+    // Dynamic layout based on available height
+    // Day groups need fixed minimum space for readability
+    const minDayGroupHeight = 80; // Minimum space for weekday + icon + temp
+    const maxDayGroupHeight = 120; // Maximum space to prevent oversized icons
+    const calculatedDayGroupHeight = Math.min(
+      maxDayGroupHeight,
+      Math.max(minDayGroupHeight, usableHeight * 0.35)
+    );
+
+    // Gap between day groups and chart - smaller for more rows
+    const gapBetween = Math.max(10, usableHeight * 0.05); // 5% gap, minimum 10px
+
+    // Chart gets remaining space (more space for higher rows)
+    const chartHeight = usableHeight - calculatedDayGroupHeight - gapBetween;
+
+    // Icon size based on available day space
+    const iconSize = Math.min(dayWidth * 0.7, calculatedDayGroupHeight * 0.4);
+
+    // Text sizes relative to available space
+    const weekdayFont = Math.max(10, calculatedDayGroupHeight * 0.08);
+    const minmaxFont = Math.max(12, calculatedDayGroupHeight * 0.12);
+
+    // Layout positions
+    const dayTop = padding + 10;
+    const weekdayY = dayTop + weekdayFont;
+    const iconY = weekdayY + 10;
+    const minmaxY = iconY + iconSize + 10;
+
+    // Chart area starts at fixed position after day groups
+    const chartTop = padding + calculatedDayGroupHeight + gapBetween;
+
+    console.log('Simplified layout:', {
+      nDays,
+      containerWidth,
+      containerHeight,
+      dayWidth,
+      iconSize,
+      calculatedDayGroupHeight,
+      gapBetween,
+      chartHeight,
+      chartTop,
+      tempLineYMax: chartTop,
+      tempLineY0: chartTop + chartHeight,
+      actualChartHeight: chartHeight,
+      usableHeight,
+      totalHours,
+      'First hour': firstHour.toISOString(),
+      'Last hour': lastHour.toISOString(),
+    });
+
+    // Always 24 hours per day for the X axis spacing
+    const hoursPerDay = 24;
+    // X position per hour in px (based on full day width, not actual data span)
+    const hourStep = dayWidth / hoursPerDay;
+
+    // Temperature data (can include negative temperatures)
     const temps = hours.map(h => (typeof h.temperature === 'number' ? h.temperature : null));
-    let minTemp = Math.min(...(temps.filter(t => t !== null) as number[]));
+    const minTemp = Math.min(...(temps.filter(t => t !== null) as number[]));
     const maxTemp = Math.max(...(temps.filter(t => t !== null) as number[]));
-    // Scale always at least from 0 to maxTemp
-    if (minTemp > 0) minTemp = 0;
-    // Temperature line layout
-    const weekdayFont = 13;
-    const iconSize = 64;
-    const minmaxFont = 20;
-    const dayTop = 18; // Static, no more padding
-    const dayGap = 8;
-    const minmaxY = dayTop + weekdayFont + dayGap + iconSize + dayGap + 2;
-    // Move chart further down for more space between min/max temp
-    const chartOffset = 32;
-    const chartHeight = 60;
-    const tempLineYMax = minmaxY + chartOffset; // Chart start Y
-    const tempLineY0 = tempLineYMax + chartHeight; // y=0 (bottom)
-    const tempRange = maxTemp - minTemp || 1;
+
+    // Chart area layout
+    const tempLineYMax = chartTop; // Chart start Y
+    const tempLineY0 = chartTop + chartHeight; // Chart end Y (bottom)
 
     // Precipitation data
     const precs = hours.map(h => (typeof h.precipitation === 'number' ? h.precipitation : 0));
@@ -108,36 +162,151 @@ export class DailyForecastDiagram extends LitElement {
     const maxPrecip = Math.max(...precs, ...precsProberly, 1); // never 0, so bars are visible
 
     // Temperature line: scale to full range (tempLineYMax to tempLineY0)
-    // Calculate X position so the first hour ("now") is at the correct place in the day
-    // For each hour, calculate the day index and hour-in-day from the date
-    function getDayAndHourIdx(dt: Date, firstDayStart: number) {
-      const msPerDay = 24 * 60 * 60 * 1000;
-      const dayStart = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate()).getTime();
-      const dayIdx = Math.round((dayStart - firstDayStart) / msPerDay);
-      const hourInDay = Math.round((dt.getTime() - dayStart) / (60 * 60 * 1000));
-      return { dayIdx, hourInDay };
+    // Create a mapping based on actual forecast days instead of calculated offsets
+    const dayMapping: { [dateString: string]: number } = {};
+    days.forEach((day, idx) => {
+      const dayDate = new Date(day.datetime);
+      const dateKey = `${dayDate.getFullYear()}-${dayDate.getMonth()}-${dayDate.getDate()}`;
+      dayMapping[dateKey] = idx;
+    });
+
+    console.log('Day mapping created:', dayMapping);
+
+    function getDayAndHourIdx(dt: Date) {
+      const dateKey = `${dt.getFullYear()}-${dt.getMonth()}-${dt.getDate()}`;
+      const dayIdx = dayMapping[dateKey];
+      const hourInDay = dt.getHours(); // Use actual hour of day (0-23)
+      return {
+        dayIdx: dayIdx !== undefined ? dayIdx : -1,
+        hourInDay: hourInDay >= 0 && hourInDay < 24 ? hourInDay : -1,
+      };
     }
-    // Already declared above
-    const tempPoints = temps
-      .map((t, i) => {
-        if (!hours[i] || !hours[i].datetime) return '';
-        const dt = new Date(hours[i].datetime);
-        const { dayIdx, hourInDay } = getDayAndHourIdx(dt, firstDayStart);
-        const x = dayIdx * dayWidth + hourInDay * hourStep + hourStep / 2;
-        return t !== null
-          ? `${x},${tempLineY0 - ((t - minTemp) / tempRange) * (tempLineY0 - tempLineYMax)}`
-          : '';
-      })
-      .filter(Boolean)
-      .join(' ');
+
+    // Create a full 24h grid for each day and fill with available data
+    const fullDayGrid: { [key: string]: any } = {};
+
+    // Initialize full 24h grid for each day
+    for (let d = 0; d < nDays; d++) {
+      for (let h = 0; h < 24; h++) {
+        const key = `${d}-${h}`;
+        fullDayGrid[key] = null; // Default: no data
+      }
+    }
+
+    // Fill grid with actual data
+    hours.forEach((hour, i) => {
+      if (hour.datetime && temps[i] !== null) {
+        const dt = new Date(hour.datetime);
+        const { dayIdx, hourInDay } = getDayAndHourIdx(dt);
+        const key = `${dayIdx}-${hourInDay}`;
+
+        // Debug logging for data placement
+        if (i < 5 || i >= hours.length - 5) {
+          // Log first and last few hours
+          console.log(`Hour ${i}: ${dt.toISOString()} -> Day ${dayIdx}, Hour ${hourInDay}`, {
+            temp: temps[i],
+            withinBounds: dayIdx >= 0 && dayIdx < nDays && hourInDay >= 0 && hourInDay < 24,
+          });
+        }
+
+        // Only place data within valid bounds
+        if (dayIdx >= 0 && dayIdx < nDays && hourInDay >= 0 && hourInDay < 24) {
+          fullDayGrid[key] = {
+            temp: temps[i],
+            precip: precs[i],
+            precipProb: precsProberly[i],
+            originalIndex: i,
+          };
+        } else {
+          console.warn(`Data point ${i} outside bounds:`, {
+            dayIdx,
+            hourInDay,
+            nDays,
+            dt: dt.toISOString(),
+          });
+        }
+      }
+    });
+
+    console.log('Full day grid created:', {
+      totalSlots: Object.keys(fullDayGrid).length,
+      filledSlots: Object.values(fullDayGrid).filter(v => v !== null).length,
+      nDays,
+      hoursPerDay: 24,
+    });
+
+    // Round min/max temps to 5°C boundaries for consistent scaling
+    // IMPORTANT: Always include 0°C for correct precipitation scaling (5mm = 5°C)
+    let roundedMinTemp = Math.floor(minTemp / 5) * 5;
+    let roundedMaxTemp = Math.ceil(maxTemp / 5) * 5;
+
+    // Ensure 0°C is always included in the range for precipitation reference
+    if (roundedMinTemp > 0) {
+      roundedMinTemp = 0;
+    }
+    if (roundedMaxTemp < 0) {
+      roundedMaxTemp = 0;
+    }
+
+    const displayTempRange = roundedMaxTemp - roundedMinTemp;
+
+    console.log('Temperature scaling (with 0°C):', {
+      minTemp,
+      maxTemp,
+      roundedMinTemp,
+      roundedMaxTemp,
+      displayTempRange,
+    });
+
+    // Generate ONE continuous temperature line across all days
+    const tempLinesPerDay: any[] = [];
+    const allTempPoints: string[] = [];
+
+    // Collect all temperature points across all days in chronological order
+    for (let d = 0; d < nDays; d++) {
+      for (let h = 0; h < 24; h++) {
+        const key = `${d}-${h}`;
+        const data = fullDayGrid[key];
+        if (data && data.temp !== null) {
+          // Calculate X coordinate for this hour
+          const x = padding + d * dayWidth + h * hourStep + hourStep / 2;
+          const y =
+            tempLineY0 -
+            ((data.temp - roundedMinTemp) / displayTempRange) * (tempLineY0 - tempLineYMax);
+          allTempPoints.push(`${x},${y}`);
+        }
+      }
+    }
+
+    // Create ONE continuous polyline across all days
+    if (allTempPoints.length > 0) {
+      console.log(
+        `Creating continuous temperature line with ${allTempPoints.length} points across ${nDays} days`
+      );
+      tempLinesPerDay.push(
+        svg`
+          <!-- Main temperature line -->
+          <polyline points="${allTempPoints.join(' ')}" fill="none" stroke="#e74c3c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+        `
+      );
+    }
 
     // Rain bars
     const barWidth = Math.max(3, Math.floor(hourStep) - 2);
     const barYBase = tempLineY0;
-    // Scale: 5mm rain = 5°C temperature height (1mm = 1°C)
-    // Scale: Maximum bar equals temperature range (maxPrecip = full range)
-    // The highest precipitation value (maxPrecip) uses the full height (tempLineY0 - tempLineYMax)
-    const barMax = tempLineY0 - tempLineYMax;
+
+    // Fixed scale: 5mm rain = 5°C temperature height (1mm = 1°C worth of height)
+    // Calculate what 5°C height is in pixels
+    const fiveDegreeHeight = (5 / displayTempRange) * (tempLineY0 - tempLineYMax);
+    const mmToPixelRatio = fiveDegreeHeight / 5; // How many pixels per mm
+
+    console.log('Rain scaling:', {
+      displayTempRange,
+      fiveDegreeHeight,
+      mmToPixelRatio,
+      maxPrecip,
+      'Example: 2mm height': 2 * mmToPixelRatio,
+    });
     // Color scale for precipitation
     function getPrecipColor(p: number): string {
       // Color gradient from bottom (#5994b1ff) to top, top color at 5, 10, 15, 20+ mm
@@ -167,54 +336,93 @@ export class DailyForecastDiagram extends LitElement {
       return `rgb(${r},${g},${b})`;
     }
 
-    // precipitation_proberly bars (transparent dark grey)
-    const barsProberly = precsProberly.map((p, i) => {
-      if (!hours[i] || !hours[i].datetime) return null;
-      const dt = new Date(hours[i].datetime);
-      const { dayIdx, hourInDay } = getDayAndHourIdx(dt, firstDayStart);
-      const x = dayIdx * dayWidth + hourInDay * hourStep + hourStep / 2 - barWidth / 2;
-      const barHeight = maxPrecip > 0 ? (p / maxPrecip) * barMax : 0;
-      return p > 0
-        ? svg`<rect x="${x}" y="${barYBase - barHeight}" width="${barWidth}" height="${barHeight}"
-          fill="#988d8dff" opacity="0.4" rx="1.5"/>`
-        : null;
-    });
+    // precipitation_proberly bars (transparent dark grey) - use full 24h grid
+    const barsProberly: any[] = [];
+    for (let d = 0; d < nDays; d++) {
+      for (let h = 0; h < 24; h++) {
+        const key = `${d}-${h}`;
+        const data = fullDayGrid[key];
+        if (data && data.precipProb > 0) {
+          const x = padding + d * dayWidth + h * hourStep + hourStep / 2 - barWidth / 2;
 
-    const bars = precs.map((p, i) => {
-      if (!hours[i] || !hours[i].datetime) return null;
-      const dt = new Date(hours[i].datetime);
-      const { dayIdx, hourInDay } = getDayAndHourIdx(dt, firstDayStart);
-      const x = dayIdx * dayWidth + hourInDay * hourStep + hourStep / 2 - barWidth / 2;
-      const barHeight = maxPrecip > 0 ? (p / maxPrecip) * barMax : 0;
-      const color = getPrecipColor(p);
-      return p > 0
-        ? svg`<rect x="${x}" y="${barYBase - barHeight}" width="${barWidth}" height="${barHeight}"
-          fill="${color}" opacity="1" rx="1.5"/>`
-        : null;
-    });
+          // Ensure bars stay within day boundaries (with padding offset)
+          const minX = padding + d * dayWidth;
+          const maxX = padding + (d + 1) * dayWidth - barWidth;
+          const clampedX = Math.max(minX, Math.min(maxX, x));
 
-    // Vertical day lines exactly at day changes
-    const verticals: unknown[] = [];
-    if (nDays > 1 && hours.length > 0) {
-      for (let d = 1; d < nDays; d++) {
-        // Finde die X-Position von Mitternacht für Tag d
-        const midnight = new Date(firstDayStart + d * 24 * 60 * 60 * 1000);
-        const { dayIdx, hourInDay } = getDayAndHourIdx(midnight, firstDayStart);
-        const x = dayIdx * dayWidth + hourInDay * hourStep;
-        verticals.push(
-          svg`<line x1="${x}" y1="16" x2="${x}" y2="${height - 16}" stroke="#bbb" stroke-width="1" stroke-dasharray="2,2"/>`
-        );
+          const barHeight = data.precipProb * mmToPixelRatio;
+          barsProberly.push(
+            svg`<rect x="${clampedX}" y="${barYBase - barHeight}" width="${barWidth}" height="${barHeight}"
+              fill="#988d8dff" opacity="0.4" rx="1.5"/>`
+          );
+        }
       }
     }
 
+    // precipitation bars (colored) - use full 24h grid
+    const bars: any[] = [];
+    for (let d = 0; d < nDays; d++) {
+      for (let h = 0; h < 24; h++) {
+        const key = `${d}-${h}`;
+        const data = fullDayGrid[key];
+        if (data && data.precip > 0) {
+          const x = padding + d * dayWidth + h * hourStep + hourStep / 2 - barWidth / 2;
+
+          // Ensure bars stay within day boundaries (with padding offset)
+          const minX = padding + d * dayWidth;
+          const maxX = padding + (d + 1) * dayWidth - barWidth;
+          const clampedX = Math.max(minX, Math.min(maxX, x));
+
+          const barHeight = data.precip * mmToPixelRatio;
+          const color = getPrecipColor(data.precip);
+          bars.push(
+            svg`<rect x="${clampedX}" y="${barYBase - barHeight}" width="${barWidth}" height="${barHeight}"
+              fill="${color}" opacity="1" rx="1.5"/>`
+          );
+        }
+      }
+    }
+
+    // Vertical day lines - each day gets full 24h visual representation
+    const verticals: unknown[] = [];
+    if (hours.length > 0) {
+      // Draw vertical lines to completely frame each day (start and end of each day)
+      for (let d = 0; d <= nDays; d++) {
+        // Position for the beginning of day d (with padding offset)
+        const x = padding + d * dayWidth;
+
+        if (d === 0) {
+          // First line: Start of first day
+          verticals.push(
+            svg`<line x1="${x}" y1="${tempLineYMax}" x2="${x}" y2="${tempLineY0}" stroke="#ddd" stroke-width="0.5" stroke-dasharray="2,2" opacity="0.4"/>`
+          );
+        } else if (d === nDays) {
+          // Last line: End of last day
+          verticals.push(
+            svg`<line x1="${x}" y1="${tempLineYMax}" x2="${x}" y2="${tempLineY0}" stroke="#ddd" stroke-width="0.5" stroke-dasharray="2,2" opacity="0.4"/>`
+          );
+        } else {
+          // Middle lines: Between days
+          verticals.push(
+            svg`<line x1="${x}" y1="${tempLineYMax}" x2="${x}" y2="${tempLineY0}" stroke="#ddd" stroke-width="0.5" stroke-dasharray="2,2" opacity="0.4"/>`
+          );
+        }
+      }
+
+      console.log(`Drawing ${nDays + 1} vertical lines for ${nDays} days:`, {
+        'First day start': `${padding}px`,
+        'Last day end': `${padding + nDays * dayWidth}px`,
+        dayWidth,
+        nDays,
+        usableWidth,
+        padding,
+      });
+    }
+
     const dayGroups: unknown[] = [];
-    const paddingBottom = 6;
     if (nDays > 0) {
       for (let d = 0; d < nDays; d++) {
-        const x = d * dayWidth + dayWidth / 2;
-        const weekdayY = dayTop + weekdayFont;
-        const iconY = weekdayY + dayGap + paddingBottom;
-        const minmaxY = iconY + iconSize + dayGap + paddingBottom + 2;
+        const x = padding + d * dayWidth + dayWidth / 2; // Add padding offset
         const minTemp =
           typeof days[d].templow === 'number'
             ? Math.round(days[d].templow || days[d].temperature - 5)
@@ -224,7 +432,7 @@ export class DailyForecastDiagram extends LitElement {
         dayGroups.push(svg`
         <g>
           <!-- Weekday -->
-          <text x="${x}" y="${weekdayY}" text-anchor="middle" font-size="${weekdayFont}" fill="#888">
+          <text x="${x}" y="${weekdayY}" text-anchor="middle" font-size="${weekdayFont}" class="weather-day">
             ${(() => {
               const dt = new Date(days[d].datetime);
               return dt.toLocaleDateString(undefined, { weekday: 'short' });
@@ -235,43 +443,75 @@ export class DailyForecastDiagram extends LitElement {
               ${this.getWeatherIcon(days[d].condition || '', this.config.enable_animate_weather_icons ? 'animated' : 'mdiAsSVG', iconSize + 'px', true)}
           </foreignObject>
           <!-- Min/Max temp -->
-          <text class="weather-temp" x="${x}" y="${minmaxY}" text-anchor="middle" font-size="${minmaxFont}"">${minTemp}°<tspan fill="#aaa"> | </tspan><tspan class="weather-temp">${maxTemp}°</tspan></text>
+          <text class="weather-temp" x="${x}" y="${minmaxY}" text-anchor="middle" font-size="${minmaxFont}">${minTemp}°<tspan fill="#aaa"> | </tspan><tspan class="weather-temp">${maxTemp}°</tspan></text>
         </g>
       `);
       }
     }
 
-    // Horizontal temperature lines (every 5°C, always 0°C and minTemp)
+    // Horizontal temperature lines (dynamic range to cover all temperatures)
     const horizontalLines: unknown[] = [];
-    const lineStep = (5 / tempRange) * (tempLineY0 - tempLineYMax);
-    const nLines = Math.floor((tempLineY0 - tempLineYMax) / lineStep);
-    const lineYs = new Set<number>();
-    for (let i = 0; i <= nLines; i++) {
-      lineYs.add(tempLineY0 - i * lineStep);
+
+    // Generate temperature lines only for 5°C and 10°C steps
+    for (let temp = roundedMinTemp; temp <= roundedMaxTemp; temp += 5) {
+      // Only show lines that are multiples of 5°C
+      if (temp % 5 === 0) {
+        // Use display range for consistent Y calculation
+        const y =
+          tempLineYMax + ((roundedMaxTemp - temp) / displayTempRange) * (tempLineY0 - tempLineYMax);
+        if (y >= tempLineYMax && y <= tempLineY0) {
+          // Main lines (solid): multiples of 10°C (0°, 10°, 20°, -10°, etc.)
+          // Secondary lines (dashed): multiples of 5°C but not 10°C (5°, 15°, 25°, -5°, etc.)
+          const isMainLine = temp % 10 === 0;
+          console.log(
+            `Temperature line: ${temp}°C at y=${y} (${isMainLine ? 'solid' : 'dashed'}) - should be between ${tempLineYMax} and ${tempLineY0}`
+          );
+          horizontalLines.push(
+            svg`<line x1="${padding}" y1="${y}" x2="${width - padding}" y2="${y}" 
+                 stroke="#ddd" 
+                 stroke-width="${isMainLine ? 1 : 0.5}" 
+                 stroke-dasharray="${isMainLine ? 'none' : '2,2'}" 
+                 opacity="0.6" />
+                 <text x="${padding + 5}" y="${y - 2}" font-size="10" fill="#888" opacity="0.8">${temp}°</text>`
+          );
+        }
+      }
     }
-    // 0°C line
-    if (minTemp > 0) {
-      const y0 = tempLineY0 - ((0 - minTemp) / tempRange) * (tempLineY0 - tempLineYMax);
-      if (y0 <= tempLineY0 && y0 >= tempLineYMax) lineYs.add(y0);
-    }
-    // minTemp line
-    const ymin = tempLineY0 - ((minTemp - minTemp) / tempRange) * (tempLineY0 - tempLineYMax);
-    lineYs.add(ymin);
-    Array.from(lineYs)
-      .sort((a, b) => b - a)
-      .forEach((y, idx) => {
-        horizontalLines.push(
-          svg`<line x1="0" y1="${y}" x2="${width}" y2="${y}" stroke="#bbb" stroke-width="${idx % 2 === 0 ? 2 : 1}" stroke-dasharray="${idx % 2 === 0 ? 'none' : '4,3'}" />`
-        );
-      });
     return html`
+      <style>
+        .chart {
+        ${this.standalone === false
+          ? 'background: var(--card-background-color, #fff);' + 'margin-top: 15px;'
+          : 'width: 100%; height: 100%;'}
+          border-radius: 12px;
+          padding: 0;
+          border: 1px solid var(--border-color, rgba(220, 20, 60, 0.1));
+          overflow: hidden;
+          position: relative; /* Enable absolute positioning for SVG overlay */
+        }
+        .chart svg {
+          width: 100%;
+          height: 100%;
+        }
+      </style>
       <div class="chart">
         <svg width="100%" height="100%" viewBox="0 0 ${width} ${height}" style="display:block;">
-          ${horizontalLines} ${dayGroups} ${verticals} ${barsProberly}
+          <!-- Background grid lines (behind everything) -->
+          ${horizontalLines} ${verticals}
+          <!-- Day groups (labels and icons) -->
+          ${dayGroups}
           <!-- Precipitation bars -->
-          ${bars}
+          ${barsProberly} ${bars}
+        </svg>
 
-          <polyline points="${tempPoints}" fill="none" stroke="#e74c3c" stroke-width="2" />
+        <!-- Temperature lines in completely separate SVG overlay (continuous line, always on top) -->
+        <svg
+          width="100%"
+          height="100%"
+          viewBox="0 0 ${width} ${height}"
+          style="display:block; position: absolute; top: 0; left: 0; pointer-events: none;"
+        >
+          ${tempLinesPerDay}
         </svg>
       </div>
     `;

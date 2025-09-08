@@ -2,14 +2,15 @@ import { translations } from '../../translations';
 import { LitElement, html, css, svg, TemplateResult } from 'lit';
 import { use, translate as _t, registerTranslateConfig } from 'lit-translate';
 import { customElement, property } from 'lit/decorators.js';
-import type {
-  HomeAssistant,
-  WeatherEntity,
-  WeatherCondition,
-} from '../../types/home-assistant';
+import type { HomeAssistant, WeatherEntity, WeatherCondition } from '../../types/home-assistant';
 import { getWeatherBackground } from './background';
 import { getEntityState, isDay } from '../../utils';
-import { ANIMATED_BACKGROUND_CARD_EDITOR_NAME, ANIMATED_BACKGROUND_CARD_NAME, type CardConfig, schema } from './const';
+import {
+  ANIMATED_BACKGROUND_CARD_EDITOR_NAME,
+  ANIMATED_BACKGROUND_CARD_NAME,
+  type CardConfig,
+  schema,
+} from './const';
 
 registerTranslateConfig({
   // Loads the language by returning a JSON structure for a given language

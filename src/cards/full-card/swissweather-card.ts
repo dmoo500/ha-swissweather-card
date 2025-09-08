@@ -714,50 +714,6 @@ export class SwissWeatherCard extends LitElement {
     `;
   }
 
-  private isDay(): boolean {
-    const now = new Date();
-    // Try to get today's sunrise/sunset from weather entity, else fallback to sun.sun
-    const weatherEntity = this._getEntityState(this.config.entity) as WeatherEntity;
-    const sun_entity = this._getEntityState(this.config.sun_entity || 'sun.sun');
-    let sunrise: Date | null = null;
-    let sunset: Date | null = null;
-    // Try weather entity first
-    if (
-      weatherEntity &&
-      weatherEntity.attributes &&
-      'sunrise' in weatherEntity.attributes &&
-      'sunset' in weatherEntity.attributes &&
-      (weatherEntity.attributes as any).sunrise &&
-      (weatherEntity.attributes as any).sunset
-    ) {
-      sunrise = new Date((weatherEntity.attributes as any).sunrise);
-      sunset = new Date((weatherEntity.attributes as any).sunset);
-    } else if (sun_entity?.attributes) {
-      // sun.sun gives next_rising/next_setting, which may be in the future (next day)
-      const nextRising = sun_entity.attributes.next_rising
-        ? new Date(sun_entity.attributes.next_rising)
-        : null;
-      const nextSetting = sun_entity.attributes.next_setting
-        ? new Date(sun_entity.attributes.next_setting)
-        : null;
-      if (nextRising && nextSetting) {
-        // Last sunrise: if next_rising is in the future, lastSunrise = next_rising - 1 day; else next_rising
-        const lastSunrise =
-          nextRising > now ? new Date(nextRising.getTime() - 24 * 60 * 60 * 1000) : nextRising;
-        // Next sunset is always next_setting
-        const nextSunset = nextSetting;
-        sunrise = lastSunrise;
-        sunset = nextSunset;
-      }
-    }
-    // Debug
-    // console.log('Sunrise:', sunrise, 'Sunset:', sunset, 'Now:', now, 'isDay:', sunrise && sunset ? now >= sunrise && now < sunset : 'unknown' );
-    // Fallback: if still missing, treat as day
-    if (!sunrise || !sunset) return true;
-    // If now is between sunrise and sunset, it's day
-    return now >= sunrise && now < sunset;
-  }
-
   public render(): TemplateResult {
     use((this.hass.selectedLanguage || this.hass.language || 'en').substring(0, 2));
 
@@ -824,7 +780,7 @@ export class SwissWeatherCard extends LitElement {
               condition,
               this.config.enable_animate_weather_icons ? 'animated' : 'mdi',
               '64px',
-              this.isDay()
+              isDay(this.hass, this.config)
             )}
           </div>
         </div>
