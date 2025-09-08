@@ -1,5 +1,6 @@
 import { WeatherCondition } from '../../../types/home-assistant';
 import { html, svg, TemplateResult } from 'lit';
+import { lightningFlashOverlay } from '../effects/lightning-flash-effect';
 
 export const getWeatherBackground = (
   condition: WeatherCondition | string,
@@ -103,35 +104,33 @@ export const sunnyBG = (): TemplateResult => {
 const cloudyBG = (width: number): TemplateResult => {
   return svg`
   <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#a3bdc9ff" />
+      <stop offset="100%" stop-color="#90d4f4ff" stop-opacity="0" />
+    </linearGradient>
     <linearGradient id="a" x1="22.56" x2="39.2" y1="21.96" y2="50.8" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#f3f7fe"/>
       <stop offset=".45" stop-color="#f3f7fe"/>
       <stop offset="1" stop-color="#deeafb"/>
     </linearGradient>
-    <g id="cloudIcon">
+    <g id="icon">
       <path fill="url(#a)" stroke="#e6effc" stroke-miterlimit="10" stroke-width=".5"
         d="M46.5 31.5h-.32a10.49 10.49 0 00-19.11-8 7 7 0 00-10.57 6 7.21 7.21 0 00.1 1.14A7.5 7.5 0 0018 45.5a4.19 4.19 0 00.5 0v0h28a7 7 0 000-14z"/>
     </g>
   </defs>
-  
-  ${Array.from({ length: Math.ceil(width / 100) }, (v, i) => i).map(i => {
-    const yOffset = Math.floor(Math.random() * 100);
-    const xOffset = Math.floor(Math.random() * 10);
-    const yOffsetAdj = (yOffset - 50) / 5 + i * Math.floor(Math.random() * 25); //to spread clouds vertically a bit more
-    const xFinal = i * 100 + xOffset;
-    return svg`
-    <g>
-      <use href="#cloudIcon" x="0" y="0" transform="translate(${xFinal},${yOffsetAdj}) scale(0.5)"/>
-      <animateTransform attributeName="transform" type="translate" values="0,0;20,0;0,0" dur="18s" repeatCount="indefinite"/>
-    </g>
-    `;
-  })}
+  <!-- background -->
+  <rect width="100%" height="80%" fill="url(#background)" />
+  ${animate(width)}
   `;
 };
 
 const fogBG = (width: number): TemplateResult => {
   return svg`
   <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#a3bdc9ff" />
+      <stop offset="100%" stop-color="#90d4f4ff" stop-opacity="0" />
+    </linearGradient>
     <linearGradient id="fogCloud" x1="22.56" x2="39.2" y1="21.96" y2="50.8" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#f3f7fe"/>
       <stop offset=".45" stop-color="#f3f7fe"/>
@@ -142,7 +141,7 @@ const fogBG = (width: number): TemplateResult => {
       <stop offset=".45" stop-color="#d4d7dd"/>
       <stop offset="1" stop-color="#bec1c6"/>
     </linearGradient>
-    <g id="fogIcon">
+    <g id="icon">
       <path fill="url(#fogCloud)" stroke="#e6effc" stroke-miterlimit="10" stroke-width=".5" d="M46.5 31.5h-.32a10.49 10.49 0 00-19.11-8 7 7 0 00-10.57 6 7.21 7.21 0 00.1 1.14A7.5 7.5 0 0018 45.5a4.19 4.19 0 00.5 0v0h28a7 7 0 000-14z"/>
       <path fill="none" stroke="url(#fogLine1)" stroke-linecap="round" stroke-miterlimit="10" stroke-width="3" d="M17 58h30">
         <animateTransform attributeName="transform" begin="0s" dur="5s" repeatCount="indefinite" type="translate" values="-4 0; 4 0; -4 0"/>
@@ -152,21 +151,12 @@ const fogBG = (width: number): TemplateResult => {
       </path>
     </g>
   </defs>
-
-  ${Array.from({ length: Math.ceil(width / 100) }, (v, i) => i).map(i => {
-    const yOffset = Math.floor(Math.random() * 100);
-    const xOffset = Math.floor(Math.random() * 10);
-    const yOffsetAdj = (yOffset - 50) / 5 + i * Math.floor(Math.random() * 25); //to spread clouds vertically a bit more
-    const xFinal = i * 100 + xOffset;
-    return svg`
-    <g>
-      <use href="#fogIcon" x="0" y="0" transform="translate(${xFinal},${yOffsetAdj}) scale(0.5)"/>
-      <animateTransform attributeName="transform" type="translate" values="0,0;20,0;0,0" dur="18s" repeatCount="indefinite"/>
-    </g>
-    `;
-  })}
+  <!-- background -->
+  <rect width="100%" height="80%" fill="url(#background)" />
+  ${animate(width)}
   `;
 };
+
 const hailBG = (width: number): TemplateResult => {
   return svg`
   <defs>
@@ -340,96 +330,104 @@ const windBG = (width: number): TemplateResult => {
 const thunderstormsBG = (width: number): TemplateResult => {
   return svg`
   <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2e414aff" />
+      <stop offset="100%" stop-color="#467388ff" stop-opacity="0" />
+    </linearGradient>
     <linearGradient id="thunderstormGradient" x1="22.56" x2="39.2" y1="21.96" y2="50.8" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#f3f7fe"/>
       <stop offset=".45" stop-color="#f3f7fe"/>
       <stop offset="1" stop-color="#deeafb"/>
     </linearGradient>
-    <g id="thunderstormIcon">
+   
+    <linearGradient id="lightning-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#87ceeb;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#4169e1;stop-opacity:1" />
+    </linearGradient>
+    
+    <g id="icon">
       <path fill="url(#thunderstormGradient)" stroke="#e6effc" stroke-miterlimit="10" stroke-width=".5"
         d="M46.5 31.5h-.32a10.49 10.49 0 00-19.11-8 7 7 0 00-10.57 6 7.21 7.21 0 00.1 1.14A7.5 7.5 0 0018 45.5a4.19 4.19 0 00.5 0v0h28a7 7 0 000-14z"/>
-      <path fill="#facc15" stroke="#eab308" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M30 35l-8 12h6l-8 12"/>
-    </g>
-  </defs>
-  
-  <!-- Cloud -->
-  <g>
-    <use href="#thunderstormIcon" x="0" y="-10" width="80" height="40" transform="scale(2.2) translate(10,20)" opacity="0.9"/>
-    <animateTransform attributeName="transform" type="translate" values="0,0;20,0;0,0" dur="18s" repeatCount="indefinite"/>
-  </g>
-  
-  <!-- Lightning flashes -->
-  ${Array.from({ length: Math.ceil(width / 100) }, (v, i) => i).map(i => {
-    const yOffset = Math.floor(Math.random() * 100);
-    const xOffset = Math.floor(Math.random() * 10);
-    const yOffsetAdj = (yOffset - 50) / 5 + i * Math.floor(Math.random() * 25); //to spread flashes vertically a bit more
-    const xFinal = i * 100 + xOffset;
-    return svg`
-    <g transform="translate(${xFinal},${yOffsetAdj}) scale(0.5)">
-      <path fill="#facc15" stroke="#eab308" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M30 35l-8 12h6l-8 12" opacity="0">
-        <animate attributeName="opacity" values="0; 1; 0" dur="2s" repeatCount="indefinite" begin="${(i * 2) % 10}s"/>
+      <path fill="#facc15" stroke="#f6a823" stroke-miterlimit="10" stroke-width=".5" d="M30 36l-4 12h4l-2 10 10-14h-6l4-8h-6z">
+        <animate attributeName="opacity" dur="2s" repeatCount="indefinite" values="1; 1; 1; 1; 1; 1; 0.1; 1; 0.1; 1; 1; 0.1; 1; 0.1; 1"/>
       </path>
     </g>
-    `;
-  })}
+  </defs>
+  <!-- background -->
+  <rect width="100%" height="100%" fill="url(#background)" />
+ 
+   ${animate(width)}
+   
+  <!-- Lightning flash effect that illuminates the entire background (full-size overlay) -->
+  ${lightningFlashOverlay()}
   `;
 };
 
 const thunderstormsRainBG = (width: number): TemplateResult => {
   return svg`
   <defs>
-    <linearGradient id="thunderstormRainGradient" x1="22.56" x2="39.2" y1="21.96" y2="50.8" gradientUnits="userSpaceOnUse">
+    <linearGradient id="b" x1="22.56" x2="39.2" y1="21.96" y2="50.8" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#f3f7fe"/>
       <stop offset=".45" stop-color="#f3f7fe"/>
       <stop offset="1" stop-color="#deeafb"/>
     </linearGradient>
-    <g id="thunderstormRainIcon">
-      <path fill="url(#thunderstormRainGradient)" stroke="#e6effc" stroke-miterlimit="10" stroke-width=".5"
-        d="M46.5 31.5h-.32a10.49 10.49 0 00-19.11-8 7 7 0 00-10.57 6 7.21 7.21 0 00.1 1.14A7.5 7.5 0 0018 45.5a4.19 4.19 0 00.5 0v0h28a7 7 0 000-14z"/>
-      <path fill="#facc15" stroke="#eab308" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M30 35l-8 12h6l-8 12"/>
-    </g>
-    <linearGradient id="thunderstormRainDropGradient" x1="0" x2="0" y1="0" y2="1">
-      <stop offset="0%" stop-color="#3a86ff" stop-opacity="0.8"/>
-      <stop offset="100%" stop-color="#3a86ff" stop-opacity="0"/>
+    <linearGradient id="a" x1="22.53" x2="25.47" y1="42.95" y2="48.05" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#4286ee"/>
+      <stop offset=".45" stop-color="#4286ee"/>
+      <stop offset="1" stop-color="#0950bc"/>
     </linearGradient>
-  </defs>
-  
-  <!-- Cloud -->
-  <g>
-    <use href="#thunderstormRainIcon" x="0" y="-10" width="80" height="40" transform="scale(2.2) translate(10,20)" opacity="0.9"/>
-    <animateTransform attributeName="transform" type="translate" values="0,0;20,0;0,0" dur="18s" repeatCount="indefinite"/>
-  </g>
-
-  <!-- Rain drops -->
-  ${Array.from({ length: Math.ceil(width / 20) }, (v, i) => i).map(i => {
-    const yOffset = Math.floor(Math.random() * 100);
-    const xOffset = Math.floor(Math.random() * 10);
-    const yOffsetAdj = (yOffset - 50) / 5 + i * Math.floor(Math.random() * 25); //to spread drops vertically a bit more
-    const xFinal = i * 20 + xOffset;
-    return svg`
-    <line x1="${xFinal}" y1="${yOffsetAdj}" x2="${xFinal}" y2="${yOffsetAdj + 10}" stroke="url(#thunderstormRainDropGradient)" stroke-width="2" stroke-linecap="round">
-      <animate attributeName="y1" values="${yOffsetAdj}; ${yOffsetAdj + 20}" dur="1s" repeatCount="indefinite"/>
-      <animate attributeName="y2" values="${yOffsetAdj + 10}; ${yOffsetAdj + 30}" dur="1s" repeatCount="indefinite"/>
-      <animate attributeName="opacity" values="1; 0" dur="1s" repeatCount="indefinite"/>
-    </line>
-    `;
-  })}
-  <!-- Lightning flashes -->
-  ${Array.from({ length: Math.ceil(width / 100) }, (v, i) => i).map(i => {
-    const yOffset = Math.floor(Math.random() * 100);
-    const xOffset = Math.floor(Math.random() * 10);
-    const yOffsetAdj = (yOffset - 50) / 5 + i * Math.floor(Math.random() * 25); //to spread flashes vertically a bit more
-    const xFinal = i * 100 + xOffset;
-    return svg`
-    <g transform="translate(${xFinal},${yOffsetAdj}) scale(0.5)">
-      <path fill="#facc15" stroke="#eab308" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M30 35l-8 12h6l-8 12" opacity="0">
-        <animate attributeName="opacity" values="0; 1; 0" dur="2s" repeatCount="indefinite" begin="${(i * 2) % 10}s"/>
+    <linearGradient id="c" x1="29.53" x2="32.47" y1="42.95" y2="48.05" xlink:href="#a"/>
+    <linearGradient id="d" x1="36.53" x2="39.47" y1="42.95" y2="48.05" xlink:href="#a"/>
+    <linearGradient id="e" x1="26.74" x2="35.76" y1="37.88" y2="53.52" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f7b23b"/>
+      <stop offset=".45" stop-color="#f7b23b"/>
+      <stop offset="1" stop-color="#f59e0b"/>
+    </linearGradient>
+    <g id="icon">
+      <path fill="url(#b)" stroke="#e6effc" stroke-miterlimit="10" stroke-width=".5" d="M46.5 31.5h-.32a10.49 10.49 0 00-19.11-8 7 7 0 00-10.57 6 7.21 7.21 0 00.1 1.14A7.5 7.5 0 0018 45.5a4.19 4.19 0 00.5 0v0h28a7 7 0 000-14z"/>
+      <path fill="none" stroke="url(#a)" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M24.39 43.03l-.78 4.94">
+        <animateTransform attributeName="transform" dur="0.7s" repeatCount="indefinite" type="translate" values="1 -5; -2 10"/>
+        <animate attributeName="opacity" dur="0.7s" repeatCount="indefinite" values="0;1;1;0"/></path><path fill="none" stroke="url(#c)" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M31.39 43.03l-.78 4.94"><animateTransform attributeName="transform" begin="-0.4s" dur="0.7s" repeatCount="indefinite" type="translate" values="1 -5; -2 10"/>
+        <animate attributeName="opacity" begin="-0.4s" dur="0.7s" repeatCount="indefinite" values="0;1;1;0"/>
       </path>
+      <path fill="none" stroke="url(#d)" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M38.39 43.03l-.78 4.94"><animateTransform attributeName="transform" begin="-0.2s" dur="0.7s" repeatCount="indefinite" type="translate" values="1 -5; -2 10"/>
+        <animate attributeName="opacity" begin="-0.2s" dur="0.7s" repeatCount="indefinite" values="0;1;1;0"/>
+      </path>
+      <path fill="url(#e)" stroke="#f6a823" stroke-miterlimit="10" stroke-width=".5" d="M30 36l-4 12h4l-2 10 10-14h-6l4-8h-6z">
+        <animate attributeName="opacity" dur="2s" repeatCount="indefinite" values="1; 1; 1; 1; 1; 1; 0.1; 1; 0.1; 1; 1; 0.1; 1; 0.1; 1"/>
+      </path>
+    </g>
+  </defs>
+
+  ${animate(width)}
+  
+  <!-- Lightning flash effect for rainy thunderstorms -->
+  ${lightningFlashOverlay()}
+  `;
+};
+
+const animate = (width: number): TemplateResult => {
+  return svg`
+${Array.from({ length: Math.ceil(width / 10) }, (v, i) => i).map(i => {
+    const yOffset = Math.floor(Math.random() * 100);
+    const xOffset = Math.floor(Math.random() * 10);
+    const yOffsetAdj = (yOffset - 50) / 5 + i * Math.floor(Math.random() * 25); //to spread clouds vertically a bit more
+    const xFinal = i * 100 + xOffset;
+    const scale = Math.floor(Math.random() * 2) + 1; // to vary cloud sizes a bit
+    const opacity = 1 + Math.random() * 1;
+    const duration = 44 + Math.floor(Math.random() * 90);
+    return svg`
+    <g>
+      <use href="#icon" x="${xFinal}" y="${yOffsetAdj}" width="80" height="40" transform="scale(${scale})" opacity="0">
+        <animate attributeName="opacity" values="0;${opacity};${opacity};0" dur="${duration}s" repeatCount="indefinite"/>
+      </use>
+      <animateTransform attributeName="transform" type="translate" values="-150,20;450,20" dur="${duration}s" repeatCount="indefinite"/>
     </g>
     `;
   })}
   `;
-};
+}
 
 const sleetBG = (width: number): TemplateResult => {
   return svg`
@@ -439,7 +437,7 @@ const sleetBG = (width: number): TemplateResult => {
       <stop offset=".45" stop-color="#f3f7fe"/>
       <stop offset="1" stop-color="#deeafb"/>
     </linearGradient>
-    <g id="sleetIcon">
+    <g id="icon">
       <path fill="url(#sleetGradient)" stroke="#e6effc" stroke-miterlimit="10" stroke-width=".5"
         d="M46.5 31.5h-.32a10.49 10.49 0 00-19.11-8 7 7 0 00-10.57 6 7.21 7.21 0 00.1 1.14A7.5 7.5 0 0018 45.5a4.19 4.19 0 00.5 0v0h28a7 7 0 000-14z"/>
       <circle cx="24" cy="42" r="4" fill="#a8dadc"/>
@@ -452,18 +450,7 @@ const sleetBG = (width: number): TemplateResult => {
     </g>
   </defs>
   
-  ${Array.from({ length: Math.ceil(width / 100) }, (v, i) => i).map(i => {
-    const yOffset = Math.floor(Math.random() * 100);
-    const xOffset = Math.floor(Math.random() * 10);
-    const yOffsetAdj = (yOffset - 50) / 5 + i * Math.floor(Math.random() * 25); //to spread clouds vertically a bit more
-    const xFinal = i * 100 + xOffset;
-    return svg`
-  <g>
-    <use href="#sleetIcon" x="0" y="-10" width="80" height="40" transform="scale(2.2) translate(${xFinal},${yOffsetAdj})" opacity="0.9"/>
-    <animateTransform attributeName="transform" type="translate" values="0,0;20,0;0,0" dur="18s" repeatCount="indefinite"/>
-  </g>
-  `;
-  })}
+  ${animate(width)}
   `;
 };
 
@@ -492,26 +479,15 @@ const snowBG = (width: number): TemplateResult => {
       <use href="#snowIcon" x="0" y="-10" width="80" height="40" transform="scale(2.2) translate(10,20)" opacity="0.9"/>
       <animateTransform attributeName="transform" type="translate" values="0,0;20,0;0,0" dur="18s" repeatCount="indefinite"/>
     </g>
-    <g id="cloudIconWithSnow">
-    </g>
-
-  </defs>
-  
-  <g>
-  ${Array.from({ length: Math.ceil(width / 20) }, (v, i) => i).map(i => {
-    const yOffset = Math.floor(Math.random() * 100);
-    const xOffset = Math.floor(Math.random() * 10);
-    const yOffsetAdj = (yOffset - 50) / 5 + i * Math.floor(Math.random() * 25); //to spread flakes vertically a bit more
-    const xFinal = i * 20 + xOffset;
-    return svg`
-    <g transform="translate(${xFinal},${yOffsetAdj}) scale(0.5)">
+    <g id="icon">
       <use href="#snowFlakeIcon" x="0" y="0" width="8" height="8" opacity="1"/>
       <animateTransform attributeName="transform" type="translate" values="0,0;0,20" dur="3s" repeatCount="indefinite"/>
       <animate attributeName="opacity" values="1; 0" dur="3s" repeatCount="indefinite"/>
     </g>
-    `;
-  })}
-  </g>
+
+  </defs>
+  
+  ${animate(width)}
   `;
 };
 
@@ -536,7 +512,7 @@ const partlyCloudyDayBG = (width: number): TemplateResult => {
       <path fill="url(#partlyCloudyDayGradient)" stroke="#e6effc" stroke-miterlimit="10" stroke-width=".5"
         d="M46.5 31.5h-.32a10.49 10.49 0 00-19.11-8 7 7 0 00-10.57 6 7.21 7.21 0 00.1 1.14A7.5 7.5 0 0018 45.5a4.19 4.19 0 00.5 0v0h28a7 7 0 000-14z"/>
     </g>
-    <g id="partlyCloudyDayIcon">
+    <g id="icon">
       <path fill="url(#partlyCloudyDayGradient)" stroke="#e6effc" stroke-miterlimit="10" stroke-width=".5"
         d="M46.5 31.5h-.32a10.49 10.49 0 00-19.11-8 7 7 0 00-10.57 6 7.21 7.21 0 00.1 1.14A7.5 7.5 0 0018 45.5a4.19 4.19 0 00.5 0v0h28a7 7 0 000-14z"/>
     </g>
@@ -553,24 +529,7 @@ const partlyCloudyDayBG = (width: number): TemplateResult => {
   <g>
     <use href="#sunIcon" x="200" y="50" width="100" height="100" opacity="0.9"/>
   </g>
-  ${Array.from({ length: Math.ceil(width / 100) }, (v, i) => i).map(i => {
-    const yOffset = Math.floor(Math.random() * 100);
-    const xOffset = Math.floor(Math.random() * 10);
-    const yOffsetAdj = (yOffset - 50) / 5 + i * Math.floor(Math.random() * 25); //to spread clouds vertically a bit more
-    const xFinal = i * 100 + xOffset;
-    const scale = Math.floor(Math.random() * 2) + 1; // to vary cloud sizes a bit
-    const opacity = 0.5 + Math.random() * 0.5;
-    const duration = 44 + Math.floor(Math.random() * 100);
-    const fadeDuration = 10 + Math.floor(Math.random() * 100);
-    return svg`
-    <g>
-      <use href="#partlyCloudyDayIcon" x="${xFinal}" y="${yOffsetAdj}" width="80" height="40" transform="scale(${scale})" opacity="0">
-        <animate attributeName="opacity" values="0;${opacity};${opacity};0" dur="${fadeDuration}s" repeatCount="indefinite"/>
-      </use>
-      <animateTransform attributeName="transform" type="translate" values="-150,20;450,20" dur="${duration}s" repeatCount="indefinite"/>
-    </g>
-    `;
-  })}
+  ${animate(width)}
   `;
 };
 
@@ -582,7 +541,7 @@ const partlyCloudyNightBG = (width: number): TemplateResult => {
       <stop offset=".45" stop-color="#f3f7fe"/>
       <stop offset="1" stop-color="#deeafb"/>
     </linearGradient>
-    <g id="partlyCloudyNightIcon">
+    <g id="icon">
       <path fill="url(#partlyCloudyNightGradient)" stroke="#e6effc" stroke-miterlimit="10" stroke-width=".5"
         d="M46.5 31.5h-.32a10.49 10.49 0 00-19.11-8 7 7 0 00-10.57 6 7.21 7.21 0 00.1 1.14A7.5 7.5 0 0018 45.5a4.19 4.19 0 00.5 0v0h28a7 7 0 000-14z"/>
     </g>
@@ -595,25 +554,7 @@ const partlyCloudyNightBG = (width: number): TemplateResult => {
   <g>
     <use href="#moonIcon" x="200" y="50" width="100" height="100" opacity="0.9"/>
   </g>
-  ${Array.from({ length: Math.ceil(width / 100) }, (v, i) => i).map(i => {
-    const yOffset = Math.floor(Math.random() * 100);
-    const xOffset = Math.floor(Math.random() * 10);
-    const yOffsetAdj = (yOffset - 50) / 5 + i * Math.floor(Math.random() * 25); //to spread clouds vertically a bit more
-    const xFinal = i * 100 + xOffset;
-    const scale = Math.floor(Math.random() * 2) + 1; // to vary cloud sizes a bit
-    const opacity = 0.5 + Math.random() * 0.5;
-    const duration = 44 + Math.floor(Math.random() * 100);
-    const fadeDuration = 10 + Math.floor(Math.random() * 100);
-    console.log(duration);
-    return svg`
-    <g>
-      <use href="#partlyCloudyNighIcon" x="${xFinal}" y="${yOffsetAdj}" width="80" height="40" transform="scale(${scale})" opacity="0">
-        <animate attributeName="opacity" values="0;${opacity};${opacity};0" dur="${fadeDuration}s" repeatCount="indefinite"/>
-      </use>
-      <animateTransform attributeName="transform" type="translate" values="-150,20;450,20" dur="${duration}s" repeatCount="indefinite"/>
-    </g>
-    `;
-  })}
+  ${animate(width)}
   `;
 };
 
@@ -625,7 +566,7 @@ const hurricaneBG = (width: number): TemplateResult => {
       <stop offset=".45" stop-color="#f3f7fe"/>
       <stop offset="1" stop-color="#deeafb"/>
     </linearGradient>
-    <g id="hurricaneIcon">
+    <g id="icon">
       <path fill="url(#hurricaneGradient)" stroke="#e6effc" stroke-miterlimit="10" stroke-width=".5"
         d="M46.5 31.5h-.32a10.49 10.49 0 00-19.11-8 7 7 0 00-10.57 6 7.21 7.21 0 00.1 1.14A7.5 7.5 0 0018 45.5a4.19 4.19 0 00.5 0v0h28a7 7 0 000-14z"/>
       <circle cx="32" cy="36" r="6" fill="#f87171" stroke="#b91c1c" stroke-width="1"/>
@@ -633,17 +574,6 @@ const hurricaneBG = (width: number): TemplateResult => {
     </g>
   </defs>
   
-  ${Array.from({ length: Math.ceil(width / 100) }, (v, i) => i).map(i => {
-    const yOffset = Math.floor(Math.random() * 100);
-    const xOffset = Math.floor(Math.random() * 10);
-    const yOffsetAdj = (yOffset - 50) / 5 + i * Math.floor(Math.random() * 25); //to spread clouds vertically a bit more
-    const xFinal = i * 100 + xOffset;
-    return svg`
-  <g>
-    <use href="#hurricaneIcon" x="0" y="-10" width="80" height="40" transform="scale(2.2) translate(${xFinal},${yOffsetAdj})" opacity="0.9"/>
-    <animateTransform attributeName="transform" type="translate" values="0,0;20,0;0,0" dur="18s" repeatCount="indefinite"/>
-  </g>
-  `;
-  })}
+  ${animate(width)}
   `;
 };

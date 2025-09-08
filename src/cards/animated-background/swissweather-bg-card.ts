@@ -33,7 +33,10 @@ export class SwissWeatherBGCard extends LitElement {
       :host {
         display: block;
         box-shadow: none;
-        min-height: 260px;
+        /* Calculate height according to HA docs: rows * 56px + (rows-1) * 8px gap */
+        /* Simplified: height = rows * 64px - 8px */
+        height: calc(var(--card-grid-rows, 3) * 64px - 8px);
+        min-height: calc(var(--card-grid-rows, 3) * 64px - 8px);
       }
 
       .temperature {
@@ -57,6 +60,7 @@ export class SwissWeatherBGCard extends LitElement {
         font-size: 36px;
         font-weight: bold;
         text-align: center;
+        z-index: 1;
       }
 
       .img-svg {
@@ -99,7 +103,18 @@ export class SwissWeatherBGCard extends LitElement {
   }
 
   public getCardSize(): number {
-    return 4;
+    return this.config?.grid_options?.rows ?? 3;
+  }
+  // The rules for sizing your card in the grid in sections view
+  public getGridOptions() {
+    return {
+      rows: this.config?.grid_options?.rows ?? 3,
+      columns: this.config?.grid_options?.columns ?? 12,
+      min_columns: 12,
+      max_columns: 48,
+      min_rows: 3,
+      max_rows: 8,
+    };
   }
 
   public static getStubConfig() {
@@ -125,13 +140,17 @@ export class SwissWeatherBGCard extends LitElement {
     if (!this.hass || !this.config) {
       return html``;
     }
+    const gridRows = this.config?.grid_options?.rows ?? 3;
+
+    // Set CSS variable for card height calculation
+    this.style.setProperty('--card-grid-rows', gridRows.toString());
 
     const weatherEntity = getEntityState(this.hass, this.config.entity) as WeatherEntity;
     const temperature = weatherEntity.attributes.temperature;
     const condition = weatherEntity.state as WeatherCondition;
 
     const chartWidth = this.clientWidth || 300;
-
+    const height = gridRows * 64 - 8;
     return html`
       <div>
         <div class="temperature">
@@ -140,7 +159,7 @@ export class SwissWeatherBGCard extends LitElement {
         ${condition
           ? html`<div class="img-svg">
                 <svg
-                  viewBox="0 0 ${chartWidth} 200"
+                  viewBox="0 0 ${chartWidth} ${height}"
                   width="100%"
                   xmlns="http://www.w3.org/2000/svg"
                   xmlns:xlink="http://www.w3.org/1999/xlink"

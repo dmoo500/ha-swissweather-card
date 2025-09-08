@@ -120,25 +120,6 @@ export class DailyForecastDiagram extends LitElement {
     // Chart area starts at fixed position after day groups
     const chartTop = padding + calculatedDayGroupHeight + gapBetween;
 
-    console.log('Simplified layout:', {
-      nDays,
-      containerWidth,
-      containerHeight,
-      dayWidth,
-      iconSize,
-      calculatedDayGroupHeight,
-      gapBetween,
-      chartHeight,
-      chartTop,
-      tempLineYMax: chartTop,
-      tempLineY0: chartTop + chartHeight,
-      actualChartHeight: chartHeight,
-      usableHeight,
-      totalHours,
-      'First hour': firstHour.toISOString(),
-      'Last hour': lastHour.toISOString(),
-    });
-
     // Always 24 hours per day for the X axis spacing
     const hoursPerDay = 24;
     // X position per hour in px (based on full day width, not actual data span)
@@ -170,8 +151,6 @@ export class DailyForecastDiagram extends LitElement {
       dayMapping[dateKey] = idx;
     });
 
-    console.log('Day mapping created:', dayMapping);
-
     function getDayAndHourIdx(dt: Date) {
       const dateKey = `${dt.getFullYear()}-${dt.getMonth()}-${dt.getDate()}`;
       const dayIdx = dayMapping[dateKey];
@@ -200,15 +179,6 @@ export class DailyForecastDiagram extends LitElement {
         const { dayIdx, hourInDay } = getDayAndHourIdx(dt);
         const key = `${dayIdx}-${hourInDay}`;
 
-        // Debug logging for data placement
-        if (i < 5 || i >= hours.length - 5) {
-          // Log first and last few hours
-          console.log(`Hour ${i}: ${dt.toISOString()} -> Day ${dayIdx}, Hour ${hourInDay}`, {
-            temp: temps[i],
-            withinBounds: dayIdx >= 0 && dayIdx < nDays && hourInDay >= 0 && hourInDay < 24,
-          });
-        }
-
         // Only place data within valid bounds
         if (dayIdx >= 0 && dayIdx < nDays && hourInDay >= 0 && hourInDay < 24) {
           fullDayGrid[key] = {
@@ -228,13 +198,6 @@ export class DailyForecastDiagram extends LitElement {
       }
     });
 
-    console.log('Full day grid created:', {
-      totalSlots: Object.keys(fullDayGrid).length,
-      filledSlots: Object.values(fullDayGrid).filter(v => v !== null).length,
-      nDays,
-      hoursPerDay: 24,
-    });
-
     // Round min/max temps to 5°C boundaries for consistent scaling
     // IMPORTANT: Always include 0°C for correct precipitation scaling (5mm = 5°C)
     let roundedMinTemp = Math.floor(minTemp / 5) * 5;
@@ -249,14 +212,6 @@ export class DailyForecastDiagram extends LitElement {
     }
 
     const displayTempRange = roundedMaxTemp - roundedMinTemp;
-
-    console.log('Temperature scaling (with 0°C):', {
-      minTemp,
-      maxTemp,
-      roundedMinTemp,
-      roundedMaxTemp,
-      displayTempRange,
-    });
 
     // Generate ONE continuous temperature line across all days
     const tempLinesPerDay: any[] = [];
@@ -280,9 +235,7 @@ export class DailyForecastDiagram extends LitElement {
 
     // Create ONE continuous polyline across all days
     if (allTempPoints.length > 0) {
-      console.log(
-        `Creating continuous temperature line with ${allTempPoints.length} points across ${nDays} days`
-      );
+
       tempLinesPerDay.push(
         svg`
           <!-- Main temperature line -->
@@ -300,13 +253,6 @@ export class DailyForecastDiagram extends LitElement {
     const fiveDegreeHeight = (5 / displayTempRange) * (tempLineY0 - tempLineYMax);
     const mmToPixelRatio = fiveDegreeHeight / 5; // How many pixels per mm
 
-    console.log('Rain scaling:', {
-      displayTempRange,
-      fiveDegreeHeight,
-      mmToPixelRatio,
-      maxPrecip,
-      'Example: 2mm height': 2 * mmToPixelRatio,
-    });
     // Color scale for precipitation
     function getPrecipColor(p: number): string {
       // Color gradient from bottom (#5994b1ff) to top, top color at 5, 10, 15, 20+ mm
@@ -408,15 +354,6 @@ export class DailyForecastDiagram extends LitElement {
           );
         }
       }
-
-      console.log(`Drawing ${nDays + 1} vertical lines for ${nDays} days:`, {
-        'First day start': `${padding}px`,
-        'Last day end': `${padding + nDays * dayWidth}px`,
-        dayWidth,
-        nDays,
-        usableWidth,
-        padding,
-      });
     }
 
     const dayGroups: unknown[] = [];
@@ -463,9 +400,7 @@ export class DailyForecastDiagram extends LitElement {
           // Main lines (solid): multiples of 10°C (0°, 10°, 20°, -10°, etc.)
           // Secondary lines (dashed): multiples of 5°C but not 10°C (5°, 15°, 25°, -5°, etc.)
           const isMainLine = temp % 10 === 0;
-          console.log(
-            `Temperature line: ${temp}°C at y=${y} (${isMainLine ? 'solid' : 'dashed'}) - should be between ${tempLineYMax} and ${tempLineY0}`
-          );
+
           horizontalLines.push(
             svg`<line x1="${padding}" y1="${y}" x2="${width - padding}" y2="${y}" 
                  stroke="#ddd" 
