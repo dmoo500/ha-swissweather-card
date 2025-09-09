@@ -192,8 +192,8 @@ const rainBG = (width: number): TemplateResult => {
   return svg`
   <defs>
     <linearGradient id="background" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#4fc2f79c" />
-      <stop offset="80%" stop-color="#4fc2f79c" stop-opacity="0" />
+      <stop offset="0%" stop-color="#3580a39c" />
+      <stop offset="80%" stop-color="#3482a79c" stop-opacity="0" />
     </linearGradient>
     <linearGradient id="b" x1="22.56" x2="39.2" y1="21.96" y2="50.8" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#f3f7fe"/>
@@ -207,7 +207,7 @@ const rainBG = (width: number): TemplateResult => {
     </linearGradient>
     <linearGradient id="c" x1="29.53" x2="32.47" y1="42.95" y2="48.05" xlink:href="#a"/>
     <linearGradient id="d" x1="36.53" x2="39.47" y1="42.95" y2="48.05" xlink:href="#a"/>
-    <g id="cloudRainGroup">
+    <g id="icon">
     <path fill="url(#b)" stroke="#e6effc" stroke-miterlimit="10" stroke-width=".5" d="M46.5 31.5h-.32a10.49 10.49 0 00-19.11-8 7 7 0 00-10.57 6 7.21 7.21 0 00.1 1.14A7.5 7.5 0 0018 45.5a4.19 4.19 0 00.5 0v0h28a7 7 0 000-14z"/>
     <path fill="none" stroke="url(#a)" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M24.39 43.03l-.78 4.94">
       <animateTransform attributeName="transform" dur="0.7s" repeatCount="indefinite" type="translate" values="1 -5; -2 10"/>
@@ -225,19 +225,7 @@ const rainBG = (width: number): TemplateResult => {
   </defs>
   <!-- background -->
   <rect width="100%" height="80%" fill="url(#background)" />
-  ${Array.from({ length: Math.ceil(width / 100) }, (v, i) => i).map(i => {
-    const yOffset = Math.floor(Math.random() * 100);
-    const xOffset = Math.floor(Math.random() * 10);
-    const yOffsetAdj = (yOffset - 50) / 5 + i * Math.floor(Math.random() * 25); //to spread drops vertically a bit more
-    const xFinal = i * 100 + xOffset;
-    const scale = 1 * Math.random(); // to vary cloud sizes a bit
-    return svg`
-    <g>
-      <use href="#cloudRainGroup" x="0" y="-10" width="80" height="40" transform="scale(${scale}.${scale}) translate(${xFinal},${yOffsetAdj})" opacity="0.9"/>
-      <animateTransform attributeName="transform" type="translate" values="0,0;20,0;0,0" dur="18s" repeatCount="indefinite"/>
-    </g>
-    `;
-  })}
+  ${animate(width)}
   
   `;
 };
