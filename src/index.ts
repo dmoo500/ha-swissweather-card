@@ -67,8 +67,8 @@ registerCustomCard({
 });
 registerCustomCard({
   type: ANIMATED_BACKGROUND_CARD_NAME,
-  name: 'SwissWeather Animated Background Card Editor',
-  description: 'the SwissWeather Animated Background Card',
+  name: 'SwissWeather Animated Background Card (Experimental) Editor',
+  description: 'the SwissWeather Animated Background Card (Experimental)',
 });
 console.log(
   `%c 📦 SwissWeather Card module loading completed - version: ${version}`,

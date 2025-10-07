@@ -230,7 +230,7 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
       <div class="card-config">
         <div class="header">
           <div>
-            <div class="header-title">🌦️ SwissWeather Card</div>
+            <div class="header-title">🌦️ SwissWeather Full Card</div>
           </div>
         </div>
 

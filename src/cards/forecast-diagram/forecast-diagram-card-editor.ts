@@ -193,7 +193,7 @@ export class ForecastDiagramCardEditor extends LitElement implements LovelaceCar
       <div class="card-config">
         <div class="header">
           <div>
-            <div class="header-title">🌦️ SwissWeather Card</div>
+            <div class="header-title">🌦️ SwissWeather Forecast Diagram Card</div>
           </div>
         </div>
 

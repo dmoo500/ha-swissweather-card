@@ -193,7 +193,7 @@ export class SwissWeatherBGCardEditor extends LitElement implements LovelaceCard
       <div class="card-config">
         <div class="header">
           <div>
-            <div class="header-title">🌦️ SwissWeather Card</div>
+            <div class="header-title">🌦️ SwissWeather Animated Background Card (Experimental)</div>
           </div>
         </div>
 
