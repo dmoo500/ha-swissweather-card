@@ -108,24 +108,19 @@ export class DailyForecastDiagram extends LitElement {
     const width = containerWidth;
     const height = containerHeight;
 
-    // Calculate time span and create proper scaling
-    const firstHour = new Date(hours[0].datetime);
-    const lastHour = new Date(hours[hours.length - 1].datetime);
-    const totalHours = (lastHour.getTime() - firstHour.getTime()) / (60 * 60 * 1000) + 1; // +1 for inclusive
-
     // Layout calculations - responsive based on available height
-  const padding = 16; // Border radius space
-  const usableHeight = height - padding * 2;
-  // Neue Ränder: links °C-Skala, rechts mm/%-Skalen
-  const leftGutter = 0;
-  // Rechte Seite unverändert schlank (keine Labels) → kein zusätzlicher Gutter
-  const rightGutter = 0;
-  const chartX0 = padding + leftGutter;
-  const chartX1 = width - padding - rightGutter;
-  const innerWidth = Math.max(0, chartX1 - chartX0);
+    const padding = 16; // Border radius space
+    const usableHeight = height - padding * 2;
+    // Neue Ränder: links °C-Skala, rechts mm/%-Skalen
+    const leftGutter = 0;
+    // Rechte Seite unverändert schlank (keine Labels) → kein zusätzlicher Gutter
+    const rightGutter = 0;
+    const chartX0 = padding + leftGutter;
+    const chartX1 = width - padding - rightGutter;
+    const innerWidth = Math.max(0, chartX1 - chartX0);
 
-  // Fixed day width - each day gets equal space of inner chart width
-  const dayWidth = innerWidth / nDays;
+    // Fixed day width - each day gets equal space of inner chart width
+    const dayWidth = innerWidth / nDays;
 
     // Dynamic layout based on available height
     // Day groups need fixed minimum space for readability
@@ -139,19 +134,20 @@ export class DailyForecastDiagram extends LitElement {
     // Gap between day groups and chart - smaller for more rows
     const gapBetween = Math.max(10, usableHeight * 0.05); // 5% gap, minimum 10px
 
-  // Chart gets remaining space (more space for higher rows)
+    // Chart gets remaining space (more space for higher rows)
     const chartHeight = usableHeight - calculatedDayGroupHeight - gapBetween;
 
     // Icon size based on available day space
     const iconSize = Math.min(dayWidth * 0.7, calculatedDayGroupHeight * 0.4);
 
     // Text sizes relative to available space
-  const weekdayFont = Math.max(9, Math.round(calculatedDayGroupHeight * 0.075));
-  const minmaxFont = Math.max(11, Math.round(calculatedDayGroupHeight * 0.11));
+    const weekdayFont = Math.max(9, Math.round(calculatedDayGroupHeight * 0.075));
+    const minmaxFont = Math.max(11, Math.round(calculatedDayGroupHeight * 0.11));
 
-  // Label-Modus: 'compact' (Standard), 'full' oder 'none'
-  const labelMode: 'compact' | 'full' | 'none' = (this.config?.diagram_labels as any) ?? 'compact';
-  const tempAxisFont = Math.max(8, Math.min(10, Math.round(chartHeight * 0.05)));
+    // Label-Modus: 'compact' (Standard), 'full' oder 'none'
+    const labelMode: 'compact' | 'full' | 'none' =
+      (this.config?.diagram_labels as any) ?? 'compact';
+    const tempAxisFont = Math.max(8, Math.min(10, Math.round(chartHeight * 0.05)));
 
     // Layout positions
     const dayTop = padding + 10;
@@ -190,10 +186,12 @@ export class DailyForecastDiagram extends LitElement {
         typeof any.precipitation_probability === 'number'
           ? any.precipitation_probability
           : typeof any.probability_of_precipitation === 'number'
-          ? any.probability_of_precipitation
-          : typeof any.pop === 'number'
-          ? (any.pop <= 1 ? any.pop * 100 : any.pop)
-          : 0;
+            ? any.probability_of_precipitation
+            : typeof any.pop === 'number'
+              ? any.pop <= 1
+                ? any.pop * 100
+                : any.pop
+              : 0;
       const n = Number(v);
       return Number.isFinite(n) ? Math.max(0, Math.min(100, n)) : 0;
     });
@@ -291,7 +289,6 @@ export class DailyForecastDiagram extends LitElement {
 
     // Create ONE continuous polyline across all days
     if (allTempPoints.length > 0) {
-
       tempLinesPerDay.push(
         svg`
           <!-- Main temperature line -->
@@ -338,23 +335,23 @@ export class DailyForecastDiagram extends LitElement {
       return `rgb(${r},${g},${b})`;
     }
 
-  const probBarMaxMM = 5; // 100 % POP entspricht 5 mm-äquivalenter Höhe
-  // precipitation_probability bars (transparent dark grey) - use full 24h grid
+    const probBarMaxMM = 5; // 100 % POP entspricht 5 mm-äquivalenter Höhe
+    // precipitation_probability bars (transparent dark grey) - use full 24h grid
     const barsProberly: any[] = [];
     for (let d = 0; d < nDays; d++) {
       for (let h = 0; h < 24; h++) {
         const key = `${d}-${h}`;
         const data = fullDayGrid[key];
         if (data && data.precipProb > 0) {
-      const x = chartX0 + d * dayWidth + h * hourStep + hourStep / 2 - barWidth / 2;
+          const x = chartX0 + d * dayWidth + h * hourStep + hourStep / 2 - barWidth / 2;
 
           // Ensure bars stay within day boundaries (with padding offset)
-      const minX = chartX0 + d * dayWidth;
-      const maxX = chartX0 + (d + 1) * dayWidth - barWidth;
+          const minX = chartX0 + d * dayWidth;
+          const maxX = chartX0 + (d + 1) * dayWidth - barWidth;
           const clampedX = Math.max(minX, Math.min(maxX, x));
 
-      // 0–100 % → 0–probBarMaxMM → Pixelhöhe
-      const barHeight = (data.precipProb / 100) * probBarMaxMM * mmToPixelRatio;
+          // 0–100 % → 0–probBarMaxMM → Pixelhöhe
+          const barHeight = (data.precipProb / 100) * probBarMaxMM * mmToPixelRatio;
           barsProberly.push(
             svg`<rect x="${clampedX}" y="${barYBase - barHeight}" width="${barWidth}" height="${barHeight}" fill="#988d8dff" opacity="0.4" rx="1.5"/>`
           );
@@ -388,11 +385,11 @@ export class DailyForecastDiagram extends LitElement {
 
     // Vertical day lines - each day gets full 24h visual representation
     const verticals: unknown[] = [];
-  if (hours.length > 0) {
+    if (hours.length > 0) {
       // Draw vertical lines to completely frame each day (start and end of each day)
       for (let d = 0; d <= nDays; d++) {
-    // Position for the beginning of day d within inner chart area
-    const x = chartX0 + d * dayWidth;
+        // Position for the beginning of day d within inner chart area
+        const x = chartX0 + d * dayWidth;
 
         if (d === 0) {
           // First line: Start of first day
@@ -414,9 +411,9 @@ export class DailyForecastDiagram extends LitElement {
     }
 
     const dayGroups: unknown[] = [];
-  if (nDays > 0) {
+    if (nDays > 0) {
       for (let d = 0; d < nDays; d++) {
-    const x = chartX0 + d * dayWidth + dayWidth / 2; // center within inner chart area
+        const x = chartX0 + d * dayWidth + dayWidth / 2; // center within inner chart area
         const minTemp =
           typeof days[d].templow === 'number'
             ? Math.round(days[d].templow || days[d].temperature - 5)
@@ -452,29 +449,32 @@ export class DailyForecastDiagram extends LitElement {
     importantTemps.add(roundedMaxTemp);
     for (let temp = roundedMinTemp; temp <= roundedMaxTemp; temp += 5) {
       if (temp % 5 === 0) {
-        const y = tempLineYMax + ((roundedMaxTemp - temp) / displayTempRange) * (tempLineY0 - tempLineYMax);
+        const y =
+          tempLineYMax + ((roundedMaxTemp - temp) / displayTempRange) * (tempLineY0 - tempLineYMax);
         if (y >= tempLineYMax && y <= tempLineY0) {
           const isMainLine = temp % 10 === 0;
           horizontalLines.push(svg`
             <line x1="${chartX0}" y1="${y}" x2="${chartX1}" y2="${y}"
               stroke="#ddd" stroke-width="${isMainLine ? 1 : 0.5}"
               stroke-dasharray="${isMainLine ? 'none' : '2,2'}" opacity="0.6"/>
-            ${labelMode === 'none'
-              ? svg``
-              : labelMode === 'full'
-              ? isMainLine
-                ? svg`<text x="${chartX0 + 4}" y="${y}" font-size="${tempAxisFont}" fill="#888" opacity="0.9" text-anchor="start" dominant-baseline="middle">${temp}°</text>`
-                : svg``
-              : importantTemps.has(temp)
-              ? svg`<text x="${chartX0 + 4}" y="${y}" font-size="${tempAxisFont}" fill="#888" opacity="0.9" text-anchor="start" dominant-baseline="middle">${temp}°</text>`
-              : svg``}
+            ${
+              labelMode === 'none'
+                ? svg``
+                : labelMode === 'full'
+                  ? isMainLine
+                    ? svg`<text x="${chartX0 + 4}" y="${y}" font-size="${tempAxisFont}" fill="#888" opacity="0.9" text-anchor="start" dominant-baseline="middle">${temp}°</text>`
+                    : svg``
+                  : importantTemps.has(temp)
+                    ? svg`<text x="${chartX0 + 4}" y="${y}" font-size="${tempAxisFont}" fill="#888" opacity="0.9" text-anchor="start" dominant-baseline="middle">${temp}°</text>`
+                    : svg``
+            }
           `);
         }
       }
     }
 
     // Rechte Labels für mm und %, abhängig vom Labelmodus
-  const rightAxisLabels = svg``;
+    const rightAxisLabels = svg``;
     return html`
       <style>
         .chart {

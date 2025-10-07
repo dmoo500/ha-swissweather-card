@@ -398,14 +398,14 @@ const thunderstormsRainBG = (width: number): TemplateResult => {
 const animate = (width: number): TemplateResult => {
   return svg`
 ${Array.from({ length: Math.ceil(width / 10) }, (v, i) => i).map(i => {
-    const yOffset = Math.floor(Math.random() * 100);
-    const xOffset = Math.floor(Math.random() * 10);
-    const yOffsetAdj = (yOffset - 50) / 5 + i * Math.floor(Math.random() * 25); //to spread clouds vertically a bit more
-    const xFinal = i * 100 + xOffset;
-    const scale = Math.floor(Math.random() * 2) + 1; // to vary cloud sizes a bit
-    const opacity = 1 + Math.random() * 1;
-    const duration = 44 + Math.floor(Math.random() * 90);
-    return svg`
+  const yOffset = Math.floor(Math.random() * 100);
+  const xOffset = Math.floor(Math.random() * 10);
+  const yOffsetAdj = (yOffset - 50) / 5 + i * Math.floor(Math.random() * 25); //to spread clouds vertically a bit more
+  const xFinal = i * 100 + xOffset;
+  const scale = Math.floor(Math.random() * 2) + 1; // to vary cloud sizes a bit
+  const opacity = 1 + Math.random() * 1;
+  const duration = 44 + Math.floor(Math.random() * 90);
+  return svg`
     <g>
       <use href="#icon" x="${xFinal}" y="${yOffsetAdj}" width="80" height="40" transform="scale(${scale})" opacity="0">
         <animate attributeName="opacity" values="0;${opacity};${opacity};0" dur="${duration}s" repeatCount="indefinite"/>
@@ -413,9 +413,9 @@ ${Array.from({ length: Math.ceil(width / 10) }, (v, i) => i).map(i => {
       <animateTransform attributeName="transform" type="translate" values="-150,20;450,20" dur="${duration}s" repeatCount="indefinite"/>
     </g>
     `;
-  })}
+})}
   `;
-}
+};
 
 const sleetBG = (width: number): TemplateResult => {
   return svg`
