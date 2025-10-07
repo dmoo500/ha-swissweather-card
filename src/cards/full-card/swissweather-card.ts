@@ -1,12 +1,5 @@
-import { translations } from './translations';
-import { formatDateToWeekDay, showHoursChartLabel } from './charts/index';
-import { DailyForecastChart } from './charts/daily-forecast-chart';
-import { ForecastTemperatureChart } from './charts/forecast-temperature-chart';
-import { PrecipitationChart } from './charts/precipitation-chart';
-import { SunshineChart } from './charts/sunshine-chart';
-import { WindChart } from './charts/wind-chart';
-import { DailyForecastDiagram } from './charts/daily-forecast-diagram';
-
+import { translations } from '../../translations';
+import { formatDateToWeekDay, showHoursChartLabel } from '../../charts/index';
 import { LitElement, html, css, PropertyValues, TemplateResult } from 'lit';
 import { use, translate as _t, registerTranslateConfig } from 'lit-translate';
 import { customElement, property, state } from 'lit/decorators.js';
@@ -18,24 +11,10 @@ import type {
   WeatherForecast,
   WeatherCondition,
   SwissWeatherWarning,
-  SwissWeatherCardConfig,
-} from './types/home-assistant';
-import { schema } from './types/home-assistant';
-import { getWeatherIcon } from './icons/';
-import { SwissweatherCardEditor } from './swissweather-card-editor';
-
-// Extend Window interface for customCards
-declare global {
-  interface Window {
-    customCards?: Array<{
-      type: string;
-      name: string;
-      description: string;
-      preview?: boolean;
-      documentationURL?: string;
-    }>;
-  }
-}
+} from '../../types/home-assistant';
+import { getWeatherIcon } from '../../icons';
+import { type CardConfig, FULL_CARD_EDITOR_NAME, FULL_CARD_NAME, schema } from './const';
+import { isDay } from '../../utils';
 
 registerTranslateConfig({
   // Loads the language by returning a JSON structure for a given language
@@ -48,10 +27,10 @@ registerTranslateConfig({
 console.log('🎯 About to apply @customElement decorator to SwissweatherCard');
 console.log('🎯 customElements registry available:', !!customElements);
 
-@customElement('swissweather-card')
+@customElement(FULL_CARD_NAME)
 export class SwissWeatherCard extends LitElement {
   @property({ attribute: false }) public hass!: HomeAssistant;
-  @property({ attribute: false }) public config!: SwissWeatherCardConfig;
+  @property({ attribute: false }) public config!: CardConfig;
   @state() private _forecast: WeatherForecast[] = [];
   @state() private _hourlyForecast: WeatherForecast[] = [];
   @state() private _forecastLoading = false;
@@ -367,7 +346,7 @@ export class SwissWeatherCard extends LitElement {
     `;
   }
 
-  public setConfig(config: SwissWeatherCardConfig): void {
+  public setConfig(config: CardConfig): void {
     if (!config.entity) {
       throw new Error('You need to define an entity');
     }
@@ -385,7 +364,7 @@ export class SwissWeatherCard extends LitElement {
 
   public static getStubConfig() {
     return {
-      type: 'custom:swissweather-card',
+      type: 'custom:' + FULL_CARD_NAME,
       entity: '',
       show_location: true,
       location: 'Schweiz',
@@ -404,7 +383,7 @@ export class SwissWeatherCard extends LitElement {
 
   public static getConfigElement() {
     // Return the inline editor element
-    return document.createElement('swissweather-card-editor');
+    return document.createElement(FULL_CARD_EDITOR_NAME);
   }
 
   // Schema for the visual editor
@@ -735,50 +714,6 @@ export class SwissWeatherCard extends LitElement {
     `;
   }
 
-  private isDay(): boolean {
-    const now = new Date();
-    // Try to get today's sunrise/sunset from weather entity, else fallback to sun.sun
-    const weatherEntity = this._getEntityState(this.config.entity) as WeatherEntity;
-    const sun_entity = this._getEntityState(this.config.sun_entity || 'sun.sun');
-    let sunrise: Date | null = null;
-    let sunset: Date | null = null;
-    // Try weather entity first
-    if (
-      weatherEntity &&
-      weatherEntity.attributes &&
-      'sunrise' in weatherEntity.attributes &&
-      'sunset' in weatherEntity.attributes &&
-      (weatherEntity.attributes as any).sunrise &&
-      (weatherEntity.attributes as any).sunset
-    ) {
-      sunrise = new Date((weatherEntity.attributes as any).sunrise);
-      sunset = new Date((weatherEntity.attributes as any).sunset);
-    } else if (sun_entity?.attributes) {
-      // sun.sun gives next_rising/next_setting, which may be in the future (next day)
-      const nextRising = sun_entity.attributes.next_rising
-        ? new Date(sun_entity.attributes.next_rising)
-        : null;
-      const nextSetting = sun_entity.attributes.next_setting
-        ? new Date(sun_entity.attributes.next_setting)
-        : null;
-      if (nextRising && nextSetting) {
-        // Last sunrise: if next_rising is in the future, lastSunrise = next_rising - 1 day; else next_rising
-        const lastSunrise =
-          nextRising > now ? new Date(nextRising.getTime() - 24 * 60 * 60 * 1000) : nextRising;
-        // Next sunset is always next_setting
-        const nextSunset = nextSetting;
-        sunrise = lastSunrise;
-        sunset = nextSunset;
-      }
-    }
-    // Debug
-    // console.log('Sunrise:', sunrise, 'Sunset:', sunset, 'Now:', now, 'isDay:', sunrise && sunset ? now >= sunrise && now < sunset : 'unknown' );
-    // Fallback: if still missing, treat as day
-    if (!sunrise || !sunset) return true;
-    // If now is between sunrise and sunset, it's day
-    return now >= sunrise && now < sunset;
-  }
-
   public render(): TemplateResult {
     use((this.hass.selectedLanguage || this.hass.language || 'en').substring(0, 2));
 
@@ -845,7 +780,7 @@ export class SwissWeatherCard extends LitElement {
               condition,
               this.config.enable_animate_weather_icons ? 'animated' : 'mdi',
               '64px',
-              this.isDay()
+              isDay(this.hass, this.config)
             )}
           </div>
         </div>
@@ -970,7 +905,6 @@ export class SwissWeatherCard extends LitElement {
   // @property({ type: Function }) _t!: (key: string, vars?: Record<string, any>) => string;
   // @property({ type: Function }) getWeatherIcon!: (...args: any[]) => TemplateResult;
   // @property({ type: Function }) isDay!: () => boolean;
-  // @property({ type: Function }) formatDate!: (dateStr: string) => string;
   private _renderDailyForecastChart(): TemplateResult {
     return this._forecast.length > 0 && this._hourlyForecast.length > 0
       ? html`<daily-forecast-chart
@@ -1000,28 +934,3 @@ export class SwissWeatherCard extends LitElement {
       : html``;
   }
 }
-
-export {
-  SwissweatherCardEditor,
-  DailyForecastChart,
-  ForecastTemperatureChart,
-  PrecipitationChart,
-  SunshineChart,
-  WindChart,
-  DailyForecastDiagram,
-};
-
-// Register card in window.customCards for HA UI discovery
-if (!window.customCards) {
-  window.customCards = [];
-}
-
-window.customCards.push({
-  type: 'swissweather-card',
-  name: 'SwissWeather Card',
-  description: 'Eine Custom Card für Schweizer Wetterinformationen im MeteoSchweiz-Design',
-  preview: true,
-  documentationURL: 'https://github.com/dmoo500/ha-swissweather-card',
-});
-
-console.log('✅ SwissWeatherCard fully loaded and registered');

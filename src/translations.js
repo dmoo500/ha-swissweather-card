@@ -107,7 +107,7 @@ export const translations = {
     exceptional: 'Aussergewöhnliches Wetter',
     fog: 'Nebel',
     hail: 'Hagel',
-    lightning: 'Blitz',
+    lightning: 'Gewitter',
     'lightning-rainy': 'Gewitter, regnerisch',
     partlycloudy: 'Teilweise bewölkt',
     pouring: 'Strömender Regen',

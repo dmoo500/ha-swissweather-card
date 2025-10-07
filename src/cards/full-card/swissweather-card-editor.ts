@@ -2,13 +2,9 @@ import { LitElement, html, css, TemplateResult } from 'lit';
 import { use, get as _t, registerTranslateConfig } from 'lit-translate';
 import { customElement, property } from 'lit/decorators.js';
 import { fireEvent } from 'custom-card-helpers';
-import type {
-  HomeAssistant,
-  LovelaceCardEditor,
-  SwissWeatherCardConfig,
-} from './types/home-assistant';
-import { schema } from './types/home-assistant';
-import { translations } from './translations';
+import type { HomeAssistant, LovelaceCardEditor } from '../../types/home-assistant';
+import { translations } from '../../translations';
+import { type CardConfig, FULL_CARD_EDITOR_NAME, FULL_CARD_NAME, schema } from './const';
 
 registerTranslateConfig({
   // Loads the language by returning a JSON structure for a given language
@@ -17,18 +13,18 @@ registerTranslateConfig({
   },
 });
 
-@customElement('swissweather-card-editor')
-export class SwissweatherCardEditor extends LitElement implements LovelaceCardEditor {
+@customElement(FULL_CARD_EDITOR_NAME)
+export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEditor {
   @property({ attribute: false }) public hass!: HomeAssistant;
   @property({ attribute: false }) public lovelace?: any;
-  @property({ attribute: false }) private _config!: SwissWeatherCardConfig;
+  @property({ attribute: false }) private _config!: CardConfig;
 
   constructor() {
     super();
     console.log('🎨 SwissweatherCardEditor constructor called');
   }
 
-  public setConfig(config: SwissWeatherCardConfig): void {
+  public setConfig(config: CardConfig): void {
     // Set entity fields with '' to undefined so the visual editor displays them correctly
     const cleanConfig = { ...config };
     const entityFields = [
@@ -40,8 +36,8 @@ export class SwissweatherCardEditor extends LitElement implements LovelaceCardEd
       'warning_entity',
     ];
     for (const key of entityFields) {
-      if (cleanConfig[key as keyof SwissWeatherCardConfig] === '') {
-        delete cleanConfig[key as keyof SwissWeatherCardConfig];
+      if (cleanConfig[key as keyof CardConfig] === '') {
+        delete cleanConfig[key as keyof CardConfig];
       }
     }
     this._config = cleanConfig;
@@ -234,7 +230,7 @@ export class SwissweatherCardEditor extends LitElement implements LovelaceCardEd
       <div class="card-config">
         <div class="header">
           <div>
-            <div class="header-title">🌦️ SwissWeather Card</div>
+            <div class="header-title">🌦️ SwissWeather Full Card</div>
           </div>
         </div>
 
@@ -410,7 +406,7 @@ export class SwissweatherCardEditor extends LitElement implements LovelaceCardEd
   private _valueChanged(ev: CustomEvent): void {
     if (!this._config) {
       this._config = {
-        type: 'custom:swissweather-card',
+        type: FULL_CARD_NAME,
         entity: '',
         location: 'Schweiz',
         show_forecast: true,
@@ -430,12 +426,12 @@ export class SwissweatherCardEditor extends LitElement implements LovelaceCardEd
     // Handle ha-form events
     if (ev.type === 'value-changed') {
       // Preserve chart_order and other fields not present in the form
-      const keepConfig: Partial<SwissWeatherCardConfig> = {};
+      const keepConfig: Partial<CardConfig> = {};
       if (this._config && this._config.chart_order !== undefined) {
         keepConfig.chart_order = this._config.chart_order;
       }
       const { ...rest } = ev.detail.value || {};
-      const newConfig: SwissWeatherCardConfig = {
+      const newConfig: CardConfig = {
         ...this._config,
         ...rest,
         ...keepConfig,

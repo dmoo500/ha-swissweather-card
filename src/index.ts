@@ -1,11 +1,33 @@
-// Home Assistant 2025.8+ Card Registration
-console.log('📦 SwissWeather Card module loading started...');
-console.log('📦 Browser support check:', {
-  customElements: !!window.customElements,
-  hasReflect: !!window.Reflect,
-});
+import { version } from '../package.json';
+import { DailyForecastChart } from './charts/daily-forecast-chart';
+import { ForecastTemperatureChart } from './charts/forecast-temperature-chart';
+import { PrecipitationChart } from './charts/precipitation-chart';
+import { SunshineChart } from './charts/sunshine-chart';
+import { WindChart } from './charts/wind-chart';
+import { DailyForecastDiagram } from './charts/daily-forecast-diagram';
+import { SwissWeatherCardEditor } from './cards/full-card/swissweather-card-editor';
+import { SwissWeatherCard } from './cards/full-card/swissweather-card';
+import { ForecastDiagramCardEditor } from './cards/forecast-diagram/forecast-diagram-card-editor';
+import { ForecastDiagramCard } from './cards/forecast-diagram/forecast-diagram-card';
+import { SwissWeatherBGCard } from './cards/animated-background/swissweather-bg-card';
+import { SwissWeatherBGCardEditor } from './cards/animated-background/swissweather-bg-card-editor';
+import { registerCustomCard } from './utils';
+import { FORECAST_DIAGRAM_CARD_NAME } from './cards/forecast-diagram/const';
+import { FULL_CARD_NAME } from './cards/full-card/const';
+import { ANIMATED_BACKGROUND_CARD_NAME } from './cards/animated-background/const';
 
-import './swissweather-card.js';
+// Extend Window interface for customCards
+declare global {
+  interface Window {
+    customCards?: Array<{
+      type: string;
+      name: string;
+      description: string;
+      preview?: boolean;
+      documentationURL?: string;
+    }>;
+  }
+}
 
 console.log('📦 SwissWeather Card TypeScript file imported');
 
@@ -24,103 +46,47 @@ setTimeout(() => {
   }
 }, 100);
 
-// Console info for debugging
-console.info(
-  `%c SWISSWEATHER-CARD %c v1.0.0 `,
-  'color: orange; font-weight: bold; background: black',
-  'color: white; font-weight: bold; background: dimgray'
-);
-
-// Register for card picker
-window.customCards = window.customCards || [];
-window.customCards.push({
-  type: 'swissweather-card',
-  name: 'SwissWeather Card',
-  description: 'Eine Card im Stil der SwissWeather App für Home Assistant 2025.8+',
-  preview: false,
-  documentationURL: 'https://github.com/your-username/ha-swissweather-card',
+// Home Assistant 2025.8+ Card Registration
+console.log('📦 SwissWeather Card module loading started...');
+console.log('📦 Browser support check:', {
+  customElements: !!window.customElements,
+  hasReflect: !!window.Reflect,
 });
 
-console.log('📦 SwissWeather Card module loading completed');
+registerCustomCard({
+  type: FULL_CARD_NAME,
+  name: 'SwissWeather Diagram Card',
+  description:
+    'A comprehensive weather card for Home Assistant with Swiss weather warnings and forecasts',
+});
 
-export const schema = [
-  {
-    name: 'entity',
-    required: true,
-    selector: {
-      entity: {
-        domain: 'weather',
-      },
-    },
-  },
-  {
-    name: 'location',
-    selector: {
-      text: {},
-    },
-  },
-  {
-    name: 'wind_entity',
-    selector: {
-      entity: {
-        domain: 'sensor',
-      },
-    },
-  },
-  {
-    name: 'wind_direction_entity',
-    selector: {
-      entity: {
-        domain: 'sensor',
-      },
-    },
-  },
-  {
-    name: 'sunshine_entity',
-    selector: {
-      entity: {
-        domain: 'sensor',
-      },
-    },
-  },
-  {
-    name: 'precipitation_entity',
-    selector: {
-      entity: {
-        domain: 'sensor',
-      },
-    },
-  },
-  {
-    name: 'warning_entity',
-    selector: {
-      entity: {
-        domain: 'sensor',
-      },
-    },
-  },
-  {
-    name: 'show_forecast',
-    selector: {
-      boolean: {},
-    },
-  },
-  {
-    name: 'show_precipitation',
-    selector: {
-      boolean: {},
-    },
-  },
-  {
-    name: 'show_warnings',
-    selector: {
-      boolean: {},
-    },
-  },
-  {
-    name: 'compact_mode',
-    selector: {
-      boolean: {},
-    },
-  },
-];
+registerCustomCard({
+  type: FORECAST_DIAGRAM_CARD_NAME,
+  name: 'SwissWeather Daily Forecast Diagram Card',
+  description: 'A card to show daily weather forecast as diagram',
+});
+registerCustomCard({
+  type: ANIMATED_BACKGROUND_CARD_NAME,
+  name: 'SwissWeather Animated Background Card (Experimental) Editor',
+  description: 'the SwissWeather Animated Background Card (Experimental)',
+});
+console.log(
+  `%c 📦 SwissWeather Card module loading completed - version: ${version}`,
+  'color: #ef5350; font-weight: 700;'
+);
+
+export {
+  SwissWeatherCardEditor, // Full SiwssWeather Card Editor
+  SwissWeatherCard, // Full SiwssWeather Card
+  ForecastDiagramCardEditor, // Forecast Diagram Card Editor
+  ForecastDiagramCard, // Forecast Diagram Card
+  SwissWeatherBGCardEditor, // Animated Background Card Editor
+  SwissWeatherBGCard, // Animated Background Card
+  // Charts
+  DailyForecastChart,
+  ForecastTemperatureChart,
+  PrecipitationChart,
+  SunshineChart,
+  WindChart,
+  DailyForecastDiagram,
+};

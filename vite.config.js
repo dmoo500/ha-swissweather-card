@@ -4,7 +4,7 @@ export default defineConfig({
   build: {
     target: 'esnext',
     lib: {
-      entry: 'src/swissweather-card.ts',
+      entry: 'src/index.ts',
       name: 'SwissWeatherCard',
       fileName: () => 'swissweather-card.js',
       formats: ['es']

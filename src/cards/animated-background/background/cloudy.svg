@@ -1,0 +1,54 @@
+<svg viewBox="0 0 400 200" width="400" style="background:linear-gradient(#b0c4de,rgba(255,255,255,0) 80%)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <linearGradient id="a" x1="22.56" x2="39.2" y1="21.96" y2="50.8" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f3f7fe"/>
+      <stop offset=".45" stop-color="#f3f7fe"/>
+      <stop offset="1" stop-color="#deeafb"/>
+    </linearGradient>
+    <g id="cloudIcon">
+      <path fill="url(#a)" stroke="#e6effc" stroke-miterlimit="10" stroke-width=".5"
+        d="M46.5 31.5h-.32a10.49 10.49 0 00-19.11-8 7 7 0 00-10.57 6 7.21 7.21 0 00.1 1.14A7.5 7.5 0 0018 45.5a4.19 4.19 0 00.5 0v0h28a7 7 0 000-14z"/>
+    </g>
+  </defs>
+  
+  <!-- Cloud 1 - Large cloud moving from left to right -->
+  <g>
+    <use href="#cloudIcon" x="0" y="10" width="80" height="40" transform="scale(2.2)" opacity="0">
+      <animate attributeName="opacity" values="0;0.9;0.9;0" dur="25s" repeatCount="indefinite"/>
+    </use>
+    <animateTransform attributeName="transform" type="translate" values="-150,20;450,20" dur="25s" repeatCount="indefinite"/>
+  </g>
+  
+  <!-- Cloud 2 - Medium cloud at different height -->
+  <g>
+    <use href="#cloudIcon" x="0" y="60" width="60" height="30" transform="scale(1.5)" opacity="0">
+      <animate attributeName="opacity" values="0;0.7;0.7;0" dur="18s" repeatCount="indefinite"/>
+    </use>
+    <animateTransform attributeName="transform" type="translate" values="-100,60;500,60" dur="18s" repeatCount="indefinite"/>
+  </g>
+  
+  <!-- Cloud 3 - Small cloud -->
+  <g>
+    <use href="#cloudIcon" x="0" y="100" width="40" height="20" transform="scale(1.0)" opacity="0">
+      <animate attributeName="opacity" values="0;0.5;0.5;0" dur="15s" repeatCount="indefinite"/>
+    </use>
+    <animateTransform attributeName="transform" type="translate" values="-80,100;480,100" dur="15s" repeatCount="indefinite"/>
+  </g>
+  
+  <!-- Cloud 4 - Another medium cloud with delay -->
+  <g>
+    <use href="#cloudIcon" x="0" y="30" width="70" height="35" transform="scale(1.8)" opacity="0">
+      <animate attributeName="opacity" values="0;0.6;0.6;0" dur="22s" repeatCount="indefinite" begin="8s"/>
+    </use>
+    <animateTransform attributeName="transform" type="translate" values="-120,30;520,30" dur="22s" repeatCount="indefinite" begin="8s"/>
+  </g>
+  
+  <!-- Cloud 5 - Small fast cloud -->
+  <g>
+    <use href="#cloudIcon" x="0" y="120" width="30" height="15" transform="scale(0.8)" opacity="0">
+      <animate attributeName="opacity" values="0;0.4;0.4;0" dur="12s" repeatCount="indefinite" begin="5s"/>
+    </use>
+    <animateTransform attributeName="transform" type="translate" values="-60,120;460,120" dur="12s" repeatCount="indefinite" begin="5s"/>
+  </g>
+
+</svg>

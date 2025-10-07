@@ -1,5 +1,12 @@
 # Release Notes
 
+## [1.6.0] - 2025-09-??
+
+### Added
+- new "sub" cards are available
+  * Animated Background Card
+  * Daily Forecast Diagram Card
+
 ## [1.5.2] - 2025-09-07
 
 ### Fixed
