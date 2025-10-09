@@ -103,7 +103,7 @@ export class SwissWeatherBGCard extends LitElement {
   }
 
   public getCardSize(): number {
-    return this.config?.grid_options?.rows ?? 3;
+    return this.config?.grid_options?.rows ?? 4;
   }
   // The rules for sizing your card in the grid in sections view
   public getGridOptions() {
@@ -112,7 +112,7 @@ export class SwissWeatherBGCard extends LitElement {
       columns: this.config?.grid_options?.columns ?? 12,
       min_columns: 12,
       max_columns: 48,
-      min_rows: 3,
+      min_rows: 4,
       max_rows: 8,
     };
   }
