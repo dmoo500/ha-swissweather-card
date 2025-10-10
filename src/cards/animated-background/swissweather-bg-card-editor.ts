@@ -191,6 +191,10 @@ export class SwissWeatherBGCardEditor extends LitElement implements LovelaceCard
         typeof (this._config as any)?.show_forecast === 'boolean'
           ? (this._config as any).show_forecast
           : undefined,
+      forecast_mode:
+        typeof (this._config as any)?.forecast_mode === 'string'
+          ? (this._config as any).forecast_mode
+          : undefined,
       show_sun_times:
         typeof (this._config as any)?.show_sun_times === 'boolean'
           ? (this._config as any).show_sun_times
@@ -237,6 +241,7 @@ export class SwissWeatherBGCardEditor extends LitElement implements LovelaceCard
             .hass=${this.hass}
             .data=${data}
             .schema=${[
+              schema.find(s => s.name === 'forecast_mode'),
               schema.find(s => s.name === 'show_forecast'),
               schema.find(s => s.name === 'show_day_temps'),
               schema.find(s => s.name === 'show_sun_times'),
@@ -265,6 +270,7 @@ export class SwissWeatherBGCardEditor extends LitElement implements LovelaceCard
       entity: _t('config.entity'),
       sun_entity: _t('config.sun_entity'),
       show_forecast: _t('config.show_forecast'),
+      forecast_mode: _t('config.forecast_mode'),
       show_day_temps: _t('config.show_day_temps'),
       show_sun_times: _t('config.show_sun_times'),
       temperature_font_size: _t('config.temperature_font_size'),

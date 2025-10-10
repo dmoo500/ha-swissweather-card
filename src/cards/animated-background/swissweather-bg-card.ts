@@ -19,6 +19,7 @@ import {
 } from './const';
 import { getWeatherIcon } from '../../icons';
 import { formatDateToWeekDay } from '../../charts';
+import '../../charts/hourly-forecast-chart';
 
 registerTranslateConfig({
   // Loads the language by returning a JSON structure for a given language
@@ -37,7 +38,9 @@ export class SwissWeatherBGCard extends LitElement {
   @property({ attribute: false }) public config!: CardConfig;
   @query('.temperature') private _tempEl?: HTMLElement;
   @state() private _forecast: WeatherForecast[] = [];
+  @state() private _hourly: WeatherForecast[] = [];
   private _forecastLoading = false;
+  private _hourlyLoading = false;
   private _lastEntityId: string | undefined;
 
   static get styles() {
@@ -204,6 +207,13 @@ export class SwissWeatherBGCard extends LitElement {
     if (this.hass && this.config?.entity) {
       if (this._lastEntityId !== this.config.entity) {
         this._lastEntityId = this.config.entity;
+        // Load per mode
+        const mode = this.config.forecast_mode || 'daily';
+        if (mode === 'daily') this._loadDailyForecast();
+        if (mode === 'hourly') this._loadHourlyForecast();
+      }
+      // Ensure day min/max can render even in hourly/none mode
+      if (this.config.show_day_temps !== false && !this._forecastLoading && this._forecast.length === 0) {
         this._loadDailyForecast();
       }
     }
@@ -294,7 +304,7 @@ export class SwissWeatherBGCard extends LitElement {
                     </div>
                   `
                 : ''}
-              ${this._forecast.length > 0
+              ${((this.config.forecast_mode || 'daily') === 'daily') && this._forecast.length > 0
                 ? html`
                     <div class="forecast-mini">
                       <daily-forecast-chart
@@ -313,6 +323,23 @@ export class SwissWeatherBGCard extends LitElement {
                     </div>
                   `
                 : html``}
+              ${((this.config.forecast_mode || 'daily') === 'hourly') && this._hourly.length > 0
+                    ? html`
+                      <div class="forecast-mini">
+                        <hourly-forecast-chart
+                          .hourlyForecast=${this._hourly}
+                          .forecastLoading=${this._hourlyLoading}
+                          .show_forecast=${this.config.show_forecast !== false}
+                          .config=${{ ...this.config, enable_animate_weather_icons: true }}
+                          .compact=${true}
+                          .maxHours=${5}
+                          .alignRight=${true}
+                          ._t=${_t}
+                          .getWeatherIcon=${getWeatherIcon}
+                        ></hourly-forecast-chart>
+                      </div>
+                      `
+                    : html``}
               <div class="condition">${_t(condition)}</div> `
           : html``}
       </div>
@@ -346,6 +373,36 @@ export class SwissWeatherBGCard extends LitElement {
       this._forecast = [];
     } finally {
       this._forecastLoading = false;
+    }
+  }
+
+  // Load only the hourly forecast via Home Assistant WS API
+  private async _loadHourlyForecast(): Promise<void> {
+    if (!this.hass || !this.config?.entity || this._hourlyLoading) return;
+    this._hourlyLoading = true;
+    try {
+      const wsHourly = await (this.hass as any).callWS({
+        type: 'call_service',
+        domain: 'weather',
+        service: 'get_forecasts',
+        service_data: {
+          entity_id: this.config.entity,
+          type: 'hourly',
+        },
+        return_response: true,
+      });
+      const forecastData = (wsHourly as any)?.response;
+      if (forecastData && forecastData[this.config.entity]) {
+        this._hourly = forecastData[this.config.entity].forecast || [];
+        (this as LitElement).requestUpdate('_hourly');
+      } else {
+        this._hourly = [];
+      }
+    } catch (err) {
+      console.warn('⚠️ BG Hourly forecast loading failed:', err);
+      this._hourly = [];
+    } finally {
+      this._hourlyLoading = false;
     }
   }
 }

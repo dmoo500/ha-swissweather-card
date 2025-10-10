@@ -14,6 +14,7 @@ export const translations = {
       precipitation_entity: 'Niederschlagsprognose',
       warning_entity: 'Wetterwarnungen',
       show_forecast: 'Wettervorhersage anzeigen',
+  forecast_mode: 'Vorhersage-Modus',
       show_temperature: 'Temperaturdiagramm anzeigen',
       show_precipitation: 'Niederschlagsdiagramm anzeigen',
       show_sunshine: 'Sonnenscheindauerdiagramm anzeigen',
@@ -55,6 +56,8 @@ export const translations = {
           'Die Niederschlags-Entity wird benötigt, um die Niederschlagsprognose anzuzeigen.',
         show_forecast:
           'Die Wettervorhersage zeigt die Vorhersage mit maximal 7 Tagen an, je nach dem, was der Wetterdienst liefert.',
+        forecast_mode:
+          'Wähle, ob in der BG-Card die Tages- oder Stunden-Vorhersage (oder keine) angezeigt wird.',
         show_temperature:
           'Zeige das Temperaturdiagramm an, mit den Vorhersage anhand der eingestellten Stunden',
         show_precipitation:
@@ -76,6 +79,11 @@ export const translations = {
         location: 'Zeigt diesen Namen als Standort an.',
         temperature_font_size: 'Schriftgröße der Temperaturanzeige in Pixel. Standard: 36',
       },
+    },
+    forecast_mode: {
+      daily: 'Täglich',
+      hourly: 'Stündlich',
+      none: 'Keine',
     },
     location: 'Schweiz',
     wind: 'Wind',
@@ -158,6 +166,7 @@ export const translations = {
       precipitation_entity: 'Precipitation Forecast',
       warning_entity: 'Weather Warnings',
       show_forecast: 'Show Weather Forecast',
+  forecast_mode: 'Forecast Mode',
       show_temperature: 'Show Temperature Chart',
       show_precipitation: 'Show Precipitation Chart',
       show_sunshine: 'Show Sunshine Duration Chart',
@@ -196,6 +205,8 @@ export const translations = {
           'The precipitation entity is required to display the precipitation forecast.',
         show_forecast:
           'The weather forecast displays the forecast with up to 7 days, depending on what the weather service provides.',
+        forecast_mode:
+          'Choose whether the BG card shows the daily or hourly forecast (or none).',
         show_temperature: 'Show the temperature chart with the forecast based on the set hours',
         show_precipitation: 'Show the precipitation chart with the forecast based on the set hours',
         show_sunshine: 'Show the sunshine duration chart with the forecast based on the set hours',
@@ -213,6 +224,11 @@ export const translations = {
         location: 'Displays this name as location.',
         temperature_font_size: 'Font size for the temperature label in pixels. Default: 36',
       },
+    },
+    forecast_mode: {
+      daily: 'Daily',
+      hourly: 'Hourly',
+      none: 'None',
     },
     location: 'Switzerland',
     wind: 'Wind',
