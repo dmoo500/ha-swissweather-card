@@ -213,7 +213,11 @@ export class SwissWeatherBGCard extends LitElement {
         if (mode === 'hourly') this._loadHourlyForecast();
       }
       // Ensure day min/max can render even in hourly/none mode
-      if (this.config.show_day_temps !== false && !this._forecastLoading && this._forecast.length === 0) {
+      if (
+        this.config.show_day_temps !== false &&
+        !this._forecastLoading &&
+        this._forecast.length === 0
+      ) {
         this._loadDailyForecast();
       }
     }
@@ -304,7 +308,7 @@ export class SwissWeatherBGCard extends LitElement {
                     </div>
                   `
                 : ''}
-              ${((this.config.forecast_mode || 'daily') === 'daily') && this._forecast.length > 0
+              ${(this.config.forecast_mode || 'daily') === 'daily' && this._forecast.length > 0
                 ? html`
                     <div class="forecast-mini">
                       <daily-forecast-chart
@@ -323,23 +327,23 @@ export class SwissWeatherBGCard extends LitElement {
                     </div>
                   `
                 : html``}
-              ${((this.config.forecast_mode || 'daily') === 'hourly') && this._hourly.length > 0
-                    ? html`
-                      <div class="forecast-mini">
-                        <hourly-forecast-chart
-                          .hourlyForecast=${this._hourly}
-                          .forecastLoading=${this._hourlyLoading}
-                          .show_forecast=${this.config.show_forecast !== false}
-                          .config=${{ ...this.config, enable_animate_weather_icons: true }}
-                          .compact=${true}
-                          .maxHours=${5}
-                          .alignRight=${true}
-                          ._t=${_t}
-                          .getWeatherIcon=${getWeatherIcon}
-                        ></hourly-forecast-chart>
-                      </div>
-                      `
-                    : html``}
+              ${(this.config.forecast_mode || 'daily') === 'hourly' && this._hourly.length > 0
+                ? html`
+                    <div class="forecast-mini">
+                      <hourly-forecast-chart
+                        .hourlyForecast=${this._hourly}
+                        .forecastLoading=${this._hourlyLoading}
+                        .show_forecast=${this.config.show_forecast !== false}
+                        .config=${{ ...this.config, enable_animate_weather_icons: true }}
+                        .compact=${true}
+                        .maxHours=${5}
+                        .alignRight=${true}
+                        ._t=${_t}
+                        .getWeatherIcon=${getWeatherIcon}
+                      ></hourly-forecast-chart>
+                    </div>
+                  `
+                : html``}
               <div class="condition">${_t(condition)}</div> `
           : html``}
       </div>
