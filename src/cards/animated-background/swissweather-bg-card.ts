@@ -1,8 +1,14 @@
 import { translations } from '../../translations';
-import { LitElement, html, css, svg, TemplateResult } from 'lit';
+import { LitElement, html, css, svg, TemplateResult, PropertyValues } from 'lit';
+import { query } from 'lit/decorators.js';
 import { use, translate as _t, registerTranslateConfig } from 'lit-translate';
-import { customElement, property } from 'lit/decorators.js';
-import type { HomeAssistant, WeatherEntity, WeatherCondition } from '../../types/home-assistant';
+import { customElement, property, state } from 'lit/decorators.js';
+import type {
+  HomeAssistant,
+  WeatherEntity,
+  WeatherCondition,
+  WeatherForecast,
+} from '../../types/home-assistant';
 import { getWeatherBackground } from './background';
 import { getEntityState, isDay } from '../../utils';
 import {
@@ -11,6 +17,8 @@ import {
   type CardConfig,
   schema,
 } from './const';
+import { getWeatherIcon } from '../../icons';
+import { formatDateToWeekDay } from '../../charts';
 
 registerTranslateConfig({
   // Loads the language by returning a JSON structure for a given language
@@ -27,6 +35,10 @@ console.log('🎯 customElements registry available:', !!customElements);
 export class SwissWeatherBGCard extends LitElement {
   @property({ attribute: false }) public hass!: HomeAssistant;
   @property({ attribute: false }) public config!: CardConfig;
+  @query('.temperature') private _tempEl?: HTMLElement;
+  @state() private _forecast: WeatherForecast[] = [];
+  private _forecastLoading = false;
+  private _lastEntityId: string | undefined;
 
   static get styles() {
     return css`
@@ -57,7 +69,7 @@ export class SwissWeatherBGCard extends LitElement {
         align-content: center;
         align-items: center;
         position: relative;
-        font-size: 36px;
+        font-size: var(--bg-temp-font-size, 36px);
         font-weight: bold;
         text-align: center;
         z-index: 1;
@@ -65,7 +77,7 @@ export class SwissWeatherBGCard extends LitElement {
 
       .img-svg {
         position: absolute;
-        margin-top: 36px;
+        margin-top: var(--bg-temp-img-top, 36px);
         inset: 0;
         width: 100%;
         border-radius: 12px;
@@ -80,12 +92,65 @@ export class SwissWeatherBGCard extends LitElement {
       }
       .condition {
         position: absolute;
-        bottom: 16px;
+        top: calc(var(--bg-temp-font-size, 36px) + 16px);
+        right: 16px;
         margin-left: 16px;
-        margin-right: 16px;
         font-size: 16px;
         color: var(--primary-text-color, #fff);
         text-align: right;
+      }
+      .forecast-temps {
+        position: absolute;
+        top: calc(var(--bg-temp-font-size, 36px) * 2 + 16px);
+        left: 16px;
+        font-size: 14px;
+        color: var(--primary-text-color, #fff);
+        text-align: right;
+        display: flex;
+        flex-direction: row;
+      }
+      .sun-times {
+        position: absolute;
+        top: calc(var(--bg-temp-font-size, 36px) * 2 + 16px);
+        right: 16px;
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        color: var(--primary-text-color, #fff);
+        font-size: 14px;
+      }
+      .forecast-mini {
+        position: absolute;
+        bottom: 16px;
+        right: 16px;
+        z-index: 2; /* ensure it is in the foreground over background */
+        padding-right: 8px;
+        max-width: calc(100% - 32px); /* honor left/right margins */
+      }
+      @media (max-width: 400px) {
+        .forecast-mini {
+          right: 12px;
+          bottom: 12px;
+          padding-right: 6px;
+          max-width: calc(100% - 24px);
+        }
+      }
+      .temp-high {
+        font-weight: bold;
+      }
+      .temp-low {
+      }
+      @media (max-width: 400px) {
+        .temperature {
+          font-size: calc(var(--bg-temp-font-size, 36px) * 0.8);
+          padding: 4px 8px;
+        }
+        .condition {
+          font-size: 14px;
+        }
+        .forecast-temps {
+          font-size: 12px;
+        }
       }
       @media (max-width: 768px) {
         .metrics-grid {
@@ -134,6 +199,16 @@ export class SwissWeatherBGCard extends LitElement {
     return schema;
   }
 
+  protected updated(changed: PropertyValues): void {
+    super.updated(changed);
+    if (this.hass && this.config?.entity) {
+      if (this._lastEntityId !== this.config.entity) {
+        this._lastEntityId = this.config.entity;
+        this._loadDailyForecast();
+      }
+    }
+  }
+
   public render(): TemplateResult {
     use((this.hass.selectedLanguage || this.hass.language || 'en').substring(0, 2));
 
@@ -151,6 +226,29 @@ export class SwissWeatherBGCard extends LitElement {
 
     const chartWidth = this.clientWidth || 300;
     const height = gridRows * 64 - 8;
+    // Apply CSS variable for temperature font size
+    const fs = this.config?.temperature_font_size;
+    const fontSizePx = typeof fs === 'number' && fs > 0 ? `${fs}px` : '36px';
+    this.style.setProperty('--bg-temp-font-size', fontSizePx);
+    this.style.setProperty('--bg-temp-img-top', `calc(${fontSizePx})`);
+    const day =
+      this._forecast && this._forecast.length > 0
+        ? (this._forecast[0] as WeatherForecast)
+        : weatherEntity.attributes.forecast
+          ? (weatherEntity.attributes.forecast[0] as WeatherForecast)
+          : null;
+    const sunEntityId = this.config.sun_entity;
+    const sunState = sunEntityId ? (this.hass.states[sunEntityId] as any) : undefined;
+    const nextSunrise = sunState?.attributes?.next_rising
+      ? new Date(sunState.attributes.next_rising)
+      : undefined;
+    const nextSunset = sunState?.attributes?.next_setting
+      ? new Date(sunState.attributes.next_setting)
+      : undefined;
+    // Format times as HH:MM according to HA language
+    const locale = (this.hass.selectedLanguage || this.hass.language || 'en').replace('_', '-');
+    const fmt = (d?: Date) =>
+      d ? d.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' }) : '--:--';
     return html`
       <div>
         <div class="temperature">
@@ -170,10 +268,85 @@ export class SwissWeatherBGCard extends LitElement {
                     : svg``}
                 </svg>
               </div>
+              ${day && this.config.show_day_temps !== false
+                ? html`
+                    <div class="forecast-temps">
+                      <span class="temp-high">
+                        <ha-icon icon="mdi:arrow-up-bold"></ha-icon> ${Math.round(day.temperature)}°
+                      </span>
+                      <span class="temp-low">
+                        <ha-icon icon="mdi:arrow-down-bold"></ha-icon> ${Math.round(
+                          day.templow || day.temperature - 5
+                        )}°
+                      </span>
+                    </div>
+                  `
+                : ''}
+              ${sunEntityId && this.config.show_sun_times !== false
+                ? html`
+                    <div class="sun-times">
+                      <span title="${_t('sunrise')}">
+                        <ha-icon icon="mdi:weather-sunset-up"></ha-icon> ${fmt(nextSunrise)}
+                      </span>
+                      <span title="${_t('sunset')}">
+                        <ha-icon icon="mdi:weather-sunset-down"></ha-icon> ${fmt(nextSunset)}
+                      </span>
+                    </div>
+                  `
+                : ''}
+              ${this._forecast.length > 0
+                ? html`
+                    <div class="forecast-mini">
+                      <daily-forecast-chart
+                        .forecast=${this._forecast?.slice(0, 7) ?? []}
+                        .forecastLoading=${this._forecastLoading}
+                        .show_forecast=${this.config.show_forecast !== false}
+                        .config=${{ ...this.config, enable_animate_weather_icons: true }}
+                        .compact=${true}
+                        .startTomorrow=${true}
+                        .maxDays=${5}
+                        .alignRight=${true}
+                        ._t=${_t}
+                        .getWeatherIcon=${getWeatherIcon}
+                        .formatDate=${formatDateToWeekDay}
+                      ></daily-forecast-chart>
+                    </div>
+                  `
+                : html``}
               <div class="condition">${_t(condition)}</div> `
           : html``}
       </div>
     `;
+  }
+
+  // Load only the daily forecast via Home Assistant WS API
+  private async _loadDailyForecast(): Promise<void> {
+    if (!this.hass || !this.config?.entity || this._forecastLoading) return;
+    this._forecastLoading = true;
+    try {
+      const wsDaily = await (this.hass as any).callWS({
+        type: 'call_service',
+        domain: 'weather',
+        service: 'get_forecasts',
+        service_data: {
+          entity_id: this.config.entity,
+          type: 'daily',
+        },
+        return_response: true,
+      });
+      const forecastData = (wsDaily as any)?.response;
+      if (forecastData && forecastData[this.config.entity]) {
+        this._forecast = forecastData[this.config.entity].forecast || [];
+        (this as LitElement).requestUpdate('_forecast');
+      } else {
+        this._forecast = [];
+      }
+    } catch (err) {
+      console.warn('⚠️ BG Daily forecast loading failed:', err);
+      this._forecast = [];
+    } finally {
+      this._forecastLoading = false;
+    }
   }
 }
 

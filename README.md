@@ -53,6 +53,13 @@ temp diagram
 
 <img src="docs/images/desktop_temp.png" width="250"/> 
 
+### since version 1.6.0
+
+- new "sub" cards implemented
+
+<img src="docs/images/forecast_diagram_card.png" width="250"/>
+<img src="docs/images/animated_background_card.png" width="250"/>
+
 ### since version 1.4.0
 
 - compact mode for forecast (enable forecast and compact mode)
