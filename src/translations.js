@@ -1,9 +1,9 @@
-import { group } from 'console';
-import { showHoursChartLabel } from './charts';
+// Note: avoid importing Node/browser externals in translations file
 
 export const translations = {
   de: {
     config: {
+      temperature_font_size: 'Temperatur Schriftgröße (px)',
       entity: 'Wetter Entity *',
       location: 'Standort',
       show_location: 'Standort anzeigen',
@@ -14,11 +14,14 @@ export const translations = {
       precipitation_entity: 'Niederschlagsprognose',
       warning_entity: 'Wetterwarnungen',
       show_forecast: 'Wettervorhersage anzeigen',
+      forecast_mode: 'Vorhersage-Modus',
       show_temperature: 'Temperaturdiagramm anzeigen',
       show_precipitation: 'Niederschlagsdiagramm anzeigen',
       show_sunshine: 'Sonnenscheindauerdiagramm anzeigen',
       show_warnings: 'Wetterwarnungen anzeigen',
       show_wind: 'Winddiagramm anzeigen',
+      show_day_temps: 'Tages-Min/Max anzeigen',
+      show_sun_times: 'Sonnenauf-/untergang anzeigen',
       enable_animate_weather_icons: 'Animierte Wetter-Icons aktivieren',
       forecast_hours: 'Prognose Stunden (Standard: 6)',
       compact_mode: 'Kompakter Modus',
@@ -40,6 +43,8 @@ export const translations = {
           'Die Wetter-Entity ist erforderlich und sollte von der Integration SwissWeather sein. Wenn eine andere Wetter Entity genutzt wird kann es passieren, das nicht alle Daten korrekt angezeuigt werden.',
         sun_entity:
           'Die Sonnen-Entity ist erforderlich, um Sonnenaufgangs- und Sonnenuntergangszeiten anzuzeigen.',
+        show_forecast:
+          'Die Vorhersage unter dem Hintergrund kann optional ein- oder ausgeschaltet werden.',
         sunshine_entity:
           'Die Sonnenscheindauer-Entity wird benötigt, um die Sonnenscheindauer anzuzeigen.',
         wind_entity: 'Die Wind-Entity wird benötigt, um die Windgeschwindigkeit anzuzeigen.',
@@ -51,6 +56,8 @@ export const translations = {
           'Die Niederschlags-Entity wird benötigt, um die Niederschlagsprognose anzuzeigen.',
         show_forecast:
           'Die Wettervorhersage zeigt die Vorhersage mit maximal 7 Tagen an, je nach dem, was der Wetterdienst liefert.',
+        forecast_mode:
+          'Wähle, ob in der BG-Card die Tages- oder Stunden-Vorhersage (oder keine) angezeigt wird.',
         show_temperature:
           'Zeige das Temperaturdiagramm an, mit den Vorhersage anhand der eingestellten Stunden',
         show_precipitation:
@@ -58,6 +65,8 @@ export const translations = {
         show_sunshine:
           'Zeige das Sonnenscheindauerdiagramm an, mit den Vorhersage anhand der eingestellten Stunden',
         show_wind: 'Zeige das Winddiagramm anm it den Vorhersage anhand der eingestellten Stunden',
+        show_day_temps: 'Blende die Tages-Min/Max-Anzeige ein oder aus.',
+        show_sun_times: 'Blende die Anzeige von Sonnenaufgang/-untergang ein oder aus.',
         show_warnings:
           'Zeige Wetterwarnungen an, wenn die Wetterwarnung Entity gesetzt ist und aktuelle Warnungen existieren.',
         enable_animate_weather_icons:
@@ -68,7 +77,13 @@ export const translations = {
           'Anzahl der Stunden für die Anzeige der stündlichen Vorhersage (Standard: 6, maximal 18)',
         show_location: 'Zeige den Standortnamen über dem aktuellen Wetter an',
         location: 'Zeigt diesen Namen als Standort an.',
+        temperature_font_size: 'Schriftgröße der Temperaturanzeige in Pixel. Standard: 36',
       },
+    },
+    forecast_mode: {
+      daily: 'Täglich',
+      hourly: 'Stündlich',
+      none: 'Keine',
     },
     location: 'Schweiz',
     wind: 'Wind',
@@ -140,6 +155,7 @@ export const translations = {
   },
   en: {
     config: {
+      temperature_font_size: 'Temperature font size (px)',
       entity: 'Weather Entity *',
       show_location: 'Show Location',
       location: 'Location',
@@ -150,11 +166,14 @@ export const translations = {
       precipitation_entity: 'Precipitation Forecast',
       warning_entity: 'Weather Warnings',
       show_forecast: 'Show Weather Forecast',
+      forecast_mode: 'Forecast Mode',
       show_temperature: 'Show Temperature Chart',
       show_precipitation: 'Show Precipitation Chart',
       show_sunshine: 'Show Sunshine Duration Chart',
       show_warnings: 'Show Weather Warnings',
       show_wind: 'Show Wind Chart',
+      show_day_temps: 'Show Day Min/Max',
+      show_sun_times: 'Show Sunrise/Sunset',
       enable_animate_weather_icons: 'Enable Animated Weather Icons',
       forecast_hours: 'Forecast Hours (default: 6)',
       compact_mode: 'Compact Mode',
@@ -175,6 +194,8 @@ export const translations = {
         entity:
           'The weather entity is required and should be from the SwissWeather integration. If another weather entity is used, not all data may be displayed correctly.',
         sun_entity: 'The sun entity is required to display sunrise and sunset times.',
+        show_forecast:
+          'You can optionally enable or disable the forecast section below the animated background.',
         sunshine_entity: 'The sunshine entity is required to display sunshine duration.',
         wind_entity: 'The wind entity is required to display wind speed.',
         wind_direction_entity: 'The wind direction entity is required to display wind direction.',
@@ -184,10 +205,13 @@ export const translations = {
           'The precipitation entity is required to display the precipitation forecast.',
         show_forecast:
           'The weather forecast displays the forecast with up to 7 days, depending on what the weather service provides.',
+        forecast_mode: 'Choose whether the BG card shows the daily or hourly forecast (or none).',
         show_temperature: 'Show the temperature chart with the forecast based on the set hours',
         show_precipitation: 'Show the precipitation chart with the forecast based on the set hours',
         show_sunshine: 'Show the sunshine duration chart with the forecast based on the set hours',
         show_wind: 'Show the wind chart with the forecast based on the set hours',
+        show_day_temps: 'Toggle the per-day min/max display on or off.',
+        show_sun_times: 'Toggle the sunrise/sunset display on or off.',
         show_warnings:
           'Show weather warnings if the weather warning entity is set and the actul warning exists.',
         enable_animate_weather_icons:
@@ -197,7 +221,13 @@ export const translations = {
         forecast_hours: 'Number of hours to show in the hourly forecast (default: 6, maximum 18)',
         show_location: 'Show the location name above the current weather',
         location: 'Displays this name as location.',
+        temperature_font_size: 'Font size for the temperature label in pixels. Default: 36',
       },
+    },
+    forecast_mode: {
+      daily: 'Daily',
+      hourly: 'Hourly',
+      none: 'None',
     },
     location: 'Switzerland',
     wind: 'Wind',

@@ -187,6 +187,26 @@ export class SwissWeatherBGCardEditor extends LitElement implements LovelaceCard
       entity: typeof this._config?.entity === 'string' ? this._config.entity : undefined,
       sun_entity:
         typeof this._config?.sun_entity === 'string' ? this._config.sun_entity : undefined,
+      show_forecast:
+        typeof (this._config as any)?.show_forecast === 'boolean'
+          ? (this._config as any).show_forecast
+          : undefined,
+      forecast_mode:
+        typeof (this._config as any)?.forecast_mode === 'string'
+          ? (this._config as any).forecast_mode
+          : undefined,
+      show_sun_times:
+        typeof (this._config as any)?.show_sun_times === 'boolean'
+          ? (this._config as any).show_sun_times
+          : undefined,
+      show_day_temps:
+        typeof (this._config as any)?.show_day_temps === 'boolean'
+          ? (this._config as any).show_day_temps
+          : undefined,
+      temperature_font_size:
+        typeof (this._config as any)?.temperature_font_size === 'number'
+          ? (this._config as any).temperature_font_size
+          : undefined,
     };
 
     return html`
@@ -203,7 +223,29 @@ export class SwissWeatherBGCardEditor extends LitElement implements LovelaceCard
           <ha-form
             .hass=${this.hass}
             .data=${data}
-            .schema=${[schema.find(s => s.name === 'entity')].filter(Boolean)}
+            .schema=${[
+              schema.find(s => s.name === 'entity'),
+              schema.find(s => s.name === 'sun_entity'),
+              schema.find(s => s.name === 'temperature_font_size'),
+            ].filter(Boolean)}
+            .computeLabel=${this._computeLabel}
+            .computeHelper=${this._computeHelper}
+            @value-changed=${this._valueChanged}
+          ></ha-form>
+        </div>
+
+        <!-- Display -->
+        <div class="group">
+          <div class="group-title">${_t('config.group_display') || 'Display'}</div>
+          <ha-form
+            .hass=${this.hass}
+            .data=${data}
+            .schema=${[
+              schema.find(s => s.name === 'forecast_mode'),
+              schema.find(s => s.name === 'show_forecast'),
+              schema.find(s => s.name === 'show_day_temps'),
+              schema.find(s => s.name === 'show_sun_times'),
+            ].filter(Boolean)}
             .computeLabel=${this._computeLabel}
             .computeHelper=${this._computeHelper}
             @value-changed=${this._valueChanged}
@@ -227,6 +269,11 @@ export class SwissWeatherBGCardEditor extends LitElement implements LovelaceCard
     const labels: Record<string, string> = {
       entity: _t('config.entity'),
       sun_entity: _t('config.sun_entity'),
+      show_forecast: _t('config.show_forecast'),
+      forecast_mode: _t('config.forecast_mode'),
+      show_day_temps: _t('config.show_day_temps'),
+      show_sun_times: _t('config.show_sun_times'),
+      temperature_font_size: _t('config.temperature_font_size'),
     };
     return labels[schema.name] || schema.name;
   };
