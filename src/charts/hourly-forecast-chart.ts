@@ -44,6 +44,8 @@ export class HourlyForecastChart extends LitElement {
       align-items: stretch;
       gap: 8px;
       overflow: hidden;
+      padding: 0;
+      margin: 0;
     }
 
     .tile {

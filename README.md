@@ -55,10 +55,17 @@ temp diagram
 
 ### since version 1.6.0
 
-- new "sub" cards implemented
+- new "sub" cards implemented:
 
-<img src="docs/images/forecast_diagram_card.png" width="250"/>
+  - forecast diagram as standalone card
+    
+  <img src="docs/images/forecast_diagram_card.png" width="250"/>
+  
+  - animated background card (shows the actual weather as animated background - experimental)
+    - with max and min temp enabled, with sunset and sunrise enabled and forecsast for the next hours
 <img src="docs/images/animated_background_card.png" width="250"/>
+    - with max and min temp enabled, with sunset and sunrise enabled and forecsast for the next days
+<img src="docs/images/animated_background_card2.png" width="250"/>
 
 ### since version 1.4.0
 
