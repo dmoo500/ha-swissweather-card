@@ -32,6 +32,7 @@ export class DailyForecastChart extends LitElement {
     }
     .forecast-section.compact {
       margin-top: 8px;
+      padding: 0;
     }
 
     .section-title {
@@ -70,6 +71,8 @@ export class DailyForecastChart extends LitElement {
       align-items: stretch;
       gap: 8px;
       overflow: hidden; /* keep within BG card */
+      padding: 0;
+      margin: 0;
     }
 
     .forecast-day {

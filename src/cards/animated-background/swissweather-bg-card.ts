@@ -107,8 +107,7 @@ export class SwissWeatherBGCard extends LitElement {
         top: calc(var(--bg-temp-font-size, 36px) * 2 + 16px);
         left: 16px;
         font-size: 14px;
-        color: var(--primary-text-color, #fff);
-        text-align: right;
+        max-width: calc(100% - 32px); /* honor left/right margins */
         display: flex;
         flex-direction: row;
       }
@@ -121,20 +120,19 @@ export class SwissWeatherBGCard extends LitElement {
         align-items: center;
         color: var(--primary-text-color, #fff);
         font-size: 14px;
+        z-index: 3; /* above forecast tiles */
       }
       .forecast-mini {
         position: absolute;
-        bottom: 16px;
-        right: 16px;
-        z-index: 2; /* ensure it is in the foreground over background */
-        padding-right: 8px;
+        bottom: 16px; /* align vertically with bottom spacing */
+        right: 16px; /* align to the right edge */
+        z-index: 2; /* below sun-times but above background */
         max-width: calc(100% - 32px); /* honor left/right margins */
       }
       @media (max-width: 400px) {
         .forecast-mini {
           right: 12px;
           bottom: 12px;
-          padding-right: 6px;
           max-width: calc(100% - 24px);
         }
       }
