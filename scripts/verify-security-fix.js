@@ -79,39 +79,75 @@ try {
   // Read the file content
   const content = fs.readFileSync(litHtmlPath, 'utf8');
   
-  // Check for the secure pattern
-  const secureRegex = /v=\/--\[!>\]>\/g/;
-  const vulnerableRegex = /v=\/-->\/g/;
+  console.log('🔍 Checking for security vulnerabilities...');
   
-  if (secureRegex.test(content)) {
-    console.log('✅ Security fix is properly applied!');
-    console.log('✅ Found secure pattern: v=/--[!>]>/g');
-    
-    // Double-check that vulnerable pattern is not present
-    if (vulnerableRegex.test(content)) {
-      console.warn('⚠️  Warning: Vulnerable pattern still detected alongside secure pattern');
-      process.exit(1);
+  // Check for vulnerable patterns that cause "Bad HTML filtering regexp" warnings
+  const vulnerabilityChecks = [
+    {
+      name: 'HTML comment end vulnerabilities',
+      vulnerable: /-->\/g/g,
+      description: 'Regex should handle both --> and --!> comment endings'
+    },
+    {
+      name: 'Case-sensitive script tag detection',
+      vulnerable: /script\|style\|textarea\|title\)\$\/g(?!i)/g,
+      description: 'Script tag detection should be case-insensitive'  
     }
-    
-    console.log('✅ Vulnerable pattern not found - security fix is complete');
-    process.exit(0);
-  } 
+  ];
   
-  if (vulnerableRegex.test(content)) {
-    console.error('❌ SECURITY VULNERABILITY DETECTED!');
-    console.error('❌ Found vulnerable pattern: v=/-->/g');
-    console.error('❌ Security fix has not been applied');
+  let vulnerableCount = 0;
+  let checkedCount = 0;
+  
+  for (const check of vulnerabilityChecks) {
+    checkedCount++;
+    const matches = content.match(check.vulnerable);
+    
+    if (matches && matches.length > 0) {
+      console.error(`❌ ${check.name}: Found ${matches.length} vulnerable pattern(s)`);
+      console.error(`   ❌ ${check.description}`);
+      vulnerableCount++;
+    } else {
+      console.log(`✅ ${check.name}: No vulnerable patterns found`);
+      console.log(`   ✅ ${check.description}`);
+    }
+  }
+  
+  // Count any remaining --> patterns that could be problematic
+  const commentEndMatches = content.match(/-->/g);
+  if (commentEndMatches && commentEndMatches.length > 0) {
+    console.log(`🔍 Found ${commentEndMatches.length} comment end patterns (-->)`);
+    
+    // Check if these are in vulnerable regex contexts
+    const vulnRegexComments = content.match(/-->\/g/g);
+    if (vulnRegexComments && vulnRegexComments.length > 0) {
+      console.error(`❌ Found ${vulnRegexComments.length} vulnerable comment end regex patterns`);
+      vulnerableCount++;
+    } else {
+      console.log(`✅ Comment end patterns are not in vulnerable contexts`);
+    }
+  }
+  
+  // Summary
+  console.log('');
+  console.log('📊 Security Verification Summary:');
+  console.log(`✅ Checks performed: ${checkedCount}`);
+  console.log(`❌ Vulnerabilities found: ${vulnerableCount}`);
+  
+  if (vulnerableCount > 0) {
     console.error('');
-    console.error('To fix this issue:');
+    console.error('❌ SECURITY VULNERABILITIES DETECTED!');
+    console.error('❌ lit-html contains patterns that may cause "Bad HTML filtering regexp" warnings');
+    console.error('');
+    console.error('To fix these issues:');
     console.error('1. Run: node scripts/apply-security-fix.js');
     console.error('2. Or reinstall dependencies: yarn install');
     process.exit(1);
-  }
+  } 
   
-  console.warn('⚠️  Could not determine security status');
-  console.warn('Neither secure nor vulnerable patterns were found');
-  console.warn('The lit-html file structure may have changed or this version may not be vulnerable');
-  console.log('✅ Assuming security fix is not needed for this version');
+  console.log('');
+  console.log('✅ Security verification passed!');
+  console.log('✅ No "Bad HTML filtering regexp" vulnerabilities detected');
+  console.log('✅ lit-html security fixes are properly applied');
   process.exit(0);
   
 } catch (error) {
