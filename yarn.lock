@@ -2001,7 +2001,7 @@ __metadata:
     eslint-plugin-promise: "npm:^7.2.1"
     lit: "npm:^3.3.2"
     lit-translate: "npm:^2.0.1"
-    marked: "npm:^16.2.0"
+    marked: "npm:^17.0.3"
     prettier: "npm:^3.3.0"
     tslib: "npm:^2.6.3"
     typescript: "npm:^5.4.5"
@@ -2610,12 +2610,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"marked@npm:^16.2.0":
-  version: 16.2.0
-  resolution: "marked@npm:16.2.0"
+"marked@npm:^17.0.3":
+  version: 17.0.3
+  resolution: "marked@npm:17.0.3"
   bin:
     marked: bin/marked.js
-  checksum: 10c0/aefc418370e916ffeb821d05a585f4311c529268880113ee3695857bfb335119b5b4cd202a5d198fc087f7f3c59f98170ba1994027b2a9b8a172b31e3047ca3a
+  checksum: 10c0/3970f96ce3b1a7fd5bba82a6c7e4dffec9f7e0f238633e57139e8aa8fe637bccb1c1b61f2b3ed21b1afdbd4e076326f29e449d147203a0bdb9394e21e9a6a722
   languageName: node
   linkType: hard
 
