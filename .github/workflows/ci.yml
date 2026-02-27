@@ -30,6 +30,9 @@ jobs:
     - name: Install dependencies
       run: yarn install --immutable
       
+    - name: Verify security fix
+      run: yarn verify-security
+      
     - name: Run TypeScript type check
       run: yarn type-check
       

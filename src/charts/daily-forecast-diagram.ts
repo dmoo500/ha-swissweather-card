@@ -111,9 +111,9 @@ export class DailyForecastDiagram extends LitElement {
     // Layout calculations - responsive based on available height
     const padding = 16; // Border radius space
     const usableHeight = height - padding * 2;
-    // Neue Ränder: links °C-Skala, rechts mm/%-Skalen
+    // New gutters: left °C scale, right mm/% scales
     const leftGutter = 0;
-    // Rechte Seite unverändert schlank (keine Labels) → kein zusätzlicher Gutter
+    // Right side unchanged slim (no labels) → no additional gutter
     const rightGutter = 0;
     const chartX0 = padding + leftGutter;
     const chartX1 = width - padding - rightGutter;
@@ -144,7 +144,7 @@ export class DailyForecastDiagram extends LitElement {
     const weekdayFont = Math.max(9, Math.round(calculatedDayGroupHeight * 0.075));
     const minmaxFont = Math.max(11, Math.round(calculatedDayGroupHeight * 0.11));
 
-    // Label-Modus: 'compact' (Standard), 'full' oder 'none'
+    // Label mode: 'compact' (default), 'full' or 'none'
     const labelMode: 'compact' | 'full' | 'none' =
       (this.config?.diagram_labels as any) ?? 'compact';
     const tempAxisFont = Math.max(8, Math.min(10, Math.round(chartHeight * 0.05)));
@@ -179,7 +179,7 @@ export class DailyForecastDiagram extends LitElement {
       if (typeof any.rain === 'number') return any.rain;
       return 0;
     });
-    // Niederschlagswahrscheinlichkeit (0–100 %), mit Fallbacks
+    // Precipitation probability (0–100 %), with fallbacks
     const precsProberly = hours.map(h => {
       const any = h as any;
       const v =
@@ -335,7 +335,7 @@ export class DailyForecastDiagram extends LitElement {
       return `rgb(${r},${g},${b})`;
     }
 
-    const probBarMaxMM = 5; // 100 % POP entspricht 5 mm-äquivalenter Höhe
+    const probBarMaxMM = 5; // 100 % POP equals 5 mm-equivalent height
     // precipitation_probability bars (transparent dark grey) - use full 24h grid
     const barsProberly: any[] = [];
     for (let d = 0; d < nDays; d++) {
@@ -350,7 +350,7 @@ export class DailyForecastDiagram extends LitElement {
           const maxX = chartX0 + (d + 1) * dayWidth - barWidth;
           const clampedX = Math.max(minX, Math.min(maxX, x));
 
-          // 0–100 % → 0–probBarMaxMM → Pixelhöhe
+          // 0–100 % → 0–probBarMaxMM → pixel height
           const barHeight = (data.precipProb / 100) * probBarMaxMM * mmToPixelRatio;
           barsProberly.push(
             svg`<rect x="${clampedX}" y="${barYBase - barHeight}" width="${barWidth}" height="${barHeight}" fill="#988d8dff" opacity="0.4" rx="1.5"/>`
@@ -440,9 +440,9 @@ export class DailyForecastDiagram extends LitElement {
       }
     }
 
-    // Horizontal temperature lines + linke °C-Beschriftung
+    // Horizontal temperature lines + left °C labeling
     const horizontalLines: unknown[] = [];
-    // In "compact" nur wichtige Labels zeigen (Min, 0°, Max wenn im Bereich)
+    // In "compact" only show important labels (Min, 0°, Max if in range)
     const importantTemps = new Set<number>();
     importantTemps.add(roundedMinTemp);
     if (roundedMinTemp < 0 && roundedMaxTemp > 0) importantTemps.add(0);
@@ -473,7 +473,7 @@ export class DailyForecastDiagram extends LitElement {
       }
     }
 
-    // Rechte Labels für mm und %, abhängig vom Labelmodus
+    // Right labels for mm and %, depending on label mode
     const rightAxisLabels = svg``;
     return html`
       <style>

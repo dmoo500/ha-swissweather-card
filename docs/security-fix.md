@@ -1,67 +1,98 @@
-# Sicherheitslücke in lit-html behoben
+# Security Vulnerability Fixed in lit-html
 
 ## Problem
 
-Eine Sicherheitslücke wurde in der lit-html Bibliothek (Version 3.3.2) entdeckt:
+A security vulnerability was discovered in the lit-html library (version 3.3.2):
 
-- **Verwundbare Regex**: `const commentEndRegex = /-->/g`
-- **Problem**: Parst nur `-->` aber nicht `--!>` als HTML-Kommentar-Ende
-- **Risiko**: Erlaubt potenzielle Bypass-Angriffe bei HTML-Kommentar-Filterung
+- **Vulnerable Regex**: `const commentEndRegex = /-->/g`
+- **Issue**: Only parses `-->` but not `--!>` as HTML comment end tag
+- **Risk**: Allows potential bypass attacks in HTML comment filtering
 
-## Lösung
+## Solution
 
-Da keine offizielle Korrektur von den lit-html Maintainern verfügbar ist, wurde eine **lokale Sicherheitskorrektur** implementiert:
+Since no official fix from the lit-html maintainers is available, a **local security patch** has been implemented:
 
-### Angewandte Korrektur
-- **Ursprünglich**: `v=/-->/g`
-- **Korrigiert zu**: `v=/--[!>]>/g` 
-- **Effekt**: Erkennt sowohl `-->` als auch `--!>` als gültige Kommentar-Enden
+### Applied Fix
+- **Original**: `v=/-->/g`
+- **Fixed to**: `v=/--[!>]>/g` 
+- **Effect**: Recognizes both `-->` and `--!>` as valid comment endings
 
-### Implementierung
+### Implementation
 
-1. **Script erstellt**: `scripts/apply-security-fix.sh`
-   - Automatische Anwendung der Sicherheitskorrektur
-   - Läuft nach jeder Dependency-Installation
+1. **Script created**: `scripts/apply-security-fix.js` (Node.js)
+   - Cross-platform compatible script (Linux, macOS, Windows)
+   - Automatic application of the security fix
+   - Runs after every dependency installation
+   - Robust error handling and debugging output
 
 2. **Postinstall Hook**: 
-   - Die Korrektur wird automatisch nach `yarn install` angewandt
-   - Siehe `package.json` → `scripts.postinstall`
+   - The fix is automatically applied after `yarn install`
+   - See `package.json` → `scripts.postinstall: "node scripts/apply-security-fix.js"`
 
-### Betroffene Datei
+### Affected File
 ```
 node_modules/lit/node_modules/lit-html/node/lit-html.js
 ```
 
+## Usage
+
+### Automatic
+- The fix is automatically applied after `yarn install` (via postinstall hook)
+
+### Manual 
+```bash
+# Apply security fix
+node scripts/apply-security-fix.js
+
+# Verify security fix 
+yarn verify-security
+```
+
+### CI/CD
+- GitHub Actions automatically verify the security fix
+- See `.github/workflows/ci.yml` for integration details
+
 ## Status
 
-✅ **Sicherheitslücke behoben**
-✅ **Automatische Anwendung bei Builds**
-✅ **Keine Funktionalitätseinschränkungen**
+✅ **Security vulnerability fixed**
+✅ **Cross-platform Node.js implementation**
+✅ **Automatic application on builds**
+✅ **CI/CD integration**
+✅ **No functional limitations**
 
-## Alternative Maßnahmen
+## Alternative Actions
 
-Falls diese Lösung Probleme verursacht, können Sie:
+If this solution causes problems, you can:
 
-1. **Sicherheitslücke melden**: 
+1. **Report the security vulnerability**: 
    - GitHub: https://github.com/lit/lit/issues
-   - Titel: "Security: commentEndRegex only parses --> and not --!> as HTML comment end tag"
+   - Title: "Security: commentEndRegex only parses --> and not --!> as HTML comment end tag"
 
-2. **Upstream-Fix abwarten**: 
-   - Überwachung der lit-html Release Notes
-   - Update auf gepatchte Version wenn verfügbar
+2. **Wait for upstream fix**: 
+   - Monitor lit-html release notes
+   - Update to patched version when available
 
-3. **Korrektur entfernen**:
+3. **Remove the fix**:
    ```bash
-   # Entfernen des postinstall hooks aus package.json
-   # Löschen von scripts/apply-security-fix.sh
+   # Remove postinstall hook from package.json
+   # Delete scripts/apply-security-fix.js
+   # Delete scripts/verify-security-fix.js
    ```
 
-## Getestete Versionen
+## Tested Versions
 
 - **lit**: 3.3.2
 - **lit-html**: 3.3.1 (nested dependency)
-- **Node Version**: Kompatibel mit aktuellen LTS-Versionen
+- **Node.js**: Compatible with current LTS versions (ES modules)
+- **Platforms**: Linux, macOS, Windows (cross-platform Node.js implementation)
+
+## Technical Details
+
+- **Script Language**: Node.js (ES modules) for cross-platform compatibility
+- **Backup**: Automatic creation of .bak files before modification
+- **Regex Pattern**: `/v=\/-->/g/` → `/v=\/--\[!>\]>\/g/`
+- **CI/CD**: Automatic verification in GitHub Actions
 
 ---
 
-**Wichtig**: Diese Korrektur ist eine temporäre Lösung bis eine offizielle Sicherheitsaktualisierung verfügbar wird.
+**Important**: This fix is a temporary solution until an official security update becomes available.
