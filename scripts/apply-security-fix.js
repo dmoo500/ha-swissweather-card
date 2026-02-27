@@ -110,6 +110,42 @@ const securityPatterns = [
     pattern: /\/gii/g,
     replacement: '/gi',
     description: 'Fix double i flags in regex (gii -> gi)'
+  },
+  {
+    name: 'HTML tag case sensitivity - startATag',
+    pattern: /startATag: \/\^<a \/i/g,
+    replacement: 'startATag: /^<a /gi',
+    description: 'Fix startATag case sensitivity /i → /gi for uppercase SCRIPT tags'
+  },
+  {
+    name: 'HTML tag case sensitivity - endATag',
+    pattern: /endATag: \/\^<\/a>\/i/g,
+    replacement: 'endATag: /^<\\/a>/gi',
+    description: 'Fix endATag case sensitivity /i → /gi for uppercase SCRIPT tags'
+  },
+  {
+    name: 'HTML tag case sensitivity - startPreScriptTag',
+    pattern: /startPreScriptTag: \/\^<\(pre\|code\|kbd\|script\)\(\\s\|>\)\/i/g,
+    replacement: 'startPreScriptTag: /^<(pre|code|kbd|script)(\\s|>)/gi',
+    description: 'Fix startPreScriptTag case sensitivity /i → /gi for uppercase SCRIPT tags'
+  },
+  {
+    name: 'HTML tag case sensitivity - endPreScriptTag',
+    pattern: /endPreScriptTag: \/\^<\\\/\(pre\|code\|kbd\|script\)\(\\s\|>\)\/i/g,
+    replacement: 'endPreScriptTag: /^<\\/(pre|code|kbd|script)(\\s|>)/gi',
+    description: 'Fix endPreScriptTag case sensitivity /i → /gi for uppercase SCRIPT tags'
+  },
+  {
+    name: 'HTML comment end tag - di pattern',
+    pattern: /di = \/<!--\(\?\:-\?\>\|\[\\s\\S\]\*\?\(\?\:-->\|\$\)\)\//g,
+    replacement: 'di = /<!--(?:--[!>]>|[\\s\\S]*?(?:--[!>]>|$))/',
+    description: 'Fix HTML comment end tag detection to handle --!> not just -->'
+  },
+  {
+    name: 'HTML comment replacement pattern',
+    pattern: /\.replace\("(?:\?\:)?-->\|\$", "-->"\)/g,
+    replacement: '.replace("(?:--[!>]>|$)", "--[!>]>")',
+    description: 'Fix comment replacement pattern to handle --!> comment end tags'
   }
 ];
 

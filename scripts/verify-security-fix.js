@@ -57,6 +57,36 @@ const vulnerablePatterns = [
     name: 'Script tag case sensitivity - _r variable',
     pattern: /_r = \/\^(?:\?\:)?\(script\|style\|textarea\|title\)\$\/i(?!g)/,
     description: '_r variable should use case-insensitive flag'
+  },
+  {
+    name: 'HTML tag case sensitivity - startATag',
+    pattern: /startATag: \/\^<a \/i(?!g)/,
+    description: 'startATag should use /gi flag to match uppercase SCRIPT tags'
+  },
+  {
+    name: 'HTML tag case sensitivity - endATag',
+    pattern: /endATag: \/\^<\/a>\/i(?!g)/,
+    description: 'endATag should use /gi flag to match uppercase SCRIPT tags'
+  },
+  {
+    name: 'HTML tag case sensitivity - startPreScriptTag',
+    pattern: /startPreScriptTag: \/\^<\(pre\|code\|kbd\|script\)\(\\s\|>\)\/i(?!g)/,
+    description: 'startPreScriptTag should use /gi flag to match uppercase SCRIPT tags'
+  },
+  {
+    name: 'HTML tag case sensitivity - endPreScriptTag',
+    pattern: /endPreScriptTag: \/\^<\\\/\(pre\|code\|kbd\|script\)\(\\s\|>\)\/i(?!g)/,
+    description: 'endPreScriptTag should use /gi flag to match uppercase SCRIPT tags'
+  },
+  {
+    name: 'Comment end vulnerability - di pattern',
+    pattern: /\/<!--\(\?\:-\?\>\|.*-->\|\$\)/,
+    description: 'HTML comment pattern should handle --!> not just -->'
+  },
+  {
+    name: 'Comment replacement vulnerability',
+    pattern: /\.replace\("[^"]*-->.*", "-->"\)/,
+    description: 'Comment replacement should handle --!> end tags'
   }
 ];
 
@@ -68,6 +98,16 @@ const securePatterns = [
     name: 'Secure script tag detection',
     pattern: /script\|style\|textarea\|title.*\/gi/,
     description: 'Case-insensitive script detection with /gi flag'
+  },
+  {
+    name: 'Secure HTML tag patterns with gi flag',
+    pattern: /(startATag|endATag|startPreScriptTag|endPreScriptTag):[^}]*\/gi/,
+    description: 'HTML tag patterns should use /gi flag for uppercase tag detection'
+  },
+  {
+    name: 'Secure comment end tag handling',
+    pattern: /--\[!\>\]>/,
+    description: 'Comment patterns should handle both --> and --!> end tags'
   }
 ];
 
