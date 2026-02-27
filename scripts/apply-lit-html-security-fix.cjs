@@ -81,6 +81,12 @@ const litHtmlSecurityPatterns = [
     description: 'Fix $ variable case sensitivity in minified files'  
   },
   {
+    name: 'Script tag case sensitivity - y variable minified',
+    pattern: ',y=/^(?:script|style|textarea|title)$/i,',
+    replacement: ',y=/^(?:script|style|textarea|title)$/gi,',
+    description: 'Fix y variable case sensitivity in minified files'
+  },
+  {
     name: 'Comment end regex - dev files',
     pattern: 'const commentEndRegex = /-->/g;',
     replacement: 'const commentEndRegex = /--!?>/g;',
