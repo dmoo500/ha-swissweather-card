@@ -7,7 +7,7 @@ export class DailyForecastDiagram extends LitElement {
   @property({ type: Array }) forecast: WeatherForecast[] = [];
   @property({ type: Array }) hourlyForecast: WeatherForecast[] = [];
   @property({ type: Object }) config: any;
-  @property({ type: Function }) getWeatherIcon!: (...args: any[]) => TemplateResult;
+  @property({ type: Function }) getWeatherIcon!: (..._args: any[]) => TemplateResult;
   @property({ type: Boolean }) standalone = false;
   private _resizeObserver?: ResizeObserver;
   private _measuredWidth = 0;
