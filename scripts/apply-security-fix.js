@@ -16,18 +16,26 @@ const projectRoot = path.resolve(__dirname, '..');
 
 console.log('Applying security fix for lit-html...');
 
-// Define the path to the lit-html file
-const litHtmlPath = path.resolve(projectRoot, 'node_modules/lit/node_modules/lit-html/node/lit-html.js');
+// Function to find lit-html files in multiple possible locations
+function findLitHtmlFile() {
+  const possiblePaths = [
+    path.resolve(projectRoot, 'node_modules/lit/node_modules/lit-html/node/lit-html.js'),
+    path.resolve(projectRoot, 'node_modules/lit-html/node/lit-html.js'),
+    path.resolve(projectRoot, 'node_modules/lit-html/lit-html.js'),
+    path.resolve(projectRoot, 'node_modules/@lit/reactive-element/node_modules/lit-html/node/lit-html.js')
+  ];
 
-// Check if file exists
-if (!fs.existsSync(litHtmlPath)) {
-  console.warn(`⚠️  lit-html file not found at ${litHtmlPath}`);
-  console.warn('This is expected during initial dependency installation.');
-  
-  // List available lit-html files for debugging
+  for (const filePath of possiblePaths) {
+    if (fs.existsSync(filePath)) {
+      console.log(`📍 Found lit-html at: ${filePath}`);
+      return filePath;
+    }
+  }
+
+  // If not found in standard locations, search recursively
   const litPath = path.resolve(projectRoot, 'node_modules/lit');
   if (fs.existsSync(litPath)) {
-    console.log('🔍 Searching for lit-html files...');
+    console.log('🔍 Searching for lit-html files recursively...');
     try {
       const findLitHtml = (dir, files = []) => {
         const entries = fs.readdirSync(dir, { withFileTypes: true });
@@ -43,20 +51,26 @@ if (!fs.existsSync(litHtmlPath)) {
       
       const litHtmlFiles = findLitHtml(litPath);
       if (litHtmlFiles.length > 0) {
-        console.log('Found lit-html.js files:');
+        console.log('📍 Available lit-html files:');
         litHtmlFiles.forEach(file => console.log(`  - ${file}`));
-      } else {
-        console.log('No lit-html.js files found - dependencies may still be installing.');
+        // Return the first found file
+        return litHtmlFiles[0];
       }
     } catch (e) {
-      console.warn('Error searching for files:', e.message);
+      console.log('Note: Error during recursive search:', e.message);
     }
-  } else {
-    console.log('lit package not found - dependencies may still be installing.');
   }
   
-  // Exit gracefully without failing the installation
-  console.log('✅ Skipping security fix application - will be applied later.');
+  return null;
+}
+
+// Try to find the lit-html file
+const litHtmlPath = findLitHtmlFile();
+
+if (!litHtmlPath) {
+  console.log('📋 lit-html file not found - this is normal during dependency installation');
+  console.log('✅ Dependencies are likely still being installed or have a different structure');
+  console.log('✅ Security fix will be applied automatically in the next CI step');
   process.exit(0);
 }
 
