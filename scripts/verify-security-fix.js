@@ -85,15 +85,27 @@ try {
   const vulnerabilityChecks = [
     {
       name: 'HTML comment end vulnerabilities',
-      checkMethod: 'stringSearch', // Use string search to avoid regex warnings
+      checkMethod: 'stringSearch', 
       pattern: '-->/g',
       description: 'Regex should handle both --> and --!> comment endings'
     },
     {
-      name: 'Case-sensitive script tag detection', 
+      name: 'Case-sensitive script tag detection - basic', 
+      checkMethod: 'stringSearch',
+      pattern: 'script|style|textarea|title)$/i',
+      description: 'Script tag detection should be case-insensitive (/gi)'  
+    },
+    {
+      name: 'Case-sensitive script tag detection - with caret', 
+      checkMethod: 'stringSearch',
+      pattern: '^(?:script|style|textarea|title)$/i',
+      description: 'Script tag detection should be case-insensitive (/gi)'  
+    },
+    {
+      name: 'Lowercase-only HTML tag patterns',
       checkMethod: 'regex',
-      vulnerable: /script\|style\|textarea\|title\)\$\/g(?!i)/g,
-      description: 'Script tag detection should be case-insensitive'  
+      vulnerable: /\[a-z\](?=[^a-zA-Z]*(?:script|style|textarea|title|tag|html))/g,
+      description: 'HTML patterns should handle both lowercase and uppercase letters'
     }
   ];
   

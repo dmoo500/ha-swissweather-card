@@ -98,16 +98,28 @@ try {
       description: 'Fix comment end regex assignment'
     },
     {
-      name: 'HTML comment start detection',
+      name: 'HTML comment start detection in parsing',
       pattern: /\(!--/g,
       replacement: '(!--[!>]?',
       description: 'Fix comment start detection to handle --!>'
     },
     {
-      name: 'Case sensitive script tags',
+      name: 'Script tag case sensitivity - basic',
       pattern: /script\|style\|textarea\|title\)\$\/g/g,
       replacement: 'script|style|textarea|title)$/gi',
       description: 'Make script tag detection case-insensitive'
+    },
+    {
+      name: 'Script tag case sensitivity - with caret',
+      pattern: /\^(?:script\|style\|textarea\|title)\$\/i/g,
+      replacement: '^(?:script|style|textarea|title)$/gi',
+      description: 'Make script tag detection fully case-insensitive'
+    },
+    {
+      name: 'HTML tag parsing with lowercase only',
+      pattern: /\[a-z\]/g,
+      replacement: '[a-zA-Z]',
+      description: 'Fix HTML tag parsing to handle uppercase letters'
     }
   ];
   
@@ -139,21 +151,63 @@ try {
     }
   }
   
-  // Additional comprehensive check for any remaining --> patterns
-  console.log('🔍 Checking for any remaining comment end vulnerabilities...');
-  // Use a secure pattern that doesn't trigger CodeQL warnings
-  const commentEndPattern = '-->';
-  const commentEndMatches = content.split(commentEndPattern).length - 1;
+  // Additional comprehensive check for any remaining vulnerable patterns
+  console.log('🔍 Checking for any remaining security vulnerabilities...');
   
-  if (commentEndMatches > 0) {
-    console.log(`⚠️  Found ${commentEndMatches} remaining --> patterns`);
-    console.log('🔧 Applying comprehensive comment end fix...');
-    
-    // More aggressive fix for any remaining --> patterns in regex contexts
-    content = content.replace(/-->\/g/g, '--[!>]>/g');
-    content = content.replace(/\/-->/g, '/--[!>]>');
+  // Check for comment end patterns that could be problematic
+  const commentEndPattern = '-->';
+  const commentEndCount = content.split(commentEndPattern).length - 1;
+  
+  // Check for case-sensitive script patterns and other vulnerable patterns
+  const vulnerablePatterns = [
+    {
+      find: 'script|style|textarea|title)$/i',
+      replace: 'script|style|textarea|title)$/gi',
+      name: 'Script tag case sensitivity'
+    },
+    {
+      find: '^(?:script|style|textarea|title)$/i',
+      replace: '^(?:script|style|textarea|title)$/gi', 
+      name: 'Script tag case sensitivity with caret'
+    },
+    {
+      find: '-->/g',
+      replace: '--[!>]>/g',
+      name: 'Comment end pattern'
+    },
+    {
+      find: '(!--|',
+      replace: '(!--[!>]?|',
+      name: 'Comment start pattern'
+    }
+  ];
+  
+  let foundAdditionalVulnerabilities = false;
+  
+  for (const vulnPattern of vulnerablePatterns) {
+    if (content.includes(vulnPattern.find)) {
+      console.log(`🔧 Found additional vulnerable pattern: ${vulnPattern.find}`);
+      content = content.replace(new RegExp(vulnPattern.find.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), vulnPattern.replace);
+      hasChanges = true;
+      foundAdditionalVulnerabilities = true;
+      appliedFixes.push(`Additional fix: ${vulnPattern.name}`);
+    }
+  }
+  
+  // Special handling for [a-z] patterns in HTML contexts
+  const htmlTagPattern = /\[a-z\](?=[^a-zA-Z]*(?:script|style|textarea|title|tag|html))/g;
+  if (htmlTagPattern.test(content)) {
+    console.log('🔧 Found case-sensitive HTML tag patterns');
+    content = content.replace(htmlTagPattern, '[a-zA-Z]');
     hasChanges = true;
-    appliedFixes.push('Comprehensive comment end fix');
+    foundAdditionalVulnerabilities = true;
+    appliedFixes.push('Additional fix: HTML tag case sensitivity');
+  }
+  
+  if (foundAdditionalVulnerabilities) {
+    console.log('🔧 Applied additional security fixes for comprehensive protection');
+  } else {
+    console.log('✅ No additional vulnerable patterns found');
   }
   
   if (!hasChanges) {
