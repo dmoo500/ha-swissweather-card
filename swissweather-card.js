@@ -1,10 +1,5 @@
 const ts = "1.6.0";
-/**
- * @license
- * Copyright 2019 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
-const yt = globalThis, Qt = yt.ShadowRoot && (yt.ShadyCSS === void 0 || yt.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, Jt = Symbol(), Ti = /* @__PURE__ */ new WeakMap();
+const yt = globalThis, Qt = yt.ShadowRoot && (yt.ShadyCSS === void 0 || yt.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, Jt = /* @__PURE__ */ Symbol(), Ti = /* @__PURE__ */ new WeakMap();
 let ir = class {
   constructor(e, t, s) {
     if (this._$cssResult$ = !0, s !== Jt) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
@@ -41,11 +36,6 @@ const is = (i) => new ir(typeof i == "string" ? i : i + "", void 0, Jt), D = (i,
   for (const s of e.cssRules) t += s.cssText;
   return is(t);
 })(i) : i;
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
 const { is: ss, defineProperty: ns, getOwnPropertyDescriptor: os, getOwnPropertyNames: as, getOwnPropertySymbols: ls, getPrototypeOf: cs } = Object, Tt = globalThis, Ni = Tt.trustedTypes, ds = Ni ? Ni.emptyScript : "", hs = Tt.reactiveElementPolyfillSupport, Qe = (i, e) => i, wt = { toAttribute(i, e) {
   switch (e) {
     case Boolean:
@@ -75,7 +65,7 @@ const { is: ss, defineProperty: ns, getOwnPropertyDescriptor: os, getOwnProperty
   }
   return t;
 } }, ei = (i, e) => !ss(i, e), zi = { attribute: !0, type: String, converter: wt, reflect: !1, useDefault: !1, hasChanged: ei };
-Symbol.metadata ??= Symbol("metadata"), Tt.litPropertyMetadata ??= /* @__PURE__ */ new WeakMap();
+Symbol.metadata ??= /* @__PURE__ */ Symbol("metadata"), Tt.litPropertyMetadata ??= /* @__PURE__ */ new WeakMap();
 let Se = class extends HTMLElement {
   static addInitializer(e) {
     this._$Ei(), (this.l ??= []).push(e);
@@ -85,7 +75,7 @@ let Se = class extends HTMLElement {
   }
   static createProperty(e, t = zi) {
     if (t.state && (t.attribute = !1), this._$Ei(), this.prototype.hasOwnProperty(e) && ((t = Object.create(t)).wrapped = !0), this.elementProperties.set(e, t), !t.noAccessor) {
-      const s = Symbol(), r = this.getPropertyDescriptor(e, s, t);
+      const s = /* @__PURE__ */ Symbol(), r = this.getPropertyDescriptor(e, s, t);
       r !== void 0 && ns(this.prototype, e, r);
     }
   }
@@ -258,14 +248,9 @@ let Se = class extends HTMLElement {
   }
 };
 Se.elementStyles = [], Se.shadowRootOptions = { mode: "open" }, Se[Qe("elementProperties")] = /* @__PURE__ */ new Map(), Se[Qe("finalized")] = /* @__PURE__ */ new Map(), hs?.({ ReactiveElement: Se }), (Tt.reactiveElementVersions ??= []).push("2.1.1");
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
 const ti = globalThis, bt = ti.trustedTypes, Hi = bt ? bt.createPolicy("lit-html", { createHTML: (i) => i }) : void 0, rr = "$lit$", J = `lit$${Math.random().toFixed(9).slice(2)}$`, sr = "?" + J, ps = `<${sr}>`, xe = document, tt = () => xe.createComment(""), it = (i) => i === null || typeof i != "object" && typeof i != "function", ii = Array.isArray, us = (i) => ii(i) || typeof i?.[Symbol.iterator] == "function", Wt = `[ 	
 \f\r]`, Ze = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, Ei = /-->/g, Gi = />/g, pe = RegExp(`>|${Wt}(?:([^\\s"'>=/]+)(${Wt}*=${Wt}*(?:[^ 	
-\f\r"'\`<>=]|("|')|))|$)`, "g"), Di = /'/g, Oi = /"/g, nr = /^(?:script|style|textarea|title)$/i, or = (i) => (e, ...t) => ({ _$litType$: i, strings: e, values: t }), d = or(1), w = or(2), Te = Symbol.for("lit-noChange"), T = Symbol.for("lit-nothing"), Pi = /* @__PURE__ */ new WeakMap(), fe = xe.createTreeWalker(xe, 129);
+\f\r"'\`<>=]|("|')|))|$)`, "g"), Di = /'/g, Oi = /"/g, nr = /^(?:script|style|textarea|title)$/i, or = (i) => (e, ...t) => ({ _$litType$: i, strings: e, values: t }), d = or(1), w = or(2), Te = /* @__PURE__ */ Symbol.for("lit-noChange"), T = /* @__PURE__ */ Symbol.for("lit-nothing"), Pi = /* @__PURE__ */ new WeakMap(), fe = xe.createTreeWalker(xe, 129);
 function ar(i, e) {
   if (!ii(i) || !i.hasOwnProperty("raw")) throw Error("invalid template strings array");
   return Hi !== void 0 ? Hi.createHTML(e) : e;
@@ -482,11 +467,6 @@ const _s = (i, e, t) => {
   }
   return r._$AI(i), r;
 };
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
 const si = globalThis;
 let N = class extends Se {
   constructor() {
@@ -514,21 +494,11 @@ N._$litElement$ = !0, N.finalized = !0, si.litElementHydrateSupport?.({ LitEleme
 const vs = si.litElementPolyfillSupport;
 vs?.({ LitElement: N });
 (si.litElementVersions ??= []).push("4.2.1");
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
 const O = (i) => (e, t) => {
   t !== void 0 ? t.addInitializer((() => {
     customElements.define(i, e);
   })) : customElements.define(i, e);
 };
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
 const $s = { attribute: !0, type: String, converter: wt, reflect: !1, hasChanged: ei }, ks = (i = $s, e, t) => {
   const { kind: s, metadata: r } = t;
   let n = globalThis.litPropertyMetadata.get(r);
@@ -556,25 +526,10 @@ function m(i) {
     return r.constructor.createProperty(n, s), o ? Object.getOwnPropertyDescriptor(r, n) : void 0;
   })(i, e, t);
 }
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
 function X(i) {
   return m({ ...i, state: !0, attribute: !1 });
 }
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
 const As = (i, e, t) => (t.configurable = !0, t.enumerable = !0, Reflect.decorate && typeof e != "object" && Object.defineProperty(i, e, t), t);
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
 function Cs(i, e) {
   return (t, s, r) => {
     const n = (o) => o.renderRoot?.querySelector(i) ?? null;
@@ -1834,11 +1789,6 @@ function x(i, e, t = rt) {
   let s = t.translationCache[i] || (t.translationCache[i] = t.lookup(i, t) || t.empty(i, t));
   return e = e != null ? jt(e) : null, e != null ? t.interpolate(s, e, t) : s;
 }
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
 const mr = { CHILD: 2 }, Ks = (i) => (...e) => ({ _$litDirective$: i, values: e });
 let yr = class {
   constructor(e) {
@@ -1856,15 +1806,10 @@ let yr = class {
     return this.render(...t);
   }
 };
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
 var Rt;
 const _t = window, Ne = _t.trustedTypes, Wi = Ne ? Ne.createPolicy("lit-html", { createHTML: (i) => i }) : void 0, Vt = "$lit$", ee = `lit$${(Math.random() + "").slice(9)}$`, xr = "?" + ee, Qs = `<${xr}>`, we = document, vt = () => we.createComment(""), st = (i) => i === null || typeof i != "object" && typeof i != "function", wr = Array.isArray, Js = (i) => wr(i) || typeof i?.[Symbol.iterator] == "function", Ft = `[ 	
 \f\r]`, Xe = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, Ri = /-->/g, Fi = />/g, ue = RegExp(`>|${Ft}(?:([^\\s"'>=/]+)(${Ft}*=${Ft}*(?:[^ 	
-\f\r"'\`<>=]|("|')|))|$)`, "g"), Ui = /'/g, Bi = /"/g, br = /^(?:script|style|textarea|title)$/i, ze = Symbol.for("lit-noChange"), S = Symbol.for("lit-nothing"), Ii = /* @__PURE__ */ new WeakMap(), ge = we.createTreeWalker(we, 129, null, !1);
+\f\r"'\`<>=]|("|')|))|$)`, "g"), Ui = /'/g, Bi = /"/g, br = /^(?:script|style|textarea|title)$/i, ze = /* @__PURE__ */ Symbol.for("lit-noChange"), S = /* @__PURE__ */ Symbol.for("lit-nothing"), Ii = /* @__PURE__ */ new WeakMap(), ge = we.createTreeWalker(we, 129, null, !1);
 function _r(i, e) {
   if (!Array.isArray(i) || !i.hasOwnProperty("raw")) throw Error("invalid template strings array");
   return Wi !== void 0 ? Wi.createHTML(e) : e;
@@ -2093,17 +2038,7 @@ class an {
 }
 const ji = _t.litHtmlPolyfillSupport;
 ji?.(qt, $r), ((Rt = _t.litHtmlVersions) !== null && Rt !== void 0 ? Rt : _t.litHtmlVersions = []).push("2.8.0");
-/**
- * @license
- * Copyright 2020 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
 const ln = (i) => i.strings === void 0;
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
 const Je = (i, e) => {
   var t, s;
   const r = i._$AN;
@@ -2210,11 +2145,6 @@ class fn extends un {
   }
 }
 const k = Ks(fn);
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
 class Vi extends yr {
   constructor(e) {
     if (super(e), this.et = S, e.type !== mr.CHILD) throw Error(this.constructor.directiveName + "() can only be used in child bindings");
@@ -6169,8 +6099,8 @@ let ve = class extends N {
       .forecast-mini {
         position: absolute;
         bottom: 16px; /* align vertically with bottom spacing */
-        right: 16px;  /* align to the right edge */
-        z-index: 2;   /* below sun-times but above background */
+        right: 16px; /* align to the right edge */
+        z-index: 2; /* below sun-times but above background */
         max-width: calc(100% - 32px); /* honor left/right margins */
       }
       @media (max-width: 400px) {
