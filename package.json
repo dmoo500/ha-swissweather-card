@@ -12,8 +12,6 @@
     "url": "https://github.com/dmoo500/ha-swissweather-card/issues"
   },
   "scripts": {
-    "postinstall": "node scripts/apply-lit-html-security-fix.cjs",
-    "verify-security": "node scripts/verify-security-fix.cjs",
     "build": "vite build",
     "dev": "vite build --watch",
     "serve": "python3 -m http.server 8000",

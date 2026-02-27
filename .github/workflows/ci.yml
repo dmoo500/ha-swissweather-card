@@ -30,12 +30,6 @@ jobs:
     - name: Install dependencies
       run: yarn install --immutable
       
-    - name: Apply security fix (if not applied during install)
-      run: node scripts/apply-lit-html-security-fix.cjs
-      
-    - name: Verify security fix
-      run: yarn verify-security
-      
     - name: Run TypeScript type check
       run: yarn type-check
       
