@@ -6,12 +6,9 @@
  * Targets the actual patterns in the source files, not the built bundle
  */
 
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import { execSync } from 'child_process';
+const fs = require('fs');
+const path = require('path');
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(__dirname, '..');
 
 console.log('🔒 Applying security fixes for lit-html and marked source files...');

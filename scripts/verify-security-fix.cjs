@@ -6,11 +6,9 @@
  * Checks for presence of secure patterns and absence of vulnerable patterns
  */
 
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
+const fs = require('fs');
+const path = require('path');
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(__dirname, '..');
 
 console.log('🔒 Verifying security fixes for lit-html vulnerabilities...');
