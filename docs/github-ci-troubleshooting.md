@@ -1,6 +1,18 @@
 # GitHub Actions / CI/CD Troubleshooting
 
-## Problem: "lit-html file not found at node_modules/lit/node_modules/lit-html/node/lit-html.js"
+## Problem: "Process completed with exit code 1" during dependency installation
+
+This error can occur when the postinstall security fix script fails during `yarn install --immutable`. 
+
+## ✅ **Solution (Fixed in latest version)**
+
+This issue has been resolved with an improved CI-optimized security fix script:
+
+- **Graceful handling**: Script no longer fails the installation if dependencies aren't fully ready
+- **Intelligent fallback**: Automatically retries security fix application after installation
+- **Better logging**: Clear warnings instead of errors that break CI
+
+## Legacy Problem: "lit-html file not found at node_modules/lit/node_modules/lit-html/node/lit-html.js"
 
 This error message can occur in GitHub Actions or other CI/CD environments when the security fix for lit-html is not correctly applied.
 

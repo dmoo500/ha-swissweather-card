@@ -21,8 +21,9 @@ Since no official fix from the lit-html maintainers is available, a **local secu
 
 1. **Script created**: `scripts/apply-security-fix.js` (Node.js)
    - Cross-platform compatible script (Linux, macOS, Windows)
+   - **CI/CD optimized**: Gracefully handles installation timing issues
    - Automatic application of the security fix
-   - Runs after every dependency installation
+   - Runs after dependency installation with intelligent fallback
    - Robust error handling and debugging output
 
 2. **Postinstall Hook**: 
