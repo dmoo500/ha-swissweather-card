@@ -81,6 +81,7 @@
     }
   },
   "resolutions": {
-    "minimatch": "9.0.7"
+    "minimatch": "9.0.7",
+    "rollup": "4.59.0"
   }
 }
