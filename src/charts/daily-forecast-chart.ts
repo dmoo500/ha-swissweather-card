@@ -8,9 +8,9 @@ export class DailyForecastChart extends LitElement {
   @property({ type: Boolean }) forecastLoading = false;
   @property({ type: Boolean }) show_forecast = true;
   @property({ type: Object }) config: any = {};
-  @property({ type: Function }) _t!: (key: string, vars?: Record<string, any>) => string;
-  @property({ type: Function }) getWeatherIcon!: (...args: any[]) => TemplateResult;
-  @property({ type: Function }) formatDate!: (dateStr: string) => string;
+  @property({ type: Function }) _t!: (_key: string, _vars?: Record<string, any>) => string;
+  @property({ type: Function }) getWeatherIcon!: (..._args: any[]) => TemplateResult;
+  @property({ type: Function }) formatDate!: (_dateStr: string) => string;
   // New props for BG card embedding
   @property({ type: Boolean }) compact: boolean = false;
   @property({ type: Boolean }) startTomorrow: boolean = false;

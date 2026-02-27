@@ -1,159 +1,184 @@
-# SwissWeather Card - Home Assistant Debug Anleitung
+# SwissWeather Card - Home Assistant Debug Guide
 
-## 🔍 Schritt-für-Schritt Debugging für "Custom element doesn't exist"
+## 🔍 Step-by-Step Debugging for "Custom element doesn't exist"
 
-### 1. Browser-Konsole öffnen
+### 1. Open Browser Console
 ```
 Chrome/Edge: F12 → Console Tab
-Firefox: F12 → Konsole Tab  
-Safari: Entwickler → JavaScript-Konsole
+Firefox: F12 → Console Tab
+Safari: Developer → JavaScript Console
 ```
 
-### 2. Nach folgenden Meldungen suchen:
+### 2. Look for the following messages:
 
-#### ✅ **Erfolgreiche Registrierung:**
+#### ✅ **Successful Registration:**
 ```
 📦 SwissWeather Card module loading started...
 📦 Browser support check: {customElements: true, hasReflect: true}
 📦 SwissWeather Card TypeScript file imported
 🎯 About to apply @customElement decorator to SwissWeatherCard
-🔧 SwissWeatheroCard constructor called
-🔍 SwissWeather Card registration status: SUCCESS ✅
- SWISSWEATHER-CARD  v1.0.0 
-📦 SwissWeather Card module loading completed
+🔧 SwissWeatherCard constructor called
+✅ Custom element registered: swissweather-card
+✅ Lovelace resource loading completed
 ```
 
-#### ❌ **Fehlgeschlagene Registrierung:**
+#### ❌ **Common Error Messages:**
 ```
-❌ Custom element "swissweather-card" was not registered!
-🔍 SwissWeather Card registration status: FAILED ❌
+❌ Error: Resource not found: /local/swissweather-card.js
+❌ TypeError: Cannot read property 'define' of undefined
+❌ SyntaxError: Unexpected token 'import'
+❌ Custom element doesn't exist: swissweather-card
+❌ Error loading HA entity data
+❌ Component not ready: SwissWeatherCard mounting deferred
 ```
 
-### 3. Home Assistant Installation prüfen
+### 3. Verification Steps
 
-#### Option A: HACS Installation
+#### ✅ Check File Accessibility
+```bash
+# URL should be accessible:
+http://YOUR-HA-URL:8123/local/swissweather-card.js
+```
+
+#### ✅ Lovelace Resource Configuration
 ```yaml
-# Automatisch registriert, keine manuelle Konfiguration nötig
-# HACS → Frontend → SwissWeather Card
+resources:
+  - url: /local/swissweather-card.js
+    type: module
 ```
 
-#### Option B: Manuelle Installation
+**Important:** Use `type: module`, not `type: js`
+
+#### ✅ Card Configuration
+```yaml
+type: custom:swissweather-card
+entity: weather.your_weather_entity
+```
+
+### 4. Common Problems and Solutions
+
+#### Problem 1: "Custom element doesn't exist"
+**Cause:** JavaScript file not loaded or not executed
+**Solutions:**
+1. Check if the file exists in `/config/www/swissweather-card.js`
+2. Clear browser cache (Ctrl+F5)
+3. Verify Lovelace resource configuration
+4. Check browser console for error messages
+
+#### Problem 2: "Resource not found"
+**Cause:** Wrong file path or file not accessible
+**Solutions:**
+1. HACS installation: File should be automatically placed
+2. Manual installation: Place file in `/config/www/`
+3. Verify file permissions
+4. Check Home Assistant logs
+
+#### Problem 3: Module Loading Errors
+**Cause:** ES6 modules not supported or wrong configuration
+**Solutions:**
+1. Use `type: module` in resource configuration
+2. Ensure modern browser (ES6 support)
+3. Check for adblocking software
+4. Test in incognito mode
+
+#### Problem 4: Weather Entity Issues
+**Cause:** Weather entity not available or wrong name
+**Solutions:**
+1. Check entity name in Developer Tools → States
+2. Search for entities starting with `weather.`
+3. Verify weather integration is working
+4. Test with different weather entities
+
+### 5. Debug Configuration
+
+For detailed debugging, add to your card configuration:
+```yaml
+type: custom:swissweather-card
+entity: weather.home_assistant
+debug: true  # Enables detailed console logging
+```
+
+### 6. Browser Compatibility Check
+
+#### ✅ **Fully Supported:**
+- Chrome 61+
+- Firefox 63+
+- Safari 12+
+- Edge 79+
+
+#### ⚠️ **Limited Support:**
+- Internet Explorer: Not supported
+- Samsung Internet: Check console for ES6 support
+
+### 7. Network and Performance Issues
+
+#### Check Loading Performance:
+1. Open Developer Tools → Network tab
+2. Reload the page
+3. Look for `swissweather-card.js` in the list
+4. Check loading time and status code
+
+#### Common Network Issues:
+- **DNS problems:** Entity lookups fail
+- **Slow loading:** Large bundle size or slow connection
+- **CORS errors:** Proxy or reverse proxy misconfiguration
+
+### 8. Home Assistant Specific Issues
+
+#### Entity Access Problems:
+```yaml
+# Check if these entities exist:
+weather.your_weather          # Main weather entity
+sensor.precipitation_forecast # Optional
+sensor.wind_speed            # Optional
+sensor.sunshine_duration     # Optional
+```
+
+#### Lovelace Mode Issues:
+- **Storage Mode:** Editing via UI - resource configuration in UI
+- **YAML Mode:** Editing via YAML files - resource configuration in `configuration.yaml`
+
+### 9. Advanced Debugging
+
+#### Enable Debug Logging in Home Assistant:
 ```yaml
 # configuration.yaml
-lovelace:
-  resources:
-    - url: /local/swissweather-card.js
-      type: module
+logger:
+  default: info
+  logs:
+    custom_components.frontend: debug
 ```
 
-### 4. Resource-URL validieren
-
-#### In der Browser-Konsole testen:
-```javascript
-// Test 1: Direkte URL aufrufen
-window.open('/local/swissweather-card.js', '_blank');
-// oder für HACS:
-window.open('/hacsfiles/swissweather-card/swissweather-card.js', '_blank');
-
-// Test 2: Element-Check
-customElements.get('swissweather-card');
-// Sollte eine Funktion zurückgeben, nicht undefined
+#### Check Home Assistant Logs:
+```bash
+# In Home Assistant log viewer or
+tail -f /config/home-assistant.log | grep -i swissweather
 ```
 
-### 5. Häufige Lösungen
+### 10. Getting Help
 
-#### Cache leeren:
-1. **Browser:** Strg+F5 (Windows) / Cmd+Shift+R (Mac)
-2. **Home Assistant:** Neustarten
+If all steps fail, create a [GitHub Issue](https://github.com/dmoo500/ha-swissweather-card/issues) with:
 
-#### Resource-Pfad korrigieren:
-```yaml
-# HACS (automatisch):
-/hacsfiles/swissweather-card/swissweather-card.js
+1. **Browser Console Output** (complete error messages)
+2. **Home Assistant Version**
+3. **Installation Method** (HACS/Manual)
+4. **Card Configuration** (YAML)
+5. **Entity Names** used
+6. **Network Tab Screenshots** (if loading issues)
 
-# Manuell in config/www/:
-/local/swissweather-card.js
+### 11. Quick Fix Checklist
 
-# Manuell in config/www/community/:
-/local/community/swissweather-card/swissweather-card.js
-```
+Before creating an issue, try these quick fixes:
 
-#### Home Assistant Version prüfen:
-- **Mindestens:** Home Assistant 2025.8+
-- **Browser:** Moderne Browser mit ES2022 Support
-
-### 6. Erweiterte Debugging-Schritte
-
-#### JavaScript-Fehler identifizieren:
-```javascript
-// In Browser-Konsole ausführen:
-console.log('HA Version:', window.hassConnection?.config?.version);
-console.log('Custom Elements Support:', !!window.customElements);
-console.log('Available Cards:', window.customCards?.map(c => c.type));
-```
-
-#### Network-Tab prüfen:
-1. F12 → Network Tab
-2. Seite neu laden
-3. Nach `swissweather-card.js` suchen
-4. Status: **200 OK** = Datei lädt korrekt
-
-### 7. Test-Konfiguration
-
-#### Minimale funktionierende Konfiguration:
-```yaml
-type: custom:swissweather-card
-entity: weather.openweathermap  # Ihre Wetter-Entity
-location: "Test"
-```
-
-#### Debug-Konfiguration mit Konsolen-Output:
-```yaml
-type: custom:swissweather-card
-entity: weather.openweathermap
-location: "Debug Test"
-debug: true  # Aktiviert zusätzliche Logs
-```
-
-### 8. Alternative Test-Methoden
-
-#### HTML-Test-Datei erstellen:
-```html
-<!DOCTYPE html>
-<html>
-<head><title>SwissWeather Test</title></head>
-<body>
-    <swissweather-card></swissweather-card>
-    <script type="module" src="/local/swissweather-card.js"></script>
-    <script>
-        setTimeout(() => {
-            const el = customElements.get('swissweather-card');
-            console.log('Element registered:', !!el);
-        }, 1000);
-    </script>
-</body>
-</html>
-```
-
-### 9. Kontakt für Support
-
-Wenn alle Schritte fehlschlagen, erstellen Sie ein [GitHub Issue](https://github.com/your-username/ha-swissweather-card/issues) mit:
-
-- ✅ **Home Assistant Version:** `Settings → About`
-- ✅ **Browser & Version:** Chrome 118, Firefox 119, etc.
-- ✅ **Console-Logs:** Vollständige Ausgabe aus F12 → Console
-- ✅ **Installation-Methode:** HACS oder manuell
-- ✅ **Konfiguration:** Ihre YAML-Card-Config (ohne sensible Daten)
-
-### 10. Bekannte Probleme & Lösungen
-
-| Problem | Ursache | Lösung |
-|---------|---------|---------|
-| `Failed to load resource` | Falsche URL | Resource-Pfad korrigieren |
-| `Unexpected token` | JavaScript-Fehler | Cache leeren, HA neustarten |
-| `Module not found` | Import-Fehler | Datei-Integrität prüfen |
-| `Custom element already defined` | Doppelte Registrierung | Hard-Refresh (Strg+F5) |
+- [ ] Clear browser cache (Ctrl+F5)
+- [ ] Check file exists: `/config/www/swissweather-card.js`
+- [ ] Verify resource type: `type: module`
+- [ ] Test entity in Developer Tools → States
+- [ ] Try incognito mode (disable browser extensions)
+- [ ] Check Home Assistant logs for errors
+- [ ] Restart Home Assistant
+- [ ] Test with a simple card configuration
 
 ---
 
-**💡 Tipp:** Die meisten Probleme werden durch Cache-Leeren und Home Assistant-Neustart gelöst!
+**Need more help?** Check the [Installation Guide](./installation-guide.md) or [Configuration Guide](./configuration.md) for additional information.

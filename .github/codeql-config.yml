@@ -1,0 +1,9 @@
+name: "CodeQL config"
+
+paths:
+  - src
+
+paths-ignore:
+  - swissweather-card.js
+  - node_modules
+  - "**/*.min.js"

@@ -1,182 +1,278 @@
 # SwissWeather Card - Visual Editor Guide
 
-## 🎨 Überblick
+## 🎨 Overview
 
-Der SwissWeather Card Visual Editor ermöglicht eine benutzerfreundliche Konfiguration direkt in der Home Assistant Lovelace UI. Keine YAML-Kenntnisse erforderlich!
+The SwissWeather Card Visual Editor provides user-friendly configuration directly in the Home Assistant Lovelace UI. No YAML knowledge required!
 
-## 🚀 Schnellstart
+## 🚀 Quick Start
 
-### 1. Card hinzufügen
-1. **Dashboard öffnen** → **Bearbeiten-Modus aktivieren**
-2. **"Card hinzufügen"** klicken
-3. **"Benutzerdefiniert: SwissWeather Card"** auswählen
+### 1. Add Card
+1. **Open Dashboard** → **Enable Edit Mode**
+2. **Click "Add Card"**
+3. **Select "Custom: SwissWeather Card"**
 
-### 2. Basis-Konfiguration
-1. **Wetter Entity** auswählen (erforderlich)
-   - Dropdown öffnet sich automatisch
-   - Zeigt alle verfügbaren `weather.*` Entities
-   - Beispiel: `weather.openweathermap`
+### 2. Basic Configuration
+1. **Select Weather Entity** (required)
+   - Dropdown opens automatically
+   - Shows all available `weather.*` entities
+   - Example: `weather.openweathermap`
 
-2. **Standort eingeben** (optional)
-   - Angezeigter Name in der Card
-   - Beispiel: "Zürich", "Bern", "Basel"
+2. **Enter Location** (optional)
+   - Displayed name in the card
+   - Example: "Zurich", "Bern", "Basel"
 
-### 3. Erweiterte Sensoren (Optional)
+### 3. Advanced Sensors (Optional)
 
-#### 💨 Wind-Sensoren
-- **Windgeschwindigkeit**: `sensor.wind_speed`
-- **Windrichtung**: `sensor.wind_bearing`
-- **Einheiten**: km/h und Grad (0-360°)
+#### 💨 Wind Sensors
+- **Wind Speed**: `sensor.wind_speed`
+- **Wind Direction**: `sensor.wind_bearing`
+- **Units**: km/h and degrees (0-360°)
 
-#### ☀️ Weitere Wetterdaten
-- **Sonnenscheindauer**: `sensor.sunshine_duration` (Stunden)
-- **Niederschlag**: `sensor.precipitation_forecast`
-- **Wetterwarnungen**: `sensor.meteoswiss_warnings`
+#### 🌧️ Precipitation Sensors
+- **Precipitation Forecast**: `sensor.precipitation_1h`
+- **Rain Amount**: `sensor.rain`
+- **Snow Amount**: `sensor.snow`
 
-### 4. Anzeigeoptionen
-- ✅ **Wettervorhersage**: 7-Tage-Prognose anzeigen
-- ✅ **Niederschlagsdiagramm**: Stündliche Regenvorhersage
-- ✅ **Wetterwarnungen**: Schweizer Warnungen hervorheben
-- ⬜ **Kompakter Modus**: Kleinere Card für mobile Geräte
+#### ⚡ Weather Warnings
+- **Warnings Entity**: `sensor.weather_warnings`
+- **Alert Binary Sensor**: `binary_sensor.weather_alert`
 
-## 🔧 Editor-Features
+### 4. Display Options
 
-### Entity Picker
-```typescript
-// Automatische Filterung nach Domain
-<ha-entity-picker
-  .includeDomains=${['weather']}        // Nur Wetter-Entities
-  .includeDomains=${['sensor']}         // Nur Sensor-Entities
-  allow-custom-entity                   // Manuelle Eingabe möglich
-/>
+#### 📊 Grid Layout
+- **Columns**: 1-4 (default: 2)
+- **Rows**: 1-4 (default: 2)
+- **Auto-resize**: Adapts to content
+
+#### 🎭 Visual Settings
+- **Animated Icons**: Enable/disable weather icon animations
+- **Background Effects**: Lightning, rain animation (performance mode)
+- **Compact Mode**: Smaller text and spacing
+
+## 📋 Visual Editor Sections
+
+### 🔧 Basic Settings
+```
+┌─ Basic Settings ────────────────────┐
+│ Weather Entity: [weather.home]      │
+│ Title: [Weather]                    │
+│ Show Title: [✓]                     │
+│ Location: [Home]                    │
+└─────────────────────────────────────┘
 ```
 
-### Live-Vorschau
-- **Sofortige YAML-Generierung** bei jeder Änderung
-- **Fehlervalidierung** für ungültige Entities
-- **Konfigurations-Preview** im unteren Bereich
-
-### Responsive Design
-- **Desktop**: Zweispalten-Layout mit Sidebar
-- **Mobile**: Gestapeltes Layout für bessere Bedienbarkeit
-- **Touch-optimiert**: Große Buttons und Eingabefelder
-
-## 📋 Generierte YAML-Konfiguration
-
-### Minimale Konfiguration
-```yaml
-type: custom:swissweather-card
-entity: weather.openweathermap
-location: "Zürich"
+### 📡 Sensor Configuration
+```
+┌─ Additional Sensors ────────────────┐
+│ Precipitation:                      │
+│ ├ Rain: [sensor.rain]               │
+│ ├ Snow: [sensor.snow]               │
+│ └ Forecast: [sensor.precip_1h]      │
+│                                     │
+│ Wind:                               │
+│ ├ Speed: [sensor.wind_speed]        │
+│ └ Direction: [sensor.wind_bearing]  │
+│                                     │
+│ Warnings:                           │
+│ └ Alerts: [sensor.weather_warnings] │
+└─────────────────────────────────────┘
 ```
 
-### Vollständige Konfiguration
-```yaml
-type: custom:swissweather-card
-entity: weather.openweathermap
-location: "Zürich"
-
-# Zusätzliche Sensoren
-wind_entity: sensor.wind_speed
-wind_direction_entity: sensor.wind_bearing
-sunshine_entity: sensor.sunshine_duration
-precipitation_entity: sensor.precipitation_forecast
-warning_entity: sensor.meteoswiss_warnings
-
-# Anzeigeoptionen
-show_forecast: true
-show_precipitation: true
-show_warnings: true
-compact_mode: false
+### 🎨 Display Options
+```
+┌─ Display Settings ──────────────────┐
+│ Grid Layout:                        │
+│ ├ Columns: [2] ▼                     │
+│ └ Rows: [2] ▼                        │
+│                                     │
+│ Visual Effects:                     │
+│ ├ Animated Icons: [✓]               │
+│ ├ Background Effects: [✓]           │
+│ └ Compact Mode: [ ]                 │
+│                                     │
+│ Forecast:                           │
+│ ├ Show Hourly: [✓]                  │
+│ ├ Show Daily: [✓]                   │
+│ └ Diagram Labels: [Compact] ▼       │
+└─────────────────────────────────────┘
 ```
 
-## 🎯 Entity-Zuordnung
+## ⚙️ Step-by-Step Configuration
 
-### Wetter-Integrationen
-| Integration | Entity | Beschreibung |
-|-------------|--------|--------------|
-| OpenWeatherMap | `weather.openweathermap` | Kostenlose API, weltweite Abdeckung |
-| Met.no | `weather.home` | Norwegischer Wetterdienst |
-| AccuWeather | `weather.accuweather` | Kommerzielle API |
-| DarkSky | `weather.dark_sky` | ⚠️ Eingestellt seit 2023 |
+### Step 1: Basic Setup
+1. **Select Main Weather Entity**
+   - Click dropdown next to "Weather Entity"
+   - Choose from available weather integrations
+   - Example: `weather.openweathermap`, `weather.met_no`
 
-### Schweizer Sensoren
-| Sensor | Quelle | Beispiel-Entity |
-|--------|--------|-----------------|
-| MeteoSchweiz | HACS Integration | `sensor.meteoswiss_temperature` |
-| Swiss Weather | Custom Component | `sensor.swiss_weather_warnings` |
-| Local Station | DIY/Hardware | `sensor.local_wind_speed` |
+2. **Configure Title and Location**
+   - Enter card title (optional)
+   - Add location name for display
+   - Toggle title visibility
 
-## 🔍 Troubleshooting
+### Step 2: Add Sensors (Optional)
+1. **Precipitation Sensors**
+   ```
+   Hourly Rain: sensor.rain_1h
+   Daily Rain: sensor.rain_today  
+   Snow: sensor.snow_depth
+   ```
 
-### Häufige Probleme
+2. **Wind Sensors**
+   ```
+   Wind Speed: sensor.wind_speed
+   Wind Gust: sensor.wind_gust
+   Wind Direction: sensor.wind_bearing
+   ```
 
-#### ❌ "Entity nicht gefunden"
-**Ursache**: Entity existiert nicht oder ist falsch geschrieben
-**Lösung**: 
-1. **Developer Tools** → **States** → Nach Entity suchen
-2. **Exakter Name** verwenden (case-sensitive)
-3. **Entity-Status** überprüfen (available/unavailable)
+3. **Weather Warnings**
+   ```
+   Warnings: sensor.meteo_warnings
+   Severe Weather: binary_sensor.severe_weather
+   ```
 
-#### ❌ "Keine Wetter-Entities verfügbar"
-**Ursache**: Keine Wetter-Integration installiert
-**Lösung**:
-1. **Settings** → **Devices & Services** → **Add Integration**
-2. **"Weather"** suchen und installieren (z.B. OpenWeatherMap)
-3. **API-Key** konfigurieren falls erforderlich
+### Step 3: Layout Configuration
+1. **Grid Options**
+   - **Columns**: How many cards wide (1-4)
+   - **Rows**: How many cards tall (1-4)  
+   - **Auto-size**: Automatically adjust to content
 
-#### ❌ "Zusätzliche Sensoren werden nicht angezeigt"
-**Ursache**: Sensoren optional, Entity möglicherweise nicht verfügbar
-**Lösung**:
-1. **Sensor-Integration** installieren (z.B. MeteoSchweiz via HACS)
-2. **Entity-Namen** in Developer Tools überprüfen
-3. **Fallback auf Wetter-Entity** - Card funktioniert ohne zusätzliche Sensoren
+2. **Visual Effects**
+   - **Animated Weather Icons**: Smooth animations
+   - **Background Effects**: Weather-based backgrounds
+   - **Performance Mode**: Reduced animations for slower devices
 
-### Debug-Modus
-```javascript
-// Browser-Konsole (F12)
-// Prüfe verfügbare Entities
-Object.keys(hass.states).filter(id => id.startsWith('weather.'));
-Object.keys(hass.states).filter(id => id.startsWith('sensor.wind'));
+### Step 4: Forecast Settings
+1. **Forecast Display**
+   - **Hourly Forecast**: Next 24 hours
+   - **Daily Forecast**: Next 7 days
+   - **Temperature Chart**: Graphical temperature display
 
-// Prüfe Entity-Attribute
-console.log(hass.states['weather.openweathermap']);
+2. **Diagram Options**
+   - **Labels**: None, Compact, Full
+   - **Chart Type**: Line, Bar, Combined
+   - **Time Range**: 12h, 24h, 48h
+
+## 🎯 Configuration Examples
+
+### 📱 Mobile-Optimized Setup
+```
+Grid: 1 column × 3 rows
+Compact Mode: Enabled
+Animated Icons: Disabled (performance)
+Background Effects: Disabled
 ```
 
-## 🎨 Anpassungen
-
-### Custom CSS
-```css
-/* Card-Container anpassen */
-swissweather-card {
-  --swissweather-primary-color: #dc143c;
-  --swissweather-background: #ffffff;
-  --swissweather-border-radius: 16px;
-}
-
-/* Kompakter Modus erzwingen */
-swissweather-card[compact] {
-  --swissweather-padding: 10px;
-  --swissweather-font-size: 14px;
-}
+### 🖥️ Desktop Full-Feature Setup  
+```
+Grid: 2 columns × 2 rows
+Compact Mode: Disabled  
+Animated Icons: Enabled
+Background Effects: Enabled
+All sensors configured
 ```
 
-### Theme-Integration
-```yaml
-# In themes.yaml
-swissweather_theme:
-  swissweather-primary-color: "#2196f3"
-  swissweather-warning-color: "#ff9800"
-  swissweather-success-color: "#4caf50"
+### ⚡ Performance Setup
+```
+Grid: 2 columns × 1 row
+Compact Mode: Enabled
+Animations: Minimal
+Basic sensors only
 ```
 
-## 📚 Weiterführende Links
+## 🔍 Sensor Discovery
 
-- **[HACS Installation](hacs-installation.md)** - HACS-Integration einrichten
-- **[Entity Mapping](entity-mapping.md)** - Sensor-Zuordnungen für verschiedene Systeme
-- **[Theming Guide](theming.md)** - Card-Design anpassen
-- **[Home Assistant 2025.8](ha-2025-8.md)** - Kompatibilitäts-Guide
+The visual editor automatically discovers compatible sensors:
+
+### 🔎 **Auto-Detection**
+- Weather entities starting with `weather.`
+- Wind sensors with `wind` in the name
+- Precipitation sensors with `rain`, `snow`, `precip` in name
+- Warning sensors with `warning`, `alert` in name
+
+### ✅ **Manual Selection**  
+If auto-detection misses sensors:
+1. Use entity selector dropdown
+2. Type exact entity ID
+3. Verify entity exists in Developer Tools → States
+
+## 📊 Real-Time Preview
+
+The visual editor provides real-time preview:
+
+### 🔄 **Live Updates**
+- Configuration changes update immediately
+- No need to save and reload
+- See exactly how card will appear
+
+### 🎨 **Style Preview**
+- Grid layout visualization  
+- Color scheme preview
+- Font size and spacing
+
+## 🚨 Common Configuration Issues
+
+### ❌ Entity Not Found
+**Problem:** "Entity not available" message
+**Solution:**
+1. Check entity exists: Developer Tools → States
+2. Verify weather integration is working
+3. Restart Home Assistant if needed
+
+### ❌ No Data Displayed
+**Problem:** Card shows but no weather data
+**Solution:**  
+1. Verify weather entity has attributes
+2. Check internet connection
+3. Review weather service API limits
+
+### ❌ Layout Issues
+**Problem:** Card layout looks incorrect
+**Solution:**
+1. Try different grid options
+2. Enable compact mode for smaller screens
+3. Adjust rows/columns to fit content
+
+## 💡 Pro Tips
+
+### 🎯 **Start Simple**
+1. Begin with basic weather entity only
+2. Add sensors one by one
+3. Test each addition before adding more
+
+### 🔧 **Entity Naming**
+- Use descriptive entity names
+- Group related sensors with prefixes
+- Example: `weather_zurich_temp`, `weather_zurich_wind`
+
+### 📱 **Responsive Design**
+- Test on mobile and desktop
+- Use compact mode for small screens  
+- Adjust grid based on screen size
+
+### ⚡ **Performance Optimization**
+- Disable animations on slower devices
+- Use fewer sensors for better performance
+- Enable compact mode to reduce DOM complexity
+
+## 🔄 Migration from YAML
+
+### From Manual YAML Configuration:
+1. Open existing card in edit mode
+2. Click "Show Visual Editor" button
+3. Visual editor loads current YAML settings
+4. Continue editing with visual tools
+
+### Unsupported YAML Features:
+Some advanced YAML options may not be available in visual editor:
+- Custom CSS styling
+- Advanced automation triggers  
+- Complex conditional logic
+
+For these features, use "Show Code Editor" to switch back to YAML mode.
+
+💡 **Tip:** Start with minimal configuration and add sensors gradually for best results!
 
 ---
 
-💡 **Tipp**: Beginnen Sie mit der minimalen Konfiguration und fügen Sie schrittweise weitere Sensoren hinzu!
+**Next Steps:** See the [Configuration Guide](./configuration.md) for YAML options or [Debug Guide](./debug-guide.md) for troubleshooting.
