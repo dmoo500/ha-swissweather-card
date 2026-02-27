@@ -16,7 +16,7 @@
     "dev": "vite build --watch",
     "serve": "python3 -m http.server 8000",
     "type-check": "tsc --noEmit",
-    "lint": "eslint src/ --ext .ts,.js",
+    "lint": "ESLINT_USE_FLAT_CONFIG=false eslint src/ --ext .ts,.js",
     "format": "prettier --write src/",
     "format:check": "prettier --check src/",
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -50,7 +50,7 @@
     "@types/node": "^24.3.0",
     "@typescript-eslint/eslint-plugin": "^8.56.1",
     "@typescript-eslint/parser": "^8.56.1",
-    "eslint": "^8.57.0",
+    "eslint": "^9.39.3",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-n": "^17.21.3",
@@ -83,6 +83,7 @@
   "resolutions": {
     "minimatch": "9.0.7",
     "rollup": "4.59.0",
-    "glob": "12.0.0"
+    "glob": "12.0.0",
+    "js-yaml": "4.1.1"
   }
 }

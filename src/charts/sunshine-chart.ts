@@ -108,11 +108,15 @@ export class SunshineChart extends LitElement {
                   // @ts-expect-error: sunrise/sunset are not in the type, but often present
                   const sunrise = this.weatherEntity?.attributes?.sunrise
                     ? new Date((this.weatherEntity.attributes as any).sunrise)
-                    : new Date((this.sun_entity?.attributes as any).next_rising) || null;
+                    : (this.sun_entity?.attributes as any)?.next_rising
+                      ? new Date((this.sun_entity?.attributes as any).next_rising)
+                      : null;
                   // @ts-expect-error: sunrise/sunset are not in the type, but often present
                   const sunset = this.weatherEntity?.attributes?.sunset
                     ? new Date((this.weatherEntity.attributes as any).sunset)
-                    : new Date((this.sun_entity?.attributes as any).next_setting) || null;
+                    : (this.sun_entity?.attributes as any)?.next_setting
+                      ? new Date((this.sun_entity?.attributes as any).next_setting)
+                      : null;
                   const firstHour = this.hourlyForecast[0]?.datetime
                     ? new Date(this.hourlyForecast[0].datetime)
                     : null;
