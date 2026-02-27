@@ -133,8 +133,12 @@ const markedSecurityPatterns = [
     pattern: '!--)`,"i"),',
     replacement: '!--)`,"gi"),',
     description: 'Fix htmlBeginRegex to match upper case tags'
-  },
-  {
+  },  {
+    name: 'block HTML regex script/pre/style/textarea case sensitivity',
+    pattern: '|$))\",\"i\").',
+    replacement: '|$))\",\"gi\").',
+    description: 'Fix block HTML regex (Sn) to match upper case <SCRIPT> tags'
+  },  {
     name: 'HTML comment end tag --!>',
     pattern: '(?:-->|$))',
     replacement: '(?:--!?>|$))',
