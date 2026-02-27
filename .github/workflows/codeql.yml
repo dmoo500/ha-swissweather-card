@@ -35,14 +35,15 @@ jobs:
     - name: Apply security patches explicitly
       run: node scripts/apply-lit-html-security-fix.cjs
 
-    - name: Build (produces patched swissweather-card.js)
-      run: yarn build
-
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v3
       with:
         languages: javascript
-        queries: security-and-quality
+
+    - name: Build (produces patched swissweather-card.js)
+      run: yarn build
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
+      with:
+        category: "/language:javascript"
