@@ -21,29 +21,11 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-
-    - name: Enable Corepack
-      run: corepack enable
-
-    - name: Install dependencies (applies security patches via postinstall)
-      run: yarn install --immutable
-
-    - name: Apply security patches explicitly
-      run: node scripts/apply-lit-html-security-fix.cjs
-
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v3
       with:
-        languages: javascript
-
-    - name: Build (produces patched swissweather-card.js)
-      run: yarn build
+        languages: javascript-typescript
+        config-file: ./.github/codeql-config.yml
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
-      with:
-        category: "/language:javascript"
