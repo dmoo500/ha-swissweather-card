@@ -83,6 +83,7 @@
   "resolutions": {
     "minimatch": "9.0.7",
     "rollup": "4.59.0",
-    "glob": "12.0.0"
+    "glob": "12.0.0",
+    "js-yaml": "4.1.1"
   }
 }
