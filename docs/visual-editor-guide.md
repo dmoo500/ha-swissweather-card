@@ -149,9 +149,8 @@ The SwissWeather Card Visual Editor provides user-friendly configuration directl
    - **Temperature Chart**: Graphical temperature display
 
 2. **Diagram Options**
-   - **Labels**: None, Compact, Full
-   - **Chart Type**: Line, Bar, Combined
-   - **Time Range**: 12h, 24h, 48h
+   - **Chart Order**: Customize which charts appear and in what order
+   - **Forecast Hours**: 6h, 12h, or 18h
 
 ## 🎯 Configuration Examples
 
@@ -160,7 +159,6 @@ The SwissWeather Card Visual Editor provides user-friendly configuration directl
 Grid: 1 column × 3 rows
 Compact Mode: Enabled
 Animated Icons: Disabled (performance)
-Background Effects: Disabled
 ```
 
 ### 🖥️ Desktop Full-Feature Setup  
@@ -168,7 +166,6 @@ Background Effects: Disabled
 Grid: 2 columns × 2 rows
 Compact Mode: Disabled  
 Animated Icons: Enabled
-Background Effects: Enabled
 All sensors configured
 ```
 
@@ -176,7 +173,7 @@ All sensors configured
 ```
 Grid: 2 columns × 1 row
 Compact Mode: Enabled
-Animations: Minimal
+Animations: Disabled
 Basic sensors only
 ```
 

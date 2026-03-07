@@ -91,12 +91,7 @@ entity: weather.your_weather_entity
 
 ### 5. Debug Configuration
 
-For detailed debugging, add to your card configuration:
-```yaml
-type: custom:swissweather-card
-entity: weather.home_assistant
-debug: true  # Enables detailed console logging
-```
+For debugging, check the browser console (F12) for detailed loading messages. The card logs its initialization status automatically — no special config option is required.
 
 ### 6. Browser Compatibility Check
 
