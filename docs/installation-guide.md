@@ -10,7 +10,7 @@
 2. **Add Custom Repository**
    - Menu → Custom repositories
    - URL: `https://github.com/dmoo500/ha-swissweather-card`
-   - Category: "Lovelace"
+   - Category: "plugin"
    - Click "Add"
 
 3. **Install Card**
@@ -59,19 +59,19 @@ entity: weather.home_assistant
 ```yaml
 type: custom:swissweather-card
 entity: weather.home_assistant
-title: "Weather Forecast"
 show_warnings: true
+show_temperature: true
+show_precipitation: true
+show_sunshine: true
+show_wind: false
+show_forecast: true
+forecast_hours: 12
 grid_options:
   columns: 2
   rows: 3
-diagram_labels: "compact"
 enable_animate_weather_icons: true
-weather_date_sensors:
-  - sensor.weather_warnings
-precipitation_forecast:
-  - sensor.precipitation_1h
-  - sensor.precipitation_2h
-  - sensor.precipitation_3h
+warning_entity: sensor.weather_warnings
+precipitation_entity: sensor.precipitation_forecast
 ```
 
 ## 🎨 Card Types
@@ -80,26 +80,28 @@ precipitation_forecast:
 ```yaml
 type: custom:swissweather-card
 entity: weather.home_assistant
-title: "Full Weather Display"
-show_current: true
 show_forecast: true
 show_warnings: true
 ```
 
 ### 2. Forecast Diagram
 ```yaml
-type: custom:forecast-diagram-card
+type: custom:swissweather-forecast-diagram-card
 entity: weather.home_assistant
-title: "Temperature & Precipitation"
-diagram_type: "detailed"
+grid_options:
+  columns: 2
+  rows: 2
 ```
 
 ### 3. Animated Background Card
 ```yaml
-type: custom:swissweather-bg-card
+type: custom:swissweather-animated-background-card
 entity: weather.home_assistant
-background_effects: true
-show_temperature: true
+sun_entity: sun.sun
+show_sun_times: true
+show_forecast: true
+show_day_temps: true
+forecast_mode: daily
 ```
 
 ## ⚙️ Entity Requirements
@@ -115,22 +117,14 @@ weather.your_weather_provider  # OpenWeatherMap, Met.no, etc.
 # Weather warnings
 sensor.weather_warnings
 sensor.meteo_warnings
-binary_sensor.weather_alert
-
-# Precipitation forecast
-sensor.precipitation_1h
-sensor.precipitation_2h
-sensor.precipitation_6h
 
 # Wind information
 sensor.wind_speed
-sensor.wind_gust
 sensor.wind_direction
 
 # Additional sensors
 sensor.sunshine_duration
-sensor.visibility
-sensor.humidity
+sensor.precipitation_forecast
 ```
 
 ## 🔍 Verification Steps
@@ -235,7 +229,7 @@ After installation, you should see:
 1. **In Browser Console (F12):**
    ```
    ✅ SwissWeather Card module loaded successfully
-   ✅ Custom elements registered: swissweather-card, forecast-diagram-card
+   ✅ Custom elements registered: swissweather-card, swissweather-forecast-diagram-card, swissweather-animated-background-card
    ```
 
 2. **In Home Assistant:**

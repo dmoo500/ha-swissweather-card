@@ -15,87 +15,93 @@ entity: weather.home
 type: custom:swissweather-card
 entity: weather.home
 location: "Zurich"
+show_location: true
 warning_entity: sensor.meteoswiss_warnings
 wind_entity: sensor.wind_speed
-wind_direction_entity: sensor.wind_direction  
+wind_direction_entity: sensor.wind_bearing
 sunshine_entity: sensor.sunshine_duration
 precipitation_entity: sensor.precipitation_forecast
+sun_entity: sun.sun
 show_forecast: true
-show_hourly: true
+forecast_hours: 12
 show_warnings: true
+show_temperature: true
+show_precipitation: true
+show_sunshine: true
+show_wind: false
 compact_mode: false
+enable_animate_weather_icons: true
+chart_order:
+  - temperature
+  - precipitation
+  - sunshine
+  - wind
+  - forecast
 grid_options:
   columns: 2
   rows: 2
-diagram_labels: "compact"
-enable_animate_weather_icons: true
 ```
 
 ## Advanced Configuration Options
 
-### Grid Layout Options
+### Grid Layout and Display
 ```yaml
 type: custom:swissweather-card
 entity: weather.openweathermap
 
 # Grid configuration
 grid_options:
-  columns: 3        # Number of columns (1-4)
-  rows: 2          # Number of rows (1-4)
-  responsive: true  # Auto-adjust based on content
+  columns: 3        # Number of columns
+  rows: 2           # Number of rows
 
-# Display settings
-standalone: false   # Use as part of larger dashboard
-compact_mode: true  # Reduced spacing for smaller displays
+# Compact mode for smaller screens
+compact_mode: true
 ```
 
-### Weather Sensors Configuration
+### Data Sensors
 ```yaml
 type: custom:swissweather-card
 entity: weather.met_no
 
-# Additional weather sensors
-weather_date_sensors:
-  - sensor.weather_warnings_zurich
-  - sensor.severe_weather_alerts
-
-# Precipitation forecasting
-precipitation_forecast:
-  - sensor.rain_1h
-  - sensor.rain_3h
-  - sensor.rain_6h
-  - sensor.snow_forecast
-
-# Wind information
-wind_entity: sensor.wind_speed_kmh
+# Wind sensors
+wind_entity: sensor.wind_speed
 wind_direction_entity: sensor.wind_bearing
-wind_gust_entity: sensor.wind_gust
 
-# Environmental sensors
-sunshine_entity: sensor.sunshine_duration_hours
-uv_index_entity: sensor.uv_index
-visibility_entity: sensor.visibility_km
-pressure_entity: sensor.atmospheric_pressure
+# Other sensors
+sunshine_entity: sensor.sunshine_duration
+precipitation_entity: sensor.precipitation_forecast
+warning_entity: sensor.meteoswiss_warnings
+
+# Sun entity for sunrise/sunset in charts
+sun_entity: sun.sun
 ```
 
-### Visual Customization
+### Chart Visibility and Order
 ```yaml
 type: custom:swissweather-card
 entity: weather.home_assistant
 
-# Animation settings
+# Toggle individual charts
+show_temperature: true
+show_precipitation: true
+show_sunshine: true
+show_wind: false
+show_forecast: true
+show_warnings: true
+
+# Number of forecast hours shown (6, 12, or 18)
+forecast_hours: 12
+
+# Chart display order
+chart_order:
+  - temperature
+  - precipitation
+  - sunshine
+  - wind
+  - forecast
+
+# Animated weather icons
 enable_animate_weather_icons: true
-background_effects: true
-lightning_effects: true
-
-# Chart and diagram options
-diagram_labels: "full"    # Options: "none", "compact", "full"
-chart_type: "modern"      # Chart styling
-date_format: "locale"     # Date display format
-
-# Theme integration
-theme_mode: "auto"        # Follow HA theme automatically
-color_scheme: "adaptive"  # Adapt colors to weather conditions
 ```
 
 ## Template Sensors
@@ -162,7 +168,6 @@ For different locations, you can configure multiple cards:
 type: custom:swissweather-card
 entity: weather.openweathermap_zurich
 location: "Zürich"
-title: "Zurich Weather"
 
 ---
 
@@ -170,7 +175,6 @@ title: "Zurich Weather"
 type: custom:swissweather-card
 entity: weather.openweathermap_bern
 location: "Bern"
-title: "Bern Weather"
 
 ---
 
@@ -178,7 +182,6 @@ title: "Bern Weather"
 type: custom:swissweather-card
 entity: weather.openweathermap_geneva  
 location: "Geneva"
-title: "Geneva Weather"
 ```
 
 ### Responsive Multi-Column Layout

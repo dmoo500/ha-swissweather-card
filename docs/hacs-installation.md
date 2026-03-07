@@ -79,7 +79,6 @@ wind_gust_entity: sensor.wind_gust
 
 # Additional sensors
 sunshine_entity: sensor.sunshine_duration
-uv_index_entity: sensor.uv_index
 
 # Display options
 show_current: true
@@ -93,7 +92,6 @@ grid_options:
   rows: 3
   
 compact_mode: false
-diagram_labels: "compact"
 ```
 
 ## 🔧 HACS Management
@@ -137,7 +135,7 @@ diagram_labels: "compact"
 2. **File System Check**
    ```bash
    # File should exist at:
-   /config/custom_components/frontend/swissweather-card/
+   /config/www/community/swissweather-card/swissweather-card.js
    ```
 
 3. **Lovelace Resources**
