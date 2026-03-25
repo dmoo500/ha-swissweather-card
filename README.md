@@ -247,11 +247,11 @@ yarn build        # Production build
 - ✅ Edge 90+
 
 **Possible causes and solutions:**
-
-     resources:
-       - url: /hacsfiles/swissweather-card/swissweather-card.js
-         type: module
-   ```
+```
+   resources:
+      - url: /hacsfiles/swissweather-card/swissweather-card.js
+      type: module
+```
 
 2. **Cache issue**
    - Clear browser cache (Ctrl+F5 or Cmd+Shift+R)
