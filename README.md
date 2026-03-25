@@ -278,9 +278,9 @@ yarn build        # Production build
 ## 🔗 Links
 
 - [📖 Documentation](docs/)
-- [🐛 Bug Reports](https://github.com/your-username/ha-swissweather-card/issues)
-- [💡 Feature Requests](https://github.com/your-username/ha-swissweather-card/discussions)
-- [📋 Changelog](CHANGELOG.md)
+- [🐛 Bug Reports](https://github.com/dmoo500/ha-swissweather-card/issues)
+- [💡 Feature Requests](https://github.com/dmoo-500/ha-swissweather-card/discussions)
+- [📋 Changelog](https://github.com/dmoo500/ha-swissweather-card/releases)
 
 ## 📄 License
 
