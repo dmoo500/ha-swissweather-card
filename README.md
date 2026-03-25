@@ -2,7 +2,7 @@
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/hacs/integration)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/dmoo500/ha-swissweather-card)](https://github.com/dmoo500/ha-swissweather-card/releases)
 [![License](https://img.shields.io/github/license/dmoo500/ha-swissweather-card)](LICENSE)
-[![Issues](https://img.shields.io/github/issues-raw/dmoo500/ha-swissweather-card?maxAge=25000)](https://github.comdmoo500/ha-swissweather-card/issues)  
+[![Issues](https://img.shields.io/github/issues-raw/dmoo500/ha-swissweather-card?maxAge=25000)](https://github.com/dmoo500/ha-swissweather-card/issues)  
 [![GitHub stars](https://img.shields.io/github/stars/dmoo500/ha-swissweather-card?style=social&label=Stars&style=plastic)]()
 [![GitHub watchers](https://img.shields.io/github/watchers/dmoo500/ha-swissweather-card?style=social&label=Watch&style=plastic)]()
 
@@ -220,7 +220,7 @@ This card is using the animated svg icons from [Meteocons](https://github.com/ba
 
 ### Setup
 ```bash
-git clone https://github.com/your-username/ha-swissweather-card.git
+git clone https://github.com/dmoo500/ha-swissweather-card.git
 cd ha-swissweather-card
 yarn dev          # Development with live reload
 yarn type-check   # TypeScript check
@@ -279,8 +279,8 @@ yarn build        # Production build
 
 - [📖 Documentation](docs/)
 - [🐛 Bug Reports](https://github.com/dmoo500/ha-swissweather-card/issues)
-- [💡 Feature Requests](https://github.com/dmoo-500/ha-swissweather-card/discussions)
-- [📋 Changelog](https://github.com/dmoo500/ha-swissweather-card/releases)
+- [💡 Feature Requests](https://github.com/dmoo500/ha-swissweather-card/discussions)
+- [📋 Changelog](CHANGELOG.md)
 
 ## 📄 License
 
