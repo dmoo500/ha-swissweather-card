@@ -1,14 +1,9 @@
-import { css, html, LitElement, PropertyValues, TemplateResult } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { css, html, TemplateResult } from 'lit';
+import { customElement } from 'lit/decorators.js';
 import { get as _t, registerTranslateConfig } from 'lit-translate';
 import { translations } from '../../translations';
 import { getEntityState } from '../../utils';
-import type {
-  HomeAssistant,
-  WeatherEntity,
-  HassEntity,
-  WeatherForecast,
-} from '../../types/home-assistant';
+import type { WeatherEntity, HassEntity } from '../../types/home-assistant';
 import { SunshineChart } from '../../charts/sunshine-chart';
 import {
   SUNSHINE_CARD_NAME,
@@ -16,20 +11,14 @@ import {
   sunshineSchema,
   type HourlyChartCardConfig,
 } from './const';
+import { HourlyForecastBaseCard } from './hourly-forecast-base';
 
 void SunshineChart;
 
 registerTranslateConfig({ loader: lang => translations[lang] });
 
 @customElement(SUNSHINE_CARD_NAME)
-export class SunshineCard extends LitElement {
-  @property({ attribute: false }) public hass!: HomeAssistant;
-  @property({ attribute: false }) public config!: HourlyChartCardConfig;
-  @state() private _hourlyForecast: WeatherForecast[] = [];
-  @state() private _forecastLoading = false;
-  @state() private _loadAttempted = false;
-  private _lastEntity: string | undefined;
-
+export class SunshineCard extends HourlyForecastBaseCard {
   static get styles() {
     return css`
       :host {
@@ -53,43 +42,9 @@ export class SunshineCard extends LitElement {
     `;
   }
 
-  private async _loadForecast(): Promise<void> {
-    if (!this.hass || !this.config?.entity || this._forecastLoading) return;
-    this._forecastLoading = true;
-    try {
-      const ws = await (this.hass as any).callWS({
-        type: 'call_service',
-        domain: 'weather',
-        service: 'get_forecasts',
-        service_data: { entity_id: this.config.entity, type: 'hourly' },
-        return_response: true,
-      });
-      this._hourlyForecast = (ws as any)?.response?.[this.config.entity]?.forecast ?? [];
-    } catch (e) {
-      console.error('[SwissWeather SunshineCard] Forecast load failed:', e);
-      this._hourlyForecast = [];
-    } finally {
-      this._forecastLoading = false;
-      this._loadAttempted = true;
-    }
-  }
-
-  protected updated(changedProperties: PropertyValues): void {
-    super.updated(changedProperties);
-    if (this.hass && this.config?.entity) {
-      if (this._lastEntity !== this.config.entity) {
-        this._lastEntity = this.config.entity;
-        this._loadAttempted = false;
-        this._loadForecast();
-      } else if (changedProperties.has('hass') && !this._loadAttempted && !this._forecastLoading) {
-        this._loadForecast();
-      }
-    }
-  }
-
   public setConfig(config: HourlyChartCardConfig): void {
     if (!config.entity) throw new Error('You need to define an entity');
-    this.config = config;
+    this.setBaseConfig(config);
   }
 
   public static getStubConfig() {
