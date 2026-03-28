@@ -101,6 +101,7 @@ export class SunshineChart extends LitElement {
               <div class="section-title">
                 <ha-icon icon="mdi:white-balance-sunny"></ha-icon>
                 ${this._t('sunshine_hours', { hours: this.forecastHours })}
+                <span style="font-size:12px; font-weight:normal; color:var(--secondary-text-color, #888);">min</span>
               </div>
               <div class="chart-bars" style="position:relative;">
                 ${(() => {
