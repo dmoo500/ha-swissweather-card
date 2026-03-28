@@ -66,7 +66,7 @@ export class PrecipitationChart extends LitElement {
           <ha-icon icon="mdi:weather-pouring"></ha-icon>
           ${this._t('precipitation_hours', { hours: this.forecastHours })}
         </div>
-        <div class="chart-svg-area">
+        <div class="chart-svg-area" style="aspect-ratio: 600 / 100; width: 100%;">
           ${(() => {
             const n = slice.length;
             if (n === 0) return html``;
@@ -101,8 +101,8 @@ export class PrecipitationChart extends LitElement {
               const isMajor = t % 5 === 0;
               gridLines.push(svg`
                 <line x1="${padLeft}" y1="${y}" x2="${svgW - padRight}" y2="${y}"
-                  stroke="#888" stroke-width="${isMajor ? 0.8 : 0.4}"
-                  stroke-dasharray="${isMajor ? '4,3' : '2,3'}" opacity="0.45"/>
+                  stroke="#888" stroke-width="${isMajor ? 1 : 0.6}"
+                  stroke-dasharray="${isMajor ? '4,3' : '2,3'}" opacity="0.6"/>
                 <text x="${padLeft - 3}" y="${y}" text-anchor="end" dominant-baseline="middle"
                   font-size="8" fill="#888" opacity="0.8">${t}</text>
               `);
@@ -169,7 +169,7 @@ export class PrecipitationChart extends LitElement {
               }
             }
 
-            return svg`<svg width="100%" viewBox="0 0 ${svgW} ${svgH}" preserveAspectRatio="none" style="display:block;">
+            return svg`<svg width="100%" height="100%" viewBox="0 0 ${svgW} ${svgH}" preserveAspectRatio="none" style="display:block;">
               <defs>
                 <linearGradient id="precip-grad" x1="0" y1="1" x2="0" y2="0">
                   <stop offset="0%" stop-color="#3498db"/>

@@ -873,7 +873,7 @@ var We = class extends D {
           <ha-icon icon="mdi:thermometer"></ha-icon>
           ${this._t("temperature_hours", { hours: this.forecastHours })}
         </div>
-        <div class="chart-svg-area">
+        <div class="chart-svg-area" style="aspect-ratio: 600 / 100; width: 100%;">
           ${(() => {
 			if (t.length < 2) return w``;
 			let n = e.length, r = Math.floor(Math.min(...t) / 5) * 5, i = Math.ceil(Math.max(...t) / 5) * 5;
@@ -883,8 +883,8 @@ var We = class extends D {
 				let t = c(e), n = e % 10 == 0;
 				l.push(T`
                 <line x1="${28}" y1="${t}" x2="${594}" y2="${t}"
-                  stroke="#888" stroke-width="${n ? .8 : .4}"
-                  stroke-dasharray="${n ? "4,3" : "2,3"}" opacity="0.45"/>
+                  stroke="#888" stroke-width="${n ? 1 : .6}"
+                  stroke-dasharray="${n ? "4,3" : "2,3"}" opacity="0.6"/>
                 <text x="${25}" y="${t}" text-anchor="end" dominant-baseline="middle"
                   font-size="8" fill="#888" opacity="0.8">${e}°</text>
               `);
@@ -901,7 +901,7 @@ var We = class extends D {
                   </text>
                 `);
 			}
-			return T`<svg width="100%" viewBox="0 0 ${600} ${100}" preserveAspectRatio="none" style="display:block;">
+			return T`<svg width="100%" height="100%" viewBox="0 0 ${600} ${100}" preserveAspectRatio="none" style="display:block;">
               ${l}
               ${u}
               <polyline points="${e.map((e, t) => e === null ? "" : `${s(t)},${c(e)}`).filter(Boolean).join(" ")}" fill="none" stroke="#db4a34" stroke-width="2.5"
@@ -970,7 +970,7 @@ var Ge = class extends D {
           <ha-icon icon="mdi:weather-pouring"></ha-icon>
           ${this._t("precipitation_hours", { hours: this.forecastHours })}
         </div>
-        <div class="chart-svg-area">
+        <div class="chart-svg-area" style="aspect-ratio: 600 / 100; width: 100%;">
           ${(() => {
 			let t = e.length;
 			if (t === 0) return w``;
@@ -990,8 +990,8 @@ var Ge = class extends D {
 				let t = a(e), n = e % 5 == 0;
 				l.push(T`
                 <line x1="${28}" y1="${t}" x2="${594}" y2="${t}"
-                  stroke="#888" stroke-width="${n ? .8 : .4}"
-                  stroke-dasharray="${n ? "4,3" : "2,3"}" opacity="0.45"/>
+                  stroke="#888" stroke-width="${n ? 1 : .6}"
+                  stroke-dasharray="${n ? "4,3" : "2,3"}" opacity="0.6"/>
                 <text x="${25}" y="${t}" text-anchor="end" dominant-baseline="middle"
                   font-size="8" fill="#888" opacity="0.8">${e}</text>
               `);
@@ -1028,7 +1028,7 @@ var Ge = class extends D {
                 `);
 				}
 			}
-			return T`<svg width="100%" viewBox="0 0 ${600} ${100}" preserveAspectRatio="none" style="display:block;">
+			return T`<svg width="100%" height="100%" viewBox="0 0 ${600} ${100}" preserveAspectRatio="none" style="display:block;">
               <defs>
                 <linearGradient id="precip-grad" x1="0" y1="1" x2="0" y2="0">
                   <stop offset="0%" stop-color="#3498db"/>
@@ -1265,8 +1265,8 @@ var Ke = class extends D {
 				let t = o(e), n = e % 10 == 0;
 				l.push(T`
                 <line x1="${28}" y1="${t}" x2="${594}" y2="${t}"
-                  stroke="#888" stroke-width="${n ? .8 : .4}"
-                  stroke-dasharray="${n ? "4,3" : "2,3"}" opacity="0.45"/>
+                  stroke="#888" stroke-width="${n ? 1 : .6}"
+                  stroke-dasharray="${n ? "4,3" : "2,3"}" opacity="0.6"/>
                 <text x="${25}" y="${t}" text-anchor="end" dominant-baseline="middle"
                   font-size="8" fill="#888" opacity="0.8">${e}</text>
               `);

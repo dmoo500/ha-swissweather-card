@@ -53,7 +53,7 @@ export class ForecastTemperatureChart extends LitElement {
           <ha-icon icon="mdi:thermometer"></ha-icon>
           ${this._t('temperature_hours', { hours: this.forecastHours })}
         </div>
-        <div class="chart-svg-area">
+        <div class="chart-svg-area" style="aspect-ratio: 600 / 100; width: 100%;">
           ${(() => {
             if (temps.length < 2) return html``;
             const n = tempsRaw.length;
@@ -86,8 +86,8 @@ export class ForecastTemperatureChart extends LitElement {
               const isMajor = t % 10 === 0;
               gridLines.push(svg`
                 <line x1="${padLeft}" y1="${y}" x2="${svgW - padRight}" y2="${y}"
-                  stroke="#888" stroke-width="${isMajor ? 0.8 : 0.4}"
-                  stroke-dasharray="${isMajor ? '4,3' : '2,3'}" opacity="0.45"/>
+                  stroke="#888" stroke-width="${isMajor ? 1 : 0.6}"
+                  stroke-dasharray="${isMajor ? '4,3' : '2,3'}" opacity="0.6"/>
                 <text x="${padLeft - 3}" y="${y}" text-anchor="end" dominant-baseline="middle"
                   font-size="8" fill="#888" opacity="0.8">${t}°</text>
               `);
@@ -123,7 +123,7 @@ export class ForecastTemperatureChart extends LitElement {
                 : null
             );
 
-            return svg`<svg width="100%" viewBox="0 0 ${svgW} ${svgH}" preserveAspectRatio="none" style="display:block;">
+            return svg`<svg width="100%" height="100%" viewBox="0 0 ${svgW} ${svgH}" preserveAspectRatio="none" style="display:block;">
               ${gridLines}
               ${verticals}
               <polyline points="${points}" fill="none" stroke="#db4a34" stroke-width="2.5"

@@ -91,8 +91,8 @@ export class WindChart extends LitElement {
               const isMajor = t % 10 === 0;
               gridLines.push(svg`
                 <line x1="${padLeft}" y1="${y}" x2="${svgW - padRight}" y2="${y}"
-                  stroke="#888" stroke-width="${isMajor ? 0.8 : 0.4}"
-                  stroke-dasharray="${isMajor ? '4,3' : '2,3'}" opacity="0.45"/>
+                  stroke="#888" stroke-width="${isMajor ? 1 : 0.6}"
+                  stroke-dasharray="${isMajor ? '4,3' : '2,3'}" opacity="0.6"/>
                 <text x="${padLeft - 3}" y="${y}" text-anchor="end" dominant-baseline="middle"
                   font-size="8" fill="#888" opacity="0.8">${t}</text>
               `);
