@@ -33,13 +33,14 @@ export class WindCard extends HourlyForecastBaseCard {
           sans-serif
         );
         color: var(--primary-text-color, #fff);
-        min-height: calc(var(--card-grid-rows, 3) * 64px - 8px);
+        min-height: calc(var(--card-grid-rows, 2) * 64px - 8px);
         --chart-inner-border: none;
-        --chart-padding: 8px;
+        --chart-padding: 8px 8px 4px;
         --chart-margin-top: 0;
+        --chart-margin-bottom: 0;
       }
       .card-content {
-        padding: 4px;
+        padding: 0;
       }
     `;
   }
@@ -62,18 +63,22 @@ export class WindCard extends HourlyForecastBaseCard {
   }
 
   public getCardSize(): number {
-    return this.config?.grid_options?.rows ?? 3;
+    return this.config?.grid_options?.rows ?? 2;
   }
 
   public getGridOptions() {
     return {
-      rows: this.config?.grid_options?.rows ?? 3,
+      rows: this.config?.grid_options?.rows ?? 2,
       columns: this.config?.grid_options?.columns ?? 12,
       min_columns: 6,
       max_columns: 48,
-      min_rows: 3,
+      min_rows: 2,
       max_rows: 6,
     };
+  }
+
+  protected getDefaultRows(): number {
+    return 2;
   }
 
   public render(): TemplateResult {

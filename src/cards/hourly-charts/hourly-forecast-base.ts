@@ -57,9 +57,13 @@ export abstract class HourlyForecastBaseCard extends LitElement {
     }, 1000);
   }
 
+  protected getDefaultRows(): number {
+    return 3;
+  }
+
   protected setCardGridRows(): void {
     // Set CSS variable for card height calculation – same as forecast-diagram-card.ts does in render()
-    const rows = this.config?.grid_options?.rows ?? 3;
+    const rows = this.config?.grid_options?.rows ?? this.getDefaultRows();
     this.style.setProperty('--card-grid-rows', rows.toString());
   }
 }

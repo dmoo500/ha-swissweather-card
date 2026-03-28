@@ -813,15 +813,7 @@ export class SwissWeatherCard extends LitElement {
             </div>
           `
         : ''}
-      ${(
-        (this.config.chart_order || [
-          'temperature',
-          'precipitation',
-          'sunshine',
-          'wind',
-          'forecast',
-        ]) as string[]
-      ).map(chart => {
+      ${this._getEffectiveChartOrder().map(chart => {
         switch (chart) {
           case 'temperature':
             return this._renderForecastTemperature(forecastHours);
@@ -900,6 +892,18 @@ export class SwissWeatherCard extends LitElement {
     return this.config.compact_mode === true
       ? this._renderDailyForecastDiagram()
       : this._renderDailyForecastChart();
+  }
+
+  private _getEffectiveChartOrder(): string[] {
+    const chartOrder = Array.isArray(this.config.chart_order)
+      ? [...this.config.chart_order]
+      : ['temperature', 'precipitation', 'sunshine', 'wind', 'forecast'];
+
+    if (this.config.show_forecast !== false && !chartOrder.includes('forecast')) {
+      chartOrder.push('forecast');
+    }
+
+    return chartOrder;
   }
 
   // @property({ type: Array }) forecast: WeatherForecast[] = [];

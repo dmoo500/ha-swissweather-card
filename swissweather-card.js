@@ -1,5 +1,5 @@
 //#region package.json
-var e = "1.7.0-beta.25", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
+var e = "1.7.0-beta.26", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
 	constructor(e, t, n) {
 		if (this._$cssResult$ = !0, n !== r) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
 		this.cssText = e, this.t = t;
@@ -856,6 +856,7 @@ var Ke = class extends T {
       border-radius: 12px;
       padding: var(--chart-padding, 15px);
       margin-top: var(--chart-margin-top, 15px);
+      margin-bottom: var(--chart-margin-bottom, 0);
       border: var(--chart-inner-border, 1px solid var(--border-color, rgba(220, 20, 60, 0.1)));
     }
     .chart-svg-area {
@@ -945,6 +946,7 @@ var M = class extends T {
       border-radius: 12px;
       padding: var(--chart-padding, 15px);
       margin-top: var(--chart-margin-top, 15px);
+      margin-bottom: var(--chart-margin-bottom, 0);
       border: var(--chart-inner-border, 1px solid var(--border-color, rgba(220, 20, 60, 0.1)));
     }
     .chart-svg-area {
@@ -1068,6 +1070,7 @@ var N = class extends T {
       border-radius: 12px;
       padding: var(--chart-padding, 15px);
       margin-top: var(--chart-margin-top, 15px);
+      margin-bottom: var(--chart-margin-bottom, 0);
       border: var(--chart-inner-border, 1px solid var(--border-color, rgba(220, 20, 60, 0.1)));
     }
     .chart-sunshine {
@@ -1075,6 +1078,7 @@ var N = class extends T {
       border-radius: 12px;
       padding: var(--chart-padding, 15px);
       margin-top: var(--chart-margin-top, 15px);
+      margin-bottom: var(--chart-margin-bottom, 0);
       border: var(--chart-inner-border, 1px solid var(--border-color, rgba(220, 20, 60, 0.1)));
     }
 
@@ -1242,6 +1246,7 @@ var qe = class extends T {
       border-radius: 12px;
       padding: var(--chart-padding, 15px);
       margin-top: var(--chart-margin-top, 15px);
+      margin-bottom: var(--chart-margin-bottom, 0);
       border: var(--chart-inner-border, 1px solid var(--border-color, rgba(220, 20, 60, 0.1)));
     }
     .section-title {
@@ -1572,6 +1577,7 @@ var P = class extends T {
         ${this.standalone === !1 ? "background: var(--card-background-color, #fff);margin-top: 15px;" : ""}
           border-radius: 12px;
           padding: 0;
+          margin-bottom: var(--chart-margin-bottom, 0);
           border: var(--chart-inner-border, 1px solid var(--border-color, rgba(220, 20, 60, 0.1)));
           overflow: hidden;
           position: relative; /* Enable absolute positioning for SVG overlay */
@@ -2796,6 +2802,16 @@ var an = class extends T {
 				...t,
 				type: "custom:swissweather-card"
 			};
+			if (r.show_forecast !== !1) {
+				let e = Array.isArray(r.chart_order) ? [...r.chart_order] : [
+					"temperature",
+					"precipitation",
+					"sunshine",
+					"wind",
+					"forecast"
+				];
+				e.includes("forecast") || e.push("forecast"), r.chart_order = e;
+			}
 			Object.keys(r).forEach((e) => {
 				(r[e] === "" || r[e] === void 0) && delete r[e];
 			}), this._config = r, en(this, "config-changed", { config: this._config });
@@ -4911,13 +4927,7 @@ var Z = class extends T {
               ${B("forecast_hours", { hours: te })}
             </div>
           ` : ""}
-      ${(this.config.chart_order || [
-			"temperature",
-			"precipitation",
-			"sunshine",
-			"wind",
-			"forecast"
-		]).map((n) => {
+      ${this._getEffectiveChartOrder().map((n) => {
 			switch (n) {
 				case "temperature": return this._renderForecastTemperature(te);
 				case "precipitation": return this._renderForecastPrecipitation(te);
@@ -4970,6 +4980,16 @@ var Z = class extends T {
 	}
 	_showDailyForecast() {
 		return this.config.show_forecast === !1 ? S`` : this.config.compact_mode === !0 ? this._renderDailyForecastDiagram() : this._renderDailyForecastChart();
+	}
+	_getEffectiveChartOrder() {
+		let e = Array.isArray(this.config.chart_order) ? [...this.config.chart_order] : [
+			"temperature",
+			"precipitation",
+			"sunshine",
+			"wind",
+			"forecast"
+		];
+		return this.config.show_forecast !== !1 && !e.includes("forecast") && e.push("forecast"), e;
 	}
 	_renderDailyForecastChart() {
 		return this._forecast.length > 0 && this._hourlyForecast.length > 0 ? S`<daily-forecast-chart
@@ -6719,8 +6739,11 @@ var Vi = `${tn}-temperature-card`, Hi = `${Vi}-editor`, Ui = `${tn}-precipitatio
 			this._loadForecast();
 		}, 1e3);
 	}
+	getDefaultRows() {
+		return 3;
+	}
 	setCardGridRows() {
-		let e = this.config?.grid_options?.rows ?? 3;
+		let e = this.config?.grid_options?.rows ?? this.getDefaultRows();
 		this.style.setProperty("--card-grid-rows", e.toString());
 	}
 };
@@ -6744,13 +6767,14 @@ var $i = class extends Qi {
           sans-serif
         );
         color: var(--primary-text-color, #fff);
-        min-height: calc(var(--card-grid-rows, 3) * 64px - 8px);
+        min-height: calc(var(--card-grid-rows, 2) * 64px - 8px);
         --chart-inner-border: none;
-        --chart-padding: 8px;
+        --chart-padding: 8px 8px 4px;
         --chart-margin-top: 0;
+        --chart-margin-bottom: 0;
       }
       .card-content {
-        padding: 4px;
+        padding: 0;
       }
     `;
 	}
@@ -6771,17 +6795,20 @@ var $i = class extends Qi {
 		return Yi;
 	}
 	getCardSize() {
-		return this.config?.grid_options?.rows ?? 3;
+		return this.config?.grid_options?.rows ?? 2;
 	}
 	getGridOptions() {
 		return {
-			rows: this.config?.grid_options?.rows ?? 3,
+			rows: this.config?.grid_options?.rows ?? 2,
 			columns: this.config?.grid_options?.columns ?? 12,
 			min_columns: 6,
 			max_columns: 48,
-			min_rows: 3,
+			min_rows: 2,
 			max_rows: 6
 		};
+	}
+	getDefaultRows() {
+		return 2;
 	}
 	render() {
 		if (this.setCardGridRows(), !li(this.hass, this.config.entity)) return S`<div class="card-content">Entity not found: ${this.config.entity}</div>`;
@@ -6886,13 +6913,14 @@ var ta = class extends Qi {
           sans-serif
         );
         color: var(--primary-text-color, #fff);
-        min-height: calc(var(--card-grid-rows, 3) * 64px - 8px);
+        min-height: calc(var(--card-grid-rows, 2) * 64px - 8px);
         --chart-inner-border: none;
-        --chart-padding: 8px;
+        --chart-padding: 8px 8px 4px;
         --chart-margin-top: 0;
+        --chart-margin-bottom: 0;
       }
       .card-content {
-        padding: 4px;
+        padding: 0;
       }
     `;
 	}
@@ -6913,17 +6941,20 @@ var ta = class extends Qi {
 		return Yi;
 	}
 	getCardSize() {
-		return this.config?.grid_options?.rows ?? 3;
+		return this.config?.grid_options?.rows ?? 2;
 	}
 	getGridOptions() {
 		return {
-			rows: this.config?.grid_options?.rows ?? 3,
+			rows: this.config?.grid_options?.rows ?? 2,
 			columns: this.config?.grid_options?.columns ?? 12,
 			min_columns: 6,
 			max_columns: 48,
-			min_rows: 3,
+			min_rows: 2,
 			max_rows: 6
 		};
+	}
+	getDefaultRows() {
+		return 2;
 	}
 	render() {
 		if (this.setCardGridRows(), !li(this.hass, this.config.entity)) return S`<div class="card-content">Entity not found: ${this.config.entity}</div>`;
@@ -7028,13 +7059,14 @@ var ra = class extends Qi {
           sans-serif
         );
         color: var(--primary-text-color, #fff);
-        min-height: calc(var(--card-grid-rows, 4) * 64px - 8px);
+        min-height: calc(var(--card-grid-rows, 3) * 64px - 8px);
         --chart-inner-border: none;
-        --chart-padding: 8px;
+        --chart-padding: 8px 8px 4px;
         --chart-margin-top: 0;
+        --chart-margin-bottom: 0;
       }
       .card-content {
-        padding: 4px;
+        padding: 0;
       }
     `;
 	}
@@ -7055,20 +7087,20 @@ var ra = class extends Qi {
 		return Zi;
 	}
 	getCardSize() {
-		return this.config?.grid_options?.rows ?? 4;
+		return this.config?.grid_options?.rows ?? 3;
 	}
 	getGridOptions() {
 		return {
-			rows: this.config?.grid_options?.rows ?? 4,
+			rows: this.config?.grid_options?.rows ?? 3,
 			columns: this.config?.grid_options?.columns ?? 12,
 			min_columns: 6,
 			max_columns: 48,
-			min_rows: 4,
+			min_rows: 3,
 			max_rows: 6
 		};
 	}
 	render() {
-		this.style.setProperty("--card-grid-rows", (this.config?.grid_options?.rows ?? 4).toString());
+		this.setCardGridRows();
 		let e = li(this.hass, this.config.entity);
 		if (!e) return S`<div class="card-content">Entity not found: ${this.config.entity}</div>`;
 		if (this._hourlyForecast.length === 0) return S`<div class="card-content">Loading...</div>`;
@@ -7178,13 +7210,14 @@ var aa = class extends Qi {
           sans-serif
         );
         color: var(--primary-text-color, #fff);
-        min-height: calc(var(--card-grid-rows, 3) * 64px - 8px);
+        min-height: calc(var(--card-grid-rows, 2) * 64px - 8px);
         --chart-inner-border: none;
-        --chart-padding: 8px;
+        --chart-padding: 8px 8px 4px;
         --chart-margin-top: 0;
+        --chart-margin-bottom: 0;
       }
       .card-content {
-        padding: 4px;
+        padding: 0;
       }
     `;
 	}
@@ -7205,17 +7238,20 @@ var aa = class extends Qi {
 		return Xi;
 	}
 	getCardSize() {
-		return this.config?.grid_options?.rows ?? 3;
+		return this.config?.grid_options?.rows ?? 2;
 	}
 	getGridOptions() {
 		return {
-			rows: this.config?.grid_options?.rows ?? 3,
+			rows: this.config?.grid_options?.rows ?? 2,
 			columns: this.config?.grid_options?.columns ?? 12,
 			min_columns: 6,
 			max_columns: 48,
-			min_rows: 3,
+			min_rows: 2,
 			max_rows: 6
 		};
+	}
+	getDefaultRows() {
+		return 2;
 	}
 	render() {
 		if (this.setCardGridRows(), !this.hass || !this.config) return S``;

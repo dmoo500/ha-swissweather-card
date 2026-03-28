@@ -18,6 +18,7 @@ export class SunshineChart extends LitElement {
       border-radius: 12px;
       padding: var(--chart-padding, 15px);
       margin-top: var(--chart-margin-top, 15px);
+      margin-bottom: var(--chart-margin-bottom, 0);
       border: var(--chart-inner-border, 1px solid var(--border-color, rgba(220, 20, 60, 0.1)));
     }
     .chart-sunshine {
@@ -25,6 +26,7 @@ export class SunshineChart extends LitElement {
       border-radius: 12px;
       padding: var(--chart-padding, 15px);
       margin-top: var(--chart-margin-top, 15px);
+      margin-bottom: var(--chart-margin-bottom, 0);
       border: var(--chart-inner-border, 1px solid var(--border-color, rgba(220, 20, 60, 0.1)));
     }
 

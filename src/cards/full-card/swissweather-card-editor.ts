@@ -438,6 +438,16 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
         type: 'custom:swissweather-card',
       };
 
+      if (newConfig.show_forecast !== false) {
+        const chartOrder = Array.isArray(newConfig.chart_order)
+          ? [...newConfig.chart_order]
+          : ['temperature', 'precipitation', 'sunshine', 'wind', 'forecast'];
+        if (!chartOrder.includes('forecast')) {
+          chartOrder.push('forecast');
+        }
+        newConfig.chart_order = chartOrder;
+      }
+
       // Remove empty values for a cleaner config
       Object.keys(newConfig).forEach(key => {
         if ((newConfig as any)[key] === '' || (newConfig as any)[key] === undefined) {
