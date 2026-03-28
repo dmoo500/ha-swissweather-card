@@ -6694,41 +6694,44 @@ var Vi = `${tn}-temperature-card`, Hi = `${Vi}-editor`, Ui = `${tn}-precipitatio
 	config;
 	_hourlyForecast = [];
 	_forecastLoading = !1;
-	_loadEntityId;
-	_loadTimer;
 	async _loadForecast() {
-		if (!(!this.hass || !this.config?.entity || this._forecastLoading)) {
-			this._forecastLoading = !0;
-			try {
-				this._hourlyForecast = (await this.hass.callWS({
-					type: "call_service",
-					domain: "weather",
-					service: "get_forecasts",
-					service_data: {
-						entity_id: this.config.entity,
-						type: "hourly"
-					},
-					return_response: !0
-				}))?.response?.[this.config.entity]?.forecast ?? [];
-			} catch (e) {
-				console.error(`[SwissWeather] Forecast load failed for ${this.config.entity}:`, e), this._hourlyForecast = [];
-			} finally {
-				this._forecastLoading = !1;
-			}
+		if (console.log("[SwissWeather] _loadForecast called", {
+			hasHass: !!this.hass,
+			entity: this.config?.entity,
+			loading: this._forecastLoading
+		}), !this.hass || !this.config?.entity || this._forecastLoading) {
+			console.warn("[SwissWeather] _loadForecast guard blocked", {
+				hasHass: !!this.hass,
+				entity: this.config?.entity,
+				loading: this._forecastLoading
+			});
+			return;
+		}
+		this._forecastLoading = !0;
+		try {
+			let e = (await this.hass.callWS({
+				type: "call_service",
+				domain: "weather",
+				service: "get_forecasts",
+				service_data: {
+					entity_id: this.config.entity,
+					type: "hourly"
+				},
+				return_response: !0
+			}))?.response;
+			console.log("[SwissWeather] WS response:", e), e && e[this.config.entity] ? (this._hourlyForecast = e[this.config.entity].forecast || [], this.requestUpdate("_hourlyForecast"), console.log(`[SwissWeather] Forecast loaded: ${this._hourlyForecast.length} entries`)) : (console.warn(`[SwissWeather] No forecast data in response for ${this.config.entity}`), this._hourlyForecast = []);
+		} catch (e) {
+			console.error(`[SwissWeather] Forecast load failed for ${this.config.entity}:`, e), this._hourlyForecast = [];
+		} finally {
+			this._forecastLoading = !1;
 		}
 	}
 	updated(e) {
-		super.updated(e), this.hass && this.config?.entity && this._loadEntityId !== this.config.entity && (this._loadEntityId = this.config.entity, this._hourlyForecast = [], this._scheduleLoad());
-	}
-	disconnectedCallback() {
-		super.disconnectedCallback(), this._loadTimer && clearTimeout(this._loadTimer), this._loadTimer = void 0;
+		super.updated(e);
 	}
 	setBaseConfig(e) {
-		this.config = e, this._scheduleLoad();
-	}
-	_scheduleLoad() {
-		this._loadTimer && clearTimeout(this._loadTimer), this._loadTimer = setTimeout(() => {
-			this._loadForecast();
+		this.config = e, console.log(`[SwissWeather] setBaseConfig called, entity=${e.entity}, scheduling load in 1000ms`), setTimeout(() => {
+			console.log("[SwissWeather] setTimeout fired, calling _loadForecast"), this._loadForecast();
 		}, 1e3);
 	}
 };

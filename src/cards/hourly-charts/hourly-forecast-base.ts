@@ -6,10 +6,10 @@ import type { HourlyChartCardConfig } from './const';
 /**
  * Shared base class for all standalone hourly-chart cards.
  *
- * Uses the exact same loading pattern as forecast-diagram-card.ts:
- * - setTimeout(1000) in setBaseConfig defers the WS call until HA is ready
- * - updated() reloads when the entity changes
- * - No _loadAttempted flag – render just checks _hourlyForecast.length
+ * Mirrors forecast-diagram-card.ts exactly:
+ * - setBaseConfig() schedules load with setTimeout(1000)
+ * - updated() does nothing (same as forecast-diagram-card)
+ * - render just checks _hourlyForecast.length === 0
  */
 export abstract class HourlyForecastBaseCard extends LitElement {
   @property({ attribute: false }) public hass!: HomeAssistant;
@@ -18,11 +18,20 @@ export abstract class HourlyForecastBaseCard extends LitElement {
   @state() protected _hourlyForecast: WeatherForecast[] = [];
   @state() protected _forecastLoading = false;
 
-  private _loadEntityId: string | undefined;
-  private _loadTimer: ReturnType<typeof setTimeout> | undefined;
-
   protected async _loadForecast(): Promise<void> {
-    if (!this.hass || !this.config?.entity || this._forecastLoading) return;
+    console.log(`[SwissWeather] _loadForecast called`, {
+      hasHass: !!this.hass,
+      entity: this.config?.entity,
+      loading: this._forecastLoading,
+    });
+    if (!this.hass || !this.config?.entity || this._forecastLoading) {
+      console.warn(`[SwissWeather] _loadForecast guard blocked`, {
+        hasHass: !!this.hass,
+        entity: this.config?.entity,
+        loading: this._forecastLoading,
+      });
+      return;
+    }
     this._forecastLoading = true;
     try {
       const ws = await (this.hass as any).callWS({
@@ -32,7 +41,16 @@ export abstract class HourlyForecastBaseCard extends LitElement {
         service_data: { entity_id: this.config.entity, type: 'hourly' },
         return_response: true,
       });
-      this._hourlyForecast = (ws as any)?.response?.[this.config.entity]?.forecast ?? [];
+      const data = (ws as any)?.response;
+      console.log(`[SwissWeather] WS response:`, data);
+      if (data && data[this.config.entity]) {
+        this._hourlyForecast = data[this.config.entity].forecast || [];
+        (this as LitElement).requestUpdate('_hourlyForecast');
+        console.log(`[SwissWeather] Forecast loaded: ${this._hourlyForecast.length} entries`);
+      } else {
+        console.warn(`[SwissWeather] No forecast data in response for ${this.config.entity}`);
+        this._hourlyForecast = [];
+      }
     } catch (e) {
       console.error(`[SwissWeather] Forecast load failed for ${this.config.entity}:`, e);
       this._hourlyForecast = [];
@@ -41,35 +59,19 @@ export abstract class HourlyForecastBaseCard extends LitElement {
     }
   }
 
-  // ─── Lit lifecycle ───────────────────────────────────────────────────────
-
-  protected updated(changedProperties: PropertyValues): void {
-    super.updated(changedProperties);
-    // Reload when the entity changes after initial setup.
-    if (this.hass && this.config?.entity && this._loadEntityId !== this.config.entity) {
-      this._loadEntityId = this.config.entity;
-      this._hourlyForecast = [];
-      this._scheduleLoad();
-    }
+  // Intentionally empty – same as forecast-diagram-card.ts
+  protected updated(_changedProperties: PropertyValues): void {
+    super.updated(_changedProperties);
   }
-
-  public disconnectedCallback(): void {
-    super.disconnectedCallback();
-    if (this._loadTimer) clearTimeout(this._loadTimer);
-    this._loadTimer = undefined;
-  }
-
-  // ─── Config ──────────────────────────────────────────────────────────────
 
   protected setBaseConfig(config: HourlyChartCardConfig): void {
     this.config = config;
-    // Same 1000 ms delay as forecast-diagram-card.ts – gives HA time to set hass.
-    this._scheduleLoad();
-  }
-
-  private _scheduleLoad(): void {
-    if (this._loadTimer) clearTimeout(this._loadTimer);
-    this._loadTimer = setTimeout(() => {
+    console.log(
+      `[SwissWeather] setBaseConfig called, entity=${config.entity}, scheduling load in 1000ms`
+    );
+    // Same pattern as forecast-diagram-card.ts
+    setTimeout(() => {
+      console.log(`[SwissWeather] setTimeout fired, calling _loadForecast`);
       this._loadForecast();
     }, 1000);
   }
