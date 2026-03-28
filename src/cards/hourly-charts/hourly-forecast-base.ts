@@ -44,15 +44,15 @@ export abstract class HourlyForecastBaseCard extends LitElement {
     }
   }
 
-  // Intentionally empty – same as forecast-diagram-card.ts
   protected updated(_changedProperties: PropertyValues): void {
     super.updated(_changedProperties);
+    // Set CSS variable on every update – same as forecast-diagram-card.ts does in render()
+    const rows = this.config?.grid_options?.rows ?? 2;
+    this.style.setProperty('--card-grid-rows', rows.toString());
   }
 
   protected setBaseConfig(config: HourlyChartCardConfig): void {
     this.config = config;
-    const rows = config.grid_options?.rows ?? 2;
-    this.style.setProperty('--card-grid-rows', rows.toString());
     // Same pattern as forecast-diagram-card.ts
     setTimeout(() => {
       this._loadForecast();

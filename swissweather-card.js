@@ -6718,11 +6718,11 @@ var Vi = `${tn}-temperature-card`, Hi = `${Vi}-editor`, Ui = `${tn}-precipitatio
 	}
 	updated(e) {
 		super.updated(e);
+		let t = this.config?.grid_options?.rows ?? 2;
+		this.style.setProperty("--card-grid-rows", t.toString());
 	}
 	setBaseConfig(e) {
-		this.config = e;
-		let t = e.grid_options?.rows ?? 2;
-		this.style.setProperty("--card-grid-rows", t.toString()), setTimeout(() => {
+		this.config = e, setTimeout(() => {
 			this._loadForecast();
 		}, 1e3);
 	}
