@@ -893,9 +893,7 @@ export class SwissWeatherCard extends LitElement {
           ${this.config.compact_mode === true && this.config.show_forecast === true
             ? this._renderDailyForecastDiagram()
             : html``}
-          ${this.config.compact_mode === false && this.config.show_forecast !== false
-            ? this._renderDailyForecastChart()
-            : html``}
+          ${this.config.compact_mode !== true ? this._renderDailyForecastChart() : html``}
         `
       : html``;
   }

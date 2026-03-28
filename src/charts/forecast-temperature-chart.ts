@@ -52,7 +52,9 @@ export class ForecastTemperatureChart extends LitElement {
         <div class="section-title">
           <ha-icon icon="mdi:thermometer"></ha-icon>
           ${this._t('temperature_hours', { hours: this.forecastHours })}
-          <span style="font-size:12px; font-weight:normal; color:var(--secondary-text-color, #888);">°C</span>
+          <span style="font-size:12px; font-weight:normal; color:var(--secondary-text-color, #888);"
+            >°C</span
+          >
         </div>
         <div class="chart-svg-area" style="aspect-ratio: 600 / 100; width: 100%;">
           ${(() => {
@@ -73,7 +75,10 @@ export class ForecastTemperatureChart extends LitElement {
             // Rounded temp range in 5°C steps
             let yMin = Math.floor(Math.min(...temps) / 5) * 5;
             let yMax = Math.ceil(Math.max(...temps) / 5) * 5;
-            if (yMin === yMax) { yMin -= 5; yMax += 5; }
+            if (yMin === yMax) {
+              yMin -= 5;
+              yMax += 5;
+            }
             const yRange = yMax - yMin;
 
             const step = chartW / (n - 1);

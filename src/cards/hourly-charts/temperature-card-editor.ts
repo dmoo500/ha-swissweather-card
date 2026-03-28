@@ -27,10 +27,22 @@ export class TemperatureCardEditor extends LitElement implements LovelaceCardEdi
 
   static get styles() {
     return css`
-      .card-config { padding: 16px; }
-      .header { margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--card-divider-color); }
-      .header-title { font-size: 20px; font-weight: bold; color: var(--primary-text-color, #dc143c); }
-      ha-form { display: block; }
+      .card-config {
+        padding: 16px;
+      }
+      .header {
+        margin-bottom: 16px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--card-divider-color);
+      }
+      .header-title {
+        font-size: 20px;
+        font-weight: bold;
+        color: var(--primary-text-color, #dc143c);
+      }
+      ha-form {
+        display: block;
+      }
     `;
   }
 
@@ -52,7 +64,13 @@ export class TemperatureCardEditor extends LitElement implements LovelaceCardEdi
           .hass=${this.hass}
           .data=${data}
           .schema=${baseSchema}
-          .computeLabel=${(s: any) => ({ entity: _t('config.entity'), forecast_hours: _t('config.forecast_hours') ?? 'Forecast hours' }[s.name] ?? s.name)}
+          .computeLabel=${(s: any) =>
+            (
+              ({
+                entity: _t('config.entity'),
+                forecast_hours: _t('config.forecast_hours') ?? 'Forecast hours',
+              }) as Record<string, string>
+            )[s.name] ?? s.name}
           @value-changed=${this._valueChanged}
         ></ha-form>
       </div>

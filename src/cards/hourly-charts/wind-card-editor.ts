@@ -7,7 +7,7 @@ import { translations } from '../../translations';
 import {
   WIND_CARD_NAME,
   WIND_CARD_EDITOR_NAME,
-  baseSchema,
+  windSchema,
   type HourlyChartCardConfig,
 } from './const';
 
@@ -21,16 +21,30 @@ export class WindCardEditor extends LitElement implements LovelaceCardEditor {
   public setConfig(config: HourlyChartCardConfig): void {
     const clean = { ...config };
     if (clean.entity === '') delete (clean as any).entity;
+    if (clean.wind_entity === '') delete (clean as any).wind_entity;
+    if (clean.wind_direction_entity === '') delete (clean as any).wind_direction_entity;
     this._config = clean;
     (this as LitElement).requestUpdate();
   }
 
   static get styles() {
     return css`
-      .card-config { padding: 16px; }
-      .header { margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--card-divider-color); }
-      .header-title { font-size: 20px; font-weight: bold; color: var(--primary-text-color, #dc143c); }
-      ha-form { display: block; }
+      .card-config {
+        padding: 16px;
+      }
+      .header {
+        margin-bottom: 16px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--card-divider-color);
+      }
+      .header-title {
+        font-size: 20px;
+        font-weight: bold;
+        color: var(--primary-text-color, #dc143c);
+      }
+      ha-form {
+        display: block;
+      }
     `;
   }
 
@@ -41,6 +55,12 @@ export class WindCardEditor extends LitElement implements LovelaceCardEditor {
     const data = {
       entity: typeof this._config?.entity === 'string' ? this._config.entity : undefined,
       forecast_hours: this._config?.forecast_hours ?? 12,
+      wind_entity:
+        typeof this._config?.wind_entity === 'string' ? this._config.wind_entity : undefined,
+      wind_direction_entity:
+        typeof this._config?.wind_direction_entity === 'string'
+          ? this._config.wind_direction_entity
+          : undefined,
     };
 
     return html`
@@ -51,8 +71,17 @@ export class WindCardEditor extends LitElement implements LovelaceCardEditor {
         <ha-form
           .hass=${this.hass}
           .data=${data}
-          .schema=${baseSchema}
-          .computeLabel=${(s: any) => ({ entity: _t('config.entity'), forecast_hours: _t('config.forecast_hours') ?? 'Forecast hours' }[s.name] ?? s.name)}
+          .schema=${windSchema}
+          .computeLabel=${(s: any) =>
+            (
+              ({
+                entity: _t('config.entity'),
+                forecast_hours: _t('config.forecast_hours') ?? 'Forecast hours',
+                wind_entity: _t('config.wind_entity') ?? 'Wind speed sensor (optional)',
+                wind_direction_entity:
+                  _t('config.wind_direction_entity') ?? 'Wind direction sensor (optional)',
+              }) as Record<string, string>
+            )[s.name] ?? s.name}
           @value-changed=${this._valueChanged}
         ></ha-form>
       </div>

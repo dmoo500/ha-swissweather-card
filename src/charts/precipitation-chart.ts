@@ -42,9 +42,7 @@ export class PrecipitationChart extends LitElement {
     if (this.show_precipitation === false) return html``;
 
     const slice = this.hourlyForecast.slice(0, this.forecastHours);
-    const hasData = slice.some(
-      h => typeof h.precipitation === 'number' && !isNaN(h.precipitation)
-    );
+    const hasData = slice.some(h => typeof h.precipitation === 'number' && !isNaN(h.precipitation));
 
     if (this.hourlyForecast.length === 0 || !hasData) {
       return html`
@@ -65,7 +63,9 @@ export class PrecipitationChart extends LitElement {
         <div class="section-title">
           <ha-icon icon="mdi:weather-pouring"></ha-icon>
           ${this._t('precipitation_hours', { hours: this.forecastHours })}
-          <span style="font-size:12px; font-weight:normal; color:var(--secondary-text-color, #888);">mm</span>
+          <span style="font-size:12px; font-weight:normal; color:var(--secondary-text-color, #888);"
+            >mm</span
+          >
         </div>
         <div class="chart-svg-area" style="aspect-ratio: 600 / 100; width: 100%;">
           ${(() => {

@@ -20,7 +20,7 @@
     "format": "prettier --write src/",
     "format:check": "prettier --check src/",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prepare": "yarn build",
+    "prepare": "husky",
     "validate": "yarn type-check && yarn lint && yarn format:check",
     "validate:hacs": "./scripts/validate-hacs.sh",
     "release": "yarn validate && yarn build"
@@ -56,6 +56,8 @@
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-n": "^17.24.0",
     "eslint-plugin-promise": "^7.2.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
     "prettier": "^3.8.1",
     "tslib": "^2.6.3",
     "typescript": "^6.0.2",
@@ -80,6 +82,12 @@
     "lit-translate@2.0.1": {
       "unplugged": true
     }
+  },
+  "lint-staged": {
+    "src/**/*.{ts,js}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
   },
   "resolutions": {
     "minimatch": "9.0.7",

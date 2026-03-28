@@ -22,16 +22,29 @@ export class SunshineCardEditor extends LitElement implements LovelaceCardEditor
     const clean = { ...config };
     if (clean.entity === '') delete (clean as any).entity;
     if (clean.sun_entity === '') delete (clean as any).sun_entity;
+    if (clean.sunshine_entity === '') delete (clean as any).sunshine_entity;
     this._config = clean;
     (this as LitElement).requestUpdate();
   }
 
   static get styles() {
     return css`
-      .card-config { padding: 16px; }
-      .header { margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--card-divider-color); }
-      .header-title { font-size: 20px; font-weight: bold; color: var(--primary-text-color, #dc143c); }
-      ha-form { display: block; }
+      .card-config {
+        padding: 16px;
+      }
+      .header {
+        margin-bottom: 16px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--card-divider-color);
+      }
+      .header-title {
+        font-size: 20px;
+        font-weight: bold;
+        color: var(--primary-text-color, #dc143c);
+      }
+      ha-form {
+        display: block;
+      }
     `;
   }
 
@@ -42,7 +55,12 @@ export class SunshineCardEditor extends LitElement implements LovelaceCardEditor
     const data = {
       entity: typeof this._config?.entity === 'string' ? this._config.entity : undefined,
       forecast_hours: this._config?.forecast_hours ?? 12,
-      sun_entity: typeof this._config?.sun_entity === 'string' ? this._config.sun_entity : undefined,
+      sun_entity:
+        typeof this._config?.sun_entity === 'string' ? this._config.sun_entity : undefined,
+      sunshine_entity:
+        typeof this._config?.sunshine_entity === 'string'
+          ? this._config.sunshine_entity
+          : undefined,
     };
 
     return html`
@@ -54,7 +72,16 @@ export class SunshineCardEditor extends LitElement implements LovelaceCardEditor
           .hass=${this.hass}
           .data=${data}
           .schema=${sunshineSchema}
-          .computeLabel=${(s: any) => ({ entity: _t('config.entity'), forecast_hours: _t('config.forecast_hours') ?? 'Forecast hours', sun_entity: _t('config.sun_entity') ?? 'Sun entity' }[s.name] ?? s.name)}
+          .computeLabel=${(s: any) =>
+            (
+              ({
+                entity: _t('config.entity'),
+                forecast_hours: _t('config.forecast_hours') ?? 'Forecast hours',
+                sun_entity: _t('config.sun_entity') ?? 'Sun entity (sunrise/sunset markers)',
+                sunshine_entity:
+                  _t('config.sunshine_entity') ?? 'Sunshine duration sensor (optional)',
+              }) as Record<string, string>
+            )[s.name] ?? s.name}
           @value-changed=${this._valueChanged}
         ></ha-form>
       </div>

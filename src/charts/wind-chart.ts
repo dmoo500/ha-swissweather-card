@@ -42,9 +42,7 @@ export class WindChart extends LitElement {
     if (this.show_wind === false) return html``;
 
     const slice = this.hourlyForecast.slice(0, this.forecastHours);
-    const hasData = slice.some(
-      h => typeof h.wind_speed === 'number' && !isNaN(h.wind_speed)
-    );
+    const hasData = slice.some(h => typeof h.wind_speed === 'number' && !isNaN(h.wind_speed));
     if (slice.length === 0 || !hasData) return html``;
 
     return html`
@@ -52,7 +50,9 @@ export class WindChart extends LitElement {
         <div class="section-title">
           <ha-icon icon="mdi:weather-windy"></ha-icon>
           ${this._t('wind_hours', { hours: this.forecastHours })}
-          <span style="font-size:12px; font-weight:normal; color:var(--secondary-text-color, #888);">km/h</span>
+          <span style="font-size:12px; font-weight:normal; color:var(--secondary-text-color, #888);"
+            >km/h</span
+          >
         </div>
         <div class="chart-svg-area" style="aspect-ratio: 600 / 122; width: 100%;">
           ${(() => {
@@ -133,7 +133,9 @@ export class WindChart extends LitElement {
             const arrowR = 7; // radius of circle
             const compassArrows = slice.map((h, i) => {
               const bearing =
-                typeof h.wind_bearing === 'number' && !isNaN(h.wind_bearing) ? h.wind_bearing : null;
+                typeof h.wind_bearing === 'number' && !isNaN(h.wind_bearing)
+                  ? h.wind_bearing
+                  : null;
               if (bearing === null) return null;
               const cx = xOf(i);
               const cy = compassY;

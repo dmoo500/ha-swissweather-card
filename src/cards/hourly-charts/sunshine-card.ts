@@ -1,9 +1,14 @@
-import { css, html, LitElement, TemplateResult } from 'lit';
+import { css, html, LitElement, PropertyValues, TemplateResult } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { get as _t, registerTranslateConfig } from 'lit-translate';
 import { translations } from '../../translations';
 import { getEntityState } from '../../utils';
-import type { HomeAssistant, WeatherEntity, HassEntity, WeatherForecast } from '../../types/home-assistant';
+import type {
+  HomeAssistant,
+  WeatherEntity,
+  HassEntity,
+  WeatherForecast,
+} from '../../types/home-assistant';
 import { SunshineChart } from '../../charts/sunshine-chart';
 import {
   SUNSHINE_CARD_NAME,
@@ -22,6 +27,7 @@ export class SunshineCard extends LitElement {
   @property({ attribute: false }) public config!: HourlyChartCardConfig;
   @state() private _hourlyForecast: WeatherForecast[] = [];
   @state() private _forecastLoading = false;
+  private _lastEntity: string | undefined;
 
   static get styles() {
     return css`
@@ -30,10 +36,19 @@ export class SunshineCard extends LitElement {
         background: var(--ha-card-background, var(--card-background-color, #fff));
         border-radius: 16px;
         box-shadow: var(--ha-card-box-shadow, 0 4px 20px rgba(0, 0, 0, 0.1));
-        font-family: var(--primary-font-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+        font-family: var(
+          --primary-font-family,
+          -apple-system,
+          BlinkMacSystemFont,
+          'Segoe UI',
+          Roboto,
+          sans-serif
+        );
         color: var(--primary-text-color, #fff);
       }
-      .card-content { padding: 12px; }
+      .card-content {
+        padding: 12px;
+      }
     `;
   }
 
@@ -56,10 +71,17 @@ export class SunshineCard extends LitElement {
     }
   }
 
+  protected updated(changedProperties: PropertyValues): void {
+    super.updated(changedProperties);
+    if (this.hass && this.config?.entity && this._lastEntity !== this.config.entity) {
+      this._lastEntity = this.config.entity;
+      this._loadForecast();
+    }
+  }
+
   public setConfig(config: HourlyChartCardConfig): void {
     if (!config.entity) throw new Error('You need to define an entity');
     this.config = config;
-    setTimeout(() => this._loadForecast(), 500);
   }
 
   public static getStubConfig() {
@@ -91,7 +113,8 @@ export class SunshineCard extends LitElement {
 
   public render(): TemplateResult {
     const weatherEntity = getEntityState(this.hass, this.config.entity) as WeatherEntity;
-    if (!weatherEntity) return html`<div class="card-content">Entity not found: ${this.config.entity}</div>`;
+    if (!weatherEntity)
+      return html`<div class="card-content">Entity not found: ${this.config.entity}</div>`;
     if (this._hourlyForecast.length === 0) return html`<div class="card-content">Loading...</div>`;
 
     const forecastHours = this.config.forecast_hours ?? 12;

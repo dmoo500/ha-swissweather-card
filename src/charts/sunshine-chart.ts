@@ -101,7 +101,10 @@ export class SunshineChart extends LitElement {
               <div class="section-title">
                 <ha-icon icon="mdi:white-balance-sunny"></ha-icon>
                 ${this._t('sunshine_hours', { hours: this.forecastHours })}
-                <span style="font-size:12px; font-weight:normal; color:var(--secondary-text-color, #888);">min</span>
+                <span
+                  style="font-size:12px; font-weight:normal; color:var(--secondary-text-color, #888);"
+                  >min</span
+                >
               </div>
               <div class="chart-bars" style="position:relative;">
                 ${(() => {
@@ -206,7 +209,9 @@ export class SunshineChart extends LitElement {
                   `;
                 })}
               </div>
-              <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--secondary-text-color, #888); margin-top:4px;">
+              <div
+                style="display:flex; justify-content:space-between; font-size:11px; color:var(--secondary-text-color, #888); margin-top:4px;"
+              >
                 ${this.hourlyForecast.slice(0, this.forecastHours).map((h: WeatherForecast) => {
                   const dt = h.datetime ? new Date(h.datetime) : null;
                   const showLabel = dt ? dt.getHours() % 3 === 0 : false;
