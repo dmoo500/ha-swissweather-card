@@ -205,7 +205,15 @@ export class SunshineChart extends LitElement {
                   `;
                 })}
               </div>
-              ${this.showHoursChartLabel(this.forecastHours)}
+              <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--secondary-text-color, #888); margin-top:4px;">
+                ${this.hourlyForecast.slice(0, this.forecastHours).map((h: WeatherForecast) => {
+                  const dt = h.datetime ? new Date(h.datetime) : null;
+                  const showLabel = dt ? dt.getHours() % 3 === 0 : false;
+                  return html`<div style="flex:1; text-align:center; overflow:hidden;">
+                    ${showLabel && dt ? dt.getHours() + 'h' : ''}
+                  </div>`;
+                })}
+              </div>
             </div>
           `
         : html`

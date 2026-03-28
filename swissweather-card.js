@@ -1193,7 +1193,14 @@ var P = class extends D {
                   `;
 		})}
               </div>
-              ${this.showHoursChartLabel(this.forecastHours)}
+              <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--secondary-text-color, #888); margin-top:4px;">
+                ${this.hourlyForecast.slice(0, this.forecastHours).map((e) => {
+			let t = e.datetime ? new Date(e.datetime) : null;
+			return w`<div style="flex:1; text-align:center; overflow:hidden;">
+                    ${t && t.getHours() % 3 == 0 && t ? t.getHours() + "h" : ""}
+                  </div>`;
+		})}
+              </div>
             </div>
           ` : w`
             <div class="chart">
