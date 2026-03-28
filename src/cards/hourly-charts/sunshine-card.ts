@@ -35,8 +35,10 @@ export class SunshineCard extends HourlyForecastBaseCard {
           sans-serif
         );
         color: var(--primary-text-color, #fff);
-        min-height: calc(var(--card-grid-rows, 3) * 64px - 8px);
+        min-height: calc(var(--card-grid-rows, 4) * 64px - 8px);
         --chart-inner-border: none;
+        --chart-padding: 8px;
+        --chart-margin-top: 0;
       }
       .card-content {
         padding: 4px;
@@ -62,22 +64,22 @@ export class SunshineCard extends HourlyForecastBaseCard {
   }
 
   public getCardSize(): number {
-    return this.config?.grid_options?.rows ?? 3;
+    return this.config?.grid_options?.rows ?? 4;
   }
 
   public getGridOptions() {
     return {
-      rows: this.config?.grid_options?.rows ?? 3,
+      rows: this.config?.grid_options?.rows ?? 4,
       columns: this.config?.grid_options?.columns ?? 12,
       min_columns: 6,
       max_columns: 48,
-      min_rows: 3,
+      min_rows: 4,
       max_rows: 6,
     };
   }
 
   public render(): TemplateResult {
-    this.setCardGridRows();
+    this.style.setProperty('--card-grid-rows', (this.config?.grid_options?.rows ?? 4).toString());
     const weatherEntity = getEntityState(this.hass, this.config.entity) as WeatherEntity;
     if (!weatherEntity)
       return html`<div class="card-content">Entity not found: ${this.config.entity}</div>`;

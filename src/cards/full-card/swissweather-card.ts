@@ -801,10 +801,10 @@ export class SwissWeatherCard extends LitElement {
         visibility,
         sunshineEntity
       )}
-      ${this.config.show_temperature === true ||
-      this.config.show_precipitation === true ||
-      this.config.show_sunshine === true ||
-      this.config.show_wind === true ||
+      ${this.config.show_temperature !== false ||
+      this.config.show_precipitation !== false ||
+      this.config.show_sunshine !== false ||
+      this.config.show_wind !== false ||
       this.config.show_forecast !== false
         ? html`
             <div class="section-title">
