@@ -19,19 +19,7 @@ export abstract class HourlyForecastBaseCard extends LitElement {
   @state() protected _forecastLoading = false;
 
   protected async _loadForecast(): Promise<void> {
-    console.log(`[SwissWeather] _loadForecast called`, {
-      hasHass: !!this.hass,
-      entity: this.config?.entity,
-      loading: this._forecastLoading,
-    });
-    if (!this.hass || !this.config?.entity || this._forecastLoading) {
-      console.warn(`[SwissWeather] _loadForecast guard blocked`, {
-        hasHass: !!this.hass,
-        entity: this.config?.entity,
-        loading: this._forecastLoading,
-      });
-      return;
-    }
+    if (!this.hass || !this.config?.entity || this._forecastLoading) return;
     this._forecastLoading = true;
     try {
       const ws = await (this.hass as any).callWS({
@@ -42,13 +30,10 @@ export abstract class HourlyForecastBaseCard extends LitElement {
         return_response: true,
       });
       const data = (ws as any)?.response;
-      console.log(`[SwissWeather] WS response:`, data);
       if (data && data[this.config.entity]) {
         this._hourlyForecast = data[this.config.entity].forecast || [];
         (this as LitElement).requestUpdate('_hourlyForecast');
-        console.log(`[SwissWeather] Forecast loaded: ${this._hourlyForecast.length} entries`);
       } else {
-        console.warn(`[SwissWeather] No forecast data in response for ${this.config.entity}`);
         this._hourlyForecast = [];
       }
     } catch (e) {
@@ -66,12 +51,8 @@ export abstract class HourlyForecastBaseCard extends LitElement {
 
   protected setBaseConfig(config: HourlyChartCardConfig): void {
     this.config = config;
-    console.log(
-      `[SwissWeather] setBaseConfig called, entity=${config.entity}, scheduling load in 1000ms`
-    );
     // Same pattern as forecast-diagram-card.ts
     setTimeout(() => {
-      console.log(`[SwissWeather] setTimeout fired, calling _loadForecast`);
       this._loadForecast();
     }, 1000);
   }
