@@ -483,7 +483,7 @@ export class DailyForecastDiagram extends LitElement {
           : ''}
           border-radius: 12px;
           padding: 0;
-          border: 1px solid var(--border-color, rgba(220, 20, 60, 0.1));
+          border: var(--chart-inner-border, 1px solid var(--border-color, rgba(220, 20, 60, 0.1)));
           overflow: hidden;
           position: relative; /* Enable absolute positioning for SVG overlay */
           width: 100%;

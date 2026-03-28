@@ -29,7 +29,7 @@ export class PrecipitationChart extends LitElement {
       border-radius: 12px;
       padding: 15px;
       margin-top: 15px;
-      border: 1px solid var(--border-color, rgba(220, 20, 60, 0.1));
+      border: var(--chart-inner-border, 1px solid var(--border-color, rgba(220, 20, 60, 0.1)));
     }
     .chart-svg-area {
       width: 100%;

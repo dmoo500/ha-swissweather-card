@@ -18,20 +18,20 @@ export class SunshineChart extends LitElement {
       border-radius: 12px;
       padding: 15px;
       margin-top: 15px;
-      border: 1px solid var(--border-color, rgba(220, 20, 60, 0.1));
+      border: var(--chart-inner-border, 1px solid var(--border-color, rgba(220, 20, 60, 0.1)));
     }
     .chart-sunshine {
       background: var(--card-background-color, #fff);
       border-radius: 12px;
       padding: 15px;
       margin-top: 15px;
-      border: 1px solid var(--border-color, rgba(220, 20, 60, 0.1));
+      border: var(--chart-inner-border, 1px solid var(--border-color, rgba(220, 20, 60, 0.1)));
     }
 
     .chart-bars {
       display: flex;
       justify-content: space-between;
-      height: 120px;
+      height: 80px;
       margin-bottom: 10px;
     }
 

@@ -1,5 +1,5 @@
 //#region package.json
-var e = "1.7.0-beta.23", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
+var e = "1.7.0-beta.24", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
 	constructor(e, t, n) {
 		if (this._$cssResult$ = !0, n !== r) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
 		this.cssText = e, this.t = t;
@@ -856,7 +856,7 @@ var Ke = class extends T {
       border-radius: 12px;
       padding: 15px;
       margin-top: 15px;
-      border: 1px solid var(--border-color, rgba(220, 20, 60, 0.1));
+      border: var(--chart-inner-border, 1px solid var(--border-color, rgba(220, 20, 60, 0.1)));
     }
     .chart-svg-area {
       width: 100%;
@@ -945,7 +945,7 @@ var M = class extends T {
       border-radius: 12px;
       padding: 15px;
       margin-top: 15px;
-      border: 1px solid var(--border-color, rgba(220, 20, 60, 0.1));
+      border: var(--chart-inner-border, 1px solid var(--border-color, rgba(220, 20, 60, 0.1)));
     }
     .chart-svg-area {
       width: 100%;
@@ -1068,20 +1068,20 @@ var N = class extends T {
       border-radius: 12px;
       padding: 15px;
       margin-top: 15px;
-      border: 1px solid var(--border-color, rgba(220, 20, 60, 0.1));
+      border: var(--chart-inner-border, 1px solid var(--border-color, rgba(220, 20, 60, 0.1)));
     }
     .chart-sunshine {
       background: var(--card-background-color, #fff);
       border-radius: 12px;
       padding: 15px;
       margin-top: 15px;
-      border: 1px solid var(--border-color, rgba(220, 20, 60, 0.1));
+      border: var(--chart-inner-border, 1px solid var(--border-color, rgba(220, 20, 60, 0.1)));
     }
 
     .chart-bars {
       display: flex;
       justify-content: space-between;
-      height: 120px;
+      height: 80px;
       margin-bottom: 10px;
     }
 
@@ -1242,7 +1242,7 @@ var qe = class extends T {
       border-radius: 12px;
       padding: 15px;
       margin-top: 15px;
-      border: 1px solid var(--border-color, rgba(220, 20, 60, 0.1));
+      border: var(--chart-inner-border, 1px solid var(--border-color, rgba(220, 20, 60, 0.1)));
     }
     .section-title {
       font-weight: bold;
@@ -1572,7 +1572,7 @@ var P = class extends T {
         ${this.standalone === !1 ? "background: var(--card-background-color, #fff);margin-top: 15px;" : ""}
           border-radius: 12px;
           padding: 0;
-          border: 1px solid var(--border-color, rgba(220, 20, 60, 0.1));
+          border: var(--chart-inner-border, 1px solid var(--border-color, rgba(220, 20, 60, 0.1)));
           overflow: hidden;
           position: relative; /* Enable absolute positioning for SVG overlay */
           width: 100%;
@@ -4646,7 +4646,8 @@ var Z = class extends T {
 				"temperature",
 				"precipitation",
 				"sunshine",
-				"wind"
+				"wind",
+				"forecast"
 			]
 		};
 	}
@@ -4968,10 +4969,7 @@ var Z = class extends T {
       `;
 	}
 	_showDailyForecast() {
-		return this.config.show_forecast === !1 ? S`` : S`
-          ${this.config.compact_mode === !0 && this.config.show_forecast === !0 ? this._renderDailyForecastDiagram() : S``}
-          ${this.config.compact_mode === !1 ? this._renderDailyForecastChart() : S``}
-        `;
+		return this.config.show_forecast === !1 ? S`` : this.config.compact_mode === !0 ? this._renderDailyForecastDiagram() : this._renderDailyForecastChart();
 	}
 	_renderDailyForecastChart() {
 		return this._forecast.length > 0 && this._hourlyForecast.length > 0 ? S`<daily-forecast-chart
@@ -4986,15 +4984,12 @@ var Z = class extends T {
 	}
 	_renderDailyForecastDiagram() {
 		return this._forecast.length > 0 && this._hourlyForecast.length > 0 ? S`<daily-forecast-diagram
-          .config=${{
-			...this.config,
-			grid_options: { rows: this.config.grid_options?.rows ?? 4 }
-		}}
+          .config=${this.config}
           .forecast=${[...this._forecast?.slice(0, 7) ?? []]}
           .hourlyForecast=${[...this._hourlyForecast]}
           ._t=${B}
           .getWeatherIcon=${ci}
-          .standalone=${!0}
+          .standalone=${!1}
         ></daily-forecast-diagram>` : S``;
 	}
 };
@@ -5274,6 +5269,7 @@ var _i = class extends T {
         );
         color: var(--primary-text-color, #fff);
         min-height: calc(var(--card-grid-rows, 3) * 64px - 8px);
+        --chart-inner-border: none;
       }
 
       .chart {
@@ -6747,9 +6743,10 @@ var $i = class extends Qi {
         );
         color: var(--primary-text-color, #fff);
         min-height: calc(var(--card-grid-rows, 3) * 64px - 8px);
+        --chart-inner-border: none;
       }
       .card-content {
-        padding: 12px;
+        padding: 4px;
       }
     `;
 	}
@@ -6886,9 +6883,10 @@ var ta = class extends Qi {
         );
         color: var(--primary-text-color, #fff);
         min-height: calc(var(--card-grid-rows, 3) * 64px - 8px);
+        --chart-inner-border: none;
       }
       .card-content {
-        padding: 12px;
+        padding: 4px;
       }
     `;
 	}
@@ -7025,9 +7023,10 @@ var ra = class extends Qi {
         );
         color: var(--primary-text-color, #fff);
         min-height: calc(var(--card-grid-rows, 3) * 64px - 8px);
+        --chart-inner-border: none;
       }
       .card-content {
-        padding: 12px;
+        padding: 4px;
       }
     `;
 	}
@@ -7172,9 +7171,10 @@ var aa = class extends Qi {
         );
         color: var(--primary-text-color, #fff);
         min-height: calc(var(--card-grid-rows, 3) * 64px - 8px);
+        --chart-inner-border: none;
       }
       .card-content {
-        padding: 12px;
+        padding: 4px;
       }
     `;
 	}

@@ -377,7 +377,7 @@ export class SwissWeatherCard extends LitElement {
       show_wind: true,
       enable_animate_weather_icons: true,
       compact_mode: false,
-      chart_order: ['temperature', 'precipitation', 'sunshine', 'wind'],
+      chart_order: ['temperature', 'precipitation', 'sunshine', 'wind', 'forecast'],
     };
   }
 
@@ -896,14 +896,10 @@ export class SwissWeatherCard extends LitElement {
   }
 
   private _showDailyForecast(): TemplateResult {
-    return this.config.show_forecast !== false
-      ? html`
-          ${this.config.compact_mode === true && this.config.show_forecast === true
-            ? this._renderDailyForecastDiagram()
-            : html``}
-          ${this.config.compact_mode === false ? this._renderDailyForecastChart() : html``}
-        `
-      : html``;
+    if (this.config.show_forecast === false) return html``;
+    return this.config.compact_mode === true
+      ? this._renderDailyForecastDiagram()
+      : this._renderDailyForecastChart();
   }
 
   // @property({ type: Array }) forecast: WeatherForecast[] = [];
@@ -933,12 +929,12 @@ export class SwissWeatherCard extends LitElement {
   private _renderDailyForecastDiagram(): TemplateResult {
     return this._forecast.length > 0 && this._hourlyForecast.length > 0
       ? html`<daily-forecast-diagram
-          .config=${{ ...this.config, grid_options: { rows: this.config.grid_options?.rows ?? 4 } }}
+          .config=${this.config}
           .forecast=${[...(this._forecast?.slice(0, 7) ?? [])]}
           .hourlyForecast=${[...this._hourlyForecast]}
           ._t=${_t}
           .getWeatherIcon=${getWeatherIcon}
-          .standalone=${true}
+          .standalone=${false}
         ></daily-forecast-diagram>`
       : html``;
   }

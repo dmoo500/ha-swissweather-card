@@ -34,9 +34,10 @@ export class WindCard extends HourlyForecastBaseCard {
         );
         color: var(--primary-text-color, #fff);
         min-height: calc(var(--card-grid-rows, 3) * 64px - 8px);
+        --chart-inner-border: none;
       }
       .card-content {
-        padding: 12px;
+        padding: 4px;
       }
     `;
   }

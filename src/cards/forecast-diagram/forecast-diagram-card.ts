@@ -66,6 +66,7 @@ export class ForecastDiagramCard extends LitElement {
         );
         color: var(--primary-text-color, #fff);
         min-height: calc(var(--card-grid-rows, 3) * 64px - 8px);
+        --chart-inner-border: none;
       }
 
       .chart {
