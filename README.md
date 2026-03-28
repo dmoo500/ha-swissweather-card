@@ -53,48 +53,11 @@ temp diagram
 
 <img src="docs/images/desktop_temp.png" width="250"/> 
 
-### since version 1.6.0
+## 📝 Release Notes & Migration
 
-- new "sub" cards implemented:
-
-  - forecast diagram as standalone card
-    
-  <img src="docs/images/forecast_diagram_card.png" width="250"/>
-  
-  - animated background card (shows the actual weather as animated background - experimental)
-    - with max and min temp enabled, with sunset and sunrise enabled and forecsast for the next hours
-<img src="docs/images/animated_background_card.png" width="250"/>
-    - with max and min temp enabled, with sunset and sunrise enabled and forecsast for the next days
-<img src="docs/images/animated_background_card2.png" width="250"/>
-
-### since version 1.4.0
-
-- compact mode for forecast (enable forecast and compact mode)
-- Use night and day variants for the partly cloudy icon
-- Use extreme rain icon for pouring
-- Show precipitation probability in the precipitation chart
-- fixed the handling of wind speed and direction entity - was a mistake on the implementation of compact mode
-
-<img src="docs/images/compact_mode_forecast.png" width="250"/>
-
-### since version 1.3.0
-
-compact mode (without forecast)
-
-<img src="docs/images/compact-mode.png" width="250"/>
-
-### since version 1.2.0
-
-new warning:
-
-<img src="docs/images/warning1.png" width="250" />
-
-<img src="docs/images/warning2.png" width="250" />
-
-### since version 1.1.0
-
-- enable showing animated icons
-- show wind diagram
+- Full release notes are maintained in [CHANGELOG.md](CHANGELOG.md)
+- GitHub release notes (including beta notes) are available under [Releases](https://github.com/dmoo500/ha-swissweather-card/releases)
+- If you update from older 1.x configs, check migration notes in the latest 1.7.0-beta entries first (especially forecast and chart order behavior)
 
 
 ## 📦 Installation
