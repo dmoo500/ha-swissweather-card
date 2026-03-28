@@ -4698,7 +4698,7 @@ var Z = class extends T {
 			regions: [],
 			phenomena: []
 		});
-		let n = this._getWarningLevel(t), r = {
+		let n = this._getWarningLevel(t), r = (e) => e >= 4 ? "#dc143c" : e >= 3 ? "#e17055" : e >= 2 ? "#f6c90e" : "var(--primary-text-color, #fff)", i = {
 			storm: "mdi:weather-lightning",
 			rain: "mdi:weather-pouring",
 			snow: "mdi:snowflake",
@@ -4710,7 +4710,7 @@ var Z = class extends T {
 			default: "mdi:alert"
 		};
 		this._openWarnings ||= {};
-		let i = (e) => {
+		let a = (e) => {
 			this._openWarnings = {
 				...this._openWarnings,
 				[e]: !this._openWarnings[e]
@@ -4725,8 +4725,8 @@ var Z = class extends T {
                     <li style="margin-bottom: 12px;">
                       <div style="display: flex; align-items: center; gap: 8px;">
                         <ha-icon
-                          icon="${r[e.type?.toLowerCase?.()] || r.default}"
-                          style="color: var(--error-color, #dc143c);"
+                          icon="${i[e.type?.toLowerCase?.()] || i.default}"
+                          style="color: ${r(e.level)};"
                         ></ha-icon>
                         <span style="font-weight:bold;">${e.title}</span>
                         ${e.link ? S`
@@ -4743,7 +4743,7 @@ var Z = class extends T {
                               </a>
                             ` : ""}
                         <button
-                          @click=${() => i(e.id)}
+                          @click=${() => a(e.id)}
                           style="background:none;border:none;cursor:pointer;color:var(--primary-text-color,#fff);font-size:16px;"
                           title="${this._openWarnings[e.id] ? B("collapse") : B("expand")}"
                           aria-label="${this._openWarnings[e.id] ? B("collapse") : B("expand")}"

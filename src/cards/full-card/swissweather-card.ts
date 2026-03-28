@@ -449,6 +449,13 @@ export class SwissWeatherCard extends LitElement {
         });
     }
     const warningLevel = this._getWarningLevel(warnings);
+    // Helper: Map level number to icon color
+    const levelToColor = (level: number): string => {
+      if (level >= 4) return '#dc143c'; // danger – red
+      if (level >= 3) return '#e17055'; // severe – orange
+      if (level >= 2) return '#f6c90e'; // warning – yellow
+      return 'var(--primary-text-color, #fff)';
+    };
     // Helper: Map warning type to icon
     const typeToIcon: Record<string, string> = {
       storm: 'mdi:weather-lightning',
@@ -482,7 +489,7 @@ export class SwissWeatherCard extends LitElement {
                       <div style="display: flex; align-items: center; gap: 8px;">
                         <ha-icon
                           icon="${typeToIcon[w.type?.toLowerCase?.()] || typeToIcon.default}"
-                          style="color: var(--error-color, #dc143c);"
+                          style="color: ${levelToColor(w.level)};"
                         ></ha-icon>
                         <span style="font-weight:bold;">${w.title}</span>
                         ${w.link
