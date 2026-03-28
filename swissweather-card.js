@@ -5522,49 +5522,43 @@ var _i = () => E`
 	};
 	return i[r] || i.cloudy;
 }, yi = (e) => {
-	let t = Math.max(14, Math.ceil(e / 36));
+	let t = Math.max(18, Math.ceil(e / 28));
 	return E`
   <defs>
     <linearGradient id="nightSkyGradient" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#0f1f3b" />
-      <stop offset="65%" stop-color="#12284a" />
-      <stop offset="100%" stop-color="#1f3d69" stop-opacity="0.75" />
+      <stop offset="0%" stop-color="#0a1628" />
+      <stop offset="50%" stop-color="#0f1f3b" />
+      <stop offset="100%" stop-color="#1a3a52" />
     </linearGradient>
     <linearGradient id="moonGradient" x1="21.92" x2="38.52" y1="18.75" y2="47.52" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#86c3db"/>
-      <stop offset=".45" stop-color="#86c3db"/>
-      <stop offset="1" stop-color="#5eafcf"/>
-      <animateTransform attributeName="gradientTransform" dur="10s" repeatCount="indefinite" type="rotate" values="5 32 32; -15 32 32; 5 32 32"/>
+      <stop offset="0" stop-color="#f0e68c"/>
+      <stop offset=".45" stop-color="#f0e68c"/>
+      <stop offset="1" stop-color="#daa520"/>
     </linearGradient>
-    <linearGradient id="starGradient" x1="23.22" x2="40.78" y1="16.8" y2="47.2" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#fcd966"/>
-      <stop offset=".45" stop-color="#fcd966"/>
-      <stop offset="1" stop-color="#fccd34"/>
-      <animateTransform attributeName="gradientTransform" dur="18s" repeatCount="indefinite" type="rotate" values="0 32 32; 360 32 32"/>
-    </linearGradient>
-  <g id="starIcon">
-    <path fill="url(#starGradient)" stroke="#fcd34d" stroke-linecap="round" stroke-linejoin="round" stroke-width=".5" d="M33 23l9.06-4.25a2.39 2.39 0 013.18 3.18L41 31a2.42 2.42 0 000 2l4.25 9.06a2.39 2.39 0 01-3.18 3.18L33 41a2.42 2.42 0 00-2 0l-9.06 4.25a2.39 2.39 0 01-3.18-3.18L23 33a2.42 2.42 0 000-2l-4.25-9.06a2.39 2.39 0 013.18-3.18L31 23a2.42 2.42 0 002 0z" opacity="0.9">
-      <animate attributeName="opacity" dur="3s" repeatCount="indefinite" values="1; 0.4; 1"/>
-      <animateTransform attributeName="transform" dur="18s" repeatCount="indefinite" type="rotate" values="360 32 32; 0 32 32"/>
-    </path>
-  </g>
   </defs>
-  <!-- moon -->
-  <g id="clearNightIcon" transform="translate(168,-30) scale(3)">
-    <path fill="url(#moonGradient)" stroke="#72b9d5" stroke-linecap="round" stroke-linejoin="round" stroke-width=".5" d="M46.66 36.2a16.66 16.66 0 01-16.78-16.55 16.29 16.29 0 01.55-4.15A16.56 16.56 0 1048.5 36.1c-.61.06-1.22.1-1.84.1z">
-      <animateTransform attributeName="transform" dur="10s" repeatCount="indefinite" type="rotate" values="-5 32 32; 15 32 32; -5 32 32"/>
-    </path>
-  </g>
+  
+  <!-- Night sky background -->
   <rect width="100%" height="100%" fill="url(#nightSkyGradient)" />
+  
+  <!-- Moon -->
+  <circle cx="${Math.round(e * .75)}" cy="30" r="24" fill="url(#moonGradient)" stroke="#b8860b" stroke-width="0.5" opacity="0.95">
+    <animate attributeName="r" values="24;24.5;24" dur="20s" repeatCount="indefinite"/>
+  </circle>
 
-  <!-- stars -->
+  <!-- Stars (larger and more visible) -->
   <g>
-  ${Array.from({ length: t }, (e, t) => t).map((n) => E`
-      <g transform="translate(${Math.round(n / t * e + (Math.random() * 20 - 10))},${6 + n % 4 * 11 + Math.round(Math.random() * 8)}) scale(${(.16 + n % 3 * .08).toFixed(2)})" opacity="0.85">
-        <use href="#starIcon" x="0" y="0"/>
-        <animate attributeName="opacity" values="0.35;1;0.45;1;0.35" dur="${(2.8 + n % 5 * .75).toFixed(2)}s" repeatCount="indefinite" begin="${(n % 7 * -.4).toFixed(2)}s"/>
-      </g>
-    `)}
+  ${Array.from({ length: t }, (e, t) => t).map((n) => {
+		let r = Math.round(n / t * e + (Math.random() * 40 - 20)), i = 8 + n % 6 * 12 + Math.round(Math.random() * 14), a = 1.2 + n % 3 * .6, o = (2.2 + n % 5 * .6).toFixed(2), s = (n % 8 * -.3).toFixed(2);
+		return E`
+      <circle cx="${r}" cy="${i}" r="${a}" fill="#fef08a" opacity="0.8">
+        <animate attributeName="opacity" values="0.4;1;0.6;1;0.4" dur="${o}s" repeatCount="indefinite" begin="${s}s"/>
+        <animate attributeName="r" values="${a};${a + .4};${a}" dur="${o}s" repeatCount="indefinite" begin="${s}s"/>
+      </circle>
+      <circle cx="${r}" cy="${i}" r="${a * .5}" fill="#fef3c7" opacity="0.6">
+        <animate attributeName="opacity" values="0.2;0.6;0.3;0.6;0.2" dur="${o}s" repeatCount="indefinite" begin="${s}s"/>
+      </circle>
+    `;
+	})}
   </g>
 `;
 }, bi = () => E`
@@ -5650,9 +5644,10 @@ var _i = () => E`
       <path fill="url(#hailGradient)" stroke="#e6effc" stroke-miterlimit="10" stroke-width=".5"
         d="M46.5 31.5h-.32a10.49 10.49 0 00-19.11-8 7 7 0 00-10.57 6 7.21 7.21 0 00.1 1.14A7.5 7.5 0 0018 45.5a4.19 4.19 0 00.5 0v0h28a7 7 0 000-14z"/>
     </g>
-    <radialGradient id="hailStoneGradient" cx="50%" cy="42%" r="56%">
-      <stop offset="0%" stop-color="#f0fbff" />
-      <stop offset="100%" stop-color="#b8d6e8" />
+    <radialGradient id="hailStoneGradient" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="60%" stop-color="#e0f2fe" />
+      <stop offset="100%" stop-color="#7dd3fc" />
     </radialGradient>
   </defs>
 
@@ -5663,10 +5658,10 @@ var _i = () => E`
           <animateTransform attributeName="transform" type="translate" values="0,0;14,0;0,0" dur="${16 + t % 3 * 3}s" repeatCount="indefinite"/>
         </g>
 
-        ${Array.from({ length: 10 }, (e, n) => {
-		let r = 11 + n * 6.5 + (t + n) % 2 * 1.2, i = 53 + n % 3 * 1.7, a = 44 + n % 3 * 7, o = (n % 2 == 0 ? -4.2 : 4.2).toFixed(1), s = (1.05 + n % 4 * .2).toFixed(2), c = (-.14 * (t + n)).toFixed(2);
+        ${Array.from({ length: 12 }, (e, n) => {
+		let r = 11 + n * 5.8 + (t + n) % 2 * .8, i = 52 + n % 3 * 1.2, a = 48 + n % 3 * 8, o = (n % 2 == 0 ? -3.6 : 3.6).toFixed(1), s = (.92 + n % 4 * .15).toFixed(2), c = (-.11 * (t + n)).toFixed(2);
 		return E`
-            <circle cx="${r}" cy="${i}" r="${(1.6 + n % 3 * .44).toFixed(2)}" fill="url(#hailStoneGradient)" stroke="#9bbdd2" stroke-width="0.35" opacity="0">
+            <circle cx="${r}" cy="${i}" r="${(2.2 + n % 3 * .54).toFixed(2)}" fill="url(#hailStoneGradient)" stroke="#0ea5e9" stroke-width="0.6" opacity="0">
               <animate attributeName="cy" values="${i}; ${i + a}" dur="${s}s" repeatCount="indefinite" begin="${c}s"/>
               <animate attributeName="cx" values="${r}; ${r + Number(o)}" dur="${s}s" repeatCount="indefinite" begin="${c}s"/>
               <animate attributeName="opacity" values="0;0.95;0.95;0" dur="${s}s" repeatCount="indefinite" begin="${c}s"/>
@@ -5713,6 +5708,7 @@ var _i = () => E`
   <!-- background -->
   <rect width="100%" height="80%" fill="url(#background)" />
   ${ki(e)}
+  ${ji(e, .62, 2.2)}
   
   `;
 E`<g transform="translate(168,-30) scale(3)"><circle cx="24" cy="42" r="4" fill="#a8dadc"/><circle cx="40" cy="42" r="4" fill="#a8dadc"/><circle cx="32" cy="34" r="4" fill="#a8dadc"/><path fill="#f3f7fe" stroke="#e6effc" stroke-miterlimit="10" stroke-width=".5" d="M46.5 31.5h-.32a10.49 10.49 0 00-19.11-8 7 7 0 00-10.57 6 7.21 7.21 0 00.1 1.14A7.5 7.5 0 0018 45.5a4.19 4.19 0 00.5 0v0h28a7 7 0 000-14z"/></g>`;
@@ -5739,14 +5735,14 @@ var Ti = (e) => E`
     <animateTransform attributeName="transform" type="translate" values="0,0;20,0;0,0" dur="18s" repeatCount="indefinite"/>
   </g>
   
-  <!-- Rain drops -->
-  ${Array.from({ length: Math.ceil(e / 12) }, (e, t) => t).map((e) => {
-	let t = Math.floor(Math.random() * 100), n = Math.floor(Math.random() * 10), r = (t - 50) / 5 + e * Math.floor(Math.random() * 25), i = e * 12 + n;
+  <!-- Rain drops (denser) -->
+  ${Array.from({ length: Math.ceil(e / 7) }, (e, t) => t).map((e) => {
+	let t = Math.floor(Math.random() * 100), n = Math.floor(Math.random() * 8), r = (t - 50) / 4 + e * Math.floor(Math.random() * 20), i = e * 7 + n;
 	return E`
-    <line x1="${i}" y1="${r}" x2="${i + 1.6}" y2="${r + 14}" stroke="url(#extremeRainDropGradient)" stroke-width="2.2" stroke-linecap="round">
-      <animate attributeName="y1" values="${r}; ${r + 28}" dur="0.42s" repeatCount="indefinite"/>
-      <animate attributeName="y2" values="${r + 14}; ${r + 42}" dur="0.42s" repeatCount="indefinite"/>
-      <animate attributeName="opacity" values="0;1;1;0" dur="0.42s" repeatCount="indefinite"/>
+    <line x1="${i}" y1="${r}" x2="${i + 1.8}" y2="${r + 16}" stroke="url(#extremeRainDropGradient)" stroke-width="2.4" stroke-linecap="round">
+      <animate attributeName="y1" values="${r}; ${r + 32}" dur="0.38s" repeatCount="indefinite"/>
+      <animate attributeName="y2" values="${r + 16}; ${r + 48}" dur="0.38s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0;0.95;0.95;0" dur="0.38s" repeatCount="indefinite"/>
     </line>
     `;
 })}
@@ -5878,14 +5874,16 @@ ${Array.from({ length: t }, (e, t) => t).map((n) => {
 }, Ai = (e, t) => E`
     <g>
       ${[
-	.22,
+	.15,
+	.35,
 	.52,
-	.8
+	.68,
+	.85
 ].map((n, r) => {
-	let i = Math.round(e * n), a = 18 + r % 2 * 6, o = t ? 2.6 : 3.1, s = (-.55 * r).toFixed(2);
+	let i = Math.round(e * n), a = 16 + r % 3 * 4, o = t ? 2.2 : 2.8, s = (-.42 * r).toFixed(2);
 	return E`
-          <path d="M${i} ${a} L${i - 10} ${a + 30} L${i + 1} ${a + 30} L${i - 13} ${a + 66} L${i + 16} ${a + 28} L${i + 3} ${a + 28} Z" fill="#ffe27a" stroke="#f7b733" stroke-width="1" opacity="0">
-            <animate attributeName="opacity" values="0;0;1;0;0.85;0" dur="${o}s" repeatCount="indefinite" begin="${s}s"/>
+          <path d="M${i} ${a} L${i - 10} ${a + 30} L${i + 1} ${a + 30} L${i - 13} ${a + 66} L${i + 16} ${a + 28} L${i + 3} ${a + 28} Z" fill="#fef08a" stroke="#fbbf24" stroke-width="1.2" opacity="0">
+            <animate attributeName="opacity" values="0;0;1;0;0.9;0" dur="${o}s" repeatCount="indefinite" begin="${s}s"/>
           </path>
         `;
 })}
@@ -6059,11 +6057,27 @@ ${Array.from({ length: t }, (e, t) => t).map((n) => {
   <!-- background -->
   <rect width="100%" height="100%" fill="url(#sunshineBlueGradient)" />
   <!-- Sun -->
-  <g>
-    <use href="#sunIcon" x="${Math.round(e * .58)}" y="10" width="94" height="94" opacity="0.9"/>
-    <animateTransform attributeName="transform" type="translate" values="0,0;4,0;0,0" dur="20s" repeatCount="indefinite"/>
+  <g transform="translate(0,0)">
+    <use href="#sunIcon" x="${Math.round(e * .68)}" y="8" width="100" height="100" opacity="0.95"/>
+    <animateTransform attributeName="transform" type="translate" values="0,0;3,0;0,0" dur="22s" repeatCount="indefinite"/>
   </g>
-  ${ki(Math.round(e * .82))}
+  <!-- Clouds (reduced to let sun shine through) -->
+  ${(() => {
+	let t = Math.max(2, Math.ceil(e / 240));
+	return E`
+    ${Array.from({ length: t }, (n, r) => {
+		let i = Math.round(r / t * e + (Math.random() * 40 - 20)), a = 12 + r % 2 * 14 + Math.round(Math.random() * 8), o = (.85 + Math.random() * .65).toFixed(2), s = (.62 + Math.random() * .18).toFixed(2), c = 35 + Math.floor(Math.random() * 28), l = (-Math.random() * c).toFixed(2);
+		return E`
+      <g>
+        <use href="#icon" x="${i}" y="${a}" width="80" height="40" transform="scale(${o})" opacity="${s}">
+          <animate attributeName="opacity" values="${s};${(Number(s) * .7).toFixed(2)};${s}" dur="${c}s" repeatCount="indefinite" begin="${l}s"/>
+        </use>
+        <animateTransform attributeName="transform" type="translate" values="-180,0;${e + 160},0;-180,0" dur="${c}s" repeatCount="indefinite" begin="${l}s"/>
+      </g>
+      `;
+	})}
+    `;
+})()}
   `, Fi = (e) => E`
   <defs>
     <linearGradient id="partlyCloudyNightGradient" x1="22.56" x2="39.2" y1="21.96" y2="50.8" gradientUnits="userSpaceOnUse">
@@ -6091,16 +6105,14 @@ ${Array.from({ length: t }, (e, t) => t).map((n) => {
       <stop offset="0%" stop-color="#4c5f73"/>
       <stop offset="100%" stop-color="#394b5e" stop-opacity="0.2"/>
     </linearGradient>
-    <linearGradient id="hurricaneGradient" x1="22.56" x2="39.2" y1="21.96" y2="50.8" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#f3f7fe"/>
-      <stop offset=".45" stop-color="#f3f7fe"/>
-      <stop offset="1" stop-color="#deeafb"/>
+    <linearGradient id="hurricaneCloudGradient" x1="22.56" x2="39.2" y1="21.96" y2="50.8" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#e8f1f8"/>
+      <stop offset=".45" stop-color="#e8f1f8"/>
+      <stop offset="1" stop-color="#d4e5f0"/>
     </linearGradient>
     <g id="icon">
-      <path fill="url(#hurricaneGradient)" stroke="#e6effc" stroke-miterlimit="10" stroke-width=".5"
+      <path fill="url(#hurricaneCloudGradient)" stroke="#d0e0ed" stroke-miterlimit="10" stroke-width=".5"
         d="M46.5 31.5h-.32a10.49 10.49 0 00-19.11-8 7 7 0 00-10.57 6 7.21 7.21 0 00.1 1.14A7.5 7.5 0 0018 45.5a4.19 4.19 0 00.5 0v0h28a7 7 0 000-14z"/>
-      <circle cx="32" cy="36" r="4.8" fill="#f87171" stroke="#b91c1c" stroke-width="0.9"/>
-      <path fill="#f87171" stroke="#b91c1c" stroke-width="0.9" d="M32 31a5 5 0 015 5h-5V31zM32 41a5 5 0 01-5-5h5v5zM27 36a5 5 0 015-5v5h-5zM37 36a5 5 0 01-5 5v-5h5z"/>
     </g>
   </defs>
 
