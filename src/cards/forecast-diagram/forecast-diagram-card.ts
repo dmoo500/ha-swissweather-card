@@ -50,6 +50,8 @@ export class ForecastDiagramCard extends LitElement {
     return css`
       :host {
         display: block;
+        height: 100%;
+        box-sizing: border-box;
         background: var(--ha-card-background, var(--card-background-color, #fff));
         border-radius: 16px;
         box-shadow: var(
@@ -69,6 +71,14 @@ export class ForecastDiagramCard extends LitElement {
         --chart-inner-border: none;
         --chart-padding: 0;
         --chart-margin-top: 0;
+        --chart-margin-bottom: 0;
+      }
+
+      daily-forecast-diagram {
+        display: block;
+        width: 100%;
+        height: 100%;
+        min-height: 0;
       }
 
       .chart {

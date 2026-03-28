@@ -11,10 +11,13 @@ export class DailyForecastDiagram extends LitElement {
   @property({ type: Boolean }) standalone = false;
   private _resizeObserver?: ResizeObserver;
   private _measuredWidth = 0;
+  private _measuredHeight = 0;
   static styles = css`
     :host {
       display: block;
       width: 100%;
+      height: 100%;
+      min-height: 0;
     }
     .chart-bars {
       display: flex;
@@ -69,6 +72,11 @@ export class DailyForecastDiagram extends LitElement {
     this._resizeObserver = new ResizeObserver(entries => {
       for (const entry of entries) {
         const w = Math.floor(entry.contentRect.width);
+        const h = Math.floor(entry.contentRect.height);
+        if (h > 0 && h !== this._measuredHeight) {
+          this._measuredHeight = h;
+          this.requestUpdate();
+        }
         if (w > 0 && w !== this._measuredWidth) {
           this._measuredWidth = w;
           this.requestUpdate();
@@ -93,9 +101,12 @@ export class DailyForecastDiagram extends LitElement {
     const nDays = days.length;
 
     // Use full available space in standalone mode, fixed 200px for non-standalone
-    const rows = this.standalone ? this.config.grid_options?.rows || 2 : 2;
+    const rows = this.standalone ? this.config.grid_options?.rows || 3 : 2;
+    const standaloneFallbackHeight = rows * 64 - 8;
     const containerHeight = this.standalone
-      ? rows * this.getCSSVariable('--row-height', '56')
+      ? this._measuredHeight > 0
+        ? this._measuredHeight
+        : standaloneFallbackHeight
       : 200;
     // Use actual measured width; fall back to current bounding rect or 400
     let containerWidth = this._measuredWidth;
@@ -488,6 +499,8 @@ export class DailyForecastDiagram extends LitElement {
           overflow: hidden;
           position: relative; /* Enable absolute positioning for SVG overlay */
           width: 100%;
+          height: 100%;
+          box-sizing: border-box;
         }
         .chart svg {
           width: 100%;

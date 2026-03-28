@@ -1,5 +1,5 @@
 //#region package.json
-var e = "1.7.0-beta.29", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
+var e = "1.7.0-beta.30", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
 	constructor(e, t, n) {
 		if (this._$cssResult$ = !0, n !== r) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
 		this.cssText = e, this.t = t;
@@ -1401,10 +1401,13 @@ var P = class extends T {
 	standalone = !1;
 	_resizeObserver;
 	_measuredWidth = 0;
+	_measuredHeight = 0;
 	static styles = s`
     :host {
       display: block;
       width: 100%;
+      height: 100%;
+      min-height: 0;
     }
     .chart-bars {
       display: flex;
@@ -1454,8 +1457,8 @@ var P = class extends T {
 	connectedCallback() {
 		super.connectedCallback(), this._resizeObserver = new ResizeObserver((e) => {
 			for (let t of e) {
-				let e = Math.floor(t.contentRect.width);
-				e > 0 && e !== this._measuredWidth && (this._measuredWidth = e, this.requestUpdate());
+				let e = Math.floor(t.contentRect.width), n = Math.floor(t.contentRect.height);
+				n > 0 && n !== this._measuredHeight && (this._measuredHeight = n, this.requestUpdate()), e > 0 && e !== this._measuredWidth && (this._measuredWidth = e, this.requestUpdate());
 			}
 		}), this._resizeObserver.observe(this);
 	}
@@ -1465,7 +1468,7 @@ var P = class extends T {
 	render() {
 		let e = this.forecast.slice(0, 7), t = this.hourlyForecast.slice(0, e.length * 24);
 		if (!t.length) return S`<div>No hourly forecast available</div>`;
-		let n = e.length, r = this.standalone && this.config.grid_options?.rows || 2, i = this.standalone ? r * this.getCSSVariable("--row-height", "56") : 200, a = this._measuredWidth;
+		let n = e.length, r = (this.standalone ? this.config.grid_options?.rows || 3 : 2) * 64 - 8, i = this.standalone ? this._measuredHeight > 0 ? this._measuredHeight : r : 200, a = this._measuredWidth;
 		if (!a) {
 			let e = this.getBoundingClientRect?.();
 			a = e?.width ? Math.floor(e.width) : 400;
@@ -1641,6 +1644,8 @@ var P = class extends T {
           overflow: hidden;
           position: relative; /* Enable absolute positioning for SVG overlay */
           width: 100%;
+          height: 100%;
+          box-sizing: border-box;
         }
         .chart svg {
           width: 100%;
@@ -5332,6 +5337,8 @@ var _i = class extends T {
 		return s`
       :host {
         display: block;
+        height: 100%;
+        box-sizing: border-box;
         background: var(--ha-card-background, var(--card-background-color, #fff));
         border-radius: 16px;
         box-shadow: var(
@@ -5351,6 +5358,14 @@ var _i = class extends T {
         --chart-inner-border: none;
         --chart-padding: 0;
         --chart-margin-top: 0;
+        --chart-margin-bottom: 0;
+      }
+
+      daily-forecast-diagram {
+        display: block;
+        width: 100%;
+        height: 100%;
+        min-height: 0;
       }
 
       .chart {
