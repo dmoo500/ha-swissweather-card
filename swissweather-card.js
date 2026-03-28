@@ -1,5 +1,5 @@
 //#region package.json
-var e = "1.7.0-beta.1", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
+var e = "1.7.0-beta.23", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
 	constructor(e, t, n) {
 		if (this._$cssResult$ = !0, n !== r) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
 		this.cssText = e, this.t = t;
@@ -4968,7 +4968,10 @@ var Z = class extends T {
       `;
 	}
 	_showDailyForecast() {
-		return this.config.show_forecast === !1 ? S`` : this._renderDailyForecastDiagram();
+		return this.config.show_forecast === !1 ? S`` : S`
+          ${this.config.compact_mode === !0 && this.config.show_forecast === !0 ? this._renderDailyForecastDiagram() : S``}
+          ${this.config.compact_mode === !1 ? this._renderDailyForecastChart() : S``}
+        `;
 	}
 	_renderDailyForecastChart() {
 		return this._forecast.length > 0 && this._hourlyForecast.length > 0 ? S`<daily-forecast-chart
@@ -4983,11 +4986,15 @@ var Z = class extends T {
 	}
 	_renderDailyForecastDiagram() {
 		return this._forecast.length > 0 && this._hourlyForecast.length > 0 ? S`<daily-forecast-diagram
-          .config=${this.config}
+          .config=${{
+			...this.config,
+			grid_options: { rows: this.config.grid_options?.rows ?? 4 }
+		}}
           .forecast=${[...this._forecast?.slice(0, 7) ?? []]}
           .hourlyForecast=${[...this._hourlyForecast]}
           ._t=${B}
           .getWeatherIcon=${ci}
+          .standalone=${!0}
         ></daily-forecast-diagram>` : S``;
 	}
 };
@@ -5266,10 +5273,6 @@ var _i = class extends T {
           sans-serif
         );
         color: var(--primary-text-color, #fff);
-
-        /* Calculate height according to HA docs: rows * 56px + (rows-1) * 8px gap */
-        /* Simplified: height = rows * 64px - 8px */
-        height: calc(var(--card-grid-rows, 3) * 64px - 8px);
         min-height: calc(var(--card-grid-rows, 3) * 64px - 8px);
       }
 
@@ -5306,10 +5309,7 @@ var _i = class extends T {
 				})]), n = e?.response;
 				n && n[this.config.entity] ? (this._forecast = n[this.config.entity].forecast || [], this.requestUpdate("_forecast")) : this._forecast = [];
 				let r = t?.response;
-				r && r[this.config.entity] ? (this._hourlyForecast = r[this.config.entity].forecast || [], this.requestUpdate("_hourlyForecast")) : this._hourlyForecast = [], console.log("🟢 Forecast geladen:", {
-					forecast: this._forecast,
-					hourlyForecast: this._hourlyForecast
-				});
+				r && r[this.config.entity] ? (this._hourlyForecast = r[this.config.entity].forecast || [], this.requestUpdate("_hourlyForecast")) : this._hourlyForecast = [];
 			} catch (e) {
 				console.warn("⚠️ Forecast loading failed:", e), this._forecast = [], this._hourlyForecast = [];
 			} finally {
@@ -6885,7 +6885,6 @@ var ta = class extends Qi {
           sans-serif
         );
         color: var(--primary-text-color, #fff);
-        height: calc(var(--card-grid-rows, 3) * 64px - 8px);
         min-height: calc(var(--card-grid-rows, 3) * 64px - 8px);
       }
       .card-content {

@@ -65,10 +65,6 @@ export class ForecastDiagramCard extends LitElement {
           sans-serif
         );
         color: var(--primary-text-color, #fff);
-
-        /* Calculate height according to HA docs: rows * 56px + (rows-1) * 8px gap */
-        /* Simplified: height = rows * 64px - 8px */
-        height: calc(var(--card-grid-rows, 3) * 64px - 8px);
         min-height: calc(var(--card-grid-rows, 3) * 64px - 8px);
       }
 
@@ -126,11 +122,6 @@ export class ForecastDiagramCard extends LitElement {
       } else {
         this._hourlyForecast = [];
       }
-      // Debug-Ausgaben
-      console.log('🟢 Forecast geladen:', {
-        forecast: this._forecast,
-        hourlyForecast: this._hourlyForecast,
-      });
     } catch (wsError) {
       console.warn('⚠️ Forecast loading failed:', wsError);
       this._forecast = [];
