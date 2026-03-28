@@ -50,6 +50,8 @@ export class ForecastDiagramCard extends LitElement {
     return css`
       :host {
         display: block;
+        height: 100%;
+        box-sizing: border-box;
         background: var(--ha-card-background, var(--card-background-color, #fff));
         border-radius: 16px;
         box-shadow: var(
@@ -65,11 +67,18 @@ export class ForecastDiagramCard extends LitElement {
           sans-serif
         );
         color: var(--primary-text-color, #fff);
-
-        /* Calculate height according to HA docs: rows * 56px + (rows-1) * 8px gap */
-        /* Simplified: height = rows * 64px - 8px */
-        height: calc(var(--card-grid-rows, 3) * 64px - 8px);
         min-height: calc(var(--card-grid-rows, 3) * 64px - 8px);
+        --chart-inner-border: none;
+        --chart-padding: 0;
+        --chart-margin-top: 0;
+        --chart-margin-bottom: 0;
+      }
+
+      daily-forecast-diagram {
+        display: block;
+        width: 100%;
+        height: 100%;
+        min-height: 0;
       }
 
       .chart {
@@ -126,11 +135,6 @@ export class ForecastDiagramCard extends LitElement {
       } else {
         this._hourlyForecast = [];
       }
-      // Debug-Ausgaben
-      console.log('🟢 Forecast geladen:', {
-        forecast: this._forecast,
-        hourlyForecast: this._hourlyForecast,
-      });
     } catch (wsError) {
       console.warn('⚠️ Forecast loading failed:', wsError);
       this._forecast = [];

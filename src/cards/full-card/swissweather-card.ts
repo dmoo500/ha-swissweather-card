@@ -377,7 +377,7 @@ export class SwissWeatherCard extends LitElement {
       show_wind: true,
       enable_animate_weather_icons: true,
       compact_mode: false,
-      chart_order: ['temperature', 'precipitation', 'sunshine', 'wind'],
+      chart_order: ['temperature', 'precipitation', 'sunshine', 'wind', 'forecast'],
     };
   }
 
@@ -449,6 +449,13 @@ export class SwissWeatherCard extends LitElement {
         });
     }
     const warningLevel = this._getWarningLevel(warnings);
+    // Helper: Map level number to icon color
+    const levelToColor = (level: number): string => {
+      if (level >= 4) return '#dc143c'; // danger – red
+      if (level >= 3) return '#e17055'; // severe – orange
+      if (level >= 2) return '#f6c90e'; // warning – yellow
+      return 'var(--primary-text-color, #fff)';
+    };
     // Helper: Map warning type to icon
     const typeToIcon: Record<string, string> = {
       storm: 'mdi:weather-lightning',
@@ -482,7 +489,7 @@ export class SwissWeatherCard extends LitElement {
                       <div style="display: flex; align-items: center; gap: 8px;">
                         <ha-icon
                           icon="${typeToIcon[w.type?.toLowerCase?.()] || typeToIcon.default}"
-                          style="color: var(--error-color, #dc143c);"
+                          style="color: ${levelToColor(w.level)};"
                         ></ha-icon>
                         <span style="font-weight:bold;">${w.title}</span>
                         ${w.link
@@ -794,10 +801,11 @@ export class SwissWeatherCard extends LitElement {
         visibility,
         sunshineEntity
       )}
-      ${this.config.compact_mode === false &&
-      (this.config.show_temperature === true ||
-        this.config.show_precipitation === true ||
-        this.config.show_sunshine === true)
+      ${this.config.show_temperature !== false ||
+      this.config.show_precipitation !== false ||
+      this.config.show_sunshine !== false ||
+      this.config.show_wind !== false ||
+      this.config.show_forecast !== false
         ? html`
             <div class="section-title">
               <ha-icon icon="mdi:clock"></ha-icon>
@@ -805,15 +813,7 @@ export class SwissWeatherCard extends LitElement {
             </div>
           `
         : ''}
-      ${(
-        (this.config.chart_order || [
-          'temperature',
-          'precipitation',
-          'sunshine',
-          'wind',
-          'forecast',
-        ]) as string[]
-      ).map(chart => {
+      ${this._getEffectiveChartOrder().map(chart => {
         switch (chart) {
           case 'temperature':
             return this._renderForecastTemperature(forecastHours);
@@ -888,14 +888,22 @@ export class SwissWeatherCard extends LitElement {
   }
 
   private _showDailyForecast(): TemplateResult {
-    return this.config.show_forecast !== false
-      ? html`
-          ${this.config.compact_mode === true && this.config.show_forecast === true
-            ? this._renderDailyForecastDiagram()
-            : html``}
-          ${this.config.compact_mode === false ? this._renderDailyForecastChart() : html``}
-        `
-      : html``;
+    if (this.config.show_forecast === false) return html``;
+    return this.config.compact_mode === true
+      ? this._renderDailyForecastDiagram()
+      : this._renderDailyForecastChart();
+  }
+
+  private _getEffectiveChartOrder(): string[] {
+    const chartOrder = Array.isArray(this.config.chart_order)
+      ? [...this.config.chart_order]
+      : ['temperature', 'precipitation', 'sunshine', 'wind', 'forecast'];
+
+    if (this.config.show_forecast !== false && !chartOrder.includes('forecast')) {
+      chartOrder.push('forecast');
+    }
+
+    return chartOrder;
   }
 
   // @property({ type: Array }) forecast: WeatherForecast[] = [];
@@ -930,6 +938,7 @@ export class SwissWeatherCard extends LitElement {
           .hourlyForecast=${[...this._hourlyForecast]}
           ._t=${_t}
           .getWeatherIcon=${getWeatherIcon}
+          .standalone=${false}
         ></daily-forecast-diagram>`
       : html``;
   }

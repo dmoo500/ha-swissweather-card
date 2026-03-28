@@ -13,25 +13,44 @@ export class SunshineChart extends LitElement {
   @property({ type: Function }) showHoursChartLabel!: (hours: number) => TemplateResult;
 
   static styles = css`
+    :host {
+      display: block;
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+    }
+
     .chart {
       background: var(--card-background-color, #fff);
       border-radius: 12px;
-      padding: 15px;
-      margin-top: 15px;
-      border: 1px solid var(--border-color, rgba(220, 20, 60, 0.1));
+      padding: var(--chart-padding, 15px);
+      margin-top: var(--chart-margin-top, 15px);
+      margin-bottom: var(--chart-margin-bottom, 0);
+      border: var(--chart-inner-border, 1px solid var(--border-color, rgba(220, 20, 60, 0.1)));
+      width: 100%;
+      box-sizing: border-box;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
     }
     .chart-sunshine {
       background: var(--card-background-color, #fff);
       border-radius: 12px;
-      padding: 15px;
-      margin-top: 15px;
-      border: 1px solid var(--border-color, rgba(220, 20, 60, 0.1));
+      padding: var(--chart-padding, 15px);
+      margin-top: var(--chart-margin-top, 15px);
+      margin-bottom: var(--chart-margin-bottom, 0);
+      border: var(--chart-inner-border, 1px solid var(--border-color, rgba(220, 20, 60, 0.1)));
+      width: 100%;
+      box-sizing: border-box;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
     }
 
     .chart-bars {
       display: flex;
       justify-content: space-between;
-      height: 120px;
+      height: 80px;
       margin-bottom: 10px;
     }
 
@@ -101,6 +120,10 @@ export class SunshineChart extends LitElement {
               <div class="section-title">
                 <ha-icon icon="mdi:white-balance-sunny"></ha-icon>
                 ${this._t('sunshine_hours', { hours: this.forecastHours })}
+                <span
+                  style="font-size:12px; font-weight:normal; color:var(--secondary-text-color, #888);"
+                  >min</span
+                >
               </div>
               <div class="chart-bars" style="position:relative;">
                 ${(() => {
@@ -198,14 +221,24 @@ export class SunshineChart extends LitElement {
                       <span
                         style="font-size:11px; color:#fbc02d; margin-bottom:2px; min-height:16px; font-variant-numeric:tabular-nums;"
                       >
-                        ${value !== null ? value.toFixed(0) + ' min' : ''}
+                        ${value !== null ? value.toFixed(0) : ''}
                       </span>
                       <div class="chart-bar-sunshine" style="height: ${barHeight}px;"></div>
                     </div>
                   `;
                 })}
               </div>
-              ${this.showHoursChartLabel(this.forecastHours)}
+              <div
+                style="display:flex; justify-content:space-between; font-size:11px; color:var(--secondary-text-color, #888); margin-top:4px;"
+              >
+                ${this.hourlyForecast.slice(0, this.forecastHours).map((h: WeatherForecast) => {
+                  const dt = h.datetime ? new Date(h.datetime) : null;
+                  const showLabel = dt ? dt.getHours() % 3 === 0 : false;
+                  return html`<div style="flex:1; text-align:center; overflow:hidden;">
+                    ${showLabel && dt ? dt.getHours() + 'h' : ''}
+                  </div>`;
+                })}
+              </div>
             </div>
           `
         : html`

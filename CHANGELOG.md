@@ -1,5 +1,34 @@
 # Release Notes
 
+## [1.7.0] - 2026-03-28
+
+### Added
+- New standalone cards for hourly charts: temperature, precipitation, sunshine, and wind.
+- Daily forecast diagram standalone card.
+- Rebuilt hourly charts (temperature, precipitation, sunshine, and wind) with SVG-based rendering.
+- Added chart grid lines and improved chart readability/visual structure.
+- Automatic forecast inclusion in effective `chart_order` when forecast is enabled.
+
+### Changed
+- Standalone cards now use responsive sizing with propagated width/height to chart and SVG containers.
+- Standalone chart styling was compacted (reduced inner spacing, consistent border/margin handling).
+- Updated chart visual design and layout behavior across all rebuilt hourly charts.
+- Forecast rendering logic was aligned so `show_forecast` and `compact_mode` behave consistently.
+- Changelog screenshot filenames were renamed to version-related names.
+
+### Fixed
+- Standalone cards no longer get stuck on loading in forecast fetch scenarios.
+- Grid row handling for standalone cards now uses consistent defaults and metadata.
+- Removed remaining fixed-height behaviors that caused clipping/oversizing in sections.
+- Fixed bottom-gap issues in standalone charts and standalone forecast diagram.
+- Full-width chart host behavior for standalone cards.
+- Visual editor defaults for forecast/chart toggles and persisted config handling.
+- Removed/cleaned debug logs introduced during beta troubleshooting.
+
+### Migration Notes
+- Older configs without `forecast` in `chart_order` continue to work; `forecast` is auto-added when `show_forecast` is enabled.
+- If legacy dashboard sections show outdated sizing, open the card editor once and save to refresh stored grid options.
+
 ## [1.6.0] - 2025-09-??
 
 ### Added
@@ -54,7 +83,7 @@
 - Display hourly temperature as a line chart
 - Display hourly precipitation and precipitation probability as bar charts in the same chart
 
-<img src="docs/images/compact_mode_forecast.png" width="250" />
+<img src="docs/images/changelog_v1.4.0_compact_mode_forecast.png" width="250" />
 
 ### Changed
 
@@ -72,7 +101,7 @@
 ### Added
 - compact mode of additional informations of the day (like windspeed or humidity)
 
-<img src="docs/images/compact-mode.png" width="250" />
+<img src="docs/images/changelog_v1.3.0_compact_mode.png" width="250" />
 
 ## [1.2.0] - 2025-08-22
 
@@ -80,9 +109,9 @@
 - redesigned the warning display
 - collapsible warning description
 
-<img src="docs/images/warning1.png" width="250" />
+<img src="docs/images/changelog_v1.2.0_warning_01.png" width="250" />
 
-<img src="docs/images/warning2.png" width="250" />
+<img src="docs/images/changelog_v1.2.0_warning_02.png" width="250" />
 ---
 
 ### Added

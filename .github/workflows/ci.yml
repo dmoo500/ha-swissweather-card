@@ -11,37 +11,49 @@ on:
 jobs:
   lint-and-test:
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-      
+
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '20'
-        
+        node-version: '22'
+
     - name: Enable Corepack
       run: corepack enable
-    
+
     - name: Check Yarn version
       run: yarn --version
-    
+
+    - name: Get Yarn cache directory
+      id: yarn-cache-dir
+      run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
+
+    - name: Cache Yarn dependencies
+      uses: actions/cache@v4
+      with:
+        path: ${{ steps.yarn-cache-dir.outputs.dir }}
+        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-yarn-
+
     - name: Install dependencies
       run: yarn install --immutable
-      
+
     - name: Run TypeScript type check
       run: yarn type-check
-      
+
     - name: Run ESLint
       run: yarn lint
-      
+
     - name: Check formatting
       run: yarn format:check
-      
+
     - name: Build
       run: yarn build
-      
+
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
       with:
@@ -50,11 +62,11 @@ jobs:
 
   validate-hacs:
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-      
+
     - name: HACS validation
       uses: hacs/action@main
       with:
@@ -64,51 +76,42 @@ jobs:
     if: github.event_name == 'release'
     needs: [lint-and-test, validate-hacs]
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-      
+
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '20'
-        
+        node-version: '22'
+
     - name: Enable Corepack
       run: corepack enable
-      
+
+    - name: Get Yarn cache directory
+      id: yarn-cache-dir
+      run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
+
+    - name: Cache Yarn dependencies
+      uses: actions/cache@v4
+      with:
+        path: ${{ steps.yarn-cache-dir.outputs.dir }}
+        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-yarn-
+
     - name: Install dependencies
       run: yarn install --immutable
-      
+
     - name: Build
       run: yarn build
-      
-    - name: Create release asset
-      run: |
-        mkdir -p dist
-        cp swissweather-card.js dist/
-        cp README.md dist/
-        cp LICENSE dist/
-        cp hacs.json dist/
-        cd dist
-        zip -r ../swissweather-card-${{ github.event.release.tag_name }}.zip .
-        
-    - name: Upload release asset
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ github.event.release.upload_url }}
-        asset_path: ./swissweather-card-${{ github.event.release.tag_name }}.zip
-        asset_name: swissweather-card-${{ github.event.release.tag_name }}.zip
-        asset_content_type: application/zip
 
-    - name: Upload individual file
-      uses: actions/upload-release-asset@v1
+    - name: Upload release assets
+      uses: softprops/action-gh-release@v2
+      with:
+        files: |
+          swissweather-card.js
+          swissweather-card.js.map
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ github.event.release.upload_url }}
-        asset_path: ./swissweather-card.js
-        asset_name: swissweather-card.js
-        asset_content_type: application/javascript

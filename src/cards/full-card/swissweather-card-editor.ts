@@ -215,11 +215,11 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
           : undefined,
       warning_entity:
         typeof this._config?.warning_entity === 'string' ? this._config.warning_entity : undefined,
-      show_forecast: this._config?.show_forecast ?? false,
+      show_forecast: this._config?.show_forecast ?? true,
       forecast_hours: this._config?.forecast_hours ?? 6,
-      show_temperature: this._config?.show_temperature ?? false,
-      show_precipitation: this._config?.show_precipitation ?? false,
-      show_sunshine: this._config?.show_sunshine ?? false,
+      show_temperature: this._config?.show_temperature ?? true,
+      show_precipitation: this._config?.show_precipitation ?? true,
+      show_sunshine: this._config?.show_sunshine ?? true,
       show_warnings: this._config?.show_warnings ?? false,
       show_wind: this._config?.show_wind ?? true,
       enable_animate_weather_icons: this._config?.enable_animate_weather_icons ?? true,
@@ -437,6 +437,16 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
         ...keepConfig,
         type: 'custom:swissweather-card',
       };
+
+      if (newConfig.show_forecast !== false) {
+        const chartOrder = Array.isArray(newConfig.chart_order)
+          ? [...newConfig.chart_order]
+          : ['temperature', 'precipitation', 'sunshine', 'wind', 'forecast'];
+        if (!chartOrder.includes('forecast')) {
+          chartOrder.push('forecast');
+        }
+        newConfig.chart_order = chartOrder;
+      }
 
       // Remove empty values for a cleaner config
       Object.keys(newConfig).forEach(key => {

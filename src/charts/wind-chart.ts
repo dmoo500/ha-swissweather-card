@@ -1,4 +1,4 @@
-import { LitElement, html, css, svg, type TemplateResult } from 'lit';
+import { LitElement, html, svg, css, type TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import type { WeatherForecast } from '../types/home-assistant.js';
 
@@ -11,71 +11,25 @@ export class WindChart extends LitElement {
   @property({ type: Function }) showHoursChartLabel!: (hours: number) => TemplateResult;
 
   static styles = css`
+    :host {
+      display: block;
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+    }
+
     .chart {
       background: var(--card-background-color, #fff);
       border-radius: 12px;
-      padding: 15px;
-      margin-top: 15px;
-      border: 1px solid var(--border-color, rgba(220, 20, 60, 0.1));
-    }
-
-    .chart-bars {
+      padding: var(--chart-padding, 15px);
+      margin-top: var(--chart-margin-top, 15px);
+      margin-bottom: var(--chart-margin-bottom, 0);
+      border: var(--chart-inner-border, 1px solid var(--border-color, rgba(220, 20, 60, 0.1)));
+      width: 100%;
+      box-sizing: border-box;
+      height: 100%;
       display: flex;
-      justify-content: space-between;
-      height: 120px;
-      margin-bottom: 10px;
-    }
-
-    .chart-line {
-      display: flex;
-      justify-content: space-between;
-      height: 60px;
-      margin-bottom: 10px;
-    }
-    .chart-line-wind {
-      display: flex;
-      justify-content: space-between;
-      height: 50px;
-    }
-
-    .chart-labels {
-      display: flex;
-      justify-content: space-between;
-      font-size: 11px;
-      color: var(--secondary-text-color, #000);
-    }
-
-    .wind-compass {
-      width: 24px;
-      height: 24px;
-      border: 2px solid var(--state-icon-color, #dc143c);
-      border-radius: 50%;
-      position: relative;
-      margin: 0 auto 10px;
-    }
-
-    .wind-arrow {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 2px;
-      height: 8px;
-      background: var(--state-icon-color, #dc143c);
-      transform-origin: bottom center;
-      transform: translate(-50%, -100%);
-    }
-
-    .wind-arrow::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 50%;
-      width: 0;
-      height: 0;
-      border-left: 4px solid transparent;
-      border-right: 4px solid transparent;
-      border-bottom: 8px solid var(--state-icon-color, #dc143c);
-      transform: translateX(-50%);
+      flex-direction: column;
     }
     .section-title {
       font-weight: bold;
@@ -86,112 +40,147 @@ export class WindChart extends LitElement {
       align-items: center;
       gap: 8px;
     }
-
     .section-title ha-icon {
       color: var(--primary-text-color, #fff);
       font-size: 20px;
     }
-    @media (max-width: 768px) {
-      :host {
-        padding: 15px;
-      }
-
-      .metrics-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .forecast-grid {
-        grid-template-columns: repeat(4, 1fr);
-      }
+    .chart-svg-area {
+      width: 100%;
+      overflow: hidden;
+      border-radius: 4px;
+      flex: 1;
+      min-height: 0;
     }
   `;
 
   render(): TemplateResult {
-    return this.show_wind !== false
-      ? this.hourlyForecast.length > 0 &&
-        this.hourlyForecast
-          .slice(0, this.forecastHours)
-          .some(h => typeof h.wind_speed === 'number' && !isNaN(h.wind_speed))
-        ? html`
-            <div class="chart">
-              <div class="section-title">
-                <ha-icon icon="mdi:weather-windy"></ha-icon>
-                ${this._t('wind_hours', { hours: this.forecastHours })}
-              </div>
-              <div class="chart-line-wind" style="position:relative;">
-                ${this.hourlyForecast.slice(0, this.forecastHours).map((hour: WeatherForecast) => {
-                  const value =
-                    typeof hour.wind_speed === 'number' && !isNaN(hour.wind_speed)
-                      ? hour.wind_speed
-                      : null;
-                  return html`
-                    <div
-                      style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end;"
-                    >
-                      <span
-                        style="font-size:11px; color:#44739e; writing-mode:vertical-rl; transform:rotate(180deg); min-height:16px; font-variant-numeric:tabular-nums;"
-                      >
-                        ${value !== null ? value.toFixed(1) + ' km/h' : ''}
-                      </span>
-                    </div>
-                  `;
-                })}
-              </div>
-              <div class="chart-line-wind" style="position:relative;">
-                ${this.hourlyForecast.slice(0, this.forecastHours).map((hour: WeatherForecast) => {
-                  const value =
-                    typeof hour.wind_bearing === 'number' && !isNaN(hour.wind_bearing)
-                      ? hour.wind_bearing
-                      : null;
-                  const windDirection = value !== null ? value : 0; // Fallback to 0 if no value is present
-                  return html`
-                    <div
-                      style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;"
-                    >
-                      <div class="wind-compass" style="width: 12px; height: 12px; margin: 0 auto;">
-                        <div
-                          class="wind-arrow"
-                          style="transform: translate(-50%, -100%) rotate(${windDirection}deg);"
-                        ></div>
-                      </div>
-                    </div>
-                  `;
-                })}
-              </div>
-              <div style="width:100%;height:90px;overflow-x:auto;">
-                ${(() => {
-                  const windRaw = this.hourlyForecast
-                    .slice(0, this.forecastHours)
-                    .map(h =>
-                      typeof h.wind_speed === 'number' && !isNaN(h.wind_speed) ? h.wind_speed : null
-                    );
-                  const winds: number[] = windRaw.filter((t): t is number => t !== null);
-                  if (winds.length < 2) return '';
-                  const min = Math.min(...winds);
-                  const max = Math.max(...winds);
-                  const range = max - min || 1;
-                  const n = windRaw.length;
-                  const w = Math.max(360, Math.min(1600, n * 250));
-                  const h = 50;
-                  const step = w / (n - 1);
-                  const points = windRaw
-                    .map((t, i) => (t !== null ? `${i * step},${h - ((t - min) / range) * h}` : ''))
-                    .filter(Boolean)
-                    .join(' ');
-                  const svgWidth =
-                    this.forecastHours === 6 ? '84%' : this.forecastHours - 6 + 84 + '%'; //84% base + 3% for each additional 6 hours
-                  const svgPadding =
-                    this.forecastHours === 6 ? '8%' : (18 - this.forecastHours) * 0.5 + 2 + '%';
-                  return svg`<svg width="${svgWidth}" height="${h}" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" style="display:block;padding-left:${svgPadding};">
-                <polyline points="${points}" fill="none" stroke="#44739e" stroke-width="3" />
-                ${windRaw.map((t, i) => (t !== null ? svg`<circle r="3" fill="#44739e" cx="${i * step}" cy="${h - ((t - min) / range) * h}" />` : null))}
-              </svg>`;
-                })()}
-              </div>
-              ${this.showHoursChartLabel(this.forecastHours)}
-            </div>
-          `
-        : html``
-      : html``;
+    if (this.show_wind === false) return html``;
+
+    const slice = this.hourlyForecast.slice(0, this.forecastHours);
+    const hasData = slice.some(h => typeof h.wind_speed === 'number' && !isNaN(h.wind_speed));
+    if (slice.length === 0 || !hasData) return html``;
+
+    return html`
+      <div class="chart">
+        <div class="section-title">
+          <ha-icon icon="mdi:weather-windy"></ha-icon>
+          ${this._t('wind_hours', { hours: this.forecastHours })}
+          <span style="font-size:12px; font-weight:normal; color:var(--secondary-text-color, #888);"
+            >km/h</span
+          >
+        </div>
+        <div class="chart-svg-area" style="aspect-ratio: 600 / 122; width: 100%;">
+          ${(() => {
+            const n = slice.length;
+            if (n < 2) return html``;
+
+            const svgW = 600;
+            // Extra height at the bottom for compass arrows
+            const compassH = 22;
+            const svgH = 100 + compassH;
+            const padLeft = 28;
+            const padRight = 6;
+            const padTop = 8;
+            const padBottom = 18 + compassH; // hour labels + compass area
+
+            const chartW = svgW - padLeft - padRight;
+            const chartH = svgH - padTop - padBottom;
+
+            const windsRaw = slice.map(h =>
+              typeof h.wind_speed === 'number' && !isNaN(h.wind_speed) ? h.wind_speed : null
+            );
+            const winds: number[] = windsRaw.filter((v): v is number => v !== null);
+
+            // Y-axis: 0 to rounded-up max in 5 km/h steps
+            const maxWind = Math.max(10, Math.ceil(Math.max(...winds) / 5) * 5);
+            const yRange = maxWind;
+            const yOf = (v: number) => padTop + chartH - (v / yRange) * chartH;
+
+            const step = chartW / (n - 1);
+            const xOf = (i: number) => padLeft + i * step;
+
+            // Horizontal grid lines every 5 km/h
+            const gridLines: unknown[] = [];
+            for (let t = 0; t <= maxWind; t += 5) {
+              const y = yOf(t);
+              const isMajor = t % 10 === 0;
+              gridLines.push(svg`
+                <line x1="${padLeft}" y1="${y}" x2="${svgW - padRight}" y2="${y}"
+                  stroke="#888" stroke-width="${isMajor ? 1 : 0.6}"
+                  stroke-dasharray="${isMajor ? '4,3' : '2,3'}" opacity="0.6"/>
+                <text x="${padLeft - 3}" y="${y}" text-anchor="end" dominant-baseline="middle"
+                  font-size="8" fill="#888" opacity="0.8">${t}</text>
+              `);
+            }
+
+            // Vertical hour lines + hour labels
+            const verticals: unknown[] = [];
+            for (let i = 0; i < n; i++) {
+              const x = xOf(i);
+              const dt = slice[i]?.datetime ? new Date(slice[i].datetime) : null;
+              const showLabel = dt ? dt.getHours() % 3 === 0 : n <= 8;
+              if (showLabel) {
+                verticals.push(svg`
+                  <line x1="${x}" y1="${padTop}" x2="${x}" y2="${padTop + chartH}"
+                    stroke="#888" stroke-width="0.4" stroke-dasharray="2,3" opacity="0.3"/>
+                  <text x="${x}" y="${svgH - compassH - 2}" text-anchor="middle"
+                    font-size="8" fill="#888" opacity="0.7">
+                    ${dt ? dt.getHours() + 'h' : ''}
+                  </text>
+                `);
+              }
+            }
+
+            // Wind line + dots
+            const points = windsRaw
+              .map((v, i) => (v !== null ? `${xOf(i)},${yOf(v)}` : ''))
+              .filter(Boolean)
+              .join(' ');
+            const dots = windsRaw.map((v, i) =>
+              v !== null
+                ? svg`<circle cx="${xOf(i)}" cy="${yOf(v)}" r="2.5" fill="#44739e"/>`
+                : null
+            );
+
+            // Compass arrows at the bottom
+            // Arrow: a small triangle pointing in wind_bearing direction
+            const compassY = svgH - compassH / 2 + 2; // center of compass band
+            const arrowR = 7; // radius of circle
+            const compassArrows = slice.map((h, i) => {
+              const bearing =
+                typeof h.wind_bearing === 'number' && !isNaN(h.wind_bearing)
+                  ? h.wind_bearing
+                  : null;
+              if (bearing === null) return null;
+              const cx = xOf(i);
+              const cy = compassY;
+              // tip of arrow points in wind direction (bearing = degrees from North, clockwise)
+              const rad = (bearing - 90) * (Math.PI / 180);
+              const tipX = cx + arrowR * Math.cos(rad);
+              const tipY = cy + arrowR * Math.sin(rad);
+              // tail
+              const tailRad = rad + Math.PI;
+              const tailX = cx + (arrowR - 2) * Math.cos(tailRad);
+              const tailY = cy + (arrowR - 2) * Math.sin(tailRad);
+              return svg`
+                <circle cx="${cx}" cy="${cy}" r="${arrowR}" fill="none" stroke="#44739e" stroke-width="0.8" opacity="0.5"/>
+                <line x1="${tailX}" y1="${tailY}" x2="${tipX}" y2="${tipY}"
+                  stroke="#44739e" stroke-width="1.5" stroke-linecap="round" opacity="0.85"/>
+                <circle cx="${tipX}" cy="${tipY}" r="1.5" fill="#44739e" opacity="0.85"/>
+              `;
+            });
+
+            return svg`<svg width="100%" height="100%" viewBox="0 0 ${svgW} ${svgH}" preserveAspectRatio="none" style="display:block;">
+              ${gridLines}
+              ${verticals}
+              <polyline points="${points}" fill="none" stroke="#44739e" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round"/>
+              ${dots}
+              ${compassArrows}
+            </svg>`;
+          })()}
+        </div>
+      </div>
+    `;
   }
 }
