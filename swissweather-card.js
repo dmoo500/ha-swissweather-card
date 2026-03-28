@@ -6698,6 +6698,7 @@ var Qi = class extends T {
 	config;
 	_hourlyForecast = [];
 	_forecastLoading = !1;
+	_loadAttempted = !1;
 	_lastEntity;
 	static get styles() {
 		return s`
@@ -6735,15 +6736,15 @@ var Qi = class extends T {
 					},
 					return_response: !0
 				}))?.response)?.[this.config.entity]?.forecast ?? [];
-			} catch {
-				this._hourlyForecast = [];
+			} catch (e) {
+				console.error("[SwissWeather TemperatureCard] Forecast load failed:", e), this._hourlyForecast = [];
 			} finally {
-				this._forecastLoading = !1;
+				this._forecastLoading = !1, this._loadAttempted = !0;
 			}
 		}
 	}
 	updated(e) {
-		super.updated(e), this.hass && this.config?.entity && this._lastEntity !== this.config.entity && (this._lastEntity = this.config.entity, this._loadForecast());
+		super.updated(e), this.hass && this.config?.entity && (this._lastEntity === this.config.entity ? e.has("hass") && !this._loadAttempted && !this._forecastLoading && this._loadForecast() : (this._lastEntity = this.config.entity, this._loadAttempted = !1, this._loadForecast()));
 	}
 	setConfig(e) {
 		if (!e.entity) throw Error("You need to define an entity");
@@ -6776,7 +6777,8 @@ var Qi = class extends T {
 	}
 	render() {
 		if (!li(this.hass, this.config.entity)) return S`<div class="card-content">Entity not found: ${this.config.entity}</div>`;
-		if (this._hourlyForecast.length === 0) return S`<div class="card-content">Loading...</div>`;
+		if (!this._loadAttempted || this._forecastLoading) return S`<div class="card-content">Loading...</div>`;
+		if (this._hourlyForecast.length === 0) return S`<div class="card-content">No hourly forecast data available.</div>`;
 		let e = this.config.forecast_hours ?? 12;
 		return S`
       <div class="card-content">
@@ -6792,7 +6794,7 @@ var Qi = class extends T {
 };
 //#endregion
 //#region src/cards/hourly-charts/temperature-card-editor.ts
-A([D({ attribute: !1 }), k("design:type", Object)], Qi.prototype, "hass", void 0), A([D({ attribute: !1 }), k("design:type", Object)], Qi.prototype, "config", void 0), A([O(), k("design:type", Array)], Qi.prototype, "_hourlyForecast", void 0), A([O(), k("design:type", Object)], Qi.prototype, "_forecastLoading", void 0), Qi = A([E(Vi)], Qi), F({ loader: (e) => V[e] });
+A([D({ attribute: !1 }), k("design:type", Object)], Qi.prototype, "hass", void 0), A([D({ attribute: !1 }), k("design:type", Object)], Qi.prototype, "config", void 0), A([O(), k("design:type", Array)], Qi.prototype, "_hourlyForecast", void 0), A([O(), k("design:type", Object)], Qi.prototype, "_forecastLoading", void 0), A([O(), k("design:type", Object)], Qi.prototype, "_loadAttempted", void 0), Qi = A([E(Vi)], Qi), F({ loader: (e) => V[e] });
 var $i = class extends T {
 	hass;
 	_config;
@@ -6865,6 +6867,7 @@ var ea = class extends T {
 	config;
 	_hourlyForecast = [];
 	_forecastLoading = !1;
+	_loadAttempted = !1;
 	_lastEntity;
 	static get styles() {
 		return s`
@@ -6902,15 +6905,15 @@ var ea = class extends T {
 					},
 					return_response: !0
 				}))?.response?.[this.config.entity]?.forecast ?? [];
-			} catch {
-				this._hourlyForecast = [];
+			} catch (e) {
+				console.error("[SwissWeather PrecipitationCard] Forecast load failed:", e), this._hourlyForecast = [];
 			} finally {
-				this._forecastLoading = !1;
+				this._forecastLoading = !1, this._loadAttempted = !0;
 			}
 		}
 	}
 	updated(e) {
-		super.updated(e), this.hass && this.config?.entity && this._lastEntity !== this.config.entity && (this._lastEntity = this.config.entity, this._loadForecast());
+		super.updated(e), this.hass && this.config?.entity && (this._lastEntity === this.config.entity ? e.has("hass") && !this._loadAttempted && !this._forecastLoading && this._loadForecast() : (this._lastEntity = this.config.entity, this._loadAttempted = !1, this._loadForecast()));
 	}
 	setConfig(e) {
 		if (!e.entity) throw Error("You need to define an entity");
@@ -6943,7 +6946,8 @@ var ea = class extends T {
 	}
 	render() {
 		if (!li(this.hass, this.config.entity)) return S`<div class="card-content">Entity not found: ${this.config.entity}</div>`;
-		if (this._hourlyForecast.length === 0) return S`<div class="card-content">Loading...</div>`;
+		if (!this._loadAttempted || this._forecastLoading) return S`<div class="card-content">Loading...</div>`;
+		if (this._hourlyForecast.length === 0) return S`<div class="card-content">No hourly forecast data available.</div>`;
 		let e = this.config.forecast_hours ?? 12;
 		return S`
       <div class="card-content">
@@ -6959,7 +6963,7 @@ var ea = class extends T {
 };
 //#endregion
 //#region src/cards/hourly-charts/precipitation-card-editor.ts
-A([D({ attribute: !1 }), k("design:type", Object)], ea.prototype, "hass", void 0), A([D({ attribute: !1 }), k("design:type", Object)], ea.prototype, "config", void 0), A([O(), k("design:type", Array)], ea.prototype, "_hourlyForecast", void 0), A([O(), k("design:type", Object)], ea.prototype, "_forecastLoading", void 0), ea = A([E(Ui)], ea), F({ loader: (e) => V[e] });
+A([D({ attribute: !1 }), k("design:type", Object)], ea.prototype, "hass", void 0), A([D({ attribute: !1 }), k("design:type", Object)], ea.prototype, "config", void 0), A([O(), k("design:type", Array)], ea.prototype, "_hourlyForecast", void 0), A([O(), k("design:type", Object)], ea.prototype, "_forecastLoading", void 0), A([O(), k("design:type", Object)], ea.prototype, "_loadAttempted", void 0), ea = A([E(Ui)], ea), F({ loader: (e) => V[e] });
 var ta = class extends T {
 	hass;
 	_config;
@@ -7032,6 +7036,7 @@ var na = class extends T {
 	config;
 	_hourlyForecast = [];
 	_forecastLoading = !1;
+	_loadAttempted = !1;
 	_lastEntity;
 	static get styles() {
 		return s`
@@ -7069,15 +7074,15 @@ var na = class extends T {
 					},
 					return_response: !0
 				}))?.response?.[this.config.entity]?.forecast ?? [];
-			} catch {
-				this._hourlyForecast = [];
+			} catch (e) {
+				console.error("[SwissWeather SunshineCard] Forecast load failed:", e), this._hourlyForecast = [];
 			} finally {
-				this._forecastLoading = !1;
+				this._forecastLoading = !1, this._loadAttempted = !0;
 			}
 		}
 	}
 	updated(e) {
-		super.updated(e), this.hass && this.config?.entity && this._lastEntity !== this.config.entity && (this._lastEntity = this.config.entity, this._loadForecast());
+		super.updated(e), this.hass && this.config?.entity && (this._lastEntity === this.config.entity ? e.has("hass") && !this._loadAttempted && !this._forecastLoading && this._loadForecast() : (this._lastEntity = this.config.entity, this._loadAttempted = !1, this._loadForecast()));
 	}
 	setConfig(e) {
 		if (!e.entity) throw Error("You need to define an entity");
@@ -7111,7 +7116,8 @@ var na = class extends T {
 	render() {
 		let e = li(this.hass, this.config.entity);
 		if (!e) return S`<div class="card-content">Entity not found: ${this.config.entity}</div>`;
-		if (this._hourlyForecast.length === 0) return S`<div class="card-content">Loading...</div>`;
+		if (!this._loadAttempted || this._forecastLoading) return S`<div class="card-content">Loading...</div>`;
+		if (this._hourlyForecast.length === 0) return S`<div class="card-content">No hourly forecast data available.</div>`;
 		let t = this.config.forecast_hours ?? 12, n = this.config.sun_entity ? li(this.hass, this.config.sun_entity) : null;
 		return S`
       <div class="card-content">
@@ -7129,7 +7135,7 @@ var na = class extends T {
 };
 //#endregion
 //#region src/cards/hourly-charts/sunshine-card-editor.ts
-A([D({ attribute: !1 }), k("design:type", Object)], na.prototype, "hass", void 0), A([D({ attribute: !1 }), k("design:type", Object)], na.prototype, "config", void 0), A([O(), k("design:type", Array)], na.prototype, "_hourlyForecast", void 0), A([O(), k("design:type", Object)], na.prototype, "_forecastLoading", void 0), na = A([E(Gi)], na), F({ loader: (e) => V[e] });
+A([D({ attribute: !1 }), k("design:type", Object)], na.prototype, "hass", void 0), A([D({ attribute: !1 }), k("design:type", Object)], na.prototype, "config", void 0), A([O(), k("design:type", Array)], na.prototype, "_hourlyForecast", void 0), A([O(), k("design:type", Object)], na.prototype, "_forecastLoading", void 0), A([O(), k("design:type", Object)], na.prototype, "_loadAttempted", void 0), na = A([E(Gi)], na), F({ loader: (e) => V[e] });
 var ra = class extends T {
 	hass;
 	_config;
@@ -7206,6 +7212,7 @@ var ia = class extends T {
 	config;
 	_hourlyForecast = [];
 	_forecastLoading = !1;
+	_loadAttempted = !1;
 	_lastEntity;
 	static get styles() {
 		return s`
@@ -7243,10 +7250,10 @@ var ia = class extends T {
 					},
 					return_response: !0
 				}))?.response?.[this.config.entity]?.forecast ?? [];
-			} catch {
-				this._hourlyForecast = [];
+			} catch (e) {
+				console.error("[SwissWeather WindCard] Forecast load failed:", e), this._hourlyForecast = [];
 			} finally {
-				this._forecastLoading = !1;
+				this._forecastLoading = !1, this._loadAttempted = !0;
 			}
 		}
 	}
@@ -7285,7 +7292,7 @@ var ia = class extends T {
 	render() {
 		if (!this.hass || !this.config) return S``;
 		let e = this.config.forecast_hours ?? 12;
-		return this._hourlyForecast.length === 0 ? S`<div class="card-content">Loading...</div>` : S`
+		return !this._loadAttempted || this._forecastLoading ? S`<div class="card-content">Loading...</div>` : this._hourlyForecast.length === 0 ? S`<div class="card-content">No hourly forecast data available.</div>` : S`
       <div class="card-content">
         <wind-chart
           .hourlyForecast=${this._hourlyForecast}
@@ -7299,7 +7306,7 @@ var ia = class extends T {
 };
 //#endregion
 //#region src/cards/hourly-charts/wind-card-editor.ts
-A([D({ attribute: !1 }), k("design:type", Object)], ia.prototype, "hass", void 0), A([D({ attribute: !1 }), k("design:type", Object)], ia.prototype, "config", void 0), A([O(), k("design:type", Array)], ia.prototype, "_hourlyForecast", void 0), A([O(), k("design:type", Object)], ia.prototype, "_forecastLoading", void 0), ia = A([E(qi)], ia), F({ loader: (e) => V[e] });
+A([D({ attribute: !1 }), k("design:type", Object)], ia.prototype, "hass", void 0), A([D({ attribute: !1 }), k("design:type", Object)], ia.prototype, "config", void 0), A([O(), k("design:type", Array)], ia.prototype, "_hourlyForecast", void 0), A([O(), k("design:type", Object)], ia.prototype, "_forecastLoading", void 0), A([O(), k("design:type", Object)], ia.prototype, "_loadAttempted", void 0), ia = A([E(qi)], ia), F({ loader: (e) => V[e] });
 var aa = class extends T {
 	hass;
 	_config;

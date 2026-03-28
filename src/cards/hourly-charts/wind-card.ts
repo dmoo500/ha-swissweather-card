@@ -21,6 +21,7 @@ export class WindCard extends LitElement {
   @property({ attribute: false }) public config!: HourlyChartCardConfig;
   @state() private _hourlyForecast: WeatherForecast[] = [];
   @state() private _forecastLoading = false;
+  @state() private _loadAttempted = false;
   private _lastEntity: string | undefined;
 
   static get styles() {
@@ -58,10 +59,12 @@ export class WindCard extends LitElement {
         return_response: true,
       });
       this._hourlyForecast = (ws as any)?.response?.[this.config.entity]?.forecast ?? [];
-    } catch {
+    } catch (e) {
+      console.error('[SwissWeather WindCard] Forecast load failed:', e);
       this._hourlyForecast = [];
     } finally {
       this._forecastLoading = false;
+      this._loadAttempted = true;
     }
   }
 
@@ -109,7 +112,10 @@ export class WindCard extends LitElement {
     if (!this.hass || !this.config) return html``;
     const forecastHours = this.config.forecast_hours ?? 12;
 
-    if (this._hourlyForecast.length === 0) return html`<div class="card-content">Loading...</div>`;
+    if (!this._loadAttempted || this._forecastLoading)
+      return html`<div class="card-content">Loading...</div>`;
+    if (this._hourlyForecast.length === 0)
+      return html`<div class="card-content">No hourly forecast data available.</div>`;
 
     return html`
       <div class="card-content">

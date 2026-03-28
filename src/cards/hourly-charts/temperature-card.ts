@@ -25,6 +25,7 @@ export class TemperatureCard extends LitElement {
   @property({ attribute: false }) public config!: HourlyChartCardConfig;
   @state() private _hourlyForecast: WeatherForecast[] = [];
   @state() private _forecastLoading = false;
+  @state() private _loadAttempted = false;
   private _lastEntity: string | undefined;
 
   static get styles() {
@@ -63,18 +64,25 @@ export class TemperatureCard extends LitElement {
       });
       const data = (wsHourly as any)?.response;
       this._hourlyForecast = data?.[this.config.entity]?.forecast ?? [];
-    } catch {
+    } catch (e) {
+      console.error('[SwissWeather TemperatureCard] Forecast load failed:', e);
       this._hourlyForecast = [];
     } finally {
       this._forecastLoading = false;
+      this._loadAttempted = true;
     }
   }
 
   protected updated(changedProperties: PropertyValues): void {
     super.updated(changedProperties);
-    if (this.hass && this.config?.entity && this._lastEntity !== this.config.entity) {
-      this._lastEntity = this.config.entity;
-      this._loadForecast();
+    if (this.hass && this.config?.entity) {
+      if (this._lastEntity !== this.config.entity) {
+        this._lastEntity = this.config.entity;
+        this._loadAttempted = false;
+        this._loadForecast();
+      } else if (changedProperties.has('hass') && !this._loadAttempted && !this._forecastLoading) {
+        this._loadForecast();
+      }
     }
   }
 
@@ -114,7 +122,10 @@ export class TemperatureCard extends LitElement {
     const weatherEntity = getEntityState(this.hass, this.config.entity) as WeatherEntity;
     if (!weatherEntity)
       return html`<div class="card-content">Entity not found: ${this.config.entity}</div>`;
-    if (this._hourlyForecast.length === 0) return html`<div class="card-content">Loading...</div>`;
+    if (!this._loadAttempted || this._forecastLoading)
+      return html`<div class="card-content">Loading...</div>`;
+    if (this._hourlyForecast.length === 0)
+      return html`<div class="card-content">No hourly forecast data available.</div>`;
 
     const forecastHours = this.config.forecast_hours ?? 12;
     return html`
