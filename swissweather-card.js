@@ -1,5 +1,5 @@
 //#region package.json
-var e = "1.7.1-beta.3", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
+var e = "1.7.1-beta.4", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
 	constructor(e, t, n) {
 		if (this._$cssResult$ = !0, n !== r) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
 		this.cssText = e, this.t = t;
@@ -6335,11 +6335,7 @@ var zi = class extends E {
             rgba(255, 255, 255, 0.34),
             rgba(255, 255, 255, 0) 42%
           ),
-          radial-gradient(
-            ellipse at 96% 34%,
-            rgba(255, 255, 255, 0.4),
-            rgba(255, 255, 255, 0) 41%
-          );
+          radial-gradient(ellipse at 96% 34%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 41%);
         filter: blur(4px);
         animation: cloud-drift-front 14s ease-in-out infinite alternate;
         mix-blend-mode: screen;
@@ -6376,16 +6372,48 @@ var zi = class extends E {
       }
 
       .photo-rain {
-        background-image: linear-gradient(
-          115deg,
-          rgba(255, 255, 255, 0) 30%,
-          rgba(210, 231, 255, 0.38) 48%,
-          rgba(255, 255, 255, 0) 66%
+        display: none;
+      }
+
+      .weather-particles {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        pointer-events: none;
+      }
+
+      .rain-drop {
+        position: absolute;
+        top: -14%;
+        left: var(--x, 50%);
+        width: var(--w, 2px);
+        height: var(--h, 22px);
+        border-radius: 999px;
+        background: linear-gradient(
+          to bottom,
+          rgba(224, 241, 255, 0),
+          rgba(224, 241, 255, 0.85) 35%,
+          rgba(168, 214, 255, 0.9) 100%
         );
-        background-size: 14px 14px;
-        opacity: 0.75;
+        filter: blur(0.2px);
+        opacity: var(--opacity, 0.7);
         mix-blend-mode: screen;
-        animation: rain-fall 0.55s linear infinite;
+        animation: rain-drop-fall var(--duration, 1.1s) linear infinite;
+        animation-delay: var(--delay, 0s);
+      }
+
+      .snow-flake {
+        position: absolute;
+        top: -12%;
+        left: var(--x, 50%);
+        width: var(--size, 4px);
+        height: var(--size, 4px);
+        border-radius: 50%;
+        background: radial-gradient(circle at 30% 30%, #ffffff, #d9ecff 75%);
+        opacity: var(--opacity, 0.85);
+        box-shadow: 0 0 4px rgba(255, 255, 255, 0.65);
+        animation: snow-flake-fall var(--duration, 7s) linear infinite;
+        animation-delay: var(--delay, 0s);
       }
 
       .photo-lightning {
@@ -6457,6 +6485,30 @@ var zi = class extends E {
         }
         100% {
           transform: translateY(14px);
+        }
+      }
+
+      @keyframes rain-drop-fall {
+        0% {
+          transform: translate3d(0, -12%, 0) rotate(10deg);
+        }
+        100% {
+          transform: translate3d(var(--drift, 6px), 132%, 0) rotate(10deg);
+        }
+      }
+
+      @keyframes snow-flake-fall {
+        0% {
+          transform: translate3d(0, -10%, 0) rotate(0deg);
+        }
+        35% {
+          transform: translate3d(var(--drift, 10px), 38%, 0) rotate(120deg);
+        }
+        70% {
+          transform: translate3d(var(--drift-back, -10px), 78%, 0) rotate(220deg);
+        }
+        100% {
+          transform: translate3d(0, 124%, 0) rotate(300deg);
         }
       }
 
@@ -6701,19 +6753,37 @@ var zi = class extends E {
 		].includes(e) ? "cloudy" : "sunny";
 	}
 	_renderPhotoLikeBackground(e, t) {
-		let n = this._resolvePhotoMood(e), r = n === "rainy", i = e === "lightning" || e === "lightning-rainy";
+		let n = this._resolvePhotoMood(e), r = n === "rainy" || e === "snowy-rainy" || e === "rainy" || e === "pouring", i = e === "snowy" || e === "snowy-rainy" || e === "hail", a = e === "lightning" || e === "lightning-rainy";
 		return C`
       <div class="img-photo mood-${n} ${t ? "day" : "night"}">
         <div class="photo-layer photo-base"></div>
         <div class="photo-layer photo-clouds"></div>
         <div class="photo-layer photo-clouds-front"></div>
         <div class="photo-layer photo-clouds-depth"></div>
-        ${r ? C`<div class="photo-layer photo-rain"></div>` : C``}
-        ${i ? C`<div class="photo-layer photo-lightning"></div>` : C``}
+        ${r || i ? C`<div class="photo-layer weather-particles">
+              ${r ? this._renderRainParticles(e === "snowy-rainy" ? 14 : 28) : C``}
+              ${i ? this._renderSnowParticles(e === "snowy-rainy" ? 12 : 26) : C``}
+            </div>` : C``}
+        ${a ? C`<div class="photo-layer photo-lightning"></div>` : C``}
         <div class="photo-layer photo-vignette"></div>
         <div class="photo-layer photo-grain"></div>
       </div>
     `;
+	}
+	_renderRainParticles(e) {
+		return Array.from({ length: e }, (e, t) => C`<span
+        class="rain-drop"
+        style="--x:${(t * 37 + 11) % 100 + t % 3 * .6}%; --duration:${(.9 + t % 5 * .14).toFixed(2)}s; --delay:${(-1 * (t % 7 * .23)).toFixed(2)}s; --h:${14 + t % 4 * 6}px; --opacity:${(.42 + t % 4 * .12).toFixed(2)}; --drift:${(t % 2 == 0 ? 6 : -6) + (t % 3 - 1) * 2}px; --w:${t % 3 == 0 ? 1.6 : 2.2}px;"
+      ></span>`);
+	}
+	_renderSnowParticles(e) {
+		return Array.from({ length: e }, (e, t) => {
+			let n = (t * 29 + 7) % 100 + t % 4 * .4, r = (5.6 + t % 5 * 1.1).toFixed(2), i = (-1 * (t % 9 * .7)).toFixed(2), a = (2.4 + t % 4 * 1.1).toFixed(1), o = (.45 + t % 4 * .12).toFixed(2), s = (t % 2 == 0 ? 14 : -14) + (t % 3 - 1) * 3;
+			return C`<span
+        class="snow-flake"
+        style="--x:${n}%; --duration:${r}s; --delay:${i}s; --size:${a}px; --opacity:${o}; --drift:${s}px; --drift-back:${(-s * .7).toFixed(1)}px;"
+      ></span>`;
+		});
 	}
 	async _loadDailyForecast() {
 		if (!(!this.hass || !this.config?.entity || this._forecastLoading)) {

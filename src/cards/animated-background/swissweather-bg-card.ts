@@ -247,16 +247,48 @@ export class SwissWeatherBGCard extends LitElement {
       }
 
       .photo-rain {
-        background-image: linear-gradient(
-          115deg,
-          rgba(255, 255, 255, 0) 30%,
-          rgba(210, 231, 255, 0.38) 48%,
-          rgba(255, 255, 255, 0) 66%
+        display: none;
+      }
+
+      .weather-particles {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        pointer-events: none;
+      }
+
+      .rain-drop {
+        position: absolute;
+        top: -14%;
+        left: var(--x, 50%);
+        width: var(--w, 2px);
+        height: var(--h, 22px);
+        border-radius: 999px;
+        background: linear-gradient(
+          to bottom,
+          rgba(224, 241, 255, 0),
+          rgba(224, 241, 255, 0.85) 35%,
+          rgba(168, 214, 255, 0.9) 100%
         );
-        background-size: 14px 14px;
-        opacity: 0.75;
+        filter: blur(0.2px);
+        opacity: var(--opacity, 0.7);
         mix-blend-mode: screen;
-        animation: rain-fall 0.55s linear infinite;
+        animation: rain-drop-fall var(--duration, 1.1s) linear infinite;
+        animation-delay: var(--delay, 0s);
+      }
+
+      .snow-flake {
+        position: absolute;
+        top: -12%;
+        left: var(--x, 50%);
+        width: var(--size, 4px);
+        height: var(--size, 4px);
+        border-radius: 50%;
+        background: radial-gradient(circle at 30% 30%, #ffffff, #d9ecff 75%);
+        opacity: var(--opacity, 0.85);
+        box-shadow: 0 0 4px rgba(255, 255, 255, 0.65);
+        animation: snow-flake-fall var(--duration, 7s) linear infinite;
+        animation-delay: var(--delay, 0s);
       }
 
       .photo-lightning {
@@ -328,6 +360,30 @@ export class SwissWeatherBGCard extends LitElement {
         }
         100% {
           transform: translateY(14px);
+        }
+      }
+
+      @keyframes rain-drop-fall {
+        0% {
+          transform: translate3d(0, -12%, 0) rotate(10deg);
+        }
+        100% {
+          transform: translate3d(var(--drift, 6px), 132%, 0) rotate(10deg);
+        }
+      }
+
+      @keyframes snow-flake-fall {
+        0% {
+          transform: translate3d(0, -10%, 0) rotate(0deg);
+        }
+        35% {
+          transform: translate3d(var(--drift, 10px), 38%, 0) rotate(120deg);
+        }
+        70% {
+          transform: translate3d(var(--drift-back, -10px), 78%, 0) rotate(220deg);
+        }
+        100% {
+          transform: translate3d(0, 124%, 0) rotate(300deg);
         }
       }
 
@@ -639,7 +695,12 @@ export class SwissWeatherBGCard extends LitElement {
 
   private _renderPhotoLikeBackground(condition: string, daytime: boolean): TemplateResult {
     const mood = this._resolvePhotoMood(condition);
-    const hasRain = mood === 'rainy';
+    const hasRain =
+      mood === 'rainy' ||
+      condition === 'snowy-rainy' ||
+      condition === 'rainy' ||
+      condition === 'pouring';
+    const hasSnow = condition === 'snowy' || condition === 'snowy-rainy' || condition === 'hail';
     const hasLightning = condition === 'lightning' || condition === 'lightning-rainy';
 
     return html`
@@ -648,12 +709,53 @@ export class SwissWeatherBGCard extends LitElement {
         <div class="photo-layer photo-clouds"></div>
         <div class="photo-layer photo-clouds-front"></div>
         <div class="photo-layer photo-clouds-depth"></div>
-        ${hasRain ? html`<div class="photo-layer photo-rain"></div>` : html``}
+        ${hasRain || hasSnow
+          ? html`<div class="photo-layer weather-particles">
+              ${hasRain ? this._renderRainParticles(condition === 'snowy-rainy' ? 14 : 28) : html``}
+              ${hasSnow ? this._renderSnowParticles(condition === 'snowy-rainy' ? 12 : 26) : html``}
+            </div>`
+          : html``}
         ${hasLightning ? html`<div class="photo-layer photo-lightning"></div>` : html``}
         <div class="photo-layer photo-vignette"></div>
         <div class="photo-layer photo-grain"></div>
       </div>
     `;
+  }
+
+  private _renderRainParticles(count: number): TemplateResult[] {
+    return Array.from({ length: count }, (_, i) => {
+      const x = ((i * 37 + 11) % 100) + (i % 3) * 0.6;
+      const duration = (0.9 + (i % 5) * 0.14).toFixed(2);
+      const delay = (-1 * ((i % 7) * 0.23)).toFixed(2);
+      const height = 14 + (i % 4) * 6;
+      const opacity = (0.42 + (i % 4) * 0.12).toFixed(2);
+      const drift = (i % 2 === 0 ? 6 : -6) + ((i % 3) - 1) * 2;
+      const width = i % 3 === 0 ? 1.6 : 2.2;
+
+      return html`<span
+        class="rain-drop"
+        style="--x:${x}%; --duration:${duration}s; --delay:${delay}s; --h:${height}px; --opacity:${opacity}; --drift:${drift}px; --w:${width}px;"
+      ></span>`;
+    });
+  }
+
+  private _renderSnowParticles(count: number): TemplateResult[] {
+    return Array.from({ length: count }, (_, i) => {
+      const x = ((i * 29 + 7) % 100) + (i % 4) * 0.4;
+      const duration = (5.6 + (i % 5) * 1.1).toFixed(2);
+      const delay = (-1 * ((i % 9) * 0.7)).toFixed(2);
+      const size = (2.4 + (i % 4) * 1.1).toFixed(1);
+      const opacity = (0.45 + (i % 4) * 0.12).toFixed(2);
+      const drift = (i % 2 === 0 ? 14 : -14) + ((i % 3) - 1) * 3;
+      const driftBack = -drift * 0.7;
+
+      return html`<span
+        class="snow-flake"
+        style="--x:${x}%; --duration:${duration}s; --delay:${delay}s; --size:${size}px; --opacity:${opacity}; --drift:${drift}px; --drift-back:${driftBack.toFixed(
+          1
+        )}px;"
+      ></span>`;
+    });
   }
 
   // Load only the daily forecast via Home Assistant WS API
