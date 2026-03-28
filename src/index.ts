@@ -11,6 +11,20 @@ import { ForecastDiagramCardEditor } from './cards/forecast-diagram/forecast-dia
 import { ForecastDiagramCard } from './cards/forecast-diagram/forecast-diagram-card';
 import { SwissWeatherBGCard } from './cards/animated-background/swissweather-bg-card';
 import { SwissWeatherBGCardEditor } from './cards/animated-background/swissweather-bg-card-editor';
+import { TemperatureCard } from './cards/hourly-charts/temperature-card';
+import { TemperatureCardEditor } from './cards/hourly-charts/temperature-card-editor';
+import { PrecipitationCard } from './cards/hourly-charts/precipitation-card';
+import { PrecipitationCardEditor } from './cards/hourly-charts/precipitation-card-editor';
+import { SunshineCard } from './cards/hourly-charts/sunshine-card';
+import { SunshineCardEditor } from './cards/hourly-charts/sunshine-card-editor';
+import { WindCard } from './cards/hourly-charts/wind-card';
+import { WindCardEditor } from './cards/hourly-charts/wind-card-editor';
+import {
+  TEMPERATURE_CARD_NAME,
+  PRECIPITATION_CARD_NAME,
+  SUNSHINE_CARD_NAME,
+  WIND_CARD_NAME,
+} from './cards/hourly-charts/const';
 import { registerCustomCard } from './utils';
 import { FORECAST_DIAGRAM_CARD_NAME } from './cards/forecast-diagram/const';
 import { FULL_CARD_NAME } from './cards/full-card/const';
@@ -70,18 +84,47 @@ registerCustomCard({
   name: 'SwissWeather Animated Background Card (Experimental) Editor',
   description: 'the SwissWeather Animated Background Card (Experimental)',
 });
+registerCustomCard({
+  type: TEMPERATURE_CARD_NAME,
+  name: 'SwissWeather Temperature Chart Card',
+  description: 'Hourly temperature forecast chart as standalone card',
+});
+registerCustomCard({
+  type: PRECIPITATION_CARD_NAME,
+  name: 'SwissWeather Precipitation Chart Card',
+  description: 'Hourly precipitation forecast chart as standalone card',
+});
+registerCustomCard({
+  type: SUNSHINE_CARD_NAME,
+  name: 'SwissWeather Sunshine Chart Card',
+  description: 'Hourly sunshine duration chart as standalone card',
+});
+registerCustomCard({
+  type: WIND_CARD_NAME,
+  name: 'SwissWeather Wind Chart Card',
+  description: 'Hourly wind speed & direction chart as standalone card',
+});
 console.log(
   `%c 📦 SwissWeather Card module loading completed - version: ${version}`,
   'color: #ef5350; font-weight: 700;'
 );
 
 export {
-  SwissWeatherCardEditor, // Full SiwssWeather Card Editor
-  SwissWeatherCard, // Full SiwssWeather Card
+  SwissWeatherCardEditor, // Full SwissWeather Card Editor
+  SwissWeatherCard, // Full SwissWeather Card
   ForecastDiagramCardEditor, // Forecast Diagram Card Editor
   ForecastDiagramCard, // Forecast Diagram Card
   SwissWeatherBGCardEditor, // Animated Background Card Editor
   SwissWeatherBGCard, // Animated Background Card
+  // Hourly Chart Standalone Cards
+  TemperatureCard,
+  TemperatureCardEditor,
+  PrecipitationCard,
+  PrecipitationCardEditor,
+  SunshineCard,
+  SunshineCardEditor,
+  WindCard,
+  WindCardEditor,
   // Charts
   DailyForecastChart,
   ForecastTemperatureChart,
