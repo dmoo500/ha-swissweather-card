@@ -6720,7 +6720,9 @@ var Vi = `${tn}-temperature-card`, Hi = `${Vi}-editor`, Ui = `${tn}-precipitatio
 		super.updated(e);
 	}
 	setBaseConfig(e) {
-		this.config = e, setTimeout(() => {
+		this.config = e;
+		let t = e.grid_options?.rows ?? 2;
+		this.style.setProperty("--card-grid-rows", t.toString()), setTimeout(() => {
 			this._loadForecast();
 		}, 1e3);
 	}
@@ -6745,6 +6747,8 @@ var $i = class extends Qi {
           sans-serif
         );
         color: var(--primary-text-color, #fff);
+        min-height: calc(var(--card-grid-rows, 2) * 64px - 8px);
+        overflow: hidden;
       }
       .card-content {
         padding: 12px;
@@ -6883,6 +6887,8 @@ var ta = class extends Qi {
           sans-serif
         );
         color: var(--primary-text-color, #fff);
+        min-height: calc(var(--card-grid-rows, 2) * 64px - 8px);
+        overflow: hidden;
       }
       .card-content {
         padding: 12px;
@@ -7021,6 +7027,8 @@ var ra = class extends Qi {
           sans-serif
         );
         color: var(--primary-text-color, #fff);
+        min-height: calc(var(--card-grid-rows, 2) * 64px - 8px);
+        overflow: hidden;
       }
       .card-content {
         padding: 12px;
@@ -7166,6 +7174,8 @@ var aa = class extends Qi {
           sans-serif
         );
         color: var(--primary-text-color, #fff);
+        min-height: calc(var(--card-grid-rows, 2) * 64px - 8px);
+        overflow: hidden;
       }
       .card-content {
         padding: 12px;

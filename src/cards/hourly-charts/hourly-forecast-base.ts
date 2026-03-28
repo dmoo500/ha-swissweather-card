@@ -51,6 +51,8 @@ export abstract class HourlyForecastBaseCard extends LitElement {
 
   protected setBaseConfig(config: HourlyChartCardConfig): void {
     this.config = config;
+    const rows = config.grid_options?.rows ?? 2;
+    this.style.setProperty('--card-grid-rows', rows.toString());
     // Same pattern as forecast-diagram-card.ts
     setTimeout(() => {
       this._loadForecast();
