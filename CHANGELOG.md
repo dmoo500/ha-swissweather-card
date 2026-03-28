@@ -5,12 +5,14 @@
 ### Added
 - New standalone cards for hourly charts: temperature, precipitation, sunshine, and wind.
 - Daily forecast diagram standalone card.
-- SVG-based chart rendering with grid lines for temperature, precipitation, and wind charts.
+- Rebuilt hourly charts (temperature, precipitation, sunshine, and wind) with SVG-based rendering.
+- Added chart grid lines and improved chart readability/visual structure.
 - Automatic forecast inclusion in effective `chart_order` when forecast is enabled.
 
 ### Changed
 - Standalone cards now use responsive sizing with propagated width/height to chart and SVG containers.
 - Standalone chart styling was compacted (reduced inner spacing, consistent border/margin handling).
+- Updated chart visual design and layout behavior across all rebuilt hourly charts.
 - Forecast rendering logic was aligned so `show_forecast` and `compact_mode` behave consistently.
 - Changelog screenshot filenames were renamed to version-related names.
 
