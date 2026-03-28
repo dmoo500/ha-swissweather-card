@@ -6751,7 +6751,6 @@ var $i = class extends Qi {
         color: var(--primary-text-color, #fff);
         height: calc(var(--card-grid-rows, 3) * 64px - 8px);
         min-height: calc(var(--card-grid-rows, 3) * 64px - 8px);
-        overflow: hidden;
       }
       .card-content {
         padding: 12px;
@@ -6892,7 +6891,6 @@ var ta = class extends Qi {
         color: var(--primary-text-color, #fff);
         height: calc(var(--card-grid-rows, 3) * 64px - 8px);
         min-height: calc(var(--card-grid-rows, 3) * 64px - 8px);
-        overflow: hidden;
       }
       .card-content {
         padding: 12px;
@@ -7033,7 +7031,6 @@ var ra = class extends Qi {
         color: var(--primary-text-color, #fff);
         height: calc(var(--card-grid-rows, 3) * 64px - 8px);
         min-height: calc(var(--card-grid-rows, 3) * 64px - 8px);
-        overflow: hidden;
       }
       .card-content {
         padding: 12px;
@@ -7182,7 +7179,6 @@ var aa = class extends Qi {
         color: var(--primary-text-color, #fff);
         height: calc(var(--card-grid-rows, 3) * 64px - 8px);
         min-height: calc(var(--card-grid-rows, 3) * 64px - 8px);
-        overflow: hidden;
       }
       .card-content {
         padding: 12px;
