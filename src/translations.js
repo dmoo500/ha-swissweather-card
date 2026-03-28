@@ -22,6 +22,7 @@ export const translations = {
       show_wind: 'Winddiagramm anzeigen',
       show_day_temps: 'Tages-Min/Max anzeigen',
       show_sun_times: 'Sonnenauf-/untergang anzeigen',
+      photo_mode: 'Fotorealistischer Hintergrund (PoC)',
       enable_animate_weather_icons: 'Animierte Wetter-Icons aktivieren',
       forecast_hours: 'Prognose Stunden (Standard: 6)',
       compact_mode: 'Kompakter Modus',
@@ -67,6 +68,8 @@ export const translations = {
         show_wind: 'Zeige das Winddiagramm anm it den Vorhersage anhand der eingestellten Stunden',
         show_day_temps: 'Blende die Tages-Min/Max-Anzeige ein oder aus.',
         show_sun_times: 'Blende die Anzeige von Sonnenaufgang/-untergang ein oder aus.',
+        photo_mode:
+          'Experimenteller fotorealistischer Hintergrund mit atmosphärischen Overlays (PoC).',
         show_warnings:
           'Zeige Wetterwarnungen an, wenn die Wetterwarnung Entity gesetzt ist und aktuelle Warnungen existieren.',
         enable_animate_weather_icons:
@@ -174,6 +177,7 @@ export const translations = {
       show_wind: 'Show Wind Chart',
       show_day_temps: 'Show Day Min/Max',
       show_sun_times: 'Show Sunrise/Sunset',
+      photo_mode: 'Photorealistic Background (PoC)',
       enable_animate_weather_icons: 'Enable Animated Weather Icons',
       forecast_hours: 'Forecast Hours (default: 6)',
       compact_mode: 'Compact Mode',
@@ -212,6 +216,7 @@ export const translations = {
         show_wind: 'Show the wind chart with the forecast based on the set hours',
         show_day_temps: 'Toggle the per-day min/max display on or off.',
         show_sun_times: 'Toggle the sunrise/sunset display on or off.',
+        photo_mode: 'Experimental photorealistic background with atmospheric overlays (PoC).',
         show_warnings:
           'Show weather warnings if the weather warning entity is set and the actul warning exists.',
         enable_animate_weather_icons:

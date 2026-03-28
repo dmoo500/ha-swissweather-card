@@ -30,9 +30,9 @@ export const schema = [
       select: {
         mode: 'dropdown',
         options: [
-          { value: 'daily', label: 'config.forecast_mode.daily' },
-          { value: 'hourly', label: 'config.forecast_mode.hourly' },
-          { value: 'none', label: 'config.forecast_mode.none' },
+          { value: 'daily', label: 'forecast_mode.daily' },
+          { value: 'hourly', label: 'forecast_mode.hourly' },
+          { value: 'none', label: 'forecast_mode.none' },
         ],
       },
     },
@@ -56,6 +56,12 @@ export const schema = [
     selector: { number: { min: 12, max: 96, step: 1, mode: 'box' } },
     description: 'config.descr.temperature_font_size',
   },
+  {
+    name: 'photo_mode',
+    required: false,
+    selector: { boolean: {} },
+    description: 'config.descr.photo_mode',
+  },
 ];
 
 export type CardConfig = BasicCardConfig & {
@@ -63,5 +69,6 @@ export type CardConfig = BasicCardConfig & {
   show_forecast?: boolean;
   show_sun_times?: boolean;
   show_day_temps?: boolean;
+  photo_mode?: boolean;
   forecast_mode?: 'daily' | 'hourly' | 'none';
 };

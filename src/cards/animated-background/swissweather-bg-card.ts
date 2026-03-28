@@ -93,6 +93,204 @@ export class SwissWeatherBGCard extends LitElement {
           0 4px 20px var(--box-shadow-color, rgba(0, 0, 0, 0.1))
         );
       }
+
+      .img-photo {
+        position: absolute;
+        margin-top: var(--bg-temp-img-top, 36px);
+        inset: 0;
+        width: 100%;
+        border-radius: 12px;
+        overflow: hidden;
+        min-height: 200px;
+        box-shadow: var(
+          --ha-card-box-shadow,
+          0 4px 20px var(--box-shadow-color, rgba(0, 0, 0, 0.1))
+        );
+      }
+
+      .photo-layer {
+        position: absolute;
+        inset: 0;
+      }
+
+      .photo-base {
+        animation: bg-pan 34s ease-in-out infinite alternate;
+      }
+
+      .img-photo.mood-sunny.day .photo-base {
+        background:
+          radial-gradient(circle at 75% 20%, rgba(255, 250, 196, 0.95), rgba(255, 250, 196, 0) 45%),
+          linear-gradient(
+            160deg,
+            rgba(123, 198, 250, 0.95) 0%,
+            rgba(88, 163, 221, 0.92) 46%,
+            rgba(67, 138, 191, 0.96) 100%
+          );
+      }
+
+      .img-photo.mood-sunny.night .photo-base {
+        background:
+          radial-gradient(circle at 78% 18%, rgba(196, 225, 255, 0.25), rgba(196, 225, 255, 0) 40%),
+          linear-gradient(
+            165deg,
+            rgba(27, 45, 75, 0.98) 0%,
+            rgba(15, 26, 47, 0.98) 58%,
+            rgba(9, 16, 32, 1) 100%
+          );
+      }
+
+      .img-photo.mood-cloudy.day .photo-base {
+        background:
+          radial-gradient(circle at 30% 15%, rgba(226, 238, 245, 0.6), rgba(226, 238, 245, 0) 40%),
+          linear-gradient(
+            160deg,
+            rgba(144, 168, 183, 0.95) 0%,
+            rgba(122, 147, 165, 0.96) 52%,
+            rgba(96, 121, 141, 0.98) 100%
+          );
+      }
+
+      .img-photo.mood-cloudy.night .photo-base {
+        background:
+          radial-gradient(circle at 25% 12%, rgba(123, 140, 166, 0.24), rgba(123, 140, 166, 0) 44%),
+          linear-gradient(
+            165deg,
+            rgba(40, 52, 71, 0.98) 0%,
+            rgba(29, 40, 56, 0.98) 56%,
+            rgba(20, 28, 40, 1) 100%
+          );
+      }
+
+      .img-photo.mood-rainy.day .photo-base {
+        background:
+          radial-gradient(circle at 72% 8%, rgba(226, 239, 252, 0.35), rgba(226, 239, 252, 0) 45%),
+          linear-gradient(
+            168deg,
+            rgba(95, 120, 139, 0.95) 0%,
+            rgba(73, 97, 118, 0.97) 50%,
+            rgba(54, 78, 96, 0.99) 100%
+          );
+      }
+
+      .img-photo.mood-rainy.night .photo-base {
+        background:
+          radial-gradient(circle at 72% 12%, rgba(122, 145, 170, 0.14), rgba(122, 145, 170, 0) 42%),
+          linear-gradient(
+            168deg,
+            rgba(25, 36, 54, 0.99) 0%,
+            rgba(17, 26, 42, 1) 55%,
+            rgba(10, 16, 27, 1) 100%
+          );
+      }
+
+      .photo-clouds {
+        background:
+          radial-gradient(
+            ellipse at 20% 25%,
+            rgba(255, 255, 255, 0.26),
+            rgba(255, 255, 255, 0) 52%
+          ),
+          radial-gradient(ellipse at 65% 30%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 55%),
+          radial-gradient(ellipse at 85% 20%, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0) 48%);
+        filter: blur(6px);
+        animation: cloud-drift 26s ease-in-out infinite alternate;
+      }
+
+      .photo-rain {
+        background-image: linear-gradient(
+          115deg,
+          rgba(255, 255, 255, 0) 30%,
+          rgba(210, 231, 255, 0.38) 48%,
+          rgba(255, 255, 255, 0) 66%
+        );
+        background-size: 14px 14px;
+        opacity: 0.75;
+        mix-blend-mode: screen;
+        animation: rain-fall 0.55s linear infinite;
+      }
+
+      .photo-lightning {
+        background: radial-gradient(
+          circle at 52% 26%,
+          rgba(255, 246, 169, 0.95),
+          rgba(255, 246, 169, 0) 52%
+        );
+        opacity: 0;
+        mix-blend-mode: screen;
+        animation: lightning-flash 7s infinite;
+      }
+
+      .photo-vignette {
+        background: radial-gradient(
+          circle at center,
+          rgba(0, 0, 0, 0) 52%,
+          rgba(0, 0, 0, 0.33) 100%
+        );
+      }
+
+      .photo-grain {
+        background-image: radial-gradient(rgba(255, 255, 255, 0.2) 0.6px, transparent 0.8px);
+        background-size: 3px 3px;
+        opacity: 0.1;
+        mix-blend-mode: soft-light;
+        animation: grain-shift 0.25s steps(2, end) infinite;
+      }
+
+      @keyframes bg-pan {
+        0% {
+          transform: scale(1.02) translate3d(0, 0, 0);
+        }
+        100% {
+          transform: scale(1.07) translate3d(-1.5%, -1.2%, 0);
+        }
+      }
+
+      @keyframes cloud-drift {
+        0% {
+          transform: translate3d(-2%, 0, 0) scale(1.02);
+        }
+        100% {
+          transform: translate3d(2%, -1%, 0) scale(1.06);
+        }
+      }
+
+      @keyframes rain-fall {
+        0% {
+          transform: translateY(-14px);
+        }
+        100% {
+          transform: translateY(14px);
+        }
+      }
+
+      @keyframes lightning-flash {
+        0%,
+        83%,
+        100% {
+          opacity: 0;
+        }
+        84% {
+          opacity: 0.92;
+        }
+        85% {
+          opacity: 0;
+        }
+        86% {
+          opacity: 0.72;
+        }
+        87% {
+          opacity: 0;
+        }
+      }
+
+      @keyframes grain-shift {
+        0% {
+          transform: translate(0, 0);
+        }
+        100% {
+          transform: translate(1px, 1px);
+        }
+      }
       .condition {
         position: absolute;
         top: calc(var(--bg-temp-font-size, 36px) + 16px);
@@ -235,6 +433,7 @@ export class SwissWeatherBGCard extends LitElement {
     const weatherEntity = getEntityState(this.hass, this.config.entity) as WeatherEntity;
     const temperature = weatherEntity.attributes.temperature;
     const condition = weatherEntity.state as WeatherCondition;
+    const daytime = isDay(this.hass, this.config);
 
     const chartWidth = this.clientWidth || 300;
     const height = gridRows * 64 - 8;
@@ -267,19 +466,21 @@ export class SwissWeatherBGCard extends LitElement {
           ${typeof temperature === 'number' && !isNaN(temperature) ? temperature : '--'}°
         </div>
         ${condition
-          ? html`<div class="img-svg">
-                <svg
-                  viewBox="0 0 ${chartWidth} ${height}"
-                  width="100%"
-                  xmlns="http://www.w3.org/2000/svg"
-                  xmlns:xlink="http://www.w3.org/1999/xlink"
-                  preserveAspectRatio="xMidYMid slice"
-                >
-                  ${chartWidth > 0
-                    ? getWeatherBackground(condition, isDay(this.hass, this.config), chartWidth)
-                    : svg``}
-                </svg>
-              </div>
+          ? html`${this.config.photo_mode === true
+                ? this._renderPhotoLikeBackground(condition, daytime)
+                : html`<div class="img-svg">
+                    <svg
+                      viewBox="0 0 ${chartWidth} ${height}"
+                      width="100%"
+                      xmlns="http://www.w3.org/2000/svg"
+                      xmlns:xlink="http://www.w3.org/1999/xlink"
+                      preserveAspectRatio="xMidYMid slice"
+                    >
+                      ${chartWidth > 0
+                        ? getWeatherBackground(condition, daytime, chartWidth)
+                        : svg``}
+                    </svg>
+                  </div>`}
               ${day && this.config.show_day_temps !== false
                 ? html`
                     <div class="forecast-temps">
@@ -344,6 +545,43 @@ export class SwissWeatherBGCard extends LitElement {
                 : html``}
               <div class="condition">${_t(condition)}</div> `
           : html``}
+      </div>
+    `;
+  }
+
+  private _resolvePhotoMood(condition: string): 'sunny' | 'cloudy' | 'rainy' {
+    if (
+      ['rainy', 'pouring', 'lightning', 'lightning-rainy', 'snowy-rainy', 'exceptional'].includes(
+        condition
+      )
+    ) {
+      return 'rainy';
+    }
+
+    if (
+      ['cloudy', 'partlycloudy', 'fog', 'windy', 'windy-variant', 'snowy', 'hail'].includes(
+        condition
+      )
+    ) {
+      return 'cloudy';
+    }
+
+    return 'sunny';
+  }
+
+  private _renderPhotoLikeBackground(condition: string, daytime: boolean): TemplateResult {
+    const mood = this._resolvePhotoMood(condition);
+    const hasRain = mood === 'rainy';
+    const hasLightning = condition === 'lightning' || condition === 'lightning-rainy';
+
+    return html`
+      <div class="img-photo mood-${mood} ${daytime ? 'day' : 'night'}">
+        <div class="photo-layer photo-base"></div>
+        <div class="photo-layer photo-clouds"></div>
+        ${hasRain ? html`<div class="photo-layer photo-rain"></div>` : html``}
+        ${hasLightning ? html`<div class="photo-layer photo-lightning"></div>` : html``}
+        <div class="photo-layer photo-vignette"></div>
+        <div class="photo-layer photo-grain"></div>
       </div>
     `;
   }

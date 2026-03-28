@@ -207,6 +207,10 @@ export class SwissWeatherBGCardEditor extends LitElement implements LovelaceCard
         typeof (this._config as any)?.temperature_font_size === 'number'
           ? (this._config as any).temperature_font_size
           : undefined,
+      photo_mode:
+        typeof (this._config as any)?.photo_mode === 'boolean'
+          ? (this._config as any).photo_mode
+          : undefined,
     };
 
     return html`
@@ -245,6 +249,7 @@ export class SwissWeatherBGCardEditor extends LitElement implements LovelaceCard
               schema.find(s => s.name === 'show_forecast'),
               schema.find(s => s.name === 'show_day_temps'),
               schema.find(s => s.name === 'show_sun_times'),
+              schema.find(s => s.name === 'photo_mode'),
             ].filter(Boolean)}
             .computeLabel=${this._computeLabel}
             .computeHelper=${this._computeHelper}
@@ -274,6 +279,7 @@ export class SwissWeatherBGCardEditor extends LitElement implements LovelaceCard
       show_day_temps: _t('config.show_day_temps'),
       show_sun_times: _t('config.show_sun_times'),
       temperature_font_size: _t('config.temperature_font_size'),
+      photo_mode: _t('config.photo_mode'),
     };
     return labels[schema.name] || schema.name;
   };
