@@ -6721,16 +6721,16 @@ var Hi = `${nn}-temperature-card`, Ui = `${Hi}-editor`, Wi = `${nn}-precipitatio
 	_scheduleLoad() {
 		this._loadTimer && clearTimeout(this._loadTimer), this._loadTimer = setTimeout(() => {
 			this._loadForecast();
-		}, 100);
+		}, 1e3);
 	}
 	updated(e) {
-		super.updated(e), this.hass && this.config?.entity && (this._loadEntityId === this.config.entity ? e.has("hass") && !this._loadAttempted && !this._forecastLoading && this._scheduleLoad() : (this._loadEntityId = this.config.entity, this._loadAttempted = !1, this._hourlyForecast = [], this._scheduleLoad()));
+		super.updated(e), e.has("config") && this.hass && this.config?.entity && this._loadEntityId !== this.config.entity && (this._loadEntityId = this.config.entity, this._loadAttempted = !1, this._hourlyForecast = [], this._scheduleLoad());
 	}
 	disconnectedCallback() {
 		super.disconnectedCallback(), this._loadTimer && clearTimeout(this._loadTimer), this._loadTimer = void 0;
 	}
 	setBaseConfig(e) {
-		this.config = e, this._scheduleLoad();
+		this.config = e, this._loadEntityId = e.entity, this._loadAttempted = !1, this._hourlyForecast = [], this._scheduleLoad();
 	}
 };
 //#endregion

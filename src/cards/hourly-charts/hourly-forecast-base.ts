@@ -45,29 +45,30 @@ export abstract class HourlyForecastBaseCard extends LitElement {
     }
   }
 
-  /** Schedule a load with a short delay so HA has time to fully initialise. */
+  /** Schedule a load with a delay so HA has time to fully initialise (same as forecast-diagram-card: 1000 ms). */
   private _scheduleLoad(): void {
     if (this._loadTimer) clearTimeout(this._loadTimer);
     this._loadTimer = setTimeout(() => {
       this._loadForecast();
-    }, 100);
+    }, 1000);
   }
 
   // ─── Lit lifecycle ───────────────────────────────────────────────────────
 
   protected updated(changedProperties: PropertyValues): void {
     super.updated(changedProperties);
-    if (this.hass && this.config?.entity) {
-      if (this._loadEntityId !== this.config.entity) {
-        // Entity changed (or first load after setConfig) – reset and reload.
-        this._loadEntityId = this.config.entity;
-        this._loadAttempted = false;
-        this._hourlyForecast = [];
-        this._scheduleLoad();
-      } else if (changedProperties.has('hass') && !this._loadAttempted && !this._forecastLoading) {
-        // hass updated but we still have no data – retry.
-        this._scheduleLoad();
-      }
+    // Only reload when the entity itself changes after initial setup.
+    // The initial load is handled by setBaseConfig() via _scheduleLoad().
+    if (
+      changedProperties.has('config') &&
+      this.hass &&
+      this.config?.entity &&
+      this._loadEntityId !== this.config.entity
+    ) {
+      this._loadEntityId = this.config.entity;
+      this._loadAttempted = false;
+      this._hourlyForecast = [];
+      this._scheduleLoad();
     }
   }
 
@@ -85,7 +86,10 @@ export abstract class HourlyForecastBaseCard extends LitElement {
    */
   protected setBaseConfig(config: HourlyChartCardConfig): void {
     this.config = config;
-    // Defer until HA has finished setting up hass (same pattern as forecast-diagram-card).
+    this._loadEntityId = config.entity;
+    this._loadAttempted = false;
+    this._hourlyForecast = [];
+    // Defer until HA has finished setting up hass – same 1000 ms as forecast-diagram-card.ts.
     this._scheduleLoad();
   }
 }
