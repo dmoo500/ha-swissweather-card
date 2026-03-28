@@ -6725,7 +6725,7 @@ var Vi = `${tn}-temperature-card`, Hi = `${Vi}-editor`, Ui = `${tn}-precipitatio
 		}, 1e3);
 	}
 	setCardGridRows() {
-		let e = this.config?.grid_options?.rows ?? 2;
+		let e = this.config?.grid_options?.rows ?? 3;
 		this.style.setProperty("--card-grid-rows", e.toString());
 	}
 };
@@ -6749,7 +6749,8 @@ var $i = class extends Qi {
           sans-serif
         );
         color: var(--primary-text-color, #fff);
-        min-height: calc(var(--card-grid-rows, 2) * 64px - 8px);
+        height: calc(var(--card-grid-rows, 3) * 64px - 8px);
+        min-height: calc(var(--card-grid-rows, 3) * 64px - 8px);
         overflow: hidden;
       }
       .card-content {
@@ -6774,15 +6775,15 @@ var $i = class extends Qi {
 		return Yi;
 	}
 	getCardSize() {
-		return this.config?.grid_options?.rows ?? 2;
+		return this.config?.grid_options?.rows ?? 3;
 	}
 	getGridOptions() {
 		return {
-			rows: this.config?.grid_options?.rows ?? 2,
+			rows: this.config?.grid_options?.rows ?? 3,
 			columns: this.config?.grid_options?.columns ?? 12,
 			min_columns: 6,
 			max_columns: 48,
-			min_rows: 2,
+			min_rows: 3,
 			max_rows: 6
 		};
 	}
@@ -6889,7 +6890,8 @@ var ta = class extends Qi {
           sans-serif
         );
         color: var(--primary-text-color, #fff);
-        min-height: calc(var(--card-grid-rows, 2) * 64px - 8px);
+        height: calc(var(--card-grid-rows, 3) * 64px - 8px);
+        min-height: calc(var(--card-grid-rows, 3) * 64px - 8px);
         overflow: hidden;
       }
       .card-content {
@@ -6914,15 +6916,15 @@ var ta = class extends Qi {
 		return Yi;
 	}
 	getCardSize() {
-		return this.config?.grid_options?.rows ?? 2;
+		return this.config?.grid_options?.rows ?? 3;
 	}
 	getGridOptions() {
 		return {
-			rows: this.config?.grid_options?.rows ?? 2,
+			rows: this.config?.grid_options?.rows ?? 3,
 			columns: this.config?.grid_options?.columns ?? 12,
 			min_columns: 6,
 			max_columns: 48,
-			min_rows: 2,
+			min_rows: 3,
 			max_rows: 6
 		};
 	}
@@ -7029,7 +7031,8 @@ var ra = class extends Qi {
           sans-serif
         );
         color: var(--primary-text-color, #fff);
-        min-height: calc(var(--card-grid-rows, 2) * 64px - 8px);
+        height: calc(var(--card-grid-rows, 3) * 64px - 8px);
+        min-height: calc(var(--card-grid-rows, 3) * 64px - 8px);
         overflow: hidden;
       }
       .card-content {
@@ -7054,15 +7057,15 @@ var ra = class extends Qi {
 		return Zi;
 	}
 	getCardSize() {
-		return this.config?.grid_options?.rows ?? 2;
+		return this.config?.grid_options?.rows ?? 3;
 	}
 	getGridOptions() {
 		return {
-			rows: this.config?.grid_options?.rows ?? 2,
+			rows: this.config?.grid_options?.rows ?? 3,
 			columns: this.config?.grid_options?.columns ?? 12,
 			min_columns: 6,
 			max_columns: 48,
-			min_rows: 2,
+			min_rows: 3,
 			max_rows: 6
 		};
 	}
@@ -7177,7 +7180,8 @@ var aa = class extends Qi {
           sans-serif
         );
         color: var(--primary-text-color, #fff);
-        min-height: calc(var(--card-grid-rows, 2) * 64px - 8px);
+        height: calc(var(--card-grid-rows, 3) * 64px - 8px);
+        min-height: calc(var(--card-grid-rows, 3) * 64px - 8px);
         overflow: hidden;
       }
       .card-content {
@@ -7202,15 +7206,15 @@ var aa = class extends Qi {
 		return Xi;
 	}
 	getCardSize() {
-		return this.config?.grid_options?.rows ?? 2;
+		return this.config?.grid_options?.rows ?? 3;
 	}
 	getGridOptions() {
 		return {
-			rows: this.config?.grid_options?.rows ?? 2,
+			rows: this.config?.grid_options?.rows ?? 3,
 			columns: this.config?.grid_options?.columns ?? 12,
 			min_columns: 6,
 			max_columns: 48,
-			min_rows: 2,
+			min_rows: 3,
 			max_rows: 6
 		};
 	}

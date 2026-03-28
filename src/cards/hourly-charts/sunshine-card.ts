@@ -35,7 +35,8 @@ export class SunshineCard extends HourlyForecastBaseCard {
           sans-serif
         );
         color: var(--primary-text-color, #fff);
-        min-height: calc(var(--card-grid-rows, 2) * 64px - 8px);
+        height: calc(var(--card-grid-rows, 3) * 64px - 8px);
+        min-height: calc(var(--card-grid-rows, 3) * 64px - 8px);
         overflow: hidden;
       }
       .card-content {
@@ -62,16 +63,16 @@ export class SunshineCard extends HourlyForecastBaseCard {
   }
 
   public getCardSize(): number {
-    return this.config?.grid_options?.rows ?? 2;
+    return this.config?.grid_options?.rows ?? 3;
   }
 
   public getGridOptions() {
     return {
-      rows: this.config?.grid_options?.rows ?? 2,
+      rows: this.config?.grid_options?.rows ?? 3,
       columns: this.config?.grid_options?.columns ?? 12,
       min_columns: 6,
       max_columns: 48,
-      min_rows: 2,
+      min_rows: 3,
       max_rows: 6,
     };
   }
