@@ -1,5 +1,5 @@
 //#region package.json
-var e = "1.7.1-beta.2", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
+var e = "1.7.1-beta.3", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
 	constructor(e, t, n) {
 		if (this._$cssResult$ = !0, n !== r) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
 		this.cssText = e, this.t = t;
@@ -6319,12 +6319,41 @@ var zi = class extends E {
           radial-gradient(ellipse at 85% 20%, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0) 48%);
         filter: blur(6px);
         animation: cloud-drift 26s ease-in-out infinite alternate;
+        opacity: 0.62;
+      }
+
+      .photo-clouds-front {
+        background:
+          radial-gradient(ellipse at 8% 36%, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0) 40%),
+          radial-gradient(
+            ellipse at 38% 32%,
+            rgba(255, 255, 255, 0.36),
+            rgba(255, 255, 255, 0) 44%
+          ),
+          radial-gradient(
+            ellipse at 68% 38%,
+            rgba(255, 255, 255, 0.34),
+            rgba(255, 255, 255, 0) 42%
+          ),
+          radial-gradient(
+            ellipse at 96% 34%,
+            rgba(255, 255, 255, 0.4),
+            rgba(255, 255, 255, 0) 41%
+          );
+        filter: blur(4px);
+        animation: cloud-drift-front 14s ease-in-out infinite alternate;
+        mix-blend-mode: screen;
+        opacity: 0;
       }
 
       .photo-clouds-depth {
         background:
           radial-gradient(ellipse at 12% 62%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 52%),
-          radial-gradient(ellipse at 50% 56%, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0) 50%),
+          radial-gradient(
+            ellipse at 50% 56%,
+            rgba(255, 255, 255, 0.16),
+            rgba(255, 255, 255, 0) 50%
+          ),
           radial-gradient(ellipse at 82% 64%, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0) 55%);
         filter: blur(9px);
         animation: cloud-drift-depth 18s ease-in-out infinite alternate;
@@ -6334,6 +6363,11 @@ var zi = class extends E {
       .img-photo.mood-cloudy .photo-clouds,
       .img-photo.mood-rainy .photo-clouds {
         opacity: 0.95;
+      }
+
+      .img-photo.mood-cloudy .photo-clouds-front,
+      .img-photo.mood-rainy .photo-clouds-front {
+        opacity: 0.92;
       }
 
       .img-photo.mood-cloudy .photo-clouds-depth,
@@ -6405,6 +6439,15 @@ var zi = class extends E {
         }
         100% {
           transform: translate3d(-3%, -1%, 0) scale(1.08);
+        }
+      }
+
+      @keyframes cloud-drift-front {
+        0% {
+          transform: translate3d(-3%, 1%, 0) scale(1.03);
+        }
+        100% {
+          transform: translate3d(4%, -1%, 0) scale(1.08);
         }
       }
 
@@ -6663,6 +6706,7 @@ var zi = class extends E {
       <div class="img-photo mood-${n} ${t ? "day" : "night"}">
         <div class="photo-layer photo-base"></div>
         <div class="photo-layer photo-clouds"></div>
+        <div class="photo-layer photo-clouds-front"></div>
         <div class="photo-layer photo-clouds-depth"></div>
         ${r ? C`<div class="photo-layer photo-rain"></div>` : C``}
         ${i ? C`<div class="photo-layer photo-lightning"></div>` : C``}

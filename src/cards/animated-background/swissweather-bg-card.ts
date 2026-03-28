@@ -194,6 +194,27 @@ export class SwissWeatherBGCard extends LitElement {
           radial-gradient(ellipse at 85% 20%, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0) 48%);
         filter: blur(6px);
         animation: cloud-drift 26s ease-in-out infinite alternate;
+        opacity: 0.62;
+      }
+
+      .photo-clouds-front {
+        background:
+          radial-gradient(ellipse at 8% 36%, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0) 40%),
+          radial-gradient(
+            ellipse at 38% 32%,
+            rgba(255, 255, 255, 0.36),
+            rgba(255, 255, 255, 0) 44%
+          ),
+          radial-gradient(
+            ellipse at 68% 38%,
+            rgba(255, 255, 255, 0.34),
+            rgba(255, 255, 255, 0) 42%
+          ),
+          radial-gradient(ellipse at 96% 34%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 41%);
+        filter: blur(4px);
+        animation: cloud-drift-front 14s ease-in-out infinite alternate;
+        mix-blend-mode: screen;
+        opacity: 0;
       }
 
       .photo-clouds-depth {
@@ -213,6 +234,11 @@ export class SwissWeatherBGCard extends LitElement {
       .img-photo.mood-cloudy .photo-clouds,
       .img-photo.mood-rainy .photo-clouds {
         opacity: 0.95;
+      }
+
+      .img-photo.mood-cloudy .photo-clouds-front,
+      .img-photo.mood-rainy .photo-clouds-front {
+        opacity: 0.92;
       }
 
       .img-photo.mood-cloudy .photo-clouds-depth,
@@ -284,6 +310,15 @@ export class SwissWeatherBGCard extends LitElement {
         }
         100% {
           transform: translate3d(-3%, -1%, 0) scale(1.08);
+        }
+      }
+
+      @keyframes cloud-drift-front {
+        0% {
+          transform: translate3d(-3%, 1%, 0) scale(1.03);
+        }
+        100% {
+          transform: translate3d(4%, -1%, 0) scale(1.08);
         }
       }
 
@@ -611,6 +646,7 @@ export class SwissWeatherBGCard extends LitElement {
       <div class="img-photo mood-${mood} ${daytime ? 'day' : 'night'}">
         <div class="photo-layer photo-base"></div>
         <div class="photo-layer photo-clouds"></div>
+        <div class="photo-layer photo-clouds-front"></div>
         <div class="photo-layer photo-clouds-depth"></div>
         ${hasRain ? html`<div class="photo-layer photo-rain"></div>` : html``}
         ${hasLightning ? html`<div class="photo-layer photo-lightning"></div>` : html``}
