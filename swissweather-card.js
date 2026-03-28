@@ -4959,7 +4959,7 @@ var Y = class extends D {
 	_showDailyForecast() {
 		return this.config.show_forecast === !1 ? w`` : w`
           ${this.config.compact_mode === !0 && this.config.show_forecast === !0 ? this._renderDailyForecastDiagram() : w``}
-          ${this.config.compact_mode === !1 ? this._renderDailyForecastChart() : w``}
+          ${this.config.compact_mode === !1 && this.config.show_forecast !== !1 ? this._renderDailyForecastChart() : w``}
         `;
 	}
 	_renderDailyForecastChart() {
