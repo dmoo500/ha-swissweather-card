@@ -1,5 +1,5 @@
 //#region package.json
-var e = "1.7.0-beta.27", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
+var e = "1.7.0-beta.28", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
 	constructor(e, t, n) {
 		if (this._$cssResult$ = !0, n !== r) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
 		this.cssText = e, this.t = t;
@@ -838,6 +838,11 @@ var Ke = class extends T {
 	_t;
 	showHoursChartLabel;
 	static styles = s`
+    :host {
+      display: block;
+      width: 100%;
+    }
+
     .section-title {
       font-weight: bold;
       font-size: 16px;
@@ -858,6 +863,8 @@ var Ke = class extends T {
       margin-top: var(--chart-margin-top, 15px);
       margin-bottom: var(--chart-margin-bottom, 0);
       border: var(--chart-inner-border, 1px solid var(--border-color, rgba(220, 20, 60, 0.1)));
+      width: 100%;
+      box-sizing: border-box;
     }
     .chart-svg-area {
       width: 100%;
@@ -928,6 +935,11 @@ var M = class extends T {
 	_t;
 	showHoursChartLabel;
 	static styles = s`
+    :host {
+      display: block;
+      width: 100%;
+    }
+
     .section-title {
       font-weight: bold;
       font-size: 16px;
@@ -948,6 +960,8 @@ var M = class extends T {
       margin-top: var(--chart-margin-top, 15px);
       margin-bottom: var(--chart-margin-bottom, 0);
       border: var(--chart-inner-border, 1px solid var(--border-color, rgba(220, 20, 60, 0.1)));
+      width: 100%;
+      box-sizing: border-box;
     }
     .chart-svg-area {
       width: 100%;
@@ -1065,6 +1079,11 @@ var N = class extends T {
 	_t;
 	showHoursChartLabel;
 	static styles = s`
+    :host {
+      display: block;
+      width: 100%;
+    }
+
     .chart {
       background: var(--card-background-color, #fff);
       border-radius: 12px;
@@ -1072,6 +1091,8 @@ var N = class extends T {
       margin-top: var(--chart-margin-top, 15px);
       margin-bottom: var(--chart-margin-bottom, 0);
       border: var(--chart-inner-border, 1px solid var(--border-color, rgba(220, 20, 60, 0.1)));
+      width: 100%;
+      box-sizing: border-box;
     }
     .chart-sunshine {
       background: var(--card-background-color, #fff);
@@ -1080,6 +1101,8 @@ var N = class extends T {
       margin-top: var(--chart-margin-top, 15px);
       margin-bottom: var(--chart-margin-bottom, 0);
       border: var(--chart-inner-border, 1px solid var(--border-color, rgba(220, 20, 60, 0.1)));
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .chart-bars {
@@ -1241,6 +1264,11 @@ var qe = class extends T {
 	_t;
 	showHoursChartLabel;
 	static styles = s`
+    :host {
+      display: block;
+      width: 100%;
+    }
+
     .chart {
       background: var(--card-background-color, #fff);
       border-radius: 12px;
@@ -1248,6 +1276,8 @@ var qe = class extends T {
       margin-top: var(--chart-margin-top, 15px);
       margin-bottom: var(--chart-margin-bottom, 0);
       border: var(--chart-inner-border, 1px solid var(--border-color, rgba(220, 20, 60, 0.1)));
+      width: 100%;
+      box-sizing: border-box;
     }
     .section-title {
       font-weight: bold;

@@ -11,6 +11,11 @@ export class ForecastTemperatureChart extends LitElement {
   @property({ type: Function }) showHoursChartLabel!: (hours: number) => TemplateResult;
 
   static styles = css`
+    :host {
+      display: block;
+      width: 100%;
+    }
+
     .section-title {
       font-weight: bold;
       font-size: 16px;
@@ -31,6 +36,8 @@ export class ForecastTemperatureChart extends LitElement {
       margin-top: var(--chart-margin-top, 15px);
       margin-bottom: var(--chart-margin-bottom, 0);
       border: var(--chart-inner-border, 1px solid var(--border-color, rgba(220, 20, 60, 0.1)));
+      width: 100%;
+      box-sizing: border-box;
     }
     .chart-svg-area {
       width: 100%;

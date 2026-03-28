@@ -11,6 +11,11 @@ export class WindChart extends LitElement {
   @property({ type: Function }) showHoursChartLabel!: (hours: number) => TemplateResult;
 
   static styles = css`
+    :host {
+      display: block;
+      width: 100%;
+    }
+
     .chart {
       background: var(--card-background-color, #fff);
       border-radius: 12px;
@@ -18,6 +23,8 @@ export class WindChart extends LitElement {
       margin-top: var(--chart-margin-top, 15px);
       margin-bottom: var(--chart-margin-bottom, 0);
       border: var(--chart-inner-border, 1px solid var(--border-color, rgba(220, 20, 60, 0.1)));
+      width: 100%;
+      box-sizing: border-box;
     }
     .section-title {
       font-weight: bold;
