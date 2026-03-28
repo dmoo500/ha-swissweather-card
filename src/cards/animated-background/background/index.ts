@@ -418,6 +418,9 @@ ${Array.from({ length: Math.ceil(width / 10) }, (v, i) => i).map(i => {
 };
 
 const sleetBG = (width: number): TemplateResult => {
+  const cloudCount = Math.max(2, Math.ceil(width / 190));
+  const spacing = width / cloudCount;
+
   return svg`
   <defs>
     <linearGradient id="sleetGradient" x1="22.56" x2="39.2" y1="21.96" y2="50.8" gradientUnits="userSpaceOnUse">
@@ -425,24 +428,77 @@ const sleetBG = (width: number): TemplateResult => {
       <stop offset=".45" stop-color="#f3f7fe"/>
       <stop offset="1" stop-color="#deeafb"/>
     </linearGradient>
-    <g id="icon">
+    <linearGradient id="sleetRainDropGradient" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#dbeafe" stop-opacity="0"/>
+      <stop offset="30%" stop-color="#93c5fd" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#3b82f6" stop-opacity="0.95"/>
+    </linearGradient>
+    <g id="sleetSnowFlake" stroke="#eaf6ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.1">
+      <line x1="0" y1="-3.4" x2="0" y2="3.4"/>
+      <line x1="-2.9" y1="0" x2="2.9" y2="0"/>
+      <line x1="-2.2" y1="-2.2" x2="2.2" y2="2.2"/>
+      <line x1="-2.2" y1="2.2" x2="2.2" y2="-2.2"/>
+      <circle cx="0" cy="0" r="0.8" fill="#f8fdff" stroke="none"/>
+    </g>
+    <g id="sleetCloudIcon">
       <path fill="url(#sleetGradient)" stroke="#e6effc" stroke-miterlimit="10" stroke-width=".5"
         d="M46.5 31.5h-.32a10.49 10.49 0 00-19.11-8 7 7 0 00-10.57 6 7.21 7.21 0 00.1 1.14A7.5 7.5 0 0018 45.5a4.19 4.19 0 00.5 0v0h28a7 7 0 000-14z"/>
-      <circle cx="24" cy="42" r="4" fill="#a8dadc"/>
-      <circle cx="40" cy="42" r="4" fill="#a8dadc"/>
-      <line x1="32" y1="34" x2="32" y2="38" stroke="#3a86ff" stroke-width="2" stroke-linecap="round">
-        <animate attributeName="y1" values="34; 44" dur="1s" repeatCount="indefinite"/>
-        <animate attributeName="y2" values="38; 48" dur="1s" repeatCount="indefinite"/>
-        <animate attributeName="opacity" values="1; 0" dur="1s" repeatCount="indefinite"/>
-      </line>
     </g>
   </defs>
-  
-  ${animate(width)}
+
+  ${Array.from({ length: cloudCount }, (_, i) => {
+    const baseX = Math.round(i * spacing + spacing * 0.16);
+    const baseY = Math.round(14 + ((i * 11) % 3) * 9);
+    const cloudScale = 1.45 + (i % 2) * 0.18;
+    const driftDur = 16 + (i % 3) * 3;
+    return svg`
+      <g transform="translate(${baseX} ${baseY})">
+        <g>
+          <use href="#sleetCloudIcon" x="0" y="0" width="80" height="40" transform="scale(${cloudScale})" opacity="0.93"/>
+          <animateTransform attributeName="transform" type="translate" values="0,0;14,0;0,0" dur="${driftDur}s" repeatCount="indefinite"/>
+        </g>
+
+        ${Array.from({ length: 7 }, (_, j) => {
+          const x = 15 + j * 8 + ((i + j) % 2 === 0 ? -1.2 : 1.2);
+          const yTop = 52 + (j % 2) * 2;
+          const yBottom = yTop + 16 + (j % 3) * 3;
+          const dur = (0.82 + (j % 3) * 0.14).toFixed(2);
+          const begin = (-0.16 * (i + j)).toFixed(2);
+          return svg`
+            <line x1="${x}" y1="${yTop}" x2="${x + 1.8}" y2="${yBottom}" stroke="url(#sleetRainDropGradient)" stroke-width="1.7" stroke-linecap="round" opacity="0.86">
+              <animate attributeName="y1" values="${yTop};${yTop + 26}" dur="${dur}s" repeatCount="indefinite" begin="${begin}s"/>
+              <animate attributeName="y2" values="${yBottom};${yBottom + 26}" dur="${dur}s" repeatCount="indefinite" begin="${begin}s"/>
+              <animate attributeName="opacity" values="0;0.92;0.92;0" dur="${dur}s" repeatCount="indefinite" begin="${begin}s"/>
+            </line>
+          `;
+        })}
+
+        ${Array.from({ length: 8 }, (_, j) => {
+          const x = 12 + j * 8 + ((i + j) % 3) * 1.4;
+          const y = 54 + (j % 3) * 2;
+          const sway = (j % 2 === 0 ? -5 : 5) + (i % 2 === 0 ? 1.5 : -1.5);
+          const dur = (3.9 + (j % 4) * 0.65).toFixed(2);
+          const begin = (-0.25 * (i + j)).toFixed(2);
+          const rotate = ((i + j) % 2 === 0 ? -14 : 14).toString();
+          return svg`
+            <g transform="translate(${x} ${y}) scale(0.95)">
+              <use href="#sleetSnowFlake" opacity="0.9"/>
+              <animateTransform attributeName="transform" type="translate" values="${x} ${y}; ${x + sway} ${y + 26}; ${x} ${y + 52}" dur="${dur}s" repeatCount="indefinite" begin="${begin}s"/>
+              <animateTransform additive="sum" attributeName="transform" type="rotate" values="0; ${rotate}; ${rotate} 0" dur="${dur}s" repeatCount="indefinite" begin="${begin}s"/>
+              <animate attributeName="opacity" values="0;0.88;0.88;0" dur="${dur}s" repeatCount="indefinite" begin="${begin}s"/>
+            </g>
+          `;
+        })}
+      </g>
+    `;
+  })}
   `;
 };
 
 const snowBG = (width: number): TemplateResult => {
+  const cloudCount = Math.max(2, Math.ceil(width / 190));
+  const spacing = width / cloudCount;
+
   return svg`
   <defs>
     <linearGradient id="snowGradient" x1="22.56" x2="39.2" y1="21.96" y2="50.8" gradientUnits="userSpaceOnUse">
@@ -450,32 +506,55 @@ const snowBG = (width: number): TemplateResult => {
       <stop offset=".45" stop-color="#f3f7fe"/>
       <stop offset="1" stop-color="#deeafb"/>
     </linearGradient>
-    <g id="snowIcon">
+    <radialGradient id="snowCore" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#e6f4ff" stop-opacity="0.92"/>
+    </radialGradient>
+    <g id="snowCloudIcon">
       <path fill="url(#snowGradient)" stroke="#e6effc" stroke-miterlimit="10" stroke-width=".5"
         d="M46.5 31.5h-.32a10.49 10.49 0 00-19.11-8 7 7 0 00-10.57 6 7.21 7.21 0 00.1 1.14A7.5 7.5 0 0018 45.5a4.19 4.19 0 00.5 0v0h28a7 7 0 000-14z"/>
     </g>
-    <linearGradient id="snowFlakeGradient" x1="0" x2="0" y1="0" y2="1">
-      <stop offset="0%" stop-color="#dbeafe" stop-opacity="0.8"/>
-      <stop offset="100%" stop-color="#dbeafe" stop-opacity="0"/>
-    </linearGradient>
-    <g id="snowFlakeIcon" stroke="url(#snowFlakeGradient)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-      <line x1="0" y1="-4" x2="0" y2="4"/>
-      <line x1="-3" y1="-3" x2="3" y2="3"/>
-      <line x1="-3" y1="3" x2="3" y2="-3"/>
-    </g>
-    <g id="cloudIcon">
-      <use href="#snowIcon" x="0" y="-10" width="80" height="40" transform="scale(2.2) translate(10,20)" opacity="0.9"/>
-      <animateTransform attributeName="transform" type="translate" values="0,0;20,0;0,0" dur="18s" repeatCount="indefinite"/>
-    </g>
-    <g id="icon">
-      <use href="#snowFlakeIcon" x="0" y="0" width="8" height="8" opacity="1"/>
-      <animateTransform attributeName="transform" type="translate" values="0,0;0,20" dur="3s" repeatCount="indefinite"/>
-      <animate attributeName="opacity" values="1; 0" dur="3s" repeatCount="indefinite"/>
+    <g id="snowFlakeIcon" stroke="#f2f9ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.1">
+      <line x1="0" y1="-3.8" x2="0" y2="3.8"/>
+      <line x1="-3.3" y1="0" x2="3.3" y2="0"/>
+      <line x1="-2.8" y1="-2.8" x2="2.8" y2="2.8"/>
+      <line x1="-2.8" y1="2.8" x2="2.8" y2="-2.8"/>
+      <circle cx="0" cy="0" r="1" fill="url(#snowCore)" stroke="none"/>
     </g>
 
   </defs>
-  
-  ${animate(width)}
+
+  ${Array.from({ length: cloudCount }, (_, i) => {
+    const baseX = Math.round(i * spacing + spacing * 0.14);
+    const baseY = Math.round(12 + ((i * 7) % 3) * 8);
+    const cloudScale = 1.42 + (i % 2) * 0.2;
+    const driftDur = 15 + (i % 3) * 3;
+    return svg`
+      <g transform="translate(${baseX} ${baseY})">
+        <g>
+          <use href="#snowCloudIcon" x="0" y="0" width="80" height="40" transform="scale(${cloudScale})" opacity="0.93"/>
+          <animateTransform attributeName="transform" type="translate" values="0,0;12,0;0,0" dur="${driftDur}s" repeatCount="indefinite"/>
+        </g>
+
+        ${Array.from({ length: 12 }, (_, j) => {
+          const x = 10 + j * 5.4 + (j % 2) * 1.2;
+          const y = 52 + (j % 3);
+          const sway = (j % 2 === 0 ? -7 : 7) + (i % 2 === 0 ? 2 : -2);
+          const dur = (4.5 + (j % 4) * 0.62).toFixed(2);
+          const begin = (-0.22 * (i + j)).toFixed(2);
+          const scale = (0.72 + (j % 4) * 0.16).toFixed(2);
+          return svg`
+            <g transform="translate(${x} ${y}) scale(${scale})" opacity="0">
+              <use href="#snowFlakeIcon"/>
+              <animateTransform attributeName="transform" type="translate" values="${x} ${y}; ${x + sway} ${y + 30}; ${x - sway * 0.3} ${y + 62}" dur="${dur}s" repeatCount="indefinite" begin="${begin}s"/>
+              <animateTransform additive="sum" attributeName="transform" type="rotate" values="0; 26; 340" dur="${dur}s" repeatCount="indefinite" begin="${begin}s"/>
+              <animate attributeName="opacity" values="0;0.9;0.9;0" dur="${dur}s" repeatCount="indefinite" begin="${begin}s"/>
+            </g>
+          `;
+        })}
+      </g>
+    `;
+  })}
   `;
 };
 

@@ -246,6 +246,14 @@ export class SwissWeatherBGCard extends LitElement {
         opacity: 0.72;
       }
 
+      .img-photo.sun-bloom.day .photo-sun-rays {
+        opacity: 0.8;
+      }
+
+      .img-photo.windy .photo-wind-streaks {
+        opacity: 0.9;
+      }
+
       .photo-rain {
         display: none;
       }
@@ -256,6 +264,25 @@ export class SwissWeatherBGCard extends LitElement {
         overflow: hidden;
         pointer-events: none;
         z-index: 4;
+      }
+
+      .weather-cluster {
+        position: absolute;
+        top: 14%;
+        width: 28%;
+        height: 86%;
+      }
+
+      .weather-cluster.c1 {
+        left: 4%;
+      }
+
+      .weather-cluster.c2 {
+        left: 34%;
+      }
+
+      .weather-cluster.c3 {
+        left: 64%;
       }
 
       .rain-drop {
@@ -284,15 +311,112 @@ export class SwissWeatherBGCard extends LitElement {
         left: var(--x, 50%);
         width: var(--size, 4px);
         height: var(--size, 4px);
-        border-radius: 50%;
-        background: radial-gradient(circle at 30% 30%, #ffffff, #d9ecff 75%);
+        background: transparent;
         opacity: var(--opacity, 0.9);
-        box-shadow:
-          0 0 6px rgba(255, 255, 255, 0.72),
-          0 0 2px rgba(214, 236, 255, 0.95);
         animation: snow-flake-fall var(--duration, 7s) linear infinite;
         animation-delay: var(--delay, 0s);
         z-index: 5;
+      }
+
+      .snow-flake::before,
+      .snow-flake::after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background: linear-gradient(
+          to bottom,
+          rgba(255, 255, 255, 0.98),
+          rgba(222, 240, 255, 0.96)
+        );
+        border-radius: 999px;
+      }
+
+      .snow-flake::before {
+        width: max(1px, calc(var(--size, 4px) * 0.22));
+        height: var(--size, 4px);
+        box-shadow:
+          0 0 6px rgba(255, 255, 255, 0.8),
+          0 0 2px rgba(210, 233, 255, 0.9);
+      }
+
+      .snow-flake::after {
+        width: var(--size, 4px);
+        height: max(1px, calc(var(--size, 4px) * 0.22));
+      }
+
+      .snow-flake i,
+      .snow-flake b {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: max(1px, calc(var(--size, 4px) * 0.18));
+        height: calc(var(--size, 4px) * 0.86);
+        border-radius: 999px;
+        background: linear-gradient(
+          to bottom,
+          rgba(255, 255, 255, 0.92),
+          rgba(216, 236, 255, 0.88)
+        );
+        transform-origin: center;
+      }
+
+      .snow-flake i {
+        transform: translate(-50%, -50%) rotate(45deg);
+      }
+
+      .snow-flake b {
+        transform: translate(-50%, -50%) rotate(-45deg);
+      }
+
+      .photo-sun-rays {
+        background: conic-gradient(
+          from 20deg at 76% 20%,
+          rgba(255, 249, 189, 0.28) 0deg,
+          rgba(255, 249, 189, 0) 35deg,
+          rgba(255, 246, 177, 0.24) 52deg,
+          rgba(255, 246, 177, 0) 90deg,
+          rgba(255, 247, 181, 0.28) 116deg,
+          rgba(255, 247, 181, 0) 160deg,
+          rgba(255, 249, 189, 0.22) 198deg,
+          rgba(255, 249, 189, 0) 240deg,
+          rgba(255, 250, 200, 0.26) 280deg,
+          rgba(255, 250, 200, 0) 320deg,
+          rgba(255, 249, 189, 0.28) 360deg
+        );
+        mix-blend-mode: screen;
+        opacity: 0;
+        animation: sun-ray-sweep 18s linear infinite;
+        z-index: 2;
+      }
+
+      .photo-wind-streaks {
+        background-image:
+          linear-gradient(
+            112deg,
+            rgba(225, 239, 255, 0) 0%,
+            rgba(225, 239, 255, 0.18) 26%,
+            rgba(225, 239, 255, 0.34) 38%,
+            rgba(225, 239, 255, 0) 54%
+          ),
+          linear-gradient(
+            112deg,
+            rgba(213, 233, 255, 0) 18%,
+            rgba(213, 233, 255, 0.2) 34%,
+            rgba(213, 233, 255, 0.3) 48%,
+            rgba(213, 233, 255, 0) 64%
+          );
+        background-size:
+          220% 100%,
+          200% 100%;
+        background-position:
+          0% 20%,
+          -36% 62%;
+        opacity: 0;
+        animation: wind-streak-sweep 2.6s linear infinite;
+        z-index: 4;
+        mix-blend-mode: screen;
       }
 
       .photo-lightning {
@@ -430,7 +554,43 @@ export class SwissWeatherBGCard extends LitElement {
         }
         100% {
           top: 112%;
-          transform: translate3d(0, 0, 0) rotate(300deg);
+          transform: translate3d(0, 0, 0) rotate(360deg);
+        }
+      }
+
+      @keyframes sun-ray-sweep {
+        0% {
+          transform: rotate(0deg) scale(1);
+          opacity: 0.55;
+        }
+        50% {
+          transform: rotate(8deg) scale(1.04);
+          opacity: 0.9;
+        }
+        100% {
+          transform: rotate(16deg) scale(1);
+          opacity: 0.58;
+        }
+      }
+
+      @keyframes wind-streak-sweep {
+        0% {
+          background-position:
+            0% 20%,
+            -36% 62%;
+          opacity: 0.55;
+        }
+        50% {
+          background-position:
+            76% 24%,
+            46% 66%;
+          opacity: 0.95;
+        }
+        100% {
+          background-position:
+            156% 28%,
+            128% 70%;
+          opacity: 0.45;
         }
       }
 
@@ -762,6 +922,8 @@ export class SwissWeatherBGCard extends LitElement {
 
   private _renderPhotoLikeBackground(condition: string, daytime: boolean): TemplateResult {
     const mood = this._resolvePhotoMood(condition);
+    const isWindy = condition === 'windy' || condition === 'windy-variant';
+    const hasSunBloom = daytime && (condition === 'sunny' || condition === 'partlycloudy');
     const hasRain =
       mood === 'rainy' ||
       condition === 'snowy-rainy' ||
@@ -769,18 +931,34 @@ export class SwissWeatherBGCard extends LitElement {
       condition === 'pouring';
     const hasSnow = condition === 'snowy' || condition === 'snowy-rainy' || condition === 'hail';
     const hasLightning = condition === 'lightning' || condition === 'lightning-rainy';
+    const useCloudBoundMix = condition === 'snowy-rainy';
+    const cloudClusters = ['c1', 'c2', 'c3'];
 
     return html`
-      <div class="img-photo mood-${mood} ${daytime ? 'day' : 'night'}">
+      <div
+        class="img-photo mood-${mood} ${daytime ? 'day' : 'night'} ${isWindy
+          ? 'windy'
+          : ''} ${hasSunBloom ? 'sun-bloom' : ''}"
+      >
         <div class="photo-layer photo-base"></div>
+        <div class="photo-layer photo-sun-rays"></div>
         <div class="photo-layer photo-clouds"></div>
         <div class="photo-layer photo-clouds-front"></div>
         <div class="photo-layer photo-clouds-depth"></div>
+        <div class="photo-layer photo-wind-streaks"></div>
         <div class="photo-layer photo-cloud-shadow"></div>
         ${hasRain || hasSnow
           ? html`<div class="photo-layer weather-particles">
-              ${hasRain ? this._renderRainParticles(condition === 'snowy-rainy' ? 14 : 28) : html``}
-              ${hasSnow ? this._renderSnowParticles(condition === 'snowy-rainy' ? 22 : 36) : html``}
+              ${useCloudBoundMix
+                ? html`${cloudClusters.map(
+                    cls =>
+                      html`<div class="weather-cluster ${cls}">
+                        ${hasRain ? this._renderRainParticles(6, true) : html``}
+                        ${hasSnow ? this._renderSnowParticles(10, true) : html``}
+                      </div>`
+                  )}`
+                : html`${hasRain ? this._renderRainParticles(28, false) : html``}
+                  ${hasSnow ? this._renderSnowParticles(36, false) : html``}`}
             </div>`
           : html``}
         ${hasLightning
@@ -793,38 +971,49 @@ export class SwissWeatherBGCard extends LitElement {
     `;
   }
 
-  private _renderRainParticles(count: number): TemplateResult[] {
+  private _renderRainParticles(count: number, cloudBound: boolean): TemplateResult[] {
     return Array.from({ length: count }, (_, i) => {
-      const x = ((i * 37 + 11) % 100) + (i % 3) * 0.6;
-      const duration = (0.9 + (i % 5) * 0.14).toFixed(2);
+      const base = cloudBound ? 14 : 4;
+      const spread = cloudBound ? 72 : 96;
+      const x = base + (((i * 31 + 17) % 100) / 100) * spread;
+      const duration = (cloudBound ? 0.95 : 0.9 + (i % 5) * 0.14).toFixed(2);
       const delay = (-1 * ((i % 7) * 0.23)).toFixed(2);
-      const height = 14 + (i % 4) * 6;
-      const opacity = (0.42 + (i % 4) * 0.12).toFixed(2);
-      const drift = (i % 2 === 0 ? 6 : -6) + ((i % 3) - 1) * 2;
-      const width = i % 3 === 0 ? 1.6 : 2.2;
+      const height = (cloudBound ? 15 : 14) + (i % 4) * 5;
+      const opacity = (0.46 + (i % 4) * 0.11).toFixed(2);
+      const drift = (i % 2 === 0 ? 5 : -5) + ((i % 3) - 1) * 1.7;
+      const width = i % 3 === 0 ? 1.6 : 2.1;
 
       return html`<span
         class="rain-drop"
-        style="--x:${x}%; --duration:${duration}s; --delay:${delay}s; --h:${height}px; --opacity:${opacity}; --drift:${drift}px; --w:${width}px;"
+        style="--x:${x.toFixed(
+          2
+        )}%; --duration:${duration}s; --delay:${delay}s; --h:${height}px; --opacity:${opacity}; --drift:${drift.toFixed(
+          1
+        )}px; --w:${width}px;"
       ></span>`;
     });
   }
 
-  private _renderSnowParticles(count: number): TemplateResult[] {
+  private _renderSnowParticles(count: number, cloudBound: boolean): TemplateResult[] {
     return Array.from({ length: count }, (_, i) => {
-      const x = ((i * 29 + 7) % 100) + (i % 4) * 0.4;
-      const duration = (5.6 + (i % 5) * 1.1).toFixed(2);
+      const base = cloudBound ? 12 : 2;
+      const spread = cloudBound ? 76 : 98;
+      const x = base + (((i * 29 + 7) % 100) / 100) * spread;
+      const duration = (cloudBound ? 6.1 : 5.6 + (i % 5) * 1.1).toFixed(2);
       const delay = (-1 * ((i % 9) * 0.7)).toFixed(2);
-      const size = (2.4 + (i % 4) * 1.1).toFixed(1);
-      const opacity = (0.45 + (i % 4) * 0.12).toFixed(2);
-      const drift = (i % 2 === 0 ? 14 : -14) + ((i % 3) - 1) * 3;
+      const size = (cloudBound ? 2.8 : 2.4 + (i % 4) * 1.1).toFixed(1);
+      const opacity = (0.52 + (i % 4) * 0.11).toFixed(2);
+      const drift = (i % 2 === 0 ? 13 : -13) + ((i % 3) - 1) * 2.6;
       const driftBack = -drift * 0.7;
 
       return html`<span
         class="snow-flake"
-        style="--x:${x}%; --duration:${duration}s; --delay:${delay}s; --size:${size}px; --opacity:${opacity}; --drift:${drift}px; --drift-back:${driftBack.toFixed(
+        style="--x:${x.toFixed(
+          2
+        )}%; --duration:${duration}s; --delay:${delay}s; --size:${size}px; --opacity:${opacity}; --drift:${drift}px; --drift-back:${driftBack.toFixed(
           1
         )}px;"
+        ><i></i><b></b
       ></span>`;
     });
   }
