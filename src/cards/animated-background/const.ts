@@ -39,12 +39,6 @@ export const schema = [
     description: 'config.descr.forecast_mode',
   },
   {
-    name: 'show_forecast',
-    required: false,
-    selector: { boolean: {} },
-    description: 'config.descr.show_forecast',
-  },
-  {
     name: 'show_day_temps',
     required: false,
     selector: { boolean: {} },

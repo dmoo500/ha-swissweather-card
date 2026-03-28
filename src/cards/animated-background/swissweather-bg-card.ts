@@ -196,6 +196,30 @@ export class SwissWeatherBGCard extends LitElement {
         animation: cloud-drift 26s ease-in-out infinite alternate;
       }
 
+      .photo-clouds-depth {
+        background:
+          radial-gradient(ellipse at 12% 62%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 52%),
+          radial-gradient(
+            ellipse at 50% 56%,
+            rgba(255, 255, 255, 0.16),
+            rgba(255, 255, 255, 0) 50%
+          ),
+          radial-gradient(ellipse at 82% 64%, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0) 55%);
+        filter: blur(9px);
+        animation: cloud-drift-depth 18s ease-in-out infinite alternate;
+        opacity: 0;
+      }
+
+      .img-photo.mood-cloudy .photo-clouds,
+      .img-photo.mood-rainy .photo-clouds {
+        opacity: 0.95;
+      }
+
+      .img-photo.mood-cloudy .photo-clouds-depth,
+      .img-photo.mood-rainy .photo-clouds-depth {
+        opacity: 0.72;
+      }
+
       .photo-rain {
         background-image: linear-gradient(
           115deg,
@@ -251,6 +275,15 @@ export class SwissWeatherBGCard extends LitElement {
         }
         100% {
           transform: translate3d(2%, -1%, 0) scale(1.06);
+        }
+      }
+
+      @keyframes cloud-drift-depth {
+        0% {
+          transform: translate3d(2%, 1%, 0) scale(1.04);
+        }
+        100% {
+          transform: translate3d(-3%, -1%, 0) scale(1.08);
         }
       }
 
@@ -513,7 +546,7 @@ export class SwissWeatherBGCard extends LitElement {
                       <daily-forecast-chart
                         .forecast=${this._forecast?.slice(0, 7) ?? []}
                         .forecastLoading=${this._forecastLoading}
-                        .show_forecast=${this.config.show_forecast !== false}
+                        .show_forecast=${true}
                         .config=${{ ...this.config, enable_animate_weather_icons: true }}
                         .compact=${true}
                         .startTomorrow=${true}
@@ -532,7 +565,7 @@ export class SwissWeatherBGCard extends LitElement {
                       <hourly-forecast-chart
                         .hourlyForecast=${this._hourly}
                         .forecastLoading=${this._hourlyLoading}
-                        .show_forecast=${this.config.show_forecast !== false}
+                        .show_forecast=${true}
                         .config=${{ ...this.config, enable_animate_weather_icons: true }}
                         .compact=${true}
                         .maxHours=${5}
@@ -578,6 +611,7 @@ export class SwissWeatherBGCard extends LitElement {
       <div class="img-photo mood-${mood} ${daytime ? 'day' : 'night'}">
         <div class="photo-layer photo-base"></div>
         <div class="photo-layer photo-clouds"></div>
+        <div class="photo-layer photo-clouds-depth"></div>
         ${hasRain ? html`<div class="photo-layer photo-rain"></div>` : html``}
         ${hasLightning ? html`<div class="photo-layer photo-lightning"></div>` : html``}
         <div class="photo-layer photo-vignette"></div>

@@ -187,10 +187,6 @@ export class SwissWeatherBGCardEditor extends LitElement implements LovelaceCard
       entity: typeof this._config?.entity === 'string' ? this._config.entity : undefined,
       sun_entity:
         typeof this._config?.sun_entity === 'string' ? this._config.sun_entity : undefined,
-      show_forecast:
-        typeof (this._config as any)?.show_forecast === 'boolean'
-          ? (this._config as any).show_forecast
-          : undefined,
       forecast_mode:
         typeof (this._config as any)?.forecast_mode === 'string'
           ? (this._config as any).forecast_mode
@@ -212,6 +208,24 @@ export class SwissWeatherBGCardEditor extends LitElement implements LovelaceCard
           ? (this._config as any).photo_mode
           : undefined,
     };
+
+    const forecastModeSchema = schema.find(s => s.name === 'forecast_mode') as any;
+    const localizedForecastModeSchema = forecastModeSchema
+      ? {
+          ...forecastModeSchema,
+          selector: {
+            ...forecastModeSchema.selector,
+            select: {
+              ...forecastModeSchema.selector.select,
+              options: [
+                { value: 'daily', label: _t('forecast_mode.daily') },
+                { value: 'hourly', label: _t('forecast_mode.hourly') },
+                { value: 'none', label: _t('forecast_mode.none') },
+              ],
+            },
+          },
+        }
+      : undefined;
 
     return html`
       <div class="card-config">
@@ -245,8 +259,7 @@ export class SwissWeatherBGCardEditor extends LitElement implements LovelaceCard
             .hass=${this.hass}
             .data=${data}
             .schema=${[
-              schema.find(s => s.name === 'forecast_mode'),
-              schema.find(s => s.name === 'show_forecast'),
+              localizedForecastModeSchema,
               schema.find(s => s.name === 'show_day_temps'),
               schema.find(s => s.name === 'show_sun_times'),
               schema.find(s => s.name === 'photo_mode'),
@@ -274,7 +287,6 @@ export class SwissWeatherBGCardEditor extends LitElement implements LovelaceCard
     const labels: Record<string, string> = {
       entity: _t('config.entity'),
       sun_entity: _t('config.sun_entity'),
-      show_forecast: _t('config.show_forecast'),
       forecast_mode: _t('config.forecast_mode'),
       show_day_temps: _t('config.show_day_temps'),
       show_sun_times: _t('config.show_sun_times'),
@@ -333,6 +345,9 @@ export class SwissWeatherBGCardEditor extends LitElement implements LovelaceCard
         ...keepConfig,
         type: `custom:${ANIMATED_BACKGROUND_CARD_NAME}`,
       };
+
+      // forecast_mode now controls visibility; keep old configs clean.
+      delete (newConfig as any).show_forecast;
 
       // Remove empty values for a cleaner config
       Object.keys(newConfig).forEach(key => {
