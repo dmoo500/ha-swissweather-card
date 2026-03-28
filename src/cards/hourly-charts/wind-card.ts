@@ -75,6 +75,7 @@ export class WindCard extends HourlyForecastBaseCard {
   }
 
   public render(): TemplateResult {
+    this.setCardGridRows();
     if (!this.hass || !this.config) return html``;
     const forecastHours = this.config.forecast_hours ?? 12;
 

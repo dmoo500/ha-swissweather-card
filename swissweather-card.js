@@ -6718,13 +6718,15 @@ var Vi = `${tn}-temperature-card`, Hi = `${Vi}-editor`, Ui = `${tn}-precipitatio
 	}
 	updated(e) {
 		super.updated(e);
-		let t = this.config?.grid_options?.rows ?? 2;
-		this.style.setProperty("--card-grid-rows", t.toString());
 	}
 	setBaseConfig(e) {
 		this.config = e, setTimeout(() => {
 			this._loadForecast();
 		}, 1e3);
+	}
+	setCardGridRows() {
+		let e = this.config?.grid_options?.rows ?? 2;
+		this.style.setProperty("--card-grid-rows", e.toString());
 	}
 };
 //#endregion
@@ -6785,7 +6787,7 @@ var $i = class extends Qi {
 		};
 	}
 	render() {
-		if (!li(this.hass, this.config.entity)) return S`<div class="card-content">Entity not found: ${this.config.entity}</div>`;
+		if (this.setCardGridRows(), !li(this.hass, this.config.entity)) return S`<div class="card-content">Entity not found: ${this.config.entity}</div>`;
 		if (this._hourlyForecast.length === 0) return S`<div class="card-content">Loading...</div>`;
 		let e = this.config.forecast_hours ?? 12;
 		return S`
@@ -6925,7 +6927,7 @@ var ta = class extends Qi {
 		};
 	}
 	render() {
-		if (!li(this.hass, this.config.entity)) return S`<div class="card-content">Entity not found: ${this.config.entity}</div>`;
+		if (this.setCardGridRows(), !li(this.hass, this.config.entity)) return S`<div class="card-content">Entity not found: ${this.config.entity}</div>`;
 		if (this._hourlyForecast.length === 0) return S`<div class="card-content">Loading...</div>`;
 		let e = this.config.forecast_hours ?? 12;
 		return S`
@@ -7065,6 +7067,7 @@ var ra = class extends Qi {
 		};
 	}
 	render() {
+		this.setCardGridRows();
 		let e = li(this.hass, this.config.entity);
 		if (!e) return S`<div class="card-content">Entity not found: ${this.config.entity}</div>`;
 		if (this._hourlyForecast.length === 0) return S`<div class="card-content">Loading...</div>`;
@@ -7212,7 +7215,7 @@ var aa = class extends Qi {
 		};
 	}
 	render() {
-		if (!this.hass || !this.config) return S``;
+		if (this.setCardGridRows(), !this.hass || !this.config) return S``;
 		let e = this.config.forecast_hours ?? 12;
 		return this._hourlyForecast.length === 0 ? S`<div class="card-content">Loading...</div>` : S`
       <div class="card-content">

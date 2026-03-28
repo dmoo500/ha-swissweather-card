@@ -44,11 +44,9 @@ export abstract class HourlyForecastBaseCard extends LitElement {
     }
   }
 
+  // Intentionally empty – same as forecast-diagram-card.ts
   protected updated(_changedProperties: PropertyValues): void {
     super.updated(_changedProperties);
-    // Set CSS variable on every update – same as forecast-diagram-card.ts does in render()
-    const rows = this.config?.grid_options?.rows ?? 2;
-    this.style.setProperty('--card-grid-rows', rows.toString());
   }
 
   protected setBaseConfig(config: HourlyChartCardConfig): void {
@@ -57,5 +55,11 @@ export abstract class HourlyForecastBaseCard extends LitElement {
     setTimeout(() => {
       this._loadForecast();
     }, 1000);
+  }
+
+  protected setCardGridRows(): void {
+    // Set CSS variable for card height calculation – same as forecast-diagram-card.ts does in render()
+    const rows = this.config?.grid_options?.rows ?? 2;
+    this.style.setProperty('--card-grid-rows', rows.toString());
   }
 }
