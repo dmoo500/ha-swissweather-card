@@ -65,6 +65,7 @@ export class PrecipitationChart extends LitElement {
         <div class="section-title">
           <ha-icon icon="mdi:weather-pouring"></ha-icon>
           ${this._t('precipitation_hours', { hours: this.forecastHours })}
+          <span style="font-size:12px; font-weight:normal; color:var(--secondary-text-color, #888);">mm</span>
         </div>
         <div class="chart-svg-area" style="aspect-ratio: 600 / 100; width: 100%;">
           ${(() => {

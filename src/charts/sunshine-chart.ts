@@ -198,7 +198,7 @@ export class SunshineChart extends LitElement {
                       <span
                         style="font-size:11px; color:#fbc02d; margin-bottom:2px; min-height:16px; font-variant-numeric:tabular-nums;"
                       >
-                        ${value !== null ? value.toFixed(0) + ' min' : ''}
+                        ${value !== null ? value.toFixed(0) : ''}
                       </span>
                       <div class="chart-bar-sunshine" style="height: ${barHeight}px;"></div>
                     </div>
