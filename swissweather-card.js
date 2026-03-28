@@ -1,5 +1,5 @@
 //#region package.json
-var e = "1.7.0-beta.30", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
+var e = "1.7.0", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
 	constructor(e, t, n) {
 		if (this._$cssResult$ = !0, n !== r) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
 		this.cssText = e, this.t = t;
@@ -6718,37 +6718,22 @@ var Vi = `${tn}-temperature-card`, Hi = `${Vi}-editor`, Ui = `${tn}-precipitatio
 		mode: "box"
 	} },
 	description: "config.descr.forecast_hours"
-}], Xi = [
-	{
-		name: "entity",
-		required: !0,
-		selector: { entity: { domain: "weather" } },
-		description: "config.descr.entity"
-	},
-	{
-		name: "forecast_hours",
-		required: !1,
-		selector: { number: {
-			min: 6,
-			max: 48,
-			step: 1,
-			mode: "box"
-		} },
-		description: "config.descr.forecast_hours"
-	},
-	{
-		name: "wind_entity",
-		required: !1,
-		selector: { entity: { domain: "sensor" } },
-		description: "config.descr.wind_entity"
-	},
-	{
-		name: "wind_direction_entity",
-		required: !1,
-		selector: { entity: { domain: "sensor" } },
-		description: "config.descr.wind_direction_entity"
-	}
-], Zi = [
+}], Xi = [{
+	name: "entity",
+	required: !0,
+	selector: { entity: { domain: "weather" } },
+	description: "config.descr.entity"
+}, {
+	name: "forecast_hours",
+	required: !1,
+	selector: { number: {
+		min: 6,
+		max: 48,
+		step: 1,
+		mode: "box"
+	} },
+	description: "config.descr.forecast_hours"
+}], Zi = [
 	{
 		name: "entity",
 		required: !0,
@@ -6807,6 +6792,8 @@ var Vi = `${tn}-temperature-card`, Hi = `${Vi}-editor`, Ui = `${tn}-precipitatio
 	}
 	updated(e) {
 		super.updated(e);
+		let t = e.has("hass"), n = e.has("config");
+		(t || n) && this._hourlyForecast.length === 0 && !this._forecastLoading && this._loadForecast();
 	}
 	setBaseConfig(e) {
 		this.config = e, setTimeout(() => {
@@ -6895,6 +6882,7 @@ var $i = class extends Qi {
 		return 3;
 	}
 	render() {
+		if (!this.hass || !this.config) return S``;
 		if (this.setCardGridRows(), !li(this.hass, this.config.entity)) return S`<div class="card-content">Entity not found: ${this.config.entity}</div>`;
 		if (this._hourlyForecast.length === 0) return S`<div class="card-content">Loading...</div>`;
 		let e = this.config.forecast_hours ?? 12;
@@ -7051,6 +7039,7 @@ var ta = class extends Qi {
 		return 3;
 	}
 	render() {
+		if (!this.hass || !this.config) return S``;
 		if (this.setCardGridRows(), !li(this.hass, this.config.entity)) return S`<div class="card-content">Entity not found: ${this.config.entity}</div>`;
 		if (this._hourlyForecast.length === 0) return S`<div class="card-content">Loading...</div>`;
 		let e = this.config.forecast_hours ?? 12;
@@ -7204,6 +7193,7 @@ var ra = class extends Qi {
 		};
 	}
 	render() {
+		if (!this.hass || !this.config) return S``;
 		this.setCardGridRows();
 		let e = li(this.hass, this.config.entity);
 		if (!e) return S`<div class="card-content">Entity not found: ${this.config.entity}</div>`;
@@ -7390,7 +7380,7 @@ var oa = class extends T {
 	_config;
 	setConfig(e) {
 		let t = { ...e };
-		t.entity === "" && delete t.entity, t.wind_entity === "" && delete t.wind_entity, t.wind_direction_entity === "" && delete t.wind_direction_entity, this._config = t, this.requestUpdate();
+		t.entity === "" && delete t.entity, this._config = t, this.requestUpdate();
 	}
 	static get styles() {
 		return s`
@@ -7417,9 +7407,7 @@ var oa = class extends T {
 		I((this.hass.selectedLanguage || this.hass.language || "en").substring(0, 2));
 		let e = {
 			entity: typeof this._config?.entity == "string" ? this._config.entity : void 0,
-			forecast_hours: this._config?.forecast_hours ?? 12,
-			wind_entity: typeof this._config?.wind_entity == "string" ? this._config.wind_entity : void 0,
-			wind_direction_entity: typeof this._config?.wind_direction_entity == "string" ? this._config.wind_direction_entity : void 0
+			forecast_hours: this._config?.forecast_hours ?? 12
 		};
 		return S`
       <div class="card-config">
@@ -7432,9 +7420,7 @@ var oa = class extends T {
           .schema=${Xi}
           .computeLabel=${(e) => ({
 			entity: L("config.entity"),
-			forecast_hours: L("config.forecast_hours") ?? "Forecast hours",
-			wind_entity: L("config.wind_entity") ?? "Wind speed sensor (optional)",
-			wind_direction_entity: L("config.wind_direction_entity") ?? "Wind direction sensor (optional)"
+			forecast_hours: L("config.forecast_hours") ?? "Forecast hours"
 		})[e.name] ?? e.name}
           @value-changed=${this._valueChanged}
         ></ha-form>

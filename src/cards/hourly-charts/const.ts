@@ -33,7 +33,7 @@ export const baseSchema = [
   },
 ];
 
-// Wind card schema: weather entity (for hourly forecast) + optional sensor overrides
+// Wind card schema: weather entity + forecast hours
 export const windSchema = [
   {
     name: 'entity',
@@ -46,18 +46,6 @@ export const windSchema = [
     required: false,
     selector: { number: { min: 6, max: 48, step: 1, mode: 'box' } },
     description: 'config.descr.forecast_hours',
-  },
-  {
-    name: 'wind_entity',
-    required: false,
-    selector: { entity: { domain: 'sensor' } },
-    description: 'config.descr.wind_entity',
-  },
-  {
-    name: 'wind_direction_entity',
-    required: false,
-    selector: { entity: { domain: 'sensor' } },
-    description: 'config.descr.wind_direction_entity',
   },
 ];
 
@@ -93,6 +81,4 @@ export type HourlyChartCardConfig = BasicCardConfig & {
   forecast_hours?: number;
   sun_entity?: string;
   sunshine_entity?: string;
-  wind_entity?: string;
-  wind_direction_entity?: string;
 };

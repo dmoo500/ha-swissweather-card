@@ -44,9 +44,18 @@ export abstract class HourlyForecastBaseCard extends LitElement {
     }
   }
 
-  // Intentionally empty – same as forecast-diagram-card.ts
-  protected updated(_changedProperties: PropertyValues): void {
-    super.updated(_changedProperties);
+  protected updated(changedProperties: PropertyValues): void {
+    super.updated(changedProperties);
+
+    const hassChanged = changedProperties.has('hass');
+    const configChanged = changedProperties.has('config');
+    if (
+      (hassChanged || configChanged) &&
+      this._hourlyForecast.length === 0 &&
+      !this._forecastLoading
+    ) {
+      void this._loadForecast();
+    }
   }
 
   protected setBaseConfig(config: HourlyChartCardConfig): void {
