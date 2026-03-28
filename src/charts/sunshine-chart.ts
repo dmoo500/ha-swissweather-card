@@ -16,6 +16,8 @@ export class SunshineChart extends LitElement {
     :host {
       display: block;
       width: 100%;
+      height: 100%;
+      min-height: 0;
     }
 
     .chart {
@@ -27,6 +29,9 @@ export class SunshineChart extends LitElement {
       border: var(--chart-inner-border, 1px solid var(--border-color, rgba(220, 20, 60, 0.1)));
       width: 100%;
       box-sizing: border-box;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
     }
     .chart-sunshine {
       background: var(--card-background-color, #fff);
@@ -37,6 +42,9 @@ export class SunshineChart extends LitElement {
       border: var(--chart-inner-border, 1px solid var(--border-color, rgba(220, 20, 60, 0.1)));
       width: 100%;
       box-sizing: border-box;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
     }
 
     .chart-bars {

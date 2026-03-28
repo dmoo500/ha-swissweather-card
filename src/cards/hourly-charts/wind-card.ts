@@ -21,6 +21,8 @@ export class WindCard extends HourlyForecastBaseCard {
     return css`
       :host {
         display: block;
+        height: 100%;
+        box-sizing: border-box;
         background: var(--ha-card-background, var(--card-background-color, #fff));
         border-radius: 16px;
         box-shadow: var(--ha-card-box-shadow, 0 4px 20px rgba(0, 0, 0, 0.1));
@@ -41,6 +43,14 @@ export class WindCard extends HourlyForecastBaseCard {
       }
       .card-content {
         padding: 0;
+        height: 100%;
+        display: flex;
+      }
+
+      wind-chart {
+        display: block;
+        flex: 1;
+        min-height: 0;
       }
     `;
   }

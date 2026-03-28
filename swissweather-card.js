@@ -1,5 +1,5 @@
 //#region package.json
-var e = "1.7.0-beta.28", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
+var e = "1.7.0-beta.29", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
 	constructor(e, t, n) {
 		if (this._$cssResult$ = !0, n !== r) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
 		this.cssText = e, this.t = t;
@@ -841,6 +841,8 @@ var Ke = class extends T {
     :host {
       display: block;
       width: 100%;
+      height: 100%;
+      min-height: 0;
     }
 
     .section-title {
@@ -865,11 +867,16 @@ var Ke = class extends T {
       border: var(--chart-inner-border, 1px solid var(--border-color, rgba(220, 20, 60, 0.1)));
       width: 100%;
       box-sizing: border-box;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
     }
     .chart-svg-area {
       width: 100%;
       overflow: hidden;
       border-radius: 4px;
+      flex: 1;
+      min-height: 0;
     }
   `;
 	render() {
@@ -938,6 +945,8 @@ var M = class extends T {
     :host {
       display: block;
       width: 100%;
+      height: 100%;
+      min-height: 0;
     }
 
     .section-title {
@@ -962,11 +971,16 @@ var M = class extends T {
       border: var(--chart-inner-border, 1px solid var(--border-color, rgba(220, 20, 60, 0.1)));
       width: 100%;
       box-sizing: border-box;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
     }
     .chart-svg-area {
       width: 100%;
       overflow: hidden;
       border-radius: 4px;
+      flex: 1;
+      min-height: 0;
     }
   `;
 	render() {
@@ -1082,6 +1096,8 @@ var N = class extends T {
     :host {
       display: block;
       width: 100%;
+      height: 100%;
+      min-height: 0;
     }
 
     .chart {
@@ -1093,6 +1109,9 @@ var N = class extends T {
       border: var(--chart-inner-border, 1px solid var(--border-color, rgba(220, 20, 60, 0.1)));
       width: 100%;
       box-sizing: border-box;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
     }
     .chart-sunshine {
       background: var(--card-background-color, #fff);
@@ -1103,6 +1122,9 @@ var N = class extends T {
       border: var(--chart-inner-border, 1px solid var(--border-color, rgba(220, 20, 60, 0.1)));
       width: 100%;
       box-sizing: border-box;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
     }
 
     .chart-bars {
@@ -1267,6 +1289,8 @@ var qe = class extends T {
     :host {
       display: block;
       width: 100%;
+      height: 100%;
+      min-height: 0;
     }
 
     .chart {
@@ -1278,6 +1302,9 @@ var qe = class extends T {
       border: var(--chart-inner-border, 1px solid var(--border-color, rgba(220, 20, 60, 0.1)));
       width: 100%;
       box-sizing: border-box;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
     }
     .section-title {
       font-weight: bold;
@@ -1296,6 +1323,8 @@ var qe = class extends T {
       width: 100%;
       overflow: hidden;
       border-radius: 4px;
+      flex: 1;
+      min-height: 0;
     }
   `;
 	render() {
@@ -6785,6 +6814,8 @@ var $i = class extends Qi {
 		return s`
       :host {
         display: block;
+        height: 100%;
+        box-sizing: border-box;
         background: var(--ha-card-background, var(--card-background-color, #fff));
         border-radius: 16px;
         box-shadow: var(--ha-card-box-shadow, 0 4px 20px rgba(0, 0, 0, 0.1));
@@ -6805,6 +6836,14 @@ var $i = class extends Qi {
       }
       .card-content {
         padding: 0;
+        height: 100%;
+        display: flex;
+      }
+
+      forecast-temperature-chart {
+        display: block;
+        flex: 1;
+        min-height: 0;
       }
     `;
 	}
@@ -6931,6 +6970,8 @@ var ta = class extends Qi {
 		return s`
       :host {
         display: block;
+        height: 100%;
+        box-sizing: border-box;
         background: var(--ha-card-background, var(--card-background-color, #fff));
         border-radius: 16px;
         box-shadow: var(--ha-card-box-shadow, 0 4px 20px rgba(0, 0, 0, 0.1));
@@ -6951,6 +6992,14 @@ var ta = class extends Qi {
       }
       .card-content {
         padding: 0;
+        height: 100%;
+        display: flex;
+      }
+
+      precipitation-chart {
+        display: block;
+        flex: 1;
+        min-height: 0;
       }
     `;
 	}
@@ -7077,6 +7126,8 @@ var ra = class extends Qi {
 		return s`
       :host {
         display: block;
+        height: 100%;
+        box-sizing: border-box;
         background: var(--ha-card-background, var(--card-background-color, #fff));
         border-radius: 16px;
         box-shadow: var(--ha-card-box-shadow, 0 4px 20px rgba(0, 0, 0, 0.1));
@@ -7097,6 +7148,14 @@ var ra = class extends Qi {
       }
       .card-content {
         padding: 0;
+        height: 100%;
+        display: flex;
+      }
+
+      sunshine-chart {
+        display: block;
+        flex: 1;
+        min-height: 0;
       }
     `;
 	}
@@ -7228,6 +7287,8 @@ var aa = class extends Qi {
 		return s`
       :host {
         display: block;
+        height: 100%;
+        box-sizing: border-box;
         background: var(--ha-card-background, var(--card-background-color, #fff));
         border-radius: 16px;
         box-shadow: var(--ha-card-box-shadow, 0 4px 20px rgba(0, 0, 0, 0.1));
@@ -7248,6 +7309,14 @@ var aa = class extends Qi {
       }
       .card-content {
         padding: 0;
+        height: 100%;
+        display: flex;
+      }
+
+      wind-chart {
+        display: block;
+        flex: 1;
+        min-height: 0;
       }
     `;
 	}
