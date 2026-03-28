@@ -801,10 +801,11 @@ export class SwissWeatherCard extends LitElement {
         visibility,
         sunshineEntity
       )}
-      ${this.config.compact_mode === false &&
-      (this.config.show_temperature === true ||
-        this.config.show_precipitation === true ||
-        this.config.show_sunshine === true)
+      ${this.config.show_temperature === true ||
+      this.config.show_precipitation === true ||
+      this.config.show_sunshine === true ||
+      this.config.show_wind === true ||
+      this.config.show_forecast !== false
         ? html`
             <div class="section-title">
               <ha-icon icon="mdi:clock"></ha-icon>
@@ -895,14 +896,8 @@ export class SwissWeatherCard extends LitElement {
   }
 
   private _showDailyForecast(): TemplateResult {
-    return this.config.show_forecast !== false
-      ? html`
-          ${this.config.compact_mode === true && this.config.show_forecast === true
-            ? this._renderDailyForecastDiagram()
-            : html``}
-          ${this.config.compact_mode !== true ? this._renderDailyForecastChart() : html``}
-        `
-      : html``;
+    // show_forecast controls visibility; compact_mode only affects current weather layout
+    return this.config.show_forecast !== false ? this._renderDailyForecastDiagram() : html``;
   }
 
   // @property({ type: Array }) forecast: WeatherForecast[] = [];

@@ -4904,7 +4904,7 @@ var Z = class extends T {
       </div>
 
       ${this._renderCurrentWeatherSection(u, d, ee, f, p, c)}
-      ${this.config.compact_mode === !1 && (this.config.show_temperature === !0 || this.config.show_precipitation === !0 || this.config.show_sunshine === !0) ? S`
+      ${this.config.show_temperature === !0 || this.config.show_precipitation === !0 || this.config.show_sunshine === !0 || this.config.show_wind === !0 || this.config.show_forecast !== !1 ? S`
             <div class="section-title">
               <ha-icon icon="mdi:clock"></ha-icon>
               ${B("forecast_hours", { hours: te })}
@@ -4968,10 +4968,7 @@ var Z = class extends T {
       `;
 	}
 	_showDailyForecast() {
-		return this.config.show_forecast === !1 ? S`` : S`
-          ${this.config.compact_mode === !0 && this.config.show_forecast === !0 ? this._renderDailyForecastDiagram() : S``}
-          ${this.config.compact_mode === !0 ? S`` : this._renderDailyForecastChart()}
-        `;
+		return this.config.show_forecast === !1 ? S`` : this._renderDailyForecastDiagram();
 	}
 	_renderDailyForecastChart() {
 		return this._forecast.length > 0 && this._hourlyForecast.length > 0 ? S`<daily-forecast-chart
@@ -6749,7 +6746,6 @@ var $i = class extends Qi {
           sans-serif
         );
         color: var(--primary-text-color, #fff);
-        height: calc(var(--card-grid-rows, 3) * 64px - 8px);
         min-height: calc(var(--card-grid-rows, 3) * 64px - 8px);
       }
       .card-content {
@@ -7029,7 +7025,6 @@ var ra = class extends Qi {
           sans-serif
         );
         color: var(--primary-text-color, #fff);
-        height: calc(var(--card-grid-rows, 3) * 64px - 8px);
         min-height: calc(var(--card-grid-rows, 3) * 64px - 8px);
       }
       .card-content {
@@ -7177,7 +7172,6 @@ var aa = class extends Qi {
           sans-serif
         );
         color: var(--primary-text-color, #fff);
-        height: calc(var(--card-grid-rows, 3) * 64px - 8px);
         min-height: calc(var(--card-grid-rows, 3) * 64px - 8px);
       }
       .card-content {

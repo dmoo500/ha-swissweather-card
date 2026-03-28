@@ -38,7 +38,6 @@ export class TemperatureCard extends HourlyForecastBaseCard {
           sans-serif
         );
         color: var(--primary-text-color, #fff);
-        height: calc(var(--card-grid-rows, 3) * 64px - 8px);
         min-height: calc(var(--card-grid-rows, 3) * 64px - 8px);
       }
       .card-content {
