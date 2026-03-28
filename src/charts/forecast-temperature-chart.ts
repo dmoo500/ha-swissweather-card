@@ -132,7 +132,6 @@ export class ForecastTemperatureChart extends LitElement {
             </svg>`;
           })()}
         </div>
-        ${this.showHoursChartLabel(this.forecastHours)}
       </div>
     `;
   }

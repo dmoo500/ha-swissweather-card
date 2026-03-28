@@ -910,7 +910,6 @@ var We = class extends D {
             </svg>`;
 		})()}
         </div>
-        ${this.showHoursChartLabel(this.forecastHours)}
       </div>
     `;
 	}
@@ -1042,7 +1041,6 @@ var Ge = class extends D {
             </svg>`;
 		})()}
         </div>
-        ${this.showHoursChartLabel(this.forecastHours)}
       </div>
     `;
 	}
@@ -1303,7 +1301,6 @@ var Ke = class extends D {
             </svg>`;
 		})()}
         </div>
-        ${this.showHoursChartLabel(this.forecastHours)}
       </div>
     `;
 	}

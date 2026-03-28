@@ -163,7 +163,6 @@ export class WindChart extends LitElement {
             </svg>`;
           })()}
         </div>
-        ${this.showHoursChartLabel(this.forecastHours)}
       </div>
     `;
   }

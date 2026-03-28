@@ -183,7 +183,6 @@ export class PrecipitationChart extends LitElement {
             </svg>`;
           })()}
         </div>
-        ${this.showHoursChartLabel(this.forecastHours)}
       </div>
     `;
   }
