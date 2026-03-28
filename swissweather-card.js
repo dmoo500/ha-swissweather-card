@@ -1,5 +1,5 @@
 //#region package.json
-var e = "1.7.0-beta.26", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
+var e = "1.7.0-beta.27", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
 	constructor(e, t, n) {
 		if (this._$cssResult$ = !0, n !== r) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
 		this.cssText = e, this.t = t;
@@ -6767,7 +6767,7 @@ var $i = class extends Qi {
           sans-serif
         );
         color: var(--primary-text-color, #fff);
-        min-height: calc(var(--card-grid-rows, 2) * 64px - 8px);
+        min-height: calc(var(--card-grid-rows, 3) * 64px - 8px);
         --chart-inner-border: none;
         --chart-padding: 8px 8px 4px;
         --chart-margin-top: 0;
@@ -6795,20 +6795,20 @@ var $i = class extends Qi {
 		return Yi;
 	}
 	getCardSize() {
-		return this.config?.grid_options?.rows ?? 2;
+		return this.config?.grid_options?.rows ?? 3;
 	}
 	getGridOptions() {
 		return {
-			rows: this.config?.grid_options?.rows ?? 2,
+			rows: this.config?.grid_options?.rows ?? 3,
 			columns: this.config?.grid_options?.columns ?? 12,
 			min_columns: 6,
 			max_columns: 48,
-			min_rows: 2,
+			min_rows: 3,
 			max_rows: 6
 		};
 	}
 	getDefaultRows() {
-		return 2;
+		return 3;
 	}
 	render() {
 		if (this.setCardGridRows(), !li(this.hass, this.config.entity)) return S`<div class="card-content">Entity not found: ${this.config.entity}</div>`;
@@ -6913,7 +6913,7 @@ var ta = class extends Qi {
           sans-serif
         );
         color: var(--primary-text-color, #fff);
-        min-height: calc(var(--card-grid-rows, 2) * 64px - 8px);
+        min-height: calc(var(--card-grid-rows, 3) * 64px - 8px);
         --chart-inner-border: none;
         --chart-padding: 8px 8px 4px;
         --chart-margin-top: 0;
@@ -6941,20 +6941,20 @@ var ta = class extends Qi {
 		return Yi;
 	}
 	getCardSize() {
-		return this.config?.grid_options?.rows ?? 2;
+		return this.config?.grid_options?.rows ?? 3;
 	}
 	getGridOptions() {
 		return {
-			rows: this.config?.grid_options?.rows ?? 2,
+			rows: this.config?.grid_options?.rows ?? 3,
 			columns: this.config?.grid_options?.columns ?? 12,
 			min_columns: 6,
 			max_columns: 48,
-			min_rows: 2,
+			min_rows: 3,
 			max_rows: 6
 		};
 	}
 	getDefaultRows() {
-		return 2;
+		return 3;
 	}
 	render() {
 		if (this.setCardGridRows(), !li(this.hass, this.config.entity)) return S`<div class="card-content">Entity not found: ${this.config.entity}</div>`;
@@ -7210,7 +7210,7 @@ var aa = class extends Qi {
           sans-serif
         );
         color: var(--primary-text-color, #fff);
-        min-height: calc(var(--card-grid-rows, 2) * 64px - 8px);
+        min-height: calc(var(--card-grid-rows, 3) * 64px - 8px);
         --chart-inner-border: none;
         --chart-padding: 8px 8px 4px;
         --chart-margin-top: 0;
@@ -7238,20 +7238,20 @@ var aa = class extends Qi {
 		return Xi;
 	}
 	getCardSize() {
-		return this.config?.grid_options?.rows ?? 2;
+		return this.config?.grid_options?.rows ?? 3;
 	}
 	getGridOptions() {
 		return {
-			rows: this.config?.grid_options?.rows ?? 2,
+			rows: this.config?.grid_options?.rows ?? 3,
 			columns: this.config?.grid_options?.columns ?? 12,
 			min_columns: 6,
 			max_columns: 48,
-			min_rows: 2,
+			min_rows: 3,
 			max_rows: 6
 		};
 	}
 	getDefaultRows() {
-		return 2;
+		return 3;
 	}
 	render() {
 		if (this.setCardGridRows(), !this.hass || !this.config) return S``;
