@@ -70,6 +70,7 @@ export const getWeatherIcon = (
   if (!condition) {
     return getMDIIcon('mdi:weather-sunny', fontSize);
   }
+  const normalizedCondition = String(condition).trim().toLowerCase() as WeatherCondition;
 
   const mdiAsSVGMap: Record<WeatherCondition, TemplateResult> = {
     'clear-night': getMDIAsSVGIcon(mdiWeatherNight, fontSize),
@@ -129,8 +130,8 @@ export const getWeatherIcon = (
   };
 
   return iconType === 'mdi'
-    ? mdiMap[condition as WeatherCondition] || getMDIIcon('mdi:weather-sunny', fontSize)
+    ? mdiMap[normalizedCondition] || getMDIIcon('mdi:weather-sunny', fontSize)
     : iconType === 'mdiAsSVG'
-      ? mdiAsSVGMap[condition as WeatherCondition] || html`<img src="${sun}" />`
-      : svgMap[condition as WeatherCondition] || html`<img src="${sun}" />`;
+      ? mdiAsSVGMap[normalizedCondition] || html`<img src="${sun}" />`
+      : svgMap[normalizedCondition] || html`<img src="${sun}" />`;
 };

@@ -1,5 +1,5 @@
 //#region package.json
-var e = "1.7.1-beta.7", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
+var e = "1.7.1-beta.8", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
 	constructor(e, t, n) {
 		if (this._$cssResult$ = !0, n !== r) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
 		this.cssText = e, this.t = t;
@@ -4351,7 +4351,7 @@ var jr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewB
       style="font-size:${t}; width: ${t}; height: ${t}"
     />`, Z = (e, t) => e ? (t ||= "24px", E`<svg height=${t} width=${t} viewport="0 0 48 48"><path d="${e}" /></svg>`) : E`<svg height=${t} width=${t} viewport="0 0 48 48"><path d="${ii}" /></svg>`, si = (e, t, n, r) => {
 	if (!e) return X("mdi:weather-sunny", n);
-	let i = {
+	let i = String(e).trim().toLowerCase(), a = {
 		"clear-night": Z(Qr, n),
 		cloudy: Z(Kr, n),
 		fog: Z(qr, n),
@@ -4367,7 +4367,7 @@ var jr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewB
 		windy: Z(ai, n),
 		"windy-variant": Z(oi, n),
 		exceptional: Z(Yr, n)
-	}, a = {
+	}, o = {
 		"clear-night": X("mdi:weather-night", n),
 		cloudy: X("mdi:weather-cloudy", n),
 		fog: X("mdi:weather-fog", n),
@@ -4383,7 +4383,7 @@ var jr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewB
 		windy: X("mdi:weather-windy", n),
 		"windy-variant": X("mdi:weather-windy-variant", n),
 		exceptional: X("mdi:weather-hurricane", n)
-	}, o = {
+	}, s = {
 		"clear-night": T`<img src="${jr}" style="font-size:${n}" />`,
 		cloudy: T`<img src="${Mr}" style="font-size:${n}" />`,
 		fog: T`<img src="${Fr}" style="font-size:${n}" />`,
@@ -4403,7 +4403,7 @@ var jr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewB
 		"windy-variant": T`<img src="${Ur}" style="font-size:${n}" />`,
 		exceptional: T`<img src="${Hr}" style="font-size:${n}" />`
 	};
-	return t === "mdi" ? a[e] || X("mdi:weather-sunny", n) : t === "mdiAsSVG" ? i[e] || T`<img src="${"data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='26.75'%20x2='37.25'%20y1='22.91'%20y2='41.09'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='.45'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='1'%20stop-color='%23f59e0b'/%3e%3c/linearGradient%3e%3c/defs%3e%3ccircle%20cx='32'%20cy='32'%20r='10.5'%20fill='url(%23a)'%20stroke='%23f8af18'%20stroke-miterlimit='10'%20stroke-width='.5'/%3e%3cpath%20fill='none'%20stroke='%23fbbf24'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M32%2015.71V9.5m0%2045v-6.21m11.52-27.81l4.39-4.39M16.09%2047.91l4.39-4.39m0-23l-4.39-4.39m31.82%2031.78l-4.39-4.39M15.71%2032H9.5m45%200h-6.21'%3e%3canimateTransform%20attributeName='transform'%20dur='45s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2032%2032;%20360%2032%2032'/%3e%3c/path%3e%3c/svg%3e"}" />` : o[e] || T`<img src="${"data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='26.75'%20x2='37.25'%20y1='22.91'%20y2='41.09'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='.45'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='1'%20stop-color='%23f59e0b'/%3e%3c/linearGradient%3e%3c/defs%3e%3ccircle%20cx='32'%20cy='32'%20r='10.5'%20fill='url(%23a)'%20stroke='%23f8af18'%20stroke-miterlimit='10'%20stroke-width='.5'/%3e%3cpath%20fill='none'%20stroke='%23fbbf24'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M32%2015.71V9.5m0%2045v-6.21m11.52-27.81l4.39-4.39M16.09%2047.91l4.39-4.39m0-23l-4.39-4.39m31.82%2031.78l-4.39-4.39M15.71%2032H9.5m45%200h-6.21'%3e%3canimateTransform%20attributeName='transform'%20dur='45s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2032%2032;%20360%2032%2032'/%3e%3c/path%3e%3c/svg%3e"}" />`;
+	return t === "mdi" ? o[i] || X("mdi:weather-sunny", n) : t === "mdiAsSVG" ? a[i] || T`<img src="${"data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='26.75'%20x2='37.25'%20y1='22.91'%20y2='41.09'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='.45'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='1'%20stop-color='%23f59e0b'/%3e%3c/linearGradient%3e%3c/defs%3e%3ccircle%20cx='32'%20cy='32'%20r='10.5'%20fill='url(%23a)'%20stroke='%23f8af18'%20stroke-miterlimit='10'%20stroke-width='.5'/%3e%3cpath%20fill='none'%20stroke='%23fbbf24'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M32%2015.71V9.5m0%2045v-6.21m11.52-27.81l4.39-4.39M16.09%2047.91l4.39-4.39m0-23l-4.39-4.39m31.82%2031.78l-4.39-4.39M15.71%2032H9.5m45%200h-6.21'%3e%3canimateTransform%20attributeName='transform'%20dur='45s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2032%2032;%20360%2032%2032'/%3e%3c/path%3e%3c/svg%3e"}" />` : s[i] || T`<img src="${"data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='26.75'%20x2='37.25'%20y1='22.91'%20y2='41.09'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='.45'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='1'%20stop-color='%23f59e0b'/%3e%3c/linearGradient%3e%3c/defs%3e%3ccircle%20cx='32'%20cy='32'%20r='10.5'%20fill='url(%23a)'%20stroke='%23f8af18'%20stroke-miterlimit='10'%20stroke-width='.5'/%3e%3cpath%20fill='none'%20stroke='%23fbbf24'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M32%2015.71V9.5m0%2045v-6.21m11.52-27.81l4.39-4.39M16.09%2047.91l4.39-4.39m0-23l-4.39-4.39m31.82%2031.78l-4.39-4.39M15.71%2032H9.5m45%200h-6.21'%3e%3canimateTransform%20attributeName='transform'%20dur='45s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2032%2032;%20360%2032%2032'/%3e%3c/path%3e%3c/svg%3e"}" />`;
 }, ci = (e, t) => e?.states[t], li = (e, t) => {
 	let n = /* @__PURE__ */ new Date(), r = ci(e, t.entity), i = ci(e, t.sun_entity || "sun.sun"), a = null, o = null;
 	if (r && r.attributes && "sunrise" in r.attributes && "sunset" in r.attributes && r.attributes.sunrise && r.attributes.sunset) a = new Date(r.attributes.sunrise), o = new Date(r.attributes.sunset);
@@ -5503,26 +5503,33 @@ var _i = () => E`
   <use href="#lwThunderRumble"/>
 `, vi = (e, t, n) => {
 	if (!e) return T``;
-	let r = {
+	let r = String(e).trim().toLowerCase(), i = {
 		"clear-night": yi(n || 400),
 		cloudy: xi(n || 400),
 		fog: Si(n || 400),
 		hail: Ci(n || 400),
 		lightning: Di(n || 400),
 		"lightning-rainy": Oi(n || 400),
-		partlycloudy: t ? Mi(n || 400) : Ni(n || 400),
+		partlycloudy: t ? Pi(n || 400) : Fi(n || 400),
 		pouring: Ti(n || 400),
 		rainy: wi(n || 400),
-		snowy: ji(n || 400),
-		"snowy-rainy": Ai(n || 400),
+		snowy: Ni(n || 400),
+		"snowy-rainy": Mi(n || 400),
 		sunny: bi(),
 		windy: Ei(n || 400),
 		"windy-variant": Ei(n || 400),
-		exceptional: Pi(n || 400)
+		exceptional: Ii(n || 400)
 	};
-	return e ? r[e] : T``;
-}, yi = (e) => E`
+	return i[r] || i.cloudy;
+}, yi = (e) => {
+	let t = Math.max(14, Math.ceil(e / 36));
+	return E`
   <defs>
+    <linearGradient id="nightSkyGradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f1f3b" />
+      <stop offset="65%" stop-color="#12284a" />
+      <stop offset="100%" stop-color="#1f3d69" stop-opacity="0.75" />
+    </linearGradient>
     <linearGradient id="moonGradient" x1="21.92" x2="38.52" y1="18.75" y2="47.52" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#86c3db"/>
       <stop offset=".45" stop-color="#86c3db"/>
@@ -5535,9 +5542,8 @@ var _i = () => E`
       <stop offset="1" stop-color="#fccd34"/>
       <animateTransform attributeName="gradientTransform" dur="18s" repeatCount="indefinite" type="rotate" values="0 32 32; 360 32 32"/>
     </linearGradient>
-  <!-- star -->
   <g id="starIcon">
-    <path fill="url(#starGradient)" stroke="#fcd34d" stroke-linecap="round" stroke-linejoin="round" stroke-width=".5" d="M33 23l9.06-4.25a2.39 2.39 0 013.18 3.18L41 31a2.42 2.42 0 000 2l4.25 9.06a2.39 2.39 0 01-3.18 3.18L33 41a2.42 2.42 0 00-2 0l-9.06 4.25a2.39 2.39 0 01-3.18-3.18L23 33a2.42 2.42 0 000-2l-4.25-9.06a2.39 2.39 0 013.18-3.18L31 23a2.42 2.42 0 002 0z">
+    <path fill="url(#starGradient)" stroke="#fcd34d" stroke-linecap="round" stroke-linejoin="round" stroke-width=".5" d="M33 23l9.06-4.25a2.39 2.39 0 013.18 3.18L41 31a2.42 2.42 0 000 2l4.25 9.06a2.39 2.39 0 01-3.18 3.18L33 41a2.42 2.42 0 00-2 0l-9.06 4.25a2.39 2.39 0 01-3.18-3.18L23 33a2.42 2.42 0 000-2l-4.25-9.06a2.39 2.39 0 013.18-3.18L31 23a2.42 2.42 0 002 0z" opacity="0.9">
       <animate attributeName="opacity" dur="3s" repeatCount="indefinite" values="1; 0.4; 1"/>
       <animateTransform attributeName="transform" dur="18s" repeatCount="indefinite" type="rotate" values="360 32 32; 0 32 32"/>
     </path>
@@ -5549,16 +5555,19 @@ var _i = () => E`
       <animateTransform attributeName="transform" dur="10s" repeatCount="indefinite" type="rotate" values="-5 32 32; 15 32 32; -5 32 32"/>
     </path>
   </g>
+  <rect width="100%" height="100%" fill="url(#nightSkyGradient)" />
+
   <!-- stars -->
   <g>
-  ${Array.from({ length: Math.ceil(e / 100) }, (e, t) => t).map((e) => {
-	let t = Math.floor(Math.random() * 100), n = Math.floor(Math.random() * 10), r = (t - 50) / 5 + e * Math.floor(Math.random() * 25);
-	return E`
-    <use href="#starIcon" x="0" y="0" transform="translate(${e * 100 + n},${r}) scale(0.5)"/>
-    `;
-})}
+  ${Array.from({ length: t }, (e, t) => t).map((n) => E`
+      <g transform="translate(${Math.round(n / t * e + (Math.random() * 20 - 10))},${6 + n % 4 * 11 + Math.round(Math.random() * 8)}) scale(${(.16 + n % 3 * .08).toFixed(2)})" opacity="0.85">
+        <use href="#starIcon" x="0" y="0"/>
+        <animate attributeName="opacity" values="0.35;1;0.45;1;0.35" dur="${(2.8 + n % 5 * .75).toFixed(2)}s" repeatCount="indefinite" begin="${(n % 7 * -.4).toFixed(2)}s"/>
+      </g>
+    `)}
   </g>
-`, bi = () => E`
+`;
+}, bi = () => E`
   <defs>
     <linearGradient id="sunshineBlueGradient" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#4fc3f7" />
@@ -5628,31 +5637,46 @@ var _i = () => E`
   <!-- background -->
   <rect width="100%" height="80%" fill="url(#background)" />
   ${ki(e)}
-  `, Ci = (e) => E`
+  `, Ci = (e) => {
+	let t = Math.max(2, Math.ceil(e / 190)), n = e / t;
+	return E`
   <defs>
     <linearGradient id="hailGradient" x1="22.56" x2="39.2" y1="21.96" y2="50.8" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#f3f7fe"/>
       <stop offset=".45" stop-color="#f3f7fe"/>
       <stop offset="1" stop-color="#deeafb"/>
     </linearGradient>
-    <g id="hailIcon">
+    <g id="hailCloudIcon">
       <path fill="url(#hailGradient)" stroke="#e6effc" stroke-miterlimit="10" stroke-width=".5"
         d="M46.5 31.5h-.32a10.49 10.49 0 00-19.11-8 7 7 0 00-10.57 6 7.21 7.21 0 00.1 1.14A7.5 7.5 0 0018 45.5a4.19 4.19 0 00.5 0v0h28a7 7 0 000-14z"/>
-      <circle cx="24" cy="42" r="4" fill="#a8dadc"/>
-      <circle cx="40" cy="42" r="4" fill="#a8dadc"/>
-      <circle cx="32" cy="34" r="4" fill="#a8dadc"/>
     </g>
+    <radialGradient id="hailStoneGradient" cx="50%" cy="42%" r="56%">
+      <stop offset="0%" stop-color="#f0fbff" />
+      <stop offset="100%" stop-color="#b8d6e8" />
+    </radialGradient>
   </defs>
-  ${Array.from({ length: Math.ceil(e / 100) }, (e, t) => t).map((e) => {
-	let t = Math.floor(Math.random() * 100), n = Math.floor(Math.random() * 10), r = (t - 50) / 5 + e * Math.floor(Math.random() * 25);
-	return E`
-  <g>
-    <use href="#hailIcon" x="0" y="-10" width="80" height="40" transform="scale(2.2) translate(${e * 100 + n},${r})" opacity="0.9"/>
-    <animateTransform attributeName="transform" type="translate" values="0,0;20,0;0,0" dur="18s" repeatCount="indefinite"/>
-  </g>
+
+  ${Array.from({ length: t }, (e, t) => E`
+      <g transform="translate(${Math.round(t * n + n * .16)} ${Math.round(14 + t * 11 % 3 * 9)})">
+        <g>
+          <use href="#hailCloudIcon" x="0" y="0" width="80" height="40" transform="scale(${1.45 + t % 2 * .16})" opacity="0.93"/>
+          <animateTransform attributeName="transform" type="translate" values="0,0;14,0;0,0" dur="${16 + t % 3 * 3}s" repeatCount="indefinite"/>
+        </g>
+
+        ${Array.from({ length: 10 }, (e, n) => {
+		let r = 11 + n * 6.5 + (t + n) % 2 * 1.2, i = 53 + n % 3 * 1.7, a = 44 + n % 3 * 7, o = (n % 2 == 0 ? -4.2 : 4.2).toFixed(1), s = (1.05 + n % 4 * .2).toFixed(2), c = (-.14 * (t + n)).toFixed(2);
+		return E`
+            <circle cx="${r}" cy="${i}" r="${(1.6 + n % 3 * .44).toFixed(2)}" fill="url(#hailStoneGradient)" stroke="#9bbdd2" stroke-width="0.35" opacity="0">
+              <animate attributeName="cy" values="${i}; ${i + a}" dur="${s}s" repeatCount="indefinite" begin="${c}s"/>
+              <animate attributeName="cx" values="${r}; ${r + Number(o)}" dur="${s}s" repeatCount="indefinite" begin="${c}s"/>
+              <animate attributeName="opacity" values="0;0.95;0.95;0" dur="${s}s" repeatCount="indefinite" begin="${c}s"/>
+            </circle>
+          `;
+	})}
+      </g>
+    `)}
   `;
-})}
-  `, wi = (e) => E`
+}, wi = (e) => E`
   <defs>
     <linearGradient id="background" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#3580a39c" />
@@ -5716,13 +5740,13 @@ var Ti = (e) => E`
   </g>
   
   <!-- Rain drops -->
-  ${Array.from({ length: Math.ceil(e / 20) }, (e, t) => t).map((e) => {
-	let t = Math.floor(Math.random() * 100), n = Math.floor(Math.random() * 10), r = (t - 50) / 5 + e * Math.floor(Math.random() * 25), i = e * 20 + n;
+  ${Array.from({ length: Math.ceil(e / 12) }, (e, t) => t).map((e) => {
+	let t = Math.floor(Math.random() * 100), n = Math.floor(Math.random() * 10), r = (t - 50) / 5 + e * Math.floor(Math.random() * 25), i = e * 12 + n;
 	return E`
-    <line x1="${i}" y1="${r}" x2="${i}" y2="${r + 10}" stroke="url(#extremeRainDropGradient)" stroke-width="2" stroke-linecap="round">
-      <animate attributeName="y1" values="${r}; ${r + 20}" dur="0.5s" repeatCount="indefinite"/>
-      <animate attributeName="y2" values="${r + 10}; ${r + 30}" dur="0.5s" repeatCount="indefinite"/>
-      <animate attributeName="opacity" values="1; 0" dur="0.5s" repeatCount="indefinite"/>
+    <line x1="${i}" y1="${r}" x2="${i + 1.6}" y2="${r + 14}" stroke="url(#extremeRainDropGradient)" stroke-width="2.2" stroke-linecap="round">
+      <animate attributeName="y1" values="${r}; ${r + 28}" dur="0.42s" repeatCount="indefinite"/>
+      <animate attributeName="y2" values="${r + 14}; ${r + 42}" dur="0.42s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0;1;1;0" dur="0.42s" repeatCount="indefinite"/>
     </line>
     `;
 })}
@@ -5790,7 +5814,8 @@ var Ti = (e) => E`
   <!-- background -->
   <rect width="100%" height="100%" fill="url(#background)" />
  
-   ${ki(e)}
+  ${ki(e)}
+  ${Ai(e, !1)}
    
   <!-- Lightning flash effect that illuminates the entire background (full-size overlay) -->
   ${_i()}
@@ -5830,22 +5855,58 @@ var Ti = (e) => E`
   </defs>
 
   ${ki(e)}
+  ${ji(e, .72, 1.4)}
+  ${Ai(e, !0)}
   
   <!-- Lightning flash effect for rainy thunderstorms -->
   ${_i()}
-  `, ki = (e) => E`
-${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
-	let t = Math.floor(Math.random() * 100), n = Math.floor(Math.random() * 10), r = (t - 50) / 5 + e * Math.floor(Math.random() * 25), i = e * 100 + n, a = Math.floor(Math.random() * 2) + 1, o = 1 + Math.random() * 1, s = 44 + Math.floor(Math.random() * 90);
+  `, ki = (e) => {
+	let t = Math.max(4, Math.ceil(e / 120));
 	return E`
+${Array.from({ length: t }, (e, t) => t).map((n) => {
+		let r = 6 + n % 3 * 16 + Math.floor(Math.random() * 10), i = e + 220, a = Math.round(n / t * i - 110 + (Math.random() * 28 - 14)), o = (1 + Math.random() * 1.25).toFixed(2), s = (.68 + Math.random() * .22).toFixed(2), c = 30 + Math.floor(Math.random() * 26), l = (-Math.random() * c).toFixed(2), u = ((Math.random() * 10 - 5) * .6).toFixed(1);
+		return E`
     <g>
-      <use href="#icon" x="${i}" y="${r}" width="80" height="40" transform="scale(${a})" opacity="0">
-        <animate attributeName="opacity" values="0;${o};${o};0" dur="${s}s" repeatCount="indefinite"/>
+      <use href="#icon" x="${a}" y="${r}" width="80" height="40" transform="scale(${o})" opacity="${s}">
+        <animate attributeName="opacity" values="${s};${(Number(s) * .82).toFixed(2)};${s}" dur="${c}s" repeatCount="indefinite" begin="${l}s"/>
       </use>
-      <animateTransform attributeName="transform" type="translate" values="-150,20;450,20" dur="${s}s" repeatCount="indefinite"/>
+      <animateTransform attributeName="transform" type="translate" values="-170,0;${e + 140},${u};-170,0" dur="${c}s" repeatCount="indefinite" begin="${l}s"/>
     </g>
     `;
+	})}
+  `;
+}, Ai = (e, t) => E`
+    <g>
+      ${[
+	.22,
+	.52,
+	.8
+].map((n, r) => {
+	let i = Math.round(e * n), a = 18 + r % 2 * 6, o = t ? 2.6 : 3.1, s = (-.55 * r).toFixed(2);
+	return E`
+          <path d="M${i} ${a} L${i - 10} ${a + 30} L${i + 1} ${a + 30} L${i - 13} ${a + 66} L${i + 16} ${a + 28} L${i + 3} ${a + 28} Z" fill="#ffe27a" stroke="#f7b733" stroke-width="1" opacity="0">
+            <animate attributeName="opacity" values="0;0;1;0;0.85;0" dur="${o}s" repeatCount="indefinite" begin="${s}s"/>
+          </path>
+        `;
 })}
-  `, Ai = (e) => {
+    </g>
+  `, ji = (e, t = .8, n = 1) => {
+	let r = Math.max(20, Math.ceil(e / 18 * n));
+	return E`
+    <g>
+      ${Array.from({ length: r }, (n, i) => {
+		let a = Math.round(i / r * e + (i % 3 - 1) * 3), o = Math.round(20 + i % 8 * 8), s = (i % 11 * -.08).toFixed(2), c = (t + i % 4 * .07).toFixed(2);
+		return E`
+          <line x1="${a}" y1="${o}" x2="${a + 1.5}" y2="${o + 12}" stroke="#7eb7ff" stroke-width="1.6" stroke-linecap="round" opacity="0">
+            <animate attributeName="y1" values="${o};${o + 46}" dur="${c}s" repeatCount="indefinite" begin="${s}s"/>
+            <animate attributeName="y2" values="${o + 12};${o + 58}" dur="${c}s" repeatCount="indefinite" begin="${s}s"/>
+            <animate attributeName="opacity" values="0;0.9;0.9;0" dur="${c}s" repeatCount="indefinite" begin="${s}s"/>
+          </line>
+        `;
+	})}
+    </g>
+  `;
+}, Mi = (e) => {
 	let t = Math.max(2, Math.ceil(e / 190)), n = e / t;
 	return E`
   <defs>
@@ -5912,7 +5973,7 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
       </g>
     `)}
   `;
-}, ji = (e) => {
+}, Ni = (e) => {
 	let t = Math.max(2, Math.ceil(e / 190)), n = e / t;
 	return E`
   <defs>
@@ -5968,7 +6029,7 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
       </g>
     `)}
   `;
-}, Mi = (e) => E`
+}, Pi = (e) => E`
   <defs>
     <linearGradient id="sunshineBlueGradient" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#4fc3f7" />
@@ -5983,11 +6044,7 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
       <stop offset="0" stop-color="#fbbf24"/>
       <stop offset=".45" stop-color="#fbbf24"/>
       <stop offset="1" stop-color="#f59e0b"/>
-    </linearGradient
-    <g id="cloudIcon">
-      <path fill="url(#partlyCloudyDayGradient)" stroke="#e6effc" stroke-miterlimit="10" stroke-width=".5"
-        d="M46.5 31.5h-.32a10.49 10.49 0 00-19.11-8 7 7 0 00-10.57 6 7.21 7.21 0 00.1 1.14A7.5 7.5 0 0018 45.5a4.19 4.19 0 00.5 0v0h28a7 7 0 000-14z"/>
-    </g>
+    </linearGradient>
     <g id="icon">
       <path fill="url(#partlyCloudyDayGradient)" stroke="#e6effc" stroke-miterlimit="10" stroke-width=".5"
         d="M46.5 31.5h-.32a10.49 10.49 0 00-19.11-8 7 7 0 00-10.57 6 7.21 7.21 0 00.1 1.14A7.5 7.5 0 0018 45.5a4.19 4.19 0 00.5 0v0h28a7 7 0 000-14z"/>
@@ -6003,10 +6060,11 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
   <rect width="100%" height="100%" fill="url(#sunshineBlueGradient)" />
   <!-- Sun -->
   <g>
-    <use href="#sunIcon" x="200" y="50" width="100" height="100" opacity="0.9"/>
+    <use href="#sunIcon" x="${Math.round(e * .58)}" y="10" width="94" height="94" opacity="0.9"/>
+    <animateTransform attributeName="transform" type="translate" values="0,0;4,0;0,0" dur="20s" repeatCount="indefinite"/>
   </g>
-  ${ki(e)}
-  `, Ni = (e) => E`
+  ${ki(Math.round(e * .82))}
+  `, Fi = (e) => E`
   <defs>
     <linearGradient id="partlyCloudyNightGradient" x1="22.56" x2="39.2" y1="21.96" y2="50.8" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#f3f7fe"/>
@@ -6027,8 +6085,12 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
     <use href="#moonIcon" x="200" y="50" width="100" height="100" opacity="0.9"/>
   </g>
   ${ki(e)}
-  `, Pi = (e) => E`
+  `, Ii = (e) => E`
   <defs>
+    <linearGradient id="hurricaneBackground" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4c5f73"/>
+      <stop offset="100%" stop-color="#394b5e" stop-opacity="0.2"/>
+    </linearGradient>
     <linearGradient id="hurricaneGradient" x1="22.56" x2="39.2" y1="21.96" y2="50.8" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#f3f7fe"/>
       <stop offset=".45" stop-color="#f3f7fe"/>
@@ -6037,13 +6099,14 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
     <g id="icon">
       <path fill="url(#hurricaneGradient)" stroke="#e6effc" stroke-miterlimit="10" stroke-width=".5"
         d="M46.5 31.5h-.32a10.49 10.49 0 00-19.11-8 7 7 0 00-10.57 6 7.21 7.21 0 00.1 1.14A7.5 7.5 0 0018 45.5a4.19 4.19 0 00.5 0v0h28a7 7 0 000-14z"/>
-      <circle cx="32" cy="36" r="6" fill="#f87171" stroke="#b91c1c" stroke-width="1"/>
-      <path fill="#f87171" stroke="#b91c1c" stroke-width="1" d="M32 30a6 6 0 016 6h-6V30zM32 42a6 6 0 01-6-6h6v6zM26 36a6 6 0 016-6v6H26zM38 36a6 6 0 01-6 6v-6h6z"/>
+      <circle cx="32" cy="36" r="4.8" fill="#f87171" stroke="#b91c1c" stroke-width="0.9"/>
+      <path fill="#f87171" stroke="#b91c1c" stroke-width="0.9" d="M32 31a5 5 0 015 5h-5V31zM32 41a5 5 0 01-5-5h5v5zM27 36a5 5 0 015-5v5h-5zM37 36a5 5 0 01-5 5v-5h5z"/>
     </g>
   </defs>
-  
+
+  <rect width="100%" height="100%" fill="url(#hurricaneBackground)" />
   ${ki(e)}
-  `, Fi = `${en}-animated-background-card`, Ii = `${Fi}-editor`, Li = [
+  `, Li = `${en}-animated-background-card`, Ri = `${Li}-editor`, zi = [
 	{
 		name: "entity",
 		required: !0,
@@ -6226,9 +6289,9 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
 N([A({ type: Array }), M("design:type", Array)], $.prototype, "hourlyForecast", void 0), N([A({ type: Boolean }), M("design:type", Object)], $.prototype, "forecastLoading", void 0), N([A({ type: Boolean }), M("design:type", Object)], $.prototype, "show_forecast", void 0), N([A({ type: Object }), M("design:type", Object)], $.prototype, "config", void 0), N([A({ type: Function }), M("design:type", Function)], $.prototype, "_t", void 0), N([A({ type: Function }), M("design:type", Function)], $.prototype, "getWeatherIcon", void 0), N([A({ type: Boolean }), M("design:type", Boolean)], $.prototype, "compact", void 0), N([A({ type: Number }), M("design:type", Number)], $.prototype, "maxHours", void 0), N([A({ type: Boolean }), M("design:type", Boolean)], $.prototype, "alignRight", void 0), $ = N([k("hourly-forecast-chart")], $);
 //#endregion
 //#region src/cards/animated-background/swissweather-bg-card.ts
-var Ri;
+var Bi;
 I({ loader: (e) => H[e] }), console.log("🎯 About to apply @customElement decorator to SwissweatherCard (BG)"), console.log("🎯 customElements registry available:", !!customElements);
-var zi = class extends O {
+var Vi = class extends O {
 	hass;
 	config;
 	_tempEl;
@@ -6939,15 +7002,15 @@ var zi = class extends O {
 	}
 	static getStubConfig() {
 		return {
-			type: `custom:${Fi}`,
+			type: `custom:${Li}`,
 			entity: ""
 		};
 	}
 	static getConfigElement() {
-		return document.createElement(Ii);
+		return document.createElement(Ri);
 	}
 	static getConfigSchema() {
-		return Li;
+		return zi;
 	}
 	updated(e) {
 		if (super.updated(e), this.hass && this.config?.entity) {
@@ -7162,8 +7225,8 @@ var zi = class extends O {
 };
 //#endregion
 //#region src/cards/animated-background/swissweather-bg-card-editor.ts
-N([A({ attribute: !1 }), M("design:type", Object)], zi.prototype, "hass", void 0), N([A({ attribute: !1 }), M("design:type", Object)], zi.prototype, "config", void 0), N([He(".temperature"), M("design:type", typeof (Ri = typeof HTMLElement < "u" && HTMLElement) == "function" ? Ri : Object)], zi.prototype, "_tempEl", void 0), N([j(), M("design:type", Array)], zi.prototype, "_forecast", void 0), N([j(), M("design:type", Array)], zi.prototype, "_hourly", void 0), zi = N([k(Fi)], zi), console.log("✅ SwissWeatherCard (animated Background) fully loaded and registered"), I({ loader: (e) => H[e] });
-var Bi = class extends O {
+N([A({ attribute: !1 }), M("design:type", Object)], Vi.prototype, "hass", void 0), N([A({ attribute: !1 }), M("design:type", Object)], Vi.prototype, "config", void 0), N([He(".temperature"), M("design:type", typeof (Bi = typeof HTMLElement < "u" && HTMLElement) == "function" ? Bi : Object)], Vi.prototype, "_tempEl", void 0), N([j(), M("design:type", Array)], Vi.prototype, "_forecast", void 0), N([j(), M("design:type", Array)], Vi.prototype, "_hourly", void 0), Vi = N([k(Li)], Vi), console.log("✅ SwissWeatherCard (animated Background) fully loaded and registered"), I({ loader: (e) => H[e] });
+var Hi = class extends O {
 	hass;
 	lovelace;
 	_config;
@@ -7320,7 +7383,7 @@ var Bi = class extends O {
 			show_day_temps: typeof this._config?.show_day_temps == "boolean" ? this._config.show_day_temps : void 0,
 			temperature_font_size: typeof this._config?.temperature_font_size == "number" ? this._config.temperature_font_size : void 0,
 			photo_mode: typeof this._config?.photo_mode == "boolean" ? this._config.photo_mode : void 0
-		}, t = Li.find((e) => e.name === "forecast_mode"), n = t ? {
+		}, t = zi.find((e) => e.name === "forecast_mode"), n = t ? {
 			...t,
 			selector: {
 				...t.selector,
@@ -7358,9 +7421,9 @@ var Bi = class extends O {
             .hass=${this.hass}
             .data=${e}
             .schema=${[
-			Li.find((e) => e.name === "entity"),
-			Li.find((e) => e.name === "sun_entity"),
-			Li.find((e) => e.name === "temperature_font_size")
+			zi.find((e) => e.name === "entity"),
+			zi.find((e) => e.name === "sun_entity"),
+			zi.find((e) => e.name === "temperature_font_size")
 		].filter(Boolean)}
             .computeLabel=${this._computeLabel}
             .computeHelper=${this._computeHelper}
@@ -7376,9 +7439,9 @@ var Bi = class extends O {
             .data=${e}
             .schema=${[
 			n,
-			Li.find((e) => e.name === "show_day_temps"),
-			Li.find((e) => e.name === "show_sun_times"),
-			Li.find((e) => e.name === "photo_mode")
+			zi.find((e) => e.name === "show_day_temps"),
+			zi.find((e) => e.name === "show_sun_times"),
+			zi.find((e) => e.name === "photo_mode")
 		].filter(Boolean)}
             .computeLabel=${this._computeLabel}
             .computeHelper=${this._computeHelper}
@@ -7408,20 +7471,20 @@ var Bi = class extends O {
 	_computeHelper = (e) => e.description ? R(e.description) : "";
 	_renderConfigPreview() {
 		let e = { ...this._config };
-		return e.type ||= `custom:${Fi}`, Object.keys(e).forEach((t) => {
+		return e.type ||= `custom:${Li}`, Object.keys(e).forEach((t) => {
 			(e[t] === void 0 || e[t] === "") && delete e[t];
 		}), Object.entries(e).map(([e, t]) => typeof t == "string" ? `${e}: "${t}"` : `${e}: ${t}`).join("\n");
 	}
 	_valueChanged(e) {
 		if (this._config ||= {
-			type: `custom:${Fi}`,
+			type: `custom:${Li}`,
 			entity: ""
 		}, e.type === "value-changed") {
 			let t = {}, { ...n } = e.detail.value || {}, r = {
 				...this._config,
 				...n,
 				...t,
-				type: `custom:${Fi}`
+				type: `custom:${Li}`
 			};
 			delete r.show_forecast, Object.keys(r).forEach((e) => {
 				(r[e] === "" || r[e] === void 0) && delete r[e];
@@ -7429,10 +7492,10 @@ var Bi = class extends O {
 		}
 	}
 };
-N([A({ attribute: !1 }), M("design:type", Object)], Bi.prototype, "hass", void 0), N([A({ attribute: !1 }), M("design:type", Object)], Bi.prototype, "lovelace", void 0), N([A({ attribute: !1 }), M("design:type", Object)], Bi.prototype, "_config", void 0), Bi = N([k(Ii), M("design:paramtypes", [])], Bi);
+N([A({ attribute: !1 }), M("design:type", Object)], Hi.prototype, "hass", void 0), N([A({ attribute: !1 }), M("design:type", Object)], Hi.prototype, "lovelace", void 0), N([A({ attribute: !1 }), M("design:type", Object)], Hi.prototype, "_config", void 0), Hi = N([k(Ri), M("design:paramtypes", [])], Hi);
 //#endregion
 //#region src/cards/hourly-charts/const.ts
-var Vi = `${en}-temperature-card`, Hi = `${Vi}-editor`, Ui = `${en}-precipitation-card`, Wi = `${Ui}-editor`, Gi = `${en}-sunshine-card`, Ki = `${Gi}-editor`, qi = `${en}-wind-card`, Ji = `${qi}-editor`, Yi = [{
+var Ui = `${en}-temperature-card`, Wi = `${Ui}-editor`, Gi = `${en}-precipitation-card`, Ki = `${Gi}-editor`, qi = `${en}-sunshine-card`, Ji = `${qi}-editor`, Yi = `${en}-wind-card`, Xi = `${Yi}-editor`, Zi = [{
 	name: "entity",
 	required: !0,
 	selector: { entity: { domain: "weather" } },
@@ -7447,7 +7510,7 @@ var Vi = `${en}-temperature-card`, Hi = `${Vi}-editor`, Ui = `${en}-precipitatio
 		mode: "box"
 	} },
 	description: "config.descr.forecast_hours"
-}], Xi = [{
+}], Qi = [{
 	name: "entity",
 	required: !0,
 	selector: { entity: { domain: "weather" } },
@@ -7462,7 +7525,7 @@ var Vi = `${en}-temperature-card`, Hi = `${Vi}-editor`, Ui = `${en}-precipitatio
 		mode: "box"
 	} },
 	description: "config.descr.forecast_hours"
-}], Zi = [
+}], $i = [
 	{
 		name: "entity",
 		required: !0,
@@ -7492,7 +7555,7 @@ var Vi = `${en}-temperature-card`, Hi = `${Vi}-editor`, Ui = `${en}-precipitatio
 		selector: { entity: { domain: "sensor" } },
 		description: "config.descr.sunshine_entity"
 	}
-], Qi = class extends O {
+], ea = class extends O {
 	hass;
 	config;
 	_hourlyForecast = [];
@@ -7539,8 +7602,8 @@ var Vi = `${en}-temperature-card`, Hi = `${Vi}-editor`, Ui = `${en}-precipitatio
 };
 //#endregion
 //#region src/cards/hourly-charts/temperature-card.ts
-N([A({ attribute: !1 }), M("design:type", Object)], Qi.prototype, "hass", void 0), N([A({ attribute: !1 }), M("design:type", Object)], Qi.prototype, "config", void 0), N([j(), M("design:type", Array)], Qi.prototype, "_hourlyForecast", void 0), N([j(), M("design:type", Object)], Qi.prototype, "_forecastLoading", void 0), I({ loader: (e) => H[e] });
-var $i = class extends Qi {
+N([A({ attribute: !1 }), M("design:type", Object)], ea.prototype, "hass", void 0), N([A({ attribute: !1 }), M("design:type", Object)], ea.prototype, "config", void 0), N([j(), M("design:type", Array)], ea.prototype, "_hourlyForecast", void 0), N([j(), M("design:type", Object)], ea.prototype, "_forecastLoading", void 0), I({ loader: (e) => H[e] });
+var ta = class extends ea {
 	static get styles() {
 		return s`
       :host {
@@ -7584,15 +7647,15 @@ var $i = class extends Qi {
 	}
 	static getStubConfig() {
 		return {
-			type: `custom:${Vi}`,
+			type: `custom:${Ui}`,
 			entity: ""
 		};
 	}
 	static getConfigElement() {
-		return document.createElement(Hi);
+		return document.createElement(Wi);
 	}
 	static getConfigSchema() {
-		return Yi;
+		return Zi;
 	}
 	getCardSize() {
 		return this.config?.grid_options?.rows ?? 3;
@@ -7629,8 +7692,8 @@ var $i = class extends Qi {
 };
 //#endregion
 //#region src/cards/hourly-charts/temperature-card-editor.ts
-$i = N([k(Vi)], $i), I({ loader: (e) => H[e] });
-var ea = class extends O {
+ta = N([k(Ui)], ta), I({ loader: (e) => H[e] });
+var na = class extends O {
 	hass;
 	_config;
 	setConfig(e) {
@@ -7672,7 +7735,7 @@ var ea = class extends O {
         <ha-form
           .hass=${this.hass}
           .data=${e}
-          .schema=${Yi}
+          .schema=${Zi}
           .computeLabel=${(e) => ({
 			entity: R("config.entity"),
 			forecast_hours: R("config.forecast_hours") ?? "Forecast hours"
@@ -7684,7 +7747,7 @@ var ea = class extends O {
 	}
 	_valueChanged(e) {
 		this._config ||= {
-			type: `custom:${Vi}`,
+			type: `custom:${Ui}`,
 			entity: ""
 		};
 		let t = {
@@ -7696,8 +7759,8 @@ var ea = class extends O {
 };
 //#endregion
 //#region src/cards/hourly-charts/precipitation-card.ts
-N([A({ attribute: !1 }), M("design:type", Object)], ea.prototype, "hass", void 0), N([A({ attribute: !1 }), M("design:type", Object)], ea.prototype, "_config", void 0), ea = N([k(Hi)], ea), I({ loader: (e) => H[e] });
-var ta = class extends Qi {
+N([A({ attribute: !1 }), M("design:type", Object)], na.prototype, "hass", void 0), N([A({ attribute: !1 }), M("design:type", Object)], na.prototype, "_config", void 0), na = N([k(Wi)], na), I({ loader: (e) => H[e] });
+var ra = class extends ea {
 	static get styles() {
 		return s`
       :host {
@@ -7741,15 +7804,15 @@ var ta = class extends Qi {
 	}
 	static getStubConfig() {
 		return {
-			type: `custom:${Ui}`,
+			type: `custom:${Gi}`,
 			entity: ""
 		};
 	}
 	static getConfigElement() {
-		return document.createElement(Wi);
+		return document.createElement(Ki);
 	}
 	static getConfigSchema() {
-		return Yi;
+		return Zi;
 	}
 	getCardSize() {
 		return this.config?.grid_options?.rows ?? 3;
@@ -7786,8 +7849,8 @@ var ta = class extends Qi {
 };
 //#endregion
 //#region src/cards/hourly-charts/precipitation-card-editor.ts
-ta = N([k(Ui)], ta), I({ loader: (e) => H[e] });
-var na = class extends O {
+ra = N([k(Gi)], ra), I({ loader: (e) => H[e] });
+var ia = class extends O {
 	hass;
 	_config;
 	setConfig(e) {
@@ -7829,7 +7892,7 @@ var na = class extends O {
         <ha-form
           .hass=${this.hass}
           .data=${e}
-          .schema=${Yi}
+          .schema=${Zi}
           .computeLabel=${(e) => ({
 			entity: R("config.entity"),
 			forecast_hours: R("config.forecast_hours") ?? "Forecast hours"
@@ -7841,7 +7904,7 @@ var na = class extends O {
 	}
 	_valueChanged(e) {
 		this._config ||= {
-			type: `custom:${Ui}`,
+			type: `custom:${Gi}`,
 			entity: ""
 		};
 		let t = {
@@ -7853,8 +7916,8 @@ var na = class extends O {
 };
 //#endregion
 //#region src/cards/hourly-charts/sunshine-card.ts
-N([A({ attribute: !1 }), M("design:type", Object)], na.prototype, "hass", void 0), N([A({ attribute: !1 }), M("design:type", Object)], na.prototype, "_config", void 0), na = N([k(Wi)], na), I({ loader: (e) => H[e] });
-var ra = class extends Qi {
+N([A({ attribute: !1 }), M("design:type", Object)], ia.prototype, "hass", void 0), N([A({ attribute: !1 }), M("design:type", Object)], ia.prototype, "_config", void 0), ia = N([k(Ki)], ia), I({ loader: (e) => H[e] });
+var aa = class extends ea {
 	static get styles() {
 		return s`
       :host {
@@ -7898,15 +7961,15 @@ var ra = class extends Qi {
 	}
 	static getStubConfig() {
 		return {
-			type: `custom:${Gi}`,
+			type: `custom:${qi}`,
 			entity: ""
 		};
 	}
 	static getConfigElement() {
-		return document.createElement(Ki);
+		return document.createElement(Ji);
 	}
 	static getConfigSchema() {
-		return Zi;
+		return $i;
 	}
 	getCardSize() {
 		return this.config?.grid_options?.rows ?? 3;
@@ -7944,8 +8007,8 @@ var ra = class extends Qi {
 };
 //#endregion
 //#region src/cards/hourly-charts/sunshine-card-editor.ts
-ra = N([k(Gi)], ra), I({ loader: (e) => H[e] });
-var ia = class extends O {
+aa = N([k(qi)], aa), I({ loader: (e) => H[e] });
+var oa = class extends O {
 	hass;
 	_config;
 	setConfig(e) {
@@ -7989,7 +8052,7 @@ var ia = class extends O {
         <ha-form
           .hass=${this.hass}
           .data=${e}
-          .schema=${Zi}
+          .schema=${$i}
           .computeLabel=${(e) => ({
 			entity: R("config.entity"),
 			forecast_hours: R("config.forecast_hours") ?? "Forecast hours",
@@ -8003,7 +8066,7 @@ var ia = class extends O {
 	}
 	_valueChanged(e) {
 		this._config ||= {
-			type: `custom:${Gi}`,
+			type: `custom:${qi}`,
 			entity: ""
 		};
 		let t = {
@@ -8015,8 +8078,8 @@ var ia = class extends O {
 };
 //#endregion
 //#region src/cards/hourly-charts/wind-card.ts
-N([A({ attribute: !1 }), M("design:type", Object)], ia.prototype, "hass", void 0), N([A({ attribute: !1 }), M("design:type", Object)], ia.prototype, "_config", void 0), ia = N([k(Ki)], ia), I({ loader: (e) => H[e] });
-var aa = class extends Qi {
+N([A({ attribute: !1 }), M("design:type", Object)], oa.prototype, "hass", void 0), N([A({ attribute: !1 }), M("design:type", Object)], oa.prototype, "_config", void 0), oa = N([k(Ji)], oa), I({ loader: (e) => H[e] });
+var sa = class extends ea {
 	static get styles() {
 		return s`
       :host {
@@ -8060,15 +8123,15 @@ var aa = class extends Qi {
 	}
 	static getStubConfig() {
 		return {
-			type: `custom:${qi}`,
+			type: `custom:${Yi}`,
 			entity: ""
 		};
 	}
 	static getConfigElement() {
-		return document.createElement(Ji);
+		return document.createElement(Xi);
 	}
 	static getConfigSchema() {
-		return Xi;
+		return Qi;
 	}
 	getCardSize() {
 		return this.config?.grid_options?.rows ?? 3;
@@ -8103,8 +8166,8 @@ var aa = class extends Qi {
 };
 //#endregion
 //#region src/cards/hourly-charts/wind-card-editor.ts
-aa = N([k(qi)], aa), I({ loader: (e) => H[e] });
-var oa = class extends O {
+sa = N([k(Yi)], sa), I({ loader: (e) => H[e] });
+var ca = class extends O {
 	hass;
 	_config;
 	setConfig(e) {
@@ -8146,7 +8209,7 @@ var oa = class extends O {
         <ha-form
           .hass=${this.hass}
           .data=${e}
-          .schema=${Xi}
+          .schema=${Qi}
           .computeLabel=${(e) => ({
 			entity: R("config.entity"),
 			forecast_hours: R("config.forecast_hours") ?? "Forecast hours"
@@ -8158,7 +8221,7 @@ var oa = class extends O {
 	}
 	_valueChanged(e) {
 		this._config ||= {
-			type: `custom:${qi}`,
+			type: `custom:${Yi}`,
 			entity: ""
 		};
 		let t = {
@@ -8168,7 +8231,7 @@ var oa = class extends O {
 		$t(this, "config-changed", { config: t });
 	}
 };
-N([A({ attribute: !1 }), M("design:type", Object)], oa.prototype, "hass", void 0), N([A({ attribute: !1 }), M("design:type", Object)], oa.prototype, "_config", void 0), oa = N([k(Ji)], oa), console.log("📦 SwissWeather Card TypeScript file imported"), setTimeout(() => {
+N([A({ attribute: !1 }), M("design:type", Object)], ca.prototype, "hass", void 0), N([A({ attribute: !1 }), M("design:type", Object)], ca.prototype, "_config", void 0), ca = N([k(Xi)], ca), console.log("📦 SwissWeather Card TypeScript file imported"), setTimeout(() => {
 	let e = customElements.get("swissweather-card"), t = customElements.get("swissweather-card-editor");
 	console.log("🔍 SwissWeather Card registration status:", e ? "SUCCESS ✅" : "FAILED ❌"), console.log("🔍 SwissWeather Editor registration status:", t ? "SUCCESS ✅" : "FAILED ❌"), e ? (console.log("🔍 Element constructor:", e), console.log("🔍 Element prototype:", e.prototype)) : (console.error("❌ Custom element \"swissweather-card\" was not registered!"), console.log("🔍 Checking custom elements registry..."));
 }, 100), console.log("📦 SwissWeather Card module loading started..."), console.log("📦 Browser support check:", {
@@ -8183,27 +8246,27 @@ N([A({ attribute: !1 }), M("design:type", Object)], oa.prototype, "hass", void 0
 	name: "SwissWeather Daily Forecast Diagram Card",
 	description: "A card to show daily weather forecast as diagram"
 }), ui({
-	type: Fi,
+	type: Li,
 	name: "SwissWeather Animated Background Card (Experimental) Editor",
 	description: "the SwissWeather Animated Background Card (Experimental)"
 }), ui({
-	type: Vi,
+	type: Ui,
 	name: "SwissWeather Temperature Chart Card",
 	description: "Hourly temperature forecast chart as standalone card"
 }), ui({
-	type: Ui,
+	type: Gi,
 	name: "SwissWeather Precipitation Chart Card",
 	description: "Hourly precipitation forecast chart as standalone card"
 }), ui({
-	type: Gi,
+	type: qi,
 	name: "SwissWeather Sunshine Chart Card",
 	description: "Hourly sunshine duration chart as standalone card"
 }), ui({
-	type: qi,
+	type: Yi,
 	name: "SwissWeather Wind Chart Card",
 	description: "Hourly wind speed & direction chart as standalone card"
 }), console.log(`%c 📦 SwissWeather Card module loading completed - version: ${e}`, "color: #ef5350; font-weight: 700;");
 //#endregion
-export { P as DailyForecastChart, Ke as DailyForecastDiagram, gi as ForecastDiagramCard, hi as ForecastDiagramCardEditor, Ue as ForecastTemperatureChart, ta as PrecipitationCard, na as PrecipitationCardEditor, We as PrecipitationChart, ra as SunshineCard, ia as SunshineCardEditor, F as SunshineChart, zi as SwissWeatherBGCard, Bi as SwissWeatherBGCardEditor, Q as SwissWeatherCard, rn as SwissWeatherCardEditor, $i as TemperatureCard, ea as TemperatureCardEditor, aa as WindCard, oa as WindCardEditor, Ge as WindChart };
+export { P as DailyForecastChart, Ke as DailyForecastDiagram, gi as ForecastDiagramCard, hi as ForecastDiagramCardEditor, Ue as ForecastTemperatureChart, ra as PrecipitationCard, ia as PrecipitationCardEditor, We as PrecipitationChart, aa as SunshineCard, oa as SunshineCardEditor, F as SunshineChart, Vi as SwissWeatherBGCard, Hi as SwissWeatherBGCardEditor, Q as SwissWeatherCard, rn as SwissWeatherCardEditor, ta as TemperatureCard, na as TemperatureCardEditor, sa as WindCard, ca as WindCardEditor, Ge as WindChart };
 
 //# sourceMappingURL=swissweather-card.js.map

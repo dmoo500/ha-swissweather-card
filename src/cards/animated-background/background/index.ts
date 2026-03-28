@@ -10,6 +10,7 @@ export const getWeatherBackground = (
   if (!condition) {
     return html``;
   }
+  const normalizedCondition = String(condition).trim().toLowerCase() as WeatherCondition;
   const svgRawMap: Record<WeatherCondition, TemplateResult> = {
     'clear-night': clearNightBG(width || 400),
     cloudy: cloudyBG(width || 400),
@@ -28,12 +29,18 @@ export const getWeatherBackground = (
     exceptional: hurricaneBG(width || 400),
   };
 
-  return condition ? svgRawMap[condition as WeatherCondition] : html``;
+  return svgRawMap[normalizedCondition] || svgRawMap.cloudy;
 };
 
 export const clearNightBG = (width: number): TemplateResult => {
+  const starCount = Math.max(14, Math.ceil(width / 36));
   return svg`
   <defs>
+    <linearGradient id="nightSkyGradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f1f3b" />
+      <stop offset="65%" stop-color="#12284a" />
+      <stop offset="100%" stop-color="#1f3d69" stop-opacity="0.75" />
+    </linearGradient>
     <linearGradient id="moonGradient" x1="21.92" x2="38.52" y1="18.75" y2="47.52" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#86c3db"/>
       <stop offset=".45" stop-color="#86c3db"/>
@@ -46,9 +53,8 @@ export const clearNightBG = (width: number): TemplateResult => {
       <stop offset="1" stop-color="#fccd34"/>
       <animateTransform attributeName="gradientTransform" dur="18s" repeatCount="indefinite" type="rotate" values="0 32 32; 360 32 32"/>
     </linearGradient>
-  <!-- star -->
   <g id="starIcon">
-    <path fill="url(#starGradient)" stroke="#fcd34d" stroke-linecap="round" stroke-linejoin="round" stroke-width=".5" d="M33 23l9.06-4.25a2.39 2.39 0 013.18 3.18L41 31a2.42 2.42 0 000 2l4.25 9.06a2.39 2.39 0 01-3.18 3.18L33 41a2.42 2.42 0 00-2 0l-9.06 4.25a2.39 2.39 0 01-3.18-3.18L23 33a2.42 2.42 0 000-2l-4.25-9.06a2.39 2.39 0 013.18-3.18L31 23a2.42 2.42 0 002 0z">
+    <path fill="url(#starGradient)" stroke="#fcd34d" stroke-linecap="round" stroke-linejoin="round" stroke-width=".5" d="M33 23l9.06-4.25a2.39 2.39 0 013.18 3.18L41 31a2.42 2.42 0 000 2l4.25 9.06a2.39 2.39 0 01-3.18 3.18L33 41a2.42 2.42 0 00-2 0l-9.06 4.25a2.39 2.39 0 01-3.18-3.18L23 33a2.42 2.42 0 000-2l-4.25-9.06a2.39 2.39 0 013.18-3.18L31 23a2.42 2.42 0 002 0z" opacity="0.9">
       <animate attributeName="opacity" dur="3s" repeatCount="indefinite" values="1; 0.4; 1"/>
       <animateTransform attributeName="transform" dur="18s" repeatCount="indefinite" type="rotate" values="360 32 32; 0 32 32"/>
     </path>
@@ -60,15 +66,21 @@ export const clearNightBG = (width: number): TemplateResult => {
       <animateTransform attributeName="transform" dur="10s" repeatCount="indefinite" type="rotate" values="-5 32 32; 15 32 32; -5 32 32"/>
     </path>
   </g>
+  <rect width="100%" height="100%" fill="url(#nightSkyGradient)" />
+
   <!-- stars -->
   <g>
-  ${Array.from({ length: Math.ceil(width / 100) }, (v, i) => i).map(i => {
-    const yOffset = Math.floor(Math.random() * 100);
-    const xOffset = Math.floor(Math.random() * 10);
-    const yOffsetAdj = (yOffset - 50) / 5 + i * Math.floor(Math.random() * 25); //to spread stars vertically a bit more
-    const xFinal = i * 100 + xOffset;
+  ${Array.from({ length: starCount }, (_, i) => i).map(i => {
+    const xFinal = Math.round((i / starCount) * width + (Math.random() * 20 - 10));
+    const yFinal = 6 + (i % 4) * 11 + Math.round(Math.random() * 8);
+    const scale = (0.16 + (i % 3) * 0.08).toFixed(2);
+    const dur = (2.8 + (i % 5) * 0.75).toFixed(2);
+    const begin = (-0.4 * (i % 7)).toFixed(2);
     return svg`
-    <use href="#starIcon" x="0" y="0" transform="translate(${xFinal},${yOffsetAdj}) scale(0.5)"/>
+      <g transform="translate(${xFinal},${yFinal}) scale(${scale})" opacity="0.85">
+        <use href="#starIcon" x="0" y="0"/>
+        <animate attributeName="opacity" values="0.35;1;0.45;1;0.35" dur="${dur}s" repeatCount="indefinite" begin="${begin}s"/>
+      </g>
     `;
   })}
   </g>
@@ -158,6 +170,8 @@ const fogBG = (width: number): TemplateResult => {
 };
 
 const hailBG = (width: number): TemplateResult => {
+  const cloudCount = Math.max(2, Math.ceil(width / 190));
+  const spacing = width / cloudCount;
   return svg`
   <defs>
     <linearGradient id="hailGradient" x1="22.56" x2="39.2" y1="21.96" y2="50.8" gradientUnits="userSpaceOnUse">
@@ -165,25 +179,46 @@ const hailBG = (width: number): TemplateResult => {
       <stop offset=".45" stop-color="#f3f7fe"/>
       <stop offset="1" stop-color="#deeafb"/>
     </linearGradient>
-    <g id="hailIcon">
+    <g id="hailCloudIcon">
       <path fill="url(#hailGradient)" stroke="#e6effc" stroke-miterlimit="10" stroke-width=".5"
         d="M46.5 31.5h-.32a10.49 10.49 0 00-19.11-8 7 7 0 00-10.57 6 7.21 7.21 0 00.1 1.14A7.5 7.5 0 0018 45.5a4.19 4.19 0 00.5 0v0h28a7 7 0 000-14z"/>
-      <circle cx="24" cy="42" r="4" fill="#a8dadc"/>
-      <circle cx="40" cy="42" r="4" fill="#a8dadc"/>
-      <circle cx="32" cy="34" r="4" fill="#a8dadc"/>
     </g>
+    <radialGradient id="hailStoneGradient" cx="50%" cy="42%" r="56%">
+      <stop offset="0%" stop-color="#f0fbff" />
+      <stop offset="100%" stop-color="#b8d6e8" />
+    </radialGradient>
   </defs>
-  ${Array.from({ length: Math.ceil(width / 100) }, (v, i) => i).map(i => {
-    const yOffset = Math.floor(Math.random() * 100);
-    const xOffset = Math.floor(Math.random() * 10);
-    const yOffsetAdj = (yOffset - 50) / 5 + i * Math.floor(Math.random() * 25); //to spread clouds vertically a bit more
-    const xFinal = i * 100 + xOffset;
+
+  ${Array.from({ length: cloudCount }, (_, i) => {
+    const baseX = Math.round(i * spacing + spacing * 0.16);
+    const baseY = Math.round(14 + ((i * 11) % 3) * 9);
+    const cloudScale = 1.45 + (i % 2) * 0.16;
+    const driftDur = 16 + (i % 3) * 3;
     return svg`
-  <g>
-    <use href="#hailIcon" x="0" y="-10" width="80" height="40" transform="scale(2.2) translate(${xFinal},${yOffsetAdj})" opacity="0.9"/>
-    <animateTransform attributeName="transform" type="translate" values="0,0;20,0;0,0" dur="18s" repeatCount="indefinite"/>
-  </g>
-  `;
+      <g transform="translate(${baseX} ${baseY})">
+        <g>
+          <use href="#hailCloudIcon" x="0" y="0" width="80" height="40" transform="scale(${cloudScale})" opacity="0.93"/>
+          <animateTransform attributeName="transform" type="translate" values="0,0;14,0;0,0" dur="${driftDur}s" repeatCount="indefinite"/>
+        </g>
+
+        ${Array.from({ length: 10 }, (_, j) => {
+          const x = 11 + j * 6.5 + ((i + j) % 2) * 1.2;
+          const y = 53 + (j % 3) * 1.7;
+          const fall = 44 + (j % 3) * 7;
+          const drift = (j % 2 === 0 ? -4.2 : 4.2).toFixed(1);
+          const dur = (1.05 + (j % 4) * 0.2).toFixed(2);
+          const begin = (-0.14 * (i + j)).toFixed(2);
+          const size = (1.6 + (j % 3) * 0.44).toFixed(2);
+          return svg`
+            <circle cx="${x}" cy="${y}" r="${size}" fill="url(#hailStoneGradient)" stroke="#9bbdd2" stroke-width="0.35" opacity="0">
+              <animate attributeName="cy" values="${y}; ${y + fall}" dur="${dur}s" repeatCount="indefinite" begin="${begin}s"/>
+              <animate attributeName="cx" values="${x}; ${x + Number(drift)}" dur="${dur}s" repeatCount="indefinite" begin="${begin}s"/>
+              <animate attributeName="opacity" values="0;0.95;0.95;0" dur="${dur}s" repeatCount="indefinite" begin="${begin}s"/>
+            </circle>
+          `;
+        })}
+      </g>
+    `;
   })}
   `;
 };
@@ -257,16 +292,16 @@ export const extremeRainBG = (width: number): TemplateResult => {
   </g>
   
   <!-- Rain drops -->
-  ${Array.from({ length: Math.ceil(width / 20) }, (v, i) => i).map(i => {
+  ${Array.from({ length: Math.ceil(width / 12) }, (v, i) => i).map(i => {
     const yOffset = Math.floor(Math.random() * 100);
     const xOffset = Math.floor(Math.random() * 10);
     const yOffsetAdj = (yOffset - 50) / 5 + i * Math.floor(Math.random() * 25); //to spread drops vertically a bit more
-    const xFinal = i * 20 + xOffset;
+    const xFinal = i * 12 + xOffset;
     return svg`
-    <line x1="${xFinal}" y1="${yOffsetAdj}" x2="${xFinal}" y2="${yOffsetAdj + 10}" stroke="url(#extremeRainDropGradient)" stroke-width="2" stroke-linecap="round">
-      <animate attributeName="y1" values="${yOffsetAdj}; ${yOffsetAdj + 20}" dur="0.5s" repeatCount="indefinite"/>
-      <animate attributeName="y2" values="${yOffsetAdj + 10}; ${yOffsetAdj + 30}" dur="0.5s" repeatCount="indefinite"/>
-      <animate attributeName="opacity" values="1; 0" dur="0.5s" repeatCount="indefinite"/>
+    <line x1="${xFinal}" y1="${yOffsetAdj}" x2="${xFinal + 1.6}" y2="${yOffsetAdj + 14}" stroke="url(#extremeRainDropGradient)" stroke-width="2.2" stroke-linecap="round">
+      <animate attributeName="y1" values="${yOffsetAdj}; ${yOffsetAdj + 28}" dur="0.42s" repeatCount="indefinite"/>
+      <animate attributeName="y2" values="${yOffsetAdj + 14}; ${yOffsetAdj + 42}" dur="0.42s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0;1;1;0" dur="0.42s" repeatCount="indefinite"/>
     </line>
     `;
   })}
@@ -345,7 +380,8 @@ const thunderstormsBG = (width: number): TemplateResult => {
   <!-- background -->
   <rect width="100%" height="100%" fill="url(#background)" />
  
-   ${animate(width)}
+  ${animate(width)}
+  ${renderLightningStrikes(width, false)}
    
   <!-- Lightning flash effect that illuminates the entire background (full-size overlay) -->
   ${lightningFlashOverlay()}
@@ -389,6 +425,8 @@ const thunderstormsRainBG = (width: number): TemplateResult => {
   </defs>
 
   ${animate(width)}
+  ${renderHeavyRain(width, 0.72, 1.4)}
+  ${renderLightningStrikes(width, true)}
   
   <!-- Lightning flash effect for rainy thunderstorms -->
   ${lightningFlashOverlay()}
@@ -396,24 +434,67 @@ const thunderstormsRainBG = (width: number): TemplateResult => {
 };
 
 const animate = (width: number): TemplateResult => {
+  const cloudCount = Math.max(4, Math.ceil(width / 120));
   return svg`
-${Array.from({ length: Math.ceil(width / 10) }, (v, i) => i).map(i => {
-  const yOffset = Math.floor(Math.random() * 100);
-  const xOffset = Math.floor(Math.random() * 10);
-  const yOffsetAdj = (yOffset - 50) / 5 + i * Math.floor(Math.random() * 25); //to spread clouds vertically a bit more
-  const xFinal = i * 100 + xOffset;
-  const scale = Math.floor(Math.random() * 2) + 1; // to vary cloud sizes a bit
-  const opacity = 1 + Math.random() * 1;
-  const duration = 44 + Math.floor(Math.random() * 90);
+${Array.from({ length: cloudCount }, (_, i) => i).map(i => {
+  const laneY = 6 + (i % 3) * 16;
+  const yOffsetAdj = laneY + Math.floor(Math.random() * 10);
+  const spread = width + 220;
+  const xFinal = Math.round((i / cloudCount) * spread - 110 + (Math.random() * 28 - 14));
+  const scale = (1 + Math.random() * 1.25).toFixed(2);
+  const opacity = (0.68 + Math.random() * 0.22).toFixed(2);
+  const duration = 30 + Math.floor(Math.random() * 26);
+  const phase = (-Math.random() * duration).toFixed(2);
+  const wobble = ((Math.random() * 10 - 5) * 0.6).toFixed(1);
   return svg`
     <g>
-      <use href="#icon" x="${xFinal}" y="${yOffsetAdj}" width="80" height="40" transform="scale(${scale})" opacity="0">
-        <animate attributeName="opacity" values="0;${opacity};${opacity};0" dur="${duration}s" repeatCount="indefinite"/>
+      <use href="#icon" x="${xFinal}" y="${yOffsetAdj}" width="80" height="40" transform="scale(${scale})" opacity="${opacity}">
+        <animate attributeName="opacity" values="${opacity};${(Number(opacity) * 0.82).toFixed(2)};${opacity}" dur="${duration}s" repeatCount="indefinite" begin="${phase}s"/>
       </use>
-      <animateTransform attributeName="transform" type="translate" values="-150,20;450,20" dur="${duration}s" repeatCount="indefinite"/>
+      <animateTransform attributeName="transform" type="translate" values="-170,0;${width + 140},${wobble};-170,0" dur="${duration}s" repeatCount="indefinite" begin="${phase}s"/>
     </g>
     `;
 })}
+  `;
+};
+
+const renderLightningStrikes = (width: number, rainy: boolean): TemplateResult => {
+  const centers = [0.22, 0.52, 0.8];
+  return svg`
+    <g>
+      ${centers.map((p, i) => {
+        const x = Math.round(width * p);
+        const y = 18 + (i % 2) * 6;
+        const dur = rainy ? 2.6 : 3.1;
+        const begin = (-0.55 * i).toFixed(2);
+        return svg`
+          <path d="M${x} ${y} L${x - 10} ${y + 30} L${x + 1} ${y + 30} L${x - 13} ${y + 66} L${x + 16} ${y + 28} L${x + 3} ${y + 28} Z" fill="#ffe27a" stroke="#f7b733" stroke-width="1" opacity="0">
+            <animate attributeName="opacity" values="0;0;1;0;0.85;0" dur="${dur}s" repeatCount="indefinite" begin="${begin}s"/>
+          </path>
+        `;
+      })}
+    </g>
+  `;
+};
+
+const renderHeavyRain = (width: number, duration = 0.8, density = 1): TemplateResult => {
+  const dropCount = Math.max(20, Math.ceil((width / 18) * density));
+  return svg`
+    <g>
+      ${Array.from({ length: dropCount }, (_, i) => {
+        const x = Math.round((i / dropCount) * width + ((i % 3) - 1) * 3);
+        const y = Math.round(20 + (i % 8) * 8);
+        const begin = (-0.08 * (i % 11)).toFixed(2);
+        const dur = (duration + (i % 4) * 0.07).toFixed(2);
+        return svg`
+          <line x1="${x}" y1="${y}" x2="${x + 1.5}" y2="${y + 12}" stroke="#7eb7ff" stroke-width="1.6" stroke-linecap="round" opacity="0">
+            <animate attributeName="y1" values="${y};${y + 46}" dur="${dur}s" repeatCount="indefinite" begin="${begin}s"/>
+            <animate attributeName="y2" values="${y + 12};${y + 58}" dur="${dur}s" repeatCount="indefinite" begin="${begin}s"/>
+            <animate attributeName="opacity" values="0;0.9;0.9;0" dur="${dur}s" repeatCount="indefinite" begin="${begin}s"/>
+          </line>
+        `;
+      })}
+    </g>
   `;
 };
 
@@ -595,11 +676,7 @@ const partlyCloudyDayBG = (width: number): TemplateResult => {
       <stop offset="0" stop-color="#fbbf24"/>
       <stop offset=".45" stop-color="#fbbf24"/>
       <stop offset="1" stop-color="#f59e0b"/>
-    </linearGradient
-    <g id="cloudIcon">
-      <path fill="url(#partlyCloudyDayGradient)" stroke="#e6effc" stroke-miterlimit="10" stroke-width=".5"
-        d="M46.5 31.5h-.32a10.49 10.49 0 00-19.11-8 7 7 0 00-10.57 6 7.21 7.21 0 00.1 1.14A7.5 7.5 0 0018 45.5a4.19 4.19 0 00.5 0v0h28a7 7 0 000-14z"/>
-    </g>
+    </linearGradient>
     <g id="icon">
       <path fill="url(#partlyCloudyDayGradient)" stroke="#e6effc" stroke-miterlimit="10" stroke-width=".5"
         d="M46.5 31.5h-.32a10.49 10.49 0 00-19.11-8 7 7 0 00-10.57 6 7.21 7.21 0 00.1 1.14A7.5 7.5 0 0018 45.5a4.19 4.19 0 00.5 0v0h28a7 7 0 000-14z"/>
@@ -615,9 +692,10 @@ const partlyCloudyDayBG = (width: number): TemplateResult => {
   <rect width="100%" height="100%" fill="url(#sunshineBlueGradient)" />
   <!-- Sun -->
   <g>
-    <use href="#sunIcon" x="200" y="50" width="100" height="100" opacity="0.9"/>
+    <use href="#sunIcon" x="${Math.round(width * 0.58)}" y="10" width="94" height="94" opacity="0.9"/>
+    <animateTransform attributeName="transform" type="translate" values="0,0;4,0;0,0" dur="20s" repeatCount="indefinite"/>
   </g>
-  ${animate(width)}
+  ${animate(Math.round(width * 0.82))}
   `;
 };
 
@@ -649,6 +727,10 @@ const partlyCloudyNightBG = (width: number): TemplateResult => {
 const hurricaneBG = (width: number): TemplateResult => {
   return svg`
   <defs>
+    <linearGradient id="hurricaneBackground" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4c5f73"/>
+      <stop offset="100%" stop-color="#394b5e" stop-opacity="0.2"/>
+    </linearGradient>
     <linearGradient id="hurricaneGradient" x1="22.56" x2="39.2" y1="21.96" y2="50.8" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#f3f7fe"/>
       <stop offset=".45" stop-color="#f3f7fe"/>
@@ -657,11 +739,12 @@ const hurricaneBG = (width: number): TemplateResult => {
     <g id="icon">
       <path fill="url(#hurricaneGradient)" stroke="#e6effc" stroke-miterlimit="10" stroke-width=".5"
         d="M46.5 31.5h-.32a10.49 10.49 0 00-19.11-8 7 7 0 00-10.57 6 7.21 7.21 0 00.1 1.14A7.5 7.5 0 0018 45.5a4.19 4.19 0 00.5 0v0h28a7 7 0 000-14z"/>
-      <circle cx="32" cy="36" r="6" fill="#f87171" stroke="#b91c1c" stroke-width="1"/>
-      <path fill="#f87171" stroke="#b91c1c" stroke-width="1" d="M32 30a6 6 0 016 6h-6V30zM32 42a6 6 0 01-6-6h6v6zM26 36a6 6 0 016-6v6H26zM38 36a6 6 0 01-6 6v-6h6z"/>
+      <circle cx="32" cy="36" r="4.8" fill="#f87171" stroke="#b91c1c" stroke-width="0.9"/>
+      <path fill="#f87171" stroke="#b91c1c" stroke-width="0.9" d="M32 31a5 5 0 015 5h-5V31zM32 41a5 5 0 01-5-5h5v5zM27 36a5 5 0 015-5v5h-5zM37 36a5 5 0 01-5 5v-5h5z"/>
     </g>
   </defs>
-  
+
+  <rect width="100%" height="100%" fill="url(#hurricaneBackground)" />
   ${animate(width)}
   `;
 };
