@@ -1,5 +1,5 @@
 //#region package.json
-var e = "1.7.1-beta.6", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
+var e = "1.7.1-beta.7", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
 	constructor(e, t, n) {
 		if (this._$cssResult$ = !0, n !== r) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
 		this.cssText = e, this.t = t;
@@ -5859,12 +5859,20 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
       <stop offset="30%" stop-color="#93c5fd" stop-opacity="0.85"/>
       <stop offset="100%" stop-color="#3b82f6" stop-opacity="0.95"/>
     </linearGradient>
-    <g id="sleetSnowFlake" stroke="#eaf6ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.1">
-      <line x1="0" y1="-3.4" x2="0" y2="3.4"/>
-      <line x1="-2.9" y1="0" x2="2.9" y2="0"/>
-      <line x1="-2.2" y1="-2.2" x2="2.2" y2="2.2"/>
-      <line x1="-2.2" y1="2.2" x2="2.2" y2="-2.2"/>
-      <circle cx="0" cy="0" r="0.8" fill="#f8fdff" stroke="none"/>
+    <g id="sleetSnowFlake" stroke-linecap="round" stroke-linejoin="round">
+      <g stroke="rgba(92, 126, 162, 0.55)" stroke-width="2.2">
+        <line x1="0" y1="-3.8" x2="0" y2="3.8"/>
+        <line x1="-3.2" y1="0" x2="3.2" y2="0"/>
+        <line x1="-2.5" y1="-2.5" x2="2.5" y2="2.5"/>
+        <line x1="-2.5" y1="2.5" x2="2.5" y2="-2.5"/>
+      </g>
+      <g stroke="#f4fbff" stroke-width="1.1">
+        <line x1="0" y1="-3.8" x2="0" y2="3.8"/>
+        <line x1="-3.2" y1="0" x2="3.2" y2="0"/>
+        <line x1="-2.5" y1="-2.5" x2="2.5" y2="2.5"/>
+        <line x1="-2.5" y1="2.5" x2="2.5" y2="-2.5"/>
+      </g>
+      <circle cx="0" cy="0" r="0.9" fill="#f8fdff" stroke="none"/>
     </g>
     <g id="sleetCloudIcon">
       <path fill="url(#sleetGradient)" stroke="#e6effc" stroke-miterlimit="10" stroke-width=".5"
@@ -5890,14 +5898,14 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
           `;
 	})}
 
-        ${Array.from({ length: 8 }, (e, n) => {
-		let r = 12 + n * 8 + (t + n) % 3 * 1.4, i = 54 + n % 3 * 2, a = (n % 2 == 0 ? -5 : 5) + (t % 2 == 0 ? 1.5 : -1.5), o = (3.9 + n % 4 * .65).toFixed(2), s = (-.25 * (t + n)).toFixed(2), c = ((t + n) % 2 == 0 ? -14 : 14).toString();
+        ${Array.from({ length: 10 }, (e, n) => {
+		let r = 12 + n * 8 + (t + n) % 3 * 1.4, i = 54 + n % 3 * 2, a = (n % 2 == 0 ? -5 : 5) + (t % 2 == 0 ? 1.5 : -1.5), o = (3.9 + n % 4 * .65).toFixed(2), s = (-.25 * (t + n)).toFixed(2), c = (t + n) % 2 == 0 ? -14 : 14;
 		return E`
-            <g transform="translate(${r} ${i}) scale(0.95)">
+            <g transform="translate(${r} ${i}) scale(${(.96 + n % 3 * .15).toFixed(2)})">
               <use href="#sleetSnowFlake" opacity="0.9"/>
-              <animateTransform attributeName="transform" type="translate" values="${r} ${i}; ${r + a} ${i + 26}; ${r} ${i + 52}" dur="${o}s" repeatCount="indefinite" begin="${s}s"/>
-              <animateTransform additive="sum" attributeName="transform" type="rotate" values="0; ${c}; ${c} 0" dur="${o}s" repeatCount="indefinite" begin="${s}s"/>
-              <animate attributeName="opacity" values="0;0.88;0.88;0" dur="${o}s" repeatCount="indefinite" begin="${s}s"/>
+              <animateTransform additive="sum" attributeName="transform" type="translate" values="0 0; ${a} 26; ${(-a * .3).toFixed(1)} 52" dur="${o}s" repeatCount="indefinite" begin="${s}s"/>
+              <animateTransform additive="sum" attributeName="transform" type="rotate" values="0; ${c}; ${-c}" dur="${o}s" repeatCount="indefinite" begin="${s}s"/>
+              <animate attributeName="opacity" values="0;0.96;0.96;0" dur="${o}s" repeatCount="indefinite" begin="${s}s"/>
             </g>
           `;
 	})}
@@ -5921,12 +5929,20 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
       <path fill="url(#snowGradient)" stroke="#e6effc" stroke-miterlimit="10" stroke-width=".5"
         d="M46.5 31.5h-.32a10.49 10.49 0 00-19.11-8 7 7 0 00-10.57 6 7.21 7.21 0 00.1 1.14A7.5 7.5 0 0018 45.5a4.19 4.19 0 00.5 0v0h28a7 7 0 000-14z"/>
     </g>
-    <g id="snowFlakeIcon" stroke="#f2f9ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.1">
-      <line x1="0" y1="-3.8" x2="0" y2="3.8"/>
-      <line x1="-3.3" y1="0" x2="3.3" y2="0"/>
-      <line x1="-2.8" y1="-2.8" x2="2.8" y2="2.8"/>
-      <line x1="-2.8" y1="2.8" x2="2.8" y2="-2.8"/>
-      <circle cx="0" cy="0" r="1" fill="url(#snowCore)" stroke="none"/>
+    <g id="snowFlakeIcon" stroke-linecap="round" stroke-linejoin="round">
+      <g stroke="rgba(82, 120, 160, 0.52)" stroke-width="2.2">
+        <line x1="0" y1="-4.2" x2="0" y2="4.2"/>
+        <line x1="-3.6" y1="0" x2="3.6" y2="0"/>
+        <line x1="-3" y1="-3" x2="3" y2="3"/>
+        <line x1="-3" y1="3" x2="3" y2="-3"/>
+      </g>
+      <g stroke="#f4fbff" stroke-width="1.15">
+        <line x1="0" y1="-4.2" x2="0" y2="4.2"/>
+        <line x1="-3.6" y1="0" x2="3.6" y2="0"/>
+        <line x1="-3" y1="-3" x2="3" y2="3"/>
+        <line x1="-3" y1="3" x2="3" y2="-3"/>
+      </g>
+      <circle cx="0" cy="0" r="1.05" fill="url(#snowCore)" stroke="none"/>
     </g>
 
   </defs>
@@ -5938,14 +5954,14 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
           <animateTransform attributeName="transform" type="translate" values="0,0;12,0;0,0" dur="${15 + t % 3 * 3}s" repeatCount="indefinite"/>
         </g>
 
-        ${Array.from({ length: 12 }, (e, n) => {
+        ${Array.from({ length: 14 }, (e, n) => {
 		let r = 10 + n * 5.4 + n % 2 * 1.2, i = 52 + n % 3, a = (n % 2 == 0 ? -7 : 7) + (t % 2 == 0 ? 2 : -2), o = (4.5 + n % 4 * .62).toFixed(2), s = (-.22 * (t + n)).toFixed(2);
 		return E`
-            <g transform="translate(${r} ${i}) scale(${(.72 + n % 4 * .16).toFixed(2)})" opacity="0">
+            <g transform="translate(${r} ${i}) scale(${(.95 + n % 4 * .18).toFixed(2)})" opacity="0">
               <use href="#snowFlakeIcon"/>
-              <animateTransform attributeName="transform" type="translate" values="${r} ${i}; ${r + a} ${i + 30}; ${r - a * .3} ${i + 62}" dur="${o}s" repeatCount="indefinite" begin="${s}s"/>
+              <animateTransform additive="sum" attributeName="transform" type="translate" values="0 0; ${a} 30; ${(-a * .3).toFixed(1)} 62" dur="${o}s" repeatCount="indefinite" begin="${s}s"/>
               <animateTransform additive="sum" attributeName="transform" type="rotate" values="0; 26; 340" dur="${o}s" repeatCount="indefinite" begin="${s}s"/>
-              <animate attributeName="opacity" values="0;0.9;0.9;0" dur="${o}s" repeatCount="indefinite" begin="${s}s"/>
+              <animate attributeName="opacity" values="0;0.98;0.98;0" dur="${o}s" repeatCount="indefinite" begin="${s}s"/>
             </g>
           `;
 	})}
@@ -6280,6 +6296,7 @@ var zi = class extends O {
         border-radius: 12px;
         overflow: hidden;
         min-height: 200px;
+        isolation: isolate;
         box-shadow: var(
           --ha-card-box-shadow,
           0 4px 20px var(--box-shadow-color, rgba(0, 0, 0, 0.1))
@@ -6503,7 +6520,11 @@ var zi = class extends O {
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
-        background: linear-gradient(to bottom, rgba(255, 255, 255, 0.98), rgba(222, 240, 255, 0.96));
+        background: linear-gradient(
+          to bottom,
+          rgba(255, 255, 255, 0.98),
+          rgba(222, 240, 255, 0.96)
+        );
         border-radius: 999px;
       }
 
@@ -6528,7 +6549,11 @@ var zi = class extends O {
         width: max(1px, calc(var(--size, 4px) * 0.18));
         height: calc(var(--size, 4px) * 0.86);
         border-radius: 999px;
-        background: linear-gradient(to bottom, rgba(255, 255, 255, 0.92), rgba(216, 236, 255, 0.88));
+        background: linear-gradient(
+          to bottom,
+          rgba(255, 255, 255, 0.92),
+          rgba(216, 236, 255, 0.88)
+        );
         transform-origin: center;
       }
 
@@ -6541,21 +6566,20 @@ var zi = class extends O {
       }
 
       .photo-sun-rays {
-        background:
-          conic-gradient(
-            from 20deg at 76% 20%,
-            rgba(255, 249, 189, 0.28) 0deg,
-            rgba(255, 249, 189, 0) 35deg,
-            rgba(255, 246, 177, 0.24) 52deg,
-            rgba(255, 246, 177, 0) 90deg,
-            rgba(255, 247, 181, 0.28) 116deg,
-            rgba(255, 247, 181, 0) 160deg,
-            rgba(255, 249, 189, 0.22) 198deg,
-            rgba(255, 249, 189, 0) 240deg,
-            rgba(255, 250, 200, 0.26) 280deg,
-            rgba(255, 250, 200, 0) 320deg,
-            rgba(255, 249, 189, 0.28) 360deg
-          );
+        background: conic-gradient(
+          from 20deg at 76% 20%,
+          rgba(255, 249, 189, 0.28) 0deg,
+          rgba(255, 249, 189, 0) 35deg,
+          rgba(255, 246, 177, 0.24) 52deg,
+          rgba(255, 246, 177, 0) 90deg,
+          rgba(255, 247, 181, 0.28) 116deg,
+          rgba(255, 247, 181, 0) 160deg,
+          rgba(255, 249, 189, 0.22) 198deg,
+          rgba(255, 249, 189, 0) 240deg,
+          rgba(255, 250, 200, 0.26) 280deg,
+          rgba(255, 250, 200, 0) 320deg,
+          rgba(255, 249, 189, 0.28) 360deg
+        );
         mix-blend-mode: screen;
         opacity: 0;
         animation: sun-ray-sweep 18s linear infinite;
@@ -6578,11 +6602,30 @@ var zi = class extends O {
             rgba(213, 233, 255, 0.3) 48%,
             rgba(213, 233, 255, 0) 64%
           );
-        background-size: 220% 100%, 200% 100%;
-        background-position: 0% 20%, -36% 62%;
+        background-size:
+          220% 100%,
+          200% 100%;
+        background-position:
+          0% 20%,
+          -36% 62%;
         opacity: 0;
         animation: wind-streak-sweep 2.6s linear infinite;
         z-index: 4;
+        pointer-events: none;
+        inset: 0 0 auto 0;
+        height: 68%;
+        -webkit-mask-image: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0.95) 0%,
+          rgba(0, 0, 0, 0.82) 58%,
+          rgba(0, 0, 0, 0) 100%
+        );
+        mask-image: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0.95) 0%,
+          rgba(0, 0, 0, 0.82) 58%,
+          rgba(0, 0, 0, 0) 100%
+        );
         mix-blend-mode: screen;
       }
 
@@ -6742,15 +6785,21 @@ var zi = class extends O {
 
       @keyframes wind-streak-sweep {
         0% {
-          background-position: 0% 20%, -36% 62%;
+          background-position:
+            0% 20%,
+            -36% 62%;
           opacity: 0.55;
         }
         50% {
-          background-position: 76% 24%, 46% 66%;
+          background-position:
+            76% 24%,
+            46% 66%;
           opacity: 0.95;
         }
         100% {
-          background-position: 156% 28%, 128% 70%;
+          background-position:
+            156% 28%,
+            128% 70%;
           opacity: 0.45;
         }
       }
@@ -6830,14 +6879,15 @@ var zi = class extends O {
         align-items: center;
         color: var(--primary-text-color, #fff);
         font-size: 14px;
-        z-index: 3; /* above forecast tiles */
+        z-index: 12; /* above photo overlays */
       }
       .forecast-mini {
         position: absolute;
         bottom: 16px; /* align vertically with bottom spacing */
         right: 16px; /* align to the right edge */
-        z-index: 2; /* below sun-times but above background */
+        z-index: 12; /* keep charts above photo overlays */
         max-width: calc(100% - 32px); /* honor left/right margins */
+        isolation: isolate;
       }
       @media (max-width: 400px) {
         .forecast-mini {
@@ -7018,7 +7068,9 @@ var zi = class extends O {
 	_renderPhotoLikeBackground(e, t) {
 		let n = this._resolvePhotoMood(e), r = e === "windy" || e === "windy-variant", i = t && (e === "sunny" || e === "partlycloudy"), a = n === "rainy" || e === "snowy-rainy" || e === "rainy" || e === "pouring", o = e === "snowy" || e === "snowy-rainy" || e === "hail", s = e === "lightning" || e === "lightning-rainy";
 		return T`
-      <div class="img-photo mood-${n} ${t ? "day" : "night"} ${r ? "windy" : ""} ${i ? "sun-bloom" : ""}">
+      <div
+        class="img-photo mood-${n} ${t ? "day" : "night"} ${r ? "windy" : ""} ${i ? "sun-bloom" : ""}"
+      >
         <div class="photo-layer photo-base"></div>
         <div class="photo-layer photo-sun-rays"></div>
         <div class="photo-layer photo-clouds"></div>
@@ -7032,10 +7084,10 @@ var zi = class extends O {
 			"c2",
 			"c3"
 		].map((e) => T`<div class="weather-cluster ${e}">
-                      ${a ? this._renderRainParticles(6, !0) : T``}
-                      ${o ? this._renderSnowParticles(10, !0) : T``}
-                    </div>`)}` : T`${a ? this._renderRainParticles(28, !1) : T``}
-                    ${o ? this._renderSnowParticles(36, !1) : T``}`}
+                        ${a ? this._renderRainParticles(6, !0) : T``}
+                        ${o ? this._renderSnowParticles(10, !0) : T``}
+                      </div>`)}` : T`${a ? this._renderRainParticles(28, !1) : T``}
+                  ${o ? this._renderSnowParticles(36, !1) : T``}`}
             </div>` : T``}
         ${s ? T`<div class="photo-layer photo-lightning"></div>
               <div class="photo-layer photo-lightning-bolt"></div>` : T``}
@@ -7059,7 +7111,8 @@ var zi = class extends O {
 			return T`<span
         class="snow-flake"
         style="--x:${a.toFixed(2)}%; --duration:${o}s; --delay:${s}s; --size:${c}px; --opacity:${l}; --drift:${u}px; --drift-back:${d.toFixed(1)}px;"
-      ><i></i><b></b></span>`;
+        ><i></i><b></b
+      ></span>`;
 		});
 	}
 	async _loadDailyForecast() {

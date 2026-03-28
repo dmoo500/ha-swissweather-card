@@ -102,6 +102,7 @@ export class SwissWeatherBGCard extends LitElement {
         border-radius: 12px;
         overflow: hidden;
         min-height: 200px;
+        isolation: isolate;
         box-shadow: var(
           --ha-card-box-shadow,
           0 4px 20px var(--box-shadow-color, rgba(0, 0, 0, 0.1))
@@ -416,6 +417,21 @@ export class SwissWeatherBGCard extends LitElement {
         opacity: 0;
         animation: wind-streak-sweep 2.6s linear infinite;
         z-index: 4;
+        pointer-events: none;
+        inset: 0 0 auto 0;
+        height: 68%;
+        -webkit-mask-image: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0.95) 0%,
+          rgba(0, 0, 0, 0.82) 58%,
+          rgba(0, 0, 0, 0) 100%
+        );
+        mask-image: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0.95) 0%,
+          rgba(0, 0, 0, 0.82) 58%,
+          rgba(0, 0, 0, 0) 100%
+        );
         mix-blend-mode: screen;
       }
 
@@ -669,14 +685,15 @@ export class SwissWeatherBGCard extends LitElement {
         align-items: center;
         color: var(--primary-text-color, #fff);
         font-size: 14px;
-        z-index: 3; /* above forecast tiles */
+        z-index: 12; /* above photo overlays */
       }
       .forecast-mini {
         position: absolute;
         bottom: 16px; /* align vertically with bottom spacing */
         right: 16px; /* align to the right edge */
-        z-index: 2; /* below sun-times but above background */
+        z-index: 12; /* keep charts above photo overlays */
         max-width: calc(100% - 32px); /* honor left/right margins */
+        isolation: isolate;
       }
       @media (max-width: 400px) {
         .forecast-mini {

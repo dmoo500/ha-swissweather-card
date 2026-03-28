@@ -433,12 +433,20 @@ const sleetBG = (width: number): TemplateResult => {
       <stop offset="30%" stop-color="#93c5fd" stop-opacity="0.85"/>
       <stop offset="100%" stop-color="#3b82f6" stop-opacity="0.95"/>
     </linearGradient>
-    <g id="sleetSnowFlake" stroke="#eaf6ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.1">
-      <line x1="0" y1="-3.4" x2="0" y2="3.4"/>
-      <line x1="-2.9" y1="0" x2="2.9" y2="0"/>
-      <line x1="-2.2" y1="-2.2" x2="2.2" y2="2.2"/>
-      <line x1="-2.2" y1="2.2" x2="2.2" y2="-2.2"/>
-      <circle cx="0" cy="0" r="0.8" fill="#f8fdff" stroke="none"/>
+    <g id="sleetSnowFlake" stroke-linecap="round" stroke-linejoin="round">
+      <g stroke="rgba(92, 126, 162, 0.55)" stroke-width="2.2">
+        <line x1="0" y1="-3.8" x2="0" y2="3.8"/>
+        <line x1="-3.2" y1="0" x2="3.2" y2="0"/>
+        <line x1="-2.5" y1="-2.5" x2="2.5" y2="2.5"/>
+        <line x1="-2.5" y1="2.5" x2="2.5" y2="-2.5"/>
+      </g>
+      <g stroke="#f4fbff" stroke-width="1.1">
+        <line x1="0" y1="-3.8" x2="0" y2="3.8"/>
+        <line x1="-3.2" y1="0" x2="3.2" y2="0"/>
+        <line x1="-2.5" y1="-2.5" x2="2.5" y2="2.5"/>
+        <line x1="-2.5" y1="2.5" x2="2.5" y2="-2.5"/>
+      </g>
+      <circle cx="0" cy="0" r="0.9" fill="#f8fdff" stroke="none"/>
     </g>
     <g id="sleetCloudIcon">
       <path fill="url(#sleetGradient)" stroke="#e6effc" stroke-miterlimit="10" stroke-width=".5"
@@ -473,19 +481,22 @@ const sleetBG = (width: number): TemplateResult => {
           `;
         })}
 
-        ${Array.from({ length: 8 }, (_, j) => {
+        ${Array.from({ length: 10 }, (_, j) => {
           const x = 12 + j * 8 + ((i + j) % 3) * 1.4;
           const y = 54 + (j % 3) * 2;
           const sway = (j % 2 === 0 ? -5 : 5) + (i % 2 === 0 ? 1.5 : -1.5);
           const dur = (3.9 + (j % 4) * 0.65).toFixed(2);
           const begin = (-0.25 * (i + j)).toFixed(2);
-          const rotate = ((i + j) % 2 === 0 ? -14 : 14).toString();
+          const rotate = (i + j) % 2 === 0 ? -14 : 14;
+          const scale = (0.96 + (j % 3) * 0.15).toFixed(2);
           return svg`
-            <g transform="translate(${x} ${y}) scale(0.95)">
+            <g transform="translate(${x} ${y}) scale(${scale})">
               <use href="#sleetSnowFlake" opacity="0.9"/>
-              <animateTransform attributeName="transform" type="translate" values="${x} ${y}; ${x + sway} ${y + 26}; ${x} ${y + 52}" dur="${dur}s" repeatCount="indefinite" begin="${begin}s"/>
-              <animateTransform additive="sum" attributeName="transform" type="rotate" values="0; ${rotate}; ${rotate} 0" dur="${dur}s" repeatCount="indefinite" begin="${begin}s"/>
-              <animate attributeName="opacity" values="0;0.88;0.88;0" dur="${dur}s" repeatCount="indefinite" begin="${begin}s"/>
+              <animateTransform additive="sum" attributeName="transform" type="translate" values="0 0; ${sway} 26; ${(
+                -sway * 0.3
+              ).toFixed(1)} 52" dur="${dur}s" repeatCount="indefinite" begin="${begin}s"/>
+              <animateTransform additive="sum" attributeName="transform" type="rotate" values="0; ${rotate}; ${-rotate}" dur="${dur}s" repeatCount="indefinite" begin="${begin}s"/>
+              <animate attributeName="opacity" values="0;0.96;0.96;0" dur="${dur}s" repeatCount="indefinite" begin="${begin}s"/>
             </g>
           `;
         })}
@@ -514,12 +525,20 @@ const snowBG = (width: number): TemplateResult => {
       <path fill="url(#snowGradient)" stroke="#e6effc" stroke-miterlimit="10" stroke-width=".5"
         d="M46.5 31.5h-.32a10.49 10.49 0 00-19.11-8 7 7 0 00-10.57 6 7.21 7.21 0 00.1 1.14A7.5 7.5 0 0018 45.5a4.19 4.19 0 00.5 0v0h28a7 7 0 000-14z"/>
     </g>
-    <g id="snowFlakeIcon" stroke="#f2f9ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.1">
-      <line x1="0" y1="-3.8" x2="0" y2="3.8"/>
-      <line x1="-3.3" y1="0" x2="3.3" y2="0"/>
-      <line x1="-2.8" y1="-2.8" x2="2.8" y2="2.8"/>
-      <line x1="-2.8" y1="2.8" x2="2.8" y2="-2.8"/>
-      <circle cx="0" cy="0" r="1" fill="url(#snowCore)" stroke="none"/>
+    <g id="snowFlakeIcon" stroke-linecap="round" stroke-linejoin="round">
+      <g stroke="rgba(82, 120, 160, 0.52)" stroke-width="2.2">
+        <line x1="0" y1="-4.2" x2="0" y2="4.2"/>
+        <line x1="-3.6" y1="0" x2="3.6" y2="0"/>
+        <line x1="-3" y1="-3" x2="3" y2="3"/>
+        <line x1="-3" y1="3" x2="3" y2="-3"/>
+      </g>
+      <g stroke="#f4fbff" stroke-width="1.15">
+        <line x1="0" y1="-4.2" x2="0" y2="4.2"/>
+        <line x1="-3.6" y1="0" x2="3.6" y2="0"/>
+        <line x1="-3" y1="-3" x2="3" y2="3"/>
+        <line x1="-3" y1="3" x2="3" y2="-3"/>
+      </g>
+      <circle cx="0" cy="0" r="1.05" fill="url(#snowCore)" stroke="none"/>
     </g>
 
   </defs>
@@ -536,19 +555,21 @@ const snowBG = (width: number): TemplateResult => {
           <animateTransform attributeName="transform" type="translate" values="0,0;12,0;0,0" dur="${driftDur}s" repeatCount="indefinite"/>
         </g>
 
-        ${Array.from({ length: 12 }, (_, j) => {
+        ${Array.from({ length: 14 }, (_, j) => {
           const x = 10 + j * 5.4 + (j % 2) * 1.2;
           const y = 52 + (j % 3);
           const sway = (j % 2 === 0 ? -7 : 7) + (i % 2 === 0 ? 2 : -2);
           const dur = (4.5 + (j % 4) * 0.62).toFixed(2);
           const begin = (-0.22 * (i + j)).toFixed(2);
-          const scale = (0.72 + (j % 4) * 0.16).toFixed(2);
+          const scale = (0.95 + (j % 4) * 0.18).toFixed(2);
           return svg`
             <g transform="translate(${x} ${y}) scale(${scale})" opacity="0">
               <use href="#snowFlakeIcon"/>
-              <animateTransform attributeName="transform" type="translate" values="${x} ${y}; ${x + sway} ${y + 30}; ${x - sway * 0.3} ${y + 62}" dur="${dur}s" repeatCount="indefinite" begin="${begin}s"/>
+              <animateTransform additive="sum" attributeName="transform" type="translate" values="0 0; ${sway} 30; ${(
+                -sway * 0.3
+              ).toFixed(1)} 62" dur="${dur}s" repeatCount="indefinite" begin="${begin}s"/>
               <animateTransform additive="sum" attributeName="transform" type="rotate" values="0; 26; 340" dur="${dur}s" repeatCount="indefinite" begin="${begin}s"/>
-              <animate attributeName="opacity" values="0;0.9;0.9;0" dur="${dur}s" repeatCount="indefinite" begin="${begin}s"/>
+              <animate attributeName="opacity" values="0;0.98;0.98;0" dur="${dur}s" repeatCount="indefinite" begin="${begin}s"/>
             </g>
           `;
         })}
