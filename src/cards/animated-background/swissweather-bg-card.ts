@@ -255,6 +255,7 @@ export class SwissWeatherBGCard extends LitElement {
         inset: 0;
         overflow: hidden;
         pointer-events: none;
+        z-index: 4;
       }
 
       .rain-drop {
@@ -285,10 +286,13 @@ export class SwissWeatherBGCard extends LitElement {
         height: var(--size, 4px);
         border-radius: 50%;
         background: radial-gradient(circle at 30% 30%, #ffffff, #d9ecff 75%);
-        opacity: var(--opacity, 0.85);
-        box-shadow: 0 0 4px rgba(255, 255, 255, 0.65);
+        opacity: var(--opacity, 0.9);
+        box-shadow:
+          0 0 6px rgba(255, 255, 255, 0.72),
+          0 0 2px rgba(214, 236, 255, 0.95);
         animation: snow-flake-fall var(--duration, 7s) linear infinite;
         animation-delay: var(--delay, 0s);
+        z-index: 5;
       }
 
       .photo-lightning {
@@ -300,6 +304,36 @@ export class SwissWeatherBGCard extends LitElement {
         opacity: 0;
         mix-blend-mode: screen;
         animation: lightning-flash 7s infinite;
+        z-index: 6;
+      }
+
+      .photo-lightning-bolt {
+        position: absolute;
+        top: 8%;
+        left: 54%;
+        width: 6px;
+        height: 40%;
+        background: linear-gradient(
+          to bottom,
+          rgba(255, 255, 255, 0),
+          rgba(255, 255, 255, 0.9) 22%,
+          rgba(255, 241, 168, 0.95) 100%
+        );
+        clip-path: polygon(48% 0, 70% 0, 44% 36%, 68% 36%, 30% 100%, 44% 56%, 24% 56%);
+        filter: drop-shadow(0 0 8px rgba(255, 248, 190, 0.9));
+        opacity: 0;
+        animation: lightning-bolt 7s infinite;
+        z-index: 7;
+      }
+
+      .photo-cloud-shadow {
+        background:
+          radial-gradient(ellipse at 22% 42%, rgba(16, 26, 40, 0.22), rgba(16, 26, 40, 0) 46%),
+          radial-gradient(ellipse at 58% 40%, rgba(18, 30, 46, 0.18), rgba(18, 30, 46, 0) 44%),
+          radial-gradient(ellipse at 85% 44%, rgba(18, 31, 48, 0.22), rgba(18, 31, 48, 0) 47%);
+        animation: cloud-shadow-drift 20s ease-in-out infinite alternate;
+        opacity: 0.5;
+        mix-blend-mode: multiply;
       }
 
       .photo-vignette {
@@ -308,6 +342,7 @@ export class SwissWeatherBGCard extends LitElement {
           rgba(0, 0, 0, 0) 52%,
           rgba(0, 0, 0, 0.33) 100%
         );
+        z-index: 3;
       }
 
       .photo-grain {
@@ -316,6 +351,7 @@ export class SwissWeatherBGCard extends LitElement {
         opacity: 0.1;
         mix-blend-mode: soft-light;
         animation: grain-shift 0.25s steps(2, end) infinite;
+        z-index: 8;
       }
 
       @keyframes bg-pan {
@@ -354,6 +390,15 @@ export class SwissWeatherBGCard extends LitElement {
         }
       }
 
+      @keyframes cloud-shadow-drift {
+        0% {
+          transform: translate3d(-2%, 1%, 0) scale(1.01);
+        }
+        100% {
+          transform: translate3d(2%, -1%, 0) scale(1.06);
+        }
+      }
+
       @keyframes rain-fall {
         0% {
           transform: translateY(-14px);
@@ -374,16 +419,38 @@ export class SwissWeatherBGCard extends LitElement {
 
       @keyframes snow-flake-fall {
         0% {
-          transform: translate3d(0, -10%, 0) rotate(0deg);
+          top: -12%;
+          transform: translate3d(0, 0, 0) rotate(0deg);
         }
         35% {
-          transform: translate3d(var(--drift, 10px), 38%, 0) rotate(120deg);
+          transform: translate3d(var(--drift, 10px), 0, 0) rotate(120deg);
         }
         70% {
-          transform: translate3d(var(--drift-back, -10px), 78%, 0) rotate(220deg);
+          transform: translate3d(var(--drift-back, -10px), 0, 0) rotate(220deg);
         }
         100% {
-          transform: translate3d(0, 124%, 0) rotate(300deg);
+          top: 112%;
+          transform: translate3d(0, 0, 0) rotate(300deg);
+        }
+      }
+
+      @keyframes lightning-bolt {
+        0%,
+        83%,
+        100% {
+          opacity: 0;
+        }
+        84% {
+          opacity: 1;
+        }
+        85% {
+          opacity: 0;
+        }
+        86% {
+          opacity: 0.85;
+        }
+        87% {
+          opacity: 0;
         }
       }
 
@@ -709,13 +776,17 @@ export class SwissWeatherBGCard extends LitElement {
         <div class="photo-layer photo-clouds"></div>
         <div class="photo-layer photo-clouds-front"></div>
         <div class="photo-layer photo-clouds-depth"></div>
+        <div class="photo-layer photo-cloud-shadow"></div>
         ${hasRain || hasSnow
           ? html`<div class="photo-layer weather-particles">
               ${hasRain ? this._renderRainParticles(condition === 'snowy-rainy' ? 14 : 28) : html``}
-              ${hasSnow ? this._renderSnowParticles(condition === 'snowy-rainy' ? 12 : 26) : html``}
+              ${hasSnow ? this._renderSnowParticles(condition === 'snowy-rainy' ? 22 : 36) : html``}
             </div>`
           : html``}
-        ${hasLightning ? html`<div class="photo-layer photo-lightning"></div>` : html``}
+        ${hasLightning
+          ? html`<div class="photo-layer photo-lightning"></div>
+              <div class="photo-layer photo-lightning-bolt"></div>`
+          : html``}
         <div class="photo-layer photo-vignette"></div>
         <div class="photo-layer photo-grain"></div>
       </div>
