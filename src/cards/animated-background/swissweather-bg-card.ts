@@ -174,15 +174,15 @@ export class SwissWeatherBGCard extends LitElement {
           );
       }
 
+      .img-photo.mood-sunny.clear-night .photo-base,
       .img-photo.clear-night .photo-base {
-        background:
-          radial-gradient(circle at 74% 16%, rgba(140, 186, 236, 0.14), rgba(140, 186, 236, 0) 26%),
-          linear-gradient(
-            180deg,
-            rgba(7, 20, 44, 0.99) 0%,
-            rgba(6, 16, 36, 1) 52%,
-            rgba(2, 8, 20, 1) 100%
-          );
+        background: linear-gradient(
+          180deg,
+          rgba(5, 16, 38, 0.99) 0%,
+          rgba(4, 12, 28, 1) 52%,
+          rgba(1, 6, 16, 1) 100%
+        );
+        animation: none;
       }
 
       .img-photo.clear-night .photo-clouds {
@@ -217,6 +217,24 @@ export class SwissWeatherBGCard extends LitElement {
             rgba(29, 40, 56, 0.98) 56%,
             rgba(20, 28, 40, 1) 100%
           );
+      }
+
+      .img-photo.foggy.day .photo-base {
+        background: linear-gradient(
+          180deg,
+          rgba(158, 176, 188, 0.98) 0%,
+          rgba(146, 165, 179, 0.99) 54%,
+          rgba(132, 152, 168, 1) 100%
+        );
+      }
+
+      .img-photo.foggy.night .photo-base {
+        background: linear-gradient(
+          180deg,
+          rgba(41, 54, 68, 0.99) 0%,
+          rgba(33, 45, 59, 1) 52%,
+          rgba(24, 35, 48, 1) 100%
+        );
       }
 
       .img-photo.mood-rainy.day .photo-base {
@@ -365,12 +383,147 @@ export class SwissWeatherBGCard extends LitElement {
         opacity: 0.7;
       }
 
+      .img-photo.partly-cloudy .photo-clouds {
+        opacity: 0.62;
+        filter: blur(9px) saturate(0.95);
+      }
+
+      .img-photo.partly-cloudy .photo-clouds-front {
+        opacity: 0.36;
+        filter: blur(7px) brightness(0.98);
+      }
+
+      .img-photo.partly-cloudy .photo-clouds-depth {
+        opacity: 0.28;
+        filter: blur(13px) saturate(0.9);
+      }
+
+      .img-photo.partly-cloudy.night .photo-clouds {
+        opacity: 0.54;
+        filter: blur(10px) saturate(0.82) brightness(0.9);
+      }
+
+      .img-photo.partly-cloudy.night .photo-clouds-front {
+        opacity: 0.3;
+        filter: blur(8px) brightness(0.84);
+        mix-blend-mode: normal;
+      }
+
+      .img-photo.partly-cloudy.night .photo-clouds-depth {
+        opacity: 0.24;
+        filter: blur(14px) saturate(0.8) brightness(0.84);
+      }
+
+      .photo-fog {
+        background:
+          radial-gradient(
+            130% 62% at 18% 74%,
+            rgba(235, 243, 250, 0.34),
+            rgba(235, 243, 250, 0) 72%
+          ),
+          radial-gradient(
+            136% 66% at 72% 70%,
+            rgba(229, 239, 248, 0.3),
+            rgba(229, 239, 248, 0) 74%
+          ),
+          linear-gradient(
+            180deg,
+            rgba(217, 229, 240, 0.08) 0%,
+            rgba(217, 229, 240, 0.24) 46%,
+            rgba(217, 229, 240, 0.38) 100%
+          );
+        mix-blend-mode: screen;
+        opacity: 0;
+        animation: fog-drift 24s ease-in-out infinite alternate;
+        z-index: 3;
+        pointer-events: none;
+      }
+
+      .img-photo.foggy .photo-fog {
+        opacity: 0.88;
+      }
+
+      .img-photo.foggy .photo-clouds {
+        filter: blur(16px) saturate(0.72) brightness(0.94);
+        opacity: 0.6;
+      }
+
+      .img-photo.foggy .photo-clouds-front {
+        filter: blur(13px) saturate(0.68) brightness(0.92);
+        opacity: 0.46;
+      }
+
+      .img-photo.foggy .photo-clouds-depth {
+        filter: blur(20px) saturate(0.65) brightness(0.9);
+        opacity: 0.44;
+      }
+
+      .img-photo.foggy .photo-cloud-shadow {
+        opacity: 0.16;
+      }
+
+      .img-photo.foggy .photo-wind-streaks {
+        opacity: 0;
+      }
+
       .img-photo.sun-bloom.day .photo-sun-rays {
         opacity: 0.8;
       }
 
       .img-photo.windy .photo-wind-streaks {
-        opacity: 0.9;
+        opacity: 1;
+        height: 78%;
+        animation-duration: 1.7s;
+        background-size:
+          260% 100%,
+          240% 100%;
+        background-position:
+          -18% 18%,
+          -58% 60%;
+        filter: blur(0.15px);
+      }
+
+      .img-photo.windy .photo-wind-streaks::after {
+        content: '';
+        position: absolute;
+        inset: 4% -8% 0 -8%;
+        background-image:
+          linear-gradient(
+            114deg,
+            rgba(224, 241, 255, 0) 0%,
+            rgba(224, 241, 255, 0.3) 24%,
+            rgba(224, 241, 255, 0.45) 38%,
+            rgba(224, 241, 255, 0) 58%
+          ),
+          linear-gradient(
+            114deg,
+            rgba(204, 229, 250, 0) 14%,
+            rgba(204, 229, 250, 0.24) 34%,
+            rgba(204, 229, 250, 0.38) 52%,
+            rgba(204, 229, 250, 0) 70%
+          );
+        background-size:
+          280% 100%,
+          250% 100%;
+        background-position:
+          -46% 24%,
+          -86% 68%;
+        animation: wind-streak-sweep-strong 1.35s linear infinite;
+        opacity: 0.88;
+        mix-blend-mode: screen;
+        pointer-events: none;
+      }
+
+      .img-photo.windy .photo-clouds {
+        animation-duration: 20s;
+      }
+
+      .img-photo.windy .photo-clouds-front {
+        animation-duration: 10s;
+      }
+
+      .img-photo.windy .photo-clouds-depth {
+        animation-duration: 14s;
       }
 
       .photo-rain {
@@ -808,6 +961,36 @@ export class SwissWeatherBGCard extends LitElement {
         }
       }
 
+      @keyframes wind-streak-sweep-strong {
+        0% {
+          background-position:
+            -46% 24%,
+            -86% 68%;
+          opacity: 0.66;
+        }
+        50% {
+          background-position:
+            72% 20%,
+            38% 66%;
+          opacity: 0.98;
+        }
+        100% {
+          background-position:
+            188% 16%,
+            152% 62%;
+          opacity: 0.62;
+        }
+      }
+
+      @keyframes fog-drift {
+        0% {
+          transform: translate3d(-1.2%, 0.4%, 0) scale(1.01);
+        }
+        100% {
+          transform: translate3d(1.8%, -0.6%, 0) scale(1.04);
+        }
+      }
+
       @keyframes lightning-bolt {
         0%,
         83%,
@@ -1143,11 +1326,7 @@ export class SwissWeatherBGCard extends LitElement {
       return 'rainy';
     }
 
-    if (
-      ['cloudy', 'partlycloudy', 'fog', 'windy', 'windy-variant', 'snowy', 'hail'].includes(
-        condition
-      )
-    ) {
+    if (['cloudy', 'fog', 'windy', 'windy-variant', 'snowy', 'hail'].includes(condition)) {
       return 'cloudy';
     }
 
@@ -1157,6 +1336,8 @@ export class SwissWeatherBGCard extends LitElement {
   private _renderPhotoLikeBackground(condition: string, daytime: boolean): TemplateResult {
     const mood = this._resolvePhotoMood(condition);
     const isClearNight = condition === 'clear-night';
+    const isFog = condition === 'fog';
+    const isPartlyCloudy = condition === 'partlycloudy';
     const isNightVisual = isClearNight || !daytime;
     const isWindy = condition === 'windy' || condition === 'windy-variant';
     const hasSunBloom = daytime && (condition === 'sunny' || condition === 'partlycloudy');
@@ -1175,7 +1356,9 @@ export class SwissWeatherBGCard extends LitElement {
       <div
         class="img-photo mood-${mood} ${isNightVisual ? 'night' : 'day'} ${isClearNight
           ? 'clear-night'
-          : ''} ${isWindy ? 'windy' : ''} ${hasSunBloom ? 'sun-bloom' : ''}"
+          : ''} ${isFog ? 'foggy' : ''} ${isPartlyCloudy ? 'partly-cloudy' : ''} ${isWindy
+          ? 'windy'
+          : ''} ${hasSunBloom ? 'sun-bloom' : ''}"
       >
         <div class="photo-layer photo-base"></div>
         <div class="photo-layer photo-circadian"></div>
@@ -1184,6 +1367,7 @@ export class SwissWeatherBGCard extends LitElement {
         <div class="photo-layer photo-clouds"></div>
         <div class="photo-layer photo-clouds-front"></div>
         <div class="photo-layer photo-clouds-depth"></div>
+        <div class="photo-layer photo-fog"></div>
         <div class="photo-layer photo-wind-streaks"></div>
         <div class="photo-layer photo-cloud-shadow"></div>
         ${hasRain || hasSnow || hasHail
@@ -1198,7 +1382,8 @@ export class SwissWeatherBGCard extends LitElement {
                   )}`
                 : html`${condition === 'pouring' ? this._renderRainParticles(68, false) : html``}
                   ${condition === 'pouring' ? this._renderDrizzleParticles(28, false) : html``}
-                  ${condition === 'rainy' ? this._renderRainParticles(48, false) : html``}
+                  ${condition === 'rainy' ? this._renderRainParticles(66, false) : html``}
+                  ${condition === 'rainy' ? this._renderDrizzleParticles(22, false) : html``}
                   ${condition === 'lightning-rainy' ? this._renderRainParticles(54, false) : html``}
                   ${condition === 'lightning-rainy'
                     ? this._renderDrizzleParticles(18, false)
