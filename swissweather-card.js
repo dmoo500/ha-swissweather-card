@@ -879,17 +879,18 @@ var We = class extends D {
       overflow: hidden;
       border-radius: 4px;
       flex: 1;
-      min-height: 0;
+      min-height: 100px;
     }
   `;
 	firstUpdated() {
 		let e = this.renderRoot.querySelector(".chart-svg-area");
 		e && (this._resizeObserver = new ResizeObserver((e) => {
-			for (let t of e) {
-				let e = Math.floor(t.contentRect.width), n = Math.floor(t.contentRect.height);
-				e > 0 && e !== this._measuredWidth && (this._measuredWidth = e), n > 0 && n !== this._measuredHeight && (this._measuredHeight = n);
+			let t = !1;
+			for (let n of e) {
+				let e = Math.floor(n.contentRect.width), r = Math.floor(n.contentRect.height);
+				e > 0 && e !== this._measuredWidth && (this._measuredWidth = e, t = !0), r > 0 && r !== this._measuredHeight && (this._measuredHeight = r, t = !0);
 			}
-			this.requestUpdate();
+			t && this.requestUpdate();
 		}), this._resizeObserver.observe(e));
 	}
 	disconnectedCallback() {
@@ -999,17 +1000,18 @@ var Ge = class extends D {
       overflow: hidden;
       border-radius: 4px;
       flex: 1;
-      min-height: 0;
+      min-height: 100px;
     }
   `;
 	firstUpdated() {
 		let e = this.renderRoot.querySelector(".chart-svg-area");
 		e && (this._resizeObserver = new ResizeObserver((e) => {
-			for (let t of e) {
-				let e = Math.floor(t.contentRect.width), n = Math.floor(t.contentRect.height);
-				e > 0 && e !== this._measuredWidth && (this._measuredWidth = e), n > 0 && n !== this._measuredHeight && (this._measuredHeight = n);
+			let t = !1;
+			for (let n of e) {
+				let e = Math.floor(n.contentRect.width), r = Math.floor(n.contentRect.height);
+				e > 0 && e !== this._measuredWidth && (this._measuredWidth = e, t = !0), r > 0 && r !== this._measuredHeight && (this._measuredHeight = r, t = !0);
 			}
-			this.requestUpdate();
+			t && this.requestUpdate();
 		}), this._resizeObserver.observe(e));
 	}
 	disconnectedCallback() {
@@ -1359,17 +1361,18 @@ var Ke = class extends D {
       overflow: hidden;
       border-radius: 4px;
       flex: 1;
-      min-height: 0;
+      min-height: 122px;
     }
   `;
 	firstUpdated() {
 		let e = this.renderRoot.querySelector(".chart-svg-area");
 		e && (this._resizeObserver = new ResizeObserver((e) => {
-			for (let t of e) {
-				let e = Math.floor(t.contentRect.width), n = Math.floor(t.contentRect.height);
-				e > 0 && e !== this._measuredWidth && (this._measuredWidth = e), n > 0 && n !== this._measuredHeight && (this._measuredHeight = n);
+			let t = !1;
+			for (let n of e) {
+				let e = Math.floor(n.contentRect.width), r = Math.floor(n.contentRect.height);
+				e > 0 && e !== this._measuredWidth && (this._measuredWidth = e, t = !0), r > 0 && r !== this._measuredHeight && (this._measuredHeight = r, t = !0);
 			}
-			this.requestUpdate();
+			t && this.requestUpdate();
 		}), this._resizeObserver.observe(e));
 	}
 	disconnectedCallback() {
@@ -2212,7 +2215,7 @@ var en = (e, t, n, r) => {
 				show_temperature: "Zeige das Temperaturdiagramm an, mit den Vorhersage anhand der eingestellten Stunden",
 				show_precipitation: "Zeige das Niederschlags an, mit den Vorhersage anhand der eingestellten Stunden",
 				show_sunshine: "Zeige das Sonnenscheindauerdiagramm an, mit den Vorhersage anhand der eingestellten Stunden",
-				show_wind: "Zeige das Winddiagramm anm it den Vorhersage anhand der eingestellten Stunden",
+				show_wind: "Zeige das Winddiagramm an mit den Vorhersage anhand der eingestellten Stunden",
 				show_day_temps: "Blende die Tages-Min/Max-Anzeige ein oder aus.",
 				show_sun_times: "Blende die Anzeige von Sonnenaufgang/-untergang ein oder aus.",
 				photo_mode: "Experimenteller fotorealistischer Hintergrund mit atmosphärischen Overlays (PoC).",
@@ -2354,7 +2357,7 @@ var en = (e, t, n, r) => {
 				show_day_temps: "Toggle the per-day min/max display on or off.",
 				show_sun_times: "Toggle the sunrise/sunset display on or off.",
 				photo_mode: "Experimental photorealistic background with atmospheric overlays (PoC).",
-				show_warnings: "Show weather warnings if the weather warning entity is set and the actul warning exists.",
+				show_warnings: "Show weather warnings if the weather warning entity is set and the actual warning exists.",
 				enable_animate_weather_icons: "Show animated icons. If disabled, static icons are displayed.",
 				compact_mode: "In compact mode, fewer details are displayed for the daily forecast and current data (e.g. wind direction)",
 				forecast_hours: "Number of hours to show in the hourly forecast (default: 6, maximum 18)",

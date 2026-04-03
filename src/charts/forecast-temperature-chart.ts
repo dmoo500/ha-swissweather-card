@@ -52,7 +52,7 @@ export class ForecastTemperatureChart extends LitElement {
       overflow: hidden;
       border-radius: 4px;
       flex: 1;
-      min-height: 0;
+      min-height: 100px;
     }
   `;
 
@@ -60,13 +60,20 @@ export class ForecastTemperatureChart extends LitElement {
     const area = this.renderRoot.querySelector('.chart-svg-area') as HTMLElement | null;
     if (!area) return;
     this._resizeObserver = new ResizeObserver(entries => {
+      let changed = false;
       for (const entry of entries) {
         const w = Math.floor(entry.contentRect.width);
         const h = Math.floor(entry.contentRect.height);
-        if (w > 0 && w !== this._measuredWidth) this._measuredWidth = w;
-        if (h > 0 && h !== this._measuredHeight) this._measuredHeight = h;
+        if (w > 0 && w !== this._measuredWidth) {
+          this._measuredWidth = w;
+          changed = true;
+        }
+        if (h > 0 && h !== this._measuredHeight) {
+          this._measuredHeight = h;
+          changed = true;
+        }
       }
-      this.requestUpdate();
+      if (changed) this.requestUpdate();
     });
     this._resizeObserver.observe(area);
   }

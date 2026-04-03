@@ -65,7 +65,7 @@ export const translations = {
           'Zeige das Niederschlags an, mit den Vorhersage anhand der eingestellten Stunden',
         show_sunshine:
           'Zeige das Sonnenscheindauerdiagramm an, mit den Vorhersage anhand der eingestellten Stunden',
-        show_wind: 'Zeige das Winddiagramm anm it den Vorhersage anhand der eingestellten Stunden',
+        show_wind: 'Zeige das Winddiagramm an mit den Vorhersage anhand der eingestellten Stunden',
         show_day_temps: 'Blende die Tages-Min/Max-Anzeige ein oder aus.',
         show_sun_times: 'Blende die Anzeige von Sonnenaufgang/-untergang ein oder aus.',
         photo_mode:
@@ -218,7 +218,7 @@ export const translations = {
         show_sun_times: 'Toggle the sunrise/sunset display on or off.',
         photo_mode: 'Experimental photorealistic background with atmospheric overlays (PoC).',
         show_warnings:
-          'Show weather warnings if the weather warning entity is set and the actul warning exists.',
+          'Show weather warnings if the weather warning entity is set and the actual warning exists.',
         enable_animate_weather_icons:
           'Show animated icons. If disabled, static icons are displayed.',
         compact_mode:
