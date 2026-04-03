@@ -1,5 +1,5 @@
 //#region package.json
-var e = "1.7.0", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
+var e = "1.7.1", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
 	constructor(e, t, n) {
 		if (this._$cssResult$ = !0, n !== r) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
 		this.cssText = e, this.t = t;
@@ -29,11 +29,11 @@ var e = "1.7.0", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t
 	let t = "";
 	for (let n of e.cssRules) t += n.cssText;
 	return o(t);
-})(e) : e, { is: u, defineProperty: d, getOwnPropertyDescriptor: ee, getOwnPropertyNames: f, getOwnPropertySymbols: p, getPrototypeOf: te } = Object, ne = globalThis, re = ne.trustedTypes, ie = re ? re.emptyScript : "", ae = ne.reactiveElementPolyfillSupport, oe = (e, t) => e, se = {
+})(e) : e, { is: u, defineProperty: d, getOwnPropertyDescriptor: f, getOwnPropertyNames: p, getOwnPropertySymbols: m, getPrototypeOf: h } = Object, ee = globalThis, te = ee.trustedTypes, ne = te ? te.emptyScript : "", re = ee.reactiveElementPolyfillSupport, ie = (e, t) => e, ae = {
 	toAttribute(e, t) {
 		switch (t) {
 			case Boolean:
-				e = e ? ie : null;
+				e = e ? ne : null;
 				break;
 			case Object:
 			case Array: e = e == null ? e : JSON.stringify(e);
@@ -58,30 +58,30 @@ var e = "1.7.0", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t
 		}
 		return n;
 	}
-}, ce = (e, t) => !u(e, t), m = {
+}, oe = (e, t) => !u(e, t), g = {
 	attribute: !0,
 	type: String,
-	converter: se,
+	converter: ae,
 	reflect: !1,
 	useDefault: !1,
-	hasChanged: ce
+	hasChanged: oe
 };
-Symbol.metadata ??= Symbol("metadata"), ne.litPropertyMetadata ??= /* @__PURE__ */ new WeakMap();
-var h = class extends HTMLElement {
+Symbol.metadata ??= Symbol("metadata"), ee.litPropertyMetadata ??= /* @__PURE__ */ new WeakMap();
+var _ = class extends HTMLElement {
 	static addInitializer(e) {
 		this._$Ei(), (this.l ??= []).push(e);
 	}
 	static get observedAttributes() {
 		return this.finalize(), this._$Eh && [...this._$Eh.keys()];
 	}
-	static createProperty(e, t = m) {
+	static createProperty(e, t = g) {
 		if (t.state && (t.attribute = !1), this._$Ei(), this.prototype.hasOwnProperty(e) && ((t = Object.create(t)).wrapped = !0), this.elementProperties.set(e, t), !t.noAccessor) {
 			let n = Symbol(), r = this.getPropertyDescriptor(e, n, t);
 			r !== void 0 && d(this.prototype, e, r);
 		}
 	}
 	static getPropertyDescriptor(e, t, n) {
-		let { get: r, set: i } = ee(this.prototype, e) ?? {
+		let { get: r, set: i } = f(this.prototype, e) ?? {
 			get() {
 				return this[t];
 			},
@@ -100,17 +100,17 @@ var h = class extends HTMLElement {
 		};
 	}
 	static getPropertyOptions(e) {
-		return this.elementProperties.get(e) ?? m;
+		return this.elementProperties.get(e) ?? g;
 	}
 	static _$Ei() {
-		if (this.hasOwnProperty(oe("elementProperties"))) return;
-		let e = te(this);
+		if (this.hasOwnProperty(ie("elementProperties"))) return;
+		let e = h(this);
 		e.finalize(), e.l !== void 0 && (this.l = [...e.l]), this.elementProperties = new Map(e.elementProperties);
 	}
 	static finalize() {
-		if (this.hasOwnProperty(oe("finalized"))) return;
-		if (this.finalized = !0, this._$Ei(), this.hasOwnProperty(oe("properties"))) {
-			let e = this.properties, t = [...f(e), ...p(e)];
+		if (this.hasOwnProperty(ie("finalized"))) return;
+		if (this.finalized = !0, this._$Ei(), this.hasOwnProperty(ie("properties"))) {
+			let e = this.properties, t = [...p(e), ...m(e)];
 			for (let n of t) this.createProperty(n, e[n]);
 		}
 		let e = this[Symbol.metadata];
@@ -171,14 +171,14 @@ var h = class extends HTMLElement {
 	_$ET(e, t) {
 		let n = this.constructor.elementProperties.get(e), r = this.constructor._$Eu(e, n);
 		if (r !== void 0 && !0 === n.reflect) {
-			let i = (n.converter?.toAttribute === void 0 ? se : n.converter).toAttribute(t, n.type);
+			let i = (n.converter?.toAttribute === void 0 ? ae : n.converter).toAttribute(t, n.type);
 			this._$Em = e, i == null ? this.removeAttribute(r) : this.setAttribute(r, i), this._$Em = null;
 		}
 	}
 	_$AK(e, t) {
 		let n = this.constructor, r = n._$Eh.get(e);
 		if (r !== void 0 && this._$Em !== r) {
-			let e = n.getPropertyOptions(r), i = typeof e.converter == "function" ? { fromAttribute: e.converter } : e.converter?.fromAttribute === void 0 ? se : e.converter;
+			let e = n.getPropertyOptions(r), i = typeof e.converter == "function" ? { fromAttribute: e.converter } : e.converter?.fromAttribute === void 0 ? ae : e.converter;
 			this._$Em = r;
 			let a = i.fromAttribute(t, e.type);
 			this[r] = a ?? this._$Ej?.get(r) ?? a, this._$Em = null;
@@ -187,7 +187,7 @@ var h = class extends HTMLElement {
 	requestUpdate(e, t, n) {
 		if (e !== void 0) {
 			let r = this.constructor, i = this[e];
-			if (n ??= r.getPropertyOptions(e), !((n.hasChanged ?? ce)(i, t) || n.useDefault && n.reflect && i === this._$Ej?.get(e) && !this.hasAttribute(r._$Eu(e, n)))) return;
+			if (n ??= r.getPropertyOptions(e), !((n.hasChanged ?? oe)(i, t) || n.useDefault && n.reflect && i === this._$Ej?.get(e) && !this.hasAttribute(r._$Eu(e, n)))) return;
 			this.C(e, t, n);
 		}
 		!1 === this.isUpdatePending && (this._$ES = this._$EP());
@@ -251,87 +251,87 @@ var h = class extends HTMLElement {
 	updated(e) {}
 	firstUpdated(e) {}
 };
-h.elementStyles = [], h.shadowRootOptions = { mode: "open" }, h[oe("elementProperties")] = /* @__PURE__ */ new Map(), h[oe("finalized")] = /* @__PURE__ */ new Map(), ae?.({ ReactiveElement: h }), (ne.reactiveElementVersions ??= []).push("2.1.1");
+_.elementStyles = [], _.shadowRootOptions = { mode: "open" }, _[ie("elementProperties")] = /* @__PURE__ */ new Map(), _[ie("finalized")] = /* @__PURE__ */ new Map(), re?.({ ReactiveElement: _ }), (ee.reactiveElementVersions ??= []).push("2.1.1");
 //#endregion
 //#region node_modules/lit/node_modules/lit-html/lit-html.js
-var le = globalThis, ue = le.trustedTypes, de = ue ? ue.createPolicy("lit-html", { createHTML: (e) => e }) : void 0, g = "$lit$", _ = `lit$${Math.random().toFixed(9).slice(2)}$`, fe = "?" + _, pe = `<${fe}>`, me = document, v = () => me.createComment(""), y = (e) => e === null || typeof e != "object" && typeof e != "function", b = Array.isArray, he = (e) => b(e) || typeof e?.[Symbol.iterator] == "function", ge = "[ 	\n\f\r]", _e = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, ve = /-->/g, ye = />/g, x = RegExp(`>|${ge}(?:([^\\s"'>=/]+)(${ge}*=${ge}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`, "g"), be = /'/g, xe = /"/g, Se = /^(?:script|style|textarea|title)$/i, Ce = (e) => (t, ...n) => ({
+var se = globalThis, ce = se.trustedTypes, le = ce ? ce.createPolicy("lit-html", { createHTML: (e) => e }) : void 0, v = "$lit$", y = `lit$${Math.random().toFixed(9).slice(2)}$`, ue = "?" + y, de = `<${ue}>`, fe = document, b = () => fe.createComment(""), x = (e) => e === null || typeof e != "object" && typeof e != "function", S = Array.isArray, pe = (e) => S(e) || typeof e?.[Symbol.iterator] == "function", me = "[ 	\n\f\r]", he = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, ge = /-->/g, _e = />/g, C = RegExp(`>|${me}(?:([^\\s"'>=/]+)(${me}*=${me}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`, "g"), ve = /'/g, ye = /"/g, be = /^(?:script|style|textarea|title)$/i, xe = (e) => (t, ...n) => ({
 	_$litType$: e,
 	strings: t,
 	values: n
-}), S = Ce(1), C = Ce(2), we = Symbol.for("lit-noChange"), w = Symbol.for("lit-nothing"), Te = /* @__PURE__ */ new WeakMap(), Ee = me.createTreeWalker(me, 129);
-function De(e, t) {
-	if (!b(e) || !e.hasOwnProperty("raw")) throw Error("invalid template strings array");
-	return de === void 0 ? t : de.createHTML(t);
+}), w = xe(1), T = xe(2), Se = Symbol.for("lit-noChange"), E = Symbol.for("lit-nothing"), Ce = /* @__PURE__ */ new WeakMap(), we = fe.createTreeWalker(fe, 129);
+function Te(e, t) {
+	if (!S(e) || !e.hasOwnProperty("raw")) throw Error("invalid template strings array");
+	return le === void 0 ? t : le.createHTML(t);
 }
-var Oe = (e, t) => {
-	let n = e.length - 1, r = [], i, a = t === 2 ? "<svg>" : t === 3 ? "<math>" : "", o = _e;
+var Ee = (e, t) => {
+	let n = e.length - 1, r = [], i, a = t === 2 ? "<svg>" : t === 3 ? "<math>" : "", o = he;
 	for (let t = 0; t < n; t++) {
 		let n = e[t], s, c, l = -1, u = 0;
-		for (; u < n.length && (o.lastIndex = u, c = o.exec(n), c !== null);) u = o.lastIndex, o === _e ? c[1] === "!--" ? o = ve : c[1] === void 0 ? c[2] === void 0 ? c[3] !== void 0 && (o = x) : (Se.test(c[2]) && (i = RegExp("</" + c[2], "g")), o = x) : o = ye : o === x ? c[0] === ">" ? (o = i ?? _e, l = -1) : c[1] === void 0 ? l = -2 : (l = o.lastIndex - c[2].length, s = c[1], o = c[3] === void 0 ? x : c[3] === "\"" ? xe : be) : o === xe || o === be ? o = x : o === ve || o === ye ? o = _e : (o = x, i = void 0);
-		let d = o === x && e[t + 1].startsWith("/>") ? " " : "";
-		a += o === _e ? n + pe : l >= 0 ? (r.push(s), n.slice(0, l) + g + n.slice(l) + _ + d) : n + _ + (l === -2 ? t : d);
+		for (; u < n.length && (o.lastIndex = u, c = o.exec(n), c !== null);) u = o.lastIndex, o === he ? c[1] === "!--" ? o = ge : c[1] === void 0 ? c[2] === void 0 ? c[3] !== void 0 && (o = C) : (be.test(c[2]) && (i = RegExp("</" + c[2], "g")), o = C) : o = _e : o === C ? c[0] === ">" ? (o = i ?? he, l = -1) : c[1] === void 0 ? l = -2 : (l = o.lastIndex - c[2].length, s = c[1], o = c[3] === void 0 ? C : c[3] === "\"" ? ye : ve) : o === ye || o === ve ? o = C : o === ge || o === _e ? o = he : (o = C, i = void 0);
+		let d = o === C && e[t + 1].startsWith("/>") ? " " : "";
+		a += o === he ? n + de : l >= 0 ? (r.push(s), n.slice(0, l) + v + n.slice(l) + y + d) : n + y + (l === -2 ? t : d);
 	}
-	return [De(e, a + (e[n] || "<?>") + (t === 2 ? "</svg>" : t === 3 ? "</math>" : "")), r];
-}, ke = class e {
+	return [Te(e, a + (e[n] || "<?>") + (t === 2 ? "</svg>" : t === 3 ? "</math>" : "")), r];
+}, De = class e {
 	constructor({ strings: t, _$litType$: n }, r) {
 		let i;
 		this.parts = [];
-		let a = 0, o = 0, s = t.length - 1, c = this.parts, [l, u] = Oe(t, n);
-		if (this.el = e.createElement(l, r), Ee.currentNode = this.el.content, n === 2 || n === 3) {
+		let a = 0, o = 0, s = t.length - 1, c = this.parts, [l, u] = Ee(t, n);
+		if (this.el = e.createElement(l, r), we.currentNode = this.el.content, n === 2 || n === 3) {
 			let e = this.el.content.firstChild;
 			e.replaceWith(...e.childNodes);
 		}
-		for (; (i = Ee.nextNode()) !== null && c.length < s;) {
+		for (; (i = we.nextNode()) !== null && c.length < s;) {
 			if (i.nodeType === 1) {
-				if (i.hasAttributes()) for (let e of i.getAttributeNames()) if (e.endsWith(g)) {
-					let t = u[o++], n = i.getAttribute(e).split(_), r = /([.?@])?(.*)/.exec(t);
+				if (i.hasAttributes()) for (let e of i.getAttributeNames()) if (e.endsWith(v)) {
+					let t = u[o++], n = i.getAttribute(e).split(y), r = /([.?@])?(.*)/.exec(t);
 					c.push({
 						type: 1,
 						index: a,
 						name: r[2],
 						strings: n,
-						ctor: r[1] === "." ? Pe : r[1] === "?" ? Fe : r[1] === "@" ? Ie : Ne
+						ctor: r[1] === "." ? Me : r[1] === "?" ? Ne : r[1] === "@" ? Pe : je
 					}), i.removeAttribute(e);
-				} else e.startsWith(_) && (c.push({
+				} else e.startsWith(y) && (c.push({
 					type: 6,
 					index: a
 				}), i.removeAttribute(e));
-				if (Se.test(i.tagName)) {
-					let e = i.textContent.split(_), t = e.length - 1;
+				if (be.test(i.tagName)) {
+					let e = i.textContent.split(y), t = e.length - 1;
 					if (t > 0) {
-						i.textContent = ue ? ue.emptyScript : "";
-						for (let n = 0; n < t; n++) i.append(e[n], v()), Ee.nextNode(), c.push({
+						i.textContent = ce ? ce.emptyScript : "";
+						for (let n = 0; n < t; n++) i.append(e[n], b()), we.nextNode(), c.push({
 							type: 2,
 							index: ++a
 						});
-						i.append(e[t], v());
+						i.append(e[t], b());
 					}
 				}
-			} else if (i.nodeType === 8) if (i.data === fe) c.push({
+			} else if (i.nodeType === 8) if (i.data === ue) c.push({
 				type: 2,
 				index: a
 			});
 			else {
 				let e = -1;
-				for (; (e = i.data.indexOf(_, e + 1)) !== -1;) c.push({
+				for (; (e = i.data.indexOf(y, e + 1)) !== -1;) c.push({
 					type: 7,
 					index: a
-				}), e += _.length - 1;
+				}), e += y.length - 1;
 			}
 			a++;
 		}
 	}
 	static createElement(e, t) {
-		let n = me.createElement("template");
+		let n = fe.createElement("template");
 		return n.innerHTML = e, n;
 	}
 };
-function Ae(e, t, n = e, r) {
-	if (t === we) return t;
-	let i = r === void 0 ? n._$Cl : n._$Co?.[r], a = y(t) ? void 0 : t._$litDirective$;
-	return i?.constructor !== a && (i?._$AO?.(!1), a === void 0 ? i = void 0 : (i = new a(e), i._$AT(e, n, r)), r === void 0 ? n._$Cl = i : (n._$Co ??= [])[r] = i), i !== void 0 && (t = Ae(e, i._$AS(e, t.values), i, r)), t;
+function Oe(e, t, n = e, r) {
+	if (t === Se) return t;
+	let i = r === void 0 ? n._$Cl : n._$Co?.[r], a = x(t) ? void 0 : t._$litDirective$;
+	return i?.constructor !== a && (i?._$AO?.(!1), a === void 0 ? i = void 0 : (i = new a(e), i._$AT(e, n, r)), r === void 0 ? n._$Cl = i : (n._$Co ??= [])[r] = i), i !== void 0 && (t = Oe(e, i._$AS(e, t.values), i, r)), t;
 }
-var je = class {
+var ke = class {
 	constructor(e, t) {
 		this._$AV = [], this._$AN = void 0, this._$AD = e, this._$AM = t;
 	}
@@ -342,28 +342,28 @@ var je = class {
 		return this._$AM._$AU;
 	}
 	u(e) {
-		let { el: { content: t }, parts: n } = this._$AD, r = (e?.creationScope ?? me).importNode(t, !0);
-		Ee.currentNode = r;
-		let i = Ee.nextNode(), a = 0, o = 0, s = n[0];
+		let { el: { content: t }, parts: n } = this._$AD, r = (e?.creationScope ?? fe).importNode(t, !0);
+		we.currentNode = r;
+		let i = we.nextNode(), a = 0, o = 0, s = n[0];
 		for (; s !== void 0;) {
 			if (a === s.index) {
 				let t;
-				s.type === 2 ? t = new Me(i, i.nextSibling, this, e) : s.type === 1 ? t = new s.ctor(i, s.name, s.strings, this, e) : s.type === 6 && (t = new Le(i, this, e)), this._$AV.push(t), s = n[++o];
+				s.type === 2 ? t = new Ae(i, i.nextSibling, this, e) : s.type === 1 ? t = new s.ctor(i, s.name, s.strings, this, e) : s.type === 6 && (t = new Fe(i, this, e)), this._$AV.push(t), s = n[++o];
 			}
-			a !== s?.index && (i = Ee.nextNode(), a++);
+			a !== s?.index && (i = we.nextNode(), a++);
 		}
-		return Ee.currentNode = me, r;
+		return we.currentNode = fe, r;
 	}
 	p(e) {
 		let t = 0;
 		for (let n of this._$AV) n !== void 0 && (n.strings === void 0 ? n._$AI(e[t]) : (n._$AI(e, n, t), t += n.strings.length - 2)), t++;
 	}
-}, Me = class e {
+}, Ae = class e {
 	get _$AU() {
 		return this._$AM?._$AU ?? this._$Cv;
 	}
 	constructor(e, t, n, r) {
-		this.type = 2, this._$AH = w, this._$AN = void 0, this._$AA = e, this._$AB = t, this._$AM = n, this.options = r, this._$Cv = r?.isConnected ?? !0;
+		this.type = 2, this._$AH = E, this._$AN = void 0, this._$AA = e, this._$AB = t, this._$AM = n, this.options = r, this._$Cv = r?.isConnected ?? !0;
 	}
 	get parentNode() {
 		let e = this._$AA.parentNode, t = this._$AM;
@@ -376,7 +376,7 @@ var je = class {
 		return this._$AB;
 	}
 	_$AI(e, t = this) {
-		e = Ae(this, e, t), y(e) ? e === w || e == null || e === "" ? (this._$AH !== w && this._$AR(), this._$AH = w) : e !== this._$AH && e !== we && this._(e) : e._$litType$ === void 0 ? e.nodeType === void 0 ? he(e) ? this.k(e) : this._(e) : this.T(e) : this.$(e);
+		e = Oe(this, e, t), x(e) ? e === E || e == null || e === "" ? (this._$AH !== E && this._$AR(), this._$AH = E) : e !== this._$AH && e !== Se && this._(e) : e._$litType$ === void 0 ? e.nodeType === void 0 ? pe(e) ? this.k(e) : this._(e) : this.T(e) : this.$(e);
 	}
 	O(e) {
 		return this._$AA.parentNode.insertBefore(e, this._$AB);
@@ -385,24 +385,24 @@ var je = class {
 		this._$AH !== e && (this._$AR(), this._$AH = this.O(e));
 	}
 	_(e) {
-		this._$AH !== w && y(this._$AH) ? this._$AA.nextSibling.data = e : this.T(me.createTextNode(e)), this._$AH = e;
+		this._$AH !== E && x(this._$AH) ? this._$AA.nextSibling.data = e : this.T(fe.createTextNode(e)), this._$AH = e;
 	}
 	$(e) {
-		let { values: t, _$litType$: n } = e, r = typeof n == "number" ? this._$AC(e) : (n.el === void 0 && (n.el = ke.createElement(De(n.h, n.h[0]), this.options)), n);
+		let { values: t, _$litType$: n } = e, r = typeof n == "number" ? this._$AC(e) : (n.el === void 0 && (n.el = De.createElement(Te(n.h, n.h[0]), this.options)), n);
 		if (this._$AH?._$AD === r) this._$AH.p(t);
 		else {
-			let e = new je(r, this), n = e.u(this.options);
+			let e = new ke(r, this), n = e.u(this.options);
 			e.p(t), this.T(n), this._$AH = e;
 		}
 	}
 	_$AC(e) {
-		let t = Te.get(e.strings);
-		return t === void 0 && Te.set(e.strings, t = new ke(e)), t;
+		let t = Ce.get(e.strings);
+		return t === void 0 && Ce.set(e.strings, t = new De(e)), t;
 	}
 	k(t) {
-		b(this._$AH) || (this._$AH = [], this._$AR());
+		S(this._$AH) || (this._$AH = [], this._$AR());
 		let n = this._$AH, r, i = 0;
-		for (let a of t) i === n.length ? n.push(r = new e(this.O(v()), this.O(v()), this, this.options)) : r = n[i], r._$AI(a), i++;
+		for (let a of t) i === n.length ? n.push(r = new e(this.O(b()), this.O(b()), this, this.options)) : r = n[i], r._$AI(a), i++;
 		i < n.length && (this._$AR(r && r._$AB.nextSibling, i), n.length = i);
 	}
 	_$AR(e = this._$AA.nextSibling, t) {
@@ -414,7 +414,7 @@ var je = class {
 	setConnected(e) {
 		this._$AM === void 0 && (this._$Cv = e, this._$AP?.(e));
 	}
-}, Ne = class {
+}, je = class {
 	get tagName() {
 		return this.element.tagName;
 	}
@@ -422,47 +422,47 @@ var je = class {
 		return this._$AM._$AU;
 	}
 	constructor(e, t, n, r, i) {
-		this.type = 1, this._$AH = w, this._$AN = void 0, this.element = e, this.name = t, this._$AM = r, this.options = i, n.length > 2 || n[0] !== "" || n[1] !== "" ? (this._$AH = Array(n.length - 1).fill(/* @__PURE__ */ new String()), this.strings = n) : this._$AH = w;
+		this.type = 1, this._$AH = E, this._$AN = void 0, this.element = e, this.name = t, this._$AM = r, this.options = i, n.length > 2 || n[0] !== "" || n[1] !== "" ? (this._$AH = Array(n.length - 1).fill(/* @__PURE__ */ new String()), this.strings = n) : this._$AH = E;
 	}
 	_$AI(e, t = this, n, r) {
 		let i = this.strings, a = !1;
-		if (i === void 0) e = Ae(this, e, t, 0), a = !y(e) || e !== this._$AH && e !== we, a && (this._$AH = e);
+		if (i === void 0) e = Oe(this, e, t, 0), a = !x(e) || e !== this._$AH && e !== Se, a && (this._$AH = e);
 		else {
 			let r = e, o, s;
-			for (e = i[0], o = 0; o < i.length - 1; o++) s = Ae(this, r[n + o], t, o), s === we && (s = this._$AH[o]), a ||= !y(s) || s !== this._$AH[o], s === w ? e = w : e !== w && (e += (s ?? "") + i[o + 1]), this._$AH[o] = s;
+			for (e = i[0], o = 0; o < i.length - 1; o++) s = Oe(this, r[n + o], t, o), s === Se && (s = this._$AH[o]), a ||= !x(s) || s !== this._$AH[o], s === E ? e = E : e !== E && (e += (s ?? "") + i[o + 1]), this._$AH[o] = s;
 		}
 		a && !r && this.j(e);
 	}
 	j(e) {
-		e === w ? this.element.removeAttribute(this.name) : this.element.setAttribute(this.name, e ?? "");
+		e === E ? this.element.removeAttribute(this.name) : this.element.setAttribute(this.name, e ?? "");
 	}
-}, Pe = class extends Ne {
+}, Me = class extends je {
 	constructor() {
 		super(...arguments), this.type = 3;
 	}
 	j(e) {
-		this.element[this.name] = e === w ? void 0 : e;
+		this.element[this.name] = e === E ? void 0 : e;
 	}
-}, Fe = class extends Ne {
+}, Ne = class extends je {
 	constructor() {
 		super(...arguments), this.type = 4;
 	}
 	j(e) {
-		this.element.toggleAttribute(this.name, !!e && e !== w);
+		this.element.toggleAttribute(this.name, !!e && e !== E);
 	}
-}, Ie = class extends Ne {
+}, Pe = class extends je {
 	constructor(e, t, n, r, i) {
 		super(e, t, n, r, i), this.type = 5;
 	}
 	_$AI(e, t = this) {
-		if ((e = Ae(this, e, t, 0) ?? w) === we) return;
-		let n = this._$AH, r = e === w && n !== w || e.capture !== n.capture || e.once !== n.once || e.passive !== n.passive, i = e !== w && (n === w || r);
+		if ((e = Oe(this, e, t, 0) ?? E) === Se) return;
+		let n = this._$AH, r = e === E && n !== E || e.capture !== n.capture || e.once !== n.once || e.passive !== n.passive, i = e !== E && (n === E || r);
 		r && this.element.removeEventListener(this.name, this, n), i && this.element.addEventListener(this.name, this, e), this._$AH = e;
 	}
 	handleEvent(e) {
 		typeof this._$AH == "function" ? this._$AH.call(this.options?.host ?? this.element, e) : this._$AH.handleEvent(e);
 	}
-}, Le = class {
+}, Fe = class {
 	constructor(e, t, n) {
 		this.element = e, this.type = 6, this._$AN = void 0, this._$AM = t, this.options = n;
 	}
@@ -470,18 +470,18 @@ var je = class {
 		return this._$AM._$AU;
 	}
 	_$AI(e) {
-		Ae(this, e);
+		Oe(this, e);
 	}
-}, Re = le.litHtmlPolyfillSupport;
-Re?.(ke, Me), (le.litHtmlVersions ??= []).push("3.3.1");
-var ze = (e, t, n) => {
+}, Ie = se.litHtmlPolyfillSupport;
+Ie?.(De, Ae), (se.litHtmlVersions ??= []).push("3.3.1");
+var Le = (e, t, n) => {
 	let r = n?.renderBefore ?? t, i = r._$litPart$;
 	if (i === void 0) {
 		let e = n?.renderBefore ?? null;
-		r._$litPart$ = i = new Me(t.insertBefore(v(), e), e, void 0, n ?? {});
+		r._$litPart$ = i = new Ae(t.insertBefore(b(), e), e, void 0, n ?? {});
 	}
 	return i._$AI(e), i;
-}, Be = globalThis, T = class extends h {
+}, Re = globalThis, D = class extends _ {
 	constructor() {
 		super(...arguments), this.renderOptions = { host: this }, this._$Do = void 0;
 	}
@@ -491,7 +491,7 @@ var ze = (e, t, n) => {
 	}
 	update(e) {
 		let t = this.render();
-		this.hasUpdated || (this.renderOptions.isConnected = this.isConnected), super.update(e), this._$Do = ze(t, this.renderRoot, this.renderOptions);
+		this.hasUpdated || (this.renderOptions.isConnected = this.isConnected), super.update(e), this._$Do = Le(t, this.renderRoot, this.renderOptions);
 	}
 	connectedCallback() {
 		super.connectedCallback(), this._$Do?.setConnected(!0);
@@ -500,25 +500,25 @@ var ze = (e, t, n) => {
 		super.disconnectedCallback(), this._$Do?.setConnected(!1);
 	}
 	render() {
-		return we;
+		return Se;
 	}
 };
-T._$litElement$ = !0, T.finalized = !0, Be.litElementHydrateSupport?.({ LitElement: T });
-var Ve = Be.litElementPolyfillSupport;
-Ve?.({ LitElement: T }), (Be.litElementVersions ??= []).push("4.2.1");
+D._$litElement$ = !0, D.finalized = !0, Re.litElementHydrateSupport?.({ LitElement: D });
+var ze = Re.litElementPolyfillSupport;
+ze?.({ LitElement: D }), (Re.litElementVersions ??= []).push("4.2.1");
 //#endregion
 //#region node_modules/lit/node_modules/@lit/reactive-element/decorators/custom-element.js
-var E = (e) => (t, n) => {
+var O = (e) => (t, n) => {
 	n === void 0 ? customElements.define(e, t) : n.addInitializer((() => {
 		customElements.define(e, t);
 	}));
-}, He = {
+}, Be = {
 	attribute: !0,
 	type: String,
-	converter: se,
+	converter: ae,
 	reflect: !1,
-	hasChanged: ce
-}, Ue = (e = He, t, n) => {
+	hasChanged: oe
+}, Ve = (e = Be, t, n) => {
 	let { kind: r, metadata: i } = n, a = globalThis.litPropertyMetadata.get(i);
 	if (a === void 0 && globalThis.litPropertyMetadata.set(i, a = /* @__PURE__ */ new Map()), r === "setter" && ((e = Object.create(e)).wrapped = !0), a.set(n.name, e), r === "accessor") {
 		let { name: r } = n;
@@ -541,16 +541,16 @@ var E = (e) => (t, n) => {
 	}
 	throw Error("Unsupported decorator location: " + r);
 };
-function D(e) {
-	return (t, n) => typeof n == "object" ? Ue(e, t, n) : ((e, t, n) => {
+function k(e) {
+	return (t, n) => typeof n == "object" ? Ve(e, t, n) : ((e, t, n) => {
 		let r = t.hasOwnProperty(n);
 		return t.constructor.createProperty(n, e), r ? Object.getOwnPropertyDescriptor(t, n) : void 0;
 	})(e, t, n);
 }
 //#endregion
 //#region node_modules/lit/node_modules/@lit/reactive-element/decorators/state.js
-function O(e) {
-	return D({
+function A(e) {
+	return k({
 		...e,
 		state: !0,
 		attribute: !1
@@ -558,10 +558,10 @@ function O(e) {
 }
 //#endregion
 //#region node_modules/lit/node_modules/@lit/reactive-element/decorators/base.js
-var We = (e, t, n) => (n.configurable = !0, n.enumerable = !0, Reflect.decorate && typeof t != "object" && Object.defineProperty(e, t, n), n);
+var He = (e, t, n) => (n.configurable = !0, n.enumerable = !0, Reflect.decorate && typeof t != "object" && Object.defineProperty(e, t, n), n);
 //#endregion
 //#region node_modules/lit/node_modules/@lit/reactive-element/decorators/query.js
-function Ge(e, t) {
+function Ue(e, t) {
 	return (n, r, i) => {
 		let a = (t) => t.renderRoot?.querySelector(e) ?? null;
 		if (t) {
@@ -576,24 +576,24 @@ function Ge(e, t) {
 					}
 				};
 			})();
-			return We(n, r, { get() {
+			return He(n, r, { get() {
 				let n = e.call(this);
 				return n === void 0 && (n = a(this), (n !== null || this.hasUpdated) && t.call(this, n)), n;
 			} });
 		}
-		return We(n, r, { get() {
+		return He(n, r, { get() {
 			return a(this);
 		} });
 	};
 }
 //#endregion
 //#region \0@oxc-project+runtime@0.121.0/helpers/decorateMetadata.js
-function k(e, t) {
+function j(e, t) {
 	if (typeof Reflect == "object" && typeof Reflect.metadata == "function") return Reflect.metadata(e, t);
 }
 //#endregion
 //#region \0@oxc-project+runtime@0.121.0/helpers/decorate.js
-function A(e, t, n, r) {
+function M(e, t, n, r) {
 	var i = arguments.length, a = i < 3 ? t : r === null ? r = Object.getOwnPropertyDescriptor(t, n) : r, o;
 	if (typeof Reflect == "object" && typeof Reflect.decorate == "function") a = Reflect.decorate(e, t, n, r);
 	else for (var s = e.length - 1; s >= 0; s--) (o = e[s]) && (a = (i < 3 ? o(a) : i > 3 ? o(t, n, a) : o(t, n)) || a);
@@ -601,7 +601,7 @@ function A(e, t, n, r) {
 }
 //#endregion
 //#region src/charts/daily-forecast-chart.ts
-var j = class extends T {
+var N = class extends D {
 	forecast = [];
 	forecastLoading = !1;
 	show_forecast = !0;
@@ -758,7 +758,7 @@ var j = class extends T {
 			}
 		})), typeof this.maxDays == "number" && this.maxDays > 0 && (t = t.slice(0, this.maxDays));
 		let n = ["forecast-section", this.compact ? "compact" : ""].filter(Boolean).join(" "), r = ["forecast-grid", this.compact ? "compact" : ""].filter(Boolean).join(" ");
-		return this.config.show_forecast === !1 ? S`` : this.forecastLoading && this.forecast.length === 0 ? S`
+		return this.config.show_forecast === !1 ? w`` : this.forecastLoading && this.forecast.length === 0 ? w`
             <div class="${n}">
               <div class="section-title">
                 <ha-icon icon="mdi:calendar"></ha-icon>
@@ -775,10 +775,10 @@ var j = class extends T {
                 <small>Service: weather.get_forecasts</small>
               </div>
             </div>
-          ` : t.length > 0 ? S`
+          ` : t.length > 0 ? w`
               <div class="wrapper ${this.alignRight ? "align-right" : ""}">
                 <div class="${n}">
-                  ${this.compact ? S`` : S`
+                  ${this.compact ? w`` : w`
                         <div class="section-title">
                           <ha-icon icon="mdi:calendar"></ha-icon>
                           ${t.length === 7 ? this._t("7d_forecast") : this._t("xd_forecast", { days: t.length })}
@@ -790,7 +790,7 @@ var j = class extends T {
                         </div>
                       `}
                   <div class="${r}">
-                    ${t.map((e) => S`
+                    ${t.map((e) => w`
                         <div class="forecast-day ${this.compact ? "compact" : ""}">
                           <div class="forecast-date ${this.compact ? "compact" : ""}">
                             ${this.formatDate(e.datetime ?? e.date)}
@@ -809,7 +809,7 @@ var j = class extends T {
                   </div>
                 </div>
               </div>
-            ` : S`
+            ` : w`
               <div class="${n}">
                 <div class="section-title">
                   <ha-icon icon="mdi:calendar"></ha-icon>
@@ -828,15 +828,18 @@ var j = class extends T {
             `;
 	}
 };
-A([D({ type: Array }), k("design:type", Array)], j.prototype, "forecast", void 0), A([D({ type: Boolean }), k("design:type", Object)], j.prototype, "forecastLoading", void 0), A([D({ type: Boolean }), k("design:type", Object)], j.prototype, "show_forecast", void 0), A([D({ type: Object }), k("design:type", Object)], j.prototype, "config", void 0), A([D({ type: Function }), k("design:type", Function)], j.prototype, "_t", void 0), A([D({ type: Function }), k("design:type", Function)], j.prototype, "getWeatherIcon", void 0), A([D({ type: Function }), k("design:type", Function)], j.prototype, "formatDate", void 0), A([D({ type: Boolean }), k("design:type", Boolean)], j.prototype, "compact", void 0), A([D({ type: Boolean }), k("design:type", Boolean)], j.prototype, "startTomorrow", void 0), A([D({ type: Number }), k("design:type", Number)], j.prototype, "maxDays", void 0), A([D({ type: Boolean }), k("design:type", Boolean)], j.prototype, "alignRight", void 0), j = A([E("daily-forecast-chart")], j);
+M([k({ type: Array }), j("design:type", Array)], N.prototype, "forecast", void 0), M([k({ type: Boolean }), j("design:type", Object)], N.prototype, "forecastLoading", void 0), M([k({ type: Boolean }), j("design:type", Object)], N.prototype, "show_forecast", void 0), M([k({ type: Object }), j("design:type", Object)], N.prototype, "config", void 0), M([k({ type: Function }), j("design:type", Function)], N.prototype, "_t", void 0), M([k({ type: Function }), j("design:type", Function)], N.prototype, "getWeatherIcon", void 0), M([k({ type: Function }), j("design:type", Function)], N.prototype, "formatDate", void 0), M([k({ type: Boolean }), j("design:type", Boolean)], N.prototype, "compact", void 0), M([k({ type: Boolean }), j("design:type", Boolean)], N.prototype, "startTomorrow", void 0), M([k({ type: Number }), j("design:type", Number)], N.prototype, "maxDays", void 0), M([k({ type: Boolean }), j("design:type", Boolean)], N.prototype, "alignRight", void 0), N = M([O("daily-forecast-chart")], N);
 //#endregion
 //#region src/charts/forecast-temperature-chart.ts
-var Ke = class extends T {
+var We = class extends D {
 	hourlyForecast = [];
 	forecastHours = 12;
 	show_temperature = !0;
 	_t;
 	showHoursChartLabel;
+	_resizeObserver;
+	_measuredWidth = 0;
+	_measuredHeight = 0;
 	static styles = s`
     :host {
       display: block;
@@ -876,13 +879,27 @@ var Ke = class extends T {
       overflow: hidden;
       border-radius: 4px;
       flex: 1;
-      min-height: 0;
+      min-height: 100px;
     }
   `;
+	firstUpdated() {
+		let e = this.renderRoot.querySelector(".chart-svg-area");
+		e && (this._resizeObserver = new ResizeObserver((e) => {
+			let t = !1;
+			for (let n of e) {
+				let e = Math.floor(n.contentRect.width), r = Math.floor(n.contentRect.height);
+				e > 0 && e !== this._measuredWidth && (this._measuredWidth = e, t = !0), r > 0 && r !== this._measuredHeight && (this._measuredHeight = r, t = !0);
+			}
+			t && this.requestUpdate();
+		}), this._resizeObserver.observe(e));
+	}
+	disconnectedCallback() {
+		this._resizeObserver?.disconnect(), this._resizeObserver = void 0, super.disconnectedCallback();
+	}
 	render() {
-		if (this.show_temperature === !1) return S``;
+		if (this.show_temperature === !1) return w``;
 		let e = this.hourlyForecast.slice(0, this.forecastHours).map((e) => typeof e.temperature == "number" && !isNaN(e.temperature) ? e.temperature : null), t = e.filter((e) => e !== null);
-		return S`
+		return w`
       <div class="chart">
         <div class="section-title">
           <ha-icon icon="mdi:thermometer"></ha-icon>
@@ -891,40 +908,40 @@ var Ke = class extends T {
             >°C</span
           >
         </div>
-        <div class="chart-svg-area" style="aspect-ratio: 600 / 100; width: 100%;">
+        <div class="chart-svg-area">
           ${(() => {
-			if (t.length < 2) return S``;
-			let n = e.length, r = Math.floor(Math.min(...t) / 5) * 5, i = Math.ceil(Math.max(...t) / 5) * 5;
-			r === i && (r -= 5, i += 5);
-			let a = i - r, o = 566 / (n - 1), s = (e) => 28 + e * o, c = (e) => 82 - (e - r) / a * 74, l = [];
-			for (let e = r; e <= i; e += 5) {
-				let t = c(e), n = e % 10 == 0;
-				l.push(C`
-                <line x1="${28}" y1="${t}" x2="${594}" y2="${t}"
+			if (t.length < 2) return w``;
+			let n = e.length, r = this._measuredWidth > 0 ? this._measuredWidth : 600, i = this._measuredHeight > 0 ? this._measuredHeight : 100, a = r - 28 - 6, o = i - 8 - 18, s = Math.floor(Math.min(...t) / 5) * 5, c = Math.ceil(Math.max(...t) / 5) * 5;
+			s === c && (s -= 5, c += 5);
+			let l = c - s, u = a / (n - 1), d = (e) => 28 + e * u, f = (e) => 8 + o - (e - s) / l * o, p = [];
+			for (let e = s; e <= c; e += 5) {
+				let t = f(e), n = e % 10 == 0;
+				p.push(T`
+                <line x1="${28}" y1="${t}" x2="${r - 6}" y2="${t}"
                   stroke="#888" stroke-width="${n ? 1 : .6}"
                   stroke-dasharray="${n ? "4,3" : "2,3"}" opacity="0.6"/>
                 <text x="${25}" y="${t}" text-anchor="end" dominant-baseline="middle"
                   font-size="8" fill="#888" opacity="0.8">${e}°</text>
               `);
 			}
-			let u = [];
+			let m = [];
 			for (let e = 0; e < n; e++) {
-				let t = s(e), r = this.hourlyForecast[e], i = r?.datetime ? new Date(r.datetime) : null;
-				(i && i.getHours() % 3 == 0 || n <= 8) && u.push(C`
-                  <line x1="${t}" y1="${8}" x2="${t}" y2="${82}"
+				let t = d(e), r = this.hourlyForecast[e], a = r?.datetime ? new Date(r.datetime) : null;
+				(a && a.getHours() % 3 == 0 || n <= 8) && m.push(T`
+                  <line x1="${t}" y1="${8}" x2="${t}" y2="${8 + o}"
                     stroke="#888" stroke-width="0.4" stroke-dasharray="2,3" opacity="0.3"/>
-                  <text x="${t}" y="${98}" text-anchor="middle"
+                  <text x="${t}" y="${i - 2}" text-anchor="middle"
                     font-size="8" fill="#888" opacity="0.7">
-                    ${i ? i.getHours() + "h" : ""}
+                    ${a ? a.getHours() + "h" : ""}
                   </text>
                 `);
 			}
-			return C`<svg width="100%" height="100%" viewBox="0 0 ${600} ${100}" preserveAspectRatio="none" style="display:block;">
-              ${l}
-              ${u}
-              <polyline points="${e.map((e, t) => e === null ? "" : `${s(t)},${c(e)}`).filter(Boolean).join(" ")}" fill="none" stroke="#db4a34" stroke-width="2.5"
+			return T`<svg width="100%" height="100%" viewBox="0 0 ${r} ${i}" style="display:block;">
+              ${p}
+              ${m}
+              <polyline points="${e.map((e, t) => e === null ? "" : `${d(t)},${f(e)}`).filter(Boolean).join(" ")}" fill="none" stroke="#db4a34" stroke-width="2.5"
                 stroke-linecap="round" stroke-linejoin="round"/>
-              ${e.map((e, t) => e === null ? null : C`<circle cx="${s(t)}" cy="${c(e)}" r="2.5" fill="#db4a34"/>`)}
+              ${e.map((e, t) => e === null ? null : T`<circle cx="${d(t)}" cy="${f(e)}" r="2.5" fill="#db4a34"/>`)}
             </svg>`;
 		})()}
         </div>
@@ -932,15 +949,18 @@ var Ke = class extends T {
     `;
 	}
 };
-A([D({ type: Array }), k("design:type", Array)], Ke.prototype, "hourlyForecast", void 0), A([D({ type: Number }), k("design:type", Object)], Ke.prototype, "forecastHours", void 0), A([D({ type: Boolean }), k("design:type", Object)], Ke.prototype, "show_temperature", void 0), A([D({ type: Function }), k("design:type", Function)], Ke.prototype, "_t", void 0), A([D({ type: Function }), k("design:type", Function)], Ke.prototype, "showHoursChartLabel", void 0), Ke = A([E("forecast-temperature-chart")], Ke);
+M([k({ type: Array }), j("design:type", Array)], We.prototype, "hourlyForecast", void 0), M([k({ type: Number }), j("design:type", Object)], We.prototype, "forecastHours", void 0), M([k({ type: Boolean }), j("design:type", Object)], We.prototype, "show_temperature", void 0), M([k({ type: Function }), j("design:type", Function)], We.prototype, "_t", void 0), M([k({ type: Function }), j("design:type", Function)], We.prototype, "showHoursChartLabel", void 0), We = M([O("forecast-temperature-chart")], We);
 //#endregion
 //#region src/charts/precipitation-chart.ts
-var M = class extends T {
+var Ge = class extends D {
 	hourlyForecast = [];
 	forecastHours = 12;
 	show_precipitation = !0;
 	_t;
 	showHoursChartLabel;
+	_resizeObserver;
+	_measuredWidth = 0;
+	_measuredHeight = 0;
 	static styles = s`
     :host {
       display: block;
@@ -980,13 +1000,27 @@ var M = class extends T {
       overflow: hidden;
       border-radius: 4px;
       flex: 1;
-      min-height: 0;
+      min-height: 100px;
     }
   `;
+	firstUpdated() {
+		let e = this.renderRoot.querySelector(".chart-svg-area");
+		e && (this._resizeObserver = new ResizeObserver((e) => {
+			let t = !1;
+			for (let n of e) {
+				let e = Math.floor(n.contentRect.width), r = Math.floor(n.contentRect.height);
+				e > 0 && e !== this._measuredWidth && (this._measuredWidth = e, t = !0), r > 0 && r !== this._measuredHeight && (this._measuredHeight = r, t = !0);
+			}
+			t && this.requestUpdate();
+		}), this._resizeObserver.observe(e));
+	}
+	disconnectedCallback() {
+		this._resizeObserver?.disconnect(), this._resizeObserver = void 0, super.disconnectedCallback();
+	}
 	render() {
-		if (this.show_precipitation === !1) return S``;
+		if (this.show_precipitation === !1) return w``;
 		let e = this.hourlyForecast.slice(0, this.forecastHours), t = e.some((e) => typeof e.precipitation == "number" && !isNaN(e.precipitation));
-		return this.hourlyForecast.length === 0 || !t ? S`
+		return this.hourlyForecast.length === 0 || !t ? w`
         <div class="chart">
           <div class="section-title">
             <ha-icon icon="mdi:weather-pouring"></ha-icon>
@@ -996,7 +1030,7 @@ var M = class extends T {
             ${this._t("no_precipitation_data")}
           </div>
         </div>
-      ` : S`
+      ` : w`
       <div class="chart">
         <div class="section-title">
           <ha-icon icon="mdi:weather-pouring"></ha-icon>
@@ -1005,11 +1039,11 @@ var M = class extends T {
             >mm</span
           >
         </div>
-        <div class="chart-svg-area" style="aspect-ratio: 600 / 100; width: 100%;">
+        <div class="chart-svg-area">
           ${(() => {
 			let t = e.length;
-			if (t === 0) return S``;
-			let n = e.map((e) => typeof e.precipitation == "number" && !isNaN(e.precipitation) ? e.precipitation : 0), r = Math.max(5, Math.ceil(Math.max(...n))), i = r, a = (e) => 82 - e / i * 74, o = 566 / t, s = (e) => 28 + e * o + o / 2, c = [
+			if (t === 0) return w``;
+			let n = this._measuredWidth > 0 ? this._measuredWidth : 600, r = this._measuredHeight > 0 ? this._measuredHeight : 100, i = n - 28 - 6, a = r - 8 - 18, o = e.map((e) => typeof e.precipitation == "number" && !isNaN(e.precipitation) ? e.precipitation : 0), s = Math.max(5, Math.ceil(Math.max(...o))), c = s, l = (e) => 8 + a - e / c * a, u = i / t, d = (e) => 28 + e * u + u / 2, f = [
 				1,
 				2,
 				3,
@@ -1018,61 +1052,61 @@ var M = class extends T {
 				10,
 				15,
 				20
-			].filter((e) => e <= r);
-			c.includes(r) || c.push(r);
-			let l = [];
-			for (let e of c) {
-				let t = a(e), n = e % 5 == 0;
-				l.push(C`
-                <line x1="${28}" y1="${t}" x2="${594}" y2="${t}"
-                  stroke="#888" stroke-width="${n ? 1 : .6}"
-                  stroke-dasharray="${n ? "4,3" : "2,3"}" opacity="0.6"/>
+			].filter((e) => e <= s);
+			f.includes(s) || f.push(s);
+			let p = [];
+			for (let e of f) {
+				let t = l(e), r = e % 5 == 0;
+				p.push(T`
+                <line x1="${28}" y1="${t}" x2="${n - 6}" y2="${t}"
+                  stroke="#888" stroke-width="${r ? 1 : .6}"
+                  stroke-dasharray="${r ? "4,3" : "2,3"}" opacity="0.6"/>
                 <text x="${25}" y="${t}" text-anchor="end" dominant-baseline="middle"
                   font-size="8" fill="#888" opacity="0.8">${e}</text>
               `);
 			}
-			l.push(C`
-              <line x1="${28}" y1="${a(0)}" x2="${594}" y2="${a(0)}"
+			p.push(T`
+              <line x1="${28}" y1="${l(0)}" x2="${n - 6}" y2="${l(0)}"
                 stroke="#888" stroke-width="1" opacity="0.5"/>
-              <text x="${25}" y="${a(0)}" text-anchor="end" dominant-baseline="middle"
+              <text x="${25}" y="${l(0)}" text-anchor="end" dominant-baseline="middle"
                 font-size="8" fill="#888" opacity="0.8">0</text>
             `);
-			let u = [];
+			let m = [];
 			for (let n = 0; n < t; n++) {
-				let r = s(n), i = e[n]?.datetime ? new Date(e[n].datetime) : null;
-				(i ? i.getHours() % 3 == 0 : t <= 8) && u.push(C`
-                  <line x1="${r}" y1="${8}" x2="${r}" y2="${82}"
+				let i = d(n), o = e[n]?.datetime ? new Date(e[n].datetime) : null;
+				(o ? o.getHours() % 3 == 0 : t <= 8) && m.push(T`
+                  <line x1="${i}" y1="${8}" x2="${i}" y2="${8 + a}"
                     stroke="#888" stroke-width="0.4" stroke-dasharray="2,3" opacity="0.3"/>
-                  <text x="${r}" y="${98}" text-anchor="middle"
+                  <text x="${i}" y="${r - 2}" text-anchor="middle"
                     font-size="8" fill="#888" opacity="0.7">
-                    ${i ? i.getHours() + "h" : ""}
+                    ${o ? o.getHours() + "h" : ""}
                   </text>
                 `);
 			}
-			let d = [], ee = [], f = Math.max(2, o * .55);
+			let h = [], ee = [], te = Math.max(2, u * .55);
 			for (let n = 0; n < t; n++) {
-				let t = e[n], r = s(n) - f / 2, o = typeof t.precipitation_probability == "number" && !isNaN(t.precipitation_probability) ? t.precipitation_probability : 0, c = typeof t.precipitation == "number" && !isNaN(t.precipitation) ? t.precipitation : 0, l = o / 100 * 5 / i * 74;
-				if (o > 0 && d.push(C`
-                  <rect x="${r}" y="${a(0) - l}" width="${f}" height="${l}"
+				let t = e[n], r = d(n) - te / 2, i = typeof t.precipitation_probability == "number" && !isNaN(t.precipitation_probability) ? t.precipitation_probability : 0, o = typeof t.precipitation == "number" && !isNaN(t.precipitation) ? t.precipitation : 0, s = i / 100 * 5 / c * a;
+				if (i > 0 && h.push(T`
+                  <rect x="${r}" y="${l(0) - s}" width="${te}" height="${s}"
                     fill="#87898e" opacity="0.35" rx="1.5"/>
-                `), c > 0) {
-					let e = c / i * 74;
-					ee.push(C`
-                  <rect x="${r}" y="${a(0) - e}" width="${f}" height="${e}"
+                `), o > 0) {
+					let e = o / c * a;
+					ee.push(T`
+                  <rect x="${r}" y="${l(0) - e}" width="${te}" height="${e}"
                     fill="url(#precip-grad)" opacity="1" rx="1.5"/>
                 `);
 				}
 			}
-			return C`<svg width="100%" height="100%" viewBox="0 0 ${600} ${100}" preserveAspectRatio="none" style="display:block;">
+			return T`<svg width="100%" height="100%" viewBox="0 0 ${n} ${r}" style="display:block;">
               <defs>
                 <linearGradient id="precip-grad" x1="0" y1="1" x2="0" y2="0">
                   <stop offset="0%" stop-color="#3498db"/>
                   <stop offset="100%" stop-color="#85c5e5"/>
                 </linearGradient>
               </defs>
-              ${l}
-              ${u}
-              ${d}
+              ${p}
+              ${m}
+              ${h}
               ${ee}
             </svg>`;
 		})()}
@@ -1081,10 +1115,10 @@ var M = class extends T {
     `;
 	}
 };
-A([D({ type: Array }), k("design:type", Array)], M.prototype, "hourlyForecast", void 0), A([D({ type: Number }), k("design:type", Object)], M.prototype, "forecastHours", void 0), A([D({ type: Boolean }), k("design:type", Object)], M.prototype, "show_precipitation", void 0), A([D({ type: Function }), k("design:type", Function)], M.prototype, "_t", void 0), A([D({ type: Function }), k("design:type", Function)], M.prototype, "showHoursChartLabel", void 0), M = A([E("precipitation-chart")], M);
+M([k({ type: Array }), j("design:type", Array)], Ge.prototype, "hourlyForecast", void 0), M([k({ type: Number }), j("design:type", Object)], Ge.prototype, "forecastHours", void 0), M([k({ type: Boolean }), j("design:type", Object)], Ge.prototype, "show_precipitation", void 0), M([k({ type: Function }), j("design:type", Function)], Ge.prototype, "_t", void 0), M([k({ type: Function }), j("design:type", Function)], Ge.prototype, "showHoursChartLabel", void 0), Ge = M([O("precipitation-chart")], Ge);
 //#endregion
 //#region src/charts/sunshine-chart.ts
-var N = class extends T {
+var P = class extends D {
 	hourlyForecast = [];
 	forecastHours = 12;
 	show_sunshine = !0;
@@ -1185,10 +1219,10 @@ var N = class extends T {
     }
   `;
 	render() {
-		return this.show_sunshine === !1 ? S`` : this.hourlyForecast.length > 0 && this.hourlyForecast.slice(0, this.forecastHours).some((e) => {
+		return this.show_sunshine === !1 ? w`` : this.hourlyForecast.length > 0 && this.hourlyForecast.slice(0, this.forecastHours).some((e) => {
 			let t = e;
 			return typeof t.sunshine == "number" && !isNaN(t.sunshine) || typeof t.sunshine_duration == "number" && !isNaN(t.sunshine_duration);
-		}) ? S`
+		}) ? w`
             <div class="chart-sunshine" style="position:relative;">
               <div class="section-title">
                 <ha-icon icon="mdi:white-balance-sunny"></ha-icon>
@@ -1201,8 +1235,8 @@ var N = class extends T {
               <div class="chart-bars" style="position:relative;">
                 ${(() => {
 			let e = this.weatherEntity?.attributes?.sunrise ? new Date(this.weatherEntity.attributes.sunrise) : this.sun_entity?.attributes?.next_rising ? new Date((this.sun_entity?.attributes).next_rising) : null, t = this.weatherEntity?.attributes?.sunset ? new Date(this.weatherEntity.attributes.sunset) : this.sun_entity?.attributes?.next_setting ? new Date((this.sun_entity?.attributes).next_setting) : null, n = this.hourlyForecast[0]?.datetime ? new Date(this.hourlyForecast[0].datetime) : null, r = -1, i = -1;
-			return e && n && (r = Math.round((e.getTime() - n.getTime()) / (3600 * 1e3))), t && n && (i = Math.round((t.getTime() - n.getTime()) / (3600 * 1e3))), S`
-                    ${r >= 0 && r < this.forecastHours ? S`
+			return e && n && (r = Math.round((e.getTime() - n.getTime()) / (3600 * 1e3))), t && n && (i = Math.round((t.getTime() - n.getTime()) / (3600 * 1e3))), w`
+                    ${r >= 0 && r < this.forecastHours ? w`
                           <div
                             style="position:absolute;left:calc(${r / this.forecastHours * 100}% - 10px);top:0;height:100%;width:20px;pointer-events:none;z-index:2;display:flex;flex-direction:column;align-items:center;"
                           >
@@ -1218,7 +1252,7 @@ var N = class extends T {
                             >
                           </div>
                         ` : ""}
-                    ${i >= 0 && i < this.forecastHours ? S`
+                    ${i >= 0 && i < this.forecastHours ? w`
                           <div
                             style="position:absolute;left:calc(${i / this.forecastHours * 100}% - 10px);top:0;height:100%;width:20px;pointer-events:none;z-index:2;display:flex;flex-direction:column;align-items:center;"
                           >
@@ -1238,7 +1272,7 @@ var N = class extends T {
 		})()}
                 ${this.hourlyForecast.slice(0, this.forecastHours).map((e) => {
 			let t = e, n = typeof t.sunshine == "number" && !isNaN(t.sunshine) ? t.sunshine : typeof t.sunshine_duration == "number" && !isNaN(t.sunshine_duration) ? t.sunshine_duration : null, r = n === null ? 2 : Math.round(n);
-			return S`
+			return w`
                     <div
                       style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end;"
                     >
@@ -1257,13 +1291,13 @@ var N = class extends T {
               >
                 ${this.hourlyForecast.slice(0, this.forecastHours).map((e) => {
 			let t = e.datetime ? new Date(e.datetime) : null;
-			return S`<div style="flex:1; text-align:center; overflow:hidden;">
+			return w`<div style="flex:1; text-align:center; overflow:hidden;">
                     ${t && t.getHours() % 3 == 0 && t ? t.getHours() + "h" : ""}
                   </div>`;
 		})}
               </div>
             </div>
-          ` : S`
+          ` : w`
             <div class="chart">
               <div class="section-title">
                 <ha-icon icon="mdi:white-balance-sunny"></ha-icon>
@@ -1276,15 +1310,18 @@ var N = class extends T {
           `;
 	}
 };
-A([D({ type: Array }), k("design:type", Array)], N.prototype, "hourlyForecast", void 0), A([D({ type: Number }), k("design:type", Object)], N.prototype, "forecastHours", void 0), A([D({ type: Boolean }), k("design:type", Object)], N.prototype, "show_sunshine", void 0), A([D({ type: Object }), k("design:type", Object)], N.prototype, "weatherEntity", void 0), A([D({ type: Object }), k("design:type", Object)], N.prototype, "sun_entity", void 0), A([D({ type: Function }), k("design:type", Function)], N.prototype, "_t", void 0), A([D({ type: Function }), k("design:type", Function)], N.prototype, "showHoursChartLabel", void 0), N = A([E("sunshine-chart")], N);
+M([k({ type: Array }), j("design:type", Array)], P.prototype, "hourlyForecast", void 0), M([k({ type: Number }), j("design:type", Object)], P.prototype, "forecastHours", void 0), M([k({ type: Boolean }), j("design:type", Object)], P.prototype, "show_sunshine", void 0), M([k({ type: Object }), j("design:type", Object)], P.prototype, "weatherEntity", void 0), M([k({ type: Object }), j("design:type", Object)], P.prototype, "sun_entity", void 0), M([k({ type: Function }), j("design:type", Function)], P.prototype, "_t", void 0), M([k({ type: Function }), j("design:type", Function)], P.prototype, "showHoursChartLabel", void 0), P = M([O("sunshine-chart")], P);
 //#endregion
 //#region src/charts/wind-chart.ts
-var qe = class extends T {
+var Ke = class extends D {
 	hourlyForecast = [];
 	forecastHours = 12;
 	show_wind = !0;
 	_t;
 	showHoursChartLabel;
+	_resizeObserver;
+	_measuredWidth = 0;
+	_measuredHeight = 0;
 	static styles = s`
     :host {
       display: block;
@@ -1324,13 +1361,27 @@ var qe = class extends T {
       overflow: hidden;
       border-radius: 4px;
       flex: 1;
-      min-height: 0;
+      min-height: 122px;
     }
   `;
+	firstUpdated() {
+		let e = this.renderRoot.querySelector(".chart-svg-area");
+		e && (this._resizeObserver = new ResizeObserver((e) => {
+			let t = !1;
+			for (let n of e) {
+				let e = Math.floor(n.contentRect.width), r = Math.floor(n.contentRect.height);
+				e > 0 && e !== this._measuredWidth && (this._measuredWidth = e, t = !0), r > 0 && r !== this._measuredHeight && (this._measuredHeight = r, t = !0);
+			}
+			t && this.requestUpdate();
+		}), this._resizeObserver.observe(e));
+	}
+	disconnectedCallback() {
+		this._resizeObserver?.disconnect(), this._resizeObserver = void 0, super.disconnectedCallback();
+	}
 	render() {
-		if (this.show_wind === !1) return S``;
+		if (this.show_wind === !1) return w``;
 		let e = this.hourlyForecast.slice(0, this.forecastHours), t = e.some((e) => typeof e.wind_speed == "number" && !isNaN(e.wind_speed));
-		return e.length === 0 || !t ? S`` : S`
+		return e.length === 0 || !t ? w`` : w`
       <div class="chart">
         <div class="section-title">
           <ha-icon icon="mdi:weather-windy"></ha-icon>
@@ -1339,48 +1390,49 @@ var qe = class extends T {
             >km/h</span
           >
         </div>
-        <div class="chart-svg-area" style="aspect-ratio: 600 / 122; width: 100%;">
+        <div class="chart-svg-area">
           ${(() => {
 			let t = e.length;
-			if (t < 2) return S``;
-			let n = e.map((e) => typeof e.wind_speed == "number" && !isNaN(e.wind_speed) ? e.wind_speed : null), r = n.filter((e) => e !== null), i = Math.max(10, Math.ceil(Math.max(...r) / 5) * 5), a = i, o = (e) => 82 - e / a * 74, s = 566 / (t - 1), c = (e) => 28 + e * s, l = [];
-			for (let e = 0; e <= i; e += 5) {
-				let t = o(e), n = e % 10 == 0;
-				l.push(C`
-                <line x1="${28}" y1="${t}" x2="${594}" y2="${t}"
-                  stroke="#888" stroke-width="${n ? 1 : .6}"
-                  stroke-dasharray="${n ? "4,3" : "2,3"}" opacity="0.6"/>
+			if (t < 2) return w``;
+			let n = this._measuredWidth > 0 ? this._measuredWidth : 600, r = this._measuredHeight > 0 ? this._measuredHeight : 122, i = n - 28 - 6, a = r - 8 - 40, o = e.map((e) => typeof e.wind_speed == "number" && !isNaN(e.wind_speed) ? e.wind_speed : null), s = o.filter((e) => e !== null), c = Math.max(10, Math.ceil(Math.max(...s) / 5) * 5), l = c, u = (e) => 8 + a - e / l * a, d = i / (t - 1), f = (e) => 28 + e * d, p = [];
+			for (let e = 0; e <= c; e += 5) {
+				let t = u(e), r = e % 10 == 0;
+				p.push(T`
+                <line x1="${28}" y1="${t}" x2="${n - 6}" y2="${t}"
+                  stroke="#888" stroke-width="${r ? 1 : .6}"
+                  stroke-dasharray="${r ? "4,3" : "2,3"}" opacity="0.6"/>
                 <text x="${25}" y="${t}" text-anchor="end" dominant-baseline="middle"
                   font-size="8" fill="#888" opacity="0.8">${e}</text>
               `);
 			}
-			let u = [];
+			let m = [];
 			for (let n = 0; n < t; n++) {
-				let r = c(n), i = e[n]?.datetime ? new Date(e[n].datetime) : null;
-				(i ? i.getHours() % 3 == 0 : t <= 8) && u.push(C`
-                  <line x1="${r}" y1="${8}" x2="${r}" y2="${82}"
+				let i = f(n), o = e[n]?.datetime ? new Date(e[n].datetime) : null;
+				(o ? o.getHours() % 3 == 0 : t <= 8) && m.push(T`
+                  <line x1="${i}" y1="${8}" x2="${i}" y2="${8 + a}"
                     stroke="#888" stroke-width="0.4" stroke-dasharray="2,3" opacity="0.3"/>
-                  <text x="${r}" y="${98}" text-anchor="middle"
+                  <text x="${i}" y="${r - 22 - 2}" text-anchor="middle"
                     font-size="8" fill="#888" opacity="0.7">
-                    ${i ? i.getHours() + "h" : ""}
+                    ${o ? o.getHours() + "h" : ""}
                   </text>
                 `);
 			}
-			return C`<svg width="100%" height="100%" viewBox="0 0 ${600} ${122}" preserveAspectRatio="none" style="display:block;">
-              ${l}
-              ${u}
-              <polyline points="${n.map((e, t) => e === null ? "" : `${c(t)},${o(e)}`).filter(Boolean).join(" ")}" fill="none" stroke="#44739e" stroke-width="2.5"
+			let h = o.map((e, t) => e === null ? "" : `${f(t)},${u(e)}`).filter(Boolean).join(" "), ee = o.map((e, t) => e === null ? null : T`<circle cx="${f(t)}" cy="${u(e)}" r="2.5" fill="#44739e"/>`), te = r - 22 / 2 + 2;
+			return T`<svg width="100%" height="100%" viewBox="0 0 ${n} ${r}" style="display:block;">
+              ${p}
+              ${m}
+              <polyline points="${h}" fill="none" stroke="#44739e" stroke-width="2.5"
                 stroke-linecap="round" stroke-linejoin="round"/>
-              ${n.map((e, t) => e === null ? null : C`<circle cx="${c(t)}" cy="${o(e)}" r="2.5" fill="#44739e"/>`)}
+              ${ee}
               ${e.map((e, t) => {
 				let n = typeof e.wind_bearing == "number" && !isNaN(e.wind_bearing) ? e.wind_bearing : null;
 				if (n === null) return null;
-				let r = c(t), i = (n - 90) * (Math.PI / 180), a = r + 7 * Math.cos(i), o = 113 + 7 * Math.sin(i), s = i + Math.PI;
-				return C`
-                <circle cx="${r}" cy="${113}" r="${7}" fill="none" stroke="#44739e" stroke-width="0.8" opacity="0.5"/>
-                <line x1="${r + 5 * Math.cos(s)}" y1="${113 + 5 * Math.sin(s)}" x2="${a}" y2="${o}"
+				let r = f(t), i = te, a = (n - 90) * (Math.PI / 180), o = r + 7 * Math.cos(a), s = i + 7 * Math.sin(a), c = a + Math.PI;
+				return T`
+                <circle cx="${r}" cy="${i}" r="${7}" fill="none" stroke="#44739e" stroke-width="0.8" opacity="0.5"/>
+                <line x1="${r + 5 * Math.cos(c)}" y1="${i + 5 * Math.sin(c)}" x2="${o}" y2="${s}"
                   stroke="#44739e" stroke-width="1.5" stroke-linecap="round" opacity="0.85"/>
-                <circle cx="${a}" cy="${o}" r="1.5" fill="#44739e" opacity="0.85"/>
+                <circle cx="${o}" cy="${s}" r="1.5" fill="#44739e" opacity="0.85"/>
               `;
 			})}
             </svg>`;
@@ -1390,10 +1442,10 @@ var qe = class extends T {
     `;
 	}
 };
-A([D({ type: Array }), k("design:type", Array)], qe.prototype, "hourlyForecast", void 0), A([D({ type: Number }), k("design:type", Object)], qe.prototype, "forecastHours", void 0), A([D({ type: Boolean }), k("design:type", Object)], qe.prototype, "show_wind", void 0), A([D({ type: Function }), k("design:type", Function)], qe.prototype, "_t", void 0), A([D({ type: Function }), k("design:type", Function)], qe.prototype, "showHoursChartLabel", void 0), qe = A([E("wind-chart")], qe);
+M([k({ type: Array }), j("design:type", Array)], Ke.prototype, "hourlyForecast", void 0), M([k({ type: Number }), j("design:type", Object)], Ke.prototype, "forecastHours", void 0), M([k({ type: Boolean }), j("design:type", Object)], Ke.prototype, "show_wind", void 0), M([k({ type: Function }), j("design:type", Function)], Ke.prototype, "_t", void 0), M([k({ type: Function }), j("design:type", Function)], Ke.prototype, "showHoursChartLabel", void 0), Ke = M([O("wind-chart")], Ke);
 //#endregion
 //#region src/charts/daily-forecast-diagram.ts
-var P = class extends T {
+var qe = class extends D {
 	forecast = [];
 	hourlyForecast = [];
 	config;
@@ -1467,42 +1519,42 @@ var P = class extends T {
 	}
 	render() {
 		let e = this.forecast.slice(0, 7), t = this.hourlyForecast.slice(0, e.length * 24);
-		if (!t.length) return S`<div>No hourly forecast available</div>`;
+		if (!t.length) return w`<div>No hourly forecast available</div>`;
 		let n = e.length, r = (this.standalone ? this.config.grid_options?.rows || 3 : 2) * 64 - 8, i = this.standalone ? this._measuredHeight > 0 ? this._measuredHeight : r : 200, a = this._measuredWidth;
 		if (!a) {
 			let e = this.getBoundingClientRect?.();
 			a = e?.width ? Math.floor(e.width) : 400;
 		}
-		let o = a, s = i, c = s - 32, l = o - 16 - 0, u = Math.max(0, l - 16) / n, d = Math.min(120, Math.max(80, c * .35)), ee = Math.max(10, c * .05), f = c - d - ee, p = Math.min(u * .7, d * .4), te = Math.max(9, Math.round(d * .075)), ne = Math.max(11, Math.round(d * .11)), re = this.config?.diagram_labels ?? "compact", ie = Math.max(8, Math.min(10, Math.round(f * .05))), ae = 26 + te, oe = ae + 10, se = oe + p + 10, ce = 16 + d + ee, m = u / 24, h = t.map((e) => typeof e.temperature == "number" ? e.temperature : null), le = Math.min(...h.filter((e) => e !== null)), ue = Math.max(...h.filter((e) => e !== null)), de = ce, g = ce + f, _ = t.map((e) => {
+		let o = a, s = i, c = s - 32, l = o - 16 - 0, u = Math.max(0, l - 16) / n, d = Math.min(120, Math.max(80, c * .35)), f = Math.max(10, c * .05), p = c - d - f, m = Math.min(u * .7, d * .4), h = Math.max(9, Math.round(d * .075)), ee = Math.max(11, Math.round(d * .11)), te = this.config?.diagram_labels ?? "compact", ne = Math.max(8, Math.min(10, Math.round(p * .05))), re = 26 + h, ie = re + 10, ae = ie + m + 10, oe = 16 + d + f, g = u / 24, _ = t.map((e) => typeof e.temperature == "number" ? e.temperature : null), se = Math.min(..._.filter((e) => e !== null)), ce = Math.max(..._.filter((e) => e !== null)), le = oe, v = oe + p, y = t.map((e) => {
 			let t = e;
 			return typeof t.precipitation == "number" ? t.precipitation : typeof t.rain == "number" ? t.rain : 0;
-		}), fe = t.map((e) => {
+		}), ue = t.map((e) => {
 			let t = e, n = typeof t.precipitation_probability == "number" ? t.precipitation_probability : typeof t.probability_of_precipitation == "number" ? t.probability_of_precipitation : typeof t.pop == "number" ? t.pop <= 1 ? t.pop * 100 : t.pop : 0, r = Number(n);
 			return Number.isFinite(r) ? Math.max(0, Math.min(100, r)) : 0;
-		}), pe = {};
+		}), de = {};
 		e.forEach((e, t) => {
 			let n = new Date(e.datetime), r = `${n.getFullYear()}-${n.getMonth()}-${n.getDate()}`;
-			pe[r] = t;
+			de[r] = t;
 		});
-		function me(e) {
-			let t = pe[`${e.getFullYear()}-${e.getMonth()}-${e.getDate()}`], n = e.getHours();
+		function fe(e) {
+			let t = de[`${e.getFullYear()}-${e.getMonth()}-${e.getDate()}`], n = e.getHours();
 			return {
 				dayIdx: t === void 0 ? -1 : t,
 				hourInDay: n >= 0 && n < 24 ? n : -1
 			};
 		}
-		let v = {};
+		let b = {};
 		for (let e = 0; e < n; e++) for (let t = 0; t < 24; t++) {
 			let n = `${e}-${t}`;
-			v[n] = null;
+			b[n] = null;
 		}
 		t.forEach((e, t) => {
-			if (e.datetime && h[t] !== null) {
-				let r = new Date(e.datetime), { dayIdx: i, hourInDay: a } = me(r), o = `${i}-${a}`;
-				i >= 0 && i < n && a >= 0 && a < 24 ? v[o] = {
-					temp: h[t],
-					precip: _[t],
-					precipProb: fe[t],
+			if (e.datetime && _[t] !== null) {
+				let r = new Date(e.datetime), { dayIdx: i, hourInDay: a } = fe(r), o = `${i}-${a}`;
+				i >= 0 && i < n && a >= 0 && a < 24 ? b[o] = {
+					temp: _[t],
+					precip: y[t],
+					precipProb: ue[t],
 					originalIndex: t
 				} : console.warn(`Data point ${t} outside bounds:`, {
 					dayIdx: i,
@@ -1512,22 +1564,22 @@ var P = class extends T {
 				});
 			}
 		});
-		let y = Math.floor(le / 5) * 5, b = Math.ceil(ue / 5) * 5;
-		y > 0 && (y = 0), b < 0 && (b = 0);
-		let he = b - y, ge = [], _e = [];
+		let x = Math.floor(se / 5) * 5, S = Math.ceil(ce / 5) * 5;
+		x > 0 && (x = 0), S < 0 && (S = 0);
+		let pe = S - x, me = [], he = [];
 		for (let e = 0; e < n; e++) for (let t = 0; t < 24; t++) {
-			let n = v[`${e}-${t}`];
+			let n = b[`${e}-${t}`];
 			if (n && n.temp !== null) {
-				let r = 16 + e * u + t * m + m / 2, i = g - (n.temp - y) / he * (g - de);
-				_e.push(`${r},${i}`);
+				let r = 16 + e * u + t * g + g / 2, i = v - (n.temp - x) / pe * (v - le);
+				he.push(`${r},${i}`);
 			}
 		}
-		_e.length > 0 && ge.push(C`
+		he.length > 0 && me.push(T`
           <!-- Main temperature line -->
-          <polyline points="${_e.join(" ")}" fill="none" stroke="#e74c3c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+          <polyline points="${he.join(" ")}" fill="none" stroke="#e74c3c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
         `);
-		let ve = Math.max(3, Math.floor(m) - 2), ye = g, x = 5 / he * (g - de) / 5;
-		function be(e) {
+		let ge = Math.max(3, Math.floor(g) - 2), _e = v, C = 5 / pe * (v - le) / 5;
+		function ve(e) {
 			if (e <= 0) return "transparent";
 			let t = [
 				{
@@ -1578,62 +1630,62 @@ var P = class extends T {
 			let i = (e - n.val) / (r.val - n.val);
 			return `rgb(${Math.round(n.color.r + (r.color.r - n.color.r) * i)},${Math.round(n.color.g + (r.color.g - n.color.g) * i)},${Math.round(n.color.b + (r.color.b - n.color.b) * i)})`;
 		}
-		let xe = [];
+		let ye = [];
 		for (let e = 0; e < n; e++) for (let t = 0; t < 24; t++) {
-			let n = v[`${e}-${t}`];
+			let n = b[`${e}-${t}`];
 			if (n && n.precipProb > 0) {
-				let r = 16 + e * u + t * m + m / 2 - ve / 2, i = 16 + e * u, a = 16 + (e + 1) * u - ve, o = Math.max(i, Math.min(a, r)), s = n.precipProb / 100 * 5 * x;
-				xe.push(C`<rect x="${o}" y="${ye - s}" width="${ve}" height="${s}" fill="#988d8dff" opacity="0.4" rx="1.5"/>`);
+				let r = 16 + e * u + t * g + g / 2 - ge / 2, i = 16 + e * u, a = 16 + (e + 1) * u - ge, o = Math.max(i, Math.min(a, r)), s = n.precipProb / 100 * 5 * C;
+				ye.push(T`<rect x="${o}" y="${_e - s}" width="${ge}" height="${s}" fill="#988d8dff" opacity="0.4" rx="1.5"/>`);
 			}
 		}
-		let Se = [];
+		let be = [];
 		for (let e = 0; e < n; e++) for (let t = 0; t < 24; t++) {
-			let n = v[`${e}-${t}`];
+			let n = b[`${e}-${t}`];
 			if (n && n.precip > 0) {
-				let r = 16 + e * u + t * m + m / 2 - ve / 2, i = 16 + e * u, a = 16 + (e + 1) * u - ve, o = Math.max(i, Math.min(a, r)), s = n.precip * x, c = be(n.precip);
-				Se.push(C`<rect x="${o}" y="${ye - s}" width="${ve}" height="${s}"
+				let r = 16 + e * u + t * g + g / 2 - ge / 2, i = 16 + e * u, a = 16 + (e + 1) * u - ge, o = Math.max(i, Math.min(a, r)), s = n.precip * C, c = ve(n.precip);
+				be.push(T`<rect x="${o}" y="${_e - s}" width="${ge}" height="${s}"
               fill="${c}" opacity="1" rx="1.5"/>`);
 			}
 		}
-		let Ce = [];
+		let xe = [];
 		if (t.length > 0) for (let e = 0; e <= n; e++) {
 			let t = 16 + e * u;
-			Ce.push(C`<line x1="${t}" y1="${de}" x2="${t}" y2="${g}" stroke="#ddd" stroke-width="0.5" stroke-dasharray="2,2" opacity="0.4"/>`);
+			xe.push(T`<line x1="${t}" y1="${le}" x2="${t}" y2="${v}" stroke="#ddd" stroke-width="0.5" stroke-dasharray="2,2" opacity="0.4"/>`);
 		}
-		let we = [];
+		let Se = [];
 		if (n > 0) for (let t = 0; t < n; t++) {
 			let n = 16 + t * u + u / 2, r = typeof e[t].templow == "number" ? Math.round(e[t].templow || e[t].temperature - 5) : "", i = typeof e[t].temperature == "number" ? Math.round(e[t].temperature) : "";
-			we.push(C`
+			Se.push(T`
         <g>
           <!-- Weekday -->
-          <text x="${n}" y="${ae}" text-anchor="middle" font-size="${te}" class="weather-day">
+          <text x="${n}" y="${re}" text-anchor="middle" font-size="${h}" class="weather-day">
             ${new Date(e[t].datetime).toLocaleDateString(void 0, { weekday: "short" })}
           </text>
           <!-- Icon -->
-          <foreignObject x="${n - p / 2}" y="${oe}" width="${p}" height="${p}">
-              ${this.getWeatherIcon(e[t].condition || "", this.config.enable_animate_weather_icons ? "animated" : "mdiAsSVG", p + "px", !0)}
+          <foreignObject x="${n - m / 2}" y="${ie}" width="${m}" height="${m}">
+              ${this.getWeatherIcon(e[t].condition || "", this.config.enable_animate_weather_icons ? "animated" : "mdiAsSVG", m + "px", !0)}
           </foreignObject>
           <!-- Min/Max temp -->
-          <text class="weather-temp" x="${n}" y="${se}" text-anchor="middle" font-size="${ne}">${r}°<tspan fill="#aaa"> | </tspan><tspan class="weather-temp">${i}°</tspan></text>
+          <text class="weather-temp" x="${n}" y="${ae}" text-anchor="middle" font-size="${ee}">${r}°<tspan fill="#aaa"> | </tspan><tspan class="weather-temp">${i}°</tspan></text>
         </g>
       `);
 		}
-		let w = [], Te = /* @__PURE__ */ new Set();
-		Te.add(y), y < 0 && b > 0 && Te.add(0), Te.add(b);
-		for (let e = y; e <= b; e += 5) if (e % 5 == 0) {
-			let t = de + (b - e) / he * (g - de);
-			if (t >= de && t <= g) {
+		let E = [], Ce = /* @__PURE__ */ new Set();
+		Ce.add(x), x < 0 && S > 0 && Ce.add(0), Ce.add(S);
+		for (let e = x; e <= S; e += 5) if (e % 5 == 0) {
+			let t = le + (S - e) / pe * (v - le);
+			if (t >= le && t <= v) {
 				let n = e % 10 == 0;
-				w.push(C`
+				E.push(T`
             <line x1="${16}" y1="${t}" x2="${l}" y2="${t}"
               stroke="#ddd" stroke-width="${n ? 1 : .5}"
               stroke-dasharray="${n ? "none" : "2,2"}" opacity="0.6"/>
-            ${re === "none" ? C`` : re === "full" ? n ? C`<text x="${20}" y="${t}" font-size="${ie}" fill="#888" opacity="0.9" text-anchor="start" dominant-baseline="middle">${e}°</text>` : C`` : Te.has(e) ? C`<text x="${20}" y="${t}" font-size="${ie}" fill="#888" opacity="0.9" text-anchor="start" dominant-baseline="middle">${e}°</text>` : C``}
+            ${te === "none" ? T`` : te === "full" ? n ? T`<text x="${20}" y="${t}" font-size="${ne}" fill="#888" opacity="0.9" text-anchor="start" dominant-baseline="middle">${e}°</text>` : T`` : Ce.has(e) ? T`<text x="${20}" y="${t}" font-size="${ne}" fill="#888" opacity="0.9" text-anchor="start" dominant-baseline="middle">${e}°</text>` : T``}
           `);
 			}
 		}
-		let Ee = C``;
-		return S`
+		let we = T``;
+		return w`
       <style>
         .chart {
         ${this.standalone === !1 ? "background: var(--card-background-color, #fff);margin-top: 15px;" : ""}
@@ -1655,13 +1707,13 @@ var P = class extends T {
       <div class="chart">
         <svg width="100%" height="100%" viewBox="0 0 ${o} ${s}" style="display:block;">
           <!-- Background grid lines (behind everything) -->
-          ${w} ${Ce}
+          ${E} ${xe}
           <!-- Day groups (labels and icons) -->
-          ${we}
+          ${Se}
           <!-- Precipitation bars -->
-          ${xe} ${Se}
+          ${ye} ${be}
           <!-- Right-side labels for mm and % -->
-          ${Ee}
+          ${we}
         </svg>
 
         <!-- Temperature lines in completely separate SVG overlay (continuous line, always on top) -->
@@ -1671,13 +1723,13 @@ var P = class extends T {
           viewBox="0 0 ${o} ${s}"
           style="display:block; position: absolute; top: 0; left: 0; pointer-events: none;"
         >
-          ${ge}
+          ${me}
         </svg>
       </div>
     `;
 	}
 };
-A([D({ type: Array }), k("design:type", Array)], P.prototype, "forecast", void 0), A([D({ type: Array }), k("design:type", Array)], P.prototype, "hourlyForecast", void 0), A([D({ type: Object }), k("design:type", Object)], P.prototype, "config", void 0), A([D({ type: Function }), k("design:type", Function)], P.prototype, "getWeatherIcon", void 0), A([D({ type: Boolean }), k("design:type", Object)], P.prototype, "standalone", void 0), P = A([E("daily-forecast-diagram")], P);
+M([k({ type: Array }), j("design:type", Array)], qe.prototype, "forecast", void 0), M([k({ type: Array }), j("design:type", Array)], qe.prototype, "hourlyForecast", void 0), M([k({ type: Object }), j("design:type", Object)], qe.prototype, "config", void 0), M([k({ type: Function }), j("design:type", Function)], qe.prototype, "getWeatherIcon", void 0), M([k({ type: Boolean }), j("design:type", Object)], qe.prototype, "standalone", void 0), qe = M([O("daily-forecast-diagram")], qe);
 //#endregion
 //#region node_modules/lit-translate/config.js
 var Je = "langChanged";
@@ -2132,6 +2184,7 @@ var en = (e, t, n, r) => {
 			show_wind: "Winddiagramm anzeigen",
 			show_day_temps: "Tages-Min/Max anzeigen",
 			show_sun_times: "Sonnenauf-/untergang anzeigen",
+			photo_mode: "Fotorealistischer Hintergrund (PoC)",
 			enable_animate_weather_icons: "Animierte Wetter-Icons aktivieren",
 			forecast_hours: "Prognose Stunden (Standard: 6)",
 			compact_mode: "Kompakter Modus",
@@ -2162,9 +2215,10 @@ var en = (e, t, n, r) => {
 				show_temperature: "Zeige das Temperaturdiagramm an, mit den Vorhersage anhand der eingestellten Stunden",
 				show_precipitation: "Zeige das Niederschlags an, mit den Vorhersage anhand der eingestellten Stunden",
 				show_sunshine: "Zeige das Sonnenscheindauerdiagramm an, mit den Vorhersage anhand der eingestellten Stunden",
-				show_wind: "Zeige das Winddiagramm anm it den Vorhersage anhand der eingestellten Stunden",
+				show_wind: "Zeige das Winddiagramm an mit den Vorhersage anhand der eingestellten Stunden",
 				show_day_temps: "Blende die Tages-Min/Max-Anzeige ein oder aus.",
 				show_sun_times: "Blende die Anzeige von Sonnenaufgang/-untergang ein oder aus.",
+				photo_mode: "Experimenteller fotorealistischer Hintergrund mit atmosphärischen Overlays (PoC).",
 				show_warnings: "Zeige Wetterwarnungen an, wenn die Wetterwarnung Entity gesetzt ist und aktuelle Warnungen existieren.",
 				enable_animate_weather_icons: "Zeige animierte Icons an. Wenn ausgeschaltet, werden statische Icons angezeigt.",
 				compact_mode: "Im kompakten Modus werden weniger Details angezeigt für die Tagesvorhersage und den aktuellen Daten (z.B. Windrichtung)",
@@ -2268,6 +2322,7 @@ var en = (e, t, n, r) => {
 			show_wind: "Show Wind Chart",
 			show_day_temps: "Show Day Min/Max",
 			show_sun_times: "Show Sunrise/Sunset",
+			photo_mode: "Photorealistic Background (PoC)",
 			enable_animate_weather_icons: "Enable Animated Weather Icons",
 			forecast_hours: "Forecast Hours (default: 6)",
 			compact_mode: "Compact Mode",
@@ -2301,7 +2356,8 @@ var en = (e, t, n, r) => {
 				show_wind: "Show the wind chart with the forecast based on the set hours",
 				show_day_temps: "Toggle the per-day min/max display on or off.",
 				show_sun_times: "Toggle the sunrise/sunset display on or off.",
-				show_warnings: "Show weather warnings if the weather warning entity is set and the actul warning exists.",
+				photo_mode: "Experimental photorealistic background with atmospheric overlays (PoC).",
+				show_warnings: "Show weather warnings if the weather warning entity is set and the actual warning exists.",
 				enable_animate_weather_icons: "Show animated icons. If disabled, static icons are displayed.",
 				compact_mode: "In compact mode, fewer details are displayed for the daily forecast and current data (e.g. wind direction)",
 				forecast_hours: "Number of hours to show in the hourly forecast (default: 6, maximum 18)",
@@ -2500,7 +2556,7 @@ var en = (e, t, n, r) => {
 //#endregion
 //#region src/cards/full-card/swissweather-card-editor.ts
 F({ loader: (e) => V[e] });
-var an = class extends T {
+var an = class extends D {
 	hass;
 	lovelace;
 	_config;
@@ -2676,7 +2732,7 @@ var an = class extends T {
 				label: L("config.chart_forecast") || "Forecast"
 			}
 		], t = Array.isArray(this._config?.chart_order) ? this._config.chart_order : e.map((e) => e.key);
-		if (!this.hass) return S`<div>Loading...</div>`;
+		if (!this.hass) return w`<div>Loading...</div>`;
 		I((this.hass.selectedLanguage || this.hass.language || "en").substring(0, 2));
 		let n = {
 			entity: typeof this._config?.entity == "string" ? this._config.entity : void 0,
@@ -2697,7 +2753,7 @@ var an = class extends T {
 			enable_animate_weather_icons: this._config?.enable_animate_weather_icons ?? !0,
 			compact_mode: this._config?.compact_mode ?? !1
 		};
-		return S`
+		return w`
       <div class="card-config">
         <div class="header">
           <div>
@@ -2768,7 +2824,7 @@ var an = class extends T {
         <div class="group">
           <div class="group-title">${L("config.group_chart_order") || "Chart Order"}</div>
           <ul style="list-style:none;padding:0;margin:0;">
-            ${t.map((n, r) => S` <li style="display:flex;align-items:center;margin-bottom:6px;">
+            ${t.map((n, r) => w` <li style="display:flex;align-items:center;margin-bottom:6px;">
                 <span style="flex:1;">${e.find((e) => e.key === n)?.label || n}</span>
                 <button
                   style="margin-left:8px;"
@@ -2790,7 +2846,7 @@ var an = class extends T {
           </ul>
         </div>
         <!-- Configuration Preview -->
-        ${this._config?.entity ? S`
+        ${this._config?.entity ? w`
               <div class="preview">
                 <div class="preview-title">📋 YAML-Config</div>
                 <div class="preview-config">${this._renderConfigPreview()}</div>
@@ -2882,14 +2938,14 @@ var an = class extends T {
 		}
 	}
 };
-A([D({ attribute: !1 }), k("design:type", Object)], an.prototype, "hass", void 0), A([D({ attribute: !1 }), k("design:type", Object)], an.prototype, "lovelace", void 0), A([D({ attribute: !1 }), k("design:type", Object)], an.prototype, "_config", void 0), an = A([E(rn), k("design:paramtypes", [])], an);
+M([k({ attribute: !1 }), j("design:type", Object)], an.prototype, "hass", void 0), M([k({ attribute: !1 }), j("design:type", Object)], an.prototype, "lovelace", void 0), M([k({ attribute: !1 }), j("design:type", Object)], an.prototype, "_config", void 0), an = M([O(rn), j("design:paramtypes", [])], an);
 //#endregion
 //#region src/charts/index.ts
 function on(e, t, n) {
 	let r = n ? new Date(n) : /* @__PURE__ */ new Date();
-	return S`
+	return w`
     <div class="chart-labels">
-      ${Array.from({ length: e }, (e, t) => S`
+      ${Array.from({ length: e }, (e, t) => w`
           <div
             style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end;"
           >
@@ -3281,16 +3337,16 @@ ${c}` : c;
 				r = t[0], e = e.substring(r.length);
 				let c = wr(t[2].split("\n", 1)[0], t[1].length), l = e.split("\n", 1)[0], u = !c.trim(), d = 0;
 				if (this.options.pedantic ? (d = 2, s = c.trimStart()) : u ? d = t[1].length + 1 : (d = c.search(this.rules.other.nonSpaceChar), d = d > 4 ? 1 : d, s = c.slice(d), d += t[1].length), u && this.rules.other.blankLine.test(l) && (r += l + "\n", e = e.substring(l.length + 1), n = !0), !n) {
-					let t = this.rules.other.nextBulletRegex(d), n = this.rules.other.hrRegex(d), i = this.rules.other.fencesBeginRegex(d), a = this.rules.other.headingBeginRegex(d), o = this.rules.other.htmlBeginRegex(d), ee = this.rules.other.blockquoteBeginRegex(d);
+					let t = this.rules.other.nextBulletRegex(d), n = this.rules.other.hrRegex(d), i = this.rules.other.fencesBeginRegex(d), a = this.rules.other.headingBeginRegex(d), o = this.rules.other.htmlBeginRegex(d), f = this.rules.other.blockquoteBeginRegex(d);
 					for (; e;) {
-						let f = e.split("\n", 1)[0], p;
-						if (l = f, this.options.pedantic ? (l = l.replace(this.rules.other.listReplaceNesting, "  "), p = l) : p = l.replace(this.rules.other.tabCharGlobal, "    "), i.test(l) || a.test(l) || o.test(l) || ee.test(l) || t.test(l) || n.test(l)) break;
-						if (p.search(this.rules.other.nonSpaceChar) >= d || !l.trim()) s += "\n" + p.slice(d);
+						let p = e.split("\n", 1)[0], m;
+						if (l = p, this.options.pedantic ? (l = l.replace(this.rules.other.listReplaceNesting, "  "), m = l) : m = l.replace(this.rules.other.tabCharGlobal, "    "), i.test(l) || a.test(l) || o.test(l) || f.test(l) || t.test(l) || n.test(l)) break;
+						if (m.search(this.rules.other.nonSpaceChar) >= d || !l.trim()) s += "\n" + m.slice(d);
 						else {
 							if (u || c.replace(this.rules.other.tabCharGlobal, "    ").search(this.rules.other.nonSpaceChar) >= 4 || i.test(c) || a.test(c) || n.test(c)) break;
 							s += "\n" + l;
 						}
-						u = !l.trim(), r += f + "\n", e = e.substring(f.length + 1), c = p.slice(d);
+						u = !l.trim(), r += p + "\n", e = e.substring(p.length + 1), c = m.slice(d);
 					}
 				}
 				i.loose || (o ? i.loose = !0 : this.rules.other.doubleBlankLine.test(r) && (o = !0)), i.items.push({
@@ -4339,15 +4395,15 @@ J.options = J.setOptions = function(e) {
 }, J.parseInline = jr.parseInline, J.Parser = q, J.parser = q.parse, J.Renderer = Or, J.TextRenderer = kr, J.Lexer = K, J.lexer = K.lex, J.Tokenizer = Dr, J.Hooks = Ar, J.parse = J, J.options, J.setOptions, J.use, J.walkTokens, J.parseInline, q.parse, K.lex;
 //#endregion
 //#region src/icons/clear-night.svg
-var Mr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='21.92'%20x2='38.52'%20y1='18.75'%20y2='47.52'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%2386c3db'/%3e%3cstop%20offset='.45'%20stop-color='%2386c3db'/%3e%3cstop%20offset='1'%20stop-color='%235eafcf'/%3e%3canimateTransform%20attributeName='gradientTransform'%20dur='10s'%20repeatCount='indefinite'%20type='rotate'%20values='5%2032%2032;%20-15%2032%2032;%205%2032%2032'/%3e%3c/linearGradient%3e%3c/defs%3e%3cpath%20fill='url(%23a)'%20stroke='%2372b9d5'%20stroke-linecap='round'%20stroke-linejoin='round'%20stroke-width='.5'%20d='M46.66%2036.2a16.66%2016.66%200%2001-16.78-16.55%2016.29%2016.29%200%2001.55-4.15A16.56%2016.56%200%201048.5%2036.1c-.61.06-1.22.1-1.84.1z'%3e%3canimateTransform%20attributeName='transform'%20dur='10s'%20repeatCount='indefinite'%20type='rotate'%20values='-5%2032%2032;%2015%2032%2032;%20-5%2032%2032'/%3e%3c/path%3e%3c/svg%3e", Nr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3c/defs%3e%3cpath%20fill='url(%23a)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'%3e%3canimateTransform%20attributeName='transform'%20dur='7s'%20repeatCount='indefinite'%20type='translate'%20values='-3%200;%203%200;%20-3%200'/%3e%3c/path%3e%3c/svg%3e", Pr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='16.5'%20x2='21.5'%20y1='19.67'%20y2='28.33'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='.45'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='1'%20stop-color='%23f59e0b'/%3e%3c/linearGradient%3e%3clinearGradient%20id='b'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3c/defs%3e%3ccircle%20cx='19'%20cy='24'%20r='5'%20fill='url(%23a)'%20stroke='%23f8af18'%20stroke-miterlimit='10'%20stroke-width='.5'/%3e%3cpath%20fill='none'%20stroke='%23fbbf24'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M19%2015.67V12.5m0%2023v-3.17m5.89-14.22l2.24-2.24M10.87%2032.13l2.24-2.24m0-11.78l-2.24-2.24m16.26%2016.26l-2.24-2.24M7.5%2024h3.17m19.83%200h-3.17'%3e%3canimateTransform%20attributeName='transform'%20dur='45s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2019%2024;%20360%2019%2024'/%3e%3c/path%3e%3cpath%20fill='url(%23b)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3c/svg%3e", Fr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='13.58'%20x2='24.15'%20y1='15.57'%20y2='33.87'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%2386c3db'/%3e%3cstop%20offset='.45'%20stop-color='%2386c3db'/%3e%3cstop%20offset='1'%20stop-color='%235eafcf'/%3e%3canimateTransform%20attributeName='gradientTransform'%20dur='10s'%20repeatCount='indefinite'%20type='rotate'%20values='10%2019.22%2024.293;%20-10%2019.22%2024.293;%2010%2019.22%2024.293'/%3e%3c/linearGradient%3e%3clinearGradient%20id='b'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3c/defs%3e%3cpath%20fill='url(%23a)'%20stroke='%2372b9d5'%20stroke-linecap='round'%20stroke-linejoin='round'%20stroke-width='.5'%20d='M29.33%2026.68a10.61%2010.61%200%2001-10.68-10.54A10.5%2010.5%200%200119%2013.5a10.54%2010.54%200%201011.5%2013.11%2011.48%2011.48%200%2001-1.17.07z'%3e%3canimateTransform%20attributeName='transform'%20dur='10s'%20repeatCount='indefinite'%20type='rotate'%20values='-10%2019.22%2024.293;%2010%2019.22%2024.293;%20-10%2019.22%2024.293'/%3e%3c/path%3e%3cpath%20fill='url(%23b)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3c/svg%3e", Ir = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='b'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3clinearGradient%20id='a'%20x1='27.5'%20x2='36.5'%20y1='50.21'%20y2='65.79'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23d4d7dd'/%3e%3cstop%20offset='.45'%20stop-color='%23d4d7dd'/%3e%3cstop%20offset='1'%20stop-color='%23bec1c6'/%3e%3c/linearGradient%3e%3clinearGradient%20id='c'%20y1='44.21'%20y2='59.79'%20xlink:href='%23a'/%3e%3c/defs%3e%3cpath%20fill='url(%23b)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3cpath%20fill='none'%20stroke='url(%23a)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M17%2058h30'%3e%3canimateTransform%20attributeName='transform'%20begin='0s'%20dur='5s'%20repeatCount='indefinite'%20type='translate'%20values='-4%200;%204%200;%20-4%200'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23c)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M17%2052h30'%3e%3canimateTransform%20attributeName='transform'%20begin='-4s'%20dur='5s'%20repeatCount='indefinite'%20type='translate'%20values='-4%200;%204%200;%20-4%200'/%3e%3c/path%3e%3c/svg%3e", Lr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='b'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3clinearGradient%20id='a'%20x1='23.25'%20x2='24.75'%20y1='43.7'%20y2='46.3'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%2386c3db'/%3e%3cstop%20offset='.45'%20stop-color='%2386c3db'/%3e%3cstop%20offset='1'%20stop-color='%235eafcf'/%3e%3c/linearGradient%3e%3clinearGradient%20id='c'%20x1='30.25'%20x2='31.75'%20y1='43.7'%20y2='46.3'%20xlink:href='%23a'/%3e%3clinearGradient%20id='d'%20x1='37.25'%20x2='38.75'%20y1='43.7'%20y2='46.3'%20xlink:href='%23a'/%3e%3c/defs%3e%3cpath%20fill='url(%23b)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3cpath%20fill='url(%23a)'%20d='M24%2043.5a1.5%201.5%200%20101.5%201.5%201.5%201.5%200%2000-1.5-1.5z'%3e%3canimateTransform%20attributeName='transform'%20dur='0.6s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2018;%20-4%2014'/%3e%3canimate%20attributeName='opacity'%20dur='0.6s'%20repeatCount='indefinite'%20values='1;1;0'/%3e%3c/path%3e%3cpath%20fill='url(%23c)'%20d='M31%2043.5a1.5%201.5%200%20101.5%201.5%201.5%201.5%200%2000-1.5-1.5z'%3e%3canimateTransform%20attributeName='transform'%20begin='-0.4s'%20dur='0.6s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2018;%20-4%2014'/%3e%3canimate%20attributeName='opacity'%20begin='-0.4s'%20dur='0.6s'%20repeatCount='indefinite'%20values='1;1;0'/%3e%3c/path%3e%3cpath%20fill='url(%23d)'%20d='M38%2043.5a1.5%201.5%200%20101.5%201.5%201.5%201.5%200%2000-1.5-1.5z'%3e%3canimateTransform%20attributeName='transform'%20begin='-0.2s'%20dur='0.6s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2018;%20-4%2014'/%3e%3canimate%20attributeName='opacity'%20begin='-0.2s'%20dur='0.6s'%20repeatCount='indefinite'%20values='1;1;0'/%3e%3c/path%3e%3c/svg%3e", Rr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='b'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3clinearGradient%20id='a'%20x1='22.53'%20x2='25.47'%20y1='42.95'%20y2='48.05'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%234286ee'/%3e%3cstop%20offset='.45'%20stop-color='%234286ee'/%3e%3cstop%20offset='1'%20stop-color='%230950bc'/%3e%3c/linearGradient%3e%3clinearGradient%20id='c'%20x1='29.53'%20x2='32.47'%20y1='42.95'%20y2='48.05'%20xlink:href='%23a'/%3e%3clinearGradient%20id='d'%20x1='36.53'%20x2='39.47'%20y1='42.95'%20y2='48.05'%20xlink:href='%23a'/%3e%3clinearGradient%20id='e'%20x1='26.74'%20x2='35.76'%20y1='37.88'%20y2='53.52'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f7b23b'/%3e%3cstop%20offset='.45'%20stop-color='%23f7b23b'/%3e%3cstop%20offset='1'%20stop-color='%23f59e0b'/%3e%3c/linearGradient%3e%3c/defs%3e%3cpath%20fill='url(%23b)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3cpath%20fill='none'%20stroke='url(%23a)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M24.39%2043.03l-.78%204.94'%3e%3canimateTransform%20attributeName='transform'%20dur='0.7s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20dur='0.7s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23c)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M31.39%2043.03l-.78%204.94'%3e%3canimateTransform%20attributeName='transform'%20begin='-0.4s'%20dur='0.7s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20begin='-0.4s'%20dur='0.7s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23d)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M38.39%2043.03l-.78%204.94'%3e%3canimateTransform%20attributeName='transform'%20begin='-0.2s'%20dur='0.7s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20begin='-0.2s'%20dur='0.7s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3cpath%20fill='url(%23e)'%20stroke='%23f6a823'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M30%2036l-4%2012h4l-2%2010%2010-14h-6l4-8h-6z'%3e%3canimate%20attributeName='opacity'%20dur='2s'%20repeatCount='indefinite'%20values='1;%201;%201;%201;%201;%201;%200.1;%201;%200.1;%201;%201;%200.1;%201;%200.1;%201'/%3e%3c/path%3e%3c/svg%3e", zr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3clinearGradient%20id='b'%20x1='26.74'%20x2='35.76'%20y1='37.88'%20y2='53.52'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f7b23b'/%3e%3cstop%20offset='.45'%20stop-color='%23f7b23b'/%3e%3cstop%20offset='1'%20stop-color='%23f59e0b'/%3e%3c/linearGradient%3e%3c/defs%3e%3cpath%20fill='url(%23a)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3cpath%20fill='url(%23b)'%20stroke='%23f6a823'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M30%2036l-4%2012h4l-2%2010%2010-14h-6l4-8h-6z'%3e%3canimate%20attributeName='opacity'%20dur='2s'%20repeatCount='indefinite'%20values='1;%201;%201;%201;%201;%201;%200.1;%201;%200.1;%201;%201;%200.1;%201;%200.1;%201'/%3e%3c/path%3e%3c/svg%3e", Br = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='b'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3clinearGradient%20id='a'%20x1='22.53'%20x2='25.47'%20y1='42.95'%20y2='48.05'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%234286ee'/%3e%3cstop%20offset='.45'%20stop-color='%234286ee'/%3e%3cstop%20offset='1'%20stop-color='%230950bc'/%3e%3c/linearGradient%3e%3clinearGradient%20id='c'%20x1='29.53'%20x2='32.47'%20y1='42.95'%20y2='48.05'%20xlink:href='%23a'/%3e%3clinearGradient%20id='d'%20x1='36.53'%20x2='39.47'%20y1='42.95'%20y2='48.05'%20xlink:href='%23a'/%3e%3c/defs%3e%3cpath%20fill='url(%23b)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3cpath%20fill='none'%20stroke='url(%23a)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M24.39%2043.03l-.78%204.94'%3e%3canimateTransform%20attributeName='transform'%20dur='0.7s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20dur='0.7s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23c)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M31.39%2043.03l-.78%204.94'%3e%3canimateTransform%20attributeName='transform'%20begin='-0.4s'%20dur='0.7s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20begin='-0.4s'%20dur='0.7s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23d)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M38.39%2043.03l-.78%204.94'%3e%3canimateTransform%20attributeName='transform'%20begin='-0.2s'%20dur='0.7s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20begin='-0.2s'%20dur='0.7s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3c/svg%3e", Vr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='b'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3clinearGradient%20id='a'%20x1='30.12'%20x2='31.88'%20y1='43.48'%20y2='46.52'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%2386c3db'/%3e%3cstop%20offset='.45'%20stop-color='%2386c3db'/%3e%3cstop%20offset='1'%20stop-color='%235eafcf'/%3e%3c/linearGradient%3e%3clinearGradient%20id='c'%20x1='29.67'%20x2='32.33'%20y1='42.69'%20y2='47.31'%20xlink:href='%23a'/%3e%3clinearGradient%20id='d'%20x1='23.12'%20x2='24.88'%20y1='43.48'%20y2='46.52'%20xlink:href='%23a'/%3e%3clinearGradient%20id='e'%20x1='22.67'%20x2='25.33'%20y1='42.69'%20y2='47.31'%20xlink:href='%23a'/%3e%3clinearGradient%20id='f'%20x1='37.12'%20x2='38.88'%20y1='43.48'%20y2='46.52'%20xlink:href='%23a'/%3e%3clinearGradient%20id='g'%20x1='36.67'%20x2='39.33'%20y1='42.69'%20y2='47.31'%20xlink:href='%23a'/%3e%3c/defs%3e%3cpath%20fill='url(%23b)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3cg%3e%3ccircle%20cx='31'%20cy='45'%20r='1.25'%20fill='none'%20stroke='url(%23a)'%20stroke-miterlimit='10'/%3e%3cpath%20fill='none'%20stroke='url(%23c)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20d='M33.17%2046.25l-1.09-.63m-2.16-1.24l-1.09-.63M31%2042.5v1.25m0%203.75v-1.25m-1.08-.63l-1.09.63m4.34-2.5l-1.09.63'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='4s'%20repeatCount='indefinite'%20type='translate'%20values='-1%20-6;%201%2012'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='9s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2031%2045;%20360%2031%2045'/%3e%3canimate%20attributeName='opacity'%20dur='4s'%20repeatCount='indefinite'%20values='0;1;1;1;0'/%3e%3c/g%3e%3cg%3e%3ccircle%20cx='24'%20cy='45'%20r='1.25'%20fill='none'%20stroke='url(%23d)'%20stroke-miterlimit='10'/%3e%3cpath%20fill='none'%20stroke='url(%23e)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20d='M26.17%2046.25l-1.09-.63m-2.16-1.24l-1.09-.63M24%2042.5v1.25m0%203.75v-1.25m-1.08-.63l-1.09.63m4.34-2.5l-1.09.63'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20begin='-2s'%20dur='4s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-6;%20-1%2012'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='9s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2024%2045;%20360%2024%2045'/%3e%3canimate%20attributeName='opacity'%20begin='-2s'%20dur='4s'%20repeatCount='indefinite'%20values='0;1;1;1;0'/%3e%3c/g%3e%3cg%3e%3ccircle%20cx='38'%20cy='45'%20r='1.25'%20fill='none'%20stroke='url(%23f)'%20stroke-miterlimit='10'/%3e%3cpath%20fill='none'%20stroke='url(%23g)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20d='M40.17%2046.25l-1.09-.63m-2.16-1.24l-1.09-.63M38%2042.5v1.25m0%203.75v-1.25m-1.08-.63l-1.09.63m4.34-2.5l-1.09.63'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20begin='-1s'%20dur='4s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-6;%20-1%2012'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='9s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2038%2045;%20360%2038%2045'/%3e%3canimate%20attributeName='opacity'%20begin='-1s'%20dur='4s'%20repeatCount='indefinite'%20values='0;1;1;1;0'/%3e%3c/g%3e%3c/svg%3e", Hr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='c'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3clinearGradient%20id='a'%20x1='23.12'%20x2='24.88'%20y1='43.48'%20y2='46.52'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%2386c3db'/%3e%3cstop%20offset='.45'%20stop-color='%2386c3db'/%3e%3cstop%20offset='1'%20stop-color='%235eafcf'/%3e%3c/linearGradient%3e%3clinearGradient%20id='d'%20x1='22.67'%20x2='25.33'%20y1='42.69'%20y2='47.31'%20xlink:href='%23a'/%3e%3clinearGradient%20id='e'%20x1='37.12'%20x2='38.88'%20y1='43.48'%20y2='46.52'%20xlink:href='%23a'/%3e%3clinearGradient%20id='f'%20x1='36.67'%20x2='39.33'%20y1='42.69'%20y2='47.31'%20xlink:href='%23a'/%3e%3clinearGradient%20id='b'%20x1='23.31'%20x2='24.69'%20y1='44.3'%20y2='46.7'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%234286ee'/%3e%3cstop%20offset='.45'%20stop-color='%234286ee'/%3e%3cstop%20offset='1'%20stop-color='%230950bc'/%3e%3c/linearGradient%3e%3clinearGradient%20id='g'%20x1='30.31'%20x2='31.69'%20y1='44.3'%20y2='46.7'%20xlink:href='%23b'/%3e%3clinearGradient%20id='h'%20x1='37.31'%20x2='38.69'%20y1='44.3'%20y2='46.7'%20xlink:href='%23b'/%3e%3c/defs%3e%3cpath%20fill='url(%23c)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3cg%3e%3ccircle%20cx='24'%20cy='45'%20r='1.25'%20fill='none'%20stroke='url(%23a)'%20stroke-miterlimit='10'/%3e%3cpath%20fill='none'%20stroke='url(%23d)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20d='M26.17%2046.25l-1.09-.63m-2.16-1.24l-1.09-.63M24%2042.5v1.25m0%203.75v-1.25m-1.08-.63l-1.09.63m4.34-2.5l-1.09.63'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20begin='-2s'%20dur='4s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-6;%20-1%2012'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='9s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2024%2045;%20360%2024%2045'/%3e%3canimate%20attributeName='opacity'%20begin='-2s'%20dur='4s'%20repeatCount='indefinite'%20values='0;1;1;1;0'/%3e%3c/g%3e%3cg%3e%3ccircle%20cx='38'%20cy='45'%20r='1.25'%20fill='none'%20stroke='url(%23e)'%20stroke-miterlimit='10'/%3e%3cpath%20fill='none'%20stroke='url(%23f)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20d='M40.17%2046.25l-1.09-.63m-2.16-1.24l-1.09-.63M38%2042.5v1.25m0%203.75v-1.25m-1.08-.63l-1.09.63m4.34-2.5l-1.09.63'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20begin='-1s'%20dur='4s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-6;%20-1%2012'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='9s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2038%2045;%20360%2038%2045'/%3e%3canimate%20attributeName='opacity'%20begin='-1s'%20dur='4s'%20repeatCount='indefinite'%20values='0;1;1;1;0'/%3e%3c/g%3e%3cpath%20fill='none'%20stroke='url(%23b)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M24.08%2045.01l-.16.98'%3e%3canimateTransform%20attributeName='transform'%20dur='1.5s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20dur='1.5s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23g)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M31.08%2045.01l-.16.98'%3e%3canimateTransform%20attributeName='transform'%20begin='-0.5s'%20dur='1.5s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20begin='-0.5s'%20dur='1.5s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23h)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M38.08%2045.01l-.16.98'%3e%3canimateTransform%20attributeName='transform'%20begin='-1s'%20dur='1.5s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20begin='-1s'%20dur='1.5s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3c/svg%3e", Ur = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='21.97'%20x2='42.03'%20y1='14.63'%20y2='49.37'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23d4d7dd'/%3e%3cstop%20offset='.45'%20stop-color='%23d4d7dd'/%3e%3cstop%20offset='1'%20stop-color='%23bec1c6'/%3e%3canimateTransform%20attributeName='gradientTransform'%20dur='1s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2032%2032;%20360%2032%2032'/%3e%3c/linearGradient%3e%3c/defs%3e%3cpath%20fill='none'%20stroke='url(%23a)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M43%2032a11%2011%200%2011-11-11%2011%2011%200%200111%2011zM25%2014.61l-.48%201a33.68%2033.68%200%2000-3.42%2017.82h0M39%2049.39l.48-1a33.68%2033.68%200%20003.42-17.82h0'%3e%3canimateTransform%20attributeName='transform'%20dur='1s'%20repeatCount='indefinite'%20type='rotate'%20values='360%2032%2032;%200%2032%2032'/%3e%3c/path%3e%3c/svg%3e", Wr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='27.56'%20x2='38.27'%20y1='17.64'%20y2='36.19'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23d4d7dd'/%3e%3cstop%20offset='.45'%20stop-color='%23d4d7dd'/%3e%3cstop%20offset='1'%20stop-color='%23bec1c6'/%3e%3c/linearGradient%3e%3clinearGradient%20id='b'%20x1='19.96'%20x2='31.37'%20y1='29.03'%20y2='48.8'%20xlink:href='%23a'/%3e%3c/defs%3e%3cpath%20fill='none'%20stroke='url(%23a)'%20stroke-dasharray='35%2022'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M43.64%2020a5%205%200%20113.61%208.46h-35.5'%3e%3canimate%20attributeName='stroke-dashoffset'%20dur='2s'%20repeatCount='indefinite'%20values='-57;%2057'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23b)'%20stroke-dasharray='24%2015'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M29.14%2044a5%205%200%20103.61-8.46h-21'%3e%3canimate%20attributeName='stroke-dashoffset'%20begin='-1.5s'%20dur='2s'%20repeatCount='indefinite'%20values='-39;%2039'/%3e%3c/path%3e%3c/svg%3e", Gr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='26.75'%20x2='37.25'%20y1='22.91'%20y2='41.09'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='.45'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='1'%20stop-color='%23f59e0b'/%3e%3c/linearGradient%3e%3c/defs%3e%3ccircle%20cx='32'%20cy='32'%20r='10.5'%20fill='url(%23a)'%20stroke='%23f8af18'%20stroke-miterlimit='10'%20stroke-width='.5'/%3e%3cpath%20fill='none'%20stroke='%23fbbf24'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M32%2015.71V9.5m0%2045v-6.21m11.52-27.81l4.39-4.39M16.09%2047.91l4.39-4.39m0-23l-4.39-4.39m31.82%2031.78l-4.39-4.39M15.71%2032H9.5m45%200h-6.21'%3e%3canimateTransform%20attributeName='transform'%20dur='45s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2032%2032;%20360%2032%2032'/%3e%3c/path%3e%3c/svg%3e", Kr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%20512%20512'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='52.7'%20x2='133.4'%20y1='9.6'%20y2='149.3'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%239ca3af'/%3e%3cstop%20offset='.5'%20stop-color='%239ca3af'/%3e%3cstop%20offset='1'%20stop-color='%236b7280'/%3e%3c/linearGradient%3e%3clinearGradient%20id='b'%20x1='99.5'%20x2='232.6'%20y1='30.7'%20y2='261.4'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%236b7280'/%3e%3cstop%20offset='.5'%20stop-color='%236b7280'/%3e%3cstop%20offset='1'%20stop-color='%234b5563'/%3e%3c/linearGradient%3e%3clinearGradient%20id='c'%20x1='1381.3'%20x2='1399.5'%20y1='-1144.7'%20y2='-1097.4'%20gradientTransform='rotate(-9%208002.567%208233.063)'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%230b65ed'/%3e%3cstop%20offset='.5'%20stop-color='%230a5ad4'/%3e%3cstop%20offset='1'%20stop-color='%230950bc'/%3e%3c/linearGradient%3e%3clinearGradient%20xlink:href='%23c'%20id='d'%20x1='1436.7'%20x2='1454.9'%20y1='-1137'%20y2='-1089.7'%20gradientTransform='rotate(-9%208009.537%208233.037)'/%3e%3clinearGradient%20xlink:href='%23c'%20id='e'%20x1='1492.1'%20x2='1510.3'%20y1='-1129.3'%20y2='-1082.1'%20gradientTransform='rotate(-9%208016.566%208233.078)'/%3e%3csymbol%20id='g'%20viewBox='0%200%20200.3%20126.1'%3e%3cpath%20fill='url(%23a)'%20stroke='%23848b98'%20stroke-miterlimit='10'%20d='M.5%2093.2a32.4%2032.4%200%200032.4%2032.4h129.8v-.1l2.3.1a34.8%2034.8%200%20006.5-68.9%2032.4%2032.4%200%2000-48.5-33%2048.6%2048.6%200%2000-88.6%2037.1h-1.5A32.4%2032.4%200%2000.5%2093.1Z'/%3e%3c/symbol%3e%3csymbol%20id='h'%20viewBox='0%200%20350%20222'%3e%3cpath%20fill='url(%23b)'%20stroke='%235b6472'%20stroke-miterlimit='10'%20stroke-width='6'%20d='m291%20107-2.5.1A83.9%2083.9%200%2000135.6%2043%2056%2056%200%200051%2091a56.6%2056.6%200%2000.8%209A60%2060%200%200063%20219l4-.2v.2h224a56%2056%200%20000-112Z'/%3e%3c/symbol%3e%3csymbol%20id='f'%20overflow='visible'%20viewBox='0%200%20398%20222'%3e%3cuse%20xlink:href='%23g'%20width='200.3'%20height='126.1'%20transform='translate(198%2027)'%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='6s'%20repeatCount='indefinite'%20type='translate'%20values='-9%200;%209%200;%20-9%200'/%3e%3c/use%3e%3cuse%20xlink:href='%23h'%20width='350'%20height='222'%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='6s'%20repeatCount='indefinite'%20type='translate'%20values='-18%200;%2018%200;%20-18%200'/%3e%3c/use%3e%3c/symbol%3e%3csymbol%20id='i'%20overflow='visible'%20viewBox='0%200%20129%2057'%3e%3cpath%20fill='url(%23c)'%20stroke='%230a5ad4'%20stroke-miterlimit='10'%20d='M8.5%2056.5a8%208%200%2001-8-8v-40a8%208%200%200116%200v40a8%208%200%2001-8%208Z'%20opacity='0'%3e%3canimateTransform%20id='x1'%20additive='sum'%20attributeName='transform'%20begin='0s;%20x1.end+.33s'%20dur='.67s'%20type='translate'%20values='0%20-60;%200%2060'/%3e%3canimate%20id='y1'%20attributeName='opacity'%20begin='0s;%20y1.end+.33s'%20dur='.67s'%20keyTimes='0;%20.25;%201'%20values='0;%201;%200'/%3e%3c/path%3e%3cpath%20fill='url(%23d)'%20stroke='%230a5ad4'%20stroke-miterlimit='10'%20d='M64.5%2056.5a8%208%200%2001-8-8v-40a8%208%200%200116%200v40a8%208%200%2001-8%208Z'%20opacity='0'%3e%3canimateTransform%20id='x2'%20additive='sum'%20attributeName='transform'%20begin='.33s;%20x2.end+.33s'%20dur='.67s'%20type='translate'%20values='0%20-60;%200%2060'/%3e%3canimate%20id='y2'%20attributeName='opacity'%20begin='.33s;%20y2.end+.33s'%20dur='.67s'%20keyTimes='0;%20.25;%201'%20values='0;%201;%200'/%3e%3c/path%3e%3cpath%20fill='url(%23e)'%20stroke='%230a5ad4'%20stroke-miterlimit='10'%20d='M120.5%2056.5a8%208%200%2001-8-8v-40a8%208%200%200116%200v40a8%208%200%2001-8%208Z'%20opacity='0'%3e%3canimateTransform%20id='x3'%20additive='sum'%20attributeName='transform'%20begin='-.33s;%20x3.end+.33s'%20dur='.67s'%20type='translate'%20values='0%20-60;%200%2060'/%3e%3canimate%20id='y3'%20attributeName='opacity'%20begin='-.33s;%20y3.end+.33s'%20dur='.67s'%20keyTimes='0;%20.25;%201'%20values='0;%201;%200'/%3e%3c/path%3e%3c/symbol%3e%3c/defs%3e%3cuse%20xlink:href='%23f'%20width='398'%20height='222'%20transform='translate(68.84%20145)'/%3e%3cuse%20xlink:href='%23i'%20width='129'%20height='57'%20transform='translate(191.5%20343.5)'/%3e%3c/svg%3e", qr = "M6,19A5,5 0 0,1 1,14A5,5 0 0,1 6,9C7,6.65 9.3,5 12,5C15.43,5 18.24,7.66 18.5,11.03L19,11A4,4 0 0,1 23,15A4,4 0 0,1 19,19H6M19,13H17V12A5,5 0 0,0 12,7C9.5,7 7.45,8.82 7.06,11.19C6.73,11.07 6.37,11 6,11A3,3 0 0,0 3,14A3,3 0 0,0 6,17H19A2,2 0 0,0 21,15A2,2 0 0,0 19,13Z", Jr = "M3,15H13A1,1 0 0,1 14,16A1,1 0 0,1 13,17H3A1,1 0 0,1 2,16A1,1 0 0,1 3,15M16,15H21A1,1 0 0,1 22,16A1,1 0 0,1 21,17H16A1,1 0 0,1 15,16A1,1 0 0,1 16,15M1,12A5,5 0 0,1 6,7C7,4.65 9.3,3 12,3C15.43,3 18.24,5.66 18.5,9.03L19,9C21.19,9 22.97,10.76 23,13H21A2,2 0 0,0 19,11H17V10A5,5 0 0,0 12,5C9.5,5 7.45,6.82 7.06,9.19C6.73,9.07 6.37,9 6,9A3,3 0 0,0 3,12C3,12.35 3.06,12.69 3.17,13H1.1L1,12M3,19H5A1,1 0 0,1 6,20A1,1 0 0,1 5,21H3A1,1 0 0,1 2,20A1,1 0 0,1 3,19M8,19H21A1,1 0 0,1 22,20A1,1 0 0,1 21,21H8A1,1 0 0,1 7,20A1,1 0 0,1 8,19Z", Yr = "M6,14A1,1 0 0,1 7,15A1,1 0 0,1 6,16A5,5 0 0,1 1,11A5,5 0 0,1 6,6C7,3.65 9.3,2 12,2C15.43,2 18.24,4.66 18.5,8.03L19,8A4,4 0 0,1 23,12A4,4 0 0,1 19,16H18A1,1 0 0,1 17,15A1,1 0 0,1 18,14H19A2,2 0 0,0 21,12A2,2 0 0,0 19,10H17V9A5,5 0 0,0 12,4C9.5,4 7.45,5.82 7.06,8.19C6.73,8.07 6.37,8 6,8A3,3 0 0,0 3,11A3,3 0 0,0 6,14M10,18A2,2 0 0,1 12,20A2,2 0 0,1 10,22A2,2 0 0,1 8,20A2,2 0 0,1 10,18M14.5,16A1.5,1.5 0 0,1 16,17.5A1.5,1.5 0 0,1 14.5,19A1.5,1.5 0 0,1 13,17.5A1.5,1.5 0 0,1 14.5,16M10.5,12A1.5,1.5 0 0,1 12,13.5A1.5,1.5 0 0,1 10.5,15A1.5,1.5 0 0,1 9,13.5A1.5,1.5 0 0,1 10.5,12Z", Xr = "M15,6.79C16.86,7.86 18,9.85 18,12C18,22 6,22 6,22C7.25,21.06 8.38,19.95 9.34,18.71C9.38,18.66 9.41,18.61 9.44,18.55C9.69,18.06 9.5,17.46 9,17.21C7.14,16.14 6,14.15 6,12C6,2 18,2 18,2C16.75,2.94 15.62,4.05 14.66,5.29C14.62,5.34 14.59,5.39 14.56,5.45C14.31,5.94 14.5,6.54 15,6.79M12,14A2,2 0 0,0 14,12A2,2 0 0,0 12,10A2,2 0 0,0 10,12A2,2 0 0,0 12,14Z", Zr = "M6,16A5,5 0 0,1 1,11A5,5 0 0,1 6,6C7,3.65 9.3,2 12,2C15.43,2 18.24,4.66 18.5,8.03L19,8A4,4 0 0,1 23,12A4,4 0 0,1 19,16H18A1,1 0 0,1 17,15A1,1 0 0,1 18,14H19A2,2 0 0,0 21,12A2,2 0 0,0 19,10H17V9A5,5 0 0,0 12,4C9.5,4 7.45,5.82 7.06,8.19C6.73,8.07 6.37,8 6,8A3,3 0 0,0 3,11A3,3 0 0,0 6,14H7A1,1 0 0,1 8,15A1,1 0 0,1 7,16H6M12,11H15L13,15H15L11.25,22L12,17H9.5L12,11Z", Qr = "M4.5,13.59C5,13.87 5.14,14.5 4.87,14.96C4.59,15.44 4,15.6 3.5,15.33V15.33C2,14.47 1,12.85 1,11A5,5 0 0,1 6,6C7,3.65 9.3,2 12,2C15.43,2 18.24,4.66 18.5,8.03L19,8A4,4 0 0,1 23,12A4,4 0 0,1 19,16A1,1 0 0,1 18,15A1,1 0 0,1 19,14A2,2 0 0,0 21,12A2,2 0 0,0 19,10H17V9A5,5 0 0,0 12,4C9.5,4 7.45,5.82 7.06,8.19C6.73,8.07 6.37,8 6,8A3,3 0 0,0 3,11C3,12.11 3.6,13.08 4.5,13.6V13.59M9.5,11H12.5L10.5,15H12.5L8.75,22L9.5,17H7L9.5,11M17.5,18.67C17.5,19.96 16.5,21 15.25,21C14,21 13,19.96 13,18.67C13,17.12 15.25,14.5 15.25,14.5C15.25,14.5 17.5,17.12 17.5,18.67Z", $r = "M17.75,4.09L15.22,6.03L16.13,9.09L13.5,7.28L10.87,9.09L11.78,6.03L9.25,4.09L12.44,4L13.5,1L14.56,4L17.75,4.09M21.25,11L19.61,12.25L20.2,14.23L18.5,13.06L16.8,14.23L17.39,12.25L15.75,11L17.81,10.95L18.5,9L19.19,10.95L21.25,11M18.97,15.95C19.8,15.87 20.69,17.05 20.16,17.8C19.84,18.25 19.5,18.67 19.08,19.07C15.17,23 8.84,23 4.94,19.07C1.03,15.17 1.03,8.83 4.94,4.93C5.34,4.53 5.76,4.17 6.21,3.85C6.96,3.32 8.14,4.21 8.06,5.04C7.79,7.9 8.75,10.87 10.95,13.06C13.14,15.26 16.1,16.22 18.97,15.95M17.33,17.97C14.5,17.81 11.7,16.64 9.53,14.5C7.36,12.31 6.2,9.5 6.04,6.68C3.23,9.82 3.34,14.64 6.35,17.66C9.37,20.67 14.19,20.78 17.33,17.97Z", ei = "M12.74,5.47C15.1,6.5 16.35,9.03 15.92,11.46C17.19,12.56 18,14.19 18,16V16.17C18.31,16.06 18.65,16 19,16A3,3 0 0,1 22,19A3,3 0 0,1 19,22H6A4,4 0 0,1 2,18A4,4 0 0,1 6,14H6.27C5,12.45 4.6,10.24 5.5,8.26C6.72,5.5 9.97,4.24 12.74,5.47M11.93,7.3C10.16,6.5 8.09,7.31 7.31,9.07C6.85,10.09 6.93,11.22 7.41,12.13C8.5,10.83 10.16,10 12,10C12.7,10 13.38,10.12 14,10.34C13.94,9.06 13.18,7.86 11.93,7.3M13.55,3.64C13,3.4 12.45,3.23 11.88,3.12L14.37,1.82L15.27,4.71C14.76,4.29 14.19,3.93 13.55,3.64M6.09,4.44C5.6,4.79 5.17,5.19 4.8,5.63L4.91,2.82L7.87,3.5C7.25,3.71 6.65,4.03 6.09,4.44M18,9.71C17.91,9.12 17.78,8.55 17.59,8L19.97,9.5L17.92,11.73C18.03,11.08 18.05,10.4 18,9.71M3.04,11.3C3.11,11.9 3.24,12.47 3.43,13L1.06,11.5L3.1,9.28C3,9.93 2.97,10.61 3.04,11.3M19,18H16V16A4,4 0 0,0 12,12A4,4 0 0,0 8,16H6A2,2 0 0,0 4,18A2,2 0 0,0 6,20H19A1,1 0 0,0 20,19A1,1 0 0,0 19,18Z", ti = "M9,12C9.53,12.14 9.85,12.69 9.71,13.22L8.41,18.05C8.27,18.59 7.72,18.9 7.19,18.76C6.65,18.62 6.34,18.07 6.5,17.54L7.78,12.71C7.92,12.17 8.47,11.86 9,12M13,12C13.53,12.14 13.85,12.69 13.71,13.22L11.64,20.95C11.5,21.5 10.95,21.8 10.41,21.66C9.88,21.5 9.56,20.97 9.7,20.43L11.78,12.71C11.92,12.17 12.47,11.86 13,12M17,12C17.53,12.14 17.85,12.69 17.71,13.22L16.41,18.05C16.27,18.59 15.72,18.9 15.19,18.76C14.65,18.62 14.34,18.07 14.5,17.54L15.78,12.71C15.92,12.17 16.47,11.86 17,12M17,10V9A5,5 0 0,0 12,4C9.5,4 7.45,5.82 7.06,8.19C6.73,8.07 6.37,8 6,8A3,3 0 0,0 3,11C3,12.11 3.6,13.08 4.5,13.6V13.59C5,13.87 5.14,14.5 4.87,14.96C4.59,15.43 4,15.6 3.5,15.32V15.33C2,14.47 1,12.85 1,11A5,5 0 0,1 6,6C7,3.65 9.3,2 12,2C15.43,2 18.24,4.66 18.5,8.03L19,8A4,4 0 0,1 23,12C23,13.5 22.2,14.77 21,15.46V15.46C20.5,15.73 19.91,15.57 19.63,15.09C19.36,14.61 19.5,14 20,13.72V13.73C20.6,13.39 21,12.74 21,12A2,2 0 0,0 19,10H17Z", ni = "M6,14.03A1,1 0 0,1 7,15.03C7,15.58 6.55,16.03 6,16.03C3.24,16.03 1,13.79 1,11.03C1,8.27 3.24,6.03 6,6.03C7,3.68 9.3,2.03 12,2.03C15.43,2.03 18.24,4.69 18.5,8.06L19,8.03A4,4 0 0,1 23,12.03C23,14.23 21.21,16.03 19,16.03H18C17.45,16.03 17,15.58 17,15.03C17,14.47 17.45,14.03 18,14.03H19A2,2 0 0,0 21,12.03A2,2 0 0,0 19,10.03H17V9.03C17,6.27 14.76,4.03 12,4.03C9.5,4.03 7.45,5.84 7.06,8.21C6.73,8.09 6.37,8.03 6,8.03A3,3 0 0,0 3,11.03A3,3 0 0,0 6,14.03M12,14.15C12.18,14.39 12.37,14.66 12.56,14.94C13,15.56 14,17.03 14,18C14,19.11 13.1,20 12,20A2,2 0 0,1 10,18C10,17.03 11,15.56 11.44,14.94C11.63,14.66 11.82,14.4 12,14.15M12,11.03L11.5,11.59C11.5,11.59 10.65,12.55 9.79,13.81C8.93,15.06 8,16.56 8,18A4,4 0 0,0 12,22A4,4 0 0,0 16,18C16,16.56 15.07,15.06 14.21,13.81C13.35,12.55 12.5,11.59 12.5,11.59", ri = "M6,14A1,1 0 0,1 7,15A1,1 0 0,1 6,16A5,5 0 0,1 1,11A5,5 0 0,1 6,6C7,3.65 9.3,2 12,2C15.43,2 18.24,4.66 18.5,8.03L19,8A4,4 0 0,1 23,12A4,4 0 0,1 19,16H18A1,1 0 0,1 17,15A1,1 0 0,1 18,14H19A2,2 0 0,0 21,12A2,2 0 0,0 19,10H17V9A5,5 0 0,0 12,4C9.5,4 7.45,5.82 7.06,8.19C6.73,8.07 6.37,8 6,8A3,3 0 0,0 3,11A3,3 0 0,0 6,14M7.88,18.07L10.07,17.5L8.46,15.88C8.07,15.5 8.07,14.86 8.46,14.46C8.85,14.07 9.5,14.07 9.88,14.46L11.5,16.07L12.07,13.88C12.21,13.34 12.76,13.03 13.29,13.17C13.83,13.31 14.14,13.86 14,14.4L13.41,16.59L15.6,16C16.14,15.86 16.69,16.17 16.83,16.71C16.97,17.24 16.66,17.79 16.12,17.93L13.93,18.5L15.54,20.12C15.93,20.5 15.93,21.15 15.54,21.54C15.15,21.93 14.5,21.93 14.12,21.54L12.5,19.93L11.93,22.12C11.79,22.66 11.24,22.97 10.71,22.83C10.17,22.69 9.86,22.14 10,21.6L10.59,19.41L8.4,20C7.86,20.14 7.31,19.83 7.17,19.29C7.03,18.76 7.34,18.21 7.88,18.07Z", ii = "M18.5,18.67C18.5,19.96 17.5,21 16.25,21C15,21 14,19.96 14,18.67C14,17.12 16.25,14.5 16.25,14.5C16.25,14.5 18.5,17.12 18.5,18.67M4,17.36C3.86,16.82 4.18,16.25 4.73,16.11L7,15.5L5.33,13.86C4.93,13.46 4.93,12.81 5.33,12.4C5.73,12 6.4,12 6.79,12.4L8.45,14.05L9.04,11.8C9.18,11.24 9.75,10.92 10.29,11.07C10.85,11.21 11.17,11.78 11,12.33L10.42,14.58L12.67,14C13.22,13.83 13.79,14.15 13.93,14.71C14.08,15.25 13.76,15.82 13.2,15.96L10.95,16.55L12.6,18.21C13,18.6 13,19.27 12.6,19.67C12.2,20.07 11.54,20.07 11.15,19.67L9.5,18L8.89,20.27C8.75,20.83 8.18,21.14 7.64,21C7.08,20.86 6.77,20.29 6.91,19.74L7.5,17.5L5.26,18.09C4.71,18.23 4.14,17.92 4,17.36M1,11A5,5 0 0,1 6,6C7,3.65 9.3,2 12,2C15.43,2 18.24,4.66 18.5,8.03L19,8A4,4 0 0,1 23,12A4,4 0 0,1 19,16A1,1 0 0,1 18,15A1,1 0 0,1 19,14A2,2 0 0,0 21,12A2,2 0 0,0 19,10H17V9A5,5 0 0,0 12,4C9.5,4 7.45,5.82 7.06,8.19C6.73,8.07 6.37,8 6,8A3,3 0 0,0 3,11C3,11.85 3.35,12.61 3.91,13.16C4.27,13.55 4.26,14.16 3.88,14.54C3.5,14.93 2.85,14.93 2.47,14.54C1.56,13.63 1,12.38 1,11Z", ai = "M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M12,2L14.39,5.42C13.65,5.15 12.84,5 12,5C11.16,5 10.35,5.15 9.61,5.42L12,2M3.34,7L7.5,6.65C6.9,7.16 6.36,7.78 5.94,8.5C5.5,9.24 5.25,10 5.11,10.79L3.34,7M3.36,17L5.12,13.23C5.26,14 5.53,14.78 5.95,15.5C6.37,16.24 6.91,16.86 7.5,17.37L3.36,17M20.65,7L18.88,10.79C18.74,10 18.47,9.23 18.05,8.5C17.63,7.78 17.1,7.15 16.5,6.64L20.65,7M20.64,17L16.5,17.36C17.09,16.85 17.62,16.22 18.04,15.5C18.46,14.77 18.73,14 18.87,13.21L20.64,17M12,22L9.59,18.56C10.33,18.83 11.14,19 12,19C12.82,19 13.63,18.83 14.37,18.56L12,22Z", oi = "M4,10A1,1 0 0,1 3,9A1,1 0 0,1 4,8H12A2,2 0 0,0 14,6A2,2 0 0,0 12,4C11.45,4 10.95,4.22 10.59,4.59C10.2,5 9.56,5 9.17,4.59C8.78,4.2 8.78,3.56 9.17,3.17C9.9,2.45 10.9,2 12,2A4,4 0 0,1 16,6A4,4 0 0,1 12,10H4M19,12A1,1 0 0,0 20,11A1,1 0 0,0 19,10C18.72,10 18.47,10.11 18.29,10.29C17.9,10.68 17.27,10.68 16.88,10.29C16.5,9.9 16.5,9.27 16.88,8.88C17.42,8.34 18.17,8 19,8A3,3 0 0,1 22,11A3,3 0 0,1 19,14H5A1,1 0 0,1 4,13A1,1 0 0,1 5,12H19M18,18H4A1,1 0 0,1 3,17A1,1 0 0,1 4,16H18A3,3 0 0,1 21,19A3,3 0 0,1 18,22C17.17,22 16.42,21.66 15.88,21.12C15.5,20.73 15.5,20.1 15.88,19.71C16.27,19.32 16.9,19.32 17.29,19.71C17.47,19.89 17.72,20 18,20A1,1 0 0,0 19,19A1,1 0 0,0 18,18Z", si = "M6,6L6.69,6.06C7.32,3.72 9.46,2 12,2A5.5,5.5 0 0,1 17.5,7.5L17.42,8.45C17.88,8.16 18.42,8 19,8A3,3 0 0,1 22,11A3,3 0 0,1 19,14H6A4,4 0 0,1 2,10A4,4 0 0,1 6,6M6,8A2,2 0 0,0 4,10A2,2 0 0,0 6,12H19A1,1 0 0,0 20,11A1,1 0 0,0 19,10H15.5V7.5A3.5,3.5 0 0,0 12,4A3.5,3.5 0 0,0 8.5,7.5V8H6M18,18H4A1,1 0 0,1 3,17A1,1 0 0,1 4,16H18A3,3 0 0,1 21,19A3,3 0 0,1 18,22C17.17,22 16.42,21.66 15.88,21.12C15.5,20.73 15.5,20.1 15.88,19.71C16.27,19.32 16.9,19.32 17.29,19.71C17.47,19.89 17.72,20 18,20A1,1 0 0,0 19,19A1,1 0 0,0 18,18Z", Y = (e, t) => e ? (t ||= "24px", S`<ha-icon
+var Mr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='21.92'%20x2='38.52'%20y1='18.75'%20y2='47.52'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%2386c3db'/%3e%3cstop%20offset='.45'%20stop-color='%2386c3db'/%3e%3cstop%20offset='1'%20stop-color='%235eafcf'/%3e%3canimateTransform%20attributeName='gradientTransform'%20dur='10s'%20repeatCount='indefinite'%20type='rotate'%20values='5%2032%2032;%20-15%2032%2032;%205%2032%2032'/%3e%3c/linearGradient%3e%3c/defs%3e%3cpath%20fill='url(%23a)'%20stroke='%2372b9d5'%20stroke-linecap='round'%20stroke-linejoin='round'%20stroke-width='.5'%20d='M46.66%2036.2a16.66%2016.66%200%2001-16.78-16.55%2016.29%2016.29%200%2001.55-4.15A16.56%2016.56%200%201048.5%2036.1c-.61.06-1.22.1-1.84.1z'%3e%3canimateTransform%20attributeName='transform'%20dur='10s'%20repeatCount='indefinite'%20type='rotate'%20values='-5%2032%2032;%2015%2032%2032;%20-5%2032%2032'/%3e%3c/path%3e%3c/svg%3e", Nr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3c/defs%3e%3cpath%20fill='url(%23a)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'%3e%3canimateTransform%20attributeName='transform'%20dur='7s'%20repeatCount='indefinite'%20type='translate'%20values='-3%200;%203%200;%20-3%200'/%3e%3c/path%3e%3c/svg%3e", Pr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='16.5'%20x2='21.5'%20y1='19.67'%20y2='28.33'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='.45'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='1'%20stop-color='%23f59e0b'/%3e%3c/linearGradient%3e%3clinearGradient%20id='b'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3c/defs%3e%3ccircle%20cx='19'%20cy='24'%20r='5'%20fill='url(%23a)'%20stroke='%23f8af18'%20stroke-miterlimit='10'%20stroke-width='.5'/%3e%3cpath%20fill='none'%20stroke='%23fbbf24'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M19%2015.67V12.5m0%2023v-3.17m5.89-14.22l2.24-2.24M10.87%2032.13l2.24-2.24m0-11.78l-2.24-2.24m16.26%2016.26l-2.24-2.24M7.5%2024h3.17m19.83%200h-3.17'%3e%3canimateTransform%20attributeName='transform'%20dur='45s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2019%2024;%20360%2019%2024'/%3e%3c/path%3e%3cpath%20fill='url(%23b)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3c/svg%3e", Fr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='13.58'%20x2='24.15'%20y1='15.57'%20y2='33.87'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%2386c3db'/%3e%3cstop%20offset='.45'%20stop-color='%2386c3db'/%3e%3cstop%20offset='1'%20stop-color='%235eafcf'/%3e%3canimateTransform%20attributeName='gradientTransform'%20dur='10s'%20repeatCount='indefinite'%20type='rotate'%20values='10%2019.22%2024.293;%20-10%2019.22%2024.293;%2010%2019.22%2024.293'/%3e%3c/linearGradient%3e%3clinearGradient%20id='b'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3c/defs%3e%3cpath%20fill='url(%23a)'%20stroke='%2372b9d5'%20stroke-linecap='round'%20stroke-linejoin='round'%20stroke-width='.5'%20d='M29.33%2026.68a10.61%2010.61%200%2001-10.68-10.54A10.5%2010.5%200%200119%2013.5a10.54%2010.54%200%201011.5%2013.11%2011.48%2011.48%200%2001-1.17.07z'%3e%3canimateTransform%20attributeName='transform'%20dur='10s'%20repeatCount='indefinite'%20type='rotate'%20values='-10%2019.22%2024.293;%2010%2019.22%2024.293;%20-10%2019.22%2024.293'/%3e%3c/path%3e%3cpath%20fill='url(%23b)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3c/svg%3e", Ir = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='b'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3clinearGradient%20id='a'%20x1='27.5'%20x2='36.5'%20y1='50.21'%20y2='65.79'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23d4d7dd'/%3e%3cstop%20offset='.45'%20stop-color='%23d4d7dd'/%3e%3cstop%20offset='1'%20stop-color='%23bec1c6'/%3e%3c/linearGradient%3e%3clinearGradient%20id='c'%20y1='44.21'%20y2='59.79'%20xlink:href='%23a'/%3e%3c/defs%3e%3cpath%20fill='url(%23b)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3cpath%20fill='none'%20stroke='url(%23a)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M17%2058h30'%3e%3canimateTransform%20attributeName='transform'%20begin='0s'%20dur='5s'%20repeatCount='indefinite'%20type='translate'%20values='-4%200;%204%200;%20-4%200'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23c)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M17%2052h30'%3e%3canimateTransform%20attributeName='transform'%20begin='-4s'%20dur='5s'%20repeatCount='indefinite'%20type='translate'%20values='-4%200;%204%200;%20-4%200'/%3e%3c/path%3e%3c/svg%3e", Lr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='b'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3clinearGradient%20id='a'%20x1='23.25'%20x2='24.75'%20y1='43.7'%20y2='46.3'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%2386c3db'/%3e%3cstop%20offset='.45'%20stop-color='%2386c3db'/%3e%3cstop%20offset='1'%20stop-color='%235eafcf'/%3e%3c/linearGradient%3e%3clinearGradient%20id='c'%20x1='30.25'%20x2='31.75'%20y1='43.7'%20y2='46.3'%20xlink:href='%23a'/%3e%3clinearGradient%20id='d'%20x1='37.25'%20x2='38.75'%20y1='43.7'%20y2='46.3'%20xlink:href='%23a'/%3e%3c/defs%3e%3cpath%20fill='url(%23b)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3cpath%20fill='url(%23a)'%20d='M24%2043.5a1.5%201.5%200%20101.5%201.5%201.5%201.5%200%2000-1.5-1.5z'%3e%3canimateTransform%20attributeName='transform'%20dur='0.6s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2018;%20-4%2014'/%3e%3canimate%20attributeName='opacity'%20dur='0.6s'%20repeatCount='indefinite'%20values='1;1;0'/%3e%3c/path%3e%3cpath%20fill='url(%23c)'%20d='M31%2043.5a1.5%201.5%200%20101.5%201.5%201.5%201.5%200%2000-1.5-1.5z'%3e%3canimateTransform%20attributeName='transform'%20begin='-0.4s'%20dur='0.6s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2018;%20-4%2014'/%3e%3canimate%20attributeName='opacity'%20begin='-0.4s'%20dur='0.6s'%20repeatCount='indefinite'%20values='1;1;0'/%3e%3c/path%3e%3cpath%20fill='url(%23d)'%20d='M38%2043.5a1.5%201.5%200%20101.5%201.5%201.5%201.5%200%2000-1.5-1.5z'%3e%3canimateTransform%20attributeName='transform'%20begin='-0.2s'%20dur='0.6s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2018;%20-4%2014'/%3e%3canimate%20attributeName='opacity'%20begin='-0.2s'%20dur='0.6s'%20repeatCount='indefinite'%20values='1;1;0'/%3e%3c/path%3e%3c/svg%3e", Rr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='b'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3clinearGradient%20id='a'%20x1='22.53'%20x2='25.47'%20y1='42.95'%20y2='48.05'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%234286ee'/%3e%3cstop%20offset='.45'%20stop-color='%234286ee'/%3e%3cstop%20offset='1'%20stop-color='%230950bc'/%3e%3c/linearGradient%3e%3clinearGradient%20id='c'%20x1='29.53'%20x2='32.47'%20y1='42.95'%20y2='48.05'%20xlink:href='%23a'/%3e%3clinearGradient%20id='d'%20x1='36.53'%20x2='39.47'%20y1='42.95'%20y2='48.05'%20xlink:href='%23a'/%3e%3clinearGradient%20id='e'%20x1='26.74'%20x2='35.76'%20y1='37.88'%20y2='53.52'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f7b23b'/%3e%3cstop%20offset='.45'%20stop-color='%23f7b23b'/%3e%3cstop%20offset='1'%20stop-color='%23f59e0b'/%3e%3c/linearGradient%3e%3c/defs%3e%3cpath%20fill='url(%23b)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3cpath%20fill='none'%20stroke='url(%23a)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M24.39%2043.03l-.78%204.94'%3e%3canimateTransform%20attributeName='transform'%20dur='0.7s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20dur='0.7s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23c)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M31.39%2043.03l-.78%204.94'%3e%3canimateTransform%20attributeName='transform'%20begin='-0.4s'%20dur='0.7s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20begin='-0.4s'%20dur='0.7s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23d)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M38.39%2043.03l-.78%204.94'%3e%3canimateTransform%20attributeName='transform'%20begin='-0.2s'%20dur='0.7s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20begin='-0.2s'%20dur='0.7s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3cpath%20fill='url(%23e)'%20stroke='%23f6a823'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M30%2036l-4%2012h4l-2%2010%2010-14h-6l4-8h-6z'%3e%3canimate%20attributeName='opacity'%20dur='2s'%20repeatCount='indefinite'%20values='1;%201;%201;%201;%201;%201;%200.1;%201;%200.1;%201;%201;%200.1;%201;%200.1;%201'/%3e%3c/path%3e%3c/svg%3e", zr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3clinearGradient%20id='b'%20x1='26.74'%20x2='35.76'%20y1='37.88'%20y2='53.52'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f7b23b'/%3e%3cstop%20offset='.45'%20stop-color='%23f7b23b'/%3e%3cstop%20offset='1'%20stop-color='%23f59e0b'/%3e%3c/linearGradient%3e%3c/defs%3e%3cpath%20fill='url(%23a)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3cpath%20fill='url(%23b)'%20stroke='%23f6a823'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M30%2036l-4%2012h4l-2%2010%2010-14h-6l4-8h-6z'%3e%3canimate%20attributeName='opacity'%20dur='2s'%20repeatCount='indefinite'%20values='1;%201;%201;%201;%201;%201;%200.1;%201;%200.1;%201;%201;%200.1;%201;%200.1;%201'/%3e%3c/path%3e%3c/svg%3e", Br = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='b'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3clinearGradient%20id='a'%20x1='22.53'%20x2='25.47'%20y1='42.95'%20y2='48.05'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%234286ee'/%3e%3cstop%20offset='.45'%20stop-color='%234286ee'/%3e%3cstop%20offset='1'%20stop-color='%230950bc'/%3e%3c/linearGradient%3e%3clinearGradient%20id='c'%20x1='29.53'%20x2='32.47'%20y1='42.95'%20y2='48.05'%20xlink:href='%23a'/%3e%3clinearGradient%20id='d'%20x1='36.53'%20x2='39.47'%20y1='42.95'%20y2='48.05'%20xlink:href='%23a'/%3e%3c/defs%3e%3cpath%20fill='url(%23b)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3cpath%20fill='none'%20stroke='url(%23a)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M24.39%2043.03l-.78%204.94'%3e%3canimateTransform%20attributeName='transform'%20dur='0.7s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20dur='0.7s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23c)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M31.39%2043.03l-.78%204.94'%3e%3canimateTransform%20attributeName='transform'%20begin='-0.4s'%20dur='0.7s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20begin='-0.4s'%20dur='0.7s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23d)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M38.39%2043.03l-.78%204.94'%3e%3canimateTransform%20attributeName='transform'%20begin='-0.2s'%20dur='0.7s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20begin='-0.2s'%20dur='0.7s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3c/svg%3e", Vr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='b'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3clinearGradient%20id='a'%20x1='30.12'%20x2='31.88'%20y1='43.48'%20y2='46.52'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%2386c3db'/%3e%3cstop%20offset='.45'%20stop-color='%2386c3db'/%3e%3cstop%20offset='1'%20stop-color='%235eafcf'/%3e%3c/linearGradient%3e%3clinearGradient%20id='c'%20x1='29.67'%20x2='32.33'%20y1='42.69'%20y2='47.31'%20xlink:href='%23a'/%3e%3clinearGradient%20id='d'%20x1='23.12'%20x2='24.88'%20y1='43.48'%20y2='46.52'%20xlink:href='%23a'/%3e%3clinearGradient%20id='e'%20x1='22.67'%20x2='25.33'%20y1='42.69'%20y2='47.31'%20xlink:href='%23a'/%3e%3clinearGradient%20id='f'%20x1='37.12'%20x2='38.88'%20y1='43.48'%20y2='46.52'%20xlink:href='%23a'/%3e%3clinearGradient%20id='g'%20x1='36.67'%20x2='39.33'%20y1='42.69'%20y2='47.31'%20xlink:href='%23a'/%3e%3c/defs%3e%3cpath%20fill='url(%23b)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3cg%3e%3ccircle%20cx='31'%20cy='45'%20r='1.25'%20fill='none'%20stroke='url(%23a)'%20stroke-miterlimit='10'/%3e%3cpath%20fill='none'%20stroke='url(%23c)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20d='M33.17%2046.25l-1.09-.63m-2.16-1.24l-1.09-.63M31%2042.5v1.25m0%203.75v-1.25m-1.08-.63l-1.09.63m4.34-2.5l-1.09.63'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='4s'%20repeatCount='indefinite'%20type='translate'%20values='-1%20-6;%201%2012'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='9s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2031%2045;%20360%2031%2045'/%3e%3canimate%20attributeName='opacity'%20dur='4s'%20repeatCount='indefinite'%20values='0;1;1;1;0'/%3e%3c/g%3e%3cg%3e%3ccircle%20cx='24'%20cy='45'%20r='1.25'%20fill='none'%20stroke='url(%23d)'%20stroke-miterlimit='10'/%3e%3cpath%20fill='none'%20stroke='url(%23e)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20d='M26.17%2046.25l-1.09-.63m-2.16-1.24l-1.09-.63M24%2042.5v1.25m0%203.75v-1.25m-1.08-.63l-1.09.63m4.34-2.5l-1.09.63'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20begin='-2s'%20dur='4s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-6;%20-1%2012'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='9s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2024%2045;%20360%2024%2045'/%3e%3canimate%20attributeName='opacity'%20begin='-2s'%20dur='4s'%20repeatCount='indefinite'%20values='0;1;1;1;0'/%3e%3c/g%3e%3cg%3e%3ccircle%20cx='38'%20cy='45'%20r='1.25'%20fill='none'%20stroke='url(%23f)'%20stroke-miterlimit='10'/%3e%3cpath%20fill='none'%20stroke='url(%23g)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20d='M40.17%2046.25l-1.09-.63m-2.16-1.24l-1.09-.63M38%2042.5v1.25m0%203.75v-1.25m-1.08-.63l-1.09.63m4.34-2.5l-1.09.63'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20begin='-1s'%20dur='4s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-6;%20-1%2012'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='9s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2038%2045;%20360%2038%2045'/%3e%3canimate%20attributeName='opacity'%20begin='-1s'%20dur='4s'%20repeatCount='indefinite'%20values='0;1;1;1;0'/%3e%3c/g%3e%3c/svg%3e", Hr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='c'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3clinearGradient%20id='a'%20x1='23.12'%20x2='24.88'%20y1='43.48'%20y2='46.52'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%2386c3db'/%3e%3cstop%20offset='.45'%20stop-color='%2386c3db'/%3e%3cstop%20offset='1'%20stop-color='%235eafcf'/%3e%3c/linearGradient%3e%3clinearGradient%20id='d'%20x1='22.67'%20x2='25.33'%20y1='42.69'%20y2='47.31'%20xlink:href='%23a'/%3e%3clinearGradient%20id='e'%20x1='37.12'%20x2='38.88'%20y1='43.48'%20y2='46.52'%20xlink:href='%23a'/%3e%3clinearGradient%20id='f'%20x1='36.67'%20x2='39.33'%20y1='42.69'%20y2='47.31'%20xlink:href='%23a'/%3e%3clinearGradient%20id='b'%20x1='23.31'%20x2='24.69'%20y1='44.3'%20y2='46.7'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%234286ee'/%3e%3cstop%20offset='.45'%20stop-color='%234286ee'/%3e%3cstop%20offset='1'%20stop-color='%230950bc'/%3e%3c/linearGradient%3e%3clinearGradient%20id='g'%20x1='30.31'%20x2='31.69'%20y1='44.3'%20y2='46.7'%20xlink:href='%23b'/%3e%3clinearGradient%20id='h'%20x1='37.31'%20x2='38.69'%20y1='44.3'%20y2='46.7'%20xlink:href='%23b'/%3e%3c/defs%3e%3cpath%20fill='url(%23c)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3cg%3e%3ccircle%20cx='24'%20cy='45'%20r='1.25'%20fill='none'%20stroke='url(%23a)'%20stroke-miterlimit='10'/%3e%3cpath%20fill='none'%20stroke='url(%23d)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20d='M26.17%2046.25l-1.09-.63m-2.16-1.24l-1.09-.63M24%2042.5v1.25m0%203.75v-1.25m-1.08-.63l-1.09.63m4.34-2.5l-1.09.63'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20begin='-2s'%20dur='4s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-6;%20-1%2012'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='9s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2024%2045;%20360%2024%2045'/%3e%3canimate%20attributeName='opacity'%20begin='-2s'%20dur='4s'%20repeatCount='indefinite'%20values='0;1;1;1;0'/%3e%3c/g%3e%3cg%3e%3ccircle%20cx='38'%20cy='45'%20r='1.25'%20fill='none'%20stroke='url(%23e)'%20stroke-miterlimit='10'/%3e%3cpath%20fill='none'%20stroke='url(%23f)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20d='M40.17%2046.25l-1.09-.63m-2.16-1.24l-1.09-.63M38%2042.5v1.25m0%203.75v-1.25m-1.08-.63l-1.09.63m4.34-2.5l-1.09.63'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20begin='-1s'%20dur='4s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-6;%20-1%2012'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='9s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2038%2045;%20360%2038%2045'/%3e%3canimate%20attributeName='opacity'%20begin='-1s'%20dur='4s'%20repeatCount='indefinite'%20values='0;1;1;1;0'/%3e%3c/g%3e%3cpath%20fill='none'%20stroke='url(%23b)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M24.08%2045.01l-.16.98'%3e%3canimateTransform%20attributeName='transform'%20dur='1.5s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20dur='1.5s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23g)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M31.08%2045.01l-.16.98'%3e%3canimateTransform%20attributeName='transform'%20begin='-0.5s'%20dur='1.5s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20begin='-0.5s'%20dur='1.5s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23h)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M38.08%2045.01l-.16.98'%3e%3canimateTransform%20attributeName='transform'%20begin='-1s'%20dur='1.5s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20begin='-1s'%20dur='1.5s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3c/svg%3e", Ur = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='21.97'%20x2='42.03'%20y1='14.63'%20y2='49.37'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23d4d7dd'/%3e%3cstop%20offset='.45'%20stop-color='%23d4d7dd'/%3e%3cstop%20offset='1'%20stop-color='%23bec1c6'/%3e%3canimateTransform%20attributeName='gradientTransform'%20dur='1s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2032%2032;%20360%2032%2032'/%3e%3c/linearGradient%3e%3c/defs%3e%3cpath%20fill='none'%20stroke='url(%23a)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M43%2032a11%2011%200%2011-11-11%2011%2011%200%200111%2011zM25%2014.61l-.48%201a33.68%2033.68%200%2000-3.42%2017.82h0M39%2049.39l.48-1a33.68%2033.68%200%20003.42-17.82h0'%3e%3canimateTransform%20attributeName='transform'%20dur='1s'%20repeatCount='indefinite'%20type='rotate'%20values='360%2032%2032;%200%2032%2032'/%3e%3c/path%3e%3c/svg%3e", Wr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='27.56'%20x2='38.27'%20y1='17.64'%20y2='36.19'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23d4d7dd'/%3e%3cstop%20offset='.45'%20stop-color='%23d4d7dd'/%3e%3cstop%20offset='1'%20stop-color='%23bec1c6'/%3e%3c/linearGradient%3e%3clinearGradient%20id='b'%20x1='19.96'%20x2='31.37'%20y1='29.03'%20y2='48.8'%20xlink:href='%23a'/%3e%3c/defs%3e%3cpath%20fill='none'%20stroke='url(%23a)'%20stroke-dasharray='35%2022'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M43.64%2020a5%205%200%20113.61%208.46h-35.5'%3e%3canimate%20attributeName='stroke-dashoffset'%20dur='2s'%20repeatCount='indefinite'%20values='-57;%2057'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23b)'%20stroke-dasharray='24%2015'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M29.14%2044a5%205%200%20103.61-8.46h-21'%3e%3canimate%20attributeName='stroke-dashoffset'%20begin='-1.5s'%20dur='2s'%20repeatCount='indefinite'%20values='-39;%2039'/%3e%3c/path%3e%3c/svg%3e", Gr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='26.75'%20x2='37.25'%20y1='22.91'%20y2='41.09'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='.45'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='1'%20stop-color='%23f59e0b'/%3e%3c/linearGradient%3e%3c/defs%3e%3ccircle%20cx='32'%20cy='32'%20r='10.5'%20fill='url(%23a)'%20stroke='%23f8af18'%20stroke-miterlimit='10'%20stroke-width='.5'/%3e%3cpath%20fill='none'%20stroke='%23fbbf24'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M32%2015.71V9.5m0%2045v-6.21m11.52-27.81l4.39-4.39M16.09%2047.91l4.39-4.39m0-23l-4.39-4.39m31.82%2031.78l-4.39-4.39M15.71%2032H9.5m45%200h-6.21'%3e%3canimateTransform%20attributeName='transform'%20dur='45s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2032%2032;%20360%2032%2032'/%3e%3c/path%3e%3c/svg%3e", Kr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%20512%20512'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='52.7'%20x2='133.4'%20y1='9.6'%20y2='149.3'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%239ca3af'/%3e%3cstop%20offset='.5'%20stop-color='%239ca3af'/%3e%3cstop%20offset='1'%20stop-color='%236b7280'/%3e%3c/linearGradient%3e%3clinearGradient%20id='b'%20x1='99.5'%20x2='232.6'%20y1='30.7'%20y2='261.4'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%236b7280'/%3e%3cstop%20offset='.5'%20stop-color='%236b7280'/%3e%3cstop%20offset='1'%20stop-color='%234b5563'/%3e%3c/linearGradient%3e%3clinearGradient%20id='c'%20x1='1381.3'%20x2='1399.5'%20y1='-1144.7'%20y2='-1097.4'%20gradientTransform='rotate(-9%208002.567%208233.063)'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%230b65ed'/%3e%3cstop%20offset='.5'%20stop-color='%230a5ad4'/%3e%3cstop%20offset='1'%20stop-color='%230950bc'/%3e%3c/linearGradient%3e%3clinearGradient%20xlink:href='%23c'%20id='d'%20x1='1436.7'%20x2='1454.9'%20y1='-1137'%20y2='-1089.7'%20gradientTransform='rotate(-9%208009.537%208233.037)'/%3e%3clinearGradient%20xlink:href='%23c'%20id='e'%20x1='1492.1'%20x2='1510.3'%20y1='-1129.3'%20y2='-1082.1'%20gradientTransform='rotate(-9%208016.566%208233.078)'/%3e%3csymbol%20id='g'%20viewBox='0%200%20200.3%20126.1'%3e%3cpath%20fill='url(%23a)'%20stroke='%23848b98'%20stroke-miterlimit='10'%20d='M.5%2093.2a32.4%2032.4%200%200032.4%2032.4h129.8v-.1l2.3.1a34.8%2034.8%200%20006.5-68.9%2032.4%2032.4%200%2000-48.5-33%2048.6%2048.6%200%2000-88.6%2037.1h-1.5A32.4%2032.4%200%2000.5%2093.1Z'/%3e%3c/symbol%3e%3csymbol%20id='h'%20viewBox='0%200%20350%20222'%3e%3cpath%20fill='url(%23b)'%20stroke='%235b6472'%20stroke-miterlimit='10'%20stroke-width='6'%20d='m291%20107-2.5.1A83.9%2083.9%200%2000135.6%2043%2056%2056%200%200051%2091a56.6%2056.6%200%2000.8%209A60%2060%200%200063%20219l4-.2v.2h224a56%2056%200%20000-112Z'/%3e%3c/symbol%3e%3csymbol%20id='f'%20overflow='visible'%20viewBox='0%200%20398%20222'%3e%3cuse%20xlink:href='%23g'%20width='200.3'%20height='126.1'%20transform='translate(198%2027)'%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='6s'%20repeatCount='indefinite'%20type='translate'%20values='-9%200;%209%200;%20-9%200'/%3e%3c/use%3e%3cuse%20xlink:href='%23h'%20width='350'%20height='222'%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='6s'%20repeatCount='indefinite'%20type='translate'%20values='-18%200;%2018%200;%20-18%200'/%3e%3c/use%3e%3c/symbol%3e%3csymbol%20id='i'%20overflow='visible'%20viewBox='0%200%20129%2057'%3e%3cpath%20fill='url(%23c)'%20stroke='%230a5ad4'%20stroke-miterlimit='10'%20d='M8.5%2056.5a8%208%200%2001-8-8v-40a8%208%200%200116%200v40a8%208%200%2001-8%208Z'%20opacity='0'%3e%3canimateTransform%20id='x1'%20additive='sum'%20attributeName='transform'%20begin='0s;%20x1.end+.33s'%20dur='.67s'%20type='translate'%20values='0%20-60;%200%2060'/%3e%3canimate%20id='y1'%20attributeName='opacity'%20begin='0s;%20y1.end+.33s'%20dur='.67s'%20keyTimes='0;%20.25;%201'%20values='0;%201;%200'/%3e%3c/path%3e%3cpath%20fill='url(%23d)'%20stroke='%230a5ad4'%20stroke-miterlimit='10'%20d='M64.5%2056.5a8%208%200%2001-8-8v-40a8%208%200%200116%200v40a8%208%200%2001-8%208Z'%20opacity='0'%3e%3canimateTransform%20id='x2'%20additive='sum'%20attributeName='transform'%20begin='.33s;%20x2.end+.33s'%20dur='.67s'%20type='translate'%20values='0%20-60;%200%2060'/%3e%3canimate%20id='y2'%20attributeName='opacity'%20begin='.33s;%20y2.end+.33s'%20dur='.67s'%20keyTimes='0;%20.25;%201'%20values='0;%201;%200'/%3e%3c/path%3e%3cpath%20fill='url(%23e)'%20stroke='%230a5ad4'%20stroke-miterlimit='10'%20d='M120.5%2056.5a8%208%200%2001-8-8v-40a8%208%200%200116%200v40a8%208%200%2001-8%208Z'%20opacity='0'%3e%3canimateTransform%20id='x3'%20additive='sum'%20attributeName='transform'%20begin='-.33s;%20x3.end+.33s'%20dur='.67s'%20type='translate'%20values='0%20-60;%200%2060'/%3e%3canimate%20id='y3'%20attributeName='opacity'%20begin='-.33s;%20y3.end+.33s'%20dur='.67s'%20keyTimes='0;%20.25;%201'%20values='0;%201;%200'/%3e%3c/path%3e%3c/symbol%3e%3c/defs%3e%3cuse%20xlink:href='%23f'%20width='398'%20height='222'%20transform='translate(68.84%20145)'/%3e%3cuse%20xlink:href='%23i'%20width='129'%20height='57'%20transform='translate(191.5%20343.5)'/%3e%3c/svg%3e", qr = "M6,19A5,5 0 0,1 1,14A5,5 0 0,1 6,9C7,6.65 9.3,5 12,5C15.43,5 18.24,7.66 18.5,11.03L19,11A4,4 0 0,1 23,15A4,4 0 0,1 19,19H6M19,13H17V12A5,5 0 0,0 12,7C9.5,7 7.45,8.82 7.06,11.19C6.73,11.07 6.37,11 6,11A3,3 0 0,0 3,14A3,3 0 0,0 6,17H19A2,2 0 0,0 21,15A2,2 0 0,0 19,13Z", Jr = "M3,15H13A1,1 0 0,1 14,16A1,1 0 0,1 13,17H3A1,1 0 0,1 2,16A1,1 0 0,1 3,15M16,15H21A1,1 0 0,1 22,16A1,1 0 0,1 21,17H16A1,1 0 0,1 15,16A1,1 0 0,1 16,15M1,12A5,5 0 0,1 6,7C7,4.65 9.3,3 12,3C15.43,3 18.24,5.66 18.5,9.03L19,9C21.19,9 22.97,10.76 23,13H21A2,2 0 0,0 19,11H17V10A5,5 0 0,0 12,5C9.5,5 7.45,6.82 7.06,9.19C6.73,9.07 6.37,9 6,9A3,3 0 0,0 3,12C3,12.35 3.06,12.69 3.17,13H1.1L1,12M3,19H5A1,1 0 0,1 6,20A1,1 0 0,1 5,21H3A1,1 0 0,1 2,20A1,1 0 0,1 3,19M8,19H21A1,1 0 0,1 22,20A1,1 0 0,1 21,21H8A1,1 0 0,1 7,20A1,1 0 0,1 8,19Z", Yr = "M6,14A1,1 0 0,1 7,15A1,1 0 0,1 6,16A5,5 0 0,1 1,11A5,5 0 0,1 6,6C7,3.65 9.3,2 12,2C15.43,2 18.24,4.66 18.5,8.03L19,8A4,4 0 0,1 23,12A4,4 0 0,1 19,16H18A1,1 0 0,1 17,15A1,1 0 0,1 18,14H19A2,2 0 0,0 21,12A2,2 0 0,0 19,10H17V9A5,5 0 0,0 12,4C9.5,4 7.45,5.82 7.06,8.19C6.73,8.07 6.37,8 6,8A3,3 0 0,0 3,11A3,3 0 0,0 6,14M10,18A2,2 0 0,1 12,20A2,2 0 0,1 10,22A2,2 0 0,1 8,20A2,2 0 0,1 10,18M14.5,16A1.5,1.5 0 0,1 16,17.5A1.5,1.5 0 0,1 14.5,19A1.5,1.5 0 0,1 13,17.5A1.5,1.5 0 0,1 14.5,16M10.5,12A1.5,1.5 0 0,1 12,13.5A1.5,1.5 0 0,1 10.5,15A1.5,1.5 0 0,1 9,13.5A1.5,1.5 0 0,1 10.5,12Z", Xr = "M15,6.79C16.86,7.86 18,9.85 18,12C18,22 6,22 6,22C7.25,21.06 8.38,19.95 9.34,18.71C9.38,18.66 9.41,18.61 9.44,18.55C9.69,18.06 9.5,17.46 9,17.21C7.14,16.14 6,14.15 6,12C6,2 18,2 18,2C16.75,2.94 15.62,4.05 14.66,5.29C14.62,5.34 14.59,5.39 14.56,5.45C14.31,5.94 14.5,6.54 15,6.79M12,14A2,2 0 0,0 14,12A2,2 0 0,0 12,10A2,2 0 0,0 10,12A2,2 0 0,0 12,14Z", Zr = "M6,16A5,5 0 0,1 1,11A5,5 0 0,1 6,6C7,3.65 9.3,2 12,2C15.43,2 18.24,4.66 18.5,8.03L19,8A4,4 0 0,1 23,12A4,4 0 0,1 19,16H18A1,1 0 0,1 17,15A1,1 0 0,1 18,14H19A2,2 0 0,0 21,12A2,2 0 0,0 19,10H17V9A5,5 0 0,0 12,4C9.5,4 7.45,5.82 7.06,8.19C6.73,8.07 6.37,8 6,8A3,3 0 0,0 3,11A3,3 0 0,0 6,14H7A1,1 0 0,1 8,15A1,1 0 0,1 7,16H6M12,11H15L13,15H15L11.25,22L12,17H9.5L12,11Z", Qr = "M4.5,13.59C5,13.87 5.14,14.5 4.87,14.96C4.59,15.44 4,15.6 3.5,15.33V15.33C2,14.47 1,12.85 1,11A5,5 0 0,1 6,6C7,3.65 9.3,2 12,2C15.43,2 18.24,4.66 18.5,8.03L19,8A4,4 0 0,1 23,12A4,4 0 0,1 19,16A1,1 0 0,1 18,15A1,1 0 0,1 19,14A2,2 0 0,0 21,12A2,2 0 0,0 19,10H17V9A5,5 0 0,0 12,4C9.5,4 7.45,5.82 7.06,8.19C6.73,8.07 6.37,8 6,8A3,3 0 0,0 3,11C3,12.11 3.6,13.08 4.5,13.6V13.59M9.5,11H12.5L10.5,15H12.5L8.75,22L9.5,17H7L9.5,11M17.5,18.67C17.5,19.96 16.5,21 15.25,21C14,21 13,19.96 13,18.67C13,17.12 15.25,14.5 15.25,14.5C15.25,14.5 17.5,17.12 17.5,18.67Z", $r = "M17.75,4.09L15.22,6.03L16.13,9.09L13.5,7.28L10.87,9.09L11.78,6.03L9.25,4.09L12.44,4L13.5,1L14.56,4L17.75,4.09M21.25,11L19.61,12.25L20.2,14.23L18.5,13.06L16.8,14.23L17.39,12.25L15.75,11L17.81,10.95L18.5,9L19.19,10.95L21.25,11M18.97,15.95C19.8,15.87 20.69,17.05 20.16,17.8C19.84,18.25 19.5,18.67 19.08,19.07C15.17,23 8.84,23 4.94,19.07C1.03,15.17 1.03,8.83 4.94,4.93C5.34,4.53 5.76,4.17 6.21,3.85C6.96,3.32 8.14,4.21 8.06,5.04C7.79,7.9 8.75,10.87 10.95,13.06C13.14,15.26 16.1,16.22 18.97,15.95M17.33,17.97C14.5,17.81 11.7,16.64 9.53,14.5C7.36,12.31 6.2,9.5 6.04,6.68C3.23,9.82 3.34,14.64 6.35,17.66C9.37,20.67 14.19,20.78 17.33,17.97Z", ei = "M12.74,5.47C15.1,6.5 16.35,9.03 15.92,11.46C17.19,12.56 18,14.19 18,16V16.17C18.31,16.06 18.65,16 19,16A3,3 0 0,1 22,19A3,3 0 0,1 19,22H6A4,4 0 0,1 2,18A4,4 0 0,1 6,14H6.27C5,12.45 4.6,10.24 5.5,8.26C6.72,5.5 9.97,4.24 12.74,5.47M11.93,7.3C10.16,6.5 8.09,7.31 7.31,9.07C6.85,10.09 6.93,11.22 7.41,12.13C8.5,10.83 10.16,10 12,10C12.7,10 13.38,10.12 14,10.34C13.94,9.06 13.18,7.86 11.93,7.3M13.55,3.64C13,3.4 12.45,3.23 11.88,3.12L14.37,1.82L15.27,4.71C14.76,4.29 14.19,3.93 13.55,3.64M6.09,4.44C5.6,4.79 5.17,5.19 4.8,5.63L4.91,2.82L7.87,3.5C7.25,3.71 6.65,4.03 6.09,4.44M18,9.71C17.91,9.12 17.78,8.55 17.59,8L19.97,9.5L17.92,11.73C18.03,11.08 18.05,10.4 18,9.71M3.04,11.3C3.11,11.9 3.24,12.47 3.43,13L1.06,11.5L3.1,9.28C3,9.93 2.97,10.61 3.04,11.3M19,18H16V16A4,4 0 0,0 12,12A4,4 0 0,0 8,16H6A2,2 0 0,0 4,18A2,2 0 0,0 6,20H19A1,1 0 0,0 20,19A1,1 0 0,0 19,18Z", ti = "M9,12C9.53,12.14 9.85,12.69 9.71,13.22L8.41,18.05C8.27,18.59 7.72,18.9 7.19,18.76C6.65,18.62 6.34,18.07 6.5,17.54L7.78,12.71C7.92,12.17 8.47,11.86 9,12M13,12C13.53,12.14 13.85,12.69 13.71,13.22L11.64,20.95C11.5,21.5 10.95,21.8 10.41,21.66C9.88,21.5 9.56,20.97 9.7,20.43L11.78,12.71C11.92,12.17 12.47,11.86 13,12M17,12C17.53,12.14 17.85,12.69 17.71,13.22L16.41,18.05C16.27,18.59 15.72,18.9 15.19,18.76C14.65,18.62 14.34,18.07 14.5,17.54L15.78,12.71C15.92,12.17 16.47,11.86 17,12M17,10V9A5,5 0 0,0 12,4C9.5,4 7.45,5.82 7.06,8.19C6.73,8.07 6.37,8 6,8A3,3 0 0,0 3,11C3,12.11 3.6,13.08 4.5,13.6V13.59C5,13.87 5.14,14.5 4.87,14.96C4.59,15.43 4,15.6 3.5,15.32V15.33C2,14.47 1,12.85 1,11A5,5 0 0,1 6,6C7,3.65 9.3,2 12,2C15.43,2 18.24,4.66 18.5,8.03L19,8A4,4 0 0,1 23,12C23,13.5 22.2,14.77 21,15.46V15.46C20.5,15.73 19.91,15.57 19.63,15.09C19.36,14.61 19.5,14 20,13.72V13.73C20.6,13.39 21,12.74 21,12A2,2 0 0,0 19,10H17Z", ni = "M6,14.03A1,1 0 0,1 7,15.03C7,15.58 6.55,16.03 6,16.03C3.24,16.03 1,13.79 1,11.03C1,8.27 3.24,6.03 6,6.03C7,3.68 9.3,2.03 12,2.03C15.43,2.03 18.24,4.69 18.5,8.06L19,8.03A4,4 0 0,1 23,12.03C23,14.23 21.21,16.03 19,16.03H18C17.45,16.03 17,15.58 17,15.03C17,14.47 17.45,14.03 18,14.03H19A2,2 0 0,0 21,12.03A2,2 0 0,0 19,10.03H17V9.03C17,6.27 14.76,4.03 12,4.03C9.5,4.03 7.45,5.84 7.06,8.21C6.73,8.09 6.37,8.03 6,8.03A3,3 0 0,0 3,11.03A3,3 0 0,0 6,14.03M12,14.15C12.18,14.39 12.37,14.66 12.56,14.94C13,15.56 14,17.03 14,18C14,19.11 13.1,20 12,20A2,2 0 0,1 10,18C10,17.03 11,15.56 11.44,14.94C11.63,14.66 11.82,14.4 12,14.15M12,11.03L11.5,11.59C11.5,11.59 10.65,12.55 9.79,13.81C8.93,15.06 8,16.56 8,18A4,4 0 0,0 12,22A4,4 0 0,0 16,18C16,16.56 15.07,15.06 14.21,13.81C13.35,12.55 12.5,11.59 12.5,11.59", ri = "M6,14A1,1 0 0,1 7,15A1,1 0 0,1 6,16A5,5 0 0,1 1,11A5,5 0 0,1 6,6C7,3.65 9.3,2 12,2C15.43,2 18.24,4.66 18.5,8.03L19,8A4,4 0 0,1 23,12A4,4 0 0,1 19,16H18A1,1 0 0,1 17,15A1,1 0 0,1 18,14H19A2,2 0 0,0 21,12A2,2 0 0,0 19,10H17V9A5,5 0 0,0 12,4C9.5,4 7.45,5.82 7.06,8.19C6.73,8.07 6.37,8 6,8A3,3 0 0,0 3,11A3,3 0 0,0 6,14M7.88,18.07L10.07,17.5L8.46,15.88C8.07,15.5 8.07,14.86 8.46,14.46C8.85,14.07 9.5,14.07 9.88,14.46L11.5,16.07L12.07,13.88C12.21,13.34 12.76,13.03 13.29,13.17C13.83,13.31 14.14,13.86 14,14.4L13.41,16.59L15.6,16C16.14,15.86 16.69,16.17 16.83,16.71C16.97,17.24 16.66,17.79 16.12,17.93L13.93,18.5L15.54,20.12C15.93,20.5 15.93,21.15 15.54,21.54C15.15,21.93 14.5,21.93 14.12,21.54L12.5,19.93L11.93,22.12C11.79,22.66 11.24,22.97 10.71,22.83C10.17,22.69 9.86,22.14 10,21.6L10.59,19.41L8.4,20C7.86,20.14 7.31,19.83 7.17,19.29C7.03,18.76 7.34,18.21 7.88,18.07Z", ii = "M18.5,18.67C18.5,19.96 17.5,21 16.25,21C15,21 14,19.96 14,18.67C14,17.12 16.25,14.5 16.25,14.5C16.25,14.5 18.5,17.12 18.5,18.67M4,17.36C3.86,16.82 4.18,16.25 4.73,16.11L7,15.5L5.33,13.86C4.93,13.46 4.93,12.81 5.33,12.4C5.73,12 6.4,12 6.79,12.4L8.45,14.05L9.04,11.8C9.18,11.24 9.75,10.92 10.29,11.07C10.85,11.21 11.17,11.78 11,12.33L10.42,14.58L12.67,14C13.22,13.83 13.79,14.15 13.93,14.71C14.08,15.25 13.76,15.82 13.2,15.96L10.95,16.55L12.6,18.21C13,18.6 13,19.27 12.6,19.67C12.2,20.07 11.54,20.07 11.15,19.67L9.5,18L8.89,20.27C8.75,20.83 8.18,21.14 7.64,21C7.08,20.86 6.77,20.29 6.91,19.74L7.5,17.5L5.26,18.09C4.71,18.23 4.14,17.92 4,17.36M1,11A5,5 0 0,1 6,6C7,3.65 9.3,2 12,2C15.43,2 18.24,4.66 18.5,8.03L19,8A4,4 0 0,1 23,12A4,4 0 0,1 19,16A1,1 0 0,1 18,15A1,1 0 0,1 19,14A2,2 0 0,0 21,12A2,2 0 0,0 19,10H17V9A5,5 0 0,0 12,4C9.5,4 7.45,5.82 7.06,8.19C6.73,8.07 6.37,8 6,8A3,3 0 0,0 3,11C3,11.85 3.35,12.61 3.91,13.16C4.27,13.55 4.26,14.16 3.88,14.54C3.5,14.93 2.85,14.93 2.47,14.54C1.56,13.63 1,12.38 1,11Z", ai = "M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M12,2L14.39,5.42C13.65,5.15 12.84,5 12,5C11.16,5 10.35,5.15 9.61,5.42L12,2M3.34,7L7.5,6.65C6.9,7.16 6.36,7.78 5.94,8.5C5.5,9.24 5.25,10 5.11,10.79L3.34,7M3.36,17L5.12,13.23C5.26,14 5.53,14.78 5.95,15.5C6.37,16.24 6.91,16.86 7.5,17.37L3.36,17M20.65,7L18.88,10.79C18.74,10 18.47,9.23 18.05,8.5C17.63,7.78 17.1,7.15 16.5,6.64L20.65,7M20.64,17L16.5,17.36C17.09,16.85 17.62,16.22 18.04,15.5C18.46,14.77 18.73,14 18.87,13.21L20.64,17M12,22L9.59,18.56C10.33,18.83 11.14,19 12,19C12.82,19 13.63,18.83 14.37,18.56L12,22Z", oi = "M4,10A1,1 0 0,1 3,9A1,1 0 0,1 4,8H12A2,2 0 0,0 14,6A2,2 0 0,0 12,4C11.45,4 10.95,4.22 10.59,4.59C10.2,5 9.56,5 9.17,4.59C8.78,4.2 8.78,3.56 9.17,3.17C9.9,2.45 10.9,2 12,2A4,4 0 0,1 16,6A4,4 0 0,1 12,10H4M19,12A1,1 0 0,0 20,11A1,1 0 0,0 19,10C18.72,10 18.47,10.11 18.29,10.29C17.9,10.68 17.27,10.68 16.88,10.29C16.5,9.9 16.5,9.27 16.88,8.88C17.42,8.34 18.17,8 19,8A3,3 0 0,1 22,11A3,3 0 0,1 19,14H5A1,1 0 0,1 4,13A1,1 0 0,1 5,12H19M18,18H4A1,1 0 0,1 3,17A1,1 0 0,1 4,16H18A3,3 0 0,1 21,19A3,3 0 0,1 18,22C17.17,22 16.42,21.66 15.88,21.12C15.5,20.73 15.5,20.1 15.88,19.71C16.27,19.32 16.9,19.32 17.29,19.71C17.47,19.89 17.72,20 18,20A1,1 0 0,0 19,19A1,1 0 0,0 18,18Z", si = "M6,6L6.69,6.06C7.32,3.72 9.46,2 12,2A5.5,5.5 0 0,1 17.5,7.5L17.42,8.45C17.88,8.16 18.42,8 19,8A3,3 0 0,1 22,11A3,3 0 0,1 19,14H6A4,4 0 0,1 2,10A4,4 0 0,1 6,6M6,8A2,2 0 0,0 4,10A2,2 0 0,0 6,12H19A1,1 0 0,0 20,11A1,1 0 0,0 19,10H15.5V7.5A3.5,3.5 0 0,0 12,4A3.5,3.5 0 0,0 8.5,7.5V8H6M18,18H4A1,1 0 0,1 3,17A1,1 0 0,1 4,16H18A3,3 0 0,1 21,19A3,3 0 0,1 18,22C17.17,22 16.42,21.66 15.88,21.12C15.5,20.73 15.5,20.1 15.88,19.71C16.27,19.32 16.9,19.32 17.29,19.71C17.47,19.89 17.72,20 18,20A1,1 0 0,0 19,19A1,1 0 0,0 18,18Z", Y = (e, t) => e ? (t ||= "24px", w`<ha-icon
     .icon="${e}"
     style="font-size:${t}; width: ${t}; height: ${t}"
-  />`) : S`<ha-icon
+  />`) : w`<ha-icon
       icon="mdi:weather-sunny"
       style="font-size:${t}; width: ${t}; height: ${t}"
-    />`, X = (e, t) => e ? (t ||= "24px", C`<svg height=${t} width=${t} viewport="0 0 48 48"><path d="${e}" /></svg>`) : C`<svg height=${t} width=${t} viewport="0 0 48 48"><path d="${ai}" /></svg>`, ci = (e, t, n, r) => {
+    />`, X = (e, t) => e ? (t ||= "24px", T`<svg height=${t} width=${t} viewport="0 0 48 48"><path d="${e}" /></svg>`) : T`<svg height=${t} width=${t} viewport="0 0 48 48"><path d="${ai}" /></svg>`, ci = (e, t, n, r) => {
 	if (!e) return Y("mdi:weather-sunny", n);
-	let i = {
+	let i = String(e).trim().toLowerCase(), a = {
 		"clear-night": X($r, n),
 		cloudy: X(qr, n),
 		fog: X(Jr, n),
@@ -4363,7 +4419,7 @@ var Mr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewB
 		windy: X(oi, n),
 		"windy-variant": X(si, n),
 		exceptional: X(Xr, n)
-	}, a = {
+	}, o = {
 		"clear-night": Y("mdi:weather-night", n),
 		cloudy: Y("mdi:weather-cloudy", n),
 		fog: Y("mdi:weather-fog", n),
@@ -4379,29 +4435,32 @@ var Mr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewB
 		windy: Y("mdi:weather-windy", n),
 		"windy-variant": Y("mdi:weather-windy-variant", n),
 		exceptional: Y("mdi:weather-hurricane", n)
-	}, o = {
-		"clear-night": S`<img src="${Mr}" style="font-size:${n}" />`,
-		cloudy: S`<img src="${Nr}" style="font-size:${n}" />`,
-		fog: S`<img src="${Ir}" style="font-size:${n}" />`,
-		hail: S`<img src="${Lr}" style="font-size:${n}" />`,
-		lightning: S`<img src="${zr}" style="font-size:${n}" />`,
-		"lightning-rainy": S`<img src="${Rr}" style="font-size:${n}" />`,
-		partlycloudy: S`<img
+	}, s = {
+		"clear-night": w`<img src="${Mr}" style="font-size:${n}" />`,
+		cloudy: w`<img src="${Nr}" style="font-size:${n}" />`,
+		fog: w`<img src="${Ir}" style="font-size:${n}" />`,
+		hail: w`<img src="${Lr}" style="font-size:${n}" />`,
+		lightning: w`<img src="${zr}" style="font-size:${n}" />`,
+		"lightning-rainy": w`<img src="${Rr}" style="font-size:${n}" />`,
+		partlycloudy: w`<img
       src="${r ? Pr : Fr}"
       style="font-size:${n}"
     />`,
-		pouring: S`<img src="${Kr}" style="font-size:${n}" />`,
-		rainy: S`<img src="${Br}" style="font-size:${n}" />`,
-		snowy: S`<img src="${Vr}" style="font-size:${n}" />`,
-		"snowy-rainy": S`<img src="${Hr}" style="font-size:${n}" />`,
-		sunny: S`<img src="${Gr}" style="font-size:${n}" />`,
-		windy: S`<img src="${Wr}" style="font-size:${n}" />`,
-		"windy-variant": S`<img src="${Wr}" style="font-size:${n}" />`,
-		exceptional: S`<img src="${Ur}" style="font-size:${n}" />`
+		pouring: w`<img src="${Kr}" style="font-size:${n}" />`,
+		rainy: w`<img src="${Br}" style="font-size:${n}" />`,
+		snowy: w`<img src="${Vr}" style="font-size:${n}" />`,
+		"snowy-rainy": w`<img src="${Hr}" style="font-size:${n}" />`,
+		sunny: w`<img src="${Gr}" style="font-size:${n}" />`,
+		windy: w`<img src="${Wr}" style="font-size:${n}" />`,
+		"windy-variant": w`<img src="${Wr}" style="font-size:${n}" />`,
+		exceptional: w`<img src="${Ur}" style="font-size:${n}" />`
 	};
-	return t === "mdi" ? a[e] || Y("mdi:weather-sunny", n) : t === "mdiAsSVG" ? i[e] || S`<img src="${"data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='26.75'%20x2='37.25'%20y1='22.91'%20y2='41.09'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='.45'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='1'%20stop-color='%23f59e0b'/%3e%3c/linearGradient%3e%3c/defs%3e%3ccircle%20cx='32'%20cy='32'%20r='10.5'%20fill='url(%23a)'%20stroke='%23f8af18'%20stroke-miterlimit='10'%20stroke-width='.5'/%3e%3cpath%20fill='none'%20stroke='%23fbbf24'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M32%2015.71V9.5m0%2045v-6.21m11.52-27.81l4.39-4.39M16.09%2047.91l4.39-4.39m0-23l-4.39-4.39m31.82%2031.78l-4.39-4.39M15.71%2032H9.5m45%200h-6.21'%3e%3canimateTransform%20attributeName='transform'%20dur='45s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2032%2032;%20360%2032%2032'/%3e%3c/path%3e%3c/svg%3e"}" />` : o[e] || S`<img src="${"data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='26.75'%20x2='37.25'%20y1='22.91'%20y2='41.09'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='.45'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='1'%20stop-color='%23f59e0b'/%3e%3c/linearGradient%3e%3c/defs%3e%3ccircle%20cx='32'%20cy='32'%20r='10.5'%20fill='url(%23a)'%20stroke='%23f8af18'%20stroke-miterlimit='10'%20stroke-width='.5'/%3e%3cpath%20fill='none'%20stroke='%23fbbf24'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M32%2015.71V9.5m0%2045v-6.21m11.52-27.81l4.39-4.39M16.09%2047.91l4.39-4.39m0-23l-4.39-4.39m31.82%2031.78l-4.39-4.39M15.71%2032H9.5m45%200h-6.21'%3e%3canimateTransform%20attributeName='transform'%20dur='45s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2032%2032;%20360%2032%2032'/%3e%3c/path%3e%3c/svg%3e"}" />`;
+	return t === "mdi" ? o[i] || Y("mdi:weather-sunny", n) : t === "mdiAsSVG" ? a[i] || w`<img src="${"data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='26.75'%20x2='37.25'%20y1='22.91'%20y2='41.09'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='.45'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='1'%20stop-color='%23f59e0b'/%3e%3c/linearGradient%3e%3c/defs%3e%3ccircle%20cx='32'%20cy='32'%20r='10.5'%20fill='url(%23a)'%20stroke='%23f8af18'%20stroke-miterlimit='10'%20stroke-width='.5'/%3e%3cpath%20fill='none'%20stroke='%23fbbf24'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M32%2015.71V9.5m0%2045v-6.21m11.52-27.81l4.39-4.39M16.09%2047.91l4.39-4.39m0-23l-4.39-4.39m31.82%2031.78l-4.39-4.39M15.71%2032H9.5m45%200h-6.21'%3e%3canimateTransform%20attributeName='transform'%20dur='45s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2032%2032;%20360%2032%2032'/%3e%3c/path%3e%3c/svg%3e"}" />` : s[i] || w`<img src="${"data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='26.75'%20x2='37.25'%20y1='22.91'%20y2='41.09'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='.45'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='1'%20stop-color='%23f59e0b'/%3e%3c/linearGradient%3e%3c/defs%3e%3ccircle%20cx='32'%20cy='32'%20r='10.5'%20fill='url(%23a)'%20stroke='%23f8af18'%20stroke-miterlimit='10'%20stroke-width='.5'/%3e%3cpath%20fill='none'%20stroke='%23fbbf24'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M32%2015.71V9.5m0%2045v-6.21m11.52-27.81l4.39-4.39M16.09%2047.91l4.39-4.39m0-23l-4.39-4.39m31.82%2031.78l-4.39-4.39M15.71%2032H9.5m45%200h-6.21'%3e%3canimateTransform%20attributeName='transform'%20dur='45s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2032%2032;%20360%2032%2032'/%3e%3c/path%3e%3c/svg%3e"}" />`;
 }, li = (e, t) => e?.states[t], ui = (e, t) => {
-	let n = /* @__PURE__ */ new Date(), r = li(e, t.entity), i = li(e, t.sun_entity || "sun.sun"), a = null, o = null;
+	let n = /* @__PURE__ */ new Date(), r = li(e, t.entity), i = li(e, t.sun_entity || "sun.sun");
+	if (i?.state === "above_horizon") return !0;
+	if (i?.state === "below_horizon") return !1;
+	let a = null, o = null;
 	if (r && r.attributes && "sunrise" in r.attributes && "sunset" in r.attributes && r.attributes.sunrise && r.attributes.sunset) a = new Date(r.attributes.sunrise), o = new Date(r.attributes.sunset);
 	else if (i?.attributes) {
 		let e = i.attributes.next_rising ? new Date(i.attributes.next_rising) : null, t = i.attributes.next_setting ? new Date(i.attributes.next_setting) : null;
@@ -4423,7 +4482,7 @@ function di(e) {
 //#region src/cards/full-card/swissweather-card.ts
 var fi;
 F({ loader: (e) => V[e] }), console.log("🎯 About to apply @customElement decorator to SwissweatherCard"), console.log("🎯 customElements registry available:", !!customElements);
-var Z = class extends T {
+var Z = class extends D {
 	hass;
 	config;
 	_forecast = [];
@@ -4797,12 +4856,12 @@ var Z = class extends T {
 				[e]: !this._openWarnings[e]
 			}, this.requestUpdate();
 		};
-		return t.length > 0 ? S`
+		return t.length > 0 ? w`
           <div class="warning-section ${n}">
             <div>
               <strong>${B("weather_warning")}</strong>
               <ul style="margin: 6px 0 0 0; padding-left: 18px;">
-                ${t.map((e) => S`
+                ${t.map((e) => w`
                     <li style="margin-bottom: 12px;">
                       <div style="display: flex; align-items: center; gap: 8px;">
                         <ha-icon
@@ -4810,7 +4869,7 @@ var Z = class extends T {
                           style="color: ${r(e.level)};"
                         ></ha-icon>
                         <span style="font-weight:bold;">${e.title}</span>
-                        ${e.link ? S`
+                        ${e.link ? w`
                               <a
                                 href="${e.link}"
                                 target="_blank"
@@ -4834,7 +4893,7 @@ var Z = class extends T {
                           ></ha-icon>
                         </button>
                       </div>
-                      ${this._openWarnings[e.id] && e.description ? S`
+                      ${this._openWarnings[e.id] && e.description ? w`
                             <div>
                               <strong>${B("valid_from")}: </strong>
                               ${e.valid_from ? new Date(e.valid_from).toLocaleString() : B("unknown")}
@@ -4851,32 +4910,32 @@ var Z = class extends T {
               </ul>
             </div>
           </div>
-        ` : S``;
+        ` : w``;
 	}
 	_openWarnings = {};
 	_renderForecastTemperature(e) {
 		let t = (e, t) => `${B(e, t)}`;
-		return this._forecast.length > 0 && this._hourlyForecast.length > 0 ? S`<forecast-temperature-chart
+		return this._forecast.length > 0 && this._hourlyForecast.length > 0 ? w`<forecast-temperature-chart
           .hourlyForecast=${this._hourlyForecast}
           .forecastHours=${e}
           .show_temperature=${this.config.show_temperature !== !1}
           ._t=${B}
           .showHoursChartLabel=${(e) => on(e, t)}
-        ></forecast-temperature-chart>` : S``;
+        ></forecast-temperature-chart>` : w``;
 	}
 	_renderForecastPrecipitation(e) {
 		let t = (e, t) => `${B(e, t)}`;
-		return this._forecast.length > 0 && this._hourlyForecast.length > 0 ? S`<precipitation-chart
+		return this._forecast.length > 0 && this._hourlyForecast.length > 0 ? w`<precipitation-chart
           .hourlyForecast=${this._hourlyForecast}
           .forecastHours=${e}
           .show_precipitation=${this.config.show_precipitation !== !1}
           ._t=${B}
           .showHoursChartLabel=${(e) => on(e, t)}
-        ></precipitation-chart>` : S``;
+        ></precipitation-chart>` : w``;
 	}
 	_renderForecastSunshine(e, t, n) {
 		let r = (e, t) => `${B(e, t)}`;
-		return this._forecast.length > 0 && this._hourlyForecast.length > 0 ? S`<sunshine-chart
+		return this._forecast.length > 0 && this._hourlyForecast.length > 0 ? w`<sunshine-chart
           .hourlyForecast=${this._hourlyForecast}
           .forecastHours=${n}
           .show_sunshine=${this.config.show_sunshine !== !1}
@@ -4884,20 +4943,20 @@ var Z = class extends T {
           .sun_entity=${t}
           ._t=${B}
           .showHoursChartLabel=${(e) => on(e, r)}
-        ></sunshine-chart>` : S``;
+        ></sunshine-chart>` : w``;
 	}
 	_renderForecastWind(e) {
 		let t = (e, t) => `${B(e, t)}`;
-		return this._forecast.length > 0 && this._hourlyForecast.length > 0 ? S`<wind-chart
+		return this._forecast.length > 0 && this._hourlyForecast.length > 0 ? w`<wind-chart
           .hourlyForecast=${this._hourlyForecast}
           .forecastHours=${e}
           .show_wind=${this.config.show_wind !== !1}
           ._t=${B}
           .showHoursChartLabel=${(e) => on(e, t)}
-        ></wind-chart>` : S``;
+        ></wind-chart>` : w``;
 	}
 	_renderCurrentWeather(e, t, n, r, i, a) {
-		return S`
+		return w`
       <div class="section-title">
         <ha-icon icon="mdi:calendar"></ha-icon>
         ${B("current_weather")}
@@ -4928,14 +4987,14 @@ var Z = class extends T {
           <div class="metric-value">${r} hPa</div>
           <div class="metric-label">${B("pressure")}</div>
         </div>
-        ${a ? S`
+        ${a ? w`
               <div class="metric-card">
                 <div class="metric-icon"><ha-icon icon="mdi:white-balance-sunny"></ha-icon></div>
                 <div class="metric-value">${parseFloat(a.state).toFixed(1)}h</div>
                 <div class="metric-label">${B("sunshine")}</div>
               </div>
             ` : ""}
-        ${i > 0 ? S`
+        ${i > 0 ? w`
               <div class="metric-card">
                 <div class="metric-icon"><ha-icon icon="mdi:eye"></ha-icon></div>
                 <div class="metric-value">${i} km</div>
@@ -4946,23 +5005,23 @@ var Z = class extends T {
     `;
 	}
 	_renderCurrentWeatherSection(e, t, n, r, i, a) {
-		return S`
+		return w`
       <div class="current-weather-section">
-        ${this.config.compact_mode === !0 ? S`
+        ${this.config.compact_mode === !0 ? w`
               ${this._renderCurrentWeatherCompactMode(e, t, n, r, i, a)}
-            ` : S`
+            ` : w`
               ${this._renderCurrentWeather(e, t, n, r, i, a)}
             `}
       </div>
     `;
 	}
 	render() {
-		if (I((this.hass.selectedLanguage || this.hass.language || "en").substring(0, 2)), !this.hass || !this.config) return S``;
+		if (I((this.hass.selectedLanguage || this.hass.language || "en").substring(0, 2)), !this.hass || !this.config) return w``;
 		let e = this._getEntityState(this.config.entity), t = this._getEntityState(this.config.sun_entity || "sun.sun");
-		if (!e) return S`<div>Entity not found: ${this.config.entity}</div>`;
-		let n = this.config.show_location !== !1, r = this.config.location || B("location"), i = e.attributes.temperature, a = e.state, o = this.config.wind_entity ? this._getEntityState(this.config.wind_entity) : null, s = this.config.wind_direction_entity ? this._getEntityState(this.config.wind_direction_entity) : null, c = this.config.sunshine_entity ? this._getEntityState(this.config.sunshine_entity) : null, l = this.config.warning_entity ? this._getEntityState(this.config.warning_entity) : null, u = o ? parseFloat(o.state) : e.attributes.wind_speed || 0, d = s ? parseFloat(s.state) : e.attributes.wind_bearing || 0, ee = e.attributes.humidity || 0, f = e.attributes.pressure || 0, p = e.attributes.visibility || 0, te = this.config.forecast_hours ?? 6;
-		return S`
-      ${n ? S`
+		if (!e) return w`<div>Entity not found: ${this.config.entity}</div>`;
+		let n = this.config.show_location !== !1, r = this.config.location || B("location"), i = e.attributes.temperature, a = e.state, o = this.config.wind_entity ? this._getEntityState(this.config.wind_entity) : null, s = this.config.wind_direction_entity ? this._getEntityState(this.config.wind_direction_entity) : null, c = this.config.sunshine_entity ? this._getEntityState(this.config.sunshine_entity) : null, l = this.config.warning_entity ? this._getEntityState(this.config.warning_entity) : null, u = o ? parseFloat(o.state) : e.attributes.wind_speed || 0, d = s ? parseFloat(s.state) : e.attributes.wind_bearing || 0, f = e.attributes.humidity || 0, p = e.attributes.pressure || 0, m = e.attributes.visibility || 0, h = this.config.forecast_hours ?? 6;
+		return w`
+      ${n ? w`
             <div class="header">
               <div class="location">${r}</div>
             </div>
@@ -4984,19 +5043,19 @@ var Z = class extends T {
         </div>
       </div>
 
-      ${this._renderCurrentWeatherSection(u, d, ee, f, p, c)}
-      ${this.config.show_temperature !== !1 || this.config.show_precipitation !== !1 || this.config.show_sunshine !== !1 || this.config.show_wind !== !1 || this.config.show_forecast !== !1 ? S`
+      ${this._renderCurrentWeatherSection(u, d, f, p, m, c)}
+      ${this.config.show_temperature !== !1 || this.config.show_precipitation !== !1 || this.config.show_sunshine !== !1 || this.config.show_wind !== !1 || this.config.show_forecast !== !1 ? w`
             <div class="section-title">
               <ha-icon icon="mdi:clock"></ha-icon>
-              ${B("forecast_hours", { hours: te })}
+              ${B("forecast_hours", { hours: h })}
             </div>
           ` : ""}
       ${this._getEffectiveChartOrder().map((n) => {
 			switch (n) {
-				case "temperature": return this._renderForecastTemperature(te);
-				case "precipitation": return this._renderForecastPrecipitation(te);
-				case "sunshine": return this._renderForecastSunshine(e, t, te);
-				case "wind": return this._renderForecastWind(te);
+				case "temperature": return this._renderForecastTemperature(h);
+				case "precipitation": return this._renderForecastPrecipitation(h);
+				case "sunshine": return this._renderForecastSunshine(e, t, h);
+				case "wind": return this._renderForecastWind(h);
 				case "forecast": return this._showDailyForecast();
 				default: return "";
 			}
@@ -5004,7 +5063,7 @@ var Z = class extends T {
     `;
 	}
 	_renderCurrentWeatherCompactMode(e, t, n, r, i, a) {
-		return S`
+		return w`
       <div class="metrics-table">
         <div class="metric-card">
           <div class="metric-icon"><ha-icon icon="mdi:weather-windy"></ha-icon></div>
@@ -5027,13 +5086,13 @@ var Z = class extends T {
           <div class="metric-icon"><ha-icon icon="mdi:gauge"></ha-icon></div>
           <div class="metric-value">${r} hPa</div>
         </div>
-        ${a ? S`
+        ${a ? w`
                 <div class="metric-card">
                   <div class="metric-icon"><ha-icon icon="mdi:white-balance-sunny"></ha-icon></div>
                   <div class="metric-value">${parseFloat(a.state).toFixed(1)}h</div>
                 </div>
               ` : ""}
-        ${i > 0 ? S`
+        ${i > 0 ? w`
                 <div class="metric-card">
                   <div class="metric-icon"><ha-icon icon="mdi:eye"></ha-icon></div>
                   <div class="metric-value">${i} km</div>
@@ -5043,7 +5102,7 @@ var Z = class extends T {
       `;
 	}
 	_showDailyForecast() {
-		return this.config.show_forecast === !1 ? S`` : this.config.compact_mode === !0 ? this._renderDailyForecastDiagram() : this._renderDailyForecastChart();
+		return this.config.show_forecast === !1 ? w`` : this.config.compact_mode === !0 ? this._renderDailyForecastDiagram() : this._renderDailyForecastChart();
 	}
 	_getEffectiveChartOrder() {
 		let e = Array.isArray(this.config.chart_order) ? [...this.config.chart_order] : [
@@ -5056,7 +5115,7 @@ var Z = class extends T {
 		return this.config.show_forecast !== !1 && !e.includes("forecast") && e.push("forecast"), e;
 	}
 	_renderDailyForecastChart() {
-		return this._forecast.length > 0 && this._hourlyForecast.length > 0 ? S`<daily-forecast-chart
+		return this._forecast.length > 0 && this._hourlyForecast.length > 0 ? w`<daily-forecast-chart
           .forecast=${this._forecast?.slice(0, 7) ?? []}
           .forecastLoading=${this._forecastLoading}
           .show_forecast=${this.config.show_forecast !== !1}
@@ -5064,20 +5123,20 @@ var Z = class extends T {
           ._t=${B}
           .getWeatherIcon=${ci}
           .formatDate=${sn}
-        ></daily-forecast-chart>` : S``;
+        ></daily-forecast-chart>` : w``;
 	}
 	_renderDailyForecastDiagram() {
-		return this._forecast.length > 0 && this._hourlyForecast.length > 0 ? S`<daily-forecast-diagram
+		return this._forecast.length > 0 && this._hourlyForecast.length > 0 ? w`<daily-forecast-diagram
           .config=${this.config}
           .forecast=${[...this._forecast?.slice(0, 7) ?? []]}
           .hourlyForecast=${[...this._hourlyForecast]}
           ._t=${B}
           .getWeatherIcon=${ci}
           .standalone=${!1}
-        ></daily-forecast-diagram>` : S``;
+        ></daily-forecast-diagram>` : w``;
 	}
 };
-A([D({ attribute: !1 }), k("design:type", Object)], Z.prototype, "hass", void 0), A([D({ attribute: !1 }), k("design:type", Object)], Z.prototype, "config", void 0), A([O(), k("design:type", Array)], Z.prototype, "_forecast", void 0), A([O(), k("design:type", Array)], Z.prototype, "_hourlyForecast", void 0), A([O(), k("design:type", Object)], Z.prototype, "_forecastLoading", void 0), A([O(), k("design:type", typeof (fi = typeof Record < "u" && Record) == "function" ? fi : Object)], Z.prototype, "_openWarnings", void 0), Z = A([E(nn), k("design:paramtypes", [])], Z);
+M([k({ attribute: !1 }), j("design:type", Object)], Z.prototype, "hass", void 0), M([k({ attribute: !1 }), j("design:type", Object)], Z.prototype, "config", void 0), M([A(), j("design:type", Array)], Z.prototype, "_forecast", void 0), M([A(), j("design:type", Array)], Z.prototype, "_hourlyForecast", void 0), M([A(), j("design:type", Object)], Z.prototype, "_forecastLoading", void 0), M([A(), j("design:type", typeof (fi = typeof Record < "u" && Record) == "function" ? fi : Object)], Z.prototype, "_openWarnings", void 0), Z = M([O(nn), j("design:paramtypes", [])], Z);
 //#endregion
 //#region src/cards/forecast-diagram/const.ts
 var pi = `${tn}-forecast-diagram-card`, mi = `${pi}-editor`, hi = [{
@@ -5089,7 +5148,7 @@ var pi = `${tn}-forecast-diagram-card`, mi = `${pi}-editor`, hi = [{
 //#endregion
 //#region src/cards/forecast-diagram/forecast-diagram-card-editor.ts
 F({ loader: (e) => V[e] });
-var gi = class extends T {
+var gi = class extends D {
 	hass;
 	lovelace;
 	_config;
@@ -5236,13 +5295,13 @@ var gi = class extends T {
     `;
 	}
 	render() {
-		if (!this.hass) return S`<div>Loading...</div>`;
+		if (!this.hass) return w`<div>Loading...</div>`;
 		I((this.hass.selectedLanguage || this.hass.language || "en").substring(0, 2));
 		let e = {
 			entity: typeof this._config?.entity == "string" ? this._config.entity : void 0,
 			sun_entity: typeof this._config?.sun_entity == "string" ? this._config.sun_entity : void 0
 		};
-		return S`
+		return w`
       <div class="card-config">
         <div class="header">
           <div>
@@ -5277,7 +5336,7 @@ var gi = class extends T {
         </div>
 
         <!-- Configuration Preview -->
-        ${this._config?.entity ? S`
+        ${this._config?.entity ? w`
               <div class="preview">
                 <div class="preview-title">📋 YAML-Config</div>
                 <div class="preview-config">${this._renderConfigPreview()}</div>
@@ -5317,8 +5376,8 @@ var gi = class extends T {
 };
 //#endregion
 //#region src/cards/forecast-diagram/forecast-diagram-card.ts
-A([D({ attribute: !1 }), k("design:type", Object)], gi.prototype, "hass", void 0), A([D({ attribute: !1 }), k("design:type", Object)], gi.prototype, "lovelace", void 0), A([D({ attribute: !1 }), k("design:type", Object)], gi.prototype, "_config", void 0), gi = A([E(mi), k("design:paramtypes", [])], gi), F({ loader: (e) => V[e] });
-var _i = class extends T {
+M([k({ attribute: !1 }), j("design:type", Object)], gi.prototype, "hass", void 0), M([k({ attribute: !1 }), j("design:type", Object)], gi.prototype, "lovelace", void 0), M([k({ attribute: !1 }), j("design:type", Object)], gi.prototype, "_config", void 0), gi = M([O(mi), j("design:paramtypes", [])], gi), F({ loader: (e) => V[e] });
+var _i = class extends D {
 	hass;
 	config;
 	_forecast = [];
@@ -5442,7 +5501,7 @@ var _i = class extends T {
 	}
 	render() {
 		let e = li(this.hass, this.config.entity), t = this.config?.grid_options?.rows ?? 3;
-		return this.style.setProperty("--card-grid-rows", t.toString()), e ? !this._forecast || this._forecast.length === 0 ? S`<div>Loading forecast...</div>` : !this._hourlyForecast || this._hourlyForecast.length === 0 ? S`<div>Loading hourly forecast...</div>` : this._forecast.length > 0 && this._hourlyForecast.length > 0 ? S`<daily-forecast-diagram
+		return this.style.setProperty("--card-grid-rows", t.toString()), e ? !this._forecast || this._forecast.length === 0 ? w`<div>Loading forecast...</div>` : !this._hourlyForecast || this._hourlyForecast.length === 0 ? w`<div>Loading hourly forecast...</div>` : this._forecast.length > 0 && this._hourlyForecast.length > 0 ? w`<daily-forecast-diagram
           .config=${{
 			...this.config,
 			enable_animate_weather_icons: !0
@@ -5452,13 +5511,13 @@ var _i = class extends T {
           ._t=${B}
           .getWeatherIcon=${ci}
           .standalone=${!0}
-        ></daily-forecast-diagram>` : S`` : S`<div>Entity not found: ${this.config.entity}</div>`;
+        ></daily-forecast-diagram>` : w`` : w`<div>Entity not found: ${this.config.entity}</div>`;
 	}
 };
-A([D({ attribute: !1 }), k("design:type", Object)], _i.prototype, "hass", void 0), A([D({ attribute: !1 }), k("design:type", Object)], _i.prototype, "config", void 0), A([O(), k("design:type", Array)], _i.prototype, "_forecast", void 0), A([O(), k("design:type", Array)], _i.prototype, "_hourlyForecast", void 0), A([O(), k("design:type", Object)], _i.prototype, "_forecastLoading", void 0), _i = A([E(pi), k("design:paramtypes", [])], _i);
+M([k({ attribute: !1 }), j("design:type", Object)], _i.prototype, "hass", void 0), M([k({ attribute: !1 }), j("design:type", Object)], _i.prototype, "config", void 0), M([A(), j("design:type", Array)], _i.prototype, "_forecast", void 0), M([A(), j("design:type", Array)], _i.prototype, "_hourlyForecast", void 0), M([A(), j("design:type", Object)], _i.prototype, "_forecastLoading", void 0), _i = M([O(pi), j("design:paramtypes", [])], _i);
 //#endregion
 //#region src/cards/animated-background/effects/lightning-flash-effect.ts
-var vi = () => C`
+var vi = () => T`
   <defs>
     <radialGradient id="lwStormFlashGradient" cx="50%" cy="20%" r="90%">
       <stop offset="0%" style="stop-color:#ffff88;stop-opacity:1" />
@@ -5498,7 +5557,7 @@ var vi = () => C`
   <use href="#lwStormFlash"/>
   <use href="#lwThunderRumble"/>
 `, yi = (e, t, n) => {
-	if (!e) return S``;
+	if (!e) return w``;
 	let r = {
 		"clear-night": bi(n || 400),
 		cloudy: Si(n || 400),
@@ -5516,8 +5575,8 @@ var vi = () => C`
 		"windy-variant": Di(n || 400),
 		exceptional: Pi(n || 400)
 	};
-	return e ? r[e] : S``;
-}, bi = (e) => C`
+	return e ? r[e] : w``;
+}, bi = (e) => T`
   <defs>
     <linearGradient id="moonGradient" x1="21.92" x2="38.52" y1="18.75" y2="47.52" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#86c3db"/>
@@ -5549,12 +5608,12 @@ var vi = () => C`
   <g>
   ${Array.from({ length: Math.ceil(e / 100) }, (e, t) => t).map((e) => {
 	let t = Math.floor(Math.random() * 100), n = Math.floor(Math.random() * 10), r = (t - 50) / 5 + e * Math.floor(Math.random() * 25);
-	return C`
+	return T`
     <use href="#starIcon" x="0" y="0" transform="translate(${e * 100 + n},${r}) scale(0.5)"/>
     `;
 })}
   </g>
-`, xi = () => C`
+`, xi = () => T`
   <defs>
     <linearGradient id="sunshineBlueGradient" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#4fc3f7" />
@@ -5576,7 +5635,7 @@ var vi = () => C`
       <animateTransform attributeName="transform" dur="45s" repeatCount="indefinite" type="rotate" values="0 32 32; 360 32 32"/>
     </path>
   </g>
-`, Si = (e) => C`
+`, Si = (e) => T`
   <defs>
     <linearGradient id="background" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#a3bdc9ff" />
@@ -5595,7 +5654,7 @@ var vi = () => C`
   <!-- background -->
   <rect width="100%" height="80%" fill="url(#background)" />
   ${Q(e)}
-  `, Ci = (e) => C`
+  `, Ci = (e) => T`
   <defs>
     <linearGradient id="background" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#a3bdc9ff" />
@@ -5624,31 +5683,49 @@ var vi = () => C`
   <!-- background -->
   <rect width="100%" height="80%" fill="url(#background)" />
   ${Q(e)}
-  `, wi = (e) => C`
+  `, wi = (e) => T`
   <defs>
+    <linearGradient id="hailBackground" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#9eb7c6" />
+      <stop offset="100%" stop-color="#87b9d3" stop-opacity="0" />
+    </linearGradient>
     <linearGradient id="hailGradient" x1="22.56" x2="39.2" y1="21.96" y2="50.8" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#f3f7fe"/>
       <stop offset=".45" stop-color="#f3f7fe"/>
       <stop offset="1" stop-color="#deeafb"/>
     </linearGradient>
+    <radialGradient id="hailStone" cx="32" cy="32" r="12" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#d9ecff"/>
+      <stop offset="1" stop-color="#8ec0df"/>
+    </radialGradient>
     <g id="hailIcon">
       <path fill="url(#hailGradient)" stroke="#e6effc" stroke-miterlimit="10" stroke-width=".5"
         d="M46.5 31.5h-.32a10.49 10.49 0 00-19.11-8 7 7 0 00-10.57 6 7.21 7.21 0 00.1 1.14A7.5 7.5 0 0018 45.5a4.19 4.19 0 00.5 0v0h28a7 7 0 000-14z"/>
-      <circle cx="24" cy="42" r="4" fill="#a8dadc"/>
-      <circle cx="40" cy="42" r="4" fill="#a8dadc"/>
-      <circle cx="32" cy="34" r="4" fill="#a8dadc"/>
+      <circle cx="24" cy="50" r="2.2" fill="url(#hailStone)">
+        <animateTransform attributeName="transform" dur="0.9s" repeatCount="indefinite" type="translate" values="0 -7; 0 12"/>
+        <animate attributeName="opacity" dur="0.9s" repeatCount="indefinite" values="1;1;0"/>
+      </circle>
+      <circle cx="32" cy="52" r="2.4" fill="url(#hailStone)">
+        <animateTransform attributeName="transform" begin="-0.3s" dur="0.9s" repeatCount="indefinite" type="translate" values="0 -7; 0 12"/>
+        <animate attributeName="opacity" begin="-0.3s" dur="0.9s" repeatCount="indefinite" values="1;1;0"/>
+      </circle>
+      <circle cx="40" cy="50" r="2.2" fill="url(#hailStone)">
+        <animateTransform attributeName="transform" begin="-0.6s" dur="0.9s" repeatCount="indefinite" type="translate" values="0 -7; 0 12"/>
+        <animate attributeName="opacity" begin="-0.6s" dur="0.9s" repeatCount="indefinite" values="1;1;0"/>
+      </circle>
     </g>
   </defs>
+  <rect width="100%" height="80%" fill="url(#hailBackground)" />
   ${Array.from({ length: Math.ceil(e / 100) }, (e, t) => t).map((e) => {
 	let t = Math.floor(Math.random() * 100), n = Math.floor(Math.random() * 10), r = (t - 50) / 5 + e * Math.floor(Math.random() * 25);
-	return C`
+	return T`
   <g>
     <use href="#hailIcon" x="0" y="-10" width="80" height="40" transform="scale(2.2) translate(${e * 100 + n},${r})" opacity="0.9"/>
     <animateTransform attributeName="transform" type="translate" values="0,0;20,0;0,0" dur="18s" repeatCount="indefinite"/>
   </g>
   `;
 })}
-  `, Ti = (e) => C`
+  `, Ti = (e) => T`
   <defs>
     <linearGradient id="background" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#3580a39c" />
@@ -5687,8 +5764,8 @@ var vi = () => C`
   ${Q(e)}
   
   `;
-C`<g transform="translate(168,-30) scale(3)"><circle cx="24" cy="42" r="4" fill="#a8dadc"/><circle cx="40" cy="42" r="4" fill="#a8dadc"/><circle cx="32" cy="34" r="4" fill="#a8dadc"/><path fill="#f3f7fe" stroke="#e6effc" stroke-miterlimit="10" stroke-width=".5" d="M46.5 31.5h-.32a10.49 10.49 0 00-19.11-8 7 7 0 00-10.57 6 7.21 7.21 0 00.1 1.14A7.5 7.5 0 0018 45.5a4.19 4.19 0 00.5 0v0h28a7 7 0 000-14z"/></g>`;
-var Ei = (e) => C`
+T`<g transform="translate(168,-30) scale(3)"><path fill="#f3f7fe" stroke="#e6effc" stroke-miterlimit="10" stroke-width=".5" d="M46.5 31.5h-.32a10.49 10.49 0 00-19.11-8 7 7 0 00-10.57 6 7.21 7.21 0 00.1 1.14A7.5 7.5 0 0018 45.5a4.19 4.19 0 00.5 0v0h28a7 7 0 000-14z"/><circle cx="24" cy="50" r="2.2" fill="#9ac9e4"/><circle cx="32" cy="52" r="2.4" fill="#9ac9e4"/><circle cx="40" cy="50" r="2.2" fill="#9ac9e4"/></g>`;
+var Ei = (e) => T`
   <defs>
     <linearGradient id="extremeRainGradient" x1="22.56" x2="39.2" y1="21.96" y2="50.8" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#f3f7fe"/>
@@ -5714,7 +5791,7 @@ var Ei = (e) => C`
   <!-- Rain drops -->
   ${Array.from({ length: Math.ceil(e / 20) }, (e, t) => t).map((e) => {
 	let t = Math.floor(Math.random() * 100), n = Math.floor(Math.random() * 10), r = (t - 50) / 5 + e * Math.floor(Math.random() * 25), i = e * 20 + n;
-	return C`
+	return T`
     <line x1="${i}" y1="${r}" x2="${i}" y2="${r + 10}" stroke="url(#extremeRainDropGradient)" stroke-width="2" stroke-linecap="round">
       <animate attributeName="y1" values="${r}; ${r + 20}" dur="0.5s" repeatCount="indefinite"/>
       <animate attributeName="y2" values="${r + 10}; ${r + 30}" dur="0.5s" repeatCount="indefinite"/>
@@ -5722,7 +5799,7 @@ var Ei = (e) => C`
     </line>
     `;
 })}
-  `, Di = (e) => C`
+  `, Di = (e) => T`
   <defs>
     <linearGradient id="windGradient" x1="22.56" x2="39.2" y1="21.96" y2="50.8" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#f3f7fe"/>
@@ -5749,7 +5826,7 @@ var Ei = (e) => C`
   <!-- Wind lines -->
   ${Array.from({ length: Math.ceil(e / 50) }, (e, t) => t).map((e) => {
 	let t = Math.floor(Math.random() * 100), n = Math.floor(Math.random() * 10), r = (t - 50) / 5 + e * Math.floor(Math.random() * 25), i = e * 50 + n;
-	return C`
+	return T`
     <line x1="${i}" y1="${r}" x2="${i + 30}" y2="${r}" stroke="url(#windLineGradient)" stroke-width="4" stroke-linecap="round">
       <animate attributeName="x1" values="${i}; ${i + 10}; ${i}" dur="3s" repeatCount="indefinite"/>
       <animate attributeName="x2" values="${i + 30}; ${i + 40}; ${i + 30}" dur="3s" repeatCount="indefinite"/>
@@ -5757,7 +5834,7 @@ var Ei = (e) => C`
     </line>
     `;
 })}
-  `, Oi = (e) => C`
+  `, Oi = (e) => T`
   <defs>
     <linearGradient id="background" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#2e414aff" />
@@ -5790,7 +5867,7 @@ var Ei = (e) => C`
    
   <!-- Lightning flash effect that illuminates the entire background (full-size overlay) -->
   ${vi()}
-  `, ki = (e) => C`
+  `, ki = (e) => T`
   <defs>
     <linearGradient id="b" x1="22.56" x2="39.2" y1="21.96" y2="50.8" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#f3f7fe"/>
@@ -5829,10 +5906,10 @@ var Ei = (e) => C`
   
   <!-- Lightning flash effect for rainy thunderstorms -->
   ${vi()}
-  `, Q = (e) => C`
+  `, Q = (e) => T`
 ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
 	let t = Math.floor(Math.random() * 100), n = Math.floor(Math.random() * 10), r = (t - 50) / 5 + e * Math.floor(Math.random() * 25), i = e * 100 + n, a = Math.floor(Math.random() * 2) + 1, o = 1 + Math.random() * 1, s = 44 + Math.floor(Math.random() * 90);
-	return C`
+	return T`
     <g>
       <use href="#icon" x="${i}" y="${r}" width="80" height="40" transform="scale(${a})" opacity="0">
         <animate attributeName="opacity" values="0;${o};${o};0" dur="${s}s" repeatCount="indefinite"/>
@@ -5841,7 +5918,7 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
     </g>
     `;
 })}
-  `, Ai = (e) => C`
+  `, Ai = (e) => T`
   <defs>
     <linearGradient id="sleetGradient" x1="22.56" x2="39.2" y1="21.96" y2="50.8" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#f3f7fe"/>
@@ -5862,7 +5939,7 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
   </defs>
   
   ${Q(e)}
-  `, ji = (e) => C`
+  `, ji = (e) => T`
   <defs>
     <linearGradient id="snowGradient" x1="22.56" x2="39.2" y1="21.96" y2="50.8" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#f3f7fe"/>
@@ -5895,7 +5972,7 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
   </defs>
   
   ${Q(e)}
-  `, Mi = (e) => C`
+  `, Mi = (e) => T`
   <defs>
     <linearGradient id="sunshineBlueGradient" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#4fc3f7" />
@@ -5933,7 +6010,7 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
     <use href="#sunIcon" x="200" y="50" width="100" height="100" opacity="0.9"/>
   </g>
   ${Q(e)}
-  `, Ni = (e) => C`
+  `, Ni = (e) => T`
   <defs>
     <linearGradient id="partlyCloudyNightGradient" x1="22.56" x2="39.2" y1="21.96" y2="50.8" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#f3f7fe"/>
@@ -5954,7 +6031,7 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
     <use href="#moonIcon" x="200" y="50" width="100" height="100" opacity="0.9"/>
   </g>
   ${Q(e)}
-  `, Pi = (e) => C`
+  `, Pi = (e) => T`
   <defs>
     <linearGradient id="hurricaneGradient" x1="22.56" x2="39.2" y1="21.96" y2="50.8" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#f3f7fe"/>
@@ -5997,25 +6074,19 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
 			options: [
 				{
 					value: "daily",
-					label: "config.forecast_mode.daily"
+					label: "forecast_mode.daily"
 				},
 				{
 					value: "hourly",
-					label: "config.forecast_mode.hourly"
+					label: "forecast_mode.hourly"
 				},
 				{
 					value: "none",
-					label: "config.forecast_mode.none"
+					label: "forecast_mode.none"
 				}
 			]
 		} },
 		description: "config.descr.forecast_mode"
-	},
-	{
-		name: "show_forecast",
-		required: !1,
-		selector: { boolean: {} },
-		description: "config.descr.show_forecast"
 	},
 	{
 		name: "show_day_temps",
@@ -6033,8 +6104,14 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
 			mode: "box"
 		} },
 		description: "config.descr.temperature_font_size"
+	},
+	{
+		name: "photo_mode",
+		required: !1,
+		selector: { boolean: {} },
+		description: "config.descr.photo_mode"
 	}
-], $ = class extends T {
+], $ = class extends D {
 	hourlyForecast = [];
 	forecastLoading = !1;
 	show_forecast = !0;
@@ -6123,25 +6200,25 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
 		return new Date(e).toLocaleTimeString([], { hour: "2-digit" });
 	}
 	render() {
-		if (this.show_forecast === !1 || this.config.show_forecast === !1) return S``;
+		if (this.show_forecast === !1 || this.config.show_forecast === !1) return w``;
 		let e = (this.hourlyForecast || []).slice(0, Math.max(1, this.maxHours));
-		return S`
+		return w`
       <div class="wrapper ${this.alignRight ? "align-right" : ""}">
-        ${this.compact ? S`` : S`
+        ${this.compact ? w`` : w`
               <div class="section-title">
                 <ha-icon icon="mdi:clock-outline"></ha-icon>
                 ${this._t("forecast_hours", { hours: e.length })}
               </div>
             `}
         <div class="grid">
-          ${e.map((e) => S`
+          ${e.map((e) => w`
               <div class="tile">
                 <div class="label">${this._fmtHour(e.datetime ?? e.time)}</div>
                 <div class="icon">
                   ${this.getWeatherIcon(e.condition, this.config.enable_animate_weather_icons ? "animated" : "mdi", this.compact ? "18px" : "24px", !0)}
                 </div>
                 <div class="temps">
-                  ${typeof e.temperature == "number" ? S`<span>${Math.round(e.temperature)}°</span>` : ""}
+                  ${typeof e.temperature == "number" ? w`<span>${Math.round(e.temperature)}°</span>` : ""}
                 </div>
               </div>
             `)}
@@ -6150,12 +6227,12 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
     `;
 	}
 };
-A([D({ type: Array }), k("design:type", Array)], $.prototype, "hourlyForecast", void 0), A([D({ type: Boolean }), k("design:type", Object)], $.prototype, "forecastLoading", void 0), A([D({ type: Boolean }), k("design:type", Object)], $.prototype, "show_forecast", void 0), A([D({ type: Object }), k("design:type", Object)], $.prototype, "config", void 0), A([D({ type: Function }), k("design:type", Function)], $.prototype, "_t", void 0), A([D({ type: Function }), k("design:type", Function)], $.prototype, "getWeatherIcon", void 0), A([D({ type: Boolean }), k("design:type", Boolean)], $.prototype, "compact", void 0), A([D({ type: Number }), k("design:type", Number)], $.prototype, "maxHours", void 0), A([D({ type: Boolean }), k("design:type", Boolean)], $.prototype, "alignRight", void 0), $ = A([E("hourly-forecast-chart")], $);
+M([k({ type: Array }), j("design:type", Array)], $.prototype, "hourlyForecast", void 0), M([k({ type: Boolean }), j("design:type", Object)], $.prototype, "forecastLoading", void 0), M([k({ type: Boolean }), j("design:type", Object)], $.prototype, "show_forecast", void 0), M([k({ type: Object }), j("design:type", Object)], $.prototype, "config", void 0), M([k({ type: Function }), j("design:type", Function)], $.prototype, "_t", void 0), M([k({ type: Function }), j("design:type", Function)], $.prototype, "getWeatherIcon", void 0), M([k({ type: Boolean }), j("design:type", Boolean)], $.prototype, "compact", void 0), M([k({ type: Number }), j("design:type", Number)], $.prototype, "maxHours", void 0), M([k({ type: Boolean }), j("design:type", Boolean)], $.prototype, "alignRight", void 0), $ = M([O("hourly-forecast-chart")], $);
 //#endregion
 //#region src/cards/animated-background/swissweather-bg-card.ts
 var Ri;
 F({ loader: (e) => V[e] }), console.log("🎯 About to apply @customElement decorator to SwissweatherCard (BG)"), console.log("🎯 customElements registry available:", !!customElements);
-var zi = class extends T {
+var zi = class extends D {
 	hass;
 	config;
 	_tempEl;
@@ -6214,6 +6291,1037 @@ var zi = class extends T {
           0 4px 20px var(--box-shadow-color, rgba(0, 0, 0, 0.1))
         );
       }
+
+      .img-photo {
+        position: absolute;
+        margin-top: var(--bg-temp-img-top, 36px);
+        inset: 0;
+        width: 100%;
+        border-radius: 12px;
+        overflow: hidden;
+        min-height: 200px;
+        isolation: isolate;
+        box-shadow: var(
+          --ha-card-box-shadow,
+          0 4px 20px var(--box-shadow-color, rgba(0, 0, 0, 0.1))
+        );
+        transition:
+          filter 1.1s ease,
+          transform 1.1s ease;
+      }
+
+      .img-photo.day {
+        filter: saturate(1.04) brightness(1.03) hue-rotate(0deg);
+      }
+
+      .img-photo.night {
+        filter: saturate(0.86) brightness(0.82) hue-rotate(-8deg);
+      }
+
+      .photo-layer {
+        position: absolute;
+        inset: 0;
+      }
+
+      .photo-base {
+        animation: bg-pan 34s ease-in-out infinite alternate;
+      }
+
+      .photo-circadian {
+        opacity: 0;
+        transition: opacity 1.1s ease;
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      .img-photo.day .photo-circadian {
+        background:
+          radial-gradient(circle at 72% 16%, rgba(255, 239, 181, 0.26), rgba(255, 239, 181, 0) 44%),
+          linear-gradient(180deg, rgba(255, 245, 209, 0.1) 0%, rgba(255, 255, 255, 0) 72%);
+        mix-blend-mode: screen;
+        opacity: 0.58;
+      }
+
+      .img-photo.night .photo-circadian {
+        background:
+          radial-gradient(circle at 26% 18%, rgba(127, 161, 214, 0.2), rgba(127, 161, 214, 0) 40%),
+          linear-gradient(180deg, rgba(7, 15, 33, 0.3) 0%, rgba(4, 10, 24, 0.5) 100%);
+        mix-blend-mode: multiply;
+        opacity: 0.74;
+      }
+
+      .img-photo.mood-sunny.day .photo-base {
+        background:
+          radial-gradient(circle at 75% 20%, rgba(255, 250, 196, 0.95), rgba(255, 250, 196, 0) 45%),
+          linear-gradient(
+            160deg,
+            rgba(123, 198, 250, 0.95) 0%,
+            rgba(88, 163, 221, 0.92) 46%,
+            rgba(67, 138, 191, 0.96) 100%
+          );
+      }
+
+      .img-photo.mood-sunny.night .photo-base {
+        background:
+          radial-gradient(circle at 78% 18%, rgba(80, 120, 160, 0.12), rgba(80, 120, 160, 0) 40%),
+          linear-gradient(
+            165deg,
+            rgba(12, 24, 45, 0.99) 0%,
+            rgba(8, 16, 32, 0.99) 58%,
+            rgba(2, 6, 15, 1) 100%
+          );
+      }
+
+      .img-photo.mood-sunny.clear-night .photo-base,
+      .img-photo.clear-night .photo-base {
+        background: linear-gradient(
+          180deg,
+          rgba(5, 16, 38, 0.99) 0%,
+          rgba(4, 12, 28, 1) 52%,
+          rgba(1, 6, 16, 1) 100%
+        );
+        animation: none;
+      }
+
+      .img-photo.clear-night .photo-clouds {
+        opacity: 0;
+      }
+
+      .img-photo.clear-night .photo-clouds-front {
+        opacity: 0;
+      }
+
+      .img-photo.clear-night .photo-clouds-depth {
+        opacity: 0;
+      }
+
+      .img-photo.clear-night .photo-cloud-shadow {
+        opacity: 0;
+      }
+
+      .img-photo.clear-night .photo-sun-rays {
+        opacity: 0;
+        animation: none;
+        display: none;
+      }
+
+      .img-photo.mood-cloudy .photo-sun-rays {
+        opacity: 0;
+        animation: none;
+        display: none;
+      }
+
+      .img-photo.partly-cloudy .photo-sun-rays {
+        opacity: 0;
+        animation: none;
+        display: none;
+      }
+
+      .img-photo.mood-cloudy.day .photo-base {
+        background:
+          radial-gradient(circle at 30% 15%, rgba(226, 238, 245, 0.6), rgba(226, 238, 245, 0) 40%),
+          linear-gradient(
+            160deg,
+            rgba(144, 168, 183, 0.95) 0%,
+            rgba(122, 147, 165, 0.96) 52%,
+            rgba(96, 121, 141, 0.98) 100%
+          );
+      }
+
+      .img-photo.mood-cloudy.night .photo-base {
+        background:
+          radial-gradient(circle at 25% 12%, rgba(123, 140, 166, 0.24), rgba(123, 140, 166, 0) 44%),
+          linear-gradient(
+            165deg,
+            rgba(40, 52, 71, 0.98) 0%,
+            rgba(29, 40, 56, 0.98) 56%,
+            rgba(20, 28, 40, 1) 100%
+          );
+      }
+
+      .img-photo.foggy.day .photo-base {
+        background: linear-gradient(
+          180deg,
+          rgba(158, 176, 188, 0.98) 0%,
+          rgba(146, 165, 179, 0.99) 54%,
+          rgba(132, 152, 168, 1) 100%
+        );
+      }
+
+      .img-photo.foggy.night .photo-base {
+        background: linear-gradient(
+          180deg,
+          rgba(41, 54, 68, 0.99) 0%,
+          rgba(33, 45, 59, 1) 52%,
+          rgba(24, 35, 48, 1) 100%
+        );
+      }
+
+      .img-photo.mood-rainy.day .photo-base {
+        background:
+          radial-gradient(circle at 72% 8%, rgba(226, 239, 252, 0.35), rgba(226, 239, 252, 0) 45%),
+          linear-gradient(
+            168deg,
+            rgba(95, 120, 139, 0.95) 0%,
+            rgba(73, 97, 118, 0.97) 50%,
+            rgba(54, 78, 96, 0.99) 100%
+          );
+      }
+
+      .img-photo.mood-rainy.night .photo-base {
+        background:
+          radial-gradient(circle at 72% 12%, rgba(122, 145, 170, 0.14), rgba(122, 145, 170, 0) 42%),
+          linear-gradient(
+            168deg,
+            rgba(25, 36, 54, 0.99) 0%,
+            rgba(17, 26, 42, 1) 55%,
+            rgba(10, 16, 27, 1) 100%
+          );
+      }
+
+      .photo-clouds {
+        background:
+          radial-gradient(
+            118% 86% at 6% 24%,
+            rgba(255, 255, 255, 0.5),
+            rgba(255, 255, 255, 0.08) 48%,
+            rgba(255, 255, 255, 0) 62%
+          ),
+          radial-gradient(
+            120% 90% at 28% 20%,
+            rgba(255, 255, 255, 0.48),
+            rgba(255, 255, 255, 0.08) 50%,
+            rgba(255, 255, 255, 0) 64%
+          ),
+          radial-gradient(
+            124% 92% at 50% 22%,
+            rgba(255, 255, 255, 0.5),
+            rgba(255, 255, 255, 0.1) 50%,
+            rgba(255, 255, 255, 0) 64%
+          ),
+          radial-gradient(
+            118% 88% at 72% 20%,
+            rgba(255, 255, 255, 0.47),
+            rgba(255, 255, 255, 0.08) 48%,
+            rgba(255, 255, 255, 0) 62%
+          ),
+          radial-gradient(
+            114% 84% at 95% 25%,
+            rgba(255, 255, 255, 0.52),
+            rgba(255, 255, 255, 0.1) 50%,
+            rgba(255, 255, 255, 0) 64%
+          ),
+          linear-gradient(
+            180deg,
+            rgba(249, 253, 255, 0.42) 0%,
+            rgba(233, 243, 252, 0.2) 34%,
+            rgba(210, 224, 239, 0.04) 58%,
+            rgba(210, 224, 239, 0) 74%
+          ),
+          linear-gradient(
+            180deg,
+            rgba(172, 194, 220, 0.18) 0%,
+            rgba(172, 194, 220, 0.08) 46%,
+            rgba(183, 205, 230, 0) 72%
+          );
+        filter: blur(5.5px) contrast(1.08) saturate(1.06) brightness(1.03);
+        animation: cloud-drift 36s ease-in-out infinite alternate;
+        opacity: 0.78;
+      }
+
+      .photo-clouds-front {
+        background:
+          radial-gradient(
+            94% 74% at 0% 36%,
+            rgba(255, 255, 255, 0.88),
+            rgba(255, 255, 255, 0.16) 52%,
+            rgba(255, 255, 255, 0) 66%
+          ),
+          radial-gradient(
+            98% 76% at 22% 30%,
+            rgba(255, 255, 255, 0.86),
+            rgba(255, 255, 255, 0.15) 50%,
+            rgba(255, 255, 255, 0) 64%
+          ),
+          radial-gradient(
+            102% 78% at 48% 34%,
+            rgba(255, 255, 255, 0.84),
+            rgba(255, 255, 255, 0.16) 50%,
+            rgba(255, 255, 255, 0) 66%
+          ),
+          radial-gradient(
+            96% 74% at 74% 30%,
+            rgba(255, 255, 255, 0.82),
+            rgba(255, 255, 255, 0.14) 50%,
+            rgba(255, 255, 255, 0) 64%
+          ),
+          radial-gradient(
+            92% 72% at 100% 34%,
+            rgba(255, 255, 255, 0.86),
+            rgba(255, 255, 255, 0.16) 50%,
+            rgba(255, 255, 255, 0) 66%
+          ),
+          linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.34) 0%,
+            rgba(242, 249, 255, 0.18) 44%,
+            rgba(211, 226, 242, 0.1) 64%,
+            rgba(255, 255, 255, 0) 74%
+          );
+        filter: blur(2.8px) contrast(1.12) saturate(1.05)
+          drop-shadow(0 6px 8px rgba(122, 149, 178, 0.18));
+        animation: cloud-drift-front 22s ease-in-out infinite alternate;
+        mix-blend-mode: normal;
+        opacity: 0;
+      }
+
+      .photo-clouds-depth {
+        background:
+          radial-gradient(
+            118% 86% at 14% 68%,
+            rgba(217, 232, 248, 0.42),
+            rgba(255, 255, 255, 0.08) 52%,
+            rgba(255, 255, 255, 0) 68%
+          ),
+          radial-gradient(
+            122% 90% at 46% 62%,
+            rgba(210, 226, 243, 0.36),
+            rgba(255, 255, 255, 0.08) 50%,
+            rgba(255, 255, 255, 0) 66%
+          ),
+          radial-gradient(
+            118% 88% at 78% 70%,
+            rgba(215, 231, 247, 0.38),
+            rgba(255, 255, 255, 0.08) 50%,
+            rgba(255, 255, 255, 0) 66%
+          ),
+          linear-gradient(
+            180deg,
+            rgba(193, 214, 237, 0.28) 0%,
+            rgba(172, 198, 225, 0.14) 44%,
+            rgba(162, 189, 217, 0) 72%
+          );
+        filter: blur(7.5px) saturate(1.04);
+        animation: cloud-drift-depth 28s ease-in-out infinite alternate;
+        opacity: 0;
+      }
+
+      .img-photo.mood-cloudy .photo-clouds {
+        opacity: 0.88;
+      }
+
+      .img-photo.mood-cloudy .photo-clouds-front {
+        opacity: 0.8;
+      }
+
+      .img-photo.mood-cloudy .photo-clouds-depth {
+        opacity: 0.62;
+      }
+
+      .img-photo.mood-rainy .photo-clouds {
+        opacity: 0.94;
+      }
+
+      .img-photo.mood-rainy .photo-clouds-front {
+        opacity: 0.9;
+      }
+
+      .img-photo.mood-rainy .photo-clouds-depth {
+        opacity: 0.8;
+      }
+
+      .img-photo.mood-cloudy.night .photo-clouds,
+      .img-photo.mood-rainy.night .photo-clouds {
+        filter: blur(7px) saturate(0.9) brightness(0.88);
+      }
+
+      .img-photo.mood-cloudy.night .photo-clouds-front,
+      .img-photo.mood-rainy.night .photo-clouds-front {
+        mix-blend-mode: normal;
+        filter: blur(4.8px) brightness(0.8);
+      }
+
+      .img-photo.mood-cloudy.night .photo-clouds-depth,
+      .img-photo.mood-rainy.night .photo-clouds-depth {
+        filter: blur(9px) saturate(0.86) brightness(0.78);
+        opacity: 0.7;
+      }
+
+      .img-photo.partly-cloudy .photo-clouds {
+        opacity: 0.62;
+        filter: blur(9px) saturate(0.95);
+      }
+
+      .img-photo.partly-cloudy .photo-clouds-front {
+        opacity: 0.36;
+        filter: blur(7px) brightness(0.98);
+      }
+
+      .img-photo.partly-cloudy .photo-clouds-depth {
+        opacity: 0.28;
+        filter: blur(13px) saturate(0.9);
+      }
+
+      .img-photo.partly-cloudy.night .photo-clouds {
+        opacity: 0.54;
+        filter: blur(10px) saturate(0.82) brightness(0.9);
+      }
+
+      .img-photo.partly-cloudy.night .photo-clouds-front {
+        opacity: 0.3;
+        filter: blur(8px) brightness(0.84);
+        mix-blend-mode: normal;
+      }
+
+      .img-photo.partly-cloudy.night .photo-clouds-depth {
+        opacity: 0.24;
+        filter: blur(14px) saturate(0.8) brightness(0.84);
+      }
+
+      .photo-fog {
+        background:
+          radial-gradient(
+            130% 62% at 18% 74%,
+            rgba(235, 243, 250, 0.34),
+            rgba(235, 243, 250, 0) 72%
+          ),
+          radial-gradient(
+            136% 66% at 72% 70%,
+            rgba(229, 239, 248, 0.3),
+            rgba(229, 239, 248, 0) 74%
+          ),
+          linear-gradient(
+            180deg,
+            rgba(217, 229, 240, 0.08) 0%,
+            rgba(217, 229, 240, 0.24) 46%,
+            rgba(217, 229, 240, 0.38) 100%
+          );
+        mix-blend-mode: screen;
+        opacity: 0;
+        animation: fog-drift 24s ease-in-out infinite alternate;
+        z-index: 3;
+        pointer-events: none;
+      }
+
+      .img-photo.foggy .photo-fog {
+        opacity: 0.88;
+      }
+
+      .img-photo.foggy .photo-clouds {
+        filter: blur(16px) saturate(0.72) brightness(0.94);
+        opacity: 0.6;
+      }
+
+      .img-photo.foggy .photo-clouds-front {
+        filter: blur(13px) saturate(0.68) brightness(0.92);
+        opacity: 0.46;
+      }
+
+      .img-photo.foggy .photo-clouds-depth {
+        filter: blur(20px) saturate(0.65) brightness(0.9);
+        opacity: 0.44;
+      }
+
+      .img-photo.foggy .photo-cloud-shadow {
+        opacity: 0.16;
+      }
+
+      .img-photo.foggy .photo-wind-streaks {
+        opacity: 0;
+      }
+
+      .img-photo.sun-bloom.day .photo-sun-rays {
+        opacity: 0.8;
+      }
+
+      .img-photo.windy .photo-wind-streaks {
+        opacity: 1;
+        height: 78%;
+        animation-duration: 1.7s;
+        background-size:
+          260% 100%,
+          240% 100%;
+        background-position:
+          -18% 18%,
+          -58% 60%;
+        filter: blur(0.15px);
+      }
+
+      .img-photo.windy .photo-wind-streaks::after {
+        content: '';
+        position: absolute;
+        inset: 4% -8% 0 -8%;
+        background-image:
+          linear-gradient(
+            114deg,
+            rgba(224, 241, 255, 0) 0%,
+            rgba(224, 241, 255, 0.3) 24%,
+            rgba(224, 241, 255, 0.45) 38%,
+            rgba(224, 241, 255, 0) 58%
+          ),
+          linear-gradient(
+            114deg,
+            rgba(204, 229, 250, 0) 14%,
+            rgba(204, 229, 250, 0.24) 34%,
+            rgba(204, 229, 250, 0.38) 52%,
+            rgba(204, 229, 250, 0) 70%
+          );
+        background-size:
+          280% 100%,
+          250% 100%;
+        background-position:
+          -46% 24%,
+          -86% 68%;
+        animation: wind-streak-sweep-strong 1.35s linear infinite;
+        opacity: 0.88;
+        mix-blend-mode: screen;
+        pointer-events: none;
+      }
+
+      .img-photo.windy .photo-clouds {
+        animation-duration: 20s;
+      }
+
+      .img-photo.windy .photo-clouds-front {
+        animation-duration: 10s;
+      }
+
+      .img-photo.windy .photo-clouds-depth {
+        animation-duration: 14s;
+      }
+
+      .photo-rain {
+        display: none;
+      }
+
+      .weather-particles {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        pointer-events: none;
+        z-index: 4;
+      }
+
+      .weather-cluster {
+        position: absolute;
+        top: 14%;
+        width: 28%;
+        height: 86%;
+      }
+
+      .weather-cluster.c1 {
+        left: 4%;
+      }
+
+      .weather-cluster.c2 {
+        left: 34%;
+      }
+
+      .weather-cluster.c3 {
+        left: 64%;
+      }
+
+      .rain-drop {
+        position: absolute;
+        top: var(--start-y, -14%);
+        left: var(--x, 50%);
+        width: var(--w, 2px);
+        height: var(--h, 22px);
+        border-radius: 999px;
+        background: linear-gradient(
+          to bottom,
+          rgba(224, 241, 255, 0),
+          rgba(224, 241, 255, 0.85) 35%,
+          rgba(168, 214, 255, 0.9) 100%
+        );
+        filter: blur(0.2px);
+        opacity: var(--opacity, 0.7);
+        mix-blend-mode: screen;
+        animation: rain-drop-fall var(--duration, 1.1s) linear infinite;
+        animation-delay: var(--delay, 0s);
+      }
+
+      .snow-flake {
+        position: absolute;
+        top: -12%;
+        left: var(--x, 50%);
+        width: var(--size, 4px);
+        height: var(--size, 4px);
+        background: transparent;
+        opacity: var(--opacity, 0.9);
+        animation: snow-flake-fall var(--duration, 7s) linear infinite;
+        animation-delay: var(--delay, 0s);
+        z-index: 5;
+      }
+
+      .hail-stone {
+        position: absolute;
+        top: -14%;
+        left: var(--x, 50%);
+        width: var(--size, 4.6px);
+        height: var(--size, 4.6px);
+        border-radius: 999px;
+        background: radial-gradient(
+          circle at 28% 28%,
+          rgba(248, 253, 255, 1),
+          rgba(199, 224, 246, 0.95) 70%,
+          rgba(136, 174, 209, 0.92) 100%
+        );
+        box-shadow:
+          inset -1px -1px 1px rgba(97, 137, 177, 0.52),
+          0 0 6px rgba(228, 241, 255, 0.6);
+        opacity: var(--opacity, 0.84);
+        animation: hail-stone-fall var(--duration, 0.7s) linear infinite;
+        animation-delay: var(--delay, 0s);
+        z-index: 5;
+      }
+
+      .img-photo.mood-cloudy .hail-stone {
+        filter: contrast(1.08) brightness(1.06);
+      }
+
+      .rain-drizzle {
+        position: absolute;
+        top: var(--start-y, -12%);
+        left: var(--x, 50%);
+        width: var(--w, 1.1px);
+        height: var(--h, 11px);
+        border-radius: 999px;
+        background: linear-gradient(
+          to bottom,
+          rgba(234, 245, 255, 0),
+          rgba(234, 245, 255, 0.55) 40%,
+          rgba(182, 216, 246, 0.7) 100%
+        );
+        filter: blur(0.3px);
+        opacity: var(--opacity, 0.4);
+        mix-blend-mode: screen;
+        animation: rain-drop-fall var(--duration, 1.45s) linear infinite;
+        animation-delay: var(--delay, 0s);
+        z-index: 4;
+      }
+
+      .snow-flake::before,
+      .snow-flake::after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background: linear-gradient(
+          to bottom,
+          rgba(255, 255, 255, 0.98),
+          rgba(222, 240, 255, 0.96)
+        );
+        border-radius: 999px;
+      }
+
+      .snow-flake::before {
+        width: max(1px, calc(var(--size, 4px) * 0.22));
+        height: var(--size, 4px);
+        box-shadow:
+          0 0 6px rgba(255, 255, 255, 0.8),
+          0 0 2px rgba(210, 233, 255, 0.9);
+      }
+
+      .snow-flake::after {
+        width: var(--size, 4px);
+        height: max(1px, calc(var(--size, 4px) * 0.22));
+      }
+
+      .snow-flake i,
+      .snow-flake b {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: max(1px, calc(var(--size, 4px) * 0.18));
+        height: calc(var(--size, 4px) * 0.86);
+        border-radius: 999px;
+        background: linear-gradient(
+          to bottom,
+          rgba(255, 255, 255, 0.92),
+          rgba(216, 236, 255, 0.88)
+        );
+        transform-origin: center;
+      }
+
+      .snow-flake i {
+        transform: translate(-50%, -50%) rotate(45deg);
+      }
+
+      .snow-flake b {
+        transform: translate(-50%, -50%) rotate(-45deg);
+      }
+
+      .photo-sun-rays {
+        background: conic-gradient(
+          from 20deg at 76% 20%,
+          rgba(255, 249, 189, 0.28) 0deg,
+          rgba(255, 249, 189, 0) 35deg,
+          rgba(255, 246, 177, 0.24) 52deg,
+          rgba(255, 246, 177, 0) 90deg,
+          rgba(255, 247, 181, 0.28) 116deg,
+          rgba(255, 247, 181, 0) 160deg,
+          rgba(255, 249, 189, 0.22) 198deg,
+          rgba(255, 249, 189, 0) 240deg,
+          rgba(255, 250, 200, 0.26) 280deg,
+          rgba(255, 250, 200, 0) 320deg,
+          rgba(255, 249, 189, 0.28) 360deg
+        );
+        mix-blend-mode: screen;
+        opacity: 0;
+        animation: sun-ray-sweep 18s linear infinite;
+        z-index: 2;
+      }
+
+      .photo-night-stars {
+        background-image:
+          radial-gradient(circle at 8% 18%, rgba(255, 247, 201, 0.95) 0 1.2px, transparent 1.9px),
+          radial-gradient(circle at 16% 34%, rgba(235, 242, 255, 0.95) 0 1px, transparent 1.7px),
+          radial-gradient(circle at 24% 12%, rgba(255, 247, 201, 0.88) 0 1.4px, transparent 2.1px),
+          radial-gradient(circle at 34% 28%, rgba(235, 242, 255, 0.92) 0 1.1px, transparent 1.8px),
+          radial-gradient(circle at 42% 16%, rgba(255, 247, 201, 0.9) 0 1.3px, transparent 2px),
+          radial-gradient(circle at 56% 24%, rgba(235, 242, 255, 0.95) 0 1px, transparent 1.8px),
+          radial-gradient(circle at 68% 10%, rgba(255, 247, 201, 0.9) 0 1.5px, transparent 2.2px),
+          radial-gradient(circle at 78% 22%, rgba(235, 242, 255, 0.9) 0 1.1px, transparent 1.8px),
+          radial-gradient(circle at 88% 14%, rgba(255, 247, 201, 0.9) 0 1.3px, transparent 2px);
+        opacity: 0;
+        filter: drop-shadow(0 0 4px rgba(255, 244, 180, 0.22));
+        animation: night-stars-twinkle 5.8s ease-in-out infinite alternate;
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      .img-photo.clear-night .photo-night-stars {
+        opacity: 0.92;
+      }
+
+      .photo-wind-streaks {
+        background-image:
+          linear-gradient(
+            112deg,
+            rgba(225, 239, 255, 0) 0%,
+            rgba(225, 239, 255, 0.18) 26%,
+            rgba(225, 239, 255, 0.34) 38%,
+            rgba(225, 239, 255, 0) 54%
+          ),
+          linear-gradient(
+            112deg,
+            rgba(213, 233, 255, 0) 18%,
+            rgba(213, 233, 255, 0.2) 34%,
+            rgba(213, 233, 255, 0.3) 48%,
+            rgba(213, 233, 255, 0) 64%
+          );
+        background-size:
+          220% 100%,
+          200% 100%;
+        background-position:
+          0% 20%,
+          -36% 62%;
+        opacity: 0;
+        animation: wind-streak-sweep 2.6s linear infinite;
+        z-index: 4;
+        pointer-events: none;
+        inset: 0 0 auto 0;
+        height: 68%;
+        -webkit-mask-image: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0.95) 0%,
+          rgba(0, 0, 0, 0.82) 58%,
+          rgba(0, 0, 0, 0) 100%
+        );
+        mask-image: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0.95) 0%,
+          rgba(0, 0, 0, 0.82) 58%,
+          rgba(0, 0, 0, 0) 100%
+        );
+        mix-blend-mode: screen;
+      }
+
+      .photo-lightning {
+        background: radial-gradient(
+          circle at var(--flash-x, 52%) var(--flash-y, 26%),
+          rgba(255, 246, 169, 0.95),
+          rgba(255, 246, 169, 0) 52%
+        );
+        opacity: 0;
+        mix-blend-mode: screen;
+        animation: lightning-flash var(--flash-duration, 7s) infinite;
+        animation-delay: var(--delay, 0s);
+        z-index: 6;
+      }
+
+      .photo-lightning-bolt {
+        position: absolute;
+        top: var(--bolt-top, 8%);
+        left: var(--bolt-left, 54%);
+        width: var(--bolt-width, 6px);
+        height: var(--bolt-height, 40%);
+        background: linear-gradient(
+          to bottom,
+          rgba(255, 255, 255, 0),
+          rgba(255, 255, 255, 0.9) 22%,
+          rgba(255, 241, 168, 0.95) 100%
+        );
+        clip-path: polygon(48% 0, 70% 0, 44% 36%, 68% 36%, 30% 100%, 44% 56%, 24% 56%);
+        filter: drop-shadow(0 0 8px rgba(255, 248, 190, 0.9));
+        opacity: 0;
+        transform: rotate(var(--bolt-rotate, 0deg));
+        animation: lightning-bolt var(--flash-duration, 7s) infinite;
+        animation-delay: var(--delay, 0s);
+        z-index: 7;
+      }
+
+      .photo-cloud-shadow {
+        background:
+          radial-gradient(ellipse at 22% 42%, rgba(42, 66, 94, 0.2), rgba(42, 66, 94, 0) 48%),
+          radial-gradient(ellipse at 58% 40%, rgba(45, 70, 99, 0.16), rgba(45, 70, 99, 0) 46%),
+          radial-gradient(ellipse at 85% 44%, rgba(42, 67, 96, 0.2), rgba(42, 67, 96, 0) 49%);
+        animation: cloud-shadow-drift 20s ease-in-out infinite alternate;
+        opacity: 0.36;
+        mix-blend-mode: soft-light;
+      }
+
+      .photo-vignette {
+        background: radial-gradient(
+          circle at center,
+          rgba(0, 0, 0, 0) 52%,
+          rgba(0, 0, 0, 0.33) 100%
+        );
+        z-index: 3;
+      }
+
+      .photo-grain {
+        background-image: radial-gradient(rgba(255, 255, 255, 0.2) 0.6px, transparent 0.8px);
+        background-size: 3px 3px;
+        opacity: 0.1;
+        mix-blend-mode: soft-light;
+        animation: grain-shift 0.25s steps(2, end) infinite;
+        z-index: 8;
+      }
+
+      @keyframes bg-pan {
+        0% {
+          transform: scale(1.02) translate3d(0, 0, 0);
+        }
+        100% {
+          transform: scale(1.07) translate3d(-1.5%, -1.2%, 0);
+        }
+      }
+
+      @keyframes cloud-drift {
+        0% {
+          transform: translate3d(-2%, 0, 0) scale(1.02);
+        }
+        100% {
+          transform: translate3d(2%, -1%, 0) scale(1.06);
+        }
+      }
+
+      @keyframes cloud-drift-depth {
+        0% {
+          transform: translate3d(2%, 1%, 0) scale(1.04);
+        }
+        100% {
+          transform: translate3d(-3%, -1%, 0) scale(1.08);
+        }
+      }
+
+      @keyframes cloud-drift-front {
+        0% {
+          transform: translate3d(-3%, 1%, 0) scale(1.03);
+        }
+        100% {
+          transform: translate3d(4%, -1%, 0) scale(1.08);
+        }
+      }
+
+      @keyframes cloud-shadow-drift {
+        0% {
+          transform: translate3d(-2%, 1%, 0) scale(1.01);
+        }
+        100% {
+          transform: translate3d(2%, -1%, 0) scale(1.06);
+        }
+      }
+
+      @keyframes rain-fall {
+        0% {
+          transform: translateY(-14px);
+        }
+        100% {
+          transform: translateY(14px);
+        }
+      }
+
+      @keyframes rain-drop-fall {
+        0% {
+          transform: translate3d(0, -12%, 0) rotate(10deg);
+        }
+        100% {
+          transform: translate3d(var(--drift, 6px), 132%, 0) rotate(10deg);
+        }
+      }
+
+      @keyframes hail-stone-fall {
+        0% {
+          transform: translate3d(0, -10%, 0) scale(0.95);
+        }
+        82% {
+          transform: translate3d(var(--drift, 4px), 126%, 0) scale(1);
+        }
+        100% {
+          transform: translate3d(calc(var(--drift, 4px) * 1.15), 138%, 0) scale(0.92);
+        }
+      }
+
+      @keyframes snow-flake-fall {
+        0% {
+          top: -12%;
+          transform: translate3d(0, 0, 0) rotate(0deg);
+        }
+        35% {
+          transform: translate3d(var(--drift, 10px), 0, 0) rotate(120deg);
+        }
+        70% {
+          transform: translate3d(var(--drift-back, -10px), 0, 0) rotate(220deg);
+        }
+        100% {
+          top: 112%;
+          transform: translate3d(0, 0, 0) rotate(360deg);
+        }
+      }
+
+      @keyframes sun-ray-sweep {
+        0% {
+          transform: rotate(0deg) scale(1);
+          opacity: 0.55;
+        }
+        50% {
+          transform: rotate(8deg) scale(1.04);
+          opacity: 0.9;
+        }
+        100% {
+          transform: rotate(16deg) scale(1);
+          opacity: 0.58;
+        }
+      }
+
+      @keyframes wind-streak-sweep {
+        0% {
+          background-position:
+            0% 20%,
+            -36% 62%;
+          opacity: 0.55;
+        }
+        50% {
+          background-position:
+            76% 24%,
+            46% 66%;
+          opacity: 0.95;
+        }
+        100% {
+          background-position:
+            156% 28%,
+            128% 70%;
+          opacity: 0.45;
+        }
+      }
+
+      @keyframes wind-streak-sweep-strong {
+        0% {
+          background-position:
+            -46% 24%,
+            -86% 68%;
+          opacity: 0.66;
+        }
+        50% {
+          background-position:
+            72% 20%,
+            38% 66%;
+          opacity: 0.98;
+        }
+        100% {
+          background-position:
+            188% 16%,
+            152% 62%;
+          opacity: 0.62;
+        }
+      }
+
+      @keyframes fog-drift {
+        0% {
+          transform: translate3d(-1.2%, 0.4%, 0) scale(1.01);
+        }
+        100% {
+          transform: translate3d(1.8%, -0.6%, 0) scale(1.04);
+        }
+      }
+
+      @keyframes lightning-bolt {
+        0%,
+        83%,
+        100% {
+          opacity: 0;
+        }
+        84% {
+          opacity: 1;
+        }
+        85% {
+          opacity: 0;
+        }
+        86% {
+          opacity: 0.85;
+        }
+        87% {
+          opacity: 0;
+        }
+      }
+
+      @keyframes lightning-flash {
+        0%,
+        83%,
+        100% {
+          opacity: 0;
+        }
+        84% {
+          opacity: 0.92;
+        }
+        85% {
+          opacity: 0;
+        }
+        86% {
+          opacity: 0.72;
+        }
+        87% {
+          opacity: 0;
+        }
+      }
+
+      @keyframes night-stars-twinkle {
+        0% {
+          opacity: 0.72;
+          transform: translate3d(0, 0, 0) scale(1);
+        }
+        50% {
+          opacity: 1;
+          transform: translate3d(0.4%, -0.3%, 0) scale(1.01);
+        }
+        100% {
+          opacity: 0.82;
+          transform: translate3d(-0.4%, 0.2%, 0) scale(1.02);
+        }
+      }
+
+      @keyframes grain-shift {
+        0% {
+          transform: translate(0, 0);
+        }
+        100% {
+          transform: translate(1px, 1px);
+        }
+      }
       .condition {
         position: absolute;
         top: calc(var(--bg-temp-font-size, 36px) + 16px);
@@ -6228,9 +7336,11 @@ var zi = class extends T {
         top: calc(var(--bg-temp-font-size, 36px) * 2 + 16px);
         left: 16px;
         font-size: 14px;
+        color: var(--primary-text-color, #fff);
         max-width: calc(100% - 32px); /* honor left/right margins */
         display: flex;
         flex-direction: row;
+        gap: 10px;
       }
       .sun-times {
         position: absolute;
@@ -6241,14 +7351,15 @@ var zi = class extends T {
         align-items: center;
         color: var(--primary-text-color, #fff);
         font-size: 14px;
-        z-index: 3; /* above forecast tiles */
+        z-index: 12; /* above photo overlays */
       }
       .forecast-mini {
         position: absolute;
         bottom: 16px; /* align vertically with bottom spacing */
         right: 16px; /* align to the right edge */
-        z-index: 2; /* below sun-times but above background */
+        z-index: 12; /* keep charts above photo overlays */
         max-width: calc(100% - 32px); /* honor left/right margins */
+        isolation: isolate;
       }
       @media (max-width: 400px) {
         .forecast-mini {
@@ -6259,8 +7370,10 @@ var zi = class extends T {
       }
       .temp-high {
         font-weight: bold;
+        color: var(--primary-text-color, #fff);
       }
       .temp-low {
+        color: var(--primary-text-color, #fff);
       }
       @media (max-width: 400px) {
         .temperature {
@@ -6321,57 +7434,57 @@ var zi = class extends T {
 		}
 	}
 	render() {
-		if (I((this.hass.selectedLanguage || this.hass.language || "en").substring(0, 2)), !this.hass || !this.config) return S``;
+		if (I((this.hass.selectedLanguage || this.hass.language || "en").substring(0, 2)), !this.hass || !this.config) return w``;
 		let e = this.config?.grid_options?.rows ?? 3;
 		this.style.setProperty("--card-grid-rows", e.toString());
-		let t = li(this.hass, this.config.entity), n = t.attributes.temperature, r = t.state, i = this.clientWidth || 300, a = e * 64 - 8, o = this.config?.temperature_font_size, s = typeof o == "number" && o > 0 ? `${o}px` : "36px";
-		this.style.setProperty("--bg-temp-font-size", s), this.style.setProperty("--bg-temp-img-top", `calc(${s})`);
-		let c = this._forecast && this._forecast.length > 0 ? this._forecast[0] : t.attributes.forecast ? t.attributes.forecast[0] : null, l = this.config.sun_entity, u = l ? this.hass.states[l] : void 0, d = u?.attributes?.next_rising ? new Date(u.attributes.next_rising) : void 0, ee = u?.attributes?.next_setting ? new Date(u.attributes.next_setting) : void 0, f = (this.hass.selectedLanguage || this.hass.language || "en").replace("_", "-"), p = (e) => e ? e.toLocaleTimeString(f, {
+		let t = li(this.hass, this.config.entity), n = t.attributes.temperature, r = t.state, i = ui(this.hass, this.config), a = this.clientWidth || 300, o = e * 64 - 8, s = this.config?.temperature_font_size, c = typeof s == "number" && s > 0 ? `${s}px` : "36px";
+		this.style.setProperty("--bg-temp-font-size", c), this.style.setProperty("--bg-temp-img-top", `calc(${c})`);
+		let l = this._forecast && this._forecast.length > 0 ? this._forecast[0] : t.attributes.forecast ? t.attributes.forecast[0] : null, u = this.config.sun_entity, d = u ? this.hass.states[u] : void 0, f = d?.attributes?.next_rising ? new Date(d.attributes.next_rising) : void 0, p = d?.attributes?.next_setting ? new Date(d.attributes.next_setting) : void 0, m = (this.hass.selectedLanguage || this.hass.language || "en").replace("_", "-"), h = (e) => e ? e.toLocaleTimeString(m, {
 			hour: "2-digit",
 			minute: "2-digit"
 		}) : "--:--";
-		return S`
+		return w`
       <div>
         <div class="temperature">
           ${typeof n == "number" && !isNaN(n) ? n : "--"}°
         </div>
-        ${r ? S`<div class="img-svg">
-                <svg
-                  viewBox="0 0 ${i} ${a}"
-                  width="100%"
-                  xmlns="http://www.w3.org/2000/svg"
-                  xmlns:xlink="http://www.w3.org/1999/xlink"
-                  preserveAspectRatio="xMidYMid slice"
-                >
-                  ${i > 0 ? yi(r, ui(this.hass, this.config), i) : C``}
-                </svg>
-              </div>
-              ${c && this.config.show_day_temps !== !1 ? S`
+        ${r ? w`${this.config.photo_mode === !0 ? this._renderPhotoLikeBackground(r, i) : w`<div class="img-svg">
+                    <svg
+                      viewBox="0 0 ${a} ${o}"
+                      width="100%"
+                      xmlns="http://www.w3.org/2000/svg"
+                      xmlns:xlink="http://www.w3.org/1999/xlink"
+                      preserveAspectRatio="xMidYMid slice"
+                    >
+                      ${a > 0 ? yi(r, i, a) : T``}
+                    </svg>
+                  </div>`}
+              ${l && this.config.show_day_temps !== !1 ? w`
                     <div class="forecast-temps">
                       <span class="temp-high">
-                        <ha-icon icon="mdi:arrow-up-bold"></ha-icon> ${Math.round(c.temperature)}°
+                        <ha-icon icon="mdi:arrow-up-bold"></ha-icon> ${Math.round(l.temperature)}°
                       </span>
                       <span class="temp-low">
-                        <ha-icon icon="mdi:arrow-down-bold"></ha-icon> ${Math.round(c.templow || c.temperature - 5)}°
+                        <ha-icon icon="mdi:arrow-down-bold"></ha-icon> ${Math.round(l.templow || l.temperature - 5)}°
                       </span>
                     </div>
                   ` : ""}
-              ${l && this.config.show_sun_times !== !1 ? S`
+              ${u && this.config.show_sun_times !== !1 && r !== "clear-night" ? w`
                     <div class="sun-times">
                       <span title="${B("sunrise")}">
-                        <ha-icon icon="mdi:weather-sunset-up"></ha-icon> ${p(d)}
+                        <ha-icon icon="mdi:weather-sunset-up"></ha-icon> ${h(f)}
                       </span>
                       <span title="${B("sunset")}">
-                        <ha-icon icon="mdi:weather-sunset-down"></ha-icon> ${p(ee)}
+                        <ha-icon icon="mdi:weather-sunset-down"></ha-icon> ${h(p)}
                       </span>
                     </div>
                   ` : ""}
-              ${(this.config.forecast_mode || "daily") === "daily" && this._forecast.length > 0 ? S`
+              ${(this.config.forecast_mode || "daily") === "daily" && this._forecast.length > 0 ? w`
                     <div class="forecast-mini">
                       <daily-forecast-chart
                         .forecast=${this._forecast?.slice(0, 7) ?? []}
                         .forecastLoading=${this._forecastLoading}
-                        .show_forecast=${this.config.show_forecast !== !1}
+                        .show_forecast=${!0}
                         .config=${{
 			...this.config,
 			enable_animate_weather_icons: !0
@@ -6385,13 +7498,13 @@ var zi = class extends T {
                         .formatDate=${sn}
                       ></daily-forecast-chart>
                     </div>
-                  ` : S``}
-              ${(this.config.forecast_mode || "daily") === "hourly" && this._hourly.length > 0 ? S`
+                  ` : w``}
+              ${(this.config.forecast_mode || "daily") === "hourly" && this._hourly.length > 0 ? w`
                     <div class="forecast-mini">
                       <hourly-forecast-chart
                         .hourlyForecast=${this._hourly}
                         .forecastLoading=${this._hourlyLoading}
-                        .show_forecast=${this.config.show_forecast !== !1}
+                        .show_forecast=${!0}
                         .config=${{
 			...this.config,
 			enable_animate_weather_icons: !0
@@ -6403,10 +7516,193 @@ var zi = class extends T {
                         .getWeatherIcon=${ci}
                       ></hourly-forecast-chart>
                     </div>
-                  ` : S``}
-              <div class="condition">${B(r)}</div> ` : S``}
+                  ` : w``}
+              <div class="condition">${B(r)}</div> ` : w``}
       </div>
     `;
+	}
+	_resolvePhotoMood(e) {
+		return [
+			"rainy",
+			"pouring",
+			"lightning",
+			"lightning-rainy",
+			"snowy-rainy",
+			"exceptional"
+		].includes(e) ? "rainy" : [
+			"cloudy",
+			"fog",
+			"windy",
+			"windy-variant",
+			"snowy",
+			"hail"
+		].includes(e) ? "cloudy" : "sunny";
+	}
+	_renderPhotoLikeBackground(e, t) {
+		let n = this._resolvePhotoMood(e), r = e === "clear-night", i = e === "fog", a = e === "partlycloudy", o = r || !t, s = e === "windy" || e === "windy-variant", c = t && (e === "sunny" || e === "partlycloudy"), l = n === "rainy" || e === "snowy-rainy" || e === "rainy" || e === "pouring", u = e === "snowy" || e === "snowy-rainy", d = e === "hail", f = e === "lightning" || e === "lightning-rainy", p = e === "snowy-rainy";
+		return w`
+      <div
+        class="img-photo mood-${n} ${o ? "night" : "day"} ${r ? "clear-night" : ""} ${i ? "foggy" : ""} ${a ? "partly-cloudy" : ""} ${s ? "windy" : ""} ${c ? "sun-bloom" : ""}"
+      >
+        <div class="photo-layer photo-base"></div>
+        <div class="photo-layer photo-circadian"></div>
+        <div class="photo-layer photo-sun-rays"></div>
+        ${r ? w`<div class="photo-layer photo-night-stars"></div>` : w``}
+        <div class="photo-layer photo-clouds"></div>
+        <div class="photo-layer photo-clouds-front"></div>
+        <div class="photo-layer photo-clouds-depth"></div>
+        <div class="photo-layer photo-fog"></div>
+        <div class="photo-layer photo-wind-streaks"></div>
+        <div class="photo-layer photo-cloud-shadow"></div>
+        ${l || u || d ? w`<div class="photo-layer weather-particles">
+              ${p ? w`${[
+			"c1",
+			"c2",
+			"c3"
+		].map((e) => w`<div class="weather-cluster ${e}">
+                        ${l ? this._renderRainParticles(6, !0) : w``}
+                        ${u ? this._renderSnowParticles(10, !0) : w``}
+                      </div>`)}` : w`${e === "pouring" ? this._renderRainParticles(68, !1, !0) : w``}
+                  ${e === "pouring" ? this._renderDrizzleParticles(28, !1, !0) : w``}
+                  ${e === "rainy" ? this._renderRainParticles(66, !1, !0) : w``}
+                  ${e === "rainy" ? this._renderDrizzleParticles(22, !1, !0) : w``}
+                  ${e === "lightning-rainy" ? this._renderRainParticles(54, !1) : w``}
+                  ${e === "lightning-rainy" ? this._renderDrizzleParticles(18, !1) : w``}
+                  ${l && e !== "pouring" && e !== "rainy" && e !== "lightning-rainy" ? this._renderRainParticles(28, !1) : w``}
+                  ${u ? this._renderSnowParticles(36, !1) : w``}
+                  ${d ? this._renderHailParticles(58, !1) : w``}`}
+            </div>` : w``}
+        ${f ? w`${this._renderLightningFlashes()} ${this._renderLightningBolts()}` : w``}
+        <div class="photo-layer photo-vignette"></div>
+        <div class="photo-layer photo-grain"></div>
+      </div>
+    `;
+	}
+	_renderRainParticles(e, t, n = !1) {
+		return Array.from({ length: e }, (e, r) => {
+			let i = t ? 14 : 4, a = t ? 72 : 96, o = i + (r * 31 + 17) % 100 / 100 * a, s = (t ? .95 : .9 + r % 5 * .14).toFixed(2), c = (-1 * (r % 7 * .23)).toFixed(2), l = (t ? 15 : 14) + r % 4 * 5, u = (.46 + r % 4 * .11).toFixed(2), d = (r % 2 == 0 ? 5 : -5) + (r % 3 - 1) * 1.7, f = r % 3 == 0 ? 1.6 : 2.1, p = n ? `${(-8 + (r * 19 + 13) % 100).toFixed(1)}%` : "-14%";
+			return w`<span
+        class="rain-drop"
+        style="--x:${o.toFixed(2)}%; --start-y:${p}; --duration:${s}s; --delay:${c}s; --h:${l}px; --opacity:${u}; --drift:${d.toFixed(1)}px; --w:${f}px;"
+      ></span>`;
+		});
+	}
+	_renderSnowParticles(e, t) {
+		return Array.from({ length: e }, (e, n) => {
+			let r = t ? 12 : 2, i = t ? 76 : 98, a = r + (n * 29 + 7) % 100 / 100 * i, o = (t ? 6.1 : 5.6 + n % 5 * 1.1).toFixed(2), s = (-1 * (n % 9 * .7)).toFixed(2), c = (t ? 2.8 : 2.4 + n % 4 * 1.1).toFixed(1), l = (.52 + n % 4 * .11).toFixed(2), u = (n % 2 == 0 ? 13 : -13) + (n % 3 - 1) * 2.6, d = -u * .7;
+			return w`<span
+        class="snow-flake"
+        style="--x:${a.toFixed(2)}%; --duration:${o}s; --delay:${s}s; --size:${c}px; --opacity:${l}; --drift:${u}px; --drift-back:${d.toFixed(1)}px;"
+        ><i></i><b></b
+      ></span>`;
+		});
+	}
+	_renderDrizzleParticles(e, t, n = !1) {
+		return Array.from({ length: e }, (e, r) => {
+			let i = t ? 12 : 2, a = t ? 76 : 98, o = i + (r * 17 + 11) % 100 / 100 * a, s = (t ? 1.25 : 1.3 + r % 4 * .14).toFixed(2), c = (-1 * (r % 8 * .17)).toFixed(2), l = (t ? 8 : 7) + r % 3 * 2, u = (.22 + r % 4 * .07).toFixed(2), d = (r % 2 == 0 ? 2.5 : -2.5) + (r % 3 - 1) * 1.1, f = r % 2 == 0 ? 1 : 1.2, p = n ? `${(-8 + (r * 23 + 5) % 100).toFixed(1)}%` : "-12%";
+			return w`<span
+        class="rain-drizzle"
+        style="--x:${o.toFixed(2)}%; --start-y:${p}; --duration:${s}s; --delay:${c}s; --h:${l}px; --opacity:${u}; --drift:${d.toFixed(1)}px; --w:${f}px;"
+      ></span>`;
+		});
+	}
+	_renderHailParticles(e, t) {
+		return Array.from({ length: e }, (e, n) => {
+			let r = t ? 14 : 4, i = t ? 72 : 96, a = r + (n * 31 + 17) % 100 / 100 * i, o = (t ? .73 : .62 + n % 5 * .075).toFixed(2), s = (-1 * (n % 7 * .19)).toFixed(2), c = (.72 + n % 4 * .09).toFixed(2), l = (n % 2 == 0 ? 3.4 : -3.4) + (n % 3 - 1) * 1.3, u = n % 2 == 0 ? 4.3 : 5.1;
+			return w`<span
+        class="hail-stone"
+        style="--x:${a.toFixed(2)}%; --duration:${o}s; --delay:${s}s; --opacity:${c}; --drift:${l.toFixed(1)}px; --size:${u}px;"
+      ></span>`;
+		});
+	}
+	_renderLightningFlashes() {
+		return [
+			{
+				x: 12,
+				y: 24,
+				delay: "-0.2s",
+				duration: "6.8s"
+			},
+			{
+				x: 28,
+				y: 18,
+				delay: "-1.1s",
+				duration: "7.1s"
+			},
+			{
+				x: 50,
+				y: 26,
+				delay: "-2.4s",
+				duration: "6.6s"
+			},
+			{
+				x: 72,
+				y: 20,
+				delay: "-3.2s",
+				duration: "7.0s"
+			},
+			{
+				x: 88,
+				y: 28,
+				delay: "-4.3s",
+				duration: "6.9s"
+			}
+		].map((e) => w`<div
+          class="photo-layer photo-lightning"
+          style="--flash-x:${e.x}%; --flash-y:${e.y}%; --delay:${e.delay}; --flash-duration:${e.duration};"
+        ></div>`);
+	}
+	_renderLightningBolts() {
+		return [
+			{
+				left: 11,
+				top: 10,
+				height: 34,
+				width: 7,
+				rotate: "-6deg",
+				delay: "-0.2s",
+				duration: "6.8s"
+			},
+			{
+				left: 27,
+				top: 6,
+				height: 42,
+				width: 8,
+				rotate: "5deg",
+				delay: "-1.1s",
+				duration: "7.1s"
+			},
+			{
+				left: 49,
+				top: 9,
+				height: 38,
+				width: 7,
+				rotate: "-2deg",
+				delay: "-2.4s",
+				duration: "6.6s"
+			},
+			{
+				left: 70,
+				top: 7,
+				height: 44,
+				width: 8,
+				rotate: "4deg",
+				delay: "-3.2s",
+				duration: "7.0s"
+			},
+			{
+				left: 86,
+				top: 12,
+				height: 32,
+				width: 6,
+				rotate: "-8deg",
+				delay: "-4.3s",
+				duration: "6.9s"
+			}
+		].map((e) => w`<div
+          class="photo-layer photo-lightning-bolt"
+          style="--bolt-left:${e.left}%; --bolt-top:${e.top}%; --bolt-height:${e.height}%; --bolt-width:${e.width}px; --bolt-rotate:${e.rotate}; --delay:${e.delay}; --flash-duration:${e.duration};"
+        ></div>`);
 	}
 	async _loadDailyForecast() {
 		if (!(!this.hass || !this.config?.entity || this._forecastLoading)) {
@@ -6455,8 +7751,8 @@ var zi = class extends T {
 };
 //#endregion
 //#region src/cards/animated-background/swissweather-bg-card-editor.ts
-A([D({ attribute: !1 }), k("design:type", Object)], zi.prototype, "hass", void 0), A([D({ attribute: !1 }), k("design:type", Object)], zi.prototype, "config", void 0), A([Ge(".temperature"), k("design:type", typeof (Ri = typeof HTMLElement < "u" && HTMLElement) == "function" ? Ri : Object)], zi.prototype, "_tempEl", void 0), A([O(), k("design:type", Array)], zi.prototype, "_forecast", void 0), A([O(), k("design:type", Array)], zi.prototype, "_hourly", void 0), zi = A([E(Fi)], zi), console.log("✅ SwissWeatherCard (animated Background) fully loaded and registered"), F({ loader: (e) => V[e] });
-var Bi = class extends T {
+M([k({ attribute: !1 }), j("design:type", Object)], zi.prototype, "hass", void 0), M([k({ attribute: !1 }), j("design:type", Object)], zi.prototype, "config", void 0), M([Ue(".temperature"), j("design:type", typeof (Ri = typeof HTMLElement < "u" && HTMLElement) == "function" ? Ri : Object)], zi.prototype, "_tempEl", void 0), M([A(), j("design:type", Array)], zi.prototype, "_forecast", void 0), M([A(), j("design:type", Array)], zi.prototype, "_hourly", void 0), zi = M([O(Fi)], zi), console.log("✅ SwissWeatherCard (animated Background) fully loaded and registered"), F({ loader: (e) => V[e] });
+var Bi = class extends D {
 	hass;
 	lovelace;
 	_config;
@@ -6603,18 +7899,40 @@ var Bi = class extends T {
     `;
 	}
 	render() {
-		if (!this.hass) return S`<div>Loading...</div>`;
+		if (!this.hass) return w`<div>Loading...</div>`;
 		I((this.hass.selectedLanguage || this.hass.language || "en").substring(0, 2));
 		let e = {
 			entity: typeof this._config?.entity == "string" ? this._config.entity : void 0,
 			sun_entity: typeof this._config?.sun_entity == "string" ? this._config.sun_entity : void 0,
-			show_forecast: typeof this._config?.show_forecast == "boolean" ? this._config.show_forecast : void 0,
 			forecast_mode: typeof this._config?.forecast_mode == "string" ? this._config.forecast_mode : void 0,
 			show_sun_times: typeof this._config?.show_sun_times == "boolean" ? this._config.show_sun_times : void 0,
 			show_day_temps: typeof this._config?.show_day_temps == "boolean" ? this._config.show_day_temps : void 0,
-			temperature_font_size: typeof this._config?.temperature_font_size == "number" ? this._config.temperature_font_size : void 0
-		};
-		return S`
+			temperature_font_size: typeof this._config?.temperature_font_size == "number" ? this._config.temperature_font_size : void 0,
+			photo_mode: typeof this._config?.photo_mode == "boolean" ? this._config.photo_mode : void 0
+		}, t = Li.find((e) => e.name === "forecast_mode"), n = t ? {
+			...t,
+			selector: {
+				...t.selector,
+				select: {
+					...t.selector.select,
+					options: [
+						{
+							value: "daily",
+							label: L("forecast_mode.daily")
+						},
+						{
+							value: "hourly",
+							label: L("forecast_mode.hourly")
+						},
+						{
+							value: "none",
+							label: L("forecast_mode.none")
+						}
+					]
+				}
+			}
+		} : void 0;
+		return w`
       <div class="card-config">
         <div class="header">
           <div>
@@ -6646,10 +7964,10 @@ var Bi = class extends T {
             .hass=${this.hass}
             .data=${e}
             .schema=${[
-			Li.find((e) => e.name === "forecast_mode"),
-			Li.find((e) => e.name === "show_forecast"),
+			n,
 			Li.find((e) => e.name === "show_day_temps"),
-			Li.find((e) => e.name === "show_sun_times")
+			Li.find((e) => e.name === "show_sun_times"),
+			Li.find((e) => e.name === "photo_mode")
 		].filter(Boolean)}
             .computeLabel=${this._computeLabel}
             .computeHelper=${this._computeHelper}
@@ -6658,7 +7976,7 @@ var Bi = class extends T {
         </div>
 
         <!-- Configuration Preview -->
-        ${this._config?.entity ? S`
+        ${this._config?.entity ? w`
               <div class="preview">
                 <div class="preview-title">📋 YAML-Config</div>
                 <div class="preview-config">${this._renderConfigPreview()}</div>
@@ -6670,11 +7988,11 @@ var Bi = class extends T {
 	_computeLabel = (e) => ({
 		entity: L("config.entity"),
 		sun_entity: L("config.sun_entity"),
-		show_forecast: L("config.show_forecast"),
 		forecast_mode: L("config.forecast_mode"),
 		show_day_temps: L("config.show_day_temps"),
 		show_sun_times: L("config.show_sun_times"),
-		temperature_font_size: L("config.temperature_font_size")
+		temperature_font_size: L("config.temperature_font_size"),
+		photo_mode: L("config.photo_mode")
 	})[e.name] || e.name;
 	_computeHelper = (e) => e.description ? L(e.description) : "";
 	_renderConfigPreview() {
@@ -6694,13 +8012,13 @@ var Bi = class extends T {
 				...t,
 				type: `custom:${Fi}`
 			};
-			Object.keys(r).forEach((e) => {
+			delete r.show_forecast, Object.keys(r).forEach((e) => {
 				(r[e] === "" || r[e] === void 0) && delete r[e];
 			}), this._config = r, en(this, "config-changed", { config: this._config });
 		}
 	}
 };
-A([D({ attribute: !1 }), k("design:type", Object)], Bi.prototype, "hass", void 0), A([D({ attribute: !1 }), k("design:type", Object)], Bi.prototype, "lovelace", void 0), A([D({ attribute: !1 }), k("design:type", Object)], Bi.prototype, "_config", void 0), Bi = A([E(Ii), k("design:paramtypes", [])], Bi);
+M([k({ attribute: !1 }), j("design:type", Object)], Bi.prototype, "hass", void 0), M([k({ attribute: !1 }), j("design:type", Object)], Bi.prototype, "lovelace", void 0), M([k({ attribute: !1 }), j("design:type", Object)], Bi.prototype, "_config", void 0), Bi = M([O(Ii), j("design:paramtypes", [])], Bi);
 //#endregion
 //#region src/cards/hourly-charts/const.ts
 var Vi = `${tn}-temperature-card`, Hi = `${Vi}-editor`, Ui = `${tn}-precipitation-card`, Wi = `${Ui}-editor`, Gi = `${tn}-sunshine-card`, Ki = `${Gi}-editor`, qi = `${tn}-wind-card`, Ji = `${qi}-editor`, Yi = [{
@@ -6763,7 +8081,7 @@ var Vi = `${tn}-temperature-card`, Hi = `${Vi}-editor`, Ui = `${tn}-precipitatio
 		selector: { entity: { domain: "sensor" } },
 		description: "config.descr.sunshine_entity"
 	}
-], Qi = class extends T {
+], Qi = class extends D {
 	hass;
 	config;
 	_hourlyForecast = [];
@@ -6810,7 +8128,7 @@ var Vi = `${tn}-temperature-card`, Hi = `${Vi}-editor`, Ui = `${tn}-precipitatio
 };
 //#endregion
 //#region src/cards/hourly-charts/temperature-card.ts
-A([D({ attribute: !1 }), k("design:type", Object)], Qi.prototype, "hass", void 0), A([D({ attribute: !1 }), k("design:type", Object)], Qi.prototype, "config", void 0), A([O(), k("design:type", Array)], Qi.prototype, "_hourlyForecast", void 0), A([O(), k("design:type", Object)], Qi.prototype, "_forecastLoading", void 0), F({ loader: (e) => V[e] });
+M([k({ attribute: !1 }), j("design:type", Object)], Qi.prototype, "hass", void 0), M([k({ attribute: !1 }), j("design:type", Object)], Qi.prototype, "config", void 0), M([A(), j("design:type", Array)], Qi.prototype, "_hourlyForecast", void 0), M([A(), j("design:type", Object)], Qi.prototype, "_forecastLoading", void 0), F({ loader: (e) => V[e] });
 var $i = class extends Qi {
 	static get styles() {
 		return s`
@@ -6882,11 +8200,11 @@ var $i = class extends Qi {
 		return 3;
 	}
 	render() {
-		if (!this.hass || !this.config) return S``;
-		if (this.setCardGridRows(), !li(this.hass, this.config.entity)) return S`<div class="card-content">Entity not found: ${this.config.entity}</div>`;
-		if (this._hourlyForecast.length === 0) return S`<div class="card-content">Loading...</div>`;
+		if (!this.hass || !this.config) return w``;
+		if (this.setCardGridRows(), !li(this.hass, this.config.entity)) return w`<div class="card-content">Entity not found: ${this.config.entity}</div>`;
+		if (this._hourlyForecast.length === 0) return w`<div class="card-content">Loading...</div>`;
 		let e = this.config.forecast_hours ?? 12;
-		return S`
+		return w`
       <div class="card-content">
         <forecast-temperature-chart
           .hourlyForecast=${this._hourlyForecast}
@@ -6900,8 +8218,8 @@ var $i = class extends Qi {
 };
 //#endregion
 //#region src/cards/hourly-charts/temperature-card-editor.ts
-$i = A([E(Vi)], $i), F({ loader: (e) => V[e] });
-var ea = class extends T {
+$i = M([O(Vi)], $i), F({ loader: (e) => V[e] });
+var ea = class extends D {
 	hass;
 	_config;
 	setConfig(e) {
@@ -6929,13 +8247,13 @@ var ea = class extends T {
     `;
 	}
 	render() {
-		if (!this.hass) return S`<div>Loading...</div>`;
+		if (!this.hass) return w`<div>Loading...</div>`;
 		I((this.hass.selectedLanguage || this.hass.language || "en").substring(0, 2));
 		let e = {
 			entity: typeof this._config?.entity == "string" ? this._config.entity : void 0,
 			forecast_hours: this._config?.forecast_hours ?? 12
 		};
-		return S`
+		return w`
       <div class="card-config">
         <div class="header">
           <div class="header-title">🌡️ SwissWeather Temperature Card</div>
@@ -6967,7 +8285,7 @@ var ea = class extends T {
 };
 //#endregion
 //#region src/cards/hourly-charts/precipitation-card.ts
-A([D({ attribute: !1 }), k("design:type", Object)], ea.prototype, "hass", void 0), A([D({ attribute: !1 }), k("design:type", Object)], ea.prototype, "_config", void 0), ea = A([E(Hi)], ea), F({ loader: (e) => V[e] });
+M([k({ attribute: !1 }), j("design:type", Object)], ea.prototype, "hass", void 0), M([k({ attribute: !1 }), j("design:type", Object)], ea.prototype, "_config", void 0), ea = M([O(Hi)], ea), F({ loader: (e) => V[e] });
 var ta = class extends Qi {
 	static get styles() {
 		return s`
@@ -7039,11 +8357,11 @@ var ta = class extends Qi {
 		return 3;
 	}
 	render() {
-		if (!this.hass || !this.config) return S``;
-		if (this.setCardGridRows(), !li(this.hass, this.config.entity)) return S`<div class="card-content">Entity not found: ${this.config.entity}</div>`;
-		if (this._hourlyForecast.length === 0) return S`<div class="card-content">Loading...</div>`;
+		if (!this.hass || !this.config) return w``;
+		if (this.setCardGridRows(), !li(this.hass, this.config.entity)) return w`<div class="card-content">Entity not found: ${this.config.entity}</div>`;
+		if (this._hourlyForecast.length === 0) return w`<div class="card-content">Loading...</div>`;
 		let e = this.config.forecast_hours ?? 12;
-		return S`
+		return w`
       <div class="card-content">
         <precipitation-chart
           .hourlyForecast=${this._hourlyForecast}
@@ -7057,8 +8375,8 @@ var ta = class extends Qi {
 };
 //#endregion
 //#region src/cards/hourly-charts/precipitation-card-editor.ts
-ta = A([E(Ui)], ta), F({ loader: (e) => V[e] });
-var na = class extends T {
+ta = M([O(Ui)], ta), F({ loader: (e) => V[e] });
+var na = class extends D {
 	hass;
 	_config;
 	setConfig(e) {
@@ -7086,13 +8404,13 @@ var na = class extends T {
     `;
 	}
 	render() {
-		if (!this.hass) return S`<div>Loading...</div>`;
+		if (!this.hass) return w`<div>Loading...</div>`;
 		I((this.hass.selectedLanguage || this.hass.language || "en").substring(0, 2));
 		let e = {
 			entity: typeof this._config?.entity == "string" ? this._config.entity : void 0,
 			forecast_hours: this._config?.forecast_hours ?? 12
 		};
-		return S`
+		return w`
       <div class="card-config">
         <div class="header">
           <div class="header-title">🌧️ SwissWeather Precipitation Card</div>
@@ -7124,7 +8442,7 @@ var na = class extends T {
 };
 //#endregion
 //#region src/cards/hourly-charts/sunshine-card.ts
-A([D({ attribute: !1 }), k("design:type", Object)], na.prototype, "hass", void 0), A([D({ attribute: !1 }), k("design:type", Object)], na.prototype, "_config", void 0), na = A([E(Wi)], na), F({ loader: (e) => V[e] });
+M([k({ attribute: !1 }), j("design:type", Object)], na.prototype, "hass", void 0), M([k({ attribute: !1 }), j("design:type", Object)], na.prototype, "_config", void 0), na = M([O(Wi)], na), F({ loader: (e) => V[e] });
 var ra = class extends Qi {
 	static get styles() {
 		return s`
@@ -7193,13 +8511,13 @@ var ra = class extends Qi {
 		};
 	}
 	render() {
-		if (!this.hass || !this.config) return S``;
+		if (!this.hass || !this.config) return w``;
 		this.setCardGridRows();
 		let e = li(this.hass, this.config.entity);
-		if (!e) return S`<div class="card-content">Entity not found: ${this.config.entity}</div>`;
-		if (this._hourlyForecast.length === 0) return S`<div class="card-content">Loading...</div>`;
+		if (!e) return w`<div class="card-content">Entity not found: ${this.config.entity}</div>`;
+		if (this._hourlyForecast.length === 0) return w`<div class="card-content">Loading...</div>`;
 		let t = this.config.forecast_hours ?? 12, n = this.config.sun_entity ? li(this.hass, this.config.sun_entity) : null;
-		return S`
+		return w`
       <div class="card-content">
         <sunshine-chart
           .hourlyForecast=${this._hourlyForecast}
@@ -7215,8 +8533,8 @@ var ra = class extends Qi {
 };
 //#endregion
 //#region src/cards/hourly-charts/sunshine-card-editor.ts
-ra = A([E(Gi)], ra), F({ loader: (e) => V[e] });
-var ia = class extends T {
+ra = M([O(Gi)], ra), F({ loader: (e) => V[e] });
+var ia = class extends D {
 	hass;
 	_config;
 	setConfig(e) {
@@ -7244,7 +8562,7 @@ var ia = class extends T {
     `;
 	}
 	render() {
-		if (!this.hass) return S`<div>Loading...</div>`;
+		if (!this.hass) return w`<div>Loading...</div>`;
 		I((this.hass.selectedLanguage || this.hass.language || "en").substring(0, 2));
 		let e = {
 			entity: typeof this._config?.entity == "string" ? this._config.entity : void 0,
@@ -7252,7 +8570,7 @@ var ia = class extends T {
 			sun_entity: typeof this._config?.sun_entity == "string" ? this._config.sun_entity : void 0,
 			sunshine_entity: typeof this._config?.sunshine_entity == "string" ? this._config.sunshine_entity : void 0
 		};
-		return S`
+		return w`
       <div class="card-config">
         <div class="header">
           <div class="header-title">☀️ SwissWeather Sunshine Card</div>
@@ -7286,7 +8604,7 @@ var ia = class extends T {
 };
 //#endregion
 //#region src/cards/hourly-charts/wind-card.ts
-A([D({ attribute: !1 }), k("design:type", Object)], ia.prototype, "hass", void 0), A([D({ attribute: !1 }), k("design:type", Object)], ia.prototype, "_config", void 0), ia = A([E(Ki)], ia), F({ loader: (e) => V[e] });
+M([k({ attribute: !1 }), j("design:type", Object)], ia.prototype, "hass", void 0), M([k({ attribute: !1 }), j("design:type", Object)], ia.prototype, "_config", void 0), ia = M([O(Ki)], ia), F({ loader: (e) => V[e] });
 var aa = class extends Qi {
 	static get styles() {
 		return s`
@@ -7358,9 +8676,9 @@ var aa = class extends Qi {
 		return 3;
 	}
 	render() {
-		if (this.setCardGridRows(), !this.hass || !this.config) return S``;
+		if (this.setCardGridRows(), !this.hass || !this.config) return w``;
 		let e = this.config.forecast_hours ?? 12;
-		return this._hourlyForecast.length === 0 ? S`<div class="card-content">Loading...</div>` : S`
+		return this._hourlyForecast.length === 0 ? w`<div class="card-content">Loading...</div>` : w`
       <div class="card-content">
         <wind-chart
           .hourlyForecast=${this._hourlyForecast}
@@ -7374,8 +8692,8 @@ var aa = class extends Qi {
 };
 //#endregion
 //#region src/cards/hourly-charts/wind-card-editor.ts
-aa = A([E(qi)], aa), F({ loader: (e) => V[e] });
-var oa = class extends T {
+aa = M([O(qi)], aa), F({ loader: (e) => V[e] });
+var oa = class extends D {
 	hass;
 	_config;
 	setConfig(e) {
@@ -7403,13 +8721,13 @@ var oa = class extends T {
     `;
 	}
 	render() {
-		if (!this.hass) return S`<div>Loading...</div>`;
+		if (!this.hass) return w`<div>Loading...</div>`;
 		I((this.hass.selectedLanguage || this.hass.language || "en").substring(0, 2));
 		let e = {
 			entity: typeof this._config?.entity == "string" ? this._config.entity : void 0,
 			forecast_hours: this._config?.forecast_hours ?? 12
 		};
-		return S`
+		return w`
       <div class="card-config">
         <div class="header">
           <div class="header-title">💨 SwissWeather Wind Card</div>
@@ -7439,7 +8757,7 @@ var oa = class extends T {
 		en(this, "config-changed", { config: t });
 	}
 };
-A([D({ attribute: !1 }), k("design:type", Object)], oa.prototype, "hass", void 0), A([D({ attribute: !1 }), k("design:type", Object)], oa.prototype, "_config", void 0), oa = A([E(Ji)], oa), console.log("📦 SwissWeather Card TypeScript file imported"), setTimeout(() => {
+M([k({ attribute: !1 }), j("design:type", Object)], oa.prototype, "hass", void 0), M([k({ attribute: !1 }), j("design:type", Object)], oa.prototype, "_config", void 0), oa = M([O(Ji)], oa), console.log("📦 SwissWeather Card TypeScript file imported"), setTimeout(() => {
 	let e = customElements.get("swissweather-card"), t = customElements.get("swissweather-card-editor");
 	console.log("🔍 SwissWeather Card registration status:", e ? "SUCCESS ✅" : "FAILED ❌"), console.log("🔍 SwissWeather Editor registration status:", t ? "SUCCESS ✅" : "FAILED ❌"), e ? (console.log("🔍 Element constructor:", e), console.log("🔍 Element prototype:", e.prototype)) : (console.error("❌ Custom element \"swissweather-card\" was not registered!"), console.log("🔍 Checking custom elements registry..."));
 }, 100), console.log("📦 SwissWeather Card module loading started..."), console.log("📦 Browser support check:", {
@@ -7475,6 +8793,6 @@ A([D({ attribute: !1 }), k("design:type", Object)], oa.prototype, "hass", void 0
 	description: "Hourly wind speed & direction chart as standalone card"
 }), console.log(`%c 📦 SwissWeather Card module loading completed - version: ${e}`, "color: #ef5350; font-weight: 700;");
 //#endregion
-export { j as DailyForecastChart, P as DailyForecastDiagram, _i as ForecastDiagramCard, gi as ForecastDiagramCardEditor, Ke as ForecastTemperatureChart, ta as PrecipitationCard, na as PrecipitationCardEditor, M as PrecipitationChart, ra as SunshineCard, ia as SunshineCardEditor, N as SunshineChart, zi as SwissWeatherBGCard, Bi as SwissWeatherBGCardEditor, Z as SwissWeatherCard, an as SwissWeatherCardEditor, $i as TemperatureCard, ea as TemperatureCardEditor, aa as WindCard, oa as WindCardEditor, qe as WindChart };
+export { N as DailyForecastChart, qe as DailyForecastDiagram, _i as ForecastDiagramCard, gi as ForecastDiagramCardEditor, We as ForecastTemperatureChart, ta as PrecipitationCard, na as PrecipitationCardEditor, Ge as PrecipitationChart, ra as SunshineCard, ia as SunshineCardEditor, P as SunshineChart, zi as SwissWeatherBGCard, Bi as SwissWeatherBGCardEditor, Z as SwissWeatherCard, an as SwissWeatherCardEditor, $i as TemperatureCard, ea as TemperatureCardEditor, aa as WindCard, oa as WindCardEditor, Ke as WindChart };
 
 //# sourceMappingURL=swissweather-card.js.map

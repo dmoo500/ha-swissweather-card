@@ -10,6 +10,12 @@ export const isDay = (hass: HomeAssistant, config: BasicCardConfig): boolean => 
   // Try to get today's sunrise/sunset from weather entity, else fallback to sun.sun
   const weatherEntity = getEntityState(hass, config!.entity) as WeatherEntity;
   const sun_entity = getEntityState(hass, config!.sun_entity || 'sun.sun');
+
+  // Prefer the direct HA solar state when available.
+  // This is the most reliable source for "day" vs "night" rendering.
+  if (sun_entity?.state === 'above_horizon') return true;
+  if (sun_entity?.state === 'below_horizon') return false;
+
   let sunrise: Date | null = null;
   let sunset: Date | null = null;
   // Try weather entity first

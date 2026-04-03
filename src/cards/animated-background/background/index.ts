@@ -160,19 +160,37 @@ const fogBG = (width: number): TemplateResult => {
 const hailBG = (width: number): TemplateResult => {
   return svg`
   <defs>
+    <linearGradient id="hailBackground" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#9eb7c6" />
+      <stop offset="100%" stop-color="#87b9d3" stop-opacity="0" />
+    </linearGradient>
     <linearGradient id="hailGradient" x1="22.56" x2="39.2" y1="21.96" y2="50.8" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#f3f7fe"/>
       <stop offset=".45" stop-color="#f3f7fe"/>
       <stop offset="1" stop-color="#deeafb"/>
     </linearGradient>
+    <radialGradient id="hailStone" cx="32" cy="32" r="12" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#d9ecff"/>
+      <stop offset="1" stop-color="#8ec0df"/>
+    </radialGradient>
     <g id="hailIcon">
       <path fill="url(#hailGradient)" stroke="#e6effc" stroke-miterlimit="10" stroke-width=".5"
         d="M46.5 31.5h-.32a10.49 10.49 0 00-19.11-8 7 7 0 00-10.57 6 7.21 7.21 0 00.1 1.14A7.5 7.5 0 0018 45.5a4.19 4.19 0 00.5 0v0h28a7 7 0 000-14z"/>
-      <circle cx="24" cy="42" r="4" fill="#a8dadc"/>
-      <circle cx="40" cy="42" r="4" fill="#a8dadc"/>
-      <circle cx="32" cy="34" r="4" fill="#a8dadc"/>
+      <circle cx="24" cy="50" r="2.2" fill="url(#hailStone)">
+        <animateTransform attributeName="transform" dur="0.9s" repeatCount="indefinite" type="translate" values="0 -7; 0 12"/>
+        <animate attributeName="opacity" dur="0.9s" repeatCount="indefinite" values="1;1;0"/>
+      </circle>
+      <circle cx="32" cy="52" r="2.4" fill="url(#hailStone)">
+        <animateTransform attributeName="transform" begin="-0.3s" dur="0.9s" repeatCount="indefinite" type="translate" values="0 -7; 0 12"/>
+        <animate attributeName="opacity" begin="-0.3s" dur="0.9s" repeatCount="indefinite" values="1;1;0"/>
+      </circle>
+      <circle cx="40" cy="50" r="2.2" fill="url(#hailStone)">
+        <animateTransform attributeName="transform" begin="-0.6s" dur="0.9s" repeatCount="indefinite" type="translate" values="0 -7; 0 12"/>
+        <animate attributeName="opacity" begin="-0.6s" dur="0.9s" repeatCount="indefinite" values="1;1;0"/>
+      </circle>
     </g>
   </defs>
+  <rect width="100%" height="80%" fill="url(#hailBackground)" />
   ${Array.from({ length: Math.ceil(width / 100) }, (v, i) => i).map(i => {
     const yOffset = Math.floor(Math.random() * 100);
     const xOffset = Math.floor(Math.random() * 10);
@@ -230,7 +248,7 @@ const rainBG = (width: number): TemplateResult => {
   `;
 };
 
-export const hail = svg`<g transform="translate(168,-30) scale(3)"><circle cx="24" cy="42" r="4" fill="#a8dadc"/><circle cx="40" cy="42" r="4" fill="#a8dadc"/><circle cx="32" cy="34" r="4" fill="#a8dadc"/><path fill="#f3f7fe" stroke="#e6effc" stroke-miterlimit="10" stroke-width=".5" d="M46.5 31.5h-.32a10.49 10.49 0 00-19.11-8 7 7 0 00-10.57 6 7.21 7.21 0 00.1 1.14A7.5 7.5 0 0018 45.5a4.19 4.19 0 00.5 0v0h28a7 7 0 000-14z"/></g>`;
+export const hail = svg`<g transform="translate(168,-30) scale(3)"><path fill="#f3f7fe" stroke="#e6effc" stroke-miterlimit="10" stroke-width=".5" d="M46.5 31.5h-.32a10.49 10.49 0 00-19.11-8 7 7 0 00-10.57 6 7.21 7.21 0 00.1 1.14A7.5 7.5 0 0018 45.5a4.19 4.19 0 00.5 0v0h28a7 7 0 000-14z"/><circle cx="24" cy="50" r="2.2" fill="#9ac9e4"/><circle cx="32" cy="52" r="2.4" fill="#9ac9e4"/><circle cx="40" cy="50" r="2.2" fill="#9ac9e4"/></g>`;
 
 export const extremeRainBG = (width: number): TemplateResult => {
   return svg`

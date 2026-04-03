@@ -33,7 +33,7 @@ jobs:
       
     - name: Update version in package.json
       run: |
-        yarn version ${{ steps.version.outputs.VERSION }} --no-git-tag-version
+        node -e "const fs=require('fs');const p=require('./package.json');p.version='${{ steps.version.outputs.VERSION }}';fs.writeFileSync('package.json', JSON.stringify(p,null,2)+'\\n');"
         
     - name: Create release archive
       id: create_release 
