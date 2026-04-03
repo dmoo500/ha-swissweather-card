@@ -1,5 +1,5 @@
 //#region package.json
-var e = "1.7.1-beta.14", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
+var e = "1.7.1-beta.15", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
 	constructor(e, t, n) {
 		if (this._$cssResult$ = !0, n !== r) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
 		this.cssText = e, this.t = t;
@@ -6347,6 +6347,24 @@ var zi = class extends D {
         opacity: 0;
       }
 
+      .img-photo.clear-night .photo-sun-rays {
+        opacity: 0;
+        animation: none;
+        display: none;
+      }
+
+      .img-photo.mood-cloudy .photo-sun-rays {
+        opacity: 0;
+        animation: none;
+        display: none;
+      }
+
+      .img-photo.partly-cloudy .photo-sun-rays {
+        opacity: 0;
+        animation: none;
+        display: none;
+      }
+
       .img-photo.mood-cloudy.day .photo-base {
         background:
           radial-gradient(circle at 30% 15%, rgba(226, 238, 245, 0.6), rgba(226, 238, 245, 0) 40%),
@@ -6412,106 +6430,126 @@ var zi = class extends D {
       .photo-clouds {
         background:
           radial-gradient(
-            168% 104% at 8% 18%,
-            rgba(255, 255, 255, 0.3),
-            rgba(255, 255, 255, 0) 66%
+            118% 86% at 6% 24%,
+            rgba(255, 255, 255, 0.5),
+            rgba(255, 255, 255, 0.08) 48%,
+            rgba(255, 255, 255, 0) 62%
           ),
           radial-gradient(
-            156% 102% at 35% 16%,
-            rgba(255, 255, 255, 0.27),
+            120% 90% at 28% 20%,
+            rgba(255, 255, 255, 0.48),
+            rgba(255, 255, 255, 0.08) 50%,
             rgba(255, 255, 255, 0) 64%
           ),
           radial-gradient(
-            162% 104% at 62% 22%,
-            rgba(255, 255, 255, 0.28),
-            rgba(255, 255, 255, 0) 66%
+            124% 92% at 50% 22%,
+            rgba(255, 255, 255, 0.5),
+            rgba(255, 255, 255, 0.1) 50%,
+            rgba(255, 255, 255, 0) 64%
           ),
           radial-gradient(
-            154% 100% at 92% 20%,
-            rgba(255, 255, 255, 0.26),
+            118% 88% at 72% 20%,
+            rgba(255, 255, 255, 0.47),
+            rgba(255, 255, 255, 0.08) 48%,
+            rgba(255, 255, 255, 0) 62%
+          ),
+          radial-gradient(
+            114% 84% at 95% 25%,
+            rgba(255, 255, 255, 0.52),
+            rgba(255, 255, 255, 0.1) 50%,
             rgba(255, 255, 255, 0) 64%
           ),
           linear-gradient(
             180deg,
-            rgba(247, 252, 255, 0.24) 0%,
-            rgba(231, 241, 252, 0.12) 34%,
-            rgba(210, 224, 239, 0) 70%
+            rgba(249, 253, 255, 0.42) 0%,
+            rgba(233, 243, 252, 0.2) 34%,
+            rgba(210, 224, 239, 0.04) 58%,
+            rgba(210, 224, 239, 0) 74%
           ),
           linear-gradient(
             180deg,
-            rgba(183, 205, 230, 0.12) 0%,
-            rgba(183, 205, 230, 0.05) 42%,
+            rgba(172, 194, 220, 0.18) 0%,
+            rgba(172, 194, 220, 0.08) 46%,
             rgba(183, 205, 230, 0) 72%
           );
-        filter: blur(8px) saturate(1.04) brightness(1.02);
+        filter: blur(5.5px) contrast(1.08) saturate(1.06) brightness(1.03);
         animation: cloud-drift 36s ease-in-out infinite alternate;
-        opacity: 0.74;
+        opacity: 0.78;
       }
 
       .photo-clouds-front {
         background:
           radial-gradient(
-            116% 88% at 2% 34%,
-            rgba(255, 255, 255, 0.68),
-            rgba(255, 255, 255, 0) 58%
+            94% 74% at 0% 36%,
+            rgba(255, 255, 255, 0.88),
+            rgba(255, 255, 255, 0.16) 52%,
+            rgba(255, 255, 255, 0) 66%
           ),
           radial-gradient(
-            118% 90% at 24% 28%,
-            rgba(255, 255, 255, 0.66),
-            rgba(255, 255, 255, 0) 58%
+            98% 76% at 22% 30%,
+            rgba(255, 255, 255, 0.86),
+            rgba(255, 255, 255, 0.15) 50%,
+            rgba(255, 255, 255, 0) 64%
           ),
           radial-gradient(
-            120% 90% at 49% 34%,
-            rgba(255, 255, 255, 0.64),
-            rgba(255, 255, 255, 0) 60%
+            102% 78% at 48% 34%,
+            rgba(255, 255, 255, 0.84),
+            rgba(255, 255, 255, 0.16) 50%,
+            rgba(255, 255, 255, 0) 66%
           ),
           radial-gradient(
-            118% 88% at 74% 30%,
-            rgba(255, 255, 255, 0.62),
-            rgba(255, 255, 255, 0) 58%
+            96% 74% at 74% 30%,
+            rgba(255, 255, 255, 0.82),
+            rgba(255, 255, 255, 0.14) 50%,
+            rgba(255, 255, 255, 0) 64%
           ),
           radial-gradient(
-            114% 86% at 98% 34%,
-            rgba(255, 255, 255, 0.66),
-            rgba(255, 255, 255, 0) 58%
+            92% 72% at 100% 34%,
+            rgba(255, 255, 255, 0.86),
+            rgba(255, 255, 255, 0.16) 50%,
+            rgba(255, 255, 255, 0) 66%
           ),
           linear-gradient(
             180deg,
-            rgba(251, 254, 255, 0.34) 0%,
-            rgba(238, 246, 255, 0.16) 40%,
-            rgba(209, 224, 240, 0.08) 62%,
+            rgba(255, 255, 255, 0.34) 0%,
+            rgba(242, 249, 255, 0.18) 44%,
+            rgba(211, 226, 242, 0.1) 64%,
             rgba(255, 255, 255, 0) 74%
           );
-        filter: blur(4.5px) contrast(1.08) saturate(1.03);
+        filter: blur(2.8px) contrast(1.12) saturate(1.05)
+          drop-shadow(0 6px 8px rgba(122, 149, 178, 0.18));
         animation: cloud-drift-front 22s ease-in-out infinite alternate;
-        mix-blend-mode: screen;
+        mix-blend-mode: normal;
         opacity: 0;
       }
 
       .photo-clouds-depth {
         background:
           radial-gradient(
-            128% 90% at 14% 66%,
-            rgba(232, 242, 252, 0.34),
+            118% 86% at 14% 68%,
+            rgba(217, 232, 248, 0.42),
+            rgba(255, 255, 255, 0.08) 52%,
+            rgba(255, 255, 255, 0) 68%
+          ),
+          radial-gradient(
+            122% 90% at 46% 62%,
+            rgba(210, 226, 243, 0.36),
+            rgba(255, 255, 255, 0.08) 50%,
             rgba(255, 255, 255, 0) 66%
           ),
           radial-gradient(
-            136% 94% at 46% 60%,
-            rgba(226, 238, 250, 0.3),
-            rgba(255, 255, 255, 0) 64%
-          ),
-          radial-gradient(
-            132% 92% at 78% 68%,
-            rgba(229, 241, 253, 0.32),
+            118% 88% at 78% 70%,
+            rgba(215, 231, 247, 0.38),
+            rgba(255, 255, 255, 0.08) 50%,
             rgba(255, 255, 255, 0) 66%
           ),
           linear-gradient(
             180deg,
-            rgba(199, 218, 238, 0.24) 0%,
-            rgba(180, 203, 228, 0.12) 42%,
+            rgba(193, 214, 237, 0.28) 0%,
+            rgba(172, 198, 225, 0.14) 44%,
             rgba(162, 189, 217, 0) 72%
           );
-        filter: blur(11px) saturate(1.02);
+        filter: blur(7.5px) saturate(1.04);
         animation: cloud-drift-depth 28s ease-in-out infinite alternate;
         opacity: 0;
       }
@@ -6542,18 +6580,18 @@ var zi = class extends D {
 
       .img-photo.mood-cloudy.night .photo-clouds,
       .img-photo.mood-rainy.night .photo-clouds {
-        filter: blur(11px) saturate(0.88) brightness(0.9);
+        filter: blur(7px) saturate(0.9) brightness(0.88);
       }
 
       .img-photo.mood-cloudy.night .photo-clouds-front,
       .img-photo.mood-rainy.night .photo-clouds-front {
         mix-blend-mode: normal;
-        filter: blur(7px) brightness(0.82);
+        filter: blur(4.8px) brightness(0.8);
       }
 
       .img-photo.mood-cloudy.night .photo-clouds-depth,
       .img-photo.mood-rainy.night .photo-clouds-depth {
-        filter: blur(15px) saturate(0.84) brightness(0.8);
+        filter: blur(9px) saturate(0.86) brightness(0.78);
         opacity: 0.7;
       }
 
