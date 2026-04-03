@@ -144,7 +144,7 @@ export class ForecastTemperatureChart extends LitElement {
                 : null
             );
 
-            return svg`<svg width="100%" height="100%" viewBox="0 0 ${svgW} ${svgH}" preserveAspectRatio="none" style="display:block;">
+            return svg`<svg width="100%" height="100%" viewBox="0 0 ${svgW} ${svgH}" preserveAspectRatio="xMidYMid meet" style="display:block;">
               ${gridLines}
               ${verticals}
               <polyline points="${points}" fill="none" stroke="#db4a34" stroke-width="2.5"

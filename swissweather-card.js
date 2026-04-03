@@ -1,5 +1,5 @@
 //#region package.json
-var e = "1.7.1-beta.15", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
+var e = "1.7.1-beta.16", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
 	constructor(e, t, n) {
 		if (this._$cssResult$ = !0, n !== r) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
 		this.cssText = e, this.t = t;
@@ -919,7 +919,7 @@ var We = class extends D {
                   </text>
                 `);
 			}
-			return T`<svg width="100%" height="100%" viewBox="0 0 ${600} ${100}" preserveAspectRatio="none" style="display:block;">
+			return T`<svg width="100%" height="100%" viewBox="0 0 ${600} ${100}" preserveAspectRatio="xMidYMid meet" style="display:block;">
               ${l}
               ${u}
               <polyline points="${e.map((e, t) => e === null ? "" : `${s(t)},${c(e)}`).filter(Boolean).join(" ")}" fill="none" stroke="#db4a34" stroke-width="2.5"
@@ -1063,7 +1063,7 @@ var Ge = class extends D {
                 `);
 				}
 			}
-			return T`<svg width="100%" height="100%" viewBox="0 0 ${600} ${100}" preserveAspectRatio="none" style="display:block;">
+			return T`<svg width="100%" height="100%" viewBox="0 0 ${600} ${100}" preserveAspectRatio="xMidYMid meet" style="display:block;">
               <defs>
                 <linearGradient id="precip-grad" x1="0" y1="1" x2="0" y2="0">
                   <stop offset="0%" stop-color="#3498db"/>
@@ -1366,7 +1366,7 @@ var Ke = class extends D {
                   </text>
                 `);
 			}
-			return T`<svg width="100%" height="100%" viewBox="0 0 ${600} ${122}" preserveAspectRatio="none" style="display:block;">
+			return T`<svg width="100%" height="100%" viewBox="0 0 ${600} ${122}" preserveAspectRatio="xMidYMid meet" style="display:block;">
               ${l}
               ${u}
               <polyline points="${n.map((e, t) => e === null ? "" : `${c(t)},${o(e)}`).filter(Boolean).join(" ")}" fill="none" stroke="#44739e" stroke-width="2.5"
