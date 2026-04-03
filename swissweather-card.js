@@ -1,5 +1,5 @@
 //#region package.json
-var e = "1.7.1-beta.13", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
+var e = "1.7.1-beta.14", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
 	constructor(e, t, n) {
 		if (this._$cssResult$ = !0, n !== r) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
 		this.cssText = e, this.t = t;
@@ -4405,7 +4405,10 @@ var Mr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewB
 	};
 	return t === "mdi" ? o[i] || Y("mdi:weather-sunny", n) : t === "mdiAsSVG" ? a[i] || w`<img src="${"data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='26.75'%20x2='37.25'%20y1='22.91'%20y2='41.09'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='.45'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='1'%20stop-color='%23f59e0b'/%3e%3c/linearGradient%3e%3c/defs%3e%3ccircle%20cx='32'%20cy='32'%20r='10.5'%20fill='url(%23a)'%20stroke='%23f8af18'%20stroke-miterlimit='10'%20stroke-width='.5'/%3e%3cpath%20fill='none'%20stroke='%23fbbf24'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M32%2015.71V9.5m0%2045v-6.21m11.52-27.81l4.39-4.39M16.09%2047.91l4.39-4.39m0-23l-4.39-4.39m31.82%2031.78l-4.39-4.39M15.71%2032H9.5m45%200h-6.21'%3e%3canimateTransform%20attributeName='transform'%20dur='45s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2032%2032;%20360%2032%2032'/%3e%3c/path%3e%3c/svg%3e"}" />` : s[i] || w`<img src="${"data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='26.75'%20x2='37.25'%20y1='22.91'%20y2='41.09'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='.45'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='1'%20stop-color='%23f59e0b'/%3e%3c/linearGradient%3e%3c/defs%3e%3ccircle%20cx='32'%20cy='32'%20r='10.5'%20fill='url(%23a)'%20stroke='%23f8af18'%20stroke-miterlimit='10'%20stroke-width='.5'/%3e%3cpath%20fill='none'%20stroke='%23fbbf24'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M32%2015.71V9.5m0%2045v-6.21m11.52-27.81l4.39-4.39M16.09%2047.91l4.39-4.39m0-23l-4.39-4.39m31.82%2031.78l-4.39-4.39M15.71%2032H9.5m45%200h-6.21'%3e%3canimateTransform%20attributeName='transform'%20dur='45s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2032%2032;%20360%2032%2032'/%3e%3c/path%3e%3c/svg%3e"}" />`;
 }, li = (e, t) => e?.states[t], ui = (e, t) => {
-	let n = /* @__PURE__ */ new Date(), r = li(e, t.entity), i = li(e, t.sun_entity || "sun.sun"), a = null, o = null;
+	let n = /* @__PURE__ */ new Date(), r = li(e, t.entity), i = li(e, t.sun_entity || "sun.sun");
+	if (i?.state === "above_horizon") return !0;
+	if (i?.state === "below_horizon") return !1;
+	let a = null, o = null;
 	if (r && r.attributes && "sunrise" in r.attributes && "sunset" in r.attributes && r.attributes.sunrise && r.attributes.sunset) a = new Date(r.attributes.sunrise), o = new Date(r.attributes.sunset);
 	else if (i?.attributes) {
 		let e = i.attributes.next_rising ? new Date(i.attributes.next_rising) : null, t = i.attributes.next_setting ? new Date(i.attributes.next_setting) : null;
@@ -6319,26 +6322,29 @@ var zi = class extends D {
 
       .img-photo.mood-sunny.clear-night .photo-base,
       .img-photo.clear-night .photo-base {
-        background:
-          linear-gradient(
-            180deg,
-            rgba(5, 16, 38, 0.99) 0%,
-            rgba(4, 12, 28, 1) 52%,
-            rgba(1, 6, 16, 1) 100%
-          );
+        background: linear-gradient(
+          180deg,
+          rgba(5, 16, 38, 0.99) 0%,
+          rgba(4, 12, 28, 1) 52%,
+          rgba(1, 6, 16, 1) 100%
+        );
         animation: none;
       }
 
       .img-photo.clear-night .photo-clouds {
-        opacity: 0.28;
+        opacity: 0;
       }
 
       .img-photo.clear-night .photo-clouds-front {
-        opacity: 0.18;
+        opacity: 0;
       }
 
       .img-photo.clear-night .photo-clouds-depth {
-        opacity: 0.16;
+        opacity: 0;
+      }
+
+      .img-photo.clear-night .photo-cloud-shadow {
+        opacity: 0;
       }
 
       .img-photo.mood-cloudy.day .photo-base {
@@ -6405,63 +6411,78 @@ var zi = class extends D {
 
       .photo-clouds {
         background:
-          radial-gradient(140% 92% at 8% 20%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 64%),
           radial-gradient(
-            130% 88% at 34% 16%,
-            rgba(255, 255, 255, 0.19),
-            rgba(255, 255, 255, 0) 62%
-          ),
-          radial-gradient(
-            145% 96% at 62% 24%,
-            rgba(255, 255, 255, 0.18),
+            168% 104% at 8% 18%,
+            rgba(255, 255, 255, 0.3),
             rgba(255, 255, 255, 0) 66%
           ),
           radial-gradient(
-            136% 92% at 90% 18%,
-            rgba(255, 255, 255, 0.17),
+            156% 102% at 35% 16%,
+            rgba(255, 255, 255, 0.27),
+            rgba(255, 255, 255, 0) 64%
+          ),
+          radial-gradient(
+            162% 104% at 62% 22%,
+            rgba(255, 255, 255, 0.28),
+            rgba(255, 255, 255, 0) 66%
+          ),
+          radial-gradient(
+            154% 100% at 92% 20%,
+            rgba(255, 255, 255, 0.26),
             rgba(255, 255, 255, 0) 64%
           ),
           linear-gradient(
             180deg,
-            rgba(255, 255, 255, 0.06) 0%,
-            rgba(255, 255, 255, 0.03) 28%,
-            rgba(255, 255, 255, 0) 62%
+            rgba(247, 252, 255, 0.24) 0%,
+            rgba(231, 241, 252, 0.12) 34%,
+            rgba(210, 224, 239, 0) 70%
+          ),
+          linear-gradient(
+            180deg,
+            rgba(183, 205, 230, 0.12) 0%,
+            rgba(183, 205, 230, 0.05) 42%,
+            rgba(183, 205, 230, 0) 72%
           );
-        filter: blur(10px) saturate(1.02);
+        filter: blur(8px) saturate(1.04) brightness(1.02);
         animation: cloud-drift 36s ease-in-out infinite alternate;
-        opacity: 0.72;
+        opacity: 0.74;
       }
 
       .photo-clouds-front {
         background:
-          radial-gradient(122% 92% at 2% 33%, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0) 58%),
           radial-gradient(
-            126% 92% at 24% 28%,
-            rgba(255, 255, 255, 0.47),
+            116% 88% at 2% 34%,
+            rgba(255, 255, 255, 0.68),
             rgba(255, 255, 255, 0) 58%
           ),
           radial-gradient(
-            128% 92% at 49% 35%,
-            rgba(255, 255, 255, 0.45),
+            118% 90% at 24% 28%,
+            rgba(255, 255, 255, 0.66),
+            rgba(255, 255, 255, 0) 58%
+          ),
+          radial-gradient(
+            120% 90% at 49% 34%,
+            rgba(255, 255, 255, 0.64),
             rgba(255, 255, 255, 0) 60%
           ),
           radial-gradient(
-            124% 92% at 74% 30%,
-            rgba(255, 255, 255, 0.43),
+            118% 88% at 74% 30%,
+            rgba(255, 255, 255, 0.62),
             rgba(255, 255, 255, 0) 58%
           ),
           radial-gradient(
-            120% 90% at 98% 34%,
-            rgba(255, 255, 255, 0.48),
+            114% 86% at 98% 34%,
+            rgba(255, 255, 255, 0.66),
             rgba(255, 255, 255, 0) 58%
           ),
           linear-gradient(
             180deg,
-            rgba(255, 255, 255, 0.16) 0%,
-            rgba(255, 255, 255, 0.08) 42%,
+            rgba(251, 254, 255, 0.34) 0%,
+            rgba(238, 246, 255, 0.16) 40%,
+            rgba(209, 224, 240, 0.08) 62%,
             rgba(255, 255, 255, 0) 74%
           );
-        filter: blur(6px) contrast(1.06);
+        filter: blur(4.5px) contrast(1.08) saturate(1.03);
         animation: cloud-drift-front 22s ease-in-out infinite alternate;
         mix-blend-mode: screen;
         opacity: 0;
@@ -6470,44 +6491,53 @@ var zi = class extends D {
       .photo-clouds-depth {
         background:
           radial-gradient(
-            120% 86% at 14% 66%,
-            rgba(255, 255, 255, 0.24),
+            128% 90% at 14% 66%,
+            rgba(232, 242, 252, 0.34),
             rgba(255, 255, 255, 0) 66%
           ),
           radial-gradient(
-            128% 90% at 46% 60%,
-            rgba(255, 255, 255, 0.2),
+            136% 94% at 46% 60%,
+            rgba(226, 238, 250, 0.3),
             rgba(255, 255, 255, 0) 64%
           ),
           radial-gradient(
-            124% 88% at 78% 68%,
-            rgba(255, 255, 255, 0.22),
+            132% 92% at 78% 68%,
+            rgba(229, 241, 253, 0.32),
             rgba(255, 255, 255, 0) 66%
           ),
           linear-gradient(
             180deg,
-            rgba(184, 207, 229, 0.16) 0%,
-            rgba(170, 195, 220, 0.08) 38%,
-            rgba(158, 185, 212, 0) 68%
+            rgba(199, 218, 238, 0.24) 0%,
+            rgba(180, 203, 228, 0.12) 42%,
+            rgba(162, 189, 217, 0) 72%
           );
-        filter: blur(14px);
+        filter: blur(11px) saturate(1.02);
         animation: cloud-drift-depth 28s ease-in-out infinite alternate;
         opacity: 0;
       }
 
-      .img-photo.mood-cloudy .photo-clouds,
-      .img-photo.mood-rainy .photo-clouds {
-        opacity: 0.92;
-      }
-
-      .img-photo.mood-cloudy .photo-clouds-front,
-      .img-photo.mood-rainy .photo-clouds-front {
+      .img-photo.mood-cloudy .photo-clouds {
         opacity: 0.88;
       }
 
-      .img-photo.mood-cloudy .photo-clouds-depth,
+      .img-photo.mood-cloudy .photo-clouds-front {
+        opacity: 0.8;
+      }
+
+      .img-photo.mood-cloudy .photo-clouds-depth {
+        opacity: 0.62;
+      }
+
+      .img-photo.mood-rainy .photo-clouds {
+        opacity: 0.94;
+      }
+
+      .img-photo.mood-rainy .photo-clouds-front {
+        opacity: 0.9;
+      }
+
       .img-photo.mood-rainy .photo-clouds-depth {
-        opacity: 0.78;
+        opacity: 0.8;
       }
 
       .img-photo.mood-cloudy.night .photo-clouds,
@@ -6560,8 +6590,16 @@ var zi = class extends D {
 
       .photo-fog {
         background:
-          radial-gradient(130% 62% at 18% 74%, rgba(235, 243, 250, 0.34), rgba(235, 243, 250, 0) 72%),
-          radial-gradient(136% 66% at 72% 70%, rgba(229, 239, 248, 0.3), rgba(229, 239, 248, 0) 74%),
+          radial-gradient(
+            130% 62% at 18% 74%,
+            rgba(235, 243, 250, 0.34),
+            rgba(235, 243, 250, 0) 72%
+          ),
+          radial-gradient(
+            136% 66% at 72% 70%,
+            rgba(229, 239, 248, 0.3),
+            rgba(229, 239, 248, 0) 74%
+          ),
           linear-gradient(
             180deg,
             rgba(217, 229, 240, 0.08) 0%,
@@ -6695,7 +6733,7 @@ var zi = class extends D {
 
       .rain-drop {
         position: absolute;
-        top: -14%;
+        top: var(--start-y, -14%);
         left: var(--x, 50%);
         width: var(--w, 2px);
         height: var(--h, 22px);
@@ -6730,27 +6768,31 @@ var zi = class extends D {
         position: absolute;
         top: -14%;
         left: var(--x, 50%);
-        width: var(--size, 3.5px);
-        height: var(--size, 3.5px);
+        width: var(--size, 4.6px);
+        height: var(--size, 4.6px);
         border-radius: 999px;
         background: radial-gradient(
-          circle at 30% 30%,
-          rgba(236, 245, 255, 0.98),
-          rgba(171, 203, 235, 0.92) 72%,
-          rgba(120, 158, 196, 0.88) 100%
+          circle at 28% 28%,
+          rgba(248, 253, 255, 1),
+          rgba(199, 224, 246, 0.95) 70%,
+          rgba(136, 174, 209, 0.92) 100%
         );
         box-shadow:
-          inset -1px -1px 1px rgba(94, 132, 171, 0.45),
-          0 0 4px rgba(217, 234, 255, 0.45);
-        opacity: var(--opacity, 0.7);
+          inset -1px -1px 1px rgba(97, 137, 177, 0.52),
+          0 0 6px rgba(228, 241, 255, 0.6);
+        opacity: var(--opacity, 0.84);
         animation: hail-stone-fall var(--duration, 0.7s) linear infinite;
         animation-delay: var(--delay, 0s);
         z-index: 5;
       }
 
+      .img-photo.mood-cloudy .hail-stone {
+        filter: contrast(1.08) brightness(1.06);
+      }
+
       .rain-drizzle {
         position: absolute;
-        top: -12%;
+        top: var(--start-y, -12%);
         left: var(--x, 50%);
         width: var(--w, 1.1px);
         height: var(--h, 11px);
@@ -6943,12 +6985,12 @@ var zi = class extends D {
 
       .photo-cloud-shadow {
         background:
-          radial-gradient(ellipse at 22% 42%, rgba(16, 26, 40, 0.22), rgba(16, 26, 40, 0) 46%),
-          radial-gradient(ellipse at 58% 40%, rgba(18, 30, 46, 0.18), rgba(18, 30, 46, 0) 44%),
-          radial-gradient(ellipse at 85% 44%, rgba(18, 31, 48, 0.22), rgba(18, 31, 48, 0) 47%);
+          radial-gradient(ellipse at 22% 42%, rgba(42, 66, 94, 0.2), rgba(42, 66, 94, 0) 48%),
+          radial-gradient(ellipse at 58% 40%, rgba(45, 70, 99, 0.16), rgba(45, 70, 99, 0) 46%),
+          radial-gradient(ellipse at 85% 44%, rgba(42, 67, 96, 0.2), rgba(42, 67, 96, 0) 49%);
         animation: cloud-shadow-drift 20s ease-in-out infinite alternate;
-        opacity: 0.5;
-        mix-blend-mode: multiply;
+        opacity: 0.36;
+        mix-blend-mode: soft-light;
       }
 
       .photo-vignette {
@@ -7241,7 +7283,7 @@ var zi = class extends D {
         color: var(--primary-text-color, #fff);
       }
       .temp-low {
-        color: var(--secondary-text-color, rgba(255, 255, 255, 0.86));
+        color: var(--primary-text-color, #fff);
       }
       @media (max-width: 400px) {
         .temperature {
@@ -7337,7 +7379,7 @@ var zi = class extends D {
                       </span>
                     </div>
                   ` : ""}
-              ${u && this.config.show_sun_times !== !1 ? w`
+              ${u && this.config.show_sun_times !== !1 && r !== "clear-night" ? w`
                     <div class="sun-times">
                       <span title="${B("sunrise")}">
                         <ha-icon icon="mdi:weather-sunset-up"></ha-icon> ${h(f)}
@@ -7430,15 +7472,15 @@ var zi = class extends D {
 		].map((e) => w`<div class="weather-cluster ${e}">
                         ${l ? this._renderRainParticles(6, !0) : w``}
                         ${u ? this._renderSnowParticles(10, !0) : w``}
-                      </div>`)}` : w`${e === "pouring" ? this._renderRainParticles(68, !1) : w``}
-                  ${e === "pouring" ? this._renderDrizzleParticles(28, !1) : w``}
-                  ${e === "rainy" ? this._renderRainParticles(66, !1) : w``}
-                  ${e === "rainy" ? this._renderDrizzleParticles(22, !1) : w``}
+                      </div>`)}` : w`${e === "pouring" ? this._renderRainParticles(68, !1, !0) : w``}
+                  ${e === "pouring" ? this._renderDrizzleParticles(28, !1, !0) : w``}
+                  ${e === "rainy" ? this._renderRainParticles(66, !1, !0) : w``}
+                  ${e === "rainy" ? this._renderDrizzleParticles(22, !1, !0) : w``}
                   ${e === "lightning-rainy" ? this._renderRainParticles(54, !1) : w``}
                   ${e === "lightning-rainy" ? this._renderDrizzleParticles(18, !1) : w``}
                   ${l && e !== "pouring" && e !== "rainy" && e !== "lightning-rainy" ? this._renderRainParticles(28, !1) : w``}
                   ${u ? this._renderSnowParticles(36, !1) : w``}
-                  ${d ? this._renderHailParticles(42, !1) : w``}`}
+                  ${d ? this._renderHailParticles(58, !1) : w``}`}
             </div>` : w``}
         ${f ? w`${this._renderLightningFlashes()} ${this._renderLightningBolts()}` : w``}
         <div class="photo-layer photo-vignette"></div>
@@ -7446,12 +7488,12 @@ var zi = class extends D {
       </div>
     `;
 	}
-	_renderRainParticles(e, t) {
-		return Array.from({ length: e }, (e, n) => {
-			let r = t ? 14 : 4, i = t ? 72 : 96, a = r + (n * 31 + 17) % 100 / 100 * i, o = (t ? .95 : .9 + n % 5 * .14).toFixed(2), s = (-1 * (n % 7 * .23)).toFixed(2), c = (t ? 15 : 14) + n % 4 * 5, l = (.46 + n % 4 * .11).toFixed(2), u = (n % 2 == 0 ? 5 : -5) + (n % 3 - 1) * 1.7, d = n % 3 == 0 ? 1.6 : 2.1;
+	_renderRainParticles(e, t, n = !1) {
+		return Array.from({ length: e }, (e, r) => {
+			let i = t ? 14 : 4, a = t ? 72 : 96, o = i + (r * 31 + 17) % 100 / 100 * a, s = (t ? .95 : .9 + r % 5 * .14).toFixed(2), c = (-1 * (r % 7 * .23)).toFixed(2), l = (t ? 15 : 14) + r % 4 * 5, u = (.46 + r % 4 * .11).toFixed(2), d = (r % 2 == 0 ? 5 : -5) + (r % 3 - 1) * 1.7, f = r % 3 == 0 ? 1.6 : 2.1, p = n ? `${(-8 + (r * 19 + 13) % 100).toFixed(1)}%` : "-14%";
 			return w`<span
         class="rain-drop"
-        style="--x:${a.toFixed(2)}%; --duration:${o}s; --delay:${s}s; --h:${c}px; --opacity:${l}; --drift:${u.toFixed(1)}px; --w:${d}px;"
+        style="--x:${o.toFixed(2)}%; --start-y:${p}; --duration:${s}s; --delay:${c}s; --h:${l}px; --opacity:${u}; --drift:${d.toFixed(1)}px; --w:${f}px;"
       ></span>`;
 		});
 	}
@@ -7465,18 +7507,18 @@ var zi = class extends D {
       ></span>`;
 		});
 	}
-	_renderDrizzleParticles(e, t) {
-		return Array.from({ length: e }, (e, n) => {
-			let r = t ? 12 : 2, i = t ? 76 : 98, a = r + (n * 17 + 11) % 100 / 100 * i, o = (t ? 1.25 : 1.3 + n % 4 * .14).toFixed(2), s = (-1 * (n % 8 * .17)).toFixed(2), c = (t ? 8 : 7) + n % 3 * 2, l = (.22 + n % 4 * .07).toFixed(2), u = (n % 2 == 0 ? 2.5 : -2.5) + (n % 3 - 1) * 1.1, d = n % 2 == 0 ? 1 : 1.2;
+	_renderDrizzleParticles(e, t, n = !1) {
+		return Array.from({ length: e }, (e, r) => {
+			let i = t ? 12 : 2, a = t ? 76 : 98, o = i + (r * 17 + 11) % 100 / 100 * a, s = (t ? 1.25 : 1.3 + r % 4 * .14).toFixed(2), c = (-1 * (r % 8 * .17)).toFixed(2), l = (t ? 8 : 7) + r % 3 * 2, u = (.22 + r % 4 * .07).toFixed(2), d = (r % 2 == 0 ? 2.5 : -2.5) + (r % 3 - 1) * 1.1, f = r % 2 == 0 ? 1 : 1.2, p = n ? `${(-8 + (r * 23 + 5) % 100).toFixed(1)}%` : "-12%";
 			return w`<span
         class="rain-drizzle"
-        style="--x:${a.toFixed(2)}%; --duration:${o}s; --delay:${s}s; --h:${c}px; --opacity:${l}; --drift:${u.toFixed(1)}px; --w:${d}px;"
+        style="--x:${o.toFixed(2)}%; --start-y:${p}; --duration:${s}s; --delay:${c}s; --h:${l}px; --opacity:${u}; --drift:${d.toFixed(1)}px; --w:${f}px;"
       ></span>`;
 		});
 	}
 	_renderHailParticles(e, t) {
 		return Array.from({ length: e }, (e, n) => {
-			let r = t ? 14 : 4, i = t ? 72 : 96, a = r + (n * 31 + 17) % 100 / 100 * i, o = (t ? .75 : .68 + n % 5 * .08).toFixed(2), s = (-1 * (n % 7 * .19)).toFixed(2), c = (.55 + n % 4 * .11).toFixed(2), l = (n % 2 == 0 ? 3 : -3) + (n % 3 - 1) * 1.2, u = n % 2 == 0 ? 3.2 : 3.8;
+			let r = t ? 14 : 4, i = t ? 72 : 96, a = r + (n * 31 + 17) % 100 / 100 * i, o = (t ? .73 : .62 + n % 5 * .075).toFixed(2), s = (-1 * (n % 7 * .19)).toFixed(2), c = (.72 + n % 4 * .09).toFixed(2), l = (n % 2 == 0 ? 3.4 : -3.4) + (n % 3 - 1) * 1.3, u = n % 2 == 0 ? 4.3 : 5.1;
 			return w`<span
         class="hail-stone"
         style="--x:${a.toFixed(2)}%; --duration:${o}s; --delay:${s}s; --opacity:${c}; --drift:${l.toFixed(1)}px; --size:${u}px;"

@@ -186,15 +186,19 @@ export class SwissWeatherBGCard extends LitElement {
       }
 
       .img-photo.clear-night .photo-clouds {
-        opacity: 0.28;
+        opacity: 0;
       }
 
       .img-photo.clear-night .photo-clouds-front {
-        opacity: 0.18;
+        opacity: 0;
       }
 
       .img-photo.clear-night .photo-clouds-depth {
-        opacity: 0.16;
+        opacity: 0;
+      }
+
+      .img-photo.clear-night .photo-cloud-shadow {
+        opacity: 0;
       }
 
       .img-photo.mood-cloudy.day .photo-base {
@@ -261,63 +265,78 @@ export class SwissWeatherBGCard extends LitElement {
 
       .photo-clouds {
         background:
-          radial-gradient(140% 92% at 8% 20%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 64%),
           radial-gradient(
-            130% 88% at 34% 16%,
-            rgba(255, 255, 255, 0.19),
-            rgba(255, 255, 255, 0) 62%
-          ),
-          radial-gradient(
-            145% 96% at 62% 24%,
-            rgba(255, 255, 255, 0.18),
+            168% 104% at 8% 18%,
+            rgba(255, 255, 255, 0.3),
             rgba(255, 255, 255, 0) 66%
           ),
           radial-gradient(
-            136% 92% at 90% 18%,
-            rgba(255, 255, 255, 0.17),
+            156% 102% at 35% 16%,
+            rgba(255, 255, 255, 0.27),
+            rgba(255, 255, 255, 0) 64%
+          ),
+          radial-gradient(
+            162% 104% at 62% 22%,
+            rgba(255, 255, 255, 0.28),
+            rgba(255, 255, 255, 0) 66%
+          ),
+          radial-gradient(
+            154% 100% at 92% 20%,
+            rgba(255, 255, 255, 0.26),
             rgba(255, 255, 255, 0) 64%
           ),
           linear-gradient(
             180deg,
-            rgba(255, 255, 255, 0.06) 0%,
-            rgba(255, 255, 255, 0.03) 28%,
-            rgba(255, 255, 255, 0) 62%
+            rgba(247, 252, 255, 0.24) 0%,
+            rgba(231, 241, 252, 0.12) 34%,
+            rgba(210, 224, 239, 0) 70%
+          ),
+          linear-gradient(
+            180deg,
+            rgba(183, 205, 230, 0.12) 0%,
+            rgba(183, 205, 230, 0.05) 42%,
+            rgba(183, 205, 230, 0) 72%
           );
-        filter: blur(10px) saturate(1.02);
+        filter: blur(8px) saturate(1.04) brightness(1.02);
         animation: cloud-drift 36s ease-in-out infinite alternate;
-        opacity: 0.72;
+        opacity: 0.74;
       }
 
       .photo-clouds-front {
         background:
-          radial-gradient(122% 92% at 2% 33%, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0) 58%),
           radial-gradient(
-            126% 92% at 24% 28%,
-            rgba(255, 255, 255, 0.47),
+            116% 88% at 2% 34%,
+            rgba(255, 255, 255, 0.68),
             rgba(255, 255, 255, 0) 58%
           ),
           radial-gradient(
-            128% 92% at 49% 35%,
-            rgba(255, 255, 255, 0.45),
+            118% 90% at 24% 28%,
+            rgba(255, 255, 255, 0.66),
+            rgba(255, 255, 255, 0) 58%
+          ),
+          radial-gradient(
+            120% 90% at 49% 34%,
+            rgba(255, 255, 255, 0.64),
             rgba(255, 255, 255, 0) 60%
           ),
           radial-gradient(
-            124% 92% at 74% 30%,
-            rgba(255, 255, 255, 0.43),
+            118% 88% at 74% 30%,
+            rgba(255, 255, 255, 0.62),
             rgba(255, 255, 255, 0) 58%
           ),
           radial-gradient(
-            120% 90% at 98% 34%,
-            rgba(255, 255, 255, 0.48),
+            114% 86% at 98% 34%,
+            rgba(255, 255, 255, 0.66),
             rgba(255, 255, 255, 0) 58%
           ),
           linear-gradient(
             180deg,
-            rgba(255, 255, 255, 0.16) 0%,
-            rgba(255, 255, 255, 0.08) 42%,
+            rgba(251, 254, 255, 0.34) 0%,
+            rgba(238, 246, 255, 0.16) 40%,
+            rgba(209, 224, 240, 0.08) 62%,
             rgba(255, 255, 255, 0) 74%
           );
-        filter: blur(6px) contrast(1.06);
+        filter: blur(4.5px) contrast(1.08) saturate(1.03);
         animation: cloud-drift-front 22s ease-in-out infinite alternate;
         mix-blend-mode: screen;
         opacity: 0;
@@ -326,44 +345,53 @@ export class SwissWeatherBGCard extends LitElement {
       .photo-clouds-depth {
         background:
           radial-gradient(
-            120% 86% at 14% 66%,
-            rgba(255, 255, 255, 0.24),
+            128% 90% at 14% 66%,
+            rgba(232, 242, 252, 0.34),
             rgba(255, 255, 255, 0) 66%
           ),
           radial-gradient(
-            128% 90% at 46% 60%,
-            rgba(255, 255, 255, 0.2),
+            136% 94% at 46% 60%,
+            rgba(226, 238, 250, 0.3),
             rgba(255, 255, 255, 0) 64%
           ),
           radial-gradient(
-            124% 88% at 78% 68%,
-            rgba(255, 255, 255, 0.22),
+            132% 92% at 78% 68%,
+            rgba(229, 241, 253, 0.32),
             rgba(255, 255, 255, 0) 66%
           ),
           linear-gradient(
             180deg,
-            rgba(184, 207, 229, 0.16) 0%,
-            rgba(170, 195, 220, 0.08) 38%,
-            rgba(158, 185, 212, 0) 68%
+            rgba(199, 218, 238, 0.24) 0%,
+            rgba(180, 203, 228, 0.12) 42%,
+            rgba(162, 189, 217, 0) 72%
           );
-        filter: blur(14px);
+        filter: blur(11px) saturate(1.02);
         animation: cloud-drift-depth 28s ease-in-out infinite alternate;
         opacity: 0;
       }
 
-      .img-photo.mood-cloudy .photo-clouds,
-      .img-photo.mood-rainy .photo-clouds {
-        opacity: 0.92;
-      }
-
-      .img-photo.mood-cloudy .photo-clouds-front,
-      .img-photo.mood-rainy .photo-clouds-front {
+      .img-photo.mood-cloudy .photo-clouds {
         opacity: 0.88;
       }
 
-      .img-photo.mood-cloudy .photo-clouds-depth,
+      .img-photo.mood-cloudy .photo-clouds-front {
+        opacity: 0.8;
+      }
+
+      .img-photo.mood-cloudy .photo-clouds-depth {
+        opacity: 0.62;
+      }
+
+      .img-photo.mood-rainy .photo-clouds {
+        opacity: 0.94;
+      }
+
+      .img-photo.mood-rainy .photo-clouds-front {
+        opacity: 0.9;
+      }
+
       .img-photo.mood-rainy .photo-clouds-depth {
-        opacity: 0.78;
+        opacity: 0.8;
       }
 
       .img-photo.mood-cloudy.night .photo-clouds,
@@ -559,7 +587,7 @@ export class SwissWeatherBGCard extends LitElement {
 
       .rain-drop {
         position: absolute;
-        top: -14%;
+        top: var(--start-y, -14%);
         left: var(--x, 50%);
         width: var(--w, 2px);
         height: var(--h, 22px);
@@ -594,27 +622,31 @@ export class SwissWeatherBGCard extends LitElement {
         position: absolute;
         top: -14%;
         left: var(--x, 50%);
-        width: var(--size, 3.5px);
-        height: var(--size, 3.5px);
+        width: var(--size, 4.6px);
+        height: var(--size, 4.6px);
         border-radius: 999px;
         background: radial-gradient(
-          circle at 30% 30%,
-          rgba(236, 245, 255, 0.98),
-          rgba(171, 203, 235, 0.92) 72%,
-          rgba(120, 158, 196, 0.88) 100%
+          circle at 28% 28%,
+          rgba(248, 253, 255, 1),
+          rgba(199, 224, 246, 0.95) 70%,
+          rgba(136, 174, 209, 0.92) 100%
         );
         box-shadow:
-          inset -1px -1px 1px rgba(94, 132, 171, 0.45),
-          0 0 4px rgba(217, 234, 255, 0.45);
-        opacity: var(--opacity, 0.7);
+          inset -1px -1px 1px rgba(97, 137, 177, 0.52),
+          0 0 6px rgba(228, 241, 255, 0.6);
+        opacity: var(--opacity, 0.84);
         animation: hail-stone-fall var(--duration, 0.7s) linear infinite;
         animation-delay: var(--delay, 0s);
         z-index: 5;
       }
 
+      .img-photo.mood-cloudy .hail-stone {
+        filter: contrast(1.08) brightness(1.06);
+      }
+
       .rain-drizzle {
         position: absolute;
-        top: -12%;
+        top: var(--start-y, -12%);
         left: var(--x, 50%);
         width: var(--w, 1.1px);
         height: var(--h, 11px);
@@ -807,12 +839,12 @@ export class SwissWeatherBGCard extends LitElement {
 
       .photo-cloud-shadow {
         background:
-          radial-gradient(ellipse at 22% 42%, rgba(16, 26, 40, 0.22), rgba(16, 26, 40, 0) 46%),
-          radial-gradient(ellipse at 58% 40%, rgba(18, 30, 46, 0.18), rgba(18, 30, 46, 0) 44%),
-          radial-gradient(ellipse at 85% 44%, rgba(18, 31, 48, 0.22), rgba(18, 31, 48, 0) 47%);
+          radial-gradient(ellipse at 22% 42%, rgba(42, 66, 94, 0.2), rgba(42, 66, 94, 0) 48%),
+          radial-gradient(ellipse at 58% 40%, rgba(45, 70, 99, 0.16), rgba(45, 70, 99, 0) 46%),
+          radial-gradient(ellipse at 85% 44%, rgba(42, 67, 96, 0.2), rgba(42, 67, 96, 0) 49%);
         animation: cloud-shadow-drift 20s ease-in-out infinite alternate;
-        opacity: 0.5;
-        mix-blend-mode: multiply;
+        opacity: 0.36;
+        mix-blend-mode: soft-light;
       }
 
       .photo-vignette {
@@ -1105,7 +1137,7 @@ export class SwissWeatherBGCard extends LitElement {
         color: var(--primary-text-color, #fff);
       }
       .temp-low {
-        color: var(--secondary-text-color, rgba(255, 255, 255, 0.86));
+        color: var(--primary-text-color, #fff);
       }
       @media (max-width: 400px) {
         .temperature {
@@ -1263,7 +1295,7 @@ export class SwissWeatherBGCard extends LitElement {
                     </div>
                   `
                 : ''}
-              ${sunEntityId && this.config.show_sun_times !== false
+              ${sunEntityId && this.config.show_sun_times !== false && condition !== 'clear-night'
                 ? html`
                     <div class="sun-times">
                       <span title="${_t('sunrise')}">
@@ -1380,10 +1412,14 @@ export class SwissWeatherBGCard extends LitElement {
                         ${hasSnow ? this._renderSnowParticles(10, true) : html``}
                       </div>`
                   )}`
-                : html`${condition === 'pouring' ? this._renderRainParticles(68, false) : html``}
-                  ${condition === 'pouring' ? this._renderDrizzleParticles(28, false) : html``}
-                  ${condition === 'rainy' ? this._renderRainParticles(66, false) : html``}
-                  ${condition === 'rainy' ? this._renderDrizzleParticles(22, false) : html``}
+                : html`${condition === 'pouring'
+                    ? this._renderRainParticles(68, false, true)
+                    : html``}
+                  ${condition === 'pouring'
+                    ? this._renderDrizzleParticles(28, false, true)
+                    : html``}
+                  ${condition === 'rainy' ? this._renderRainParticles(66, false, true) : html``}
+                  ${condition === 'rainy' ? this._renderDrizzleParticles(22, false, true) : html``}
                   ${condition === 'lightning-rainy' ? this._renderRainParticles(54, false) : html``}
                   ${condition === 'lightning-rainy'
                     ? this._renderDrizzleParticles(18, false)
@@ -1395,7 +1431,7 @@ export class SwissWeatherBGCard extends LitElement {
                     ? this._renderRainParticles(28, false)
                     : html``}
                   ${hasSnow ? this._renderSnowParticles(36, false) : html``}
-                  ${hasHail ? this._renderHailParticles(42, false) : html``}`}
+                  ${hasHail ? this._renderHailParticles(58, false) : html``}`}
             </div>`
           : html``}
         ${hasLightning
@@ -1407,7 +1443,11 @@ export class SwissWeatherBGCard extends LitElement {
     `;
   }
 
-  private _renderRainParticles(count: number, cloudBound: boolean): TemplateResult[] {
+  private _renderRainParticles(
+    count: number,
+    cloudBound: boolean,
+    fullHeight = false
+  ): TemplateResult[] {
     return Array.from({ length: count }, (_, i) => {
       const base = cloudBound ? 14 : 4;
       const spread = cloudBound ? 72 : 96;
@@ -1418,12 +1458,13 @@ export class SwissWeatherBGCard extends LitElement {
       const opacity = (0.46 + (i % 4) * 0.11).toFixed(2);
       const drift = (i % 2 === 0 ? 5 : -5) + ((i % 3) - 1) * 1.7;
       const width = i % 3 === 0 ? 1.6 : 2.1;
+      const startY = fullHeight ? `${(-8 + ((i * 19 + 13) % 100)).toFixed(1)}%` : '-14%';
 
       return html`<span
         class="rain-drop"
         style="--x:${x.toFixed(
           2
-        )}%; --duration:${duration}s; --delay:${delay}s; --h:${height}px; --opacity:${opacity}; --drift:${drift.toFixed(
+        )}%; --start-y:${startY}; --duration:${duration}s; --delay:${delay}s; --h:${height}px; --opacity:${opacity}; --drift:${drift.toFixed(
           1
         )}px; --w:${width}px;"
       ></span>`;
@@ -1454,7 +1495,11 @@ export class SwissWeatherBGCard extends LitElement {
     });
   }
 
-  private _renderDrizzleParticles(count: number, cloudBound: boolean): TemplateResult[] {
+  private _renderDrizzleParticles(
+    count: number,
+    cloudBound: boolean,
+    fullHeight = false
+  ): TemplateResult[] {
     return Array.from({ length: count }, (_, i) => {
       const base = cloudBound ? 12 : 2;
       const spread = cloudBound ? 76 : 98;
@@ -1465,12 +1510,13 @@ export class SwissWeatherBGCard extends LitElement {
       const opacity = (0.22 + (i % 4) * 0.07).toFixed(2);
       const drift = (i % 2 === 0 ? 2.5 : -2.5) + ((i % 3) - 1) * 1.1;
       const width = i % 2 === 0 ? 1 : 1.2;
+      const startY = fullHeight ? `${(-8 + ((i * 23 + 5) % 100)).toFixed(1)}%` : '-12%';
 
       return html`<span
         class="rain-drizzle"
         style="--x:${x.toFixed(
           2
-        )}%; --duration:${duration}s; --delay:${delay}s; --h:${height}px; --opacity:${opacity}; --drift:${drift.toFixed(
+        )}%; --start-y:${startY}; --duration:${duration}s; --delay:${delay}s; --h:${height}px; --opacity:${opacity}; --drift:${drift.toFixed(
           1
         )}px; --w:${width}px;"
       ></span>`;
@@ -1482,11 +1528,11 @@ export class SwissWeatherBGCard extends LitElement {
       const base = cloudBound ? 14 : 4;
       const spread = cloudBound ? 72 : 96;
       const x = base + (((i * 31 + 17) % 100) / 100) * spread;
-      const duration = (cloudBound ? 0.75 : 0.68 + (i % 5) * 0.08).toFixed(2);
+      const duration = (cloudBound ? 0.73 : 0.62 + (i % 5) * 0.075).toFixed(2);
       const delay = (-1 * ((i % 7) * 0.19)).toFixed(2);
-      const opacity = (0.55 + (i % 4) * 0.11).toFixed(2);
-      const drift = (i % 2 === 0 ? 3 : -3) + ((i % 3) - 1) * 1.2;
-      const size = i % 2 === 0 ? 3.2 : 3.8;
+      const opacity = (0.72 + (i % 4) * 0.09).toFixed(2);
+      const drift = (i % 2 === 0 ? 3.4 : -3.4) + ((i % 3) - 1) * 1.3;
+      const size = i % 2 === 0 ? 4.3 : 5.1;
 
       return html`<span
         class="hail-stone"
