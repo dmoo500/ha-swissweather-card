@@ -1,5 +1,5 @@
 //#region package.json
-var e = "1.7.1-beta.16", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
+var e = "1.7.1-beta.17", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
 	constructor(e, t, n) {
 		if (this._$cssResult$ = !0, n !== r) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
 		this.cssText = e, this.t = t;
@@ -837,6 +837,9 @@ var We = class extends D {
 	show_temperature = !0;
 	_t;
 	showHoursChartLabel;
+	_resizeObserver;
+	_measuredWidth = 0;
+	_measuredHeight = 0;
 	static styles = s`
     :host {
       display: block;
@@ -879,6 +882,19 @@ var We = class extends D {
       min-height: 0;
     }
   `;
+	firstUpdated() {
+		let e = this.renderRoot.querySelector(".chart-svg-area");
+		e && (this._resizeObserver = new ResizeObserver((e) => {
+			for (let t of e) {
+				let e = Math.floor(t.contentRect.width), n = Math.floor(t.contentRect.height);
+				e > 0 && e !== this._measuredWidth && (this._measuredWidth = e), n > 0 && n !== this._measuredHeight && (this._measuredHeight = n);
+			}
+			this.requestUpdate();
+		}), this._resizeObserver.observe(e));
+	}
+	disconnectedCallback() {
+		this._resizeObserver?.disconnect(), this._resizeObserver = void 0, super.disconnectedCallback();
+	}
 	render() {
 		if (this.show_temperature === !1) return w``;
 		let e = this.hourlyForecast.slice(0, this.forecastHours).map((e) => typeof e.temperature == "number" && !isNaN(e.temperature) ? e.temperature : null), t = e.filter((e) => e !== null);
@@ -891,40 +907,40 @@ var We = class extends D {
             >°C</span
           >
         </div>
-        <div class="chart-svg-area" style="aspect-ratio: 600 / 100; width: 100%;">
+        <div class="chart-svg-area">
           ${(() => {
 			if (t.length < 2) return w``;
-			let n = e.length, r = Math.floor(Math.min(...t) / 5) * 5, i = Math.ceil(Math.max(...t) / 5) * 5;
-			r === i && (r -= 5, i += 5);
-			let a = i - r, o = 566 / (n - 1), s = (e) => 28 + e * o, c = (e) => 82 - (e - r) / a * 74, l = [];
-			for (let e = r; e <= i; e += 5) {
-				let t = c(e), n = e % 10 == 0;
-				l.push(T`
-                <line x1="${28}" y1="${t}" x2="${594}" y2="${t}"
+			let n = e.length, r = this._measuredWidth > 0 ? this._measuredWidth : 600, i = this._measuredHeight > 0 ? this._measuredHeight : 100, a = r - 28 - 6, o = i - 8 - 18, s = Math.floor(Math.min(...t) / 5) * 5, c = Math.ceil(Math.max(...t) / 5) * 5;
+			s === c && (s -= 5, c += 5);
+			let l = c - s, u = a / (n - 1), d = (e) => 28 + e * u, f = (e) => 8 + o - (e - s) / l * o, p = [];
+			for (let e = s; e <= c; e += 5) {
+				let t = f(e), n = e % 10 == 0;
+				p.push(T`
+                <line x1="${28}" y1="${t}" x2="${r - 6}" y2="${t}"
                   stroke="#888" stroke-width="${n ? 1 : .6}"
                   stroke-dasharray="${n ? "4,3" : "2,3"}" opacity="0.6"/>
                 <text x="${25}" y="${t}" text-anchor="end" dominant-baseline="middle"
                   font-size="8" fill="#888" opacity="0.8">${e}°</text>
               `);
 			}
-			let u = [];
+			let m = [];
 			for (let e = 0; e < n; e++) {
-				let t = s(e), r = this.hourlyForecast[e], i = r?.datetime ? new Date(r.datetime) : null;
-				(i && i.getHours() % 3 == 0 || n <= 8) && u.push(T`
-                  <line x1="${t}" y1="${8}" x2="${t}" y2="${82}"
+				let t = d(e), r = this.hourlyForecast[e], a = r?.datetime ? new Date(r.datetime) : null;
+				(a && a.getHours() % 3 == 0 || n <= 8) && m.push(T`
+                  <line x1="${t}" y1="${8}" x2="${t}" y2="${8 + o}"
                     stroke="#888" stroke-width="0.4" stroke-dasharray="2,3" opacity="0.3"/>
-                  <text x="${t}" y="${98}" text-anchor="middle"
+                  <text x="${t}" y="${i - 2}" text-anchor="middle"
                     font-size="8" fill="#888" opacity="0.7">
-                    ${i ? i.getHours() + "h" : ""}
+                    ${a ? a.getHours() + "h" : ""}
                   </text>
                 `);
 			}
-			return T`<svg width="100%" height="100%" viewBox="0 0 ${600} ${100}" preserveAspectRatio="xMidYMid meet" style="display:block;">
-              ${l}
-              ${u}
-              <polyline points="${e.map((e, t) => e === null ? "" : `${s(t)},${c(e)}`).filter(Boolean).join(" ")}" fill="none" stroke="#db4a34" stroke-width="2.5"
+			return T`<svg width="100%" height="100%" viewBox="0 0 ${r} ${i}" style="display:block;">
+              ${p}
+              ${m}
+              <polyline points="${e.map((e, t) => e === null ? "" : `${d(t)},${f(e)}`).filter(Boolean).join(" ")}" fill="none" stroke="#db4a34" stroke-width="2.5"
                 stroke-linecap="round" stroke-linejoin="round"/>
-              ${e.map((e, t) => e === null ? null : T`<circle cx="${s(t)}" cy="${c(e)}" r="2.5" fill="#db4a34"/>`)}
+              ${e.map((e, t) => e === null ? null : T`<circle cx="${d(t)}" cy="${f(e)}" r="2.5" fill="#db4a34"/>`)}
             </svg>`;
 		})()}
         </div>
@@ -941,6 +957,9 @@ var Ge = class extends D {
 	show_precipitation = !0;
 	_t;
 	showHoursChartLabel;
+	_resizeObserver;
+	_measuredWidth = 0;
+	_measuredHeight = 0;
 	static styles = s`
     :host {
       display: block;
@@ -983,6 +1002,19 @@ var Ge = class extends D {
       min-height: 0;
     }
   `;
+	firstUpdated() {
+		let e = this.renderRoot.querySelector(".chart-svg-area");
+		e && (this._resizeObserver = new ResizeObserver((e) => {
+			for (let t of e) {
+				let e = Math.floor(t.contentRect.width), n = Math.floor(t.contentRect.height);
+				e > 0 && e !== this._measuredWidth && (this._measuredWidth = e), n > 0 && n !== this._measuredHeight && (this._measuredHeight = n);
+			}
+			this.requestUpdate();
+		}), this._resizeObserver.observe(e));
+	}
+	disconnectedCallback() {
+		this._resizeObserver?.disconnect(), this._resizeObserver = void 0, super.disconnectedCallback();
+	}
 	render() {
 		if (this.show_precipitation === !1) return w``;
 		let e = this.hourlyForecast.slice(0, this.forecastHours), t = e.some((e) => typeof e.precipitation == "number" && !isNaN(e.precipitation));
@@ -1005,11 +1037,11 @@ var Ge = class extends D {
             >mm</span
           >
         </div>
-        <div class="chart-svg-area" style="aspect-ratio: 600 / 100; width: 100%;">
+        <div class="chart-svg-area">
           ${(() => {
 			let t = e.length;
 			if (t === 0) return w``;
-			let n = e.map((e) => typeof e.precipitation == "number" && !isNaN(e.precipitation) ? e.precipitation : 0), r = Math.max(5, Math.ceil(Math.max(...n))), i = r, a = (e) => 82 - e / i * 74, o = 566 / t, s = (e) => 28 + e * o + o / 2, c = [
+			let n = this._measuredWidth > 0 ? this._measuredWidth : 600, r = this._measuredHeight > 0 ? this._measuredHeight : 100, i = n - 28 - 6, a = r - 8 - 18, o = e.map((e) => typeof e.precipitation == "number" && !isNaN(e.precipitation) ? e.precipitation : 0), s = Math.max(5, Math.ceil(Math.max(...o))), c = s, l = (e) => 8 + a - e / c * a, u = i / t, d = (e) => 28 + e * u + u / 2, f = [
 				1,
 				2,
 				3,
@@ -1018,62 +1050,62 @@ var Ge = class extends D {
 				10,
 				15,
 				20
-			].filter((e) => e <= r);
-			c.includes(r) || c.push(r);
-			let l = [];
-			for (let e of c) {
-				let t = a(e), n = e % 5 == 0;
-				l.push(T`
-                <line x1="${28}" y1="${t}" x2="${594}" y2="${t}"
-                  stroke="#888" stroke-width="${n ? 1 : .6}"
-                  stroke-dasharray="${n ? "4,3" : "2,3"}" opacity="0.6"/>
+			].filter((e) => e <= s);
+			f.includes(s) || f.push(s);
+			let p = [];
+			for (let e of f) {
+				let t = l(e), r = e % 5 == 0;
+				p.push(T`
+                <line x1="${28}" y1="${t}" x2="${n - 6}" y2="${t}"
+                  stroke="#888" stroke-width="${r ? 1 : .6}"
+                  stroke-dasharray="${r ? "4,3" : "2,3"}" opacity="0.6"/>
                 <text x="${25}" y="${t}" text-anchor="end" dominant-baseline="middle"
                   font-size="8" fill="#888" opacity="0.8">${e}</text>
               `);
 			}
-			l.push(T`
-              <line x1="${28}" y1="${a(0)}" x2="${594}" y2="${a(0)}"
+			p.push(T`
+              <line x1="${28}" y1="${l(0)}" x2="${n - 6}" y2="${l(0)}"
                 stroke="#888" stroke-width="1" opacity="0.5"/>
-              <text x="${25}" y="${a(0)}" text-anchor="end" dominant-baseline="middle"
+              <text x="${25}" y="${l(0)}" text-anchor="end" dominant-baseline="middle"
                 font-size="8" fill="#888" opacity="0.8">0</text>
             `);
-			let u = [];
+			let m = [];
 			for (let n = 0; n < t; n++) {
-				let r = s(n), i = e[n]?.datetime ? new Date(e[n].datetime) : null;
-				(i ? i.getHours() % 3 == 0 : t <= 8) && u.push(T`
-                  <line x1="${r}" y1="${8}" x2="${r}" y2="${82}"
+				let i = d(n), o = e[n]?.datetime ? new Date(e[n].datetime) : null;
+				(o ? o.getHours() % 3 == 0 : t <= 8) && m.push(T`
+                  <line x1="${i}" y1="${8}" x2="${i}" y2="${8 + a}"
                     stroke="#888" stroke-width="0.4" stroke-dasharray="2,3" opacity="0.3"/>
-                  <text x="${r}" y="${98}" text-anchor="middle"
+                  <text x="${i}" y="${r - 2}" text-anchor="middle"
                     font-size="8" fill="#888" opacity="0.7">
-                    ${i ? i.getHours() + "h" : ""}
+                    ${o ? o.getHours() + "h" : ""}
                   </text>
                 `);
 			}
-			let d = [], f = [], p = Math.max(2, o * .55);
+			let h = [], ee = [], te = Math.max(2, u * .55);
 			for (let n = 0; n < t; n++) {
-				let t = e[n], r = s(n) - p / 2, o = typeof t.precipitation_probability == "number" && !isNaN(t.precipitation_probability) ? t.precipitation_probability : 0, c = typeof t.precipitation == "number" && !isNaN(t.precipitation) ? t.precipitation : 0, l = o / 100 * 5 / i * 74;
-				if (o > 0 && d.push(T`
-                  <rect x="${r}" y="${a(0) - l}" width="${p}" height="${l}"
+				let t = e[n], r = d(n) - te / 2, i = typeof t.precipitation_probability == "number" && !isNaN(t.precipitation_probability) ? t.precipitation_probability : 0, o = typeof t.precipitation == "number" && !isNaN(t.precipitation) ? t.precipitation : 0, s = i / 100 * 5 / c * a;
+				if (i > 0 && h.push(T`
+                  <rect x="${r}" y="${l(0) - s}" width="${te}" height="${s}"
                     fill="#87898e" opacity="0.35" rx="1.5"/>
-                `), c > 0) {
-					let e = c / i * 74;
-					f.push(T`
-                  <rect x="${r}" y="${a(0) - e}" width="${p}" height="${e}"
+                `), o > 0) {
+					let e = o / c * a;
+					ee.push(T`
+                  <rect x="${r}" y="${l(0) - e}" width="${te}" height="${e}"
                     fill="url(#precip-grad)" opacity="1" rx="1.5"/>
                 `);
 				}
 			}
-			return T`<svg width="100%" height="100%" viewBox="0 0 ${600} ${100}" preserveAspectRatio="xMidYMid meet" style="display:block;">
+			return T`<svg width="100%" height="100%" viewBox="0 0 ${n} ${r}" style="display:block;">
               <defs>
                 <linearGradient id="precip-grad" x1="0" y1="1" x2="0" y2="0">
                   <stop offset="0%" stop-color="#3498db"/>
                   <stop offset="100%" stop-color="#85c5e5"/>
                 </linearGradient>
               </defs>
-              ${l}
-              ${u}
-              ${d}
-              ${f}
+              ${p}
+              ${m}
+              ${h}
+              ${ee}
             </svg>`;
 		})()}
         </div>
@@ -1285,6 +1317,9 @@ var Ke = class extends D {
 	show_wind = !0;
 	_t;
 	showHoursChartLabel;
+	_resizeObserver;
+	_measuredWidth = 0;
+	_measuredHeight = 0;
 	static styles = s`
     :host {
       display: block;
@@ -1327,6 +1362,19 @@ var Ke = class extends D {
       min-height: 0;
     }
   `;
+	firstUpdated() {
+		let e = this.renderRoot.querySelector(".chart-svg-area");
+		e && (this._resizeObserver = new ResizeObserver((e) => {
+			for (let t of e) {
+				let e = Math.floor(t.contentRect.width), n = Math.floor(t.contentRect.height);
+				e > 0 && e !== this._measuredWidth && (this._measuredWidth = e), n > 0 && n !== this._measuredHeight && (this._measuredHeight = n);
+			}
+			this.requestUpdate();
+		}), this._resizeObserver.observe(e));
+	}
+	disconnectedCallback() {
+		this._resizeObserver?.disconnect(), this._resizeObserver = void 0, super.disconnectedCallback();
+	}
 	render() {
 		if (this.show_wind === !1) return w``;
 		let e = this.hourlyForecast.slice(0, this.forecastHours), t = e.some((e) => typeof e.wind_speed == "number" && !isNaN(e.wind_speed));
@@ -1339,48 +1387,49 @@ var Ke = class extends D {
             >km/h</span
           >
         </div>
-        <div class="chart-svg-area" style="aspect-ratio: 600 / 122; width: 100%;">
+        <div class="chart-svg-area">
           ${(() => {
 			let t = e.length;
 			if (t < 2) return w``;
-			let n = e.map((e) => typeof e.wind_speed == "number" && !isNaN(e.wind_speed) ? e.wind_speed : null), r = n.filter((e) => e !== null), i = Math.max(10, Math.ceil(Math.max(...r) / 5) * 5), a = i, o = (e) => 82 - e / a * 74, s = 566 / (t - 1), c = (e) => 28 + e * s, l = [];
-			for (let e = 0; e <= i; e += 5) {
-				let t = o(e), n = e % 10 == 0;
-				l.push(T`
-                <line x1="${28}" y1="${t}" x2="${594}" y2="${t}"
-                  stroke="#888" stroke-width="${n ? 1 : .6}"
-                  stroke-dasharray="${n ? "4,3" : "2,3"}" opacity="0.6"/>
+			let n = this._measuredWidth > 0 ? this._measuredWidth : 600, r = this._measuredHeight > 0 ? this._measuredHeight : 122, i = n - 28 - 6, a = r - 8 - 40, o = e.map((e) => typeof e.wind_speed == "number" && !isNaN(e.wind_speed) ? e.wind_speed : null), s = o.filter((e) => e !== null), c = Math.max(10, Math.ceil(Math.max(...s) / 5) * 5), l = c, u = (e) => 8 + a - e / l * a, d = i / (t - 1), f = (e) => 28 + e * d, p = [];
+			for (let e = 0; e <= c; e += 5) {
+				let t = u(e), r = e % 10 == 0;
+				p.push(T`
+                <line x1="${28}" y1="${t}" x2="${n - 6}" y2="${t}"
+                  stroke="#888" stroke-width="${r ? 1 : .6}"
+                  stroke-dasharray="${r ? "4,3" : "2,3"}" opacity="0.6"/>
                 <text x="${25}" y="${t}" text-anchor="end" dominant-baseline="middle"
                   font-size="8" fill="#888" opacity="0.8">${e}</text>
               `);
 			}
-			let u = [];
+			let m = [];
 			for (let n = 0; n < t; n++) {
-				let r = c(n), i = e[n]?.datetime ? new Date(e[n].datetime) : null;
-				(i ? i.getHours() % 3 == 0 : t <= 8) && u.push(T`
-                  <line x1="${r}" y1="${8}" x2="${r}" y2="${82}"
+				let i = f(n), o = e[n]?.datetime ? new Date(e[n].datetime) : null;
+				(o ? o.getHours() % 3 == 0 : t <= 8) && m.push(T`
+                  <line x1="${i}" y1="${8}" x2="${i}" y2="${8 + a}"
                     stroke="#888" stroke-width="0.4" stroke-dasharray="2,3" opacity="0.3"/>
-                  <text x="${r}" y="${98}" text-anchor="middle"
+                  <text x="${i}" y="${r - 22 - 2}" text-anchor="middle"
                     font-size="8" fill="#888" opacity="0.7">
-                    ${i ? i.getHours() + "h" : ""}
+                    ${o ? o.getHours() + "h" : ""}
                   </text>
                 `);
 			}
-			return T`<svg width="100%" height="100%" viewBox="0 0 ${600} ${122}" preserveAspectRatio="xMidYMid meet" style="display:block;">
-              ${l}
-              ${u}
-              <polyline points="${n.map((e, t) => e === null ? "" : `${c(t)},${o(e)}`).filter(Boolean).join(" ")}" fill="none" stroke="#44739e" stroke-width="2.5"
+			let h = o.map((e, t) => e === null ? "" : `${f(t)},${u(e)}`).filter(Boolean).join(" "), ee = o.map((e, t) => e === null ? null : T`<circle cx="${f(t)}" cy="${u(e)}" r="2.5" fill="#44739e"/>`), te = r - 22 / 2 + 2;
+			return T`<svg width="100%" height="100%" viewBox="0 0 ${n} ${r}" style="display:block;">
+              ${p}
+              ${m}
+              <polyline points="${h}" fill="none" stroke="#44739e" stroke-width="2.5"
                 stroke-linecap="round" stroke-linejoin="round"/>
-              ${n.map((e, t) => e === null ? null : T`<circle cx="${c(t)}" cy="${o(e)}" r="2.5" fill="#44739e"/>`)}
+              ${ee}
               ${e.map((e, t) => {
 				let n = typeof e.wind_bearing == "number" && !isNaN(e.wind_bearing) ? e.wind_bearing : null;
 				if (n === null) return null;
-				let r = c(t), i = (n - 90) * (Math.PI / 180), a = r + 7 * Math.cos(i), o = 113 + 7 * Math.sin(i), s = i + Math.PI;
+				let r = f(t), i = te, a = (n - 90) * (Math.PI / 180), o = r + 7 * Math.cos(a), s = i + 7 * Math.sin(a), c = a + Math.PI;
 				return T`
-                <circle cx="${r}" cy="${113}" r="${7}" fill="none" stroke="#44739e" stroke-width="0.8" opacity="0.5"/>
-                <line x1="${r + 5 * Math.cos(s)}" y1="${113 + 5 * Math.sin(s)}" x2="${a}" y2="${o}"
+                <circle cx="${r}" cy="${i}" r="${7}" fill="none" stroke="#44739e" stroke-width="0.8" opacity="0.5"/>
+                <line x1="${r + 5 * Math.cos(c)}" y1="${i + 5 * Math.sin(c)}" x2="${o}" y2="${s}"
                   stroke="#44739e" stroke-width="1.5" stroke-linecap="round" opacity="0.85"/>
-                <circle cx="${a}" cy="${o}" r="1.5" fill="#44739e" opacity="0.85"/>
+                <circle cx="${o}" cy="${s}" r="1.5" fill="#44739e" opacity="0.85"/>
               `;
 			})}
             </svg>`;

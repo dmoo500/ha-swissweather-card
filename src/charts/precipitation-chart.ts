@@ -9,6 +9,9 @@ export class PrecipitationChart extends LitElement {
   @property({ type: Boolean }) show_precipitation = true;
   @property({ type: Function }) _t!: (key: string, vars?: Record<string, any>) => string;
   @property({ type: Function }) showHoursChartLabel!: (hours: number) => TemplateResult;
+  private _resizeObserver?: ResizeObserver;
+  private _measuredWidth = 0;
+  private _measuredHeight = 0;
 
   static styles = css`
     :host {
@@ -53,6 +56,27 @@ export class PrecipitationChart extends LitElement {
     }
   `;
 
+  protected firstUpdated(): void {
+    const area = this.renderRoot.querySelector('.chart-svg-area') as HTMLElement | null;
+    if (!area) return;
+    this._resizeObserver = new ResizeObserver(entries => {
+      for (const entry of entries) {
+        const w = Math.floor(entry.contentRect.width);
+        const h = Math.floor(entry.contentRect.height);
+        if (w > 0 && w !== this._measuredWidth) this._measuredWidth = w;
+        if (h > 0 && h !== this._measuredHeight) this._measuredHeight = h;
+      }
+      this.requestUpdate();
+    });
+    this._resizeObserver.observe(area);
+  }
+
+  disconnectedCallback(): void {
+    this._resizeObserver?.disconnect();
+    this._resizeObserver = undefined;
+    super.disconnectedCallback();
+  }
+
   render(): TemplateResult {
     if (this.show_precipitation === false) return html``;
 
@@ -82,13 +106,13 @@ export class PrecipitationChart extends LitElement {
             >mm</span
           >
         </div>
-        <div class="chart-svg-area" style="aspect-ratio: 600 / 100; width: 100%;">
+        <div class="chart-svg-area">
           ${(() => {
             const n = slice.length;
             if (n === 0) return html``;
 
-            const svgW = 600;
-            const svgH = 100;
+            const svgW = this._measuredWidth > 0 ? this._measuredWidth : 600;
+            const svgH = this._measuredHeight > 0 ? this._measuredHeight : 100;
             const padLeft = 28;
             const padRight = 6;
             const padTop = 8;
@@ -185,7 +209,7 @@ export class PrecipitationChart extends LitElement {
               }
             }
 
-            return svg`<svg width="100%" height="100%" viewBox="0 0 ${svgW} ${svgH}" preserveAspectRatio="xMidYMid meet" style="display:block;">
+            return svg`<svg width="100%" height="100%" viewBox="0 0 ${svgW} ${svgH}" style="display:block;">
               <defs>
                 <linearGradient id="precip-grad" x1="0" y1="1" x2="0" y2="0">
                   <stop offset="0%" stop-color="#3498db"/>
