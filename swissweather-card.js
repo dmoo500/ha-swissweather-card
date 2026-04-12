@@ -2606,7 +2606,10 @@ var rn = class extends D {
 			"wind_entity",
 			"wind_direction_entity",
 			"sunshine_entity",
-			"warning_entity"
+			"warning_entity",
+			"primary_warning_entity",
+			"secondary_warning_entity",
+			"tertiary_warning_entity"
 		]) t[e] === "" && delete t[e];
 		this._config = t, this.requestUpdate();
 	}
@@ -2778,6 +2781,9 @@ var rn = class extends D {
 			wind_direction_entity: typeof this._config?.wind_direction_entity == "string" ? this._config.wind_direction_entity : void 0,
 			sunshine_entity: typeof this._config?.sunshine_entity == "string" ? this._config.sunshine_entity : void 0,
 			warning_entity: typeof this._config?.warning_entity == "string" ? this._config.warning_entity : void 0,
+			primary_warning_entity: typeof this._config?.primary_warning_entity == "string" ? this._config.primary_warning_entity : void 0,
+			secondary_warning_entity: typeof this._config?.secondary_warning_entity == "string" ? this._config.secondary_warning_entity : void 0,
+			tertiary_warning_entity: typeof this._config?.tertiary_warning_entity == "string" ? this._config.tertiary_warning_entity : void 0,
 			show_forecast: this._config?.show_forecast ?? !0,
 			forecast_hours: this._config?.forecast_hours ?? 6,
 			show_temperature: this._config?.show_temperature ?? !0,
@@ -2820,6 +2826,9 @@ var rn = class extends D {
             .hass=${this.hass}
             .data=${n}
             .schema=${[
+			U.find((e) => e.name === "primary_warning_entity"),
+			U.find((e) => e.name === "secondary_warning_entity"),
+			U.find((e) => e.name === "tertiary_warning_entity"),
 			U.find((e) => e.name === "warning_entity"),
 			U.find((e) => e.name === "precipitation_entity"),
 			U.find((e) => e.name === "sun_entity"),
@@ -4908,10 +4917,8 @@ var pi = class extends D {
               <div style="margin-top: 6px; font-size: 13px; opacity: 0.85;">
                 ${r.valid_from || r.valid_to ? w`
                       <div style="margin-bottom: 4px;">
-                        ${r.valid_from ? w`<strong>${B("valid_from")}: </strong
-                                >${new Date(r.valid_from).toLocaleString()}&nbsp;` : ""}
-                        ${r.valid_to ? w`<strong>${B("valid_to")}: </strong
-                                >${new Date(r.valid_to).toLocaleString()}` : ""}
+                        ${r.valid_from ? w`<strong>${B("valid_from")}: </strong>${new Date(r.valid_from).toLocaleString()}&nbsp;` : ""}
+                        ${r.valid_to ? w`<strong>${B("valid_to")}: </strong>${new Date(r.valid_to).toLocaleString()}` : ""}
                       </div>
                     ` : ""}
                 ${r.html_text ? w`
@@ -9058,10 +9065,8 @@ var fa = class extends D {
               <div style="margin-top: 6px; font-size: 13px; opacity: 0.85;">
                 ${n.valid_from || n.valid_to ? w`
                       <div style="margin-bottom: 4px;">
-                        ${n.valid_from ? w`<strong>${L("valid_from")}: </strong
-                                >${new Date(n.valid_from).toLocaleString()}&nbsp;` : ""}
-                        ${n.valid_to ? w`<strong>${L("valid_to")}: </strong
-                                >${new Date(n.valid_to).toLocaleString()}` : ""}
+                        ${n.valid_from ? w`<strong>${L("valid_from")}: </strong>${new Date(n.valid_from).toLocaleString()}&nbsp;` : ""}
+                        ${n.valid_to ? w`<strong>${L("valid_to")}: </strong>${new Date(n.valid_to).toLocaleString()}` : ""}
                       </div>
                     ` : ""}
                 ${n.html_text ? w`<div
@@ -9285,7 +9290,10 @@ var pa = class extends D {
     `;
 	}
 	_valueChanged(e) {
-		this._config ||= { type: `custom:${ca}` };
+		this._config ||= {
+			type: `custom:${ca}`,
+			entity: ""
+		};
 		let t = {
 			...this._config,
 			...e.detail.value
