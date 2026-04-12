@@ -19,12 +19,15 @@ import { SunshineCard } from './cards/hourly-charts/sunshine-card';
 import { SunshineCardEditor } from './cards/hourly-charts/sunshine-card-editor';
 import { WindCard } from './cards/hourly-charts/wind-card';
 import { WindCardEditor } from './cards/hourly-charts/wind-card-editor';
+import { WarningCard } from './cards/warnings/warning-card';
+import { WarningCardEditor } from './cards/warnings/warning-card-editor';
 import {
   TEMPERATURE_CARD_NAME,
   PRECIPITATION_CARD_NAME,
   SUNSHINE_CARD_NAME,
   WIND_CARD_NAME,
 } from './cards/hourly-charts/const';
+import { WARNING_CARD_NAME } from './cards/warnings/const';
 import { registerCustomCard } from './utils';
 import { FORECAST_DIAGRAM_CARD_NAME } from './cards/forecast-diagram/const';
 import { FULL_CARD_NAME } from './cards/full-card/const';
@@ -104,6 +107,11 @@ registerCustomCard({
   name: 'SwissWeather Wind Chart Card',
   description: 'Hourly wind speed & direction chart as standalone card',
 });
+registerCustomCard({
+  type: WARNING_CARD_NAME,
+  name: 'SwissWeather Warning Card',
+  description: 'Standalone weather warning card supporting ranked and legacy warning models',
+});
 console.log(
   `%c 📦 SwissWeather Card module loading completed - version: ${version}`,
   'color: #ef5350; font-weight: 700;'
@@ -125,6 +133,9 @@ export {
   SunshineCardEditor,
   WindCard,
   WindCardEditor,
+  // Warning Card
+  WarningCard,
+  WarningCardEditor,
   // Charts
   DailyForecastChart,
   ForecastTemperatureChart,

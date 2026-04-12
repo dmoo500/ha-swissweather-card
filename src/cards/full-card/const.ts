@@ -64,6 +64,33 @@ export const schema = [
     },
   },
   {
+    name: 'primary_warning_entity',
+    description: 'config.descr.primary_warning_entity',
+    selector: {
+      entity: {
+        domain: 'sensor',
+      },
+    },
+  },
+  {
+    name: 'secondary_warning_entity',
+    description: 'config.descr.secondary_warning_entity',
+    selector: {
+      entity: {
+        domain: 'sensor',
+      },
+    },
+  },
+  {
+    name: 'tertiary_warning_entity',
+    description: 'config.descr.tertiary_warning_entity',
+    selector: {
+      entity: {
+        domain: 'sensor',
+      },
+    },
+  },
+  {
     name: 'forecast_hours',
     description: 'config.descr.forecast_hours',
     selector: { number: { min: 6, max: 18, step: 1 } },
@@ -130,7 +157,14 @@ export type CardConfig = BasicCardConfig & {
   type: typeof FULL_CARD_NAME;
   show_location?: boolean;
   location?: string;
+  /** Legacy aggregated warning sensor (izacus/hass-swissweather) */
   warning_entity?: string;
+  /** Ranked warning model – primary slot (*_primary_weather_warning) */
+  primary_warning_entity?: string;
+  /** Ranked warning model – secondary slot (*_secondary_weather_warning) */
+  secondary_warning_entity?: string;
+  /** Ranked warning model – tertiary slot (*_tertiary_weather_warning) */
+  tertiary_warning_entity?: string;
   sun_entity?: string;
   wind_entity?: string;
   wind_direction_entity?: string;

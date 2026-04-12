@@ -1,5 +1,5 @@
 //#region package.json
-var e = "1.7.1", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
+var e = "1.8.0b1", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
 	constructor(e, t, n) {
 		if (this._$cssResult$ = !0, n !== r) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
 		this.cssText = e, this.t = t;
@@ -29,11 +29,11 @@ var e = "1.7.1", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t
 	let t = "";
 	for (let n of e.cssRules) t += n.cssText;
 	return o(t);
-})(e) : e, { is: u, defineProperty: d, getOwnPropertyDescriptor: f, getOwnPropertyNames: p, getOwnPropertySymbols: m, getPrototypeOf: h } = Object, ee = globalThis, te = ee.trustedTypes, ne = te ? te.emptyScript : "", re = ee.reactiveElementPolyfillSupport, ie = (e, t) => e, ae = {
+})(e) : e, { is: u, defineProperty: d, getOwnPropertyDescriptor: f, getOwnPropertyNames: p, getOwnPropertySymbols: m, getPrototypeOf: h } = Object, g = globalThis, _ = g.trustedTypes, ee = _ ? _.emptyScript : "", te = g.reactiveElementPolyfillSupport, ne = (e, t) => e, re = {
 	toAttribute(e, t) {
 		switch (t) {
 			case Boolean:
-				e = e ? ne : null;
+				e = e ? ee : null;
 				break;
 			case Object:
 			case Array: e = e == null ? e : JSON.stringify(e);
@@ -58,23 +58,23 @@ var e = "1.7.1", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t
 		}
 		return n;
 	}
-}, oe = (e, t) => !u(e, t), g = {
+}, ie = (e, t) => !u(e, t), v = {
 	attribute: !0,
 	type: String,
-	converter: ae,
+	converter: re,
 	reflect: !1,
 	useDefault: !1,
-	hasChanged: oe
+	hasChanged: ie
 };
-Symbol.metadata ??= Symbol("metadata"), ee.litPropertyMetadata ??= /* @__PURE__ */ new WeakMap();
-var _ = class extends HTMLElement {
+Symbol.metadata ??= Symbol("metadata"), g.litPropertyMetadata ??= /* @__PURE__ */ new WeakMap();
+var y = class extends HTMLElement {
 	static addInitializer(e) {
 		this._$Ei(), (this.l ??= []).push(e);
 	}
 	static get observedAttributes() {
 		return this.finalize(), this._$Eh && [...this._$Eh.keys()];
 	}
-	static createProperty(e, t = g) {
+	static createProperty(e, t = v) {
 		if (t.state && (t.attribute = !1), this._$Ei(), this.prototype.hasOwnProperty(e) && ((t = Object.create(t)).wrapped = !0), this.elementProperties.set(e, t), !t.noAccessor) {
 			let n = Symbol(), r = this.getPropertyDescriptor(e, n, t);
 			r !== void 0 && d(this.prototype, e, r);
@@ -100,16 +100,16 @@ var _ = class extends HTMLElement {
 		};
 	}
 	static getPropertyOptions(e) {
-		return this.elementProperties.get(e) ?? g;
+		return this.elementProperties.get(e) ?? v;
 	}
 	static _$Ei() {
-		if (this.hasOwnProperty(ie("elementProperties"))) return;
+		if (this.hasOwnProperty(ne("elementProperties"))) return;
 		let e = h(this);
 		e.finalize(), e.l !== void 0 && (this.l = [...e.l]), this.elementProperties = new Map(e.elementProperties);
 	}
 	static finalize() {
-		if (this.hasOwnProperty(ie("finalized"))) return;
-		if (this.finalized = !0, this._$Ei(), this.hasOwnProperty(ie("properties"))) {
+		if (this.hasOwnProperty(ne("finalized"))) return;
+		if (this.finalized = !0, this._$Ei(), this.hasOwnProperty(ne("properties"))) {
 			let e = this.properties, t = [...p(e), ...m(e)];
 			for (let n of t) this.createProperty(n, e[n]);
 		}
@@ -171,14 +171,14 @@ var _ = class extends HTMLElement {
 	_$ET(e, t) {
 		let n = this.constructor.elementProperties.get(e), r = this.constructor._$Eu(e, n);
 		if (r !== void 0 && !0 === n.reflect) {
-			let i = (n.converter?.toAttribute === void 0 ? ae : n.converter).toAttribute(t, n.type);
+			let i = (n.converter?.toAttribute === void 0 ? re : n.converter).toAttribute(t, n.type);
 			this._$Em = e, i == null ? this.removeAttribute(r) : this.setAttribute(r, i), this._$Em = null;
 		}
 	}
 	_$AK(e, t) {
 		let n = this.constructor, r = n._$Eh.get(e);
 		if (r !== void 0 && this._$Em !== r) {
-			let e = n.getPropertyOptions(r), i = typeof e.converter == "function" ? { fromAttribute: e.converter } : e.converter?.fromAttribute === void 0 ? ae : e.converter;
+			let e = n.getPropertyOptions(r), i = typeof e.converter == "function" ? { fromAttribute: e.converter } : e.converter?.fromAttribute === void 0 ? re : e.converter;
 			this._$Em = r;
 			let a = i.fromAttribute(t, e.type);
 			this[r] = a ?? this._$Ej?.get(r) ?? a, this._$Em = null;
@@ -187,7 +187,7 @@ var _ = class extends HTMLElement {
 	requestUpdate(e, t, n) {
 		if (e !== void 0) {
 			let r = this.constructor, i = this[e];
-			if (n ??= r.getPropertyOptions(e), !((n.hasChanged ?? oe)(i, t) || n.useDefault && n.reflect && i === this._$Ej?.get(e) && !this.hasAttribute(r._$Eu(e, n)))) return;
+			if (n ??= r.getPropertyOptions(e), !((n.hasChanged ?? ie)(i, t) || n.useDefault && n.reflect && i === this._$Ej?.get(e) && !this.hasAttribute(r._$Eu(e, n)))) return;
 			this.C(e, t, n);
 		}
 		!1 === this.isUpdatePending && (this._$ES = this._$EP());
@@ -251,25 +251,25 @@ var _ = class extends HTMLElement {
 	updated(e) {}
 	firstUpdated(e) {}
 };
-_.elementStyles = [], _.shadowRootOptions = { mode: "open" }, _[ie("elementProperties")] = /* @__PURE__ */ new Map(), _[ie("finalized")] = /* @__PURE__ */ new Map(), re?.({ ReactiveElement: _ }), (ee.reactiveElementVersions ??= []).push("2.1.1");
+y.elementStyles = [], y.shadowRootOptions = { mode: "open" }, y[ne("elementProperties")] = /* @__PURE__ */ new Map(), y[ne("finalized")] = /* @__PURE__ */ new Map(), te?.({ ReactiveElement: y }), (g.reactiveElementVersions ??= []).push("2.1.1");
 //#endregion
 //#region node_modules/lit/node_modules/lit-html/lit-html.js
-var se = globalThis, ce = se.trustedTypes, le = ce ? ce.createPolicy("lit-html", { createHTML: (e) => e }) : void 0, v = "$lit$", y = `lit$${Math.random().toFixed(9).slice(2)}$`, ue = "?" + y, de = `<${ue}>`, fe = document, b = () => fe.createComment(""), x = (e) => e === null || typeof e != "object" && typeof e != "function", S = Array.isArray, pe = (e) => S(e) || typeof e?.[Symbol.iterator] == "function", me = "[ 	\n\f\r]", he = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, ge = /-->/g, _e = />/g, C = RegExp(`>|${me}(?:([^\\s"'>=/]+)(${me}*=${me}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`, "g"), ve = /'/g, ye = /"/g, be = /^(?:script|style|textarea|title)$/i, xe = (e) => (t, ...n) => ({
+var ae = globalThis, oe = ae.trustedTypes, se = oe ? oe.createPolicy("lit-html", { createHTML: (e) => e }) : void 0, b = "$lit$", ce = `lit$${Math.random().toFixed(9).slice(2)}$`, le = "?" + ce, ue = `<${le}>`, de = document, x = () => de.createComment(""), S = (e) => e === null || typeof e != "object" && typeof e != "function", C = Array.isArray, fe = (e) => C(e) || typeof e?.[Symbol.iterator] == "function", pe = "[ 	\n\f\r]", me = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, he = /-->/g, ge = />/g, _e = RegExp(`>|${pe}(?:([^\\s"'>=/]+)(${pe}*=${pe}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`, "g"), ve = /'/g, ye = /"/g, be = /^(?:script|style|textarea|title)$/i, xe = (e) => (t, ...n) => ({
 	_$litType$: e,
 	strings: t,
 	values: n
-}), w = xe(1), T = xe(2), Se = Symbol.for("lit-noChange"), E = Symbol.for("lit-nothing"), Ce = /* @__PURE__ */ new WeakMap(), we = fe.createTreeWalker(fe, 129);
+}), w = xe(1), T = xe(2), Se = Symbol.for("lit-noChange"), E = Symbol.for("lit-nothing"), Ce = /* @__PURE__ */ new WeakMap(), we = de.createTreeWalker(de, 129);
 function Te(e, t) {
-	if (!S(e) || !e.hasOwnProperty("raw")) throw Error("invalid template strings array");
-	return le === void 0 ? t : le.createHTML(t);
+	if (!C(e) || !e.hasOwnProperty("raw")) throw Error("invalid template strings array");
+	return se === void 0 ? t : se.createHTML(t);
 }
 var Ee = (e, t) => {
-	let n = e.length - 1, r = [], i, a = t === 2 ? "<svg>" : t === 3 ? "<math>" : "", o = he;
+	let n = e.length - 1, r = [], i, a = t === 2 ? "<svg>" : t === 3 ? "<math>" : "", o = me;
 	for (let t = 0; t < n; t++) {
 		let n = e[t], s, c, l = -1, u = 0;
-		for (; u < n.length && (o.lastIndex = u, c = o.exec(n), c !== null);) u = o.lastIndex, o === he ? c[1] === "!--" ? o = ge : c[1] === void 0 ? c[2] === void 0 ? c[3] !== void 0 && (o = C) : (be.test(c[2]) && (i = RegExp("</" + c[2], "g")), o = C) : o = _e : o === C ? c[0] === ">" ? (o = i ?? he, l = -1) : c[1] === void 0 ? l = -2 : (l = o.lastIndex - c[2].length, s = c[1], o = c[3] === void 0 ? C : c[3] === "\"" ? ye : ve) : o === ye || o === ve ? o = C : o === ge || o === _e ? o = he : (o = C, i = void 0);
-		let d = o === C && e[t + 1].startsWith("/>") ? " " : "";
-		a += o === he ? n + de : l >= 0 ? (r.push(s), n.slice(0, l) + v + n.slice(l) + y + d) : n + y + (l === -2 ? t : d);
+		for (; u < n.length && (o.lastIndex = u, c = o.exec(n), c !== null);) u = o.lastIndex, o === me ? c[1] === "!--" ? o = he : c[1] === void 0 ? c[2] === void 0 ? c[3] !== void 0 && (o = _e) : (be.test(c[2]) && (i = RegExp("</" + c[2], "g")), o = _e) : o = ge : o === _e ? c[0] === ">" ? (o = i ?? me, l = -1) : c[1] === void 0 ? l = -2 : (l = o.lastIndex - c[2].length, s = c[1], o = c[3] === void 0 ? _e : c[3] === "\"" ? ye : ve) : o === ye || o === ve ? o = _e : o === he || o === ge ? o = me : (o = _e, i = void 0);
+		let d = o === _e && e[t + 1].startsWith("/>") ? " " : "";
+		a += o === me ? n + ue : l >= 0 ? (r.push(s), n.slice(0, l) + b + n.slice(l) + ce + d) : n + ce + (l === -2 ? t : d);
 	}
 	return [Te(e, a + (e[n] || "<?>") + (t === 2 ? "</svg>" : t === 3 ? "</math>" : "")), r];
 }, De = class e {
@@ -283,8 +283,8 @@ var Ee = (e, t) => {
 		}
 		for (; (i = we.nextNode()) !== null && c.length < s;) {
 			if (i.nodeType === 1) {
-				if (i.hasAttributes()) for (let e of i.getAttributeNames()) if (e.endsWith(v)) {
-					let t = u[o++], n = i.getAttribute(e).split(y), r = /([.?@])?(.*)/.exec(t);
+				if (i.hasAttributes()) for (let e of i.getAttributeNames()) if (e.endsWith(b)) {
+					let t = u[o++], n = i.getAttribute(e).split(ce), r = /([.?@])?(.*)/.exec(t);
 					c.push({
 						type: 1,
 						index: a,
@@ -292,43 +292,43 @@ var Ee = (e, t) => {
 						strings: n,
 						ctor: r[1] === "." ? Me : r[1] === "?" ? Ne : r[1] === "@" ? Pe : je
 					}), i.removeAttribute(e);
-				} else e.startsWith(y) && (c.push({
+				} else e.startsWith(ce) && (c.push({
 					type: 6,
 					index: a
 				}), i.removeAttribute(e));
 				if (be.test(i.tagName)) {
-					let e = i.textContent.split(y), t = e.length - 1;
+					let e = i.textContent.split(ce), t = e.length - 1;
 					if (t > 0) {
-						i.textContent = ce ? ce.emptyScript : "";
-						for (let n = 0; n < t; n++) i.append(e[n], b()), we.nextNode(), c.push({
+						i.textContent = oe ? oe.emptyScript : "";
+						for (let n = 0; n < t; n++) i.append(e[n], x()), we.nextNode(), c.push({
 							type: 2,
 							index: ++a
 						});
-						i.append(e[t], b());
+						i.append(e[t], x());
 					}
 				}
-			} else if (i.nodeType === 8) if (i.data === ue) c.push({
+			} else if (i.nodeType === 8) if (i.data === le) c.push({
 				type: 2,
 				index: a
 			});
 			else {
 				let e = -1;
-				for (; (e = i.data.indexOf(y, e + 1)) !== -1;) c.push({
+				for (; (e = i.data.indexOf(ce, e + 1)) !== -1;) c.push({
 					type: 7,
 					index: a
-				}), e += y.length - 1;
+				}), e += ce.length - 1;
 			}
 			a++;
 		}
 	}
 	static createElement(e, t) {
-		let n = fe.createElement("template");
+		let n = de.createElement("template");
 		return n.innerHTML = e, n;
 	}
 };
 function Oe(e, t, n = e, r) {
 	if (t === Se) return t;
-	let i = r === void 0 ? n._$Cl : n._$Co?.[r], a = x(t) ? void 0 : t._$litDirective$;
+	let i = r === void 0 ? n._$Cl : n._$Co?.[r], a = S(t) ? void 0 : t._$litDirective$;
 	return i?.constructor !== a && (i?._$AO?.(!1), a === void 0 ? i = void 0 : (i = new a(e), i._$AT(e, n, r)), r === void 0 ? n._$Cl = i : (n._$Co ??= [])[r] = i), i !== void 0 && (t = Oe(e, i._$AS(e, t.values), i, r)), t;
 }
 var ke = class {
@@ -342,7 +342,7 @@ var ke = class {
 		return this._$AM._$AU;
 	}
 	u(e) {
-		let { el: { content: t }, parts: n } = this._$AD, r = (e?.creationScope ?? fe).importNode(t, !0);
+		let { el: { content: t }, parts: n } = this._$AD, r = (e?.creationScope ?? de).importNode(t, !0);
 		we.currentNode = r;
 		let i = we.nextNode(), a = 0, o = 0, s = n[0];
 		for (; s !== void 0;) {
@@ -352,7 +352,7 @@ var ke = class {
 			}
 			a !== s?.index && (i = we.nextNode(), a++);
 		}
-		return we.currentNode = fe, r;
+		return we.currentNode = de, r;
 	}
 	p(e) {
 		let t = 0;
@@ -376,7 +376,7 @@ var ke = class {
 		return this._$AB;
 	}
 	_$AI(e, t = this) {
-		e = Oe(this, e, t), x(e) ? e === E || e == null || e === "" ? (this._$AH !== E && this._$AR(), this._$AH = E) : e !== this._$AH && e !== Se && this._(e) : e._$litType$ === void 0 ? e.nodeType === void 0 ? pe(e) ? this.k(e) : this._(e) : this.T(e) : this.$(e);
+		e = Oe(this, e, t), S(e) ? e === E || e == null || e === "" ? (this._$AH !== E && this._$AR(), this._$AH = E) : e !== this._$AH && e !== Se && this._(e) : e._$litType$ === void 0 ? e.nodeType === void 0 ? fe(e) ? this.k(e) : this._(e) : this.T(e) : this.$(e);
 	}
 	O(e) {
 		return this._$AA.parentNode.insertBefore(e, this._$AB);
@@ -385,7 +385,7 @@ var ke = class {
 		this._$AH !== e && (this._$AR(), this._$AH = this.O(e));
 	}
 	_(e) {
-		this._$AH !== E && x(this._$AH) ? this._$AA.nextSibling.data = e : this.T(fe.createTextNode(e)), this._$AH = e;
+		this._$AH !== E && S(this._$AH) ? this._$AA.nextSibling.data = e : this.T(de.createTextNode(e)), this._$AH = e;
 	}
 	$(e) {
 		let { values: t, _$litType$: n } = e, r = typeof n == "number" ? this._$AC(e) : (n.el === void 0 && (n.el = De.createElement(Te(n.h, n.h[0]), this.options)), n);
@@ -400,9 +400,9 @@ var ke = class {
 		return t === void 0 && Ce.set(e.strings, t = new De(e)), t;
 	}
 	k(t) {
-		S(this._$AH) || (this._$AH = [], this._$AR());
+		C(this._$AH) || (this._$AH = [], this._$AR());
 		let n = this._$AH, r, i = 0;
-		for (let a of t) i === n.length ? n.push(r = new e(this.O(b()), this.O(b()), this, this.options)) : r = n[i], r._$AI(a), i++;
+		for (let a of t) i === n.length ? n.push(r = new e(this.O(x()), this.O(x()), this, this.options)) : r = n[i], r._$AI(a), i++;
 		i < n.length && (this._$AR(r && r._$AB.nextSibling, i), n.length = i);
 	}
 	_$AR(e = this._$AA.nextSibling, t) {
@@ -426,10 +426,10 @@ var ke = class {
 	}
 	_$AI(e, t = this, n, r) {
 		let i = this.strings, a = !1;
-		if (i === void 0) e = Oe(this, e, t, 0), a = !x(e) || e !== this._$AH && e !== Se, a && (this._$AH = e);
+		if (i === void 0) e = Oe(this, e, t, 0), a = !S(e) || e !== this._$AH && e !== Se, a && (this._$AH = e);
 		else {
 			let r = e, o, s;
-			for (e = i[0], o = 0; o < i.length - 1; o++) s = Oe(this, r[n + o], t, o), s === Se && (s = this._$AH[o]), a ||= !x(s) || s !== this._$AH[o], s === E ? e = E : e !== E && (e += (s ?? "") + i[o + 1]), this._$AH[o] = s;
+			for (e = i[0], o = 0; o < i.length - 1; o++) s = Oe(this, r[n + o], t, o), s === Se && (s = this._$AH[o]), a ||= !S(s) || s !== this._$AH[o], s === E ? e = E : e !== E && (e += (s ?? "") + i[o + 1]), this._$AH[o] = s;
 		}
 		a && !r && this.j(e);
 	}
@@ -472,16 +472,16 @@ var ke = class {
 	_$AI(e) {
 		Oe(this, e);
 	}
-}, Ie = se.litHtmlPolyfillSupport;
-Ie?.(De, Ae), (se.litHtmlVersions ??= []).push("3.3.1");
+}, Ie = ae.litHtmlPolyfillSupport;
+Ie?.(De, Ae), (ae.litHtmlVersions ??= []).push("3.3.1");
 var Le = (e, t, n) => {
 	let r = n?.renderBefore ?? t, i = r._$litPart$;
 	if (i === void 0) {
 		let e = n?.renderBefore ?? null;
-		r._$litPart$ = i = new Ae(t.insertBefore(b(), e), e, void 0, n ?? {});
+		r._$litPart$ = i = new Ae(t.insertBefore(x(), e), e, void 0, n ?? {});
 	}
 	return i._$AI(e), i;
-}, Re = globalThis, D = class extends _ {
+}, Re = globalThis, D = class extends y {
 	constructor() {
 		super(...arguments), this.renderOptions = { host: this }, this._$Do = void 0;
 	}
@@ -515,9 +515,9 @@ var O = (e) => (t, n) => {
 }, Be = {
 	attribute: !0,
 	type: String,
-	converter: ae,
+	converter: re,
 	reflect: !1,
-	hasChanged: oe
+	hasChanged: ie
 }, Ve = (e = Be, t, n) => {
 	let { kind: r, metadata: i } = n, a = globalThis.litPropertyMetadata.get(i);
 	if (a === void 0 && globalThis.litPropertyMetadata.set(i, a = /* @__PURE__ */ new Map()), r === "setter" && ((e = Object.create(e)).wrapped = !0), a.set(n.name, e), r === "accessor") {
@@ -587,12 +587,12 @@ function Ue(e, t) {
 	};
 }
 //#endregion
-//#region \0@oxc-project+runtime@0.121.0/helpers/decorateMetadata.js
+//#region \0@oxc-project+runtime@0.123.0/helpers/decorateMetadata.js
 function j(e, t) {
 	if (typeof Reflect == "object" && typeof Reflect.metadata == "function") return Reflect.metadata(e, t);
 }
 //#endregion
-//#region \0@oxc-project+runtime@0.121.0/helpers/decorate.js
+//#region \0@oxc-project+runtime@0.123.0/helpers/decorate.js
 function M(e, t, n, r) {
 	var i = arguments.length, a = i < 3 ? t : r === null ? r = Object.getOwnPropertyDescriptor(t, n) : r, o;
 	if (typeof Reflect == "object" && typeof Reflect.decorate == "function") a = Reflect.decorate(e, t, n, r);
@@ -1083,16 +1083,16 @@ var Ge = class extends D {
                   </text>
                 `);
 			}
-			let h = [], ee = [], te = Math.max(2, u * .55);
+			let h = [], g = [], _ = Math.max(2, u * .55);
 			for (let n = 0; n < t; n++) {
-				let t = e[n], r = d(n) - te / 2, i = typeof t.precipitation_probability == "number" && !isNaN(t.precipitation_probability) ? t.precipitation_probability : 0, o = typeof t.precipitation == "number" && !isNaN(t.precipitation) ? t.precipitation : 0, s = i / 100 * 5 / c * a;
+				let t = e[n], r = d(n) - _ / 2, i = typeof t.precipitation_probability == "number" && !isNaN(t.precipitation_probability) ? t.precipitation_probability : 0, o = typeof t.precipitation == "number" && !isNaN(t.precipitation) ? t.precipitation : 0, s = i / 100 * 5 / c * a;
 				if (i > 0 && h.push(T`
-                  <rect x="${r}" y="${l(0) - s}" width="${te}" height="${s}"
+                  <rect x="${r}" y="${l(0) - s}" width="${_}" height="${s}"
                     fill="#87898e" opacity="0.35" rx="1.5"/>
                 `), o > 0) {
 					let e = o / c * a;
-					ee.push(T`
-                  <rect x="${r}" y="${l(0) - e}" width="${te}" height="${e}"
+					g.push(T`
+                  <rect x="${r}" y="${l(0) - e}" width="${_}" height="${e}"
                     fill="url(#precip-grad)" opacity="1" rx="1.5"/>
                 `);
 				}
@@ -1107,7 +1107,7 @@ var Ge = class extends D {
               ${p}
               ${m}
               ${h}
-              ${ee}
+              ${g}
             </svg>`;
 		})()}
         </div>
@@ -1417,17 +1417,17 @@ var Ke = class extends D {
                   </text>
                 `);
 			}
-			let h = o.map((e, t) => e === null ? "" : `${f(t)},${u(e)}`).filter(Boolean).join(" "), ee = o.map((e, t) => e === null ? null : T`<circle cx="${f(t)}" cy="${u(e)}" r="2.5" fill="#44739e"/>`), te = r - 22 / 2 + 2;
+			let h = o.map((e, t) => e === null ? "" : `${f(t)},${u(e)}`).filter(Boolean).join(" "), g = o.map((e, t) => e === null ? null : T`<circle cx="${f(t)}" cy="${u(e)}" r="2.5" fill="#44739e"/>`), _ = r - 22 / 2 + 2;
 			return T`<svg width="100%" height="100%" viewBox="0 0 ${n} ${r}" style="display:block;">
               ${p}
               ${m}
               <polyline points="${h}" fill="none" stroke="#44739e" stroke-width="2.5"
                 stroke-linecap="round" stroke-linejoin="round"/>
-              ${ee}
+              ${g}
               ${e.map((e, t) => {
 				let n = typeof e.wind_bearing == "number" && !isNaN(e.wind_bearing) ? e.wind_bearing : null;
 				if (n === null) return null;
-				let r = f(t), i = te, a = (n - 90) * (Math.PI / 180), o = r + 7 * Math.cos(a), s = i + 7 * Math.sin(a), c = a + Math.PI;
+				let r = f(t), i = _, a = (n - 90) * (Math.PI / 180), o = r + 7 * Math.cos(a), s = i + 7 * Math.sin(a), c = a + Math.PI;
 				return T`
                 <circle cx="${r}" cy="${i}" r="${7}" fill="none" stroke="#44739e" stroke-width="0.8" opacity="0.5"/>
                 <line x1="${r + 5 * Math.cos(c)}" y1="${i + 5 * Math.sin(c)}" x2="${o}" y2="${s}"
@@ -1525,36 +1525,36 @@ var qe = class extends D {
 			let e = this.getBoundingClientRect?.();
 			a = e?.width ? Math.floor(e.width) : 400;
 		}
-		let o = a, s = i, c = s - 32, l = o - 16 - 0, u = Math.max(0, l - 16) / n, d = Math.min(120, Math.max(80, c * .35)), f = Math.max(10, c * .05), p = c - d - f, m = Math.min(u * .7, d * .4), h = Math.max(9, Math.round(d * .075)), ee = Math.max(11, Math.round(d * .11)), te = this.config?.diagram_labels ?? "compact", ne = Math.max(8, Math.min(10, Math.round(p * .05))), re = 26 + h, ie = re + 10, ae = ie + m + 10, oe = 16 + d + f, g = u / 24, _ = t.map((e) => typeof e.temperature == "number" ? e.temperature : null), se = Math.min(..._.filter((e) => e !== null)), ce = Math.max(..._.filter((e) => e !== null)), le = oe, v = oe + p, y = t.map((e) => {
+		let o = a, s = i, c = s - 32, l = o - 16 - 0, u = Math.max(0, l - 16) / n, d = Math.min(120, Math.max(80, c * .35)), f = Math.max(10, c * .05), p = c - d - f, m = Math.min(u * .7, d * .4), h = Math.max(9, Math.round(d * .075)), g = Math.max(11, Math.round(d * .11)), _ = this.config?.diagram_labels ?? "compact", ee = Math.max(8, Math.min(10, Math.round(p * .05))), te = 26 + h, ne = te + 10, re = ne + m + 10, ie = 16 + d + f, v = u / 24, y = t.map((e) => typeof e.temperature == "number" ? e.temperature : null), ae = Math.min(...y.filter((e) => e !== null)), oe = Math.max(...y.filter((e) => e !== null)), se = ie, b = ie + p, ce = t.map((e) => {
 			let t = e;
 			return typeof t.precipitation == "number" ? t.precipitation : typeof t.rain == "number" ? t.rain : 0;
-		}), ue = t.map((e) => {
+		}), le = t.map((e) => {
 			let t = e, n = typeof t.precipitation_probability == "number" ? t.precipitation_probability : typeof t.probability_of_precipitation == "number" ? t.probability_of_precipitation : typeof t.pop == "number" ? t.pop <= 1 ? t.pop * 100 : t.pop : 0, r = Number(n);
 			return Number.isFinite(r) ? Math.max(0, Math.min(100, r)) : 0;
-		}), de = {};
+		}), ue = {};
 		e.forEach((e, t) => {
 			let n = new Date(e.datetime), r = `${n.getFullYear()}-${n.getMonth()}-${n.getDate()}`;
-			de[r] = t;
+			ue[r] = t;
 		});
-		function fe(e) {
-			let t = de[`${e.getFullYear()}-${e.getMonth()}-${e.getDate()}`], n = e.getHours();
+		function de(e) {
+			let t = ue[`${e.getFullYear()}-${e.getMonth()}-${e.getDate()}`], n = e.getHours();
 			return {
 				dayIdx: t === void 0 ? -1 : t,
 				hourInDay: n >= 0 && n < 24 ? n : -1
 			};
 		}
-		let b = {};
+		let x = {};
 		for (let e = 0; e < n; e++) for (let t = 0; t < 24; t++) {
 			let n = `${e}-${t}`;
-			b[n] = null;
+			x[n] = null;
 		}
 		t.forEach((e, t) => {
-			if (e.datetime && _[t] !== null) {
-				let r = new Date(e.datetime), { dayIdx: i, hourInDay: a } = fe(r), o = `${i}-${a}`;
-				i >= 0 && i < n && a >= 0 && a < 24 ? b[o] = {
-					temp: _[t],
-					precip: y[t],
-					precipProb: ue[t],
+			if (e.datetime && y[t] !== null) {
+				let r = new Date(e.datetime), { dayIdx: i, hourInDay: a } = de(r), o = `${i}-${a}`;
+				i >= 0 && i < n && a >= 0 && a < 24 ? x[o] = {
+					temp: y[t],
+					precip: ce[t],
+					precipProb: le[t],
 					originalIndex: t
 				} : console.warn(`Data point ${t} outside bounds:`, {
 					dayIdx: i,
@@ -1564,21 +1564,21 @@ var qe = class extends D {
 				});
 			}
 		});
-		let x = Math.floor(se / 5) * 5, S = Math.ceil(ce / 5) * 5;
-		x > 0 && (x = 0), S < 0 && (S = 0);
-		let pe = S - x, me = [], he = [];
+		let S = Math.floor(ae / 5) * 5, C = Math.ceil(oe / 5) * 5;
+		S > 0 && (S = 0), C < 0 && (C = 0);
+		let fe = C - S, pe = [], me = [];
 		for (let e = 0; e < n; e++) for (let t = 0; t < 24; t++) {
-			let n = b[`${e}-${t}`];
+			let n = x[`${e}-${t}`];
 			if (n && n.temp !== null) {
-				let r = 16 + e * u + t * g + g / 2, i = v - (n.temp - x) / pe * (v - le);
-				he.push(`${r},${i}`);
+				let r = 16 + e * u + t * v + v / 2, i = b - (n.temp - S) / fe * (b - se);
+				me.push(`${r},${i}`);
 			}
 		}
-		he.length > 0 && me.push(T`
+		me.length > 0 && pe.push(T`
           <!-- Main temperature line -->
-          <polyline points="${he.join(" ")}" fill="none" stroke="#e74c3c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+          <polyline points="${me.join(" ")}" fill="none" stroke="#e74c3c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
         `);
-		let ge = Math.max(3, Math.floor(g) - 2), _e = v, C = 5 / pe * (v - le) / 5;
+		let he = Math.max(3, Math.floor(v) - 2), ge = b, _e = 5 / fe * (b - se) / 5;
 		function ve(e) {
 			if (e <= 0) return "transparent";
 			let t = [
@@ -1632,25 +1632,25 @@ var qe = class extends D {
 		}
 		let ye = [];
 		for (let e = 0; e < n; e++) for (let t = 0; t < 24; t++) {
-			let n = b[`${e}-${t}`];
+			let n = x[`${e}-${t}`];
 			if (n && n.precipProb > 0) {
-				let r = 16 + e * u + t * g + g / 2 - ge / 2, i = 16 + e * u, a = 16 + (e + 1) * u - ge, o = Math.max(i, Math.min(a, r)), s = n.precipProb / 100 * 5 * C;
-				ye.push(T`<rect x="${o}" y="${_e - s}" width="${ge}" height="${s}" fill="#988d8dff" opacity="0.4" rx="1.5"/>`);
+				let r = 16 + e * u + t * v + v / 2 - he / 2, i = 16 + e * u, a = 16 + (e + 1) * u - he, o = Math.max(i, Math.min(a, r)), s = n.precipProb / 100 * 5 * _e;
+				ye.push(T`<rect x="${o}" y="${ge - s}" width="${he}" height="${s}" fill="#988d8dff" opacity="0.4" rx="1.5"/>`);
 			}
 		}
 		let be = [];
 		for (let e = 0; e < n; e++) for (let t = 0; t < 24; t++) {
-			let n = b[`${e}-${t}`];
+			let n = x[`${e}-${t}`];
 			if (n && n.precip > 0) {
-				let r = 16 + e * u + t * g + g / 2 - ge / 2, i = 16 + e * u, a = 16 + (e + 1) * u - ge, o = Math.max(i, Math.min(a, r)), s = n.precip * C, c = ve(n.precip);
-				be.push(T`<rect x="${o}" y="${_e - s}" width="${ge}" height="${s}"
+				let r = 16 + e * u + t * v + v / 2 - he / 2, i = 16 + e * u, a = 16 + (e + 1) * u - he, o = Math.max(i, Math.min(a, r)), s = n.precip * _e, c = ve(n.precip);
+				be.push(T`<rect x="${o}" y="${ge - s}" width="${he}" height="${s}"
               fill="${c}" opacity="1" rx="1.5"/>`);
 			}
 		}
 		let xe = [];
 		if (t.length > 0) for (let e = 0; e <= n; e++) {
 			let t = 16 + e * u;
-			xe.push(T`<line x1="${t}" y1="${le}" x2="${t}" y2="${v}" stroke="#ddd" stroke-width="0.5" stroke-dasharray="2,2" opacity="0.4"/>`);
+			xe.push(T`<line x1="${t}" y1="${se}" x2="${t}" y2="${b}" stroke="#ddd" stroke-width="0.5" stroke-dasharray="2,2" opacity="0.4"/>`);
 		}
 		let Se = [];
 		if (n > 0) for (let t = 0; t < n; t++) {
@@ -1658,29 +1658,29 @@ var qe = class extends D {
 			Se.push(T`
         <g>
           <!-- Weekday -->
-          <text x="${n}" y="${re}" text-anchor="middle" font-size="${h}" class="weather-day">
+          <text x="${n}" y="${te}" text-anchor="middle" font-size="${h}" class="weather-day">
             ${new Date(e[t].datetime).toLocaleDateString(void 0, { weekday: "short" })}
           </text>
           <!-- Icon -->
-          <foreignObject x="${n - m / 2}" y="${ie}" width="${m}" height="${m}">
+          <foreignObject x="${n - m / 2}" y="${ne}" width="${m}" height="${m}">
               ${this.getWeatherIcon(e[t].condition || "", this.config.enable_animate_weather_icons ? "animated" : "mdiAsSVG", m + "px", !0)}
           </foreignObject>
           <!-- Min/Max temp -->
-          <text class="weather-temp" x="${n}" y="${ae}" text-anchor="middle" font-size="${ee}">${r}°<tspan fill="#aaa"> | </tspan><tspan class="weather-temp">${i}°</tspan></text>
+          <text class="weather-temp" x="${n}" y="${re}" text-anchor="middle" font-size="${g}">${r}°<tspan fill="#aaa"> | </tspan><tspan class="weather-temp">${i}°</tspan></text>
         </g>
       `);
 		}
 		let E = [], Ce = /* @__PURE__ */ new Set();
-		Ce.add(x), x < 0 && S > 0 && Ce.add(0), Ce.add(S);
-		for (let e = x; e <= S; e += 5) if (e % 5 == 0) {
-			let t = le + (S - e) / pe * (v - le);
-			if (t >= le && t <= v) {
+		Ce.add(S), S < 0 && C > 0 && Ce.add(0), Ce.add(C);
+		for (let e = S; e <= C; e += 5) if (e % 5 == 0) {
+			let t = se + (C - e) / fe * (b - se);
+			if (t >= se && t <= b) {
 				let n = e % 10 == 0;
 				E.push(T`
             <line x1="${16}" y1="${t}" x2="${l}" y2="${t}"
               stroke="#ddd" stroke-width="${n ? 1 : .5}"
               stroke-dasharray="${n ? "none" : "2,2"}" opacity="0.6"/>
-            ${te === "none" ? T`` : te === "full" ? n ? T`<text x="${20}" y="${t}" font-size="${ne}" fill="#888" opacity="0.9" text-anchor="start" dominant-baseline="middle">${e}°</text>` : T`` : Ce.has(e) ? T`<text x="${20}" y="${t}" font-size="${ne}" fill="#888" opacity="0.9" text-anchor="start" dominant-baseline="middle">${e}°</text>` : T``}
+            ${_ === "none" ? T`` : _ === "full" ? n ? T`<text x="${20}" y="${t}" font-size="${ee}" fill="#888" opacity="0.9" text-anchor="start" dominant-baseline="middle">${e}°</text>` : T`` : Ce.has(e) ? T`<text x="${20}" y="${t}" font-size="${ee}" fill="#888" opacity="0.9" text-anchor="start" dominant-baseline="middle">${e}°</text>` : T``}
           `);
 			}
 		}
@@ -1723,7 +1723,7 @@ var qe = class extends D {
           viewBox="0 0 ${o} ${s}"
           style="display:block; position: absolute; top: 0; left: 0; pointer-events: none;"
         >
-          ${me}
+          ${pe}
         </svg>
       </div>
     `;
@@ -2154,7 +2154,7 @@ var $t;
 (function(e) {
 	e.language = "language", e.system = "system", e.am_pm = "12", e.twenty_four = "24";
 })($t ||= {});
-var en = (e, t, n, r) => {
+var V = (e, t, n, r) => {
 	r ||= {}, n ??= {};
 	let i = new Event(t, {
 		bubbles: r.bubbles === void 0 ? !0 : r.bubbles,
@@ -2162,7 +2162,7 @@ var en = (e, t, n, r) => {
 		composed: r.composed === void 0 ? !0 : r.composed
 	});
 	return i.detail = n, e.dispatchEvent(i), i;
-}, V = {
+}, H = {
 	de: {
 		config: {
 			temperature_font_size: "Temperatur Schriftgröße (px)",
@@ -2174,7 +2174,10 @@ var en = (e, t, n, r) => {
 			wind_direction_entity: "Windrichtung",
 			sunshine_entity: "Sonnenscheindauer",
 			precipitation_entity: "Niederschlagsprognose",
-			warning_entity: "Wetterwarnungen",
+			warning_entity: "Wetterwarnungen (Legacy)",
+			primary_warning_entity: "Primäre Wetterwarnung",
+			secondary_warning_entity: "Sekundäre Wetterwarnung",
+			tertiary_warning_entity: "Tertiäre Wetterwarnung",
 			show_forecast: "Wettervorhersage anzeigen",
 			forecast_mode: "Vorhersage-Modus",
 			show_temperature: "Temperaturdiagramm anzeigen",
@@ -2208,7 +2211,10 @@ var en = (e, t, n, r) => {
 				sunshine_entity: "Die Sonnenscheindauer-Entity wird benötigt, um die Sonnenscheindauer anzuzeigen.",
 				wind_entity: "Die Wind-Entity wird benötigt, um die Windgeschwindigkeit anzuzeigen.",
 				wind_direction_entity: "Die Windrichtungs-Entity wird benötigt, um die Windrichtung anzuzeigen.",
-				warning_entity: "Die Wetterwarnungen Entity wird von SiwssWeather angelegt und kann hier verwendet werden. Sollte sie nicht gesetzt sein, werden keine Wetterwarnungen angezeigt.",
+				warning_entity: "Legacy: Die Wetterwarnungen Entity wird von der ursprünglichen SwissWeather Integration angelegt (izacus/hass-swissweather). Wenn die neueren Ranked-Entities gesetzt sind, wird diese Entity ignoriert.",
+				primary_warning_entity: "Primäre Wetterwarnung (*_primary_weather_warning) aus mastameista/hass-swissweather. Wenn gesetzt, wird das neue Ranked-Model aktiviert.",
+				secondary_warning_entity: "Sekundäre Wetterwarnung (*_secondary_weather_warning) aus mastameista/hass-swissweather.",
+				tertiary_warning_entity: "Tertiäre Wetterwarnung (*_tertiary_weather_warning) aus mastameista/hass-swissweather.",
 				precipitation_entity: "Die Niederschlags-Entity wird benötigt, um die Niederschlagsprognose anzuzeigen.",
 				show_forecast: "Die Wettervorhersage zeigt die Vorhersage mit maximal 7 Tagen an, je nach dem, was der Wetterdienst liefert.",
 				forecast_mode: "Wähle, ob in der BG-Card die Tages- oder Stunden-Vorhersage (oder keine) angezeigt wird.",
@@ -2299,7 +2305,11 @@ var en = (e, t, n, r) => {
 		sunset: "Sonnenuntergang",
 		valid_from: "Gültig ab",
 		valid_to: "Gültig bis",
-		unknown: "Unbekannt"
+		unknown: "Unbekannt",
+		collapse: "Einklappen",
+		expand: "Ausklappen",
+		warnings_additional: "+{{count}} weitere",
+		warnings_none: "Keine aktiven Wetterwarnungen"
 	},
 	en: {
 		config: {
@@ -2312,7 +2322,10 @@ var en = (e, t, n, r) => {
 			wind_direction_entity: "Wind Direction",
 			sunshine_entity: "Sunshine Duration",
 			precipitation_entity: "Precipitation Forecast",
-			warning_entity: "Weather Warnings",
+			warning_entity: "Weather Warnings (Legacy)",
+			primary_warning_entity: "Primary Weather Warning",
+			secondary_warning_entity: "Secondary Weather Warning",
+			tertiary_warning_entity: "Tertiary Weather Warning",
 			show_forecast: "Show Weather Forecast",
 			forecast_mode: "Forecast Mode",
 			show_temperature: "Show Temperature Chart",
@@ -2346,7 +2359,10 @@ var en = (e, t, n, r) => {
 				sunshine_entity: "The sunshine entity is required to display sunshine duration.",
 				wind_entity: "The wind entity is required to display wind speed.",
 				wind_direction_entity: "The wind direction entity is required to display wind direction.",
-				warning_entity: "The weather warnings entity is created by SwissWeather and can be used here. If it is not set, no weather warnings will be displayed.",
+				warning_entity: "Legacy: The weather warnings entity created by the original SwissWeather integration (izacus/hass-swissweather). Ignored when the ranked warning entities below are configured.",
+				primary_warning_entity: "Primary weather warning entity (*_primary_weather_warning) from mastameista/hass-swissweather. When set, the new ranked model is activated.",
+				secondary_warning_entity: "Secondary weather warning entity (*_secondary_weather_warning) from mastameista/hass-swissweather.",
+				tertiary_warning_entity: "Tertiary weather warning entity (*_tertiary_weather_warning) from mastameista/hass-swissweather.",
 				precipitation_entity: "The precipitation entity is required to display the precipitation forecast.",
 				show_forecast: "The weather forecast displays the forecast with up to 7 days, depending on what the weather service provides.",
 				forecast_mode: "Choose whether the BG card shows the daily or hourly forecast (or none).",
@@ -2435,9 +2451,13 @@ var en = (e, t, n, r) => {
 		sunset: "Sunset",
 		valid_from: "Valid from",
 		valid_to: "Valid to",
-		unknown: "Unknown"
+		unknown: "Unknown",
+		collapse: "Collapse",
+		expand: "Expand",
+		warnings_additional: "+{{count}} more",
+		warnings_none: "No active weather warnings"
 	}
-}, tn = "swissweather", nn = `${tn}-card`, rn = `${nn}-editor`, H = [
+}, en = "swissweather", tn = `${en}-card`, nn = `${tn}-editor`, U = [
 	{
 		name: "entity",
 		required: !0,
@@ -2472,6 +2492,21 @@ var en = (e, t, n, r) => {
 	{
 		name: "warning_entity",
 		description: "config.descr.warning_entity",
+		selector: { entity: { domain: "sensor" } }
+	},
+	{
+		name: "primary_warning_entity",
+		description: "config.descr.primary_warning_entity",
+		selector: { entity: { domain: "sensor" } }
+	},
+	{
+		name: "secondary_warning_entity",
+		description: "config.descr.secondary_warning_entity",
+		selector: { entity: { domain: "sensor" } }
+	},
+	{
+		name: "tertiary_warning_entity",
+		description: "config.descr.tertiary_warning_entity",
 		selector: { entity: { domain: "sensor" } }
 	},
 	{
@@ -2555,8 +2590,8 @@ var en = (e, t, n, r) => {
 ];
 //#endregion
 //#region src/cards/full-card/swissweather-card-editor.ts
-F({ loader: (e) => V[e] });
-var an = class extends D {
+F({ loader: (e) => H[e] });
+var rn = class extends D {
 	hass;
 	lovelace;
 	_config;
@@ -2768,9 +2803,9 @@ var an = class extends D {
             .hass=${this.hass}
             .data=${n}
             .schema=${[
-			H.find((e) => e.name === "entity"),
-			H.find((e) => e.name === "location"),
-			H.find((e) => e.name === "show_location")
+			U.find((e) => e.name === "entity"),
+			U.find((e) => e.name === "location"),
+			U.find((e) => e.name === "show_location")
 		].filter(Boolean)}
             .computeLabel=${this._computeLabel}
             .computeHelper=${this._computeHelper}
@@ -2785,12 +2820,12 @@ var an = class extends D {
             .hass=${this.hass}
             .data=${n}
             .schema=${[
-			H.find((e) => e.name === "warning_entity"),
-			H.find((e) => e.name === "precipitation_entity"),
-			H.find((e) => e.name === "sun_entity"),
-			H.find((e) => e.name === "sunshine_entity"),
-			H.find((e) => e.name === "wind_entity"),
-			H.find((e) => e.name === "wind_direction_entity")
+			U.find((e) => e.name === "warning_entity"),
+			U.find((e) => e.name === "precipitation_entity"),
+			U.find((e) => e.name === "sun_entity"),
+			U.find((e) => e.name === "sunshine_entity"),
+			U.find((e) => e.name === "wind_entity"),
+			U.find((e) => e.name === "wind_direction_entity")
 		].filter(Boolean)}
             .computeLabel=${this._computeLabel}
             .computeHelper=${this._computeHelper}
@@ -2805,15 +2840,15 @@ var an = class extends D {
             .hass=${this.hass}
             .data=${n}
             .schema=${[
-			H.find((e) => e.name === "forecast_hours"),
-			H.find((e) => e.name === "show_forecast"),
-			H.find((e) => e.name === "show_precipitation"),
-			H.find((e) => e.name === "show_temperature"),
-			H.find((e) => e.name === "show_sunshine"),
-			H.find((e) => e.name === "show_wind"),
-			H.find((e) => e.name === "enable_animate_weather_icons"),
-			H.find((e) => e.name === "show_warnings"),
-			H.find((e) => e.name === "compact_mode")
+			U.find((e) => e.name === "forecast_hours"),
+			U.find((e) => e.name === "show_forecast"),
+			U.find((e) => e.name === "show_precipitation"),
+			U.find((e) => e.name === "show_temperature"),
+			U.find((e) => e.name === "show_sunshine"),
+			U.find((e) => e.name === "show_wind"),
+			U.find((e) => e.name === "enable_animate_weather_icons"),
+			U.find((e) => e.name === "show_warnings"),
+			U.find((e) => e.name === "compact_mode")
 		].filter(Boolean)}
             .computeLabel=${this._computeLabel}
             .computeHelper=${this._computeHelper}
@@ -2869,7 +2904,7 @@ var an = class extends D {
 		n[e] = n[r], n[r] = i, this._config = {
 			...this._config,
 			chart_order: n
-		}, en(this, "config-changed", { config: this._config }), this.requestUpdate();
+		}, V(this, "config-changed", { config: this._config }), this.requestUpdate();
 	}
 	_computeLabel = (e) => ({
 		entity: L("config.entity"),
@@ -2899,7 +2934,7 @@ var an = class extends D {
 	}
 	_valueChanged(e) {
 		if (this._config ||= {
-			type: nn,
+			type: tn,
 			entity: "",
 			location: "Schweiz",
 			show_forecast: !0,
@@ -2934,14 +2969,14 @@ var an = class extends D {
 			}
 			Object.keys(r).forEach((e) => {
 				(r[e] === "" || r[e] === void 0) && delete r[e];
-			}), this._config = r, en(this, "config-changed", { config: this._config });
+			}), this._config = r, V(this, "config-changed", { config: this._config });
 		}
 	}
 };
-M([k({ attribute: !1 }), j("design:type", Object)], an.prototype, "hass", void 0), M([k({ attribute: !1 }), j("design:type", Object)], an.prototype, "lovelace", void 0), M([k({ attribute: !1 }), j("design:type", Object)], an.prototype, "_config", void 0), an = M([O(rn), j("design:paramtypes", [])], an);
+M([k({ attribute: !1 }), j("design:type", Object)], rn.prototype, "hass", void 0), M([k({ attribute: !1 }), j("design:type", Object)], rn.prototype, "lovelace", void 0), M([k({ attribute: !1 }), j("design:type", Object)], rn.prototype, "_config", void 0), rn = M([O(nn), j("design:paramtypes", [])], rn);
 //#endregion
 //#region src/charts/index.ts
-function on(e, t, n) {
+function an(e, t, n) {
 	let r = n ? new Date(n) : /* @__PURE__ */ new Date();
 	return w`
     <div class="chart-labels">
@@ -2955,7 +2990,7 @@ function on(e, t, n) {
     </div>
   `;
 }
-function sn(e) {
+function on(e) {
 	return [
 		"So",
 		"Mo",
@@ -2968,7 +3003,7 @@ function sn(e) {
 }
 //#endregion
 //#region node_modules/marked/lib/marked.esm.js
-function cn() {
+function sn() {
 	return {
 		async: !1,
 		breaks: !1,
@@ -2982,28 +3017,28 @@ function cn() {
 		walkTokens: null
 	};
 }
-var ln = cn();
-function un(e) {
-	ln = e;
+var cn = sn();
+function ln(e) {
+	cn = e;
 }
-var dn = { exec: () => null };
-function U(e, t = "") {
+var un = { exec: () => null };
+function W(e, t = "") {
 	let n = typeof e == "string" ? e : e.source, r = {
 		replace: (e, t) => {
 			let i = typeof t == "string" ? t : t.source;
-			return i = i.replace(W.caret, "$1"), n = n.replace(e, i), r;
+			return i = i.replace(G.caret, "$1"), n = n.replace(e, i), r;
 		},
 		getRegex: () => new RegExp(n, t)
 	};
 	return r;
 }
-var fn = (() => {
+var dn = (() => {
 	try {
 		return !0;
 	} catch {
 		return !1;
 	}
-})(), W = {
+})(), G = {
 	codeRemoveIndent: /^(?: {1,4}| {0,3}\t)/gm,
 	outputLinkReplace: /\\([\[\]])/g,
 	indentCodeCompensation: /^(\s+)(?:```)/,
@@ -3060,115 +3095,115 @@ var fn = (() => {
 	headingBeginRegex: (e) => RegExp(`^ {0,${Math.min(3, e - 1)}}#`),
 	htmlBeginRegex: (e) => RegExp(`^ {0,${Math.min(3, e - 1)}}<(?:[a-z].*>|!--)`, "i"),
 	blockquoteBeginRegex: (e) => RegExp(`^ {0,${Math.min(3, e - 1)}}>`)
-}, pn = /^(?:[ \t]*(?:\n|$))+/, mn = /^((?: {4}| {0,3}\t)[^\n]+(?:\n(?:[ \t]*(?:\n|$))*)?)+/, hn = /^ {0,3}(`{3,}(?=[^`\n]*(?:\n|$))|~{3,})([^\n]*)(?:\n|$)(?:|([\s\S]*?)(?:\n|$))(?: {0,3}\1[~`]* *(?=\n|$)|$)/, gn = /^ {0,3}((?:-[\t ]*){3,}|(?:_[ \t]*){3,}|(?:\*[ \t]*){3,})(?:\n+|$)/, _n = /^ {0,3}(#{1,6})(?=\s|$)(.*)(?:\n+|$)/, vn = / {0,3}(?:[*+-]|\d{1,9}[.)])/, yn = /^(?!bull |blockCode|fences|blockquote|heading|html|table)((?:.|\n(?!\s*?\n|bull |blockCode|fences|blockquote|heading|html|table))+?)\n {0,3}(=+|-+) *(?:\n+|$)/, bn = U(yn).replace(/bull/g, vn).replace(/blockCode/g, /(?: {4}| {0,3}\t)/).replace(/fences/g, / {0,3}(?:`{3,}|~{3,})/).replace(/blockquote/g, / {0,3}>/).replace(/heading/g, / {0,3}#{1,6}/).replace(/html/g, / {0,3}<[^\n>]+>\n/).replace(/\|table/g, "").getRegex(), xn = U(yn).replace(/bull/g, vn).replace(/blockCode/g, /(?: {4}| {0,3}\t)/).replace(/fences/g, / {0,3}(?:`{3,}|~{3,})/).replace(/blockquote/g, / {0,3}>/).replace(/heading/g, / {0,3}#{1,6}/).replace(/html/g, / {0,3}<[^\n>]+>\n/).replace(/table/g, / {0,3}\|?(?:[:\- ]*\|)+[\:\- ]*\n/).getRegex(), Sn = /^([^\n]+(?:\n(?!hr|heading|lheading|blockquote|fences|list|html|table| +\n)[^\n]+)*)/, Cn = /^[^\n]+/, wn = /(?!\s*\])(?:\\[\s\S]|[^\[\]\\])+/, Tn = U(/^ {0,3}\[(label)\]: *(?:\n[ \t]*)?([^<\s][^\s]*|<.*?>)(?:(?: +(?:\n[ \t]*)?| *\n[ \t]*)(title))? *(?:\n+|$)/).replace("label", wn).replace("title", /(?:"(?:\\"?|[^"\\])*"|'[^'\n]*(?:\n[^'\n]+)*\n?'|\([^()]*\))/).getRegex(), En = U(/^(bull)([ \t][^\n]+?)?(?:\n|$)/).replace(/bull/g, vn).getRegex(), Dn = "address|article|aside|base|basefont|blockquote|body|caption|center|col|colgroup|dd|details|dialog|dir|div|dl|dt|fieldset|figcaption|figure|footer|form|frame|frameset|h[1-6]|head|header|hr|html|iframe|legend|li|link|main|menu|menuitem|meta|nav|noframes|ol|optgroup|option|p|param|search|section|summary|table|tbody|td|tfoot|th|thead|title|tr|track|ul", On = /<!--(?:-?>|[\s\S]*?(?:-->|$))/, kn = U("^ {0,3}(?:<(script|pre|style|textarea)[\\s>][\\s\\S]*?(?:</\\1>[^\\n]*\\n+|$)|comment[^\\n]*(\\n+|$)|<\\?[\\s\\S]*?(?:\\?>\\n*|$)|<![A-Z][\\s\\S]*?(?:>\\n*|$)|<!\\[CDATA\\[[\\s\\S]*?(?:\\]\\]>\\n*|$)|</?(tag)(?: +|\\n|/?>)[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$)|<(?!script|pre|style|textarea)([a-z][\\w-]*)(?:attribute)*? */?>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$)|</(?!script|pre|style|textarea)[a-z][\\w-]*\\s*>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$))", "i").replace("comment", On).replace("tag", Dn).replace("attribute", / +[a-zA-Z:_][\w.:-]*(?: *= *"[^"\n]*"| *= *'[^'\n]*'| *= *[^\s"'=<>`]+)?/).getRegex(), An = U(Sn).replace("hr", gn).replace("heading", " {0,3}#{1,6}(?:\\s|$)").replace("|lheading", "").replace("|table", "").replace("blockquote", " {0,3}>").replace("fences", " {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list", " {0,3}(?:[*+-]|1[.)])[ \\t]").replace("html", "</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag", Dn).getRegex(), jn = {
-	blockquote: U(/^( {0,3}> ?(paragraph|[^\n]*)(?:\n|$))+/).replace("paragraph", An).getRegex(),
-	code: mn,
-	def: Tn,
-	fences: hn,
-	heading: _n,
-	hr: gn,
-	html: kn,
+}, fn = /^(?:[ \t]*(?:\n|$))+/, pn = /^((?: {4}| {0,3}\t)[^\n]+(?:\n(?:[ \t]*(?:\n|$))*)?)+/, mn = /^ {0,3}(`{3,}(?=[^`\n]*(?:\n|$))|~{3,})([^\n]*)(?:\n|$)(?:|([\s\S]*?)(?:\n|$))(?: {0,3}\1[~`]* *(?=\n|$)|$)/, hn = /^ {0,3}((?:-[\t ]*){3,}|(?:_[ \t]*){3,}|(?:\*[ \t]*){3,})(?:\n+|$)/, gn = /^ {0,3}(#{1,6})(?=\s|$)(.*)(?:\n+|$)/, _n = / {0,3}(?:[*+-]|\d{1,9}[.)])/, vn = /^(?!bull |blockCode|fences|blockquote|heading|html|table)((?:.|\n(?!\s*?\n|bull |blockCode|fences|blockquote|heading|html|table))+?)\n {0,3}(=+|-+) *(?:\n+|$)/, yn = W(vn).replace(/bull/g, _n).replace(/blockCode/g, /(?: {4}| {0,3}\t)/).replace(/fences/g, / {0,3}(?:`{3,}|~{3,})/).replace(/blockquote/g, / {0,3}>/).replace(/heading/g, / {0,3}#{1,6}/).replace(/html/g, / {0,3}<[^\n>]+>\n/).replace(/\|table/g, "").getRegex(), bn = W(vn).replace(/bull/g, _n).replace(/blockCode/g, /(?: {4}| {0,3}\t)/).replace(/fences/g, / {0,3}(?:`{3,}|~{3,})/).replace(/blockquote/g, / {0,3}>/).replace(/heading/g, / {0,3}#{1,6}/).replace(/html/g, / {0,3}<[^\n>]+>\n/).replace(/table/g, / {0,3}\|?(?:[:\- ]*\|)+[\:\- ]*\n/).getRegex(), xn = /^([^\n]+(?:\n(?!hr|heading|lheading|blockquote|fences|list|html|table| +\n)[^\n]+)*)/, Sn = /^[^\n]+/, Cn = /(?!\s*\])(?:\\[\s\S]|[^\[\]\\])+/, wn = W(/^ {0,3}\[(label)\]: *(?:\n[ \t]*)?([^<\s][^\s]*|<.*?>)(?:(?: +(?:\n[ \t]*)?| *\n[ \t]*)(title))? *(?:\n+|$)/).replace("label", Cn).replace("title", /(?:"(?:\\"?|[^"\\])*"|'[^'\n]*(?:\n[^'\n]+)*\n?'|\([^()]*\))/).getRegex(), Tn = W(/^(bull)([ \t][^\n]+?)?(?:\n|$)/).replace(/bull/g, _n).getRegex(), En = "address|article|aside|base|basefont|blockquote|body|caption|center|col|colgroup|dd|details|dialog|dir|div|dl|dt|fieldset|figcaption|figure|footer|form|frame|frameset|h[1-6]|head|header|hr|html|iframe|legend|li|link|main|menu|menuitem|meta|nav|noframes|ol|optgroup|option|p|param|search|section|summary|table|tbody|td|tfoot|th|thead|title|tr|track|ul", Dn = /<!--(?:-?>|[\s\S]*?(?:-->|$))/, On = W("^ {0,3}(?:<(script|pre|style|textarea)[\\s>][\\s\\S]*?(?:</\\1>[^\\n]*\\n+|$)|comment[^\\n]*(\\n+|$)|<\\?[\\s\\S]*?(?:\\?>\\n*|$)|<![A-Z][\\s\\S]*?(?:>\\n*|$)|<!\\[CDATA\\[[\\s\\S]*?(?:\\]\\]>\\n*|$)|</?(tag)(?: +|\\n|/?>)[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$)|<(?!script|pre|style|textarea)([a-z][\\w-]*)(?:attribute)*? */?>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$)|</(?!script|pre|style|textarea)[a-z][\\w-]*\\s*>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$))", "i").replace("comment", Dn).replace("tag", En).replace("attribute", / +[a-zA-Z:_][\w.:-]*(?: *= *"[^"\n]*"| *= *'[^'\n]*'| *= *[^\s"'=<>`]+)?/).getRegex(), kn = W(xn).replace("hr", hn).replace("heading", " {0,3}#{1,6}(?:\\s|$)").replace("|lheading", "").replace("|table", "").replace("blockquote", " {0,3}>").replace("fences", " {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list", " {0,3}(?:[*+-]|1[.)])[ \\t]").replace("html", "</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag", En).getRegex(), An = {
+	blockquote: W(/^( {0,3}> ?(paragraph|[^\n]*)(?:\n|$))+/).replace("paragraph", kn).getRegex(),
+	code: pn,
+	def: wn,
+	fences: mn,
+	heading: gn,
+	hr: hn,
+	html: On,
+	lheading: yn,
+	list: Tn,
+	newline: fn,
+	paragraph: kn,
+	table: un,
+	text: Sn
+}, jn = W("^ *([^\\n ].*)\\n {0,3}((?:\\| *)?:?-+:? *(?:\\| *:?-+:? *)*(?:\\| *)?)(?:\\n((?:(?! *\\n|hr|heading|blockquote|code|fences|list|html).*(?:\\n|$))*)\\n*|$)").replace("hr", hn).replace("heading", " {0,3}#{1,6}(?:\\s|$)").replace("blockquote", " {0,3}>").replace("code", "(?: {4}| {0,3}	)[^\\n]").replace("fences", " {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list", " {0,3}(?:[*+-]|1[.)])[ \\t]").replace("html", "</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag", En).getRegex(), Mn = {
+	...An,
 	lheading: bn,
-	list: En,
-	newline: pn,
-	paragraph: An,
-	table: dn,
-	text: Cn
-}, Mn = U("^ *([^\\n ].*)\\n {0,3}((?:\\| *)?:?-+:? *(?:\\| *:?-+:? *)*(?:\\| *)?)(?:\\n((?:(?! *\\n|hr|heading|blockquote|code|fences|list|html).*(?:\\n|$))*)\\n*|$)").replace("hr", gn).replace("heading", " {0,3}#{1,6}(?:\\s|$)").replace("blockquote", " {0,3}>").replace("code", "(?: {4}| {0,3}	)[^\\n]").replace("fences", " {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list", " {0,3}(?:[*+-]|1[.)])[ \\t]").replace("html", "</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag", Dn).getRegex(), Nn = {
-	...jn,
-	lheading: xn,
-	table: Mn,
-	paragraph: U(Sn).replace("hr", gn).replace("heading", " {0,3}#{1,6}(?:\\s|$)").replace("|lheading", "").replace("table", Mn).replace("blockquote", " {0,3}>").replace("fences", " {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list", " {0,3}(?:[*+-]|1[.)])[ \\t]").replace("html", "</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag", Dn).getRegex()
-}, Pn = {
-	...jn,
-	html: U("^ *(?:comment *(?:\\n|\\s*$)|<(tag)[\\s\\S]+?</\\1> *(?:\\n{2,}|\\s*$)|<tag(?:\"[^\"]*\"|'[^']*'|\\s[^'\"/>\\s]*)*?/?> *(?:\\n{2,}|\\s*$))").replace("comment", On).replace(/tag/g, "(?!(?:a|em|strong|small|s|cite|q|dfn|abbr|data|time|code|var|samp|kbd|sub|sup|i|b|u|mark|ruby|rt|rp|bdi|bdo|span|br|wbr|ins|del|img)\\b)\\w+(?!:|[^\\w\\s@]*@)\\b").getRegex(),
+	table: jn,
+	paragraph: W(xn).replace("hr", hn).replace("heading", " {0,3}#{1,6}(?:\\s|$)").replace("|lheading", "").replace("table", jn).replace("blockquote", " {0,3}>").replace("fences", " {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list", " {0,3}(?:[*+-]|1[.)])[ \\t]").replace("html", "</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag", En).getRegex()
+}, Nn = {
+	...An,
+	html: W("^ *(?:comment *(?:\\n|\\s*$)|<(tag)[\\s\\S]+?</\\1> *(?:\\n{2,}|\\s*$)|<tag(?:\"[^\"]*\"|'[^']*'|\\s[^'\"/>\\s]*)*?/?> *(?:\\n{2,}|\\s*$))").replace("comment", Dn).replace(/tag/g, "(?!(?:a|em|strong|small|s|cite|q|dfn|abbr|data|time|code|var|samp|kbd|sub|sup|i|b|u|mark|ruby|rt|rp|bdi|bdo|span|br|wbr|ins|del|img)\\b)\\w+(?!:|[^\\w\\s@]*@)\\b").getRegex(),
 	def: /^ *\[([^\]]+)\]: *<?([^\s>]+)>?(?: +(["(][^\n]+[")]))? *(?:\n+|$)/,
 	heading: /^(#{1,6})(.*)(?:\n+|$)/,
-	fences: dn,
+	fences: un,
 	lheading: /^(.+?)\n {0,3}(=+|-+) *(?:\n+|$)/,
-	paragraph: U(Sn).replace("hr", gn).replace("heading", " *#{1,6} *[^\n]").replace("lheading", bn).replace("|table", "").replace("blockquote", " {0,3}>").replace("|fences", "").replace("|list", "").replace("|html", "").replace("|tag", "").getRegex()
-}, Fn = /^\\([!"#$%&'()*+,\-./:;<=>?@\[\]\\^_`{|}~])/, In = /^(`+)([^`]|[^`][\s\S]*?[^`])\1(?!`)/, Ln = /^( {2,}|\\)\n(?!\s*$)/, Rn = /^(`+|[^`])(?:(?= {2,}\n)|[\s\S]*?(?:(?=[\\<!\[`*_]|\b_|$)|[^ ](?= {2,}\n)))/, zn = /[\p{P}\p{S}]/u, Bn = /[\s\p{P}\p{S}]/u, Vn = /[^\s\p{P}\p{S}]/u, Hn = U(/^((?![*_])punctSpace)/, "u").replace(/punctSpace/g, Bn).getRegex(), Un = /(?!~)[\p{P}\p{S}]/u, Wn = /(?!~)[\s\p{P}\p{S}]/u, Gn = /(?:[^\s\p{P}\p{S}]|~)/u, Kn = U(/link|precode-code|html/, "g").replace("link", /\[(?:[^\[\]`]|(?<a>`+)[^`]+\k<a>(?!`))*?\]\((?:\\[\s\S]|[^\\\(\)]|\((?:\\[\s\S]|[^\\\(\)])*\))*\)/).replace("precode-", fn ? "(?<!`)()" : "(^^|[^`])").replace("code", /(?<b>`+)[^`]+\k<b>(?!`)/).replace("html", /<(?! )[^<>]*?>/).getRegex(), qn = /^(?:\*+(?:((?!\*)punct)|([^\s*]))?)|^_+(?:((?!_)punct)|([^\s_]))?/, Jn = U(qn, "u").replace(/punct/g, zn).getRegex(), Yn = U(qn, "u").replace(/punct/g, Un).getRegex(), Xn = "^[^_*]*?__[^_*]*?\\*[^_*]*?(?=__)|[^*]+(?=[^*])|(?!\\*)punct(\\*+)(?=[\\s]|$)|notPunctSpace(\\*+)(?!\\*)(?=punctSpace|$)|(?!\\*)punctSpace(\\*+)(?=notPunctSpace)|[\\s](\\*+)(?!\\*)(?=punct)|(?!\\*)punct(\\*+)(?!\\*)(?=punct)|notPunctSpace(\\*+)(?=notPunctSpace)", Zn = U(Xn, "gu").replace(/notPunctSpace/g, Vn).replace(/punctSpace/g, Bn).replace(/punct/g, zn).getRegex(), Qn = U(Xn, "gu").replace(/notPunctSpace/g, Gn).replace(/punctSpace/g, Wn).replace(/punct/g, Un).getRegex(), $n = U("^[^_*]*?\\*\\*[^_*]*?_[^_*]*?(?=\\*\\*)|[^_]+(?=[^_])|(?!_)punct(_+)(?=[\\s]|$)|notPunctSpace(_+)(?!_)(?=punctSpace|$)|(?!_)punctSpace(_+)(?=notPunctSpace)|[\\s](_+)(?!_)(?=punct)|(?!_)punct(_+)(?!_)(?=punct)", "gu").replace(/notPunctSpace/g, Vn).replace(/punctSpace/g, Bn).replace(/punct/g, zn).getRegex(), er = U(/^~~?(?:((?!~)punct)|[^\s~])/, "u").replace(/punct/g, zn).getRegex(), tr = U("^[^~]+(?=[^~])|(?!~)punct(~~?)(?=[\\s]|$)|notPunctSpace(~~?)(?!~)(?=punctSpace|$)|(?!~)punctSpace(~~?)(?=notPunctSpace)|[\\s](~~?)(?!~)(?=punct)|(?!~)punct(~~?)(?!~)(?=punct)|notPunctSpace(~~?)(?=notPunctSpace)", "gu").replace(/notPunctSpace/g, Vn).replace(/punctSpace/g, Bn).replace(/punct/g, zn).getRegex(), nr = U(/\\(punct)/, "gu").replace(/punct/g, zn).getRegex(), rr = U(/^<(scheme:[^\s\x00-\x1f<>]*|email)>/).replace("scheme", /[a-zA-Z][a-zA-Z0-9+.-]{1,31}/).replace("email", /[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+(@)[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+(?![-_])/).getRegex(), ir = U(On).replace("(?:-->|$)", "-->").getRegex(), ar = U("^comment|^</[a-zA-Z][\\w:-]*\\s*>|^<[a-zA-Z][\\w-]*(?:attribute)*?\\s*/?>|^<\\?[\\s\\S]*?\\?>|^<![a-zA-Z]+\\s[\\s\\S]*?>|^<!\\[CDATA\\[[\\s\\S]*?\\]\\]>").replace("comment", ir).replace("attribute", /\s+[a-zA-Z:_][\w.:-]*(?:\s*=\s*"[^"]*"|\s*=\s*'[^']*'|\s*=\s*[^\s"'=<>`]+)?/).getRegex(), or = /(?:\[(?:\\[\s\S]|[^\[\]\\])*\]|\\[\s\S]|`+(?!`)[^`]*?`+(?!`)|``+(?=\])|[^\[\]\\`])*?/, sr = U(/^!?\[(label)\]\(\s*(href)(?:(?:[ \t]+(?:\n[ \t]*)?|\n[ \t]*)(title))?\s*\)/).replace("label", or).replace("href", /<(?:\\.|[^\n<>\\])+>|[^ \t\n\x00-\x1f]*/).replace("title", /"(?:\\"?|[^"\\])*"|'(?:\\'?|[^'\\])*'|\((?:\\\)?|[^)\\])*\)/).getRegex(), cr = U(/^!?\[(label)\]\[(ref)\]/).replace("label", or).replace("ref", wn).getRegex(), lr = U(/^!?\[(ref)\](?:\[\])?/).replace("ref", wn).getRegex(), ur = U("reflink|nolink(?!\\()", "g").replace("reflink", cr).replace("nolink", lr).getRegex(), dr = /[hH][tT][tT][pP][sS]?|[fF][tT][pP]/, fr = {
-	_backpedal: dn,
-	anyPunctuation: nr,
-	autolink: rr,
-	blockSkip: Kn,
-	br: Ln,
-	code: In,
-	del: dn,
-	delLDelim: dn,
-	delRDelim: dn,
-	emStrongLDelim: Jn,
-	emStrongRDelimAst: Zn,
-	emStrongRDelimUnd: $n,
-	escape: Fn,
-	link: sr,
-	nolink: lr,
-	punctuation: Hn,
-	reflink: cr,
-	reflinkSearch: ur,
-	tag: ar,
-	text: Rn,
-	url: dn
+	paragraph: W(xn).replace("hr", hn).replace("heading", " *#{1,6} *[^\n]").replace("lheading", yn).replace("|table", "").replace("blockquote", " {0,3}>").replace("|fences", "").replace("|list", "").replace("|html", "").replace("|tag", "").getRegex()
+}, Pn = /^\\([!"#$%&'()*+,\-./:;<=>?@\[\]\\^_`{|}~])/, Fn = /^(`+)([^`]|[^`][\s\S]*?[^`])\1(?!`)/, In = /^( {2,}|\\)\n(?!\s*$)/, Ln = /^(`+|[^`])(?:(?= {2,}\n)|[\s\S]*?(?:(?=[\\<!\[`*_]|\b_|$)|[^ ](?= {2,}\n)))/, Rn = /[\p{P}\p{S}]/u, zn = /[\s\p{P}\p{S}]/u, Bn = /[^\s\p{P}\p{S}]/u, Vn = W(/^((?![*_])punctSpace)/, "u").replace(/punctSpace/g, zn).getRegex(), Hn = /(?!~)[\p{P}\p{S}]/u, Un = /(?!~)[\s\p{P}\p{S}]/u, Wn = /(?:[^\s\p{P}\p{S}]|~)/u, Gn = W(/link|precode-code|html/, "g").replace("link", /\[(?:[^\[\]`]|(?<a>`+)[^`]+\k<a>(?!`))*?\]\((?:\\[\s\S]|[^\\\(\)]|\((?:\\[\s\S]|[^\\\(\)])*\))*\)/).replace("precode-", dn ? "(?<!`)()" : "(^^|[^`])").replace("code", /(?<b>`+)[^`]+\k<b>(?!`)/).replace("html", /<(?! )[^<>]*?>/).getRegex(), Kn = /^(?:\*+(?:((?!\*)punct)|([^\s*]))?)|^_+(?:((?!_)punct)|([^\s_]))?/, qn = W(Kn, "u").replace(/punct/g, Rn).getRegex(), Jn = W(Kn, "u").replace(/punct/g, Hn).getRegex(), Yn = "^[^_*]*?__[^_*]*?\\*[^_*]*?(?=__)|[^*]+(?=[^*])|(?!\\*)punct(\\*+)(?=[\\s]|$)|notPunctSpace(\\*+)(?!\\*)(?=punctSpace|$)|(?!\\*)punctSpace(\\*+)(?=notPunctSpace)|[\\s](\\*+)(?!\\*)(?=punct)|(?!\\*)punct(\\*+)(?!\\*)(?=punct)|notPunctSpace(\\*+)(?=notPunctSpace)", Xn = W(Yn, "gu").replace(/notPunctSpace/g, Bn).replace(/punctSpace/g, zn).replace(/punct/g, Rn).getRegex(), Zn = W(Yn, "gu").replace(/notPunctSpace/g, Wn).replace(/punctSpace/g, Un).replace(/punct/g, Hn).getRegex(), Qn = W("^[^_*]*?\\*\\*[^_*]*?_[^_*]*?(?=\\*\\*)|[^_]+(?=[^_])|(?!_)punct(_+)(?=[\\s]|$)|notPunctSpace(_+)(?!_)(?=punctSpace|$)|(?!_)punctSpace(_+)(?=notPunctSpace)|[\\s](_+)(?!_)(?=punct)|(?!_)punct(_+)(?!_)(?=punct)", "gu").replace(/notPunctSpace/g, Bn).replace(/punctSpace/g, zn).replace(/punct/g, Rn).getRegex(), $n = W(/^~~?(?:((?!~)punct)|[^\s~])/, "u").replace(/punct/g, Rn).getRegex(), er = W("^[^~]+(?=[^~])|(?!~)punct(~~?)(?=[\\s]|$)|notPunctSpace(~~?)(?!~)(?=punctSpace|$)|(?!~)punctSpace(~~?)(?=notPunctSpace)|[\\s](~~?)(?!~)(?=punct)|(?!~)punct(~~?)(?!~)(?=punct)|notPunctSpace(~~?)(?=notPunctSpace)", "gu").replace(/notPunctSpace/g, Bn).replace(/punctSpace/g, zn).replace(/punct/g, Rn).getRegex(), tr = W(/\\(punct)/, "gu").replace(/punct/g, Rn).getRegex(), nr = W(/^<(scheme:[^\s\x00-\x1f<>]*|email)>/).replace("scheme", /[a-zA-Z][a-zA-Z0-9+.-]{1,31}/).replace("email", /[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+(@)[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+(?![-_])/).getRegex(), rr = W(Dn).replace("(?:-->|$)", "-->").getRegex(), ir = W("^comment|^</[a-zA-Z][\\w:-]*\\s*>|^<[a-zA-Z][\\w-]*(?:attribute)*?\\s*/?>|^<\\?[\\s\\S]*?\\?>|^<![a-zA-Z]+\\s[\\s\\S]*?>|^<!\\[CDATA\\[[\\s\\S]*?\\]\\]>").replace("comment", rr).replace("attribute", /\s+[a-zA-Z:_][\w.:-]*(?:\s*=\s*"[^"]*"|\s*=\s*'[^']*'|\s*=\s*[^\s"'=<>`]+)?/).getRegex(), ar = /(?:\[(?:\\[\s\S]|[^\[\]\\])*\]|\\[\s\S]|`+(?!`)[^`]*?`+(?!`)|``+(?=\])|[^\[\]\\`])*?/, or = W(/^!?\[(label)\]\(\s*(href)(?:(?:[ \t]+(?:\n[ \t]*)?|\n[ \t]*)(title))?\s*\)/).replace("label", ar).replace("href", /<(?:\\.|[^\n<>\\])+>|[^ \t\n\x00-\x1f]*/).replace("title", /"(?:\\"?|[^"\\])*"|'(?:\\'?|[^'\\])*'|\((?:\\\)?|[^)\\])*\)/).getRegex(), sr = W(/^!?\[(label)\]\[(ref)\]/).replace("label", ar).replace("ref", Cn).getRegex(), cr = W(/^!?\[(ref)\](?:\[\])?/).replace("ref", Cn).getRegex(), lr = W("reflink|nolink(?!\\()", "g").replace("reflink", sr).replace("nolink", cr).getRegex(), ur = /[hH][tT][tT][pP][sS]?|[fF][tT][pP]/, dr = {
+	_backpedal: un,
+	anyPunctuation: tr,
+	autolink: nr,
+	blockSkip: Gn,
+	br: In,
+	code: Fn,
+	del: un,
+	delLDelim: un,
+	delRDelim: un,
+	emStrongLDelim: qn,
+	emStrongRDelimAst: Xn,
+	emStrongRDelimUnd: Qn,
+	escape: Pn,
+	link: or,
+	nolink: cr,
+	punctuation: Vn,
+	reflink: sr,
+	reflinkSearch: lr,
+	tag: ir,
+	text: Ln,
+	url: un
+}, fr = {
+	...dr,
+	link: W(/^!?\[(label)\]\((.*?)\)/).replace("label", ar).getRegex(),
+	reflink: W(/^!?\[(label)\]\s*\[([^\]]*)\]/).replace("label", ar).getRegex()
 }, pr = {
-	...fr,
-	link: U(/^!?\[(label)\]\((.*?)\)/).replace("label", or).getRegex(),
-	reflink: U(/^!?\[(label)\]\s*\[([^\]]*)\]/).replace("label", or).getRegex()
-}, mr = {
-	...fr,
-	emStrongRDelimAst: Qn,
-	emStrongLDelim: Yn,
-	delLDelim: er,
-	delRDelim: tr,
-	url: U(/^((?:protocol):\/\/|www\.)(?:[a-zA-Z0-9\-]+\.?)+[^\s<]*|^email/).replace("protocol", dr).replace("email", /[A-Za-z0-9._+-]+(@)[a-zA-Z0-9-_]+(?:\.[a-zA-Z0-9-_]*[a-zA-Z0-9])+(?![-_])/).getRegex(),
+	...dr,
+	emStrongRDelimAst: Zn,
+	emStrongLDelim: Jn,
+	delLDelim: $n,
+	delRDelim: er,
+	url: W(/^((?:protocol):\/\/|www\.)(?:[a-zA-Z0-9\-]+\.?)+[^\s<]*|^email/).replace("protocol", ur).replace("email", /[A-Za-z0-9._+-]+(@)[a-zA-Z0-9-_]+(?:\.[a-zA-Z0-9-_]*[a-zA-Z0-9])+(?![-_])/).getRegex(),
 	_backpedal: /(?:[^?!.,:;*_'"~()&]+|\([^)]*\)|&(?![a-zA-Z0-9]+;$)|[?!.,:;*_'"~)]+(?!$))+/,
 	del: /^(~~?)(?=[^\s~])((?:\\[\s\S]|[^\\])*?(?:\\[\s\S]|[^\s~\\]))\1(?=[^~]|$)/,
-	text: U(/^([`~]+|[^`~])(?:(?= {2,}\n)|(?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@)|[\s\S]*?(?:(?=[\\<!\[`*~_]|\b_|protocol:\/\/|www\.|$)|[^ ](?= {2,}\n)|[^a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-](?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@)))/).replace("protocol", dr).getRegex()
+	text: W(/^([`~]+|[^`~])(?:(?= {2,}\n)|(?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@)|[\s\S]*?(?:(?=[\\<!\[`*~_]|\b_|protocol:\/\/|www\.|$)|[^ ](?= {2,}\n)|[^a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-](?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@)))/).replace("protocol", ur).getRegex()
+}, mr = {
+	...pr,
+	br: W(In).replace("{2,}", "*").getRegex(),
+	text: W(pr.text).replace("\\b_", "\\b_| {2,}\\n").replace(/\{2,\}/g, "*").getRegex()
 }, hr = {
-	...mr,
-	br: U(Ln).replace("{2,}", "*").getRegex(),
-	text: U(mr.text).replace("\\b_", "\\b_| {2,}\\n").replace(/\{2,\}/g, "*").getRegex()
+	normal: An,
+	gfm: Mn,
+	pedantic: Nn
 }, gr = {
-	normal: jn,
-	gfm: Nn,
-	pedantic: Pn
+	normal: dr,
+	gfm: pr,
+	breaks: mr,
+	pedantic: fr
 }, _r = {
-	normal: fr,
-	gfm: mr,
-	breaks: hr,
-	pedantic: pr
-}, vr = {
 	"&": "&amp;",
 	"<": "&lt;",
 	">": "&gt;",
 	"\"": "&quot;",
 	"'": "&#39;"
-}, yr = (e) => vr[e];
-function G(e, t) {
+}, vr = (e) => _r[e];
+function K(e, t) {
 	if (t) {
-		if (W.escapeTest.test(e)) return e.replace(W.escapeReplace, yr);
-	} else if (W.escapeTestNoEncode.test(e)) return e.replace(W.escapeReplaceNoEncode, yr);
+		if (G.escapeTest.test(e)) return e.replace(G.escapeReplace, vr);
+	} else if (G.escapeTestNoEncode.test(e)) return e.replace(G.escapeReplaceNoEncode, vr);
 	return e;
 }
-function br(e) {
+function yr(e) {
 	try {
-		e = encodeURI(e).replace(W.percentDecode, "%");
+		e = encodeURI(e).replace(G.percentDecode, "%");
 	} catch {
 		return null;
 	}
 	return e;
 }
-function xr(e, t) {
-	let n = e.replace(W.findPipe, (e, t, n) => {
+function br(e, t) {
+	let n = e.replace(G.findPipe, (e, t, n) => {
 		let r = !1, i = t;
 		for (; --i >= 0 && n[i] === "\\";) r = !r;
 		return r ? "|" : " |";
-	}).split(W.splitPipe), r = 0;
+	}).split(G.splitPipe), r = 0;
 	if (n[0].trim() || n.shift(), n.length > 0 && !n.at(-1)?.trim() && n.pop(), t) if (n.length > t) n.splice(t);
 	else for (; n.length < t;) n.push("");
-	for (; r < n.length; r++) n[r] = n[r].trim().replace(W.slashPipe, "|");
+	for (; r < n.length; r++) n[r] = n[r].trim().replace(G.slashPipe, "|");
 	return n;
 }
-function Sr(e, t, n) {
+function xr(e, t, n) {
 	let r = e.length;
 	if (r === 0) return "";
 	let i = 0;
@@ -3179,6 +3214,11 @@ function Sr(e, t, n) {
 		else break;
 	}
 	return e.slice(0, r - i);
+}
+function Sr(e) {
+	let t = e.split("\n"), n = t.length - 1;
+	for (; n >= 0 && !t[n].trim();) n--;
+	return t.length - n <= 2 ? e : t.slice(0, n + 1).join("\n");
 }
 function Cr(e, t) {
 	if (e.indexOf(t[1]) === -1) return -1;
@@ -3225,7 +3265,7 @@ var Dr = class {
 	rules;
 	lexer;
 	constructor(e) {
-		this.options = e || ln;
+		this.options = e || cn;
 	}
 	space(e) {
 		let t = this.rules.block.newline.exec(e);
@@ -3237,12 +3277,12 @@ var Dr = class {
 	code(e) {
 		let t = this.rules.block.code.exec(e);
 		if (t) {
-			let e = t[0].replace(this.rules.other.codeRemoveIndent, "");
+			let e = this.options.pedantic ? t[0] : Sr(t[0]);
 			return {
 				type: "code",
-				raw: t[0],
+				raw: e,
 				codeBlockStyle: "indented",
-				text: this.options.pedantic ? e : Sr(e, "\n")
+				text: e.replace(this.rules.other.codeRemoveIndent, "")
 			};
 		}
 	}
@@ -3263,12 +3303,12 @@ var Dr = class {
 		if (t) {
 			let e = t[2].trim();
 			if (this.rules.other.endingHash.test(e)) {
-				let t = Sr(e, "#");
+				let t = xr(e, "#");
 				(this.options.pedantic || !t || this.rules.other.endingSpaceChar.test(t)) && (e = t.trim());
 			}
 			return {
 				type: "heading",
-				raw: t[0],
+				raw: xr(t[0], "\n"),
 				depth: t[1].length,
 				text: e,
 				tokens: this.lexer.inline(e)
@@ -3279,13 +3319,13 @@ var Dr = class {
 		let t = this.rules.block.hr.exec(e);
 		if (t) return {
 			type: "hr",
-			raw: Sr(t[0], "\n")
+			raw: xr(t[0], "\n")
 		};
 	}
 	blockquote(e) {
 		let t = this.rules.block.blockquote.exec(e);
 		if (t) {
-			let e = Sr(t[0], "\n").split("\n"), n = "", r = "", i = [];
+			let e = xr(t[0], "\n").split("\n"), n = "", r = "", i = [];
 			for (; e.length > 0;) {
 				let t = !1, a = [], o;
 				for (o = 0; o < e.length; o++) if (this.rules.other.blockquoteStart.test(e[o])) a.push(e[o]), t = !0;
@@ -3400,13 +3440,16 @@ ${c}` : c;
 	}
 	html(e) {
 		let t = this.rules.block.html.exec(e);
-		if (t) return {
-			type: "html",
-			block: !0,
-			raw: t[0],
-			pre: t[1] === "pre" || t[1] === "script" || t[1] === "style",
-			text: t[0]
-		};
+		if (t) {
+			let e = Sr(t[0]);
+			return {
+				type: "html",
+				block: !0,
+				raw: e,
+				pre: t[1] === "pre" || t[1] === "script" || t[1] === "style",
+				text: e
+			};
+		}
 	}
 	def(e) {
 		let t = this.rules.block.def.exec(e);
@@ -3415,7 +3458,7 @@ ${c}` : c;
 			return {
 				type: "def",
 				tag: e,
-				raw: t[0],
+				raw: xr(t[0], "\n"),
 				href: n,
 				title: r
 			};
@@ -3424,9 +3467,9 @@ ${c}` : c;
 	table(e) {
 		let t = this.rules.block.table.exec(e);
 		if (!t || !this.rules.other.tableDelimiter.test(t[2])) return;
-		let n = xr(t[1]), r = t[2].replace(this.rules.other.tableAlignChars, "").split("|"), i = t[3]?.trim() ? t[3].replace(this.rules.other.tableRowBlankLine, "").split("\n") : [], a = {
+		let n = br(t[1]), r = t[2].replace(this.rules.other.tableAlignChars, "").split("|"), i = t[3]?.trim() ? t[3].replace(this.rules.other.tableRowBlankLine, "").split("\n") : [], a = {
 			type: "table",
-			raw: t[0],
+			raw: xr(t[0], "\n"),
 			header: [],
 			align: [],
 			rows: []
@@ -3439,7 +3482,7 @@ ${c}` : c;
 				header: !0,
 				align: a.align[e]
 			});
-			for (let e of i) a.rows.push(xr(e, a.header.length).map((e, t) => ({
+			for (let e of i) a.rows.push(br(e, a.header.length).map((e, t) => ({
 				text: e,
 				tokens: this.lexer.inline(e),
 				header: !1,
@@ -3454,7 +3497,7 @@ ${c}` : c;
 			let e = t[1].trim();
 			return {
 				type: "heading",
-				raw: t[0],
+				raw: xr(t[0], "\n"),
 				depth: t[2].charAt(0) === "=" ? 1 : 2,
 				text: e,
 				tokens: this.lexer.inline(e)
@@ -3507,7 +3550,7 @@ ${c}` : c;
 			let e = t[2].trim();
 			if (!this.options.pedantic && this.rules.other.startAngleBracket.test(e)) {
 				if (!this.rules.other.endAngleBracket.test(e)) return;
-				let t = Sr(e.slice(0, -1), "\\");
+				let t = xr(e.slice(0, -1), "\\");
 				if ((e.length - t.length) % 2 == 0) return;
 			} else {
 				let e = Cr(t[2], "()");
@@ -3547,7 +3590,7 @@ ${c}` : c;
 		let r = this.rules.inline.emStrongLDelim.exec(e);
 		if (!(!r || !r[1] && !r[2] && !r[3] && !r[4] || r[4] && n.match(this.rules.other.unicodeAlphaNumeric)) && (!(r[1] || r[3]) || !n || this.rules.inline.punctuation.exec(n))) {
 			let n = [...r[0]].length - 1, i, a, o = n, s = 0, c = r[0][0] === "*" ? this.rules.inline.emStrongRDelimAst : this.rules.inline.emStrongRDelimUnd;
-			for (c.lastIndex = 0, t = t.slice(-1 * e.length + n); (r = c.exec(t)) != null;) {
+			for (c.lastIndex = 0, t = t.slice(-1 * e.length + n); (r = c.exec(t)) !== null;) {
 				if (i = r[1] || r[2] || r[3] || r[4] || r[5] || r[6], !i) continue;
 				if (a = [...i].length, r[3] || r[4]) {
 					o += a;
@@ -3600,7 +3643,7 @@ ${c}` : c;
 		let r = this.rules.inline.delLDelim.exec(e);
 		if (r && (!r[1] || !n || this.rules.inline.punctuation.exec(n))) {
 			let n = [...r[0]].length - 1, i, a, o = n, s = this.rules.inline.delRDelim;
-			for (s.lastIndex = 0, t = t.slice(-1 * e.length + n); (r = s.exec(t)) != null;) {
+			for (s.lastIndex = 0, t = t.slice(-1 * e.length + n); (r = s.exec(t)) !== null;) {
 				if (i = r[1] || r[2] || r[3] || r[4] || r[5] || r[6], !i || (a = [...i].length, a !== n)) continue;
 				if (r[3] || r[4]) {
 					o += a;
@@ -3672,29 +3715,29 @@ ${c}` : c;
 			};
 		}
 	}
-}, K = class e {
+}, q = class e {
 	tokens;
 	options;
 	state;
 	inlineQueue;
 	tokenizer;
 	constructor(e) {
-		this.tokens = [], this.tokens.links = Object.create(null), this.options = e || ln, this.options.tokenizer = this.options.tokenizer || new Dr(), this.tokenizer = this.options.tokenizer, this.tokenizer.options = this.options, this.tokenizer.lexer = this, this.inlineQueue = [], this.state = {
+		this.tokens = [], this.tokens.links = Object.create(null), this.options = e || cn, this.options.tokenizer = this.options.tokenizer || new Dr(), this.tokenizer = this.options.tokenizer, this.tokenizer.options = this.options, this.tokenizer.lexer = this, this.inlineQueue = [], this.state = {
 			inLink: !1,
 			inRawBlock: !1,
 			top: !0
 		};
 		let t = {
-			other: W,
-			block: gr.normal,
-			inline: _r.normal
+			other: G,
+			block: hr.normal,
+			inline: gr.normal
 		};
-		this.options.pedantic ? (t.block = gr.pedantic, t.inline = _r.pedantic) : this.options.gfm && (t.block = gr.gfm, this.options.breaks ? t.inline = _r.breaks : t.inline = _r.gfm), this.tokenizer.rules = t;
+		this.options.pedantic ? (t.block = hr.pedantic, t.inline = gr.pedantic) : this.options.gfm && (t.block = hr.gfm, this.options.breaks ? t.inline = gr.breaks : t.inline = gr.gfm), this.tokenizer.rules = t;
 	}
 	static get rules() {
 		return {
-			block: gr,
-			inline: _r
+			block: hr,
+			inline: gr
 		};
 	}
 	static lex(t, n) {
@@ -3704,7 +3747,7 @@ ${c}` : c;
 		return new e(n).inlineTokens(t);
 	}
 	lex(e) {
-		e = e.replace(W.carriageReturn, "\n"), this.blockTokens(e, this.tokens);
+		e = e.replace(G.carriageReturn, "\n"), this.blockTokens(e, this.tokens);
 		for (let e = 0; e < this.inlineQueue.length; e++) {
 			let t = this.inlineQueue[e];
 			this.inlineTokens(t.src, t.tokens);
@@ -3712,7 +3755,7 @@ ${c}` : c;
 		return this.inlineQueue = [], this.tokens;
 	}
 	blockTokens(e, t = [], n = !1) {
-		for (this.tokenizer.lexer = this, this.options.pedantic && (e = e.replace(W.tabCharGlobal, "    ").replace(W.spaceLine, "")); e;) {
+		for (this.tokenizer.lexer = this, this.options.pedantic && (e = e.replace(G.tabCharGlobal, "    ").replace(G.spaceLine, "")); e;) {
 			let r;
 			if (this.options.extensions?.block?.some((n) => (r = n.call({ lexer: this }, e, t)) ? (e = e.substring(r.raw.length), t.push(r), !0) : !1)) continue;
 			if (r = this.tokenizer.space(e)) {
@@ -3807,11 +3850,11 @@ ${c}` : c;
 		let n = e, r = null;
 		if (this.tokens.links) {
 			let e = Object.keys(this.tokens.links);
-			if (e.length > 0) for (; (r = this.tokenizer.rules.inline.reflinkSearch.exec(n)) != null;) e.includes(r[0].slice(r[0].lastIndexOf("[") + 1, -1)) && (n = n.slice(0, r.index) + "[" + "a".repeat(r[0].length - 2) + "]" + n.slice(this.tokenizer.rules.inline.reflinkSearch.lastIndex));
+			if (e.length > 0) for (; (r = this.tokenizer.rules.inline.reflinkSearch.exec(n)) !== null;) e.includes(r[0].slice(r[0].lastIndexOf("[") + 1, -1)) && (n = n.slice(0, r.index) + "[" + "a".repeat(r[0].length - 2) + "]" + n.slice(this.tokenizer.rules.inline.reflinkSearch.lastIndex));
 		}
-		for (; (r = this.tokenizer.rules.inline.anyPunctuation.exec(n)) != null;) n = n.slice(0, r.index) + "++" + n.slice(this.tokenizer.rules.inline.anyPunctuation.lastIndex);
+		for (; (r = this.tokenizer.rules.inline.anyPunctuation.exec(n)) !== null;) n = n.slice(0, r.index) + "++" + n.slice(this.tokenizer.rules.inline.anyPunctuation.lastIndex);
 		let i;
-		for (; (r = this.tokenizer.rules.inline.blockSkip.exec(n)) != null;) i = r[2] ? r[2].length : 0, n = n.slice(0, r.index + i) + "[" + "a".repeat(r[0].length - i - 2) + "]" + n.slice(this.tokenizer.rules.inline.blockSkip.lastIndex);
+		for (; (r = this.tokenizer.rules.inline.blockSkip.exec(n)) !== null;) i = r[2] ? r[2].length : 0, n = n.slice(0, r.index + i) + "[" + "a".repeat(r[0].length - i - 2) + "]" + n.slice(this.tokenizer.rules.inline.blockSkip.lastIndex);
 		n = this.options.hooks?.emStrongMask?.call({ lexer: this }, n) ?? n;
 		let a = !1, o = "";
 		for (; e;) {
@@ -3887,14 +3930,14 @@ ${c}` : c;
 	options;
 	parser;
 	constructor(e) {
-		this.options = e || ln;
+		this.options = e || cn;
 	}
 	space(e) {
 		return "";
 	}
 	code({ text: e, lang: t, escaped: n }) {
-		let r = (t || "").match(W.notSpaceStart)?.[0], i = e.replace(W.endingNewline, "") + "\n";
-		return r ? "<pre><code class=\"language-" + G(r) + "\">" + (n ? i : G(i, !0)) + "</code></pre>\n" : "<pre><code>" + (n ? i : G(i, !0)) + "</code></pre>\n";
+		let r = (t || "").match(G.notSpaceStart)?.[0], i = e.replace(G.endingNewline, "") + "\n";
+		return r ? "<pre><code class=\"language-" + K(r) + "\">" + (n ? i : K(i, !0)) + "</code></pre>\n" : "<pre><code>" + (n ? i : K(i, !0)) + "</code></pre>\n";
 	}
 	blockquote({ tokens: e }) {
 		return `<blockquote>
@@ -3964,7 +4007,7 @@ ${e}</tr>
 		return `<em>${this.parser.parseInline(e)}</em>`;
 	}
 	codespan({ text: e }) {
-		return `<code>${G(e, !0)}</code>`;
+		return `<code>${K(e, !0)}</code>`;
 	}
 	br(e) {
 		return "<br>";
@@ -3973,22 +4016,22 @@ ${e}</tr>
 		return `<del>${this.parser.parseInline(e)}</del>`;
 	}
 	link({ href: e, title: t, tokens: n }) {
-		let r = this.parser.parseInline(n), i = br(e);
+		let r = this.parser.parseInline(n), i = yr(e);
 		if (i === null) return r;
 		e = i;
 		let a = "<a href=\"" + e + "\"";
-		return t && (a += " title=\"" + G(t) + "\""), a += ">" + r + "</a>", a;
+		return t && (a += " title=\"" + K(t) + "\""), a += ">" + r + "</a>", a;
 	}
 	image({ href: e, title: t, text: n, tokens: r }) {
 		r && (n = this.parser.parseInline(r, this.parser.textRenderer));
-		let i = br(e);
-		if (i === null) return G(n);
+		let i = yr(e);
+		if (i === null) return K(n);
 		e = i;
-		let a = `<img src="${e}" alt="${G(n)}"`;
-		return t && (a += ` title="${G(t)}"`), a += ">", a;
+		let a = `<img src="${e}" alt="${K(n)}"`;
+		return t && (a += ` title="${K(t)}"`), a += ">", a;
 	}
 	text(e) {
-		return "tokens" in e && e.tokens ? this.parser.parseInline(e.tokens) : "escaped" in e && e.escaped ? e.text : G(e.text);
+		return "tokens" in e && e.tokens ? this.parser.parseInline(e.tokens) : "escaped" in e && e.escaped ? e.text : K(e.text);
 	}
 }, kr = class {
 	strong({ text: e }) {
@@ -4021,12 +4064,12 @@ ${e}</tr>
 	checkbox({ raw: e }) {
 		return e;
 	}
-}, q = class e {
+}, J = class e {
 	options;
 	renderer;
 	textRenderer;
 	constructor(e) {
-		this.options = e || ln, this.options.renderer = this.options.renderer || new Or(), this.renderer = this.options.renderer, this.renderer.options = this.options, this.renderer.parser = this, this.textRenderer = new kr();
+		this.options = e || cn, this.options.renderer = this.options.renderer || new Or(), this.renderer = this.options.renderer, this.renderer.options = this.options, this.renderer.parser = this, this.textRenderer = new kr();
 	}
 	static parse(t, n) {
 		return new e(n).parse(t);
@@ -4176,7 +4219,7 @@ ${e}</tr>
 	options;
 	block;
 	constructor(e) {
-		this.options = e || ln;
+		this.options = e || cn;
 	}
 	static passThroughHooks = new Set([
 		"preprocess",
@@ -4201,21 +4244,21 @@ ${e}</tr>
 	emStrongMask(e) {
 		return e;
 	}
-	provideLexer() {
-		return this.block ? K.lex : K.lexInline;
+	provideLexer(e = this.block) {
+		return e ? q.lex : q.lexInline;
 	}
-	provideParser() {
-		return this.block ? q.parse : q.parseInline;
+	provideParser(e = this.block) {
+		return e ? J.parse : J.parseInline;
 	}
 }, jr = new class {
-	defaults = cn();
+	defaults = sn();
 	options = this.setOptions;
 	parse = this.parseMarkdown(!0);
 	parseInline = this.parseMarkdown(!1);
-	Parser = q;
+	Parser = J;
 	Renderer = Or;
 	TextRenderer = kr;
-	Lexer = K;
+	Lexer = q;
 	Tokenizer = Dr;
 	Hooks = Ar;
 	constructor(...e) {
@@ -4341,10 +4384,10 @@ ${e}</tr>
 		}, this;
 	}
 	lexer(e, t) {
-		return K.lex(e, t ?? this.defaults);
+		return q.lex(e, t ?? this.defaults);
 	}
 	parser(e, t) {
-		return q.parse(e, t ?? this.defaults);
+		return J.parse(e, t ?? this.defaults);
 	}
 	parseMarkdown(e) {
 		return (t, n) => {
@@ -4356,16 +4399,16 @@ ${e}</tr>
 			if (typeof t > "u" || t === null) return a(/* @__PURE__ */ Error("marked(): input parameter is undefined or null"));
 			if (typeof t != "string") return a(/* @__PURE__ */ Error("marked(): input parameter is of type " + Object.prototype.toString.call(t) + ", string expected"));
 			if (i.hooks && (i.hooks.options = i, i.hooks.block = e), i.async) return (async () => {
-				let n = i.hooks ? await i.hooks.preprocess(t) : t, r = await (i.hooks ? await i.hooks.provideLexer() : e ? K.lex : K.lexInline)(n, i), a = i.hooks ? await i.hooks.processAllTokens(r) : r;
+				let n = i.hooks ? await i.hooks.preprocess(t) : t, r = await (i.hooks ? await i.hooks.provideLexer(e) : e ? q.lex : q.lexInline)(n, i), a = i.hooks ? await i.hooks.processAllTokens(r) : r;
 				i.walkTokens && await Promise.all(this.walkTokens(a, i.walkTokens));
-				let o = await (i.hooks ? await i.hooks.provideParser() : e ? q.parse : q.parseInline)(a, i);
+				let o = await (i.hooks ? await i.hooks.provideParser(e) : e ? J.parse : J.parseInline)(a, i);
 				return i.hooks ? await i.hooks.postprocess(o) : o;
 			})().catch(a);
 			try {
 				i.hooks && (t = i.hooks.preprocess(t));
-				let n = (i.hooks ? i.hooks.provideLexer() : e ? K.lex : K.lexInline)(t, i);
+				let n = (i.hooks ? i.hooks.provideLexer(e) : e ? q.lex : q.lexInline)(t, i);
 				i.hooks && (n = i.hooks.processAllTokens(n)), i.walkTokens && this.walkTokens(n, i.walkTokens);
-				let r = (i.hooks ? i.hooks.provideParser() : e ? q.parse : q.parseInline)(n, i);
+				let r = (i.hooks ? i.hooks.provideParser(e) : e ? J.parse : J.parseInline)(n, i);
 				return i.hooks && (r = i.hooks.postprocess(r)), r;
 			} catch (e) {
 				return a(e);
@@ -4375,7 +4418,7 @@ ${e}</tr>
 	onError(e, t) {
 		return (n) => {
 			if (n.message += "\nPlease report this to https://github.com/markedjs/marked.", e) {
-				let e = "<p>An error occurred:</p><pre>" + G(n.message + "", !0) + "</pre>";
+				let e = "<p>An error occurred:</p><pre>" + K(n.message + "", !0) + "</pre>";
 				return t ? Promise.resolve(e) : e;
 			}
 			if (t) return Promise.reject(n);
@@ -4383,58 +4426,58 @@ ${e}</tr>
 		};
 	}
 }();
-function J(e, t) {
+function Y(e, t) {
 	return jr.parse(e, t);
 }
-J.options = J.setOptions = function(e) {
-	return jr.setOptions(e), J.defaults = jr.defaults, un(J.defaults), J;
-}, J.getDefaults = cn, J.defaults = ln, J.use = function(...e) {
-	return jr.use(...e), J.defaults = jr.defaults, un(J.defaults), J;
-}, J.walkTokens = function(e, t) {
+Y.options = Y.setOptions = function(e) {
+	return jr.setOptions(e), Y.defaults = jr.defaults, ln(Y.defaults), Y;
+}, Y.getDefaults = sn, Y.defaults = cn, Y.use = function(...e) {
+	return jr.use(...e), Y.defaults = jr.defaults, ln(Y.defaults), Y;
+}, Y.walkTokens = function(e, t) {
 	return jr.walkTokens(e, t);
-}, J.parseInline = jr.parseInline, J.Parser = q, J.parser = q.parse, J.Renderer = Or, J.TextRenderer = kr, J.Lexer = K, J.lexer = K.lex, J.Tokenizer = Dr, J.Hooks = Ar, J.parse = J, J.options, J.setOptions, J.use, J.walkTokens, J.parseInline, q.parse, K.lex;
+}, Y.parseInline = jr.parseInline, Y.Parser = J, Y.parser = J.parse, Y.Renderer = Or, Y.TextRenderer = kr, Y.Lexer = q, Y.lexer = q.lex, Y.Tokenizer = Dr, Y.Hooks = Ar, Y.parse = Y, Y.options, Y.setOptions, Y.use, Y.walkTokens, Y.parseInline, J.parse, q.lex;
 //#endregion
 //#region src/icons/clear-night.svg
-var Mr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='21.92'%20x2='38.52'%20y1='18.75'%20y2='47.52'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%2386c3db'/%3e%3cstop%20offset='.45'%20stop-color='%2386c3db'/%3e%3cstop%20offset='1'%20stop-color='%235eafcf'/%3e%3canimateTransform%20attributeName='gradientTransform'%20dur='10s'%20repeatCount='indefinite'%20type='rotate'%20values='5%2032%2032;%20-15%2032%2032;%205%2032%2032'/%3e%3c/linearGradient%3e%3c/defs%3e%3cpath%20fill='url(%23a)'%20stroke='%2372b9d5'%20stroke-linecap='round'%20stroke-linejoin='round'%20stroke-width='.5'%20d='M46.66%2036.2a16.66%2016.66%200%2001-16.78-16.55%2016.29%2016.29%200%2001.55-4.15A16.56%2016.56%200%201048.5%2036.1c-.61.06-1.22.1-1.84.1z'%3e%3canimateTransform%20attributeName='transform'%20dur='10s'%20repeatCount='indefinite'%20type='rotate'%20values='-5%2032%2032;%2015%2032%2032;%20-5%2032%2032'/%3e%3c/path%3e%3c/svg%3e", Nr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3c/defs%3e%3cpath%20fill='url(%23a)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'%3e%3canimateTransform%20attributeName='transform'%20dur='7s'%20repeatCount='indefinite'%20type='translate'%20values='-3%200;%203%200;%20-3%200'/%3e%3c/path%3e%3c/svg%3e", Pr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='16.5'%20x2='21.5'%20y1='19.67'%20y2='28.33'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='.45'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='1'%20stop-color='%23f59e0b'/%3e%3c/linearGradient%3e%3clinearGradient%20id='b'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3c/defs%3e%3ccircle%20cx='19'%20cy='24'%20r='5'%20fill='url(%23a)'%20stroke='%23f8af18'%20stroke-miterlimit='10'%20stroke-width='.5'/%3e%3cpath%20fill='none'%20stroke='%23fbbf24'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M19%2015.67V12.5m0%2023v-3.17m5.89-14.22l2.24-2.24M10.87%2032.13l2.24-2.24m0-11.78l-2.24-2.24m16.26%2016.26l-2.24-2.24M7.5%2024h3.17m19.83%200h-3.17'%3e%3canimateTransform%20attributeName='transform'%20dur='45s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2019%2024;%20360%2019%2024'/%3e%3c/path%3e%3cpath%20fill='url(%23b)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3c/svg%3e", Fr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='13.58'%20x2='24.15'%20y1='15.57'%20y2='33.87'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%2386c3db'/%3e%3cstop%20offset='.45'%20stop-color='%2386c3db'/%3e%3cstop%20offset='1'%20stop-color='%235eafcf'/%3e%3canimateTransform%20attributeName='gradientTransform'%20dur='10s'%20repeatCount='indefinite'%20type='rotate'%20values='10%2019.22%2024.293;%20-10%2019.22%2024.293;%2010%2019.22%2024.293'/%3e%3c/linearGradient%3e%3clinearGradient%20id='b'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3c/defs%3e%3cpath%20fill='url(%23a)'%20stroke='%2372b9d5'%20stroke-linecap='round'%20stroke-linejoin='round'%20stroke-width='.5'%20d='M29.33%2026.68a10.61%2010.61%200%2001-10.68-10.54A10.5%2010.5%200%200119%2013.5a10.54%2010.54%200%201011.5%2013.11%2011.48%2011.48%200%2001-1.17.07z'%3e%3canimateTransform%20attributeName='transform'%20dur='10s'%20repeatCount='indefinite'%20type='rotate'%20values='-10%2019.22%2024.293;%2010%2019.22%2024.293;%20-10%2019.22%2024.293'/%3e%3c/path%3e%3cpath%20fill='url(%23b)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3c/svg%3e", Ir = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='b'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3clinearGradient%20id='a'%20x1='27.5'%20x2='36.5'%20y1='50.21'%20y2='65.79'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23d4d7dd'/%3e%3cstop%20offset='.45'%20stop-color='%23d4d7dd'/%3e%3cstop%20offset='1'%20stop-color='%23bec1c6'/%3e%3c/linearGradient%3e%3clinearGradient%20id='c'%20y1='44.21'%20y2='59.79'%20xlink:href='%23a'/%3e%3c/defs%3e%3cpath%20fill='url(%23b)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3cpath%20fill='none'%20stroke='url(%23a)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M17%2058h30'%3e%3canimateTransform%20attributeName='transform'%20begin='0s'%20dur='5s'%20repeatCount='indefinite'%20type='translate'%20values='-4%200;%204%200;%20-4%200'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23c)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M17%2052h30'%3e%3canimateTransform%20attributeName='transform'%20begin='-4s'%20dur='5s'%20repeatCount='indefinite'%20type='translate'%20values='-4%200;%204%200;%20-4%200'/%3e%3c/path%3e%3c/svg%3e", Lr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='b'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3clinearGradient%20id='a'%20x1='23.25'%20x2='24.75'%20y1='43.7'%20y2='46.3'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%2386c3db'/%3e%3cstop%20offset='.45'%20stop-color='%2386c3db'/%3e%3cstop%20offset='1'%20stop-color='%235eafcf'/%3e%3c/linearGradient%3e%3clinearGradient%20id='c'%20x1='30.25'%20x2='31.75'%20y1='43.7'%20y2='46.3'%20xlink:href='%23a'/%3e%3clinearGradient%20id='d'%20x1='37.25'%20x2='38.75'%20y1='43.7'%20y2='46.3'%20xlink:href='%23a'/%3e%3c/defs%3e%3cpath%20fill='url(%23b)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3cpath%20fill='url(%23a)'%20d='M24%2043.5a1.5%201.5%200%20101.5%201.5%201.5%201.5%200%2000-1.5-1.5z'%3e%3canimateTransform%20attributeName='transform'%20dur='0.6s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2018;%20-4%2014'/%3e%3canimate%20attributeName='opacity'%20dur='0.6s'%20repeatCount='indefinite'%20values='1;1;0'/%3e%3c/path%3e%3cpath%20fill='url(%23c)'%20d='M31%2043.5a1.5%201.5%200%20101.5%201.5%201.5%201.5%200%2000-1.5-1.5z'%3e%3canimateTransform%20attributeName='transform'%20begin='-0.4s'%20dur='0.6s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2018;%20-4%2014'/%3e%3canimate%20attributeName='opacity'%20begin='-0.4s'%20dur='0.6s'%20repeatCount='indefinite'%20values='1;1;0'/%3e%3c/path%3e%3cpath%20fill='url(%23d)'%20d='M38%2043.5a1.5%201.5%200%20101.5%201.5%201.5%201.5%200%2000-1.5-1.5z'%3e%3canimateTransform%20attributeName='transform'%20begin='-0.2s'%20dur='0.6s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2018;%20-4%2014'/%3e%3canimate%20attributeName='opacity'%20begin='-0.2s'%20dur='0.6s'%20repeatCount='indefinite'%20values='1;1;0'/%3e%3c/path%3e%3c/svg%3e", Rr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='b'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3clinearGradient%20id='a'%20x1='22.53'%20x2='25.47'%20y1='42.95'%20y2='48.05'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%234286ee'/%3e%3cstop%20offset='.45'%20stop-color='%234286ee'/%3e%3cstop%20offset='1'%20stop-color='%230950bc'/%3e%3c/linearGradient%3e%3clinearGradient%20id='c'%20x1='29.53'%20x2='32.47'%20y1='42.95'%20y2='48.05'%20xlink:href='%23a'/%3e%3clinearGradient%20id='d'%20x1='36.53'%20x2='39.47'%20y1='42.95'%20y2='48.05'%20xlink:href='%23a'/%3e%3clinearGradient%20id='e'%20x1='26.74'%20x2='35.76'%20y1='37.88'%20y2='53.52'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f7b23b'/%3e%3cstop%20offset='.45'%20stop-color='%23f7b23b'/%3e%3cstop%20offset='1'%20stop-color='%23f59e0b'/%3e%3c/linearGradient%3e%3c/defs%3e%3cpath%20fill='url(%23b)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3cpath%20fill='none'%20stroke='url(%23a)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M24.39%2043.03l-.78%204.94'%3e%3canimateTransform%20attributeName='transform'%20dur='0.7s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20dur='0.7s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23c)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M31.39%2043.03l-.78%204.94'%3e%3canimateTransform%20attributeName='transform'%20begin='-0.4s'%20dur='0.7s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20begin='-0.4s'%20dur='0.7s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23d)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M38.39%2043.03l-.78%204.94'%3e%3canimateTransform%20attributeName='transform'%20begin='-0.2s'%20dur='0.7s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20begin='-0.2s'%20dur='0.7s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3cpath%20fill='url(%23e)'%20stroke='%23f6a823'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M30%2036l-4%2012h4l-2%2010%2010-14h-6l4-8h-6z'%3e%3canimate%20attributeName='opacity'%20dur='2s'%20repeatCount='indefinite'%20values='1;%201;%201;%201;%201;%201;%200.1;%201;%200.1;%201;%201;%200.1;%201;%200.1;%201'/%3e%3c/path%3e%3c/svg%3e", zr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3clinearGradient%20id='b'%20x1='26.74'%20x2='35.76'%20y1='37.88'%20y2='53.52'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f7b23b'/%3e%3cstop%20offset='.45'%20stop-color='%23f7b23b'/%3e%3cstop%20offset='1'%20stop-color='%23f59e0b'/%3e%3c/linearGradient%3e%3c/defs%3e%3cpath%20fill='url(%23a)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3cpath%20fill='url(%23b)'%20stroke='%23f6a823'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M30%2036l-4%2012h4l-2%2010%2010-14h-6l4-8h-6z'%3e%3canimate%20attributeName='opacity'%20dur='2s'%20repeatCount='indefinite'%20values='1;%201;%201;%201;%201;%201;%200.1;%201;%200.1;%201;%201;%200.1;%201;%200.1;%201'/%3e%3c/path%3e%3c/svg%3e", Br = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='b'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3clinearGradient%20id='a'%20x1='22.53'%20x2='25.47'%20y1='42.95'%20y2='48.05'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%234286ee'/%3e%3cstop%20offset='.45'%20stop-color='%234286ee'/%3e%3cstop%20offset='1'%20stop-color='%230950bc'/%3e%3c/linearGradient%3e%3clinearGradient%20id='c'%20x1='29.53'%20x2='32.47'%20y1='42.95'%20y2='48.05'%20xlink:href='%23a'/%3e%3clinearGradient%20id='d'%20x1='36.53'%20x2='39.47'%20y1='42.95'%20y2='48.05'%20xlink:href='%23a'/%3e%3c/defs%3e%3cpath%20fill='url(%23b)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3cpath%20fill='none'%20stroke='url(%23a)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M24.39%2043.03l-.78%204.94'%3e%3canimateTransform%20attributeName='transform'%20dur='0.7s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20dur='0.7s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23c)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M31.39%2043.03l-.78%204.94'%3e%3canimateTransform%20attributeName='transform'%20begin='-0.4s'%20dur='0.7s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20begin='-0.4s'%20dur='0.7s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23d)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M38.39%2043.03l-.78%204.94'%3e%3canimateTransform%20attributeName='transform'%20begin='-0.2s'%20dur='0.7s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20begin='-0.2s'%20dur='0.7s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3c/svg%3e", Vr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='b'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3clinearGradient%20id='a'%20x1='30.12'%20x2='31.88'%20y1='43.48'%20y2='46.52'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%2386c3db'/%3e%3cstop%20offset='.45'%20stop-color='%2386c3db'/%3e%3cstop%20offset='1'%20stop-color='%235eafcf'/%3e%3c/linearGradient%3e%3clinearGradient%20id='c'%20x1='29.67'%20x2='32.33'%20y1='42.69'%20y2='47.31'%20xlink:href='%23a'/%3e%3clinearGradient%20id='d'%20x1='23.12'%20x2='24.88'%20y1='43.48'%20y2='46.52'%20xlink:href='%23a'/%3e%3clinearGradient%20id='e'%20x1='22.67'%20x2='25.33'%20y1='42.69'%20y2='47.31'%20xlink:href='%23a'/%3e%3clinearGradient%20id='f'%20x1='37.12'%20x2='38.88'%20y1='43.48'%20y2='46.52'%20xlink:href='%23a'/%3e%3clinearGradient%20id='g'%20x1='36.67'%20x2='39.33'%20y1='42.69'%20y2='47.31'%20xlink:href='%23a'/%3e%3c/defs%3e%3cpath%20fill='url(%23b)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3cg%3e%3ccircle%20cx='31'%20cy='45'%20r='1.25'%20fill='none'%20stroke='url(%23a)'%20stroke-miterlimit='10'/%3e%3cpath%20fill='none'%20stroke='url(%23c)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20d='M33.17%2046.25l-1.09-.63m-2.16-1.24l-1.09-.63M31%2042.5v1.25m0%203.75v-1.25m-1.08-.63l-1.09.63m4.34-2.5l-1.09.63'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='4s'%20repeatCount='indefinite'%20type='translate'%20values='-1%20-6;%201%2012'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='9s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2031%2045;%20360%2031%2045'/%3e%3canimate%20attributeName='opacity'%20dur='4s'%20repeatCount='indefinite'%20values='0;1;1;1;0'/%3e%3c/g%3e%3cg%3e%3ccircle%20cx='24'%20cy='45'%20r='1.25'%20fill='none'%20stroke='url(%23d)'%20stroke-miterlimit='10'/%3e%3cpath%20fill='none'%20stroke='url(%23e)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20d='M26.17%2046.25l-1.09-.63m-2.16-1.24l-1.09-.63M24%2042.5v1.25m0%203.75v-1.25m-1.08-.63l-1.09.63m4.34-2.5l-1.09.63'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20begin='-2s'%20dur='4s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-6;%20-1%2012'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='9s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2024%2045;%20360%2024%2045'/%3e%3canimate%20attributeName='opacity'%20begin='-2s'%20dur='4s'%20repeatCount='indefinite'%20values='0;1;1;1;0'/%3e%3c/g%3e%3cg%3e%3ccircle%20cx='38'%20cy='45'%20r='1.25'%20fill='none'%20stroke='url(%23f)'%20stroke-miterlimit='10'/%3e%3cpath%20fill='none'%20stroke='url(%23g)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20d='M40.17%2046.25l-1.09-.63m-2.16-1.24l-1.09-.63M38%2042.5v1.25m0%203.75v-1.25m-1.08-.63l-1.09.63m4.34-2.5l-1.09.63'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20begin='-1s'%20dur='4s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-6;%20-1%2012'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='9s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2038%2045;%20360%2038%2045'/%3e%3canimate%20attributeName='opacity'%20begin='-1s'%20dur='4s'%20repeatCount='indefinite'%20values='0;1;1;1;0'/%3e%3c/g%3e%3c/svg%3e", Hr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='c'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3clinearGradient%20id='a'%20x1='23.12'%20x2='24.88'%20y1='43.48'%20y2='46.52'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%2386c3db'/%3e%3cstop%20offset='.45'%20stop-color='%2386c3db'/%3e%3cstop%20offset='1'%20stop-color='%235eafcf'/%3e%3c/linearGradient%3e%3clinearGradient%20id='d'%20x1='22.67'%20x2='25.33'%20y1='42.69'%20y2='47.31'%20xlink:href='%23a'/%3e%3clinearGradient%20id='e'%20x1='37.12'%20x2='38.88'%20y1='43.48'%20y2='46.52'%20xlink:href='%23a'/%3e%3clinearGradient%20id='f'%20x1='36.67'%20x2='39.33'%20y1='42.69'%20y2='47.31'%20xlink:href='%23a'/%3e%3clinearGradient%20id='b'%20x1='23.31'%20x2='24.69'%20y1='44.3'%20y2='46.7'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%234286ee'/%3e%3cstop%20offset='.45'%20stop-color='%234286ee'/%3e%3cstop%20offset='1'%20stop-color='%230950bc'/%3e%3c/linearGradient%3e%3clinearGradient%20id='g'%20x1='30.31'%20x2='31.69'%20y1='44.3'%20y2='46.7'%20xlink:href='%23b'/%3e%3clinearGradient%20id='h'%20x1='37.31'%20x2='38.69'%20y1='44.3'%20y2='46.7'%20xlink:href='%23b'/%3e%3c/defs%3e%3cpath%20fill='url(%23c)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3cg%3e%3ccircle%20cx='24'%20cy='45'%20r='1.25'%20fill='none'%20stroke='url(%23a)'%20stroke-miterlimit='10'/%3e%3cpath%20fill='none'%20stroke='url(%23d)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20d='M26.17%2046.25l-1.09-.63m-2.16-1.24l-1.09-.63M24%2042.5v1.25m0%203.75v-1.25m-1.08-.63l-1.09.63m4.34-2.5l-1.09.63'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20begin='-2s'%20dur='4s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-6;%20-1%2012'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='9s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2024%2045;%20360%2024%2045'/%3e%3canimate%20attributeName='opacity'%20begin='-2s'%20dur='4s'%20repeatCount='indefinite'%20values='0;1;1;1;0'/%3e%3c/g%3e%3cg%3e%3ccircle%20cx='38'%20cy='45'%20r='1.25'%20fill='none'%20stroke='url(%23e)'%20stroke-miterlimit='10'/%3e%3cpath%20fill='none'%20stroke='url(%23f)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20d='M40.17%2046.25l-1.09-.63m-2.16-1.24l-1.09-.63M38%2042.5v1.25m0%203.75v-1.25m-1.08-.63l-1.09.63m4.34-2.5l-1.09.63'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20begin='-1s'%20dur='4s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-6;%20-1%2012'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='9s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2038%2045;%20360%2038%2045'/%3e%3canimate%20attributeName='opacity'%20begin='-1s'%20dur='4s'%20repeatCount='indefinite'%20values='0;1;1;1;0'/%3e%3c/g%3e%3cpath%20fill='none'%20stroke='url(%23b)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M24.08%2045.01l-.16.98'%3e%3canimateTransform%20attributeName='transform'%20dur='1.5s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20dur='1.5s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23g)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M31.08%2045.01l-.16.98'%3e%3canimateTransform%20attributeName='transform'%20begin='-0.5s'%20dur='1.5s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20begin='-0.5s'%20dur='1.5s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23h)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M38.08%2045.01l-.16.98'%3e%3canimateTransform%20attributeName='transform'%20begin='-1s'%20dur='1.5s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20begin='-1s'%20dur='1.5s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3c/svg%3e", Ur = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='21.97'%20x2='42.03'%20y1='14.63'%20y2='49.37'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23d4d7dd'/%3e%3cstop%20offset='.45'%20stop-color='%23d4d7dd'/%3e%3cstop%20offset='1'%20stop-color='%23bec1c6'/%3e%3canimateTransform%20attributeName='gradientTransform'%20dur='1s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2032%2032;%20360%2032%2032'/%3e%3c/linearGradient%3e%3c/defs%3e%3cpath%20fill='none'%20stroke='url(%23a)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M43%2032a11%2011%200%2011-11-11%2011%2011%200%200111%2011zM25%2014.61l-.48%201a33.68%2033.68%200%2000-3.42%2017.82h0M39%2049.39l.48-1a33.68%2033.68%200%20003.42-17.82h0'%3e%3canimateTransform%20attributeName='transform'%20dur='1s'%20repeatCount='indefinite'%20type='rotate'%20values='360%2032%2032;%200%2032%2032'/%3e%3c/path%3e%3c/svg%3e", Wr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='27.56'%20x2='38.27'%20y1='17.64'%20y2='36.19'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23d4d7dd'/%3e%3cstop%20offset='.45'%20stop-color='%23d4d7dd'/%3e%3cstop%20offset='1'%20stop-color='%23bec1c6'/%3e%3c/linearGradient%3e%3clinearGradient%20id='b'%20x1='19.96'%20x2='31.37'%20y1='29.03'%20y2='48.8'%20xlink:href='%23a'/%3e%3c/defs%3e%3cpath%20fill='none'%20stroke='url(%23a)'%20stroke-dasharray='35%2022'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M43.64%2020a5%205%200%20113.61%208.46h-35.5'%3e%3canimate%20attributeName='stroke-dashoffset'%20dur='2s'%20repeatCount='indefinite'%20values='-57;%2057'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23b)'%20stroke-dasharray='24%2015'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M29.14%2044a5%205%200%20103.61-8.46h-21'%3e%3canimate%20attributeName='stroke-dashoffset'%20begin='-1.5s'%20dur='2s'%20repeatCount='indefinite'%20values='-39;%2039'/%3e%3c/path%3e%3c/svg%3e", Gr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='26.75'%20x2='37.25'%20y1='22.91'%20y2='41.09'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='.45'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='1'%20stop-color='%23f59e0b'/%3e%3c/linearGradient%3e%3c/defs%3e%3ccircle%20cx='32'%20cy='32'%20r='10.5'%20fill='url(%23a)'%20stroke='%23f8af18'%20stroke-miterlimit='10'%20stroke-width='.5'/%3e%3cpath%20fill='none'%20stroke='%23fbbf24'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M32%2015.71V9.5m0%2045v-6.21m11.52-27.81l4.39-4.39M16.09%2047.91l4.39-4.39m0-23l-4.39-4.39m31.82%2031.78l-4.39-4.39M15.71%2032H9.5m45%200h-6.21'%3e%3canimateTransform%20attributeName='transform'%20dur='45s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2032%2032;%20360%2032%2032'/%3e%3c/path%3e%3c/svg%3e", Kr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%20512%20512'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='52.7'%20x2='133.4'%20y1='9.6'%20y2='149.3'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%239ca3af'/%3e%3cstop%20offset='.5'%20stop-color='%239ca3af'/%3e%3cstop%20offset='1'%20stop-color='%236b7280'/%3e%3c/linearGradient%3e%3clinearGradient%20id='b'%20x1='99.5'%20x2='232.6'%20y1='30.7'%20y2='261.4'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%236b7280'/%3e%3cstop%20offset='.5'%20stop-color='%236b7280'/%3e%3cstop%20offset='1'%20stop-color='%234b5563'/%3e%3c/linearGradient%3e%3clinearGradient%20id='c'%20x1='1381.3'%20x2='1399.5'%20y1='-1144.7'%20y2='-1097.4'%20gradientTransform='rotate(-9%208002.567%208233.063)'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%230b65ed'/%3e%3cstop%20offset='.5'%20stop-color='%230a5ad4'/%3e%3cstop%20offset='1'%20stop-color='%230950bc'/%3e%3c/linearGradient%3e%3clinearGradient%20xlink:href='%23c'%20id='d'%20x1='1436.7'%20x2='1454.9'%20y1='-1137'%20y2='-1089.7'%20gradientTransform='rotate(-9%208009.537%208233.037)'/%3e%3clinearGradient%20xlink:href='%23c'%20id='e'%20x1='1492.1'%20x2='1510.3'%20y1='-1129.3'%20y2='-1082.1'%20gradientTransform='rotate(-9%208016.566%208233.078)'/%3e%3csymbol%20id='g'%20viewBox='0%200%20200.3%20126.1'%3e%3cpath%20fill='url(%23a)'%20stroke='%23848b98'%20stroke-miterlimit='10'%20d='M.5%2093.2a32.4%2032.4%200%200032.4%2032.4h129.8v-.1l2.3.1a34.8%2034.8%200%20006.5-68.9%2032.4%2032.4%200%2000-48.5-33%2048.6%2048.6%200%2000-88.6%2037.1h-1.5A32.4%2032.4%200%2000.5%2093.1Z'/%3e%3c/symbol%3e%3csymbol%20id='h'%20viewBox='0%200%20350%20222'%3e%3cpath%20fill='url(%23b)'%20stroke='%235b6472'%20stroke-miterlimit='10'%20stroke-width='6'%20d='m291%20107-2.5.1A83.9%2083.9%200%2000135.6%2043%2056%2056%200%200051%2091a56.6%2056.6%200%2000.8%209A60%2060%200%200063%20219l4-.2v.2h224a56%2056%200%20000-112Z'/%3e%3c/symbol%3e%3csymbol%20id='f'%20overflow='visible'%20viewBox='0%200%20398%20222'%3e%3cuse%20xlink:href='%23g'%20width='200.3'%20height='126.1'%20transform='translate(198%2027)'%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='6s'%20repeatCount='indefinite'%20type='translate'%20values='-9%200;%209%200;%20-9%200'/%3e%3c/use%3e%3cuse%20xlink:href='%23h'%20width='350'%20height='222'%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='6s'%20repeatCount='indefinite'%20type='translate'%20values='-18%200;%2018%200;%20-18%200'/%3e%3c/use%3e%3c/symbol%3e%3csymbol%20id='i'%20overflow='visible'%20viewBox='0%200%20129%2057'%3e%3cpath%20fill='url(%23c)'%20stroke='%230a5ad4'%20stroke-miterlimit='10'%20d='M8.5%2056.5a8%208%200%2001-8-8v-40a8%208%200%200116%200v40a8%208%200%2001-8%208Z'%20opacity='0'%3e%3canimateTransform%20id='x1'%20additive='sum'%20attributeName='transform'%20begin='0s;%20x1.end+.33s'%20dur='.67s'%20type='translate'%20values='0%20-60;%200%2060'/%3e%3canimate%20id='y1'%20attributeName='opacity'%20begin='0s;%20y1.end+.33s'%20dur='.67s'%20keyTimes='0;%20.25;%201'%20values='0;%201;%200'/%3e%3c/path%3e%3cpath%20fill='url(%23d)'%20stroke='%230a5ad4'%20stroke-miterlimit='10'%20d='M64.5%2056.5a8%208%200%2001-8-8v-40a8%208%200%200116%200v40a8%208%200%2001-8%208Z'%20opacity='0'%3e%3canimateTransform%20id='x2'%20additive='sum'%20attributeName='transform'%20begin='.33s;%20x2.end+.33s'%20dur='.67s'%20type='translate'%20values='0%20-60;%200%2060'/%3e%3canimate%20id='y2'%20attributeName='opacity'%20begin='.33s;%20y2.end+.33s'%20dur='.67s'%20keyTimes='0;%20.25;%201'%20values='0;%201;%200'/%3e%3c/path%3e%3cpath%20fill='url(%23e)'%20stroke='%230a5ad4'%20stroke-miterlimit='10'%20d='M120.5%2056.5a8%208%200%2001-8-8v-40a8%208%200%200116%200v40a8%208%200%2001-8%208Z'%20opacity='0'%3e%3canimateTransform%20id='x3'%20additive='sum'%20attributeName='transform'%20begin='-.33s;%20x3.end+.33s'%20dur='.67s'%20type='translate'%20values='0%20-60;%200%2060'/%3e%3canimate%20id='y3'%20attributeName='opacity'%20begin='-.33s;%20y3.end+.33s'%20dur='.67s'%20keyTimes='0;%20.25;%201'%20values='0;%201;%200'/%3e%3c/path%3e%3c/symbol%3e%3c/defs%3e%3cuse%20xlink:href='%23f'%20width='398'%20height='222'%20transform='translate(68.84%20145)'/%3e%3cuse%20xlink:href='%23i'%20width='129'%20height='57'%20transform='translate(191.5%20343.5)'/%3e%3c/svg%3e", qr = "M6,19A5,5 0 0,1 1,14A5,5 0 0,1 6,9C7,6.65 9.3,5 12,5C15.43,5 18.24,7.66 18.5,11.03L19,11A4,4 0 0,1 23,15A4,4 0 0,1 19,19H6M19,13H17V12A5,5 0 0,0 12,7C9.5,7 7.45,8.82 7.06,11.19C6.73,11.07 6.37,11 6,11A3,3 0 0,0 3,14A3,3 0 0,0 6,17H19A2,2 0 0,0 21,15A2,2 0 0,0 19,13Z", Jr = "M3,15H13A1,1 0 0,1 14,16A1,1 0 0,1 13,17H3A1,1 0 0,1 2,16A1,1 0 0,1 3,15M16,15H21A1,1 0 0,1 22,16A1,1 0 0,1 21,17H16A1,1 0 0,1 15,16A1,1 0 0,1 16,15M1,12A5,5 0 0,1 6,7C7,4.65 9.3,3 12,3C15.43,3 18.24,5.66 18.5,9.03L19,9C21.19,9 22.97,10.76 23,13H21A2,2 0 0,0 19,11H17V10A5,5 0 0,0 12,5C9.5,5 7.45,6.82 7.06,9.19C6.73,9.07 6.37,9 6,9A3,3 0 0,0 3,12C3,12.35 3.06,12.69 3.17,13H1.1L1,12M3,19H5A1,1 0 0,1 6,20A1,1 0 0,1 5,21H3A1,1 0 0,1 2,20A1,1 0 0,1 3,19M8,19H21A1,1 0 0,1 22,20A1,1 0 0,1 21,21H8A1,1 0 0,1 7,20A1,1 0 0,1 8,19Z", Yr = "M6,14A1,1 0 0,1 7,15A1,1 0 0,1 6,16A5,5 0 0,1 1,11A5,5 0 0,1 6,6C7,3.65 9.3,2 12,2C15.43,2 18.24,4.66 18.5,8.03L19,8A4,4 0 0,1 23,12A4,4 0 0,1 19,16H18A1,1 0 0,1 17,15A1,1 0 0,1 18,14H19A2,2 0 0,0 21,12A2,2 0 0,0 19,10H17V9A5,5 0 0,0 12,4C9.5,4 7.45,5.82 7.06,8.19C6.73,8.07 6.37,8 6,8A3,3 0 0,0 3,11A3,3 0 0,0 6,14M10,18A2,2 0 0,1 12,20A2,2 0 0,1 10,22A2,2 0 0,1 8,20A2,2 0 0,1 10,18M14.5,16A1.5,1.5 0 0,1 16,17.5A1.5,1.5 0 0,1 14.5,19A1.5,1.5 0 0,1 13,17.5A1.5,1.5 0 0,1 14.5,16M10.5,12A1.5,1.5 0 0,1 12,13.5A1.5,1.5 0 0,1 10.5,15A1.5,1.5 0 0,1 9,13.5A1.5,1.5 0 0,1 10.5,12Z", Xr = "M15,6.79C16.86,7.86 18,9.85 18,12C18,22 6,22 6,22C7.25,21.06 8.38,19.95 9.34,18.71C9.38,18.66 9.41,18.61 9.44,18.55C9.69,18.06 9.5,17.46 9,17.21C7.14,16.14 6,14.15 6,12C6,2 18,2 18,2C16.75,2.94 15.62,4.05 14.66,5.29C14.62,5.34 14.59,5.39 14.56,5.45C14.31,5.94 14.5,6.54 15,6.79M12,14A2,2 0 0,0 14,12A2,2 0 0,0 12,10A2,2 0 0,0 10,12A2,2 0 0,0 12,14Z", Zr = "M6,16A5,5 0 0,1 1,11A5,5 0 0,1 6,6C7,3.65 9.3,2 12,2C15.43,2 18.24,4.66 18.5,8.03L19,8A4,4 0 0,1 23,12A4,4 0 0,1 19,16H18A1,1 0 0,1 17,15A1,1 0 0,1 18,14H19A2,2 0 0,0 21,12A2,2 0 0,0 19,10H17V9A5,5 0 0,0 12,4C9.5,4 7.45,5.82 7.06,8.19C6.73,8.07 6.37,8 6,8A3,3 0 0,0 3,11A3,3 0 0,0 6,14H7A1,1 0 0,1 8,15A1,1 0 0,1 7,16H6M12,11H15L13,15H15L11.25,22L12,17H9.5L12,11Z", Qr = "M4.5,13.59C5,13.87 5.14,14.5 4.87,14.96C4.59,15.44 4,15.6 3.5,15.33V15.33C2,14.47 1,12.85 1,11A5,5 0 0,1 6,6C7,3.65 9.3,2 12,2C15.43,2 18.24,4.66 18.5,8.03L19,8A4,4 0 0,1 23,12A4,4 0 0,1 19,16A1,1 0 0,1 18,15A1,1 0 0,1 19,14A2,2 0 0,0 21,12A2,2 0 0,0 19,10H17V9A5,5 0 0,0 12,4C9.5,4 7.45,5.82 7.06,8.19C6.73,8.07 6.37,8 6,8A3,3 0 0,0 3,11C3,12.11 3.6,13.08 4.5,13.6V13.59M9.5,11H12.5L10.5,15H12.5L8.75,22L9.5,17H7L9.5,11M17.5,18.67C17.5,19.96 16.5,21 15.25,21C14,21 13,19.96 13,18.67C13,17.12 15.25,14.5 15.25,14.5C15.25,14.5 17.5,17.12 17.5,18.67Z", $r = "M17.75,4.09L15.22,6.03L16.13,9.09L13.5,7.28L10.87,9.09L11.78,6.03L9.25,4.09L12.44,4L13.5,1L14.56,4L17.75,4.09M21.25,11L19.61,12.25L20.2,14.23L18.5,13.06L16.8,14.23L17.39,12.25L15.75,11L17.81,10.95L18.5,9L19.19,10.95L21.25,11M18.97,15.95C19.8,15.87 20.69,17.05 20.16,17.8C19.84,18.25 19.5,18.67 19.08,19.07C15.17,23 8.84,23 4.94,19.07C1.03,15.17 1.03,8.83 4.94,4.93C5.34,4.53 5.76,4.17 6.21,3.85C6.96,3.32 8.14,4.21 8.06,5.04C7.79,7.9 8.75,10.87 10.95,13.06C13.14,15.26 16.1,16.22 18.97,15.95M17.33,17.97C14.5,17.81 11.7,16.64 9.53,14.5C7.36,12.31 6.2,9.5 6.04,6.68C3.23,9.82 3.34,14.64 6.35,17.66C9.37,20.67 14.19,20.78 17.33,17.97Z", ei = "M12.74,5.47C15.1,6.5 16.35,9.03 15.92,11.46C17.19,12.56 18,14.19 18,16V16.17C18.31,16.06 18.65,16 19,16A3,3 0 0,1 22,19A3,3 0 0,1 19,22H6A4,4 0 0,1 2,18A4,4 0 0,1 6,14H6.27C5,12.45 4.6,10.24 5.5,8.26C6.72,5.5 9.97,4.24 12.74,5.47M11.93,7.3C10.16,6.5 8.09,7.31 7.31,9.07C6.85,10.09 6.93,11.22 7.41,12.13C8.5,10.83 10.16,10 12,10C12.7,10 13.38,10.12 14,10.34C13.94,9.06 13.18,7.86 11.93,7.3M13.55,3.64C13,3.4 12.45,3.23 11.88,3.12L14.37,1.82L15.27,4.71C14.76,4.29 14.19,3.93 13.55,3.64M6.09,4.44C5.6,4.79 5.17,5.19 4.8,5.63L4.91,2.82L7.87,3.5C7.25,3.71 6.65,4.03 6.09,4.44M18,9.71C17.91,9.12 17.78,8.55 17.59,8L19.97,9.5L17.92,11.73C18.03,11.08 18.05,10.4 18,9.71M3.04,11.3C3.11,11.9 3.24,12.47 3.43,13L1.06,11.5L3.1,9.28C3,9.93 2.97,10.61 3.04,11.3M19,18H16V16A4,4 0 0,0 12,12A4,4 0 0,0 8,16H6A2,2 0 0,0 4,18A2,2 0 0,0 6,20H19A1,1 0 0,0 20,19A1,1 0 0,0 19,18Z", ti = "M9,12C9.53,12.14 9.85,12.69 9.71,13.22L8.41,18.05C8.27,18.59 7.72,18.9 7.19,18.76C6.65,18.62 6.34,18.07 6.5,17.54L7.78,12.71C7.92,12.17 8.47,11.86 9,12M13,12C13.53,12.14 13.85,12.69 13.71,13.22L11.64,20.95C11.5,21.5 10.95,21.8 10.41,21.66C9.88,21.5 9.56,20.97 9.7,20.43L11.78,12.71C11.92,12.17 12.47,11.86 13,12M17,12C17.53,12.14 17.85,12.69 17.71,13.22L16.41,18.05C16.27,18.59 15.72,18.9 15.19,18.76C14.65,18.62 14.34,18.07 14.5,17.54L15.78,12.71C15.92,12.17 16.47,11.86 17,12M17,10V9A5,5 0 0,0 12,4C9.5,4 7.45,5.82 7.06,8.19C6.73,8.07 6.37,8 6,8A3,3 0 0,0 3,11C3,12.11 3.6,13.08 4.5,13.6V13.59C5,13.87 5.14,14.5 4.87,14.96C4.59,15.43 4,15.6 3.5,15.32V15.33C2,14.47 1,12.85 1,11A5,5 0 0,1 6,6C7,3.65 9.3,2 12,2C15.43,2 18.24,4.66 18.5,8.03L19,8A4,4 0 0,1 23,12C23,13.5 22.2,14.77 21,15.46V15.46C20.5,15.73 19.91,15.57 19.63,15.09C19.36,14.61 19.5,14 20,13.72V13.73C20.6,13.39 21,12.74 21,12A2,2 0 0,0 19,10H17Z", ni = "M6,14.03A1,1 0 0,1 7,15.03C7,15.58 6.55,16.03 6,16.03C3.24,16.03 1,13.79 1,11.03C1,8.27 3.24,6.03 6,6.03C7,3.68 9.3,2.03 12,2.03C15.43,2.03 18.24,4.69 18.5,8.06L19,8.03A4,4 0 0,1 23,12.03C23,14.23 21.21,16.03 19,16.03H18C17.45,16.03 17,15.58 17,15.03C17,14.47 17.45,14.03 18,14.03H19A2,2 0 0,0 21,12.03A2,2 0 0,0 19,10.03H17V9.03C17,6.27 14.76,4.03 12,4.03C9.5,4.03 7.45,5.84 7.06,8.21C6.73,8.09 6.37,8.03 6,8.03A3,3 0 0,0 3,11.03A3,3 0 0,0 6,14.03M12,14.15C12.18,14.39 12.37,14.66 12.56,14.94C13,15.56 14,17.03 14,18C14,19.11 13.1,20 12,20A2,2 0 0,1 10,18C10,17.03 11,15.56 11.44,14.94C11.63,14.66 11.82,14.4 12,14.15M12,11.03L11.5,11.59C11.5,11.59 10.65,12.55 9.79,13.81C8.93,15.06 8,16.56 8,18A4,4 0 0,0 12,22A4,4 0 0,0 16,18C16,16.56 15.07,15.06 14.21,13.81C13.35,12.55 12.5,11.59 12.5,11.59", ri = "M6,14A1,1 0 0,1 7,15A1,1 0 0,1 6,16A5,5 0 0,1 1,11A5,5 0 0,1 6,6C7,3.65 9.3,2 12,2C15.43,2 18.24,4.66 18.5,8.03L19,8A4,4 0 0,1 23,12A4,4 0 0,1 19,16H18A1,1 0 0,1 17,15A1,1 0 0,1 18,14H19A2,2 0 0,0 21,12A2,2 0 0,0 19,10H17V9A5,5 0 0,0 12,4C9.5,4 7.45,5.82 7.06,8.19C6.73,8.07 6.37,8 6,8A3,3 0 0,0 3,11A3,3 0 0,0 6,14M7.88,18.07L10.07,17.5L8.46,15.88C8.07,15.5 8.07,14.86 8.46,14.46C8.85,14.07 9.5,14.07 9.88,14.46L11.5,16.07L12.07,13.88C12.21,13.34 12.76,13.03 13.29,13.17C13.83,13.31 14.14,13.86 14,14.4L13.41,16.59L15.6,16C16.14,15.86 16.69,16.17 16.83,16.71C16.97,17.24 16.66,17.79 16.12,17.93L13.93,18.5L15.54,20.12C15.93,20.5 15.93,21.15 15.54,21.54C15.15,21.93 14.5,21.93 14.12,21.54L12.5,19.93L11.93,22.12C11.79,22.66 11.24,22.97 10.71,22.83C10.17,22.69 9.86,22.14 10,21.6L10.59,19.41L8.4,20C7.86,20.14 7.31,19.83 7.17,19.29C7.03,18.76 7.34,18.21 7.88,18.07Z", ii = "M18.5,18.67C18.5,19.96 17.5,21 16.25,21C15,21 14,19.96 14,18.67C14,17.12 16.25,14.5 16.25,14.5C16.25,14.5 18.5,17.12 18.5,18.67M4,17.36C3.86,16.82 4.18,16.25 4.73,16.11L7,15.5L5.33,13.86C4.93,13.46 4.93,12.81 5.33,12.4C5.73,12 6.4,12 6.79,12.4L8.45,14.05L9.04,11.8C9.18,11.24 9.75,10.92 10.29,11.07C10.85,11.21 11.17,11.78 11,12.33L10.42,14.58L12.67,14C13.22,13.83 13.79,14.15 13.93,14.71C14.08,15.25 13.76,15.82 13.2,15.96L10.95,16.55L12.6,18.21C13,18.6 13,19.27 12.6,19.67C12.2,20.07 11.54,20.07 11.15,19.67L9.5,18L8.89,20.27C8.75,20.83 8.18,21.14 7.64,21C7.08,20.86 6.77,20.29 6.91,19.74L7.5,17.5L5.26,18.09C4.71,18.23 4.14,17.92 4,17.36M1,11A5,5 0 0,1 6,6C7,3.65 9.3,2 12,2C15.43,2 18.24,4.66 18.5,8.03L19,8A4,4 0 0,1 23,12A4,4 0 0,1 19,16A1,1 0 0,1 18,15A1,1 0 0,1 19,14A2,2 0 0,0 21,12A2,2 0 0,0 19,10H17V9A5,5 0 0,0 12,4C9.5,4 7.45,5.82 7.06,8.19C6.73,8.07 6.37,8 6,8A3,3 0 0,0 3,11C3,11.85 3.35,12.61 3.91,13.16C4.27,13.55 4.26,14.16 3.88,14.54C3.5,14.93 2.85,14.93 2.47,14.54C1.56,13.63 1,12.38 1,11Z", ai = "M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M12,2L14.39,5.42C13.65,5.15 12.84,5 12,5C11.16,5 10.35,5.15 9.61,5.42L12,2M3.34,7L7.5,6.65C6.9,7.16 6.36,7.78 5.94,8.5C5.5,9.24 5.25,10 5.11,10.79L3.34,7M3.36,17L5.12,13.23C5.26,14 5.53,14.78 5.95,15.5C6.37,16.24 6.91,16.86 7.5,17.37L3.36,17M20.65,7L18.88,10.79C18.74,10 18.47,9.23 18.05,8.5C17.63,7.78 17.1,7.15 16.5,6.64L20.65,7M20.64,17L16.5,17.36C17.09,16.85 17.62,16.22 18.04,15.5C18.46,14.77 18.73,14 18.87,13.21L20.64,17M12,22L9.59,18.56C10.33,18.83 11.14,19 12,19C12.82,19 13.63,18.83 14.37,18.56L12,22Z", oi = "M4,10A1,1 0 0,1 3,9A1,1 0 0,1 4,8H12A2,2 0 0,0 14,6A2,2 0 0,0 12,4C11.45,4 10.95,4.22 10.59,4.59C10.2,5 9.56,5 9.17,4.59C8.78,4.2 8.78,3.56 9.17,3.17C9.9,2.45 10.9,2 12,2A4,4 0 0,1 16,6A4,4 0 0,1 12,10H4M19,12A1,1 0 0,0 20,11A1,1 0 0,0 19,10C18.72,10 18.47,10.11 18.29,10.29C17.9,10.68 17.27,10.68 16.88,10.29C16.5,9.9 16.5,9.27 16.88,8.88C17.42,8.34 18.17,8 19,8A3,3 0 0,1 22,11A3,3 0 0,1 19,14H5A1,1 0 0,1 4,13A1,1 0 0,1 5,12H19M18,18H4A1,1 0 0,1 3,17A1,1 0 0,1 4,16H18A3,3 0 0,1 21,19A3,3 0 0,1 18,22C17.17,22 16.42,21.66 15.88,21.12C15.5,20.73 15.5,20.1 15.88,19.71C16.27,19.32 16.9,19.32 17.29,19.71C17.47,19.89 17.72,20 18,20A1,1 0 0,0 19,19A1,1 0 0,0 18,18Z", si = "M6,6L6.69,6.06C7.32,3.72 9.46,2 12,2A5.5,5.5 0 0,1 17.5,7.5L17.42,8.45C17.88,8.16 18.42,8 19,8A3,3 0 0,1 22,11A3,3 0 0,1 19,14H6A4,4 0 0,1 2,10A4,4 0 0,1 6,6M6,8A2,2 0 0,0 4,10A2,2 0 0,0 6,12H19A1,1 0 0,0 20,11A1,1 0 0,0 19,10H15.5V7.5A3.5,3.5 0 0,0 12,4A3.5,3.5 0 0,0 8.5,7.5V8H6M18,18H4A1,1 0 0,1 3,17A1,1 0 0,1 4,16H18A3,3 0 0,1 21,19A3,3 0 0,1 18,22C17.17,22 16.42,21.66 15.88,21.12C15.5,20.73 15.5,20.1 15.88,19.71C16.27,19.32 16.9,19.32 17.29,19.71C17.47,19.89 17.72,20 18,20A1,1 0 0,0 19,19A1,1 0 0,0 18,18Z", Y = (e, t) => e ? (t ||= "24px", w`<ha-icon
+var Mr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='21.92'%20x2='38.52'%20y1='18.75'%20y2='47.52'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%2386c3db'/%3e%3cstop%20offset='.45'%20stop-color='%2386c3db'/%3e%3cstop%20offset='1'%20stop-color='%235eafcf'/%3e%3canimateTransform%20attributeName='gradientTransform'%20dur='10s'%20repeatCount='indefinite'%20type='rotate'%20values='5%2032%2032;%20-15%2032%2032;%205%2032%2032'/%3e%3c/linearGradient%3e%3c/defs%3e%3cpath%20fill='url(%23a)'%20stroke='%2372b9d5'%20stroke-linecap='round'%20stroke-linejoin='round'%20stroke-width='.5'%20d='M46.66%2036.2a16.66%2016.66%200%2001-16.78-16.55%2016.29%2016.29%200%2001.55-4.15A16.56%2016.56%200%201048.5%2036.1c-.61.06-1.22.1-1.84.1z'%3e%3canimateTransform%20attributeName='transform'%20dur='10s'%20repeatCount='indefinite'%20type='rotate'%20values='-5%2032%2032;%2015%2032%2032;%20-5%2032%2032'/%3e%3c/path%3e%3c/svg%3e", Nr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3c/defs%3e%3cpath%20fill='url(%23a)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'%3e%3canimateTransform%20attributeName='transform'%20dur='7s'%20repeatCount='indefinite'%20type='translate'%20values='-3%200;%203%200;%20-3%200'/%3e%3c/path%3e%3c/svg%3e", Pr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='16.5'%20x2='21.5'%20y1='19.67'%20y2='28.33'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='.45'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='1'%20stop-color='%23f59e0b'/%3e%3c/linearGradient%3e%3clinearGradient%20id='b'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3c/defs%3e%3ccircle%20cx='19'%20cy='24'%20r='5'%20fill='url(%23a)'%20stroke='%23f8af18'%20stroke-miterlimit='10'%20stroke-width='.5'/%3e%3cpath%20fill='none'%20stroke='%23fbbf24'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M19%2015.67V12.5m0%2023v-3.17m5.89-14.22l2.24-2.24M10.87%2032.13l2.24-2.24m0-11.78l-2.24-2.24m16.26%2016.26l-2.24-2.24M7.5%2024h3.17m19.83%200h-3.17'%3e%3canimateTransform%20attributeName='transform'%20dur='45s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2019%2024;%20360%2019%2024'/%3e%3c/path%3e%3cpath%20fill='url(%23b)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3c/svg%3e", Fr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='13.58'%20x2='24.15'%20y1='15.57'%20y2='33.87'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%2386c3db'/%3e%3cstop%20offset='.45'%20stop-color='%2386c3db'/%3e%3cstop%20offset='1'%20stop-color='%235eafcf'/%3e%3canimateTransform%20attributeName='gradientTransform'%20dur='10s'%20repeatCount='indefinite'%20type='rotate'%20values='10%2019.22%2024.293;%20-10%2019.22%2024.293;%2010%2019.22%2024.293'/%3e%3c/linearGradient%3e%3clinearGradient%20id='b'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3c/defs%3e%3cpath%20fill='url(%23a)'%20stroke='%2372b9d5'%20stroke-linecap='round'%20stroke-linejoin='round'%20stroke-width='.5'%20d='M29.33%2026.68a10.61%2010.61%200%2001-10.68-10.54A10.5%2010.5%200%200119%2013.5a10.54%2010.54%200%201011.5%2013.11%2011.48%2011.48%200%2001-1.17.07z'%3e%3canimateTransform%20attributeName='transform'%20dur='10s'%20repeatCount='indefinite'%20type='rotate'%20values='-10%2019.22%2024.293;%2010%2019.22%2024.293;%20-10%2019.22%2024.293'/%3e%3c/path%3e%3cpath%20fill='url(%23b)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3c/svg%3e", Ir = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='b'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3clinearGradient%20id='a'%20x1='27.5'%20x2='36.5'%20y1='50.21'%20y2='65.79'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23d4d7dd'/%3e%3cstop%20offset='.45'%20stop-color='%23d4d7dd'/%3e%3cstop%20offset='1'%20stop-color='%23bec1c6'/%3e%3c/linearGradient%3e%3clinearGradient%20id='c'%20y1='44.21'%20y2='59.79'%20xlink:href='%23a'/%3e%3c/defs%3e%3cpath%20fill='url(%23b)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3cpath%20fill='none'%20stroke='url(%23a)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M17%2058h30'%3e%3canimateTransform%20attributeName='transform'%20begin='0s'%20dur='5s'%20repeatCount='indefinite'%20type='translate'%20values='-4%200;%204%200;%20-4%200'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23c)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M17%2052h30'%3e%3canimateTransform%20attributeName='transform'%20begin='-4s'%20dur='5s'%20repeatCount='indefinite'%20type='translate'%20values='-4%200;%204%200;%20-4%200'/%3e%3c/path%3e%3c/svg%3e", Lr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='b'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3clinearGradient%20id='a'%20x1='23.25'%20x2='24.75'%20y1='43.7'%20y2='46.3'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%2386c3db'/%3e%3cstop%20offset='.45'%20stop-color='%2386c3db'/%3e%3cstop%20offset='1'%20stop-color='%235eafcf'/%3e%3c/linearGradient%3e%3clinearGradient%20id='c'%20x1='30.25'%20x2='31.75'%20y1='43.7'%20y2='46.3'%20xlink:href='%23a'/%3e%3clinearGradient%20id='d'%20x1='37.25'%20x2='38.75'%20y1='43.7'%20y2='46.3'%20xlink:href='%23a'/%3e%3c/defs%3e%3cpath%20fill='url(%23b)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3cpath%20fill='url(%23a)'%20d='M24%2043.5a1.5%201.5%200%20101.5%201.5%201.5%201.5%200%2000-1.5-1.5z'%3e%3canimateTransform%20attributeName='transform'%20dur='0.6s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2018;%20-4%2014'/%3e%3canimate%20attributeName='opacity'%20dur='0.6s'%20repeatCount='indefinite'%20values='1;1;0'/%3e%3c/path%3e%3cpath%20fill='url(%23c)'%20d='M31%2043.5a1.5%201.5%200%20101.5%201.5%201.5%201.5%200%2000-1.5-1.5z'%3e%3canimateTransform%20attributeName='transform'%20begin='-0.4s'%20dur='0.6s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2018;%20-4%2014'/%3e%3canimate%20attributeName='opacity'%20begin='-0.4s'%20dur='0.6s'%20repeatCount='indefinite'%20values='1;1;0'/%3e%3c/path%3e%3cpath%20fill='url(%23d)'%20d='M38%2043.5a1.5%201.5%200%20101.5%201.5%201.5%201.5%200%2000-1.5-1.5z'%3e%3canimateTransform%20attributeName='transform'%20begin='-0.2s'%20dur='0.6s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2018;%20-4%2014'/%3e%3canimate%20attributeName='opacity'%20begin='-0.2s'%20dur='0.6s'%20repeatCount='indefinite'%20values='1;1;0'/%3e%3c/path%3e%3c/svg%3e", Rr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='b'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3clinearGradient%20id='a'%20x1='22.53'%20x2='25.47'%20y1='42.95'%20y2='48.05'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%234286ee'/%3e%3cstop%20offset='.45'%20stop-color='%234286ee'/%3e%3cstop%20offset='1'%20stop-color='%230950bc'/%3e%3c/linearGradient%3e%3clinearGradient%20id='c'%20x1='29.53'%20x2='32.47'%20y1='42.95'%20y2='48.05'%20xlink:href='%23a'/%3e%3clinearGradient%20id='d'%20x1='36.53'%20x2='39.47'%20y1='42.95'%20y2='48.05'%20xlink:href='%23a'/%3e%3clinearGradient%20id='e'%20x1='26.74'%20x2='35.76'%20y1='37.88'%20y2='53.52'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f7b23b'/%3e%3cstop%20offset='.45'%20stop-color='%23f7b23b'/%3e%3cstop%20offset='1'%20stop-color='%23f59e0b'/%3e%3c/linearGradient%3e%3c/defs%3e%3cpath%20fill='url(%23b)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3cpath%20fill='none'%20stroke='url(%23a)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M24.39%2043.03l-.78%204.94'%3e%3canimateTransform%20attributeName='transform'%20dur='0.7s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20dur='0.7s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23c)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M31.39%2043.03l-.78%204.94'%3e%3canimateTransform%20attributeName='transform'%20begin='-0.4s'%20dur='0.7s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20begin='-0.4s'%20dur='0.7s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23d)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M38.39%2043.03l-.78%204.94'%3e%3canimateTransform%20attributeName='transform'%20begin='-0.2s'%20dur='0.7s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20begin='-0.2s'%20dur='0.7s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3cpath%20fill='url(%23e)'%20stroke='%23f6a823'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M30%2036l-4%2012h4l-2%2010%2010-14h-6l4-8h-6z'%3e%3canimate%20attributeName='opacity'%20dur='2s'%20repeatCount='indefinite'%20values='1;%201;%201;%201;%201;%201;%200.1;%201;%200.1;%201;%201;%200.1;%201;%200.1;%201'/%3e%3c/path%3e%3c/svg%3e", zr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3clinearGradient%20id='b'%20x1='26.74'%20x2='35.76'%20y1='37.88'%20y2='53.52'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f7b23b'/%3e%3cstop%20offset='.45'%20stop-color='%23f7b23b'/%3e%3cstop%20offset='1'%20stop-color='%23f59e0b'/%3e%3c/linearGradient%3e%3c/defs%3e%3cpath%20fill='url(%23a)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3cpath%20fill='url(%23b)'%20stroke='%23f6a823'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M30%2036l-4%2012h4l-2%2010%2010-14h-6l4-8h-6z'%3e%3canimate%20attributeName='opacity'%20dur='2s'%20repeatCount='indefinite'%20values='1;%201;%201;%201;%201;%201;%200.1;%201;%200.1;%201;%201;%200.1;%201;%200.1;%201'/%3e%3c/path%3e%3c/svg%3e", Br = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='b'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3clinearGradient%20id='a'%20x1='22.53'%20x2='25.47'%20y1='42.95'%20y2='48.05'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%234286ee'/%3e%3cstop%20offset='.45'%20stop-color='%234286ee'/%3e%3cstop%20offset='1'%20stop-color='%230950bc'/%3e%3c/linearGradient%3e%3clinearGradient%20id='c'%20x1='29.53'%20x2='32.47'%20y1='42.95'%20y2='48.05'%20xlink:href='%23a'/%3e%3clinearGradient%20id='d'%20x1='36.53'%20x2='39.47'%20y1='42.95'%20y2='48.05'%20xlink:href='%23a'/%3e%3c/defs%3e%3cpath%20fill='url(%23b)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3cpath%20fill='none'%20stroke='url(%23a)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M24.39%2043.03l-.78%204.94'%3e%3canimateTransform%20attributeName='transform'%20dur='0.7s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20dur='0.7s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23c)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M31.39%2043.03l-.78%204.94'%3e%3canimateTransform%20attributeName='transform'%20begin='-0.4s'%20dur='0.7s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20begin='-0.4s'%20dur='0.7s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23d)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M38.39%2043.03l-.78%204.94'%3e%3canimateTransform%20attributeName='transform'%20begin='-0.2s'%20dur='0.7s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20begin='-0.2s'%20dur='0.7s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3c/svg%3e", Vr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='b'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3clinearGradient%20id='a'%20x1='30.12'%20x2='31.88'%20y1='43.48'%20y2='46.52'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%2386c3db'/%3e%3cstop%20offset='.45'%20stop-color='%2386c3db'/%3e%3cstop%20offset='1'%20stop-color='%235eafcf'/%3e%3c/linearGradient%3e%3clinearGradient%20id='c'%20x1='29.67'%20x2='32.33'%20y1='42.69'%20y2='47.31'%20xlink:href='%23a'/%3e%3clinearGradient%20id='d'%20x1='23.12'%20x2='24.88'%20y1='43.48'%20y2='46.52'%20xlink:href='%23a'/%3e%3clinearGradient%20id='e'%20x1='22.67'%20x2='25.33'%20y1='42.69'%20y2='47.31'%20xlink:href='%23a'/%3e%3clinearGradient%20id='f'%20x1='37.12'%20x2='38.88'%20y1='43.48'%20y2='46.52'%20xlink:href='%23a'/%3e%3clinearGradient%20id='g'%20x1='36.67'%20x2='39.33'%20y1='42.69'%20y2='47.31'%20xlink:href='%23a'/%3e%3c/defs%3e%3cpath%20fill='url(%23b)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3cg%3e%3ccircle%20cx='31'%20cy='45'%20r='1.25'%20fill='none'%20stroke='url(%23a)'%20stroke-miterlimit='10'/%3e%3cpath%20fill='none'%20stroke='url(%23c)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20d='M33.17%2046.25l-1.09-.63m-2.16-1.24l-1.09-.63M31%2042.5v1.25m0%203.75v-1.25m-1.08-.63l-1.09.63m4.34-2.5l-1.09.63'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='4s'%20repeatCount='indefinite'%20type='translate'%20values='-1%20-6;%201%2012'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='9s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2031%2045;%20360%2031%2045'/%3e%3canimate%20attributeName='opacity'%20dur='4s'%20repeatCount='indefinite'%20values='0;1;1;1;0'/%3e%3c/g%3e%3cg%3e%3ccircle%20cx='24'%20cy='45'%20r='1.25'%20fill='none'%20stroke='url(%23d)'%20stroke-miterlimit='10'/%3e%3cpath%20fill='none'%20stroke='url(%23e)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20d='M26.17%2046.25l-1.09-.63m-2.16-1.24l-1.09-.63M24%2042.5v1.25m0%203.75v-1.25m-1.08-.63l-1.09.63m4.34-2.5l-1.09.63'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20begin='-2s'%20dur='4s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-6;%20-1%2012'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='9s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2024%2045;%20360%2024%2045'/%3e%3canimate%20attributeName='opacity'%20begin='-2s'%20dur='4s'%20repeatCount='indefinite'%20values='0;1;1;1;0'/%3e%3c/g%3e%3cg%3e%3ccircle%20cx='38'%20cy='45'%20r='1.25'%20fill='none'%20stroke='url(%23f)'%20stroke-miterlimit='10'/%3e%3cpath%20fill='none'%20stroke='url(%23g)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20d='M40.17%2046.25l-1.09-.63m-2.16-1.24l-1.09-.63M38%2042.5v1.25m0%203.75v-1.25m-1.08-.63l-1.09.63m4.34-2.5l-1.09.63'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20begin='-1s'%20dur='4s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-6;%20-1%2012'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='9s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2038%2045;%20360%2038%2045'/%3e%3canimate%20attributeName='opacity'%20begin='-1s'%20dur='4s'%20repeatCount='indefinite'%20values='0;1;1;1;0'/%3e%3c/g%3e%3c/svg%3e", Hr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='c'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3clinearGradient%20id='a'%20x1='23.12'%20x2='24.88'%20y1='43.48'%20y2='46.52'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%2386c3db'/%3e%3cstop%20offset='.45'%20stop-color='%2386c3db'/%3e%3cstop%20offset='1'%20stop-color='%235eafcf'/%3e%3c/linearGradient%3e%3clinearGradient%20id='d'%20x1='22.67'%20x2='25.33'%20y1='42.69'%20y2='47.31'%20xlink:href='%23a'/%3e%3clinearGradient%20id='e'%20x1='37.12'%20x2='38.88'%20y1='43.48'%20y2='46.52'%20xlink:href='%23a'/%3e%3clinearGradient%20id='f'%20x1='36.67'%20x2='39.33'%20y1='42.69'%20y2='47.31'%20xlink:href='%23a'/%3e%3clinearGradient%20id='b'%20x1='23.31'%20x2='24.69'%20y1='44.3'%20y2='46.7'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%234286ee'/%3e%3cstop%20offset='.45'%20stop-color='%234286ee'/%3e%3cstop%20offset='1'%20stop-color='%230950bc'/%3e%3c/linearGradient%3e%3clinearGradient%20id='g'%20x1='30.31'%20x2='31.69'%20y1='44.3'%20y2='46.7'%20xlink:href='%23b'/%3e%3clinearGradient%20id='h'%20x1='37.31'%20x2='38.69'%20y1='44.3'%20y2='46.7'%20xlink:href='%23b'/%3e%3c/defs%3e%3cpath%20fill='url(%23c)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3cg%3e%3ccircle%20cx='24'%20cy='45'%20r='1.25'%20fill='none'%20stroke='url(%23a)'%20stroke-miterlimit='10'/%3e%3cpath%20fill='none'%20stroke='url(%23d)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20d='M26.17%2046.25l-1.09-.63m-2.16-1.24l-1.09-.63M24%2042.5v1.25m0%203.75v-1.25m-1.08-.63l-1.09.63m4.34-2.5l-1.09.63'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20begin='-2s'%20dur='4s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-6;%20-1%2012'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='9s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2024%2045;%20360%2024%2045'/%3e%3canimate%20attributeName='opacity'%20begin='-2s'%20dur='4s'%20repeatCount='indefinite'%20values='0;1;1;1;0'/%3e%3c/g%3e%3cg%3e%3ccircle%20cx='38'%20cy='45'%20r='1.25'%20fill='none'%20stroke='url(%23e)'%20stroke-miterlimit='10'/%3e%3cpath%20fill='none'%20stroke='url(%23f)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20d='M40.17%2046.25l-1.09-.63m-2.16-1.24l-1.09-.63M38%2042.5v1.25m0%203.75v-1.25m-1.08-.63l-1.09.63m4.34-2.5l-1.09.63'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20begin='-1s'%20dur='4s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-6;%20-1%2012'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='9s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2038%2045;%20360%2038%2045'/%3e%3canimate%20attributeName='opacity'%20begin='-1s'%20dur='4s'%20repeatCount='indefinite'%20values='0;1;1;1;0'/%3e%3c/g%3e%3cpath%20fill='none'%20stroke='url(%23b)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M24.08%2045.01l-.16.98'%3e%3canimateTransform%20attributeName='transform'%20dur='1.5s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20dur='1.5s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23g)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M31.08%2045.01l-.16.98'%3e%3canimateTransform%20attributeName='transform'%20begin='-0.5s'%20dur='1.5s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20begin='-0.5s'%20dur='1.5s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23h)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M38.08%2045.01l-.16.98'%3e%3canimateTransform%20attributeName='transform'%20begin='-1s'%20dur='1.5s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20begin='-1s'%20dur='1.5s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3c/svg%3e", Ur = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='21.97'%20x2='42.03'%20y1='14.63'%20y2='49.37'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23d4d7dd'/%3e%3cstop%20offset='.45'%20stop-color='%23d4d7dd'/%3e%3cstop%20offset='1'%20stop-color='%23bec1c6'/%3e%3canimateTransform%20attributeName='gradientTransform'%20dur='1s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2032%2032;%20360%2032%2032'/%3e%3c/linearGradient%3e%3c/defs%3e%3cpath%20fill='none'%20stroke='url(%23a)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M43%2032a11%2011%200%2011-11-11%2011%2011%200%200111%2011zM25%2014.61l-.48%201a33.68%2033.68%200%2000-3.42%2017.82h0M39%2049.39l.48-1a33.68%2033.68%200%20003.42-17.82h0'%3e%3canimateTransform%20attributeName='transform'%20dur='1s'%20repeatCount='indefinite'%20type='rotate'%20values='360%2032%2032;%200%2032%2032'/%3e%3c/path%3e%3c/svg%3e", Wr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='27.56'%20x2='38.27'%20y1='17.64'%20y2='36.19'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23d4d7dd'/%3e%3cstop%20offset='.45'%20stop-color='%23d4d7dd'/%3e%3cstop%20offset='1'%20stop-color='%23bec1c6'/%3e%3c/linearGradient%3e%3clinearGradient%20id='b'%20x1='19.96'%20x2='31.37'%20y1='29.03'%20y2='48.8'%20xlink:href='%23a'/%3e%3c/defs%3e%3cpath%20fill='none'%20stroke='url(%23a)'%20stroke-dasharray='35%2022'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M43.64%2020a5%205%200%20113.61%208.46h-35.5'%3e%3canimate%20attributeName='stroke-dashoffset'%20dur='2s'%20repeatCount='indefinite'%20values='-57;%2057'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23b)'%20stroke-dasharray='24%2015'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M29.14%2044a5%205%200%20103.61-8.46h-21'%3e%3canimate%20attributeName='stroke-dashoffset'%20begin='-1.5s'%20dur='2s'%20repeatCount='indefinite'%20values='-39;%2039'/%3e%3c/path%3e%3c/svg%3e", Gr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='26.75'%20x2='37.25'%20y1='22.91'%20y2='41.09'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='.45'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='1'%20stop-color='%23f59e0b'/%3e%3c/linearGradient%3e%3c/defs%3e%3ccircle%20cx='32'%20cy='32'%20r='10.5'%20fill='url(%23a)'%20stroke='%23f8af18'%20stroke-miterlimit='10'%20stroke-width='.5'/%3e%3cpath%20fill='none'%20stroke='%23fbbf24'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M32%2015.71V9.5m0%2045v-6.21m11.52-27.81l4.39-4.39M16.09%2047.91l4.39-4.39m0-23l-4.39-4.39m31.82%2031.78l-4.39-4.39M15.71%2032H9.5m45%200h-6.21'%3e%3canimateTransform%20attributeName='transform'%20dur='45s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2032%2032;%20360%2032%2032'/%3e%3c/path%3e%3c/svg%3e", Kr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%20512%20512'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='52.7'%20x2='133.4'%20y1='9.6'%20y2='149.3'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%239ca3af'/%3e%3cstop%20offset='.5'%20stop-color='%239ca3af'/%3e%3cstop%20offset='1'%20stop-color='%236b7280'/%3e%3c/linearGradient%3e%3clinearGradient%20id='b'%20x1='99.5'%20x2='232.6'%20y1='30.7'%20y2='261.4'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%236b7280'/%3e%3cstop%20offset='.5'%20stop-color='%236b7280'/%3e%3cstop%20offset='1'%20stop-color='%234b5563'/%3e%3c/linearGradient%3e%3clinearGradient%20id='c'%20x1='1381.3'%20x2='1399.5'%20y1='-1144.7'%20y2='-1097.4'%20gradientTransform='rotate(-9%208002.567%208233.063)'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%230b65ed'/%3e%3cstop%20offset='.5'%20stop-color='%230a5ad4'/%3e%3cstop%20offset='1'%20stop-color='%230950bc'/%3e%3c/linearGradient%3e%3clinearGradient%20xlink:href='%23c'%20id='d'%20x1='1436.7'%20x2='1454.9'%20y1='-1137'%20y2='-1089.7'%20gradientTransform='rotate(-9%208009.537%208233.037)'/%3e%3clinearGradient%20xlink:href='%23c'%20id='e'%20x1='1492.1'%20x2='1510.3'%20y1='-1129.3'%20y2='-1082.1'%20gradientTransform='rotate(-9%208016.566%208233.078)'/%3e%3csymbol%20id='g'%20viewBox='0%200%20200.3%20126.1'%3e%3cpath%20fill='url(%23a)'%20stroke='%23848b98'%20stroke-miterlimit='10'%20d='M.5%2093.2a32.4%2032.4%200%200032.4%2032.4h129.8v-.1l2.3.1a34.8%2034.8%200%20006.5-68.9%2032.4%2032.4%200%2000-48.5-33%2048.6%2048.6%200%2000-88.6%2037.1h-1.5A32.4%2032.4%200%2000.5%2093.1Z'/%3e%3c/symbol%3e%3csymbol%20id='h'%20viewBox='0%200%20350%20222'%3e%3cpath%20fill='url(%23b)'%20stroke='%235b6472'%20stroke-miterlimit='10'%20stroke-width='6'%20d='m291%20107-2.5.1A83.9%2083.9%200%2000135.6%2043%2056%2056%200%200051%2091a56.6%2056.6%200%2000.8%209A60%2060%200%200063%20219l4-.2v.2h224a56%2056%200%20000-112Z'/%3e%3c/symbol%3e%3csymbol%20id='f'%20overflow='visible'%20viewBox='0%200%20398%20222'%3e%3cuse%20xlink:href='%23g'%20width='200.3'%20height='126.1'%20transform='translate(198%2027)'%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='6s'%20repeatCount='indefinite'%20type='translate'%20values='-9%200;%209%200;%20-9%200'/%3e%3c/use%3e%3cuse%20xlink:href='%23h'%20width='350'%20height='222'%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='6s'%20repeatCount='indefinite'%20type='translate'%20values='-18%200;%2018%200;%20-18%200'/%3e%3c/use%3e%3c/symbol%3e%3csymbol%20id='i'%20overflow='visible'%20viewBox='0%200%20129%2057'%3e%3cpath%20fill='url(%23c)'%20stroke='%230a5ad4'%20stroke-miterlimit='10'%20d='M8.5%2056.5a8%208%200%2001-8-8v-40a8%208%200%200116%200v40a8%208%200%2001-8%208Z'%20opacity='0'%3e%3canimateTransform%20id='x1'%20additive='sum'%20attributeName='transform'%20begin='0s;%20x1.end+.33s'%20dur='.67s'%20type='translate'%20values='0%20-60;%200%2060'/%3e%3canimate%20id='y1'%20attributeName='opacity'%20begin='0s;%20y1.end+.33s'%20dur='.67s'%20keyTimes='0;%20.25;%201'%20values='0;%201;%200'/%3e%3c/path%3e%3cpath%20fill='url(%23d)'%20stroke='%230a5ad4'%20stroke-miterlimit='10'%20d='M64.5%2056.5a8%208%200%2001-8-8v-40a8%208%200%200116%200v40a8%208%200%2001-8%208Z'%20opacity='0'%3e%3canimateTransform%20id='x2'%20additive='sum'%20attributeName='transform'%20begin='.33s;%20x2.end+.33s'%20dur='.67s'%20type='translate'%20values='0%20-60;%200%2060'/%3e%3canimate%20id='y2'%20attributeName='opacity'%20begin='.33s;%20y2.end+.33s'%20dur='.67s'%20keyTimes='0;%20.25;%201'%20values='0;%201;%200'/%3e%3c/path%3e%3cpath%20fill='url(%23e)'%20stroke='%230a5ad4'%20stroke-miterlimit='10'%20d='M120.5%2056.5a8%208%200%2001-8-8v-40a8%208%200%200116%200v40a8%208%200%2001-8%208Z'%20opacity='0'%3e%3canimateTransform%20id='x3'%20additive='sum'%20attributeName='transform'%20begin='-.33s;%20x3.end+.33s'%20dur='.67s'%20type='translate'%20values='0%20-60;%200%2060'/%3e%3canimate%20id='y3'%20attributeName='opacity'%20begin='-.33s;%20y3.end+.33s'%20dur='.67s'%20keyTimes='0;%20.25;%201'%20values='0;%201;%200'/%3e%3c/path%3e%3c/symbol%3e%3c/defs%3e%3cuse%20xlink:href='%23f'%20width='398'%20height='222'%20transform='translate(68.84%20145)'/%3e%3cuse%20xlink:href='%23i'%20width='129'%20height='57'%20transform='translate(191.5%20343.5)'/%3e%3c/svg%3e", qr = "M6,19A5,5 0 0,1 1,14A5,5 0 0,1 6,9C7,6.65 9.3,5 12,5C15.43,5 18.24,7.66 18.5,11.03L19,11A4,4 0 0,1 23,15A4,4 0 0,1 19,19H6M19,13H17V12A5,5 0 0,0 12,7C9.5,7 7.45,8.82 7.06,11.19C6.73,11.07 6.37,11 6,11A3,3 0 0,0 3,14A3,3 0 0,0 6,17H19A2,2 0 0,0 21,15A2,2 0 0,0 19,13Z", Jr = "M3,15H13A1,1 0 0,1 14,16A1,1 0 0,1 13,17H3A1,1 0 0,1 2,16A1,1 0 0,1 3,15M16,15H21A1,1 0 0,1 22,16A1,1 0 0,1 21,17H16A1,1 0 0,1 15,16A1,1 0 0,1 16,15M1,12A5,5 0 0,1 6,7C7,4.65 9.3,3 12,3C15.43,3 18.24,5.66 18.5,9.03L19,9C21.19,9 22.97,10.76 23,13H21A2,2 0 0,0 19,11H17V10A5,5 0 0,0 12,5C9.5,5 7.45,6.82 7.06,9.19C6.73,9.07 6.37,9 6,9A3,3 0 0,0 3,12C3,12.35 3.06,12.69 3.17,13H1.1L1,12M3,19H5A1,1 0 0,1 6,20A1,1 0 0,1 5,21H3A1,1 0 0,1 2,20A1,1 0 0,1 3,19M8,19H21A1,1 0 0,1 22,20A1,1 0 0,1 21,21H8A1,1 0 0,1 7,20A1,1 0 0,1 8,19Z", Yr = "M6,14A1,1 0 0,1 7,15A1,1 0 0,1 6,16A5,5 0 0,1 1,11A5,5 0 0,1 6,6C7,3.65 9.3,2 12,2C15.43,2 18.24,4.66 18.5,8.03L19,8A4,4 0 0,1 23,12A4,4 0 0,1 19,16H18A1,1 0 0,1 17,15A1,1 0 0,1 18,14H19A2,2 0 0,0 21,12A2,2 0 0,0 19,10H17V9A5,5 0 0,0 12,4C9.5,4 7.45,5.82 7.06,8.19C6.73,8.07 6.37,8 6,8A3,3 0 0,0 3,11A3,3 0 0,0 6,14M10,18A2,2 0 0,1 12,20A2,2 0 0,1 10,22A2,2 0 0,1 8,20A2,2 0 0,1 10,18M14.5,16A1.5,1.5 0 0,1 16,17.5A1.5,1.5 0 0,1 14.5,19A1.5,1.5 0 0,1 13,17.5A1.5,1.5 0 0,1 14.5,16M10.5,12A1.5,1.5 0 0,1 12,13.5A1.5,1.5 0 0,1 10.5,15A1.5,1.5 0 0,1 9,13.5A1.5,1.5 0 0,1 10.5,12Z", Xr = "M15,6.79C16.86,7.86 18,9.85 18,12C18,22 6,22 6,22C7.25,21.06 8.38,19.95 9.34,18.71C9.38,18.66 9.41,18.61 9.44,18.55C9.69,18.06 9.5,17.46 9,17.21C7.14,16.14 6,14.15 6,12C6,2 18,2 18,2C16.75,2.94 15.62,4.05 14.66,5.29C14.62,5.34 14.59,5.39 14.56,5.45C14.31,5.94 14.5,6.54 15,6.79M12,14A2,2 0 0,0 14,12A2,2 0 0,0 12,10A2,2 0 0,0 10,12A2,2 0 0,0 12,14Z", Zr = "M6,16A5,5 0 0,1 1,11A5,5 0 0,1 6,6C7,3.65 9.3,2 12,2C15.43,2 18.24,4.66 18.5,8.03L19,8A4,4 0 0,1 23,12A4,4 0 0,1 19,16H18A1,1 0 0,1 17,15A1,1 0 0,1 18,14H19A2,2 0 0,0 21,12A2,2 0 0,0 19,10H17V9A5,5 0 0,0 12,4C9.5,4 7.45,5.82 7.06,8.19C6.73,8.07 6.37,8 6,8A3,3 0 0,0 3,11A3,3 0 0,0 6,14H7A1,1 0 0,1 8,15A1,1 0 0,1 7,16H6M12,11H15L13,15H15L11.25,22L12,17H9.5L12,11Z", Qr = "M4.5,13.59C5,13.87 5.14,14.5 4.87,14.96C4.59,15.44 4,15.6 3.5,15.33V15.33C2,14.47 1,12.85 1,11A5,5 0 0,1 6,6C7,3.65 9.3,2 12,2C15.43,2 18.24,4.66 18.5,8.03L19,8A4,4 0 0,1 23,12A4,4 0 0,1 19,16A1,1 0 0,1 18,15A1,1 0 0,1 19,14A2,2 0 0,0 21,12A2,2 0 0,0 19,10H17V9A5,5 0 0,0 12,4C9.5,4 7.45,5.82 7.06,8.19C6.73,8.07 6.37,8 6,8A3,3 0 0,0 3,11C3,12.11 3.6,13.08 4.5,13.6V13.59M9.5,11H12.5L10.5,15H12.5L8.75,22L9.5,17H7L9.5,11M17.5,18.67C17.5,19.96 16.5,21 15.25,21C14,21 13,19.96 13,18.67C13,17.12 15.25,14.5 15.25,14.5C15.25,14.5 17.5,17.12 17.5,18.67Z", $r = "M17.75,4.09L15.22,6.03L16.13,9.09L13.5,7.28L10.87,9.09L11.78,6.03L9.25,4.09L12.44,4L13.5,1L14.56,4L17.75,4.09M21.25,11L19.61,12.25L20.2,14.23L18.5,13.06L16.8,14.23L17.39,12.25L15.75,11L17.81,10.95L18.5,9L19.19,10.95L21.25,11M18.97,15.95C19.8,15.87 20.69,17.05 20.16,17.8C19.84,18.25 19.5,18.67 19.08,19.07C15.17,23 8.84,23 4.94,19.07C1.03,15.17 1.03,8.83 4.94,4.93C5.34,4.53 5.76,4.17 6.21,3.85C6.96,3.32 8.14,4.21 8.06,5.04C7.79,7.9 8.75,10.87 10.95,13.06C13.14,15.26 16.1,16.22 18.97,15.95M17.33,17.97C14.5,17.81 11.7,16.64 9.53,14.5C7.36,12.31 6.2,9.5 6.04,6.68C3.23,9.82 3.34,14.64 6.35,17.66C9.37,20.67 14.19,20.78 17.33,17.97Z", ei = "M12.74,5.47C15.1,6.5 16.35,9.03 15.92,11.46C17.19,12.56 18,14.19 18,16V16.17C18.31,16.06 18.65,16 19,16A3,3 0 0,1 22,19A3,3 0 0,1 19,22H6A4,4 0 0,1 2,18A4,4 0 0,1 6,14H6.27C5,12.45 4.6,10.24 5.5,8.26C6.72,5.5 9.97,4.24 12.74,5.47M11.93,7.3C10.16,6.5 8.09,7.31 7.31,9.07C6.85,10.09 6.93,11.22 7.41,12.13C8.5,10.83 10.16,10 12,10C12.7,10 13.38,10.12 14,10.34C13.94,9.06 13.18,7.86 11.93,7.3M13.55,3.64C13,3.4 12.45,3.23 11.88,3.12L14.37,1.82L15.27,4.71C14.76,4.29 14.19,3.93 13.55,3.64M6.09,4.44C5.6,4.79 5.17,5.19 4.8,5.63L4.91,2.82L7.87,3.5C7.25,3.71 6.65,4.03 6.09,4.44M18,9.71C17.91,9.12 17.78,8.55 17.59,8L19.97,9.5L17.92,11.73C18.03,11.08 18.05,10.4 18,9.71M3.04,11.3C3.11,11.9 3.24,12.47 3.43,13L1.06,11.5L3.1,9.28C3,9.93 2.97,10.61 3.04,11.3M19,18H16V16A4,4 0 0,0 12,12A4,4 0 0,0 8,16H6A2,2 0 0,0 4,18A2,2 0 0,0 6,20H19A1,1 0 0,0 20,19A1,1 0 0,0 19,18Z", ti = "M9,12C9.53,12.14 9.85,12.69 9.71,13.22L8.41,18.05C8.27,18.59 7.72,18.9 7.19,18.76C6.65,18.62 6.34,18.07 6.5,17.54L7.78,12.71C7.92,12.17 8.47,11.86 9,12M13,12C13.53,12.14 13.85,12.69 13.71,13.22L11.64,20.95C11.5,21.5 10.95,21.8 10.41,21.66C9.88,21.5 9.56,20.97 9.7,20.43L11.78,12.71C11.92,12.17 12.47,11.86 13,12M17,12C17.53,12.14 17.85,12.69 17.71,13.22L16.41,18.05C16.27,18.59 15.72,18.9 15.19,18.76C14.65,18.62 14.34,18.07 14.5,17.54L15.78,12.71C15.92,12.17 16.47,11.86 17,12M17,10V9A5,5 0 0,0 12,4C9.5,4 7.45,5.82 7.06,8.19C6.73,8.07 6.37,8 6,8A3,3 0 0,0 3,11C3,12.11 3.6,13.08 4.5,13.6V13.59C5,13.87 5.14,14.5 4.87,14.96C4.59,15.43 4,15.6 3.5,15.32V15.33C2,14.47 1,12.85 1,11A5,5 0 0,1 6,6C7,3.65 9.3,2 12,2C15.43,2 18.24,4.66 18.5,8.03L19,8A4,4 0 0,1 23,12C23,13.5 22.2,14.77 21,15.46V15.46C20.5,15.73 19.91,15.57 19.63,15.09C19.36,14.61 19.5,14 20,13.72V13.73C20.6,13.39 21,12.74 21,12A2,2 0 0,0 19,10H17Z", ni = "M6,14.03A1,1 0 0,1 7,15.03C7,15.58 6.55,16.03 6,16.03C3.24,16.03 1,13.79 1,11.03C1,8.27 3.24,6.03 6,6.03C7,3.68 9.3,2.03 12,2.03C15.43,2.03 18.24,4.69 18.5,8.06L19,8.03A4,4 0 0,1 23,12.03C23,14.23 21.21,16.03 19,16.03H18C17.45,16.03 17,15.58 17,15.03C17,14.47 17.45,14.03 18,14.03H19A2,2 0 0,0 21,12.03A2,2 0 0,0 19,10.03H17V9.03C17,6.27 14.76,4.03 12,4.03C9.5,4.03 7.45,5.84 7.06,8.21C6.73,8.09 6.37,8.03 6,8.03A3,3 0 0,0 3,11.03A3,3 0 0,0 6,14.03M12,14.15C12.18,14.39 12.37,14.66 12.56,14.94C13,15.56 14,17.03 14,18C14,19.11 13.1,20 12,20A2,2 0 0,1 10,18C10,17.03 11,15.56 11.44,14.94C11.63,14.66 11.82,14.4 12,14.15M12,11.03L11.5,11.59C11.5,11.59 10.65,12.55 9.79,13.81C8.93,15.06 8,16.56 8,18A4,4 0 0,0 12,22A4,4 0 0,0 16,18C16,16.56 15.07,15.06 14.21,13.81C13.35,12.55 12.5,11.59 12.5,11.59", ri = "M6,14A1,1 0 0,1 7,15A1,1 0 0,1 6,16A5,5 0 0,1 1,11A5,5 0 0,1 6,6C7,3.65 9.3,2 12,2C15.43,2 18.24,4.66 18.5,8.03L19,8A4,4 0 0,1 23,12A4,4 0 0,1 19,16H18A1,1 0 0,1 17,15A1,1 0 0,1 18,14H19A2,2 0 0,0 21,12A2,2 0 0,0 19,10H17V9A5,5 0 0,0 12,4C9.5,4 7.45,5.82 7.06,8.19C6.73,8.07 6.37,8 6,8A3,3 0 0,0 3,11A3,3 0 0,0 6,14M7.88,18.07L10.07,17.5L8.46,15.88C8.07,15.5 8.07,14.86 8.46,14.46C8.85,14.07 9.5,14.07 9.88,14.46L11.5,16.07L12.07,13.88C12.21,13.34 12.76,13.03 13.29,13.17C13.83,13.31 14.14,13.86 14,14.4L13.41,16.59L15.6,16C16.14,15.86 16.69,16.17 16.83,16.71C16.97,17.24 16.66,17.79 16.12,17.93L13.93,18.5L15.54,20.12C15.93,20.5 15.93,21.15 15.54,21.54C15.15,21.93 14.5,21.93 14.12,21.54L12.5,19.93L11.93,22.12C11.79,22.66 11.24,22.97 10.71,22.83C10.17,22.69 9.86,22.14 10,21.6L10.59,19.41L8.4,20C7.86,20.14 7.31,19.83 7.17,19.29C7.03,18.76 7.34,18.21 7.88,18.07Z", ii = "M18.5,18.67C18.5,19.96 17.5,21 16.25,21C15,21 14,19.96 14,18.67C14,17.12 16.25,14.5 16.25,14.5C16.25,14.5 18.5,17.12 18.5,18.67M4,17.36C3.86,16.82 4.18,16.25 4.73,16.11L7,15.5L5.33,13.86C4.93,13.46 4.93,12.81 5.33,12.4C5.73,12 6.4,12 6.79,12.4L8.45,14.05L9.04,11.8C9.18,11.24 9.75,10.92 10.29,11.07C10.85,11.21 11.17,11.78 11,12.33L10.42,14.58L12.67,14C13.22,13.83 13.79,14.15 13.93,14.71C14.08,15.25 13.76,15.82 13.2,15.96L10.95,16.55L12.6,18.21C13,18.6 13,19.27 12.6,19.67C12.2,20.07 11.54,20.07 11.15,19.67L9.5,18L8.89,20.27C8.75,20.83 8.18,21.14 7.64,21C7.08,20.86 6.77,20.29 6.91,19.74L7.5,17.5L5.26,18.09C4.71,18.23 4.14,17.92 4,17.36M1,11A5,5 0 0,1 6,6C7,3.65 9.3,2 12,2C15.43,2 18.24,4.66 18.5,8.03L19,8A4,4 0 0,1 23,12A4,4 0 0,1 19,16A1,1 0 0,1 18,15A1,1 0 0,1 19,14A2,2 0 0,0 21,12A2,2 0 0,0 19,10H17V9A5,5 0 0,0 12,4C9.5,4 7.45,5.82 7.06,8.19C6.73,8.07 6.37,8 6,8A3,3 0 0,0 3,11C3,11.85 3.35,12.61 3.91,13.16C4.27,13.55 4.26,14.16 3.88,14.54C3.5,14.93 2.85,14.93 2.47,14.54C1.56,13.63 1,12.38 1,11Z", ai = "M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M12,2L14.39,5.42C13.65,5.15 12.84,5 12,5C11.16,5 10.35,5.15 9.61,5.42L12,2M3.34,7L7.5,6.65C6.9,7.16 6.36,7.78 5.94,8.5C5.5,9.24 5.25,10 5.11,10.79L3.34,7M3.36,17L5.12,13.23C5.26,14 5.53,14.78 5.95,15.5C6.37,16.24 6.91,16.86 7.5,17.37L3.36,17M20.65,7L18.88,10.79C18.74,10 18.47,9.23 18.05,8.5C17.63,7.78 17.1,7.15 16.5,6.64L20.65,7M20.64,17L16.5,17.36C17.09,16.85 17.62,16.22 18.04,15.5C18.46,14.77 18.73,14 18.87,13.21L20.64,17M12,22L9.59,18.56C10.33,18.83 11.14,19 12,19C12.82,19 13.63,18.83 14.37,18.56L12,22Z", oi = "M4,10A1,1 0 0,1 3,9A1,1 0 0,1 4,8H12A2,2 0 0,0 14,6A2,2 0 0,0 12,4C11.45,4 10.95,4.22 10.59,4.59C10.2,5 9.56,5 9.17,4.59C8.78,4.2 8.78,3.56 9.17,3.17C9.9,2.45 10.9,2 12,2A4,4 0 0,1 16,6A4,4 0 0,1 12,10H4M19,12A1,1 0 0,0 20,11A1,1 0 0,0 19,10C18.72,10 18.47,10.11 18.29,10.29C17.9,10.68 17.27,10.68 16.88,10.29C16.5,9.9 16.5,9.27 16.88,8.88C17.42,8.34 18.17,8 19,8A3,3 0 0,1 22,11A3,3 0 0,1 19,14H5A1,1 0 0,1 4,13A1,1 0 0,1 5,12H19M18,18H4A1,1 0 0,1 3,17A1,1 0 0,1 4,16H18A3,3 0 0,1 21,19A3,3 0 0,1 18,22C17.17,22 16.42,21.66 15.88,21.12C15.5,20.73 15.5,20.1 15.88,19.71C16.27,19.32 16.9,19.32 17.29,19.71C17.47,19.89 17.72,20 18,20A1,1 0 0,0 19,19A1,1 0 0,0 18,18Z", si = "M6,6L6.69,6.06C7.32,3.72 9.46,2 12,2A5.5,5.5 0 0,1 17.5,7.5L17.42,8.45C17.88,8.16 18.42,8 19,8A3,3 0 0,1 22,11A3,3 0 0,1 19,14H6A4,4 0 0,1 2,10A4,4 0 0,1 6,6M6,8A2,2 0 0,0 4,10A2,2 0 0,0 6,12H19A1,1 0 0,0 20,11A1,1 0 0,0 19,10H15.5V7.5A3.5,3.5 0 0,0 12,4A3.5,3.5 0 0,0 8.5,7.5V8H6M18,18H4A1,1 0 0,1 3,17A1,1 0 0,1 4,16H18A3,3 0 0,1 21,19A3,3 0 0,1 18,22C17.17,22 16.42,21.66 15.88,21.12C15.5,20.73 15.5,20.1 15.88,19.71C16.27,19.32 16.9,19.32 17.29,19.71C17.47,19.89 17.72,20 18,20A1,1 0 0,0 19,19A1,1 0 0,0 18,18Z", X = (e, t) => e ? (t ||= "24px", w`<ha-icon
     .icon="${e}"
     style="font-size:${t}; width: ${t}; height: ${t}"
   />`) : w`<ha-icon
       icon="mdi:weather-sunny"
       style="font-size:${t}; width: ${t}; height: ${t}"
-    />`, X = (e, t) => e ? (t ||= "24px", T`<svg height=${t} width=${t} viewport="0 0 48 48"><path d="${e}" /></svg>`) : T`<svg height=${t} width=${t} viewport="0 0 48 48"><path d="${ai}" /></svg>`, ci = (e, t, n, r) => {
-	if (!e) return Y("mdi:weather-sunny", n);
+    />`, Z = (e, t) => e ? (t ||= "24px", T`<svg height=${t} width=${t} viewport="0 0 48 48"><path d="${e}" /></svg>`) : T`<svg height=${t} width=${t} viewport="0 0 48 48"><path d="${ai}" /></svg>`, ci = (e, t, n, r) => {
+	if (!e) return X("mdi:weather-sunny", n);
 	let i = String(e).trim().toLowerCase(), a = {
-		"clear-night": X($r, n),
-		cloudy: X(qr, n),
-		fog: X(Jr, n),
-		hail: X(Yr, n),
-		lightning: X(Zr, n),
-		"lightning-rainy": X(Qr, n),
-		partlycloudy: X(ei, n),
-		pouring: X(ti, n),
-		rainy: X(ni, n),
-		snowy: X(ri, n),
-		"snowy-rainy": X(ii, n),
-		sunny: X(ai, n),
-		windy: X(oi, n),
-		"windy-variant": X(si, n),
-		exceptional: X(Xr, n)
+		"clear-night": Z($r, n),
+		cloudy: Z(qr, n),
+		fog: Z(Jr, n),
+		hail: Z(Yr, n),
+		lightning: Z(Zr, n),
+		"lightning-rainy": Z(Qr, n),
+		partlycloudy: Z(ei, n),
+		pouring: Z(ti, n),
+		rainy: Z(ni, n),
+		snowy: Z(ri, n),
+		"snowy-rainy": Z(ii, n),
+		sunny: Z(ai, n),
+		windy: Z(oi, n),
+		"windy-variant": Z(si, n),
+		exceptional: Z(Xr, n)
 	}, o = {
-		"clear-night": Y("mdi:weather-night", n),
-		cloudy: Y("mdi:weather-cloudy", n),
-		fog: Y("mdi:weather-fog", n),
-		hail: Y("mdi:weather-hail", n),
-		lightning: Y("mdi:weather-lightning", n),
-		"lightning-rainy": Y("mdi:weather-lightning-rainy", n),
-		partlycloudy: Y("mdi:weather-partly-cloudy", n),
-		pouring: Y("mdi:weather-pouring", n),
-		rainy: Y("mdi:weather-rainy", n),
-		snowy: Y("mdi:weather-snowy", n),
-		"snowy-rainy": Y("mdi:weather-snowy-rainy", n),
-		sunny: Y("mdi:weather-sunny", n),
-		windy: Y("mdi:weather-windy", n),
-		"windy-variant": Y("mdi:weather-windy-variant", n),
-		exceptional: Y("mdi:weather-hurricane", n)
+		"clear-night": X("mdi:weather-night", n),
+		cloudy: X("mdi:weather-cloudy", n),
+		fog: X("mdi:weather-fog", n),
+		hail: X("mdi:weather-hail", n),
+		lightning: X("mdi:weather-lightning", n),
+		"lightning-rainy": X("mdi:weather-lightning-rainy", n),
+		partlycloudy: X("mdi:weather-partly-cloudy", n),
+		pouring: X("mdi:weather-pouring", n),
+		rainy: X("mdi:weather-rainy", n),
+		snowy: X("mdi:weather-snowy", n),
+		"snowy-rainy": X("mdi:weather-snowy-rainy", n),
+		sunny: X("mdi:weather-sunny", n),
+		windy: X("mdi:weather-windy", n),
+		"windy-variant": X("mdi:weather-windy-variant", n),
+		exceptional: X("mdi:weather-hurricane", n)
 	}, s = {
 		"clear-night": w`<img src="${Mr}" style="font-size:${n}" />`,
 		cloudy: w`<img src="${Nr}" style="font-size:${n}" />`,
@@ -4455,7 +4498,7 @@ var Mr = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewB
 		"windy-variant": w`<img src="${Wr}" style="font-size:${n}" />`,
 		exceptional: w`<img src="${Ur}" style="font-size:${n}" />`
 	};
-	return t === "mdi" ? o[i] || Y("mdi:weather-sunny", n) : t === "mdiAsSVG" ? a[i] || w`<img src="${"data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='26.75'%20x2='37.25'%20y1='22.91'%20y2='41.09'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='.45'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='1'%20stop-color='%23f59e0b'/%3e%3c/linearGradient%3e%3c/defs%3e%3ccircle%20cx='32'%20cy='32'%20r='10.5'%20fill='url(%23a)'%20stroke='%23f8af18'%20stroke-miterlimit='10'%20stroke-width='.5'/%3e%3cpath%20fill='none'%20stroke='%23fbbf24'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M32%2015.71V9.5m0%2045v-6.21m11.52-27.81l4.39-4.39M16.09%2047.91l4.39-4.39m0-23l-4.39-4.39m31.82%2031.78l-4.39-4.39M15.71%2032H9.5m45%200h-6.21'%3e%3canimateTransform%20attributeName='transform'%20dur='45s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2032%2032;%20360%2032%2032'/%3e%3c/path%3e%3c/svg%3e"}" />` : s[i] || w`<img src="${"data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='26.75'%20x2='37.25'%20y1='22.91'%20y2='41.09'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='.45'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='1'%20stop-color='%23f59e0b'/%3e%3c/linearGradient%3e%3c/defs%3e%3ccircle%20cx='32'%20cy='32'%20r='10.5'%20fill='url(%23a)'%20stroke='%23f8af18'%20stroke-miterlimit='10'%20stroke-width='.5'/%3e%3cpath%20fill='none'%20stroke='%23fbbf24'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M32%2015.71V9.5m0%2045v-6.21m11.52-27.81l4.39-4.39M16.09%2047.91l4.39-4.39m0-23l-4.39-4.39m31.82%2031.78l-4.39-4.39M15.71%2032H9.5m45%200h-6.21'%3e%3canimateTransform%20attributeName='transform'%20dur='45s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2032%2032;%20360%2032%2032'/%3e%3c/path%3e%3c/svg%3e"}" />`;
+	return t === "mdi" ? o[i] || X("mdi:weather-sunny", n) : t === "mdiAsSVG" ? a[i] || w`<img src="${"data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='26.75'%20x2='37.25'%20y1='22.91'%20y2='41.09'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='.45'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='1'%20stop-color='%23f59e0b'/%3e%3c/linearGradient%3e%3c/defs%3e%3ccircle%20cx='32'%20cy='32'%20r='10.5'%20fill='url(%23a)'%20stroke='%23f8af18'%20stroke-miterlimit='10'%20stroke-width='.5'/%3e%3cpath%20fill='none'%20stroke='%23fbbf24'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M32%2015.71V9.5m0%2045v-6.21m11.52-27.81l4.39-4.39M16.09%2047.91l4.39-4.39m0-23l-4.39-4.39m31.82%2031.78l-4.39-4.39M15.71%2032H9.5m45%200h-6.21'%3e%3canimateTransform%20attributeName='transform'%20dur='45s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2032%2032;%20360%2032%2032'/%3e%3c/path%3e%3c/svg%3e"}" />` : s[i] || w`<img src="${"data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='26.75'%20x2='37.25'%20y1='22.91'%20y2='41.09'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='.45'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='1'%20stop-color='%23f59e0b'/%3e%3c/linearGradient%3e%3c/defs%3e%3ccircle%20cx='32'%20cy='32'%20r='10.5'%20fill='url(%23a)'%20stroke='%23f8af18'%20stroke-miterlimit='10'%20stroke-width='.5'/%3e%3cpath%20fill='none'%20stroke='%23fbbf24'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M32%2015.71V9.5m0%2045v-6.21m11.52-27.81l4.39-4.39M16.09%2047.91l4.39-4.39m0-23l-4.39-4.39m31.82%2031.78l-4.39-4.39M15.71%2032H9.5m45%200h-6.21'%3e%3canimateTransform%20attributeName='transform'%20dur='45s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2032%2032;%20360%2032%2032'/%3e%3c/path%3e%3c/svg%3e"}" />`;
 }, li = (e, t) => e?.states[t], ui = (e, t) => {
 	let n = /* @__PURE__ */ new Date(), r = li(e, t.entity), i = li(e, t.sun_entity || "sun.sun");
 	if (i?.state === "above_horizon") return !0;
@@ -4481,8 +4524,8 @@ function di(e) {
 //#endregion
 //#region src/cards/full-card/swissweather-card.ts
 var fi;
-F({ loader: (e) => V[e] }), console.log("🎯 About to apply @customElement decorator to SwissweatherCard"), console.log("🎯 customElements registry available:", !!customElements);
-var Z = class extends D {
+F({ loader: (e) => H[e] }), console.log("🎯 About to apply @customElement decorator to SwissweatherCard"), console.log("🎯 customElements registry available:", !!customElements);
+var pi = class extends D {
 	hass;
 	config;
 	_forecast = [];
@@ -4768,7 +4811,7 @@ var Z = class extends D {
 	}
 	static getStubConfig() {
 		return {
-			type: "custom:" + nn,
+			type: "custom:" + tn,
 			entity: "",
 			show_location: !0,
 			location: "Schweiz",
@@ -4791,10 +4834,10 @@ var Z = class extends D {
 		};
 	}
 	static getConfigElement() {
-		return document.createElement(rn);
+		return document.createElement(nn);
 	}
 	static getConfigSchema() {
-		return H;
+		return U;
 	}
 	_getEntityState(e) {
 		return this.hass?.states[e];
@@ -4824,29 +4867,141 @@ var Z = class extends D {
 			"NNW"
 		][Math.round(e / 22.5) % 16];
 	}
-	_renderWarningSection(e) {
+	_openWarnings = {};
+	_rankedIconColorToCSS(e) {
+		return {
+			yellow: "#f6c90e",
+			orange: "#e17055",
+			red: "#dc143c",
+			violet: "#8e44ad",
+			gray: "var(--disabled-text-color, #9e9e9e)"
+		}[e?.toLowerCase()] ?? "var(--primary-text-color, #fff)";
+	}
+	_renderRankedSlot(e, t, n) {
+		let r = e.attributes;
+		if (!r.has_warning) return null;
+		let i = this._rankedIconColorToCSS(r.icon_color), a = r.icon || "mdi:alert", o = r.warning_type || r.level_name || e.state, s = !!this._openWarnings[t], c = !!(r.html_text || r.text || r.links?.length), l = t === "primary" && typeof r.additional_warning_count == "number" ? r.additional_warning_count : 0;
+		return w`
+      <li style="margin-bottom: 12px;">
+        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+          <ha-icon icon="${a}" style="color: ${i}; flex-shrink: 0;"></ha-icon>
+          <span style="font-weight: bold;">${o}</span>
+          ${r.level_name ? w`<span style="font-size: 12px; opacity: 0.8;">(${r.level_name})</span>` : ""}
+          ${l > 0 ? w`<span
+                style="font-size: 12px; opacity: 0.75; margin-left: 4px;"
+                title="${B("warnings_additional", { count: l })}"
+              >
+                +${l}
+              </span>` : ""}
+          ${c ? w`
+                <button
+                  @click=${() => n(t)}
+                  style="background:none;border:none;cursor:pointer;color:var(--primary-text-color,#fff);font-size:16px;margin-left:auto;"
+                  title="${B(s ? "collapse" : "expand")}"
+                  aria-label="${B(s ? "collapse" : "expand")}"
+                >
+                  <ha-icon icon="${s ? "mdi:chevron-up" : "mdi:chevron-down"}"></ha-icon>
+                </button>
+              ` : ""}
+        </div>
+        ${s ? w`
+              <div style="margin-top: 6px; font-size: 13px; opacity: 0.85;">
+                ${r.valid_from || r.valid_to ? w`
+                      <div style="margin-bottom: 4px;">
+                        ${r.valid_from ? w`<strong>${B("valid_from")}: </strong
+                                >${new Date(r.valid_from).toLocaleString()}&nbsp;` : ""}
+                        ${r.valid_to ? w`<strong>${B("valid_to")}: </strong
+                                >${new Date(r.valid_to).toLocaleString()}` : ""}
+                      </div>
+                    ` : ""}
+                ${r.html_text ? w`
+                      <div
+                        style="line-height: 1.4; margin-bottom: 4px;"
+                        .innerHTML="${r.html_text}"
+                      ></div>
+                    ` : r.text ? w`<div style="line-height: 1.4; margin-bottom: 4px;">${r.text}</div>` : ""}
+                ${r.links?.length ? w`
+                      <div style="display: flex; flex-direction: column; gap: 2px;">
+                        ${r.links.map((e) => w`
+                            <a
+                              href="${e.url.startsWith("http") ? e.url : e.alt_url ?? e.url}"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style="color: var(--primary-text-color, #fff); text-decoration: underline; display: flex; align-items: center; gap: 4px;"
+                            >
+                              <ha-icon icon="mdi:link-variant" style="font-size: 14px;"></ha-icon>
+                              ${e.text}
+                            </a>
+                          `)}
+                      </div>
+                    ` : ""}
+              </div>
+            ` : ""}
+      </li>
+    `;
+	}
+	_renderRankedWarnings(e, t, n) {
+		let r = (e) => {
+			this._openWarnings = {
+				...this._openWarnings,
+				[e]: !this._openWarnings[e]
+			}, this.requestUpdate();
+		}, i = e.attributes;
+		if (!i.has_warning) return w``;
+		let a = {
+			red: "danger",
+			violet: "danger",
+			orange: "severe",
+			yellow: "warning"
+		}[i.icon_color?.toLowerCase()] ?? "info", o = [
+			this._renderRankedSlot(e, "primary", r),
+			t ? this._renderRankedSlot(t, "secondary", r) : null,
+			n ? this._renderRankedSlot(n, "tertiary", r) : null
+		].filter(Boolean);
+		return w`
+      <div class="warning-section ${a}">
+        <div>
+          <strong>${B("weather_warning")}</strong>
+          <ul style="margin: 6px 0 0 0; padding-left: 18px;">
+            ${o}
+          </ul>
+        </div>
+      </div>
+    `;
+	}
+	_renderLegacyWarnings(e) {
 		let t = [];
-		if (e?.attributes?.warning_levels && Array.isArray(e.attributes.warning_levels)) for (let n = 0; n < e?.attributes.warning_levels.length; n++) t.push({
+		if (e.attributes.warning_levels && Array.isArray(e.attributes.warning_levels)) for (let n = 0; n < e.attributes.warning_levels.length; n++) t.push({
 			id: `warning_${n}`,
-			title: e?.attributes.warning_levels[n],
-			level: e?.attributes.warning_levels[n],
-			type: e?.attributes.warning_types[n],
-			description: e?.attributes.warning_texts[n],
+			title: e.attributes.warning_levels[n],
+			level: e.attributes.warning_levels[n],
+			type: e.attributes.warning_types[n],
+			description: e.attributes.warning_texts[n],
 			valid_from: e.attributes.warning_valid_from[n],
 			valid_to: e.attributes.warning_valid_to[n],
 			link: e.attributes.warning_links[n],
 			regions: [],
 			phenomena: []
 		});
+		if (t.length === 0) return w``;
 		let n = this._getWarningLevel(t), r = (e) => e >= 4 ? "#dc143c" : e >= 3 ? "#e17055" : e >= 2 ? "#f6c90e" : "var(--primary-text-color, #fff)", i = {
 			storm: "mdi:weather-lightning",
+			thunderstorms: "mdi:weather-lightning-rainy",
 			rain: "mdi:weather-pouring",
 			snow: "mdi:snowflake",
 			wind: "mdi:weather-windy",
 			fog: "mdi:weather-fog",
 			heat: "mdi:weather-sunny-alert",
+			heat_waves: "mdi:thermometer-high",
 			cold: "mdi:snowflake-alert",
-			flood: "mdi:waves",
+			frost: "mdi:snowflake-thermometer",
+			thaw: "mdi:thermometer-high",
+			flood: "mdi:waves-arrow-up",
+			drought: "mdi:water-off",
+			avalanches: "mdi:snowflake-alert",
+			slippery_roads: "mdi:car-brake-alert",
+			forest_fires: "mdi:fire-alert",
+			earthquakes: "mdi:pulse",
 			default: "mdi:alert"
 		};
 		this._openWarnings ||= {};
@@ -4856,63 +5011,66 @@ var Z = class extends D {
 				[e]: !this._openWarnings[e]
 			}, this.requestUpdate();
 		};
-		return t.length > 0 ? w`
-          <div class="warning-section ${n}">
-            <div>
-              <strong>${B("weather_warning")}</strong>
-              <ul style="margin: 6px 0 0 0; padding-left: 18px;">
-                ${t.map((e) => w`
-                    <li style="margin-bottom: 12px;">
-                      <div style="display: flex; align-items: center; gap: 8px;">
-                        <ha-icon
-                          icon="${i[e.type?.toLowerCase?.()] || i.default}"
-                          style="color: ${r(e.level)};"
-                        ></ha-icon>
-                        <span style="font-weight:bold;">${e.title}</span>
-                        ${e.link ? w`
-                              <a
-                                href="${e.link}"
-                                target="_blank"
-                                style="color: var(--primary-text-color, #fff); text-decoration: underline; display: flex; align-items: center;"
-                                title="More info"
-                              >
-                                <ha-icon
-                                  icon="mdi:link-variant"
-                                  style="font-size: 16px; margin-left: 2px;"
-                                ></ha-icon>
-                              </a>
-                            ` : ""}
-                        <button
-                          @click=${() => a(e.id)}
-                          style="background:none;border:none;cursor:pointer;color:var(--primary-text-color,#fff);font-size:16px;"
-                          title="${this._openWarnings[e.id] ? B("collapse") : B("expand")}"
-                          aria-label="${this._openWarnings[e.id] ? B("collapse") : B("expand")}"
-                        >
-                          <ha-icon
-                            icon="${this._openWarnings[e.id] ? "mdi:chevron-up" : "mdi:chevron-down"}"
-                          ></ha-icon>
-                        </button>
-                      </div>
-                      ${this._openWarnings[e.id] && e.description ? w`
-                            <div>
-                              <strong>${B("valid_from")}: </strong>
-                              ${e.valid_from ? new Date(e.valid_from).toLocaleString() : B("unknown")}
-                              <strong>${B("valid_to")}: </strong>
-                              ${e.valid_to ? new Date(e.valid_to).toLocaleString() : B("unknown")}
-                            </div>
-                            <div
-                              style="color: var(--primary-text-color, #fff); font-size: 14px; line-height: 1.4; margin-left: 2px; margin-top: 4px;"
-                              .innerHTML="${J.parse(e.description || "")}"
-                            ></div>
-                          ` : ""}
-                    </li>
-                  `)}
-              </ul>
-            </div>
-          </div>
-        ` : w``;
+		return w`
+      <div class="warning-section ${n}">
+        <div>
+          <strong>${B("weather_warning")}</strong>
+          <ul style="margin: 6px 0 0 0; padding-left: 18px;">
+            ${t.map((e) => w`
+                <li style="margin-bottom: 12px;">
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <ha-icon
+                      icon="${i[e.type?.toLowerCase?.()] || i.default}"
+                      style="color: ${r(e.level)};"
+                    ></ha-icon>
+                    <span style="font-weight:bold;">${e.title}</span>
+                    ${e.link ? w`
+                          <a
+                            href="${e.link}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style="color: var(--primary-text-color, #fff); text-decoration: underline; display: flex; align-items: center;"
+                            title="More info"
+                          >
+                            <ha-icon
+                              icon="mdi:link-variant"
+                              style="font-size: 16px; margin-left: 2px;"
+                            ></ha-icon>
+                          </a>
+                        ` : ""}
+                    <button
+                      @click=${() => a(e.id)}
+                      style="background:none;border:none;cursor:pointer;color:var(--primary-text-color,#fff);font-size:16px;"
+                      title="${this._openWarnings[e.id] ? B("collapse") : B("expand")}"
+                      aria-label="${this._openWarnings[e.id] ? B("collapse") : B("expand")}"
+                    >
+                      <ha-icon
+                        icon="${this._openWarnings[e.id] ? "mdi:chevron-up" : "mdi:chevron-down"}"
+                      ></ha-icon>
+                    </button>
+                  </div>
+                  ${this._openWarnings[e.id] && e.description ? w`
+                        <div>
+                          <strong>${B("valid_from")}: </strong>
+                          ${e.valid_from ? new Date(e.valid_from).toLocaleString() : B("unknown")}
+                          <strong>${B("valid_to")}: </strong>
+                          ${e.valid_to ? new Date(e.valid_to).toLocaleString() : B("unknown")}
+                        </div>
+                        <div
+                          style="color: var(--primary-text-color, #fff); font-size: 14px; line-height: 1.4; margin-left: 2px; margin-top: 4px;"
+                          .innerHTML="${Y.parse(e.description || "")}"
+                        ></div>
+                      ` : ""}
+                </li>
+              `)}
+          </ul>
+        </div>
+      </div>
+    `;
 	}
-	_openWarnings = {};
+	_renderWarningSection(e, t, n, r) {
+		return t && t.attributes?.has_warning !== void 0 ? this._renderRankedWarnings(t, n, r) : e ? this._renderLegacyWarnings(e) : w``;
+	}
 	_renderForecastTemperature(e) {
 		let t = (e, t) => `${B(e, t)}`;
 		return this._forecast.length > 0 && this._hourlyForecast.length > 0 ? w`<forecast-temperature-chart
@@ -4920,7 +5078,7 @@ var Z = class extends D {
           .forecastHours=${e}
           .show_temperature=${this.config.show_temperature !== !1}
           ._t=${B}
-          .showHoursChartLabel=${(e) => on(e, t)}
+          .showHoursChartLabel=${(e) => an(e, t)}
         ></forecast-temperature-chart>` : w``;
 	}
 	_renderForecastPrecipitation(e) {
@@ -4930,7 +5088,7 @@ var Z = class extends D {
           .forecastHours=${e}
           .show_precipitation=${this.config.show_precipitation !== !1}
           ._t=${B}
-          .showHoursChartLabel=${(e) => on(e, t)}
+          .showHoursChartLabel=${(e) => an(e, t)}
         ></precipitation-chart>` : w``;
 	}
 	_renderForecastSunshine(e, t, n) {
@@ -4942,7 +5100,7 @@ var Z = class extends D {
           .weatherEntity=${e}
           .sun_entity=${t}
           ._t=${B}
-          .showHoursChartLabel=${(e) => on(e, r)}
+          .showHoursChartLabel=${(e) => an(e, r)}
         ></sunshine-chart>` : w``;
 	}
 	_renderForecastWind(e) {
@@ -4952,7 +5110,7 @@ var Z = class extends D {
           .forecastHours=${e}
           .show_wind=${this.config.show_wind !== !1}
           ._t=${B}
-          .showHoursChartLabel=${(e) => on(e, t)}
+          .showHoursChartLabel=${(e) => an(e, t)}
         ></wind-chart>` : w``;
 	}
 	_renderCurrentWeather(e, t, n, r, i, a) {
@@ -5019,14 +5177,14 @@ var Z = class extends D {
 		if (I((this.hass.selectedLanguage || this.hass.language || "en").substring(0, 2)), !this.hass || !this.config) return w``;
 		let e = this._getEntityState(this.config.entity), t = this._getEntityState(this.config.sun_entity || "sun.sun");
 		if (!e) return w`<div>Entity not found: ${this.config.entity}</div>`;
-		let n = this.config.show_location !== !1, r = this.config.location || B("location"), i = e.attributes.temperature, a = e.state, o = this.config.wind_entity ? this._getEntityState(this.config.wind_entity) : null, s = this.config.wind_direction_entity ? this._getEntityState(this.config.wind_direction_entity) : null, c = this.config.sunshine_entity ? this._getEntityState(this.config.sunshine_entity) : null, l = this.config.warning_entity ? this._getEntityState(this.config.warning_entity) : null, u = o ? parseFloat(o.state) : e.attributes.wind_speed || 0, d = s ? parseFloat(s.state) : e.attributes.wind_bearing || 0, f = e.attributes.humidity || 0, p = e.attributes.pressure || 0, m = e.attributes.visibility || 0, h = this.config.forecast_hours ?? 6;
+		let n = this.config.show_location !== !1, r = this.config.location || B("location"), i = e.attributes.temperature, a = e.state, o = this.config.wind_entity ? this._getEntityState(this.config.wind_entity) : null, s = this.config.wind_direction_entity ? this._getEntityState(this.config.wind_direction_entity) : null, c = this.config.sunshine_entity ? this._getEntityState(this.config.sunshine_entity) : null, l = this.config.warning_entity ? this._getEntityState(this.config.warning_entity) : null, u = this.config.primary_warning_entity ? this._getEntityState(this.config.primary_warning_entity) : null, d = this.config.secondary_warning_entity ? this._getEntityState(this.config.secondary_warning_entity) : null, f = this.config.tertiary_warning_entity ? this._getEntityState(this.config.tertiary_warning_entity) : null, p = o ? parseFloat(o.state) : e.attributes.wind_speed || 0, m = s ? parseFloat(s.state) : e.attributes.wind_bearing || 0, h = e.attributes.humidity || 0, g = e.attributes.pressure || 0, _ = e.attributes.visibility || 0, ee = this.config.forecast_hours ?? 6;
 		return w`
       ${n ? w`
             <div class="header">
               <div class="location">${r}</div>
             </div>
           ` : ""}
-      ${this.config.show_warnings ? this._renderWarningSection(l) : ""}
+      ${this.config.show_warnings ? this._renderWarningSection(l, u, d, f) : ""}
 
       <div class="current-weather">
         <div>
@@ -5043,19 +5201,19 @@ var Z = class extends D {
         </div>
       </div>
 
-      ${this._renderCurrentWeatherSection(u, d, f, p, m, c)}
+      ${this._renderCurrentWeatherSection(p, m, h, g, _, c)}
       ${this.config.show_temperature !== !1 || this.config.show_precipitation !== !1 || this.config.show_sunshine !== !1 || this.config.show_wind !== !1 || this.config.show_forecast !== !1 ? w`
             <div class="section-title">
               <ha-icon icon="mdi:clock"></ha-icon>
-              ${B("forecast_hours", { hours: h })}
+              ${B("forecast_hours", { hours: ee })}
             </div>
           ` : ""}
       ${this._getEffectiveChartOrder().map((n) => {
 			switch (n) {
-				case "temperature": return this._renderForecastTemperature(h);
-				case "precipitation": return this._renderForecastPrecipitation(h);
-				case "sunshine": return this._renderForecastSunshine(e, t, h);
-				case "wind": return this._renderForecastWind(h);
+				case "temperature": return this._renderForecastTemperature(ee);
+				case "precipitation": return this._renderForecastPrecipitation(ee);
+				case "sunshine": return this._renderForecastSunshine(e, t, ee);
+				case "wind": return this._renderForecastWind(ee);
 				case "forecast": return this._showDailyForecast();
 				default: return "";
 			}
@@ -5122,7 +5280,7 @@ var Z = class extends D {
           .config=${this.config}
           ._t=${B}
           .getWeatherIcon=${ci}
-          .formatDate=${sn}
+          .formatDate=${on}
         ></daily-forecast-chart>` : w``;
 	}
 	_renderDailyForecastDiagram() {
@@ -5136,10 +5294,10 @@ var Z = class extends D {
         ></daily-forecast-diagram>` : w``;
 	}
 };
-M([k({ attribute: !1 }), j("design:type", Object)], Z.prototype, "hass", void 0), M([k({ attribute: !1 }), j("design:type", Object)], Z.prototype, "config", void 0), M([A(), j("design:type", Array)], Z.prototype, "_forecast", void 0), M([A(), j("design:type", Array)], Z.prototype, "_hourlyForecast", void 0), M([A(), j("design:type", Object)], Z.prototype, "_forecastLoading", void 0), M([A(), j("design:type", typeof (fi = typeof Record < "u" && Record) == "function" ? fi : Object)], Z.prototype, "_openWarnings", void 0), Z = M([O(nn), j("design:paramtypes", [])], Z);
+M([k({ attribute: !1 }), j("design:type", Object)], pi.prototype, "hass", void 0), M([k({ attribute: !1 }), j("design:type", Object)], pi.prototype, "config", void 0), M([A(), j("design:type", Array)], pi.prototype, "_forecast", void 0), M([A(), j("design:type", Array)], pi.prototype, "_hourlyForecast", void 0), M([A(), j("design:type", Object)], pi.prototype, "_forecastLoading", void 0), M([A(), j("design:type", typeof (fi = typeof Record < "u" && Record) == "function" ? fi : Object)], pi.prototype, "_openWarnings", void 0), pi = M([O(tn), j("design:paramtypes", [])], pi);
 //#endregion
 //#region src/cards/forecast-diagram/const.ts
-var pi = `${tn}-forecast-diagram-card`, mi = `${pi}-editor`, hi = [{
+var mi = `${en}-forecast-diagram-card`, hi = `${mi}-editor`, gi = [{
 	name: "entity",
 	required: !0,
 	selector: { entity: { domain: "weather" } },
@@ -5147,8 +5305,8 @@ var pi = `${tn}-forecast-diagram-card`, mi = `${pi}-editor`, hi = [{
 }];
 //#endregion
 //#region src/cards/forecast-diagram/forecast-diagram-card-editor.ts
-F({ loader: (e) => V[e] });
-var gi = class extends D {
+F({ loader: (e) => H[e] });
+var _i = class extends D {
 	hass;
 	lovelace;
 	_config;
@@ -5315,7 +5473,7 @@ var gi = class extends D {
           <ha-form
             .hass=${this.hass}
             .data=${e}
-            .schema=${[hi.find((e) => e.name === "entity")].filter(Boolean)}
+            .schema=${[gi.find((e) => e.name === "entity")].filter(Boolean)}
             .computeLabel=${this._computeLabel}
             .computeHelper=${this._computeHelper}
             @value-changed=${this._valueChanged}
@@ -5328,7 +5486,7 @@ var gi = class extends D {
           <ha-form
             .hass=${this.hass}
             .data=${e}
-            .schema=${[hi.find((e) => e.name === "sun_entity")].filter(Boolean)}
+            .schema=${[gi.find((e) => e.name === "sun_entity")].filter(Boolean)}
             .computeLabel=${this._computeLabel}
             .computeHelper=${this._computeHelper}
             @value-changed=${this._valueChanged}
@@ -5352,13 +5510,13 @@ var gi = class extends D {
 	_computeHelper = (e) => e.description ? L(e.description) : "";
 	_renderConfigPreview() {
 		let e = { ...this._config };
-		return e.type ||= "custom:" + pi, Object.keys(e).forEach((t) => {
+		return e.type ||= "custom:" + mi, Object.keys(e).forEach((t) => {
 			(e[t] === void 0 || e[t] === "") && delete e[t];
 		}), Object.entries(e).map(([e, t]) => typeof t == "string" ? `${e}: "${t}"` : `${e}: ${t}`).join("\n");
 	}
 	_valueChanged(e) {
 		if (this._config ||= {
-			type: `custom:${pi}`,
+			type: `custom:${mi}`,
 			entity: "",
 			sun_entity: ""
 		}, e.type === "value-changed") {
@@ -5366,18 +5524,18 @@ var gi = class extends D {
 				...this._config,
 				...n,
 				...t,
-				type: "custom:" + pi
+				type: "custom:" + mi
 			};
 			Object.keys(r).forEach((e) => {
 				(r[e] === "" || r[e] === void 0) && delete r[e];
-			}), this._config = r, en(this, "config-changed", { config: this._config });
+			}), this._config = r, V(this, "config-changed", { config: this._config });
 		}
 	}
 };
 //#endregion
 //#region src/cards/forecast-diagram/forecast-diagram-card.ts
-M([k({ attribute: !1 }), j("design:type", Object)], gi.prototype, "hass", void 0), M([k({ attribute: !1 }), j("design:type", Object)], gi.prototype, "lovelace", void 0), M([k({ attribute: !1 }), j("design:type", Object)], gi.prototype, "_config", void 0), gi = M([O(mi), j("design:paramtypes", [])], gi), F({ loader: (e) => V[e] });
-var _i = class extends D {
+M([k({ attribute: !1 }), j("design:type", Object)], _i.prototype, "hass", void 0), M([k({ attribute: !1 }), j("design:type", Object)], _i.prototype, "lovelace", void 0), M([k({ attribute: !1 }), j("design:type", Object)], _i.prototype, "_config", void 0), _i = M([O(hi), j("design:paramtypes", [])], _i), F({ loader: (e) => H[e] });
+var vi = class extends D {
 	hass;
 	config;
 	_forecast = [];
@@ -5476,15 +5634,15 @@ var _i = class extends D {
 	}
 	static getStubConfig() {
 		return {
-			type: `custom:${pi}`,
+			type: `custom:${mi}`,
 			entity: ""
 		};
 	}
 	static getConfigElement() {
-		return document.createElement(mi);
+		return document.createElement(hi);
 	}
 	static getConfigSchema() {
-		return hi;
+		return gi;
 	}
 	getCardSize() {
 		return this.config?.grid_options?.rows ?? 3;
@@ -5514,10 +5672,10 @@ var _i = class extends D {
         ></daily-forecast-diagram>` : w`` : w`<div>Entity not found: ${this.config.entity}</div>`;
 	}
 };
-M([k({ attribute: !1 }), j("design:type", Object)], _i.prototype, "hass", void 0), M([k({ attribute: !1 }), j("design:type", Object)], _i.prototype, "config", void 0), M([A(), j("design:type", Array)], _i.prototype, "_forecast", void 0), M([A(), j("design:type", Array)], _i.prototype, "_hourlyForecast", void 0), M([A(), j("design:type", Object)], _i.prototype, "_forecastLoading", void 0), _i = M([O(pi), j("design:paramtypes", [])], _i);
+M([k({ attribute: !1 }), j("design:type", Object)], vi.prototype, "hass", void 0), M([k({ attribute: !1 }), j("design:type", Object)], vi.prototype, "config", void 0), M([A(), j("design:type", Array)], vi.prototype, "_forecast", void 0), M([A(), j("design:type", Array)], vi.prototype, "_hourlyForecast", void 0), M([A(), j("design:type", Object)], vi.prototype, "_forecastLoading", void 0), vi = M([O(mi), j("design:paramtypes", [])], vi);
 //#endregion
 //#region src/cards/animated-background/effects/lightning-flash-effect.ts
-var vi = () => T`
+var yi = () => T`
   <defs>
     <radialGradient id="lwStormFlashGradient" cx="50%" cy="20%" r="90%">
       <stop offset="0%" style="stop-color:#ffff88;stop-opacity:1" />
@@ -5556,27 +5714,27 @@ var vi = () => T`
   <use href="#lwLightningFlicker"/>
   <use href="#lwStormFlash"/>
   <use href="#lwThunderRumble"/>
-`, yi = (e, t, n) => {
+`, bi = (e, t, n) => {
 	if (!e) return w``;
 	let r = {
-		"clear-night": bi(n || 400),
-		cloudy: Si(n || 400),
-		fog: Ci(n || 400),
-		hail: wi(n || 400),
-		lightning: Oi(n || 400),
-		"lightning-rainy": ki(n || 400),
-		partlycloudy: t ? Mi(n || 400) : Ni(n || 400),
-		pouring: Ei(n || 400),
-		rainy: Ti(n || 400),
-		snowy: ji(n || 400),
-		"snowy-rainy": Ai(n || 400),
-		sunny: xi(),
-		windy: Di(n || 400),
-		"windy-variant": Di(n || 400),
-		exceptional: Pi(n || 400)
+		"clear-night": xi(n || 400),
+		cloudy: Ci(n || 400),
+		fog: wi(n || 400),
+		hail: Ti(n || 400),
+		lightning: ki(n || 400),
+		"lightning-rainy": Ai(n || 400),
+		partlycloudy: t ? Ni(n || 400) : Pi(n || 400),
+		pouring: Di(n || 400),
+		rainy: Ei(n || 400),
+		snowy: Mi(n || 400),
+		"snowy-rainy": ji(n || 400),
+		sunny: Si(),
+		windy: Oi(n || 400),
+		"windy-variant": Oi(n || 400),
+		exceptional: Fi(n || 400)
 	};
 	return e ? r[e] : w``;
-}, bi = (e) => T`
+}, xi = (e) => T`
   <defs>
     <linearGradient id="moonGradient" x1="21.92" x2="38.52" y1="18.75" y2="47.52" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#86c3db"/>
@@ -5613,7 +5771,7 @@ var vi = () => T`
     `;
 })}
   </g>
-`, xi = () => T`
+`, Si = () => T`
   <defs>
     <linearGradient id="sunshineBlueGradient" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#4fc3f7" />
@@ -5635,7 +5793,7 @@ var vi = () => T`
       <animateTransform attributeName="transform" dur="45s" repeatCount="indefinite" type="rotate" values="0 32 32; 360 32 32"/>
     </path>
   </g>
-`, Si = (e) => T`
+`, Ci = (e) => T`
   <defs>
     <linearGradient id="background" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#a3bdc9ff" />
@@ -5654,7 +5812,7 @@ var vi = () => T`
   <!-- background -->
   <rect width="100%" height="80%" fill="url(#background)" />
   ${Q(e)}
-  `, Ci = (e) => T`
+  `, wi = (e) => T`
   <defs>
     <linearGradient id="background" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#a3bdc9ff" />
@@ -5683,7 +5841,7 @@ var vi = () => T`
   <!-- background -->
   <rect width="100%" height="80%" fill="url(#background)" />
   ${Q(e)}
-  `, wi = (e) => T`
+  `, Ti = (e) => T`
   <defs>
     <linearGradient id="hailBackground" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#9eb7c6" />
@@ -5725,7 +5883,7 @@ var vi = () => T`
   </g>
   `;
 })}
-  `, Ti = (e) => T`
+  `, Ei = (e) => T`
   <defs>
     <linearGradient id="background" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#3580a39c" />
@@ -5765,7 +5923,7 @@ var vi = () => T`
   
   `;
 T`<g transform="translate(168,-30) scale(3)"><path fill="#f3f7fe" stroke="#e6effc" stroke-miterlimit="10" stroke-width=".5" d="M46.5 31.5h-.32a10.49 10.49 0 00-19.11-8 7 7 0 00-10.57 6 7.21 7.21 0 00.1 1.14A7.5 7.5 0 0018 45.5a4.19 4.19 0 00.5 0v0h28a7 7 0 000-14z"/><circle cx="24" cy="50" r="2.2" fill="#9ac9e4"/><circle cx="32" cy="52" r="2.4" fill="#9ac9e4"/><circle cx="40" cy="50" r="2.2" fill="#9ac9e4"/></g>`;
-var Ei = (e) => T`
+var Di = (e) => T`
   <defs>
     <linearGradient id="extremeRainGradient" x1="22.56" x2="39.2" y1="21.96" y2="50.8" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#f3f7fe"/>
@@ -5799,7 +5957,7 @@ var Ei = (e) => T`
     </line>
     `;
 })}
-  `, Di = (e) => T`
+  `, Oi = (e) => T`
   <defs>
     <linearGradient id="windGradient" x1="22.56" x2="39.2" y1="21.96" y2="50.8" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#f3f7fe"/>
@@ -5834,7 +5992,7 @@ var Ei = (e) => T`
     </line>
     `;
 })}
-  `, Oi = (e) => T`
+  `, ki = (e) => T`
   <defs>
     <linearGradient id="background" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#2e414aff" />
@@ -5866,8 +6024,8 @@ var Ei = (e) => T`
    ${Q(e)}
    
   <!-- Lightning flash effect that illuminates the entire background (full-size overlay) -->
-  ${vi()}
-  `, ki = (e) => T`
+  ${yi()}
+  `, Ai = (e) => T`
   <defs>
     <linearGradient id="b" x1="22.56" x2="39.2" y1="21.96" y2="50.8" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#f3f7fe"/>
@@ -5905,7 +6063,7 @@ var Ei = (e) => T`
   ${Q(e)}
   
   <!-- Lightning flash effect for rainy thunderstorms -->
-  ${vi()}
+  ${yi()}
   `, Q = (e) => T`
 ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
 	let t = Math.floor(Math.random() * 100), n = Math.floor(Math.random() * 10), r = (t - 50) / 5 + e * Math.floor(Math.random() * 25), i = e * 100 + n, a = Math.floor(Math.random() * 2) + 1, o = 1 + Math.random() * 1, s = 44 + Math.floor(Math.random() * 90);
@@ -5918,7 +6076,7 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
     </g>
     `;
 })}
-  `, Ai = (e) => T`
+  `, ji = (e) => T`
   <defs>
     <linearGradient id="sleetGradient" x1="22.56" x2="39.2" y1="21.96" y2="50.8" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#f3f7fe"/>
@@ -5939,7 +6097,7 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
   </defs>
   
   ${Q(e)}
-  `, ji = (e) => T`
+  `, Mi = (e) => T`
   <defs>
     <linearGradient id="snowGradient" x1="22.56" x2="39.2" y1="21.96" y2="50.8" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#f3f7fe"/>
@@ -5972,7 +6130,7 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
   </defs>
   
   ${Q(e)}
-  `, Mi = (e) => T`
+  `, Ni = (e) => T`
   <defs>
     <linearGradient id="sunshineBlueGradient" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#4fc3f7" />
@@ -6010,7 +6168,7 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
     <use href="#sunIcon" x="200" y="50" width="100" height="100" opacity="0.9"/>
   </g>
   ${Q(e)}
-  `, Ni = (e) => T`
+  `, Pi = (e) => T`
   <defs>
     <linearGradient id="partlyCloudyNightGradient" x1="22.56" x2="39.2" y1="21.96" y2="50.8" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#f3f7fe"/>
@@ -6031,7 +6189,7 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
     <use href="#moonIcon" x="200" y="50" width="100" height="100" opacity="0.9"/>
   </g>
   ${Q(e)}
-  `, Pi = (e) => T`
+  `, Fi = (e) => T`
   <defs>
     <linearGradient id="hurricaneGradient" x1="22.56" x2="39.2" y1="21.96" y2="50.8" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#f3f7fe"/>
@@ -6047,7 +6205,7 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
   </defs>
   
   ${Q(e)}
-  `, Fi = `${tn}-animated-background-card`, Ii = `${Fi}-editor`, Li = [
+  `, Ii = `${en}-animated-background-card`, Li = `${Ii}-editor`, Ri = [
 	{
 		name: "entity",
 		required: !0,
@@ -6230,9 +6388,9 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
 M([k({ type: Array }), j("design:type", Array)], $.prototype, "hourlyForecast", void 0), M([k({ type: Boolean }), j("design:type", Object)], $.prototype, "forecastLoading", void 0), M([k({ type: Boolean }), j("design:type", Object)], $.prototype, "show_forecast", void 0), M([k({ type: Object }), j("design:type", Object)], $.prototype, "config", void 0), M([k({ type: Function }), j("design:type", Function)], $.prototype, "_t", void 0), M([k({ type: Function }), j("design:type", Function)], $.prototype, "getWeatherIcon", void 0), M([k({ type: Boolean }), j("design:type", Boolean)], $.prototype, "compact", void 0), M([k({ type: Number }), j("design:type", Number)], $.prototype, "maxHours", void 0), M([k({ type: Boolean }), j("design:type", Boolean)], $.prototype, "alignRight", void 0), $ = M([O("hourly-forecast-chart")], $);
 //#endregion
 //#region src/cards/animated-background/swissweather-bg-card.ts
-var Ri;
-F({ loader: (e) => V[e] }), console.log("🎯 About to apply @customElement decorator to SwissweatherCard (BG)"), console.log("🎯 customElements registry available:", !!customElements);
-var zi = class extends D {
+var zi;
+F({ loader: (e) => H[e] }), console.log("🎯 About to apply @customElement decorator to SwissweatherCard (BG)"), console.log("🎯 customElements registry available:", !!customElements);
+var Bi = class extends D {
 	hass;
 	config;
 	_tempEl;
@@ -7413,15 +7571,15 @@ var zi = class extends D {
 	}
 	static getStubConfig() {
 		return {
-			type: `custom:${Fi}`,
+			type: `custom:${Ii}`,
 			entity: ""
 		};
 	}
 	static getConfigElement() {
-		return document.createElement(Ii);
+		return document.createElement(Li);
 	}
 	static getConfigSchema() {
-		return Li;
+		return Ri;
 	}
 	updated(e) {
 		if (super.updated(e), this.hass && this.config?.entity) {
@@ -7456,7 +7614,7 @@ var zi = class extends D {
                       xmlns:xlink="http://www.w3.org/1999/xlink"
                       preserveAspectRatio="xMidYMid slice"
                     >
-                      ${a > 0 ? yi(r, i, a) : T``}
+                      ${a > 0 ? bi(r, i, a) : T``}
                     </svg>
                   </div>`}
               ${l && this.config.show_day_temps !== !1 ? w`
@@ -7495,7 +7653,7 @@ var zi = class extends D {
                         .alignRight=${!0}
                         ._t=${B}
                         .getWeatherIcon=${ci}
-                        .formatDate=${sn}
+                        .formatDate=${on}
                       ></daily-forecast-chart>
                     </div>
                   ` : w``}
@@ -7751,8 +7909,8 @@ var zi = class extends D {
 };
 //#endregion
 //#region src/cards/animated-background/swissweather-bg-card-editor.ts
-M([k({ attribute: !1 }), j("design:type", Object)], zi.prototype, "hass", void 0), M([k({ attribute: !1 }), j("design:type", Object)], zi.prototype, "config", void 0), M([Ue(".temperature"), j("design:type", typeof (Ri = typeof HTMLElement < "u" && HTMLElement) == "function" ? Ri : Object)], zi.prototype, "_tempEl", void 0), M([A(), j("design:type", Array)], zi.prototype, "_forecast", void 0), M([A(), j("design:type", Array)], zi.prototype, "_hourly", void 0), zi = M([O(Fi)], zi), console.log("✅ SwissWeatherCard (animated Background) fully loaded and registered"), F({ loader: (e) => V[e] });
-var Bi = class extends D {
+M([k({ attribute: !1 }), j("design:type", Object)], Bi.prototype, "hass", void 0), M([k({ attribute: !1 }), j("design:type", Object)], Bi.prototype, "config", void 0), M([Ue(".temperature"), j("design:type", typeof (zi = typeof HTMLElement < "u" && HTMLElement) == "function" ? zi : Object)], Bi.prototype, "_tempEl", void 0), M([A(), j("design:type", Array)], Bi.prototype, "_forecast", void 0), M([A(), j("design:type", Array)], Bi.prototype, "_hourly", void 0), Bi = M([O(Ii)], Bi), console.log("✅ SwissWeatherCard (animated Background) fully loaded and registered"), F({ loader: (e) => H[e] });
+var Vi = class extends D {
 	hass;
 	lovelace;
 	_config;
@@ -7909,7 +8067,7 @@ var Bi = class extends D {
 			show_day_temps: typeof this._config?.show_day_temps == "boolean" ? this._config.show_day_temps : void 0,
 			temperature_font_size: typeof this._config?.temperature_font_size == "number" ? this._config.temperature_font_size : void 0,
 			photo_mode: typeof this._config?.photo_mode == "boolean" ? this._config.photo_mode : void 0
-		}, t = Li.find((e) => e.name === "forecast_mode"), n = t ? {
+		}, t = Ri.find((e) => e.name === "forecast_mode"), n = t ? {
 			...t,
 			selector: {
 				...t.selector,
@@ -7947,9 +8105,9 @@ var Bi = class extends D {
             .hass=${this.hass}
             .data=${e}
             .schema=${[
-			Li.find((e) => e.name === "entity"),
-			Li.find((e) => e.name === "sun_entity"),
-			Li.find((e) => e.name === "temperature_font_size")
+			Ri.find((e) => e.name === "entity"),
+			Ri.find((e) => e.name === "sun_entity"),
+			Ri.find((e) => e.name === "temperature_font_size")
 		].filter(Boolean)}
             .computeLabel=${this._computeLabel}
             .computeHelper=${this._computeHelper}
@@ -7965,9 +8123,9 @@ var Bi = class extends D {
             .data=${e}
             .schema=${[
 			n,
-			Li.find((e) => e.name === "show_day_temps"),
-			Li.find((e) => e.name === "show_sun_times"),
-			Li.find((e) => e.name === "photo_mode")
+			Ri.find((e) => e.name === "show_day_temps"),
+			Ri.find((e) => e.name === "show_sun_times"),
+			Ri.find((e) => e.name === "photo_mode")
 		].filter(Boolean)}
             .computeLabel=${this._computeLabel}
             .computeHelper=${this._computeHelper}
@@ -7997,31 +8155,31 @@ var Bi = class extends D {
 	_computeHelper = (e) => e.description ? L(e.description) : "";
 	_renderConfigPreview() {
 		let e = { ...this._config };
-		return e.type ||= `custom:${Fi}`, Object.keys(e).forEach((t) => {
+		return e.type ||= `custom:${Ii}`, Object.keys(e).forEach((t) => {
 			(e[t] === void 0 || e[t] === "") && delete e[t];
 		}), Object.entries(e).map(([e, t]) => typeof t == "string" ? `${e}: "${t}"` : `${e}: ${t}`).join("\n");
 	}
 	_valueChanged(e) {
 		if (this._config ||= {
-			type: `custom:${Fi}`,
+			type: `custom:${Ii}`,
 			entity: ""
 		}, e.type === "value-changed") {
 			let t = {}, { ...n } = e.detail.value || {}, r = {
 				...this._config,
 				...n,
 				...t,
-				type: `custom:${Fi}`
+				type: `custom:${Ii}`
 			};
 			delete r.show_forecast, Object.keys(r).forEach((e) => {
 				(r[e] === "" || r[e] === void 0) && delete r[e];
-			}), this._config = r, en(this, "config-changed", { config: this._config });
+			}), this._config = r, V(this, "config-changed", { config: this._config });
 		}
 	}
 };
-M([k({ attribute: !1 }), j("design:type", Object)], Bi.prototype, "hass", void 0), M([k({ attribute: !1 }), j("design:type", Object)], Bi.prototype, "lovelace", void 0), M([k({ attribute: !1 }), j("design:type", Object)], Bi.prototype, "_config", void 0), Bi = M([O(Ii), j("design:paramtypes", [])], Bi);
+M([k({ attribute: !1 }), j("design:type", Object)], Vi.prototype, "hass", void 0), M([k({ attribute: !1 }), j("design:type", Object)], Vi.prototype, "lovelace", void 0), M([k({ attribute: !1 }), j("design:type", Object)], Vi.prototype, "_config", void 0), Vi = M([O(Li), j("design:paramtypes", [])], Vi);
 //#endregion
 //#region src/cards/hourly-charts/const.ts
-var Vi = `${tn}-temperature-card`, Hi = `${Vi}-editor`, Ui = `${tn}-precipitation-card`, Wi = `${Ui}-editor`, Gi = `${tn}-sunshine-card`, Ki = `${Gi}-editor`, qi = `${tn}-wind-card`, Ji = `${qi}-editor`, Yi = [{
+var Hi = `${en}-temperature-card`, Ui = `${Hi}-editor`, Wi = `${en}-precipitation-card`, Gi = `${Wi}-editor`, Ki = `${en}-sunshine-card`, qi = `${Ki}-editor`, Ji = `${en}-wind-card`, Yi = `${Ji}-editor`, Xi = [{
 	name: "entity",
 	required: !0,
 	selector: { entity: { domain: "weather" } },
@@ -8036,7 +8194,7 @@ var Vi = `${tn}-temperature-card`, Hi = `${Vi}-editor`, Ui = `${tn}-precipitatio
 		mode: "box"
 	} },
 	description: "config.descr.forecast_hours"
-}], Xi = [{
+}], Zi = [{
 	name: "entity",
 	required: !0,
 	selector: { entity: { domain: "weather" } },
@@ -8051,7 +8209,7 @@ var Vi = `${tn}-temperature-card`, Hi = `${Vi}-editor`, Ui = `${tn}-precipitatio
 		mode: "box"
 	} },
 	description: "config.descr.forecast_hours"
-}], Zi = [
+}], Qi = [
 	{
 		name: "entity",
 		required: !0,
@@ -8081,7 +8239,7 @@ var Vi = `${tn}-temperature-card`, Hi = `${Vi}-editor`, Ui = `${tn}-precipitatio
 		selector: { entity: { domain: "sensor" } },
 		description: "config.descr.sunshine_entity"
 	}
-], Qi = class extends D {
+], $i = class extends D {
 	hass;
 	config;
 	_hourlyForecast = [];
@@ -8128,8 +8286,8 @@ var Vi = `${tn}-temperature-card`, Hi = `${Vi}-editor`, Ui = `${tn}-precipitatio
 };
 //#endregion
 //#region src/cards/hourly-charts/temperature-card.ts
-M([k({ attribute: !1 }), j("design:type", Object)], Qi.prototype, "hass", void 0), M([k({ attribute: !1 }), j("design:type", Object)], Qi.prototype, "config", void 0), M([A(), j("design:type", Array)], Qi.prototype, "_hourlyForecast", void 0), M([A(), j("design:type", Object)], Qi.prototype, "_forecastLoading", void 0), F({ loader: (e) => V[e] });
-var $i = class extends Qi {
+M([k({ attribute: !1 }), j("design:type", Object)], $i.prototype, "hass", void 0), M([k({ attribute: !1 }), j("design:type", Object)], $i.prototype, "config", void 0), M([A(), j("design:type", Array)], $i.prototype, "_hourlyForecast", void 0), M([A(), j("design:type", Object)], $i.prototype, "_forecastLoading", void 0), F({ loader: (e) => H[e] });
+var ea = class extends $i {
 	static get styles() {
 		return s`
       :host {
@@ -8173,15 +8331,15 @@ var $i = class extends Qi {
 	}
 	static getStubConfig() {
 		return {
-			type: `custom:${Vi}`,
+			type: `custom:${Hi}`,
 			entity: ""
 		};
 	}
 	static getConfigElement() {
-		return document.createElement(Hi);
+		return document.createElement(Ui);
 	}
 	static getConfigSchema() {
-		return Yi;
+		return Xi;
 	}
 	getCardSize() {
 		return this.config?.grid_options?.rows ?? 3;
@@ -8218,8 +8376,8 @@ var $i = class extends Qi {
 };
 //#endregion
 //#region src/cards/hourly-charts/temperature-card-editor.ts
-$i = M([O(Vi)], $i), F({ loader: (e) => V[e] });
-var ea = class extends D {
+ea = M([O(Hi)], ea), F({ loader: (e) => H[e] });
+var ta = class extends D {
 	hass;
 	_config;
 	setConfig(e) {
@@ -8261,7 +8419,7 @@ var ea = class extends D {
         <ha-form
           .hass=${this.hass}
           .data=${e}
-          .schema=${Yi}
+          .schema=${Xi}
           .computeLabel=${(e) => ({
 			entity: L("config.entity"),
 			forecast_hours: L("config.forecast_hours") ?? "Forecast hours"
@@ -8273,20 +8431,20 @@ var ea = class extends D {
 	}
 	_valueChanged(e) {
 		this._config ||= {
-			type: `custom:${Vi}`,
+			type: `custom:${Hi}`,
 			entity: ""
 		};
 		let t = {
 			...this._config,
 			...e.detail.value
 		};
-		en(this, "config-changed", { config: t });
+		V(this, "config-changed", { config: t });
 	}
 };
 //#endregion
 //#region src/cards/hourly-charts/precipitation-card.ts
-M([k({ attribute: !1 }), j("design:type", Object)], ea.prototype, "hass", void 0), M([k({ attribute: !1 }), j("design:type", Object)], ea.prototype, "_config", void 0), ea = M([O(Hi)], ea), F({ loader: (e) => V[e] });
-var ta = class extends Qi {
+M([k({ attribute: !1 }), j("design:type", Object)], ta.prototype, "hass", void 0), M([k({ attribute: !1 }), j("design:type", Object)], ta.prototype, "_config", void 0), ta = M([O(Ui)], ta), F({ loader: (e) => H[e] });
+var na = class extends $i {
 	static get styles() {
 		return s`
       :host {
@@ -8330,15 +8488,15 @@ var ta = class extends Qi {
 	}
 	static getStubConfig() {
 		return {
-			type: `custom:${Ui}`,
+			type: `custom:${Wi}`,
 			entity: ""
 		};
 	}
 	static getConfigElement() {
-		return document.createElement(Wi);
+		return document.createElement(Gi);
 	}
 	static getConfigSchema() {
-		return Yi;
+		return Xi;
 	}
 	getCardSize() {
 		return this.config?.grid_options?.rows ?? 3;
@@ -8375,8 +8533,8 @@ var ta = class extends Qi {
 };
 //#endregion
 //#region src/cards/hourly-charts/precipitation-card-editor.ts
-ta = M([O(Ui)], ta), F({ loader: (e) => V[e] });
-var na = class extends D {
+na = M([O(Wi)], na), F({ loader: (e) => H[e] });
+var ra = class extends D {
 	hass;
 	_config;
 	setConfig(e) {
@@ -8418,7 +8576,7 @@ var na = class extends D {
         <ha-form
           .hass=${this.hass}
           .data=${e}
-          .schema=${Yi}
+          .schema=${Xi}
           .computeLabel=${(e) => ({
 			entity: L("config.entity"),
 			forecast_hours: L("config.forecast_hours") ?? "Forecast hours"
@@ -8430,20 +8588,20 @@ var na = class extends D {
 	}
 	_valueChanged(e) {
 		this._config ||= {
-			type: `custom:${Ui}`,
+			type: `custom:${Wi}`,
 			entity: ""
 		};
 		let t = {
 			...this._config,
 			...e.detail.value
 		};
-		en(this, "config-changed", { config: t });
+		V(this, "config-changed", { config: t });
 	}
 };
 //#endregion
 //#region src/cards/hourly-charts/sunshine-card.ts
-M([k({ attribute: !1 }), j("design:type", Object)], na.prototype, "hass", void 0), M([k({ attribute: !1 }), j("design:type", Object)], na.prototype, "_config", void 0), na = M([O(Wi)], na), F({ loader: (e) => V[e] });
-var ra = class extends Qi {
+M([k({ attribute: !1 }), j("design:type", Object)], ra.prototype, "hass", void 0), M([k({ attribute: !1 }), j("design:type", Object)], ra.prototype, "_config", void 0), ra = M([O(Gi)], ra), F({ loader: (e) => H[e] });
+var ia = class extends $i {
 	static get styles() {
 		return s`
       :host {
@@ -8487,15 +8645,15 @@ var ra = class extends Qi {
 	}
 	static getStubConfig() {
 		return {
-			type: `custom:${Gi}`,
+			type: `custom:${Ki}`,
 			entity: ""
 		};
 	}
 	static getConfigElement() {
-		return document.createElement(Ki);
+		return document.createElement(qi);
 	}
 	static getConfigSchema() {
-		return Zi;
+		return Qi;
 	}
 	getCardSize() {
 		return this.config?.grid_options?.rows ?? 3;
@@ -8533,8 +8691,8 @@ var ra = class extends Qi {
 };
 //#endregion
 //#region src/cards/hourly-charts/sunshine-card-editor.ts
-ra = M([O(Gi)], ra), F({ loader: (e) => V[e] });
-var ia = class extends D {
+ia = M([O(Ki)], ia), F({ loader: (e) => H[e] });
+var aa = class extends D {
 	hass;
 	_config;
 	setConfig(e) {
@@ -8578,7 +8736,7 @@ var ia = class extends D {
         <ha-form
           .hass=${this.hass}
           .data=${e}
-          .schema=${Zi}
+          .schema=${Qi}
           .computeLabel=${(e) => ({
 			entity: L("config.entity"),
 			forecast_hours: L("config.forecast_hours") ?? "Forecast hours",
@@ -8592,20 +8750,20 @@ var ia = class extends D {
 	}
 	_valueChanged(e) {
 		this._config ||= {
-			type: `custom:${Gi}`,
+			type: `custom:${Ki}`,
 			entity: ""
 		};
 		let t = {
 			...this._config,
 			...e.detail.value
 		};
-		en(this, "config-changed", { config: t });
+		V(this, "config-changed", { config: t });
 	}
 };
 //#endregion
 //#region src/cards/hourly-charts/wind-card.ts
-M([k({ attribute: !1 }), j("design:type", Object)], ia.prototype, "hass", void 0), M([k({ attribute: !1 }), j("design:type", Object)], ia.prototype, "_config", void 0), ia = M([O(Ki)], ia), F({ loader: (e) => V[e] });
-var aa = class extends Qi {
+M([k({ attribute: !1 }), j("design:type", Object)], aa.prototype, "hass", void 0), M([k({ attribute: !1 }), j("design:type", Object)], aa.prototype, "_config", void 0), aa = M([O(qi)], aa), F({ loader: (e) => H[e] });
+var oa = class extends $i {
 	static get styles() {
 		return s`
       :host {
@@ -8649,15 +8807,15 @@ var aa = class extends Qi {
 	}
 	static getStubConfig() {
 		return {
-			type: `custom:${qi}`,
+			type: `custom:${Ji}`,
 			entity: ""
 		};
 	}
 	static getConfigElement() {
-		return document.createElement(Ji);
+		return document.createElement(Yi);
 	}
 	static getConfigSchema() {
-		return Xi;
+		return Zi;
 	}
 	getCardSize() {
 		return this.config?.grid_options?.rows ?? 3;
@@ -8692,8 +8850,8 @@ var aa = class extends Qi {
 };
 //#endregion
 //#region src/cards/hourly-charts/wind-card-editor.ts
-aa = M([O(qi)], aa), F({ loader: (e) => V[e] });
-var oa = class extends D {
+oa = M([O(Ji)], oa), F({ loader: (e) => H[e] });
+var sa = class extends D {
 	hass;
 	_config;
 	setConfig(e) {
@@ -8735,7 +8893,7 @@ var oa = class extends D {
         <ha-form
           .hass=${this.hass}
           .data=${e}
-          .schema=${Xi}
+          .schema=${Zi}
           .computeLabel=${(e) => ({
 			entity: L("config.entity"),
 			forecast_hours: L("config.forecast_hours") ?? "Forecast hours"
@@ -8747,52 +8905,434 @@ var oa = class extends D {
 	}
 	_valueChanged(e) {
 		this._config ||= {
-			type: `custom:${qi}`,
+			type: `custom:${Ji}`,
 			entity: ""
 		};
 		let t = {
 			...this._config,
 			...e.detail.value
 		};
-		en(this, "config-changed", { config: t });
+		V(this, "config-changed", { config: t });
 	}
 };
-M([k({ attribute: !1 }), j("design:type", Object)], oa.prototype, "hass", void 0), M([k({ attribute: !1 }), j("design:type", Object)], oa.prototype, "_config", void 0), oa = M([O(Ji)], oa), console.log("📦 SwissWeather Card TypeScript file imported"), setTimeout(() => {
+M([k({ attribute: !1 }), j("design:type", Object)], sa.prototype, "hass", void 0), M([k({ attribute: !1 }), j("design:type", Object)], sa.prototype, "_config", void 0), sa = M([O(Yi)], sa);
+//#endregion
+//#region src/cards/warnings/const.ts
+var ca = `${en}-warning-card`, la = `${ca}-editor`, ua = [
+	{
+		name: "primary_warning_entity",
+		required: !1,
+		selector: { entity: { domain: "sensor" } },
+		description: "config.descr.primary_warning_entity"
+	},
+	{
+		name: "secondary_warning_entity",
+		required: !1,
+		selector: { entity: { domain: "sensor" } },
+		description: "config.descr.secondary_warning_entity"
+	},
+	{
+		name: "tertiary_warning_entity",
+		required: !1,
+		selector: { entity: { domain: "sensor" } },
+		description: "config.descr.tertiary_warning_entity"
+	},
+	{
+		name: "warning_entity",
+		required: !1,
+		selector: { entity: { domain: "sensor" } },
+		description: "config.descr.warning_entity"
+	}
+], da;
+F({ loader: (e) => H[e] });
+var fa = class extends D {
+	hass;
+	config;
+	_openWarnings = {};
+	static get styles() {
+		return s`
+      :host {
+        display: block;
+        background: var(--ha-card-background, var(--card-background-color, #fff));
+        border-radius: 16px;
+        padding: 16px;
+        box-shadow: var(--ha-card-box-shadow, 0 4px 20px rgba(0, 0, 0, 0.1));
+        font-family: var(
+          --primary-font-family,
+          -apple-system,
+          BlinkMacSystemFont,
+          'Segoe UI',
+          Roboto,
+          sans-serif
+        );
+        color: var(--primary-text-color, #fff);
+      }
+
+      .warning-section {
+        border: 1px solid var(--warning-border-color, #ffeaa7);
+        border-radius: 12px;
+        padding: 15px;
+        margin-bottom: 8px;
+      }
+
+      .warning-section.danger {
+        background: linear-gradient(90deg, #f8d7da 0%, #f5c6cb 100%);
+        border-color: var(--danger-border-color, #f1aeb5);
+      }
+
+      .warning-section.severe {
+        background: linear-gradient(90deg, #ffeaa7 0%, #fdcb6e 100%);
+        border-color: var(--severe-border-color, #e17055);
+      }
+
+      .no-warnings {
+        opacity: 0.6;
+        font-size: 14px;
+        text-align: center;
+        padding: 8px 0;
+      }
+    `;
+	}
+	setConfig(e) {
+		this.config = e;
+	}
+	getCardSize() {
+		return 2;
+	}
+	static getStubConfig() {
+		return {
+			type: `custom:${ca}`,
+			primary_warning_entity: "",
+			secondary_warning_entity: "",
+			tertiary_warning_entity: ""
+		};
+	}
+	static getConfigElement() {
+		return document.createElement(la);
+	}
+	static getConfigSchema() {
+		return ua;
+	}
+	_getEntityState(e) {
+		return this.hass?.states[e];
+	}
+	_rankedIconColorToCSS(e) {
+		return {
+			yellow: "#f6c90e",
+			orange: "#e17055",
+			red: "#dc143c",
+			violet: "#8e44ad",
+			gray: "var(--disabled-text-color, #9e9e9e)"
+		}[e?.toLowerCase()] ?? "var(--primary-text-color, #fff)";
+	}
+	_renderRankedSlot(e, t) {
+		let n = e.attributes;
+		if (!n.has_warning) return null;
+		let r = this._rankedIconColorToCSS(n.icon_color), i = n.icon || "mdi:alert", a = n.warning_type || n.level_name || e.state, o = !!this._openWarnings[t], s = !!(n.html_text || n.text || n.links?.length), c = t === "primary" && typeof n.additional_warning_count == "number" ? n.additional_warning_count : 0, l = (e) => {
+			this._openWarnings = {
+				...this._openWarnings,
+				[e]: !this._openWarnings[e]
+			}, this.requestUpdate();
+		};
+		return w`
+      <li style="margin-bottom: 12px;">
+        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+          <ha-icon icon="${i}" style="color: ${r}; flex-shrink: 0;"></ha-icon>
+          <span style="font-weight: bold;">${a}</span>
+          ${n.level_name ? w`<span style="font-size: 12px; opacity: 0.8;">(${n.level_name})</span>` : ""}
+          ${c > 0 ? w`<span style="font-size: 12px; opacity: 0.75; margin-left: 4px;">
+                +${c}
+              </span>` : ""}
+          ${s ? w`
+                <button
+                  @click=${() => l(t)}
+                  style="background:none;border:none;cursor:pointer;color:var(--primary-text-color,#fff);font-size:16px;margin-left:auto;"
+                  title="${L(o ? "collapse" : "expand")}"
+                  aria-label="${L(o ? "collapse" : "expand")}"
+                >
+                  <ha-icon icon="${o ? "mdi:chevron-up" : "mdi:chevron-down"}"></ha-icon>
+                </button>
+              ` : ""}
+        </div>
+        ${o ? w`
+              <div style="margin-top: 6px; font-size: 13px; opacity: 0.85;">
+                ${n.valid_from || n.valid_to ? w`
+                      <div style="margin-bottom: 4px;">
+                        ${n.valid_from ? w`<strong>${L("valid_from")}: </strong
+                                >${new Date(n.valid_from).toLocaleString()}&nbsp;` : ""}
+                        ${n.valid_to ? w`<strong>${L("valid_to")}: </strong
+                                >${new Date(n.valid_to).toLocaleString()}` : ""}
+                      </div>
+                    ` : ""}
+                ${n.html_text ? w`<div
+                      style="line-height: 1.4; margin-bottom: 4px;"
+                      .innerHTML="${n.html_text}"
+                    ></div>` : n.text ? w`<div style="line-height: 1.4; margin-bottom: 4px;">${n.text}</div>` : ""}
+                ${n.links?.length ? w`
+                      <div style="display: flex; flex-direction: column; gap: 2px;">
+                        ${n.links.map((e) => w`
+                            <a
+                              href="${e.url.startsWith("http") ? e.url : e.alt_url ?? e.url}"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style="color: var(--primary-text-color, #fff); text-decoration: underline; display: flex; align-items: center; gap: 4px;"
+                            >
+                              <ha-icon icon="mdi:link-variant" style="font-size: 14px;"></ha-icon>
+                              ${e.text}
+                            </a>
+                          `)}
+                      </div>
+                    ` : ""}
+              </div>
+            ` : ""}
+      </li>
+    `;
+	}
+	_renderRankedWarnings(e, t, n) {
+		let r = e.attributes;
+		if (!r.has_warning) return w``;
+		let i = {
+			red: "danger",
+			violet: "danger",
+			orange: "severe",
+			yellow: "warning"
+		}[r.icon_color?.toLowerCase()] ?? "info", a = [
+			this._renderRankedSlot(e, "primary"),
+			t ? this._renderRankedSlot(t, "secondary") : null,
+			n ? this._renderRankedSlot(n, "tertiary") : null
+		].filter(Boolean);
+		return w`
+      <div class="warning-section ${i}">
+        <strong>${L("weather_warning")}</strong>
+        <ul style="margin: 6px 0 0 0; padding-left: 18px;">
+          ${a}
+        </ul>
+      </div>
+    `;
+	}
+	_renderLegacyWarnings(e) {
+		let t = [];
+		if (e.attributes.warning_levels && Array.isArray(e.attributes.warning_levels)) for (let n = 0; n < e.attributes.warning_levels.length; n++) t.push({
+			id: `warning_${n}`,
+			title: e.attributes.warning_levels[n],
+			level: e.attributes.warning_levels[n],
+			type: e.attributes.warning_types[n],
+			description: e.attributes.warning_texts[n],
+			valid_from: e.attributes.warning_valid_from[n],
+			valid_to: e.attributes.warning_valid_to[n],
+			link: e.attributes.warning_links[n],
+			regions: [],
+			phenomena: []
+		});
+		if (t.length === 0) return w``;
+		let n = (e) => e >= 4 ? "#dc143c" : e >= 3 ? "#e17055" : e >= 2 ? "#f6c90e" : "var(--primary-text-color, #fff)", r = {
+			storm: "mdi:weather-lightning",
+			thunderstorms: "mdi:weather-lightning-rainy",
+			rain: "mdi:weather-pouring",
+			snow: "mdi:snowflake",
+			wind: "mdi:weather-windy",
+			fog: "mdi:weather-fog",
+			heat: "mdi:weather-sunny-alert",
+			heat_waves: "mdi:thermometer-high",
+			cold: "mdi:snowflake-alert",
+			frost: "mdi:snowflake-thermometer",
+			thaw: "mdi:thermometer-high",
+			flood: "mdi:waves-arrow-up",
+			drought: "mdi:water-off",
+			avalanches: "mdi:snowflake-alert",
+			slippery_roads: "mdi:car-brake-alert",
+			forest_fires: "mdi:fire-alert",
+			earthquakes: "mdi:pulse",
+			default: "mdi:alert"
+		}, i = Math.max(...t.map((e) => e.level || 0)), a = i >= 4 ? "danger" : i >= 3 ? "severe" : i >= 2 ? "warning" : "info", o = (e) => {
+			this._openWarnings = {
+				...this._openWarnings,
+				[e]: !this._openWarnings[e]
+			}, this.requestUpdate();
+		};
+		return w`
+      <div class="warning-section ${a}">
+        <strong>${L("weather_warning")}</strong>
+        <ul style="margin: 6px 0 0 0; padding-left: 18px;">
+          ${t.map((e) => w`
+              <li style="margin-bottom: 12px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <ha-icon
+                    icon="${r[e.type?.toLowerCase?.()] || r.default}"
+                    style="color: ${n(e.level)};"
+                  ></ha-icon>
+                  <span style="font-weight: bold;">${e.title}</span>
+                  ${e.link ? w`
+                        <a
+                          href="${e.link}"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style="color: var(--primary-text-color, #fff); text-decoration: underline; display: flex; align-items: center;"
+                        >
+                          <ha-icon icon="mdi:link-variant" style="font-size: 16px;"></ha-icon>
+                        </a>
+                      ` : ""}
+                  <button
+                    @click=${() => o(e.id)}
+                    style="background:none;border:none;cursor:pointer;color:var(--primary-text-color,#fff);font-size:16px;"
+                    title="${this._openWarnings[e.id] ? L("collapse") : L("expand")}"
+                    aria-label="${this._openWarnings[e.id] ? L("collapse") : L("expand")}"
+                  >
+                    <ha-icon
+                      icon="${this._openWarnings[e.id] ? "mdi:chevron-up" : "mdi:chevron-down"}"
+                    ></ha-icon>
+                  </button>
+                </div>
+                ${this._openWarnings[e.id] && e.description ? w`
+                      <div style="margin-top: 4px;">
+                        <strong>${L("valid_from")}: </strong>
+                        ${e.valid_from ? new Date(e.valid_from).toLocaleString() : L("unknown")}
+                        <strong>${L("valid_to")}: </strong>
+                        ${e.valid_to ? new Date(e.valid_to).toLocaleString() : L("unknown")}
+                      </div>
+                      <div
+                        style="font-size: 14px; line-height: 1.4; margin-top: 4px;"
+                        .innerHTML="${Y.parse(e.description || "")}"
+                      ></div>
+                    ` : ""}
+              </li>
+            `)}
+        </ul>
+      </div>
+    `;
+	}
+	render() {
+		if (!this.hass || !this.config) return w``;
+		I((this.hass.selectedLanguage || this.hass.language || "en").substring(0, 2));
+		let e = this.config.primary_warning_entity ? this._getEntityState(this.config.primary_warning_entity) : null, t = this.config.secondary_warning_entity ? this._getEntityState(this.config.secondary_warning_entity) : null, n = this.config.tertiary_warning_entity ? this._getEntityState(this.config.tertiary_warning_entity) : null, r = this.config.warning_entity ? this._getEntityState(this.config.warning_entity) : null;
+		if (e && e.attributes?.has_warning !== void 0) {
+			let r = this._renderRankedWarnings(e, t, n);
+			return e.attributes.has_warning ? r : w`<div class="no-warnings">${L("warnings_none")}</div>`;
+		}
+		return r ? this._renderLegacyWarnings(r) : w`<div class="no-warnings">${L("warnings_none")}</div>`;
+	}
+};
+//#endregion
+//#region src/cards/warnings/warning-card-editor.ts
+M([k({ attribute: !1 }), j("design:type", Object)], fa.prototype, "hass", void 0), M([k({ attribute: !1 }), j("design:type", Object)], fa.prototype, "config", void 0), M([A(), j("design:type", typeof (da = typeof Record < "u" && Record) == "function" ? da : Object)], fa.prototype, "_openWarnings", void 0), fa = M([O(ca)], fa), F({ loader: (e) => H[e] });
+var pa = class extends D {
+	hass;
+	_config;
+	setConfig(e) {
+		this._config = { ...e }, this.requestUpdate();
+	}
+	static get styles() {
+		return s`
+      .card-config {
+        padding: 16px;
+      }
+      .header {
+        margin-bottom: 16px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--card-divider-color);
+      }
+      .header-title {
+        font-size: 20px;
+        font-weight: bold;
+        color: var(--primary-text-color, #dc143c);
+      }
+      .section-label {
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--secondary-text-color);
+        margin: 16px 0 4px;
+      }
+      ha-form {
+        display: block;
+      }
+    `;
+	}
+	render() {
+		if (!this.hass) return w`<div>Loading...</div>`;
+		I((this.hass.selectedLanguage || this.hass.language || "en").substring(0, 2));
+		let e = {
+			primary_warning_entity: this._config?.primary_warning_entity,
+			secondary_warning_entity: this._config?.secondary_warning_entity,
+			tertiary_warning_entity: this._config?.tertiary_warning_entity,
+			warning_entity: this._config?.warning_entity
+		};
+		return w`
+      <div class="card-config">
+        <div class="header">
+          <div class="header-title">⚠️ SwissWeather Warning Card</div>
+        </div>
+        <ha-form
+          .hass=${this.hass}
+          .data=${e}
+          .schema=${ua}
+          .computeLabel=${(e) => ({
+			primary_warning_entity: L("config.primary_warning_entity"),
+			secondary_warning_entity: L("config.secondary_warning_entity"),
+			tertiary_warning_entity: L("config.tertiary_warning_entity"),
+			warning_entity: L("config.warning_entity")
+		})[e.name] ?? e.name}
+          .computeHelper=${(e) => ({
+			primary_warning_entity: L("config.descr.primary_warning_entity"),
+			secondary_warning_entity: L("config.descr.secondary_warning_entity"),
+			tertiary_warning_entity: L("config.descr.tertiary_warning_entity"),
+			warning_entity: L("config.descr.warning_entity")
+		})[e.name] ?? ""}
+          @value-changed=${this._valueChanged}
+        ></ha-form>
+      </div>
+    `;
+	}
+	_valueChanged(e) {
+		this._config ||= { type: `custom:${ca}` };
+		let t = {
+			...this._config,
+			...e.detail.value
+		};
+		V(this, "config-changed", { config: t });
+	}
+};
+M([k({ attribute: !1 }), j("design:type", Object)], pa.prototype, "hass", void 0), M([k({ attribute: !1 }), j("design:type", Object)], pa.prototype, "_config", void 0), pa = M([O(la)], pa), console.log("📦 SwissWeather Card TypeScript file imported"), setTimeout(() => {
 	let e = customElements.get("swissweather-card"), t = customElements.get("swissweather-card-editor");
 	console.log("🔍 SwissWeather Card registration status:", e ? "SUCCESS ✅" : "FAILED ❌"), console.log("🔍 SwissWeather Editor registration status:", t ? "SUCCESS ✅" : "FAILED ❌"), e ? (console.log("🔍 Element constructor:", e), console.log("🔍 Element prototype:", e.prototype)) : (console.error("❌ Custom element \"swissweather-card\" was not registered!"), console.log("🔍 Checking custom elements registry..."));
 }, 100), console.log("📦 SwissWeather Card module loading started..."), console.log("📦 Browser support check:", {
 	customElements: !!window.customElements,
 	hasReflect: !!window.Reflect
 }), di({
-	type: nn,
+	type: tn,
 	name: "SwissWeather Diagram Card",
 	description: "A comprehensive weather card for Home Assistant with Swiss weather warnings and forecasts"
 }), di({
-	type: pi,
+	type: mi,
 	name: "SwissWeather Daily Forecast Diagram Card",
 	description: "A card to show daily weather forecast as diagram"
 }), di({
-	type: Fi,
+	type: Ii,
 	name: "SwissWeather Animated Background Card (Experimental) Editor",
 	description: "the SwissWeather Animated Background Card (Experimental)"
 }), di({
-	type: Vi,
+	type: Hi,
 	name: "SwissWeather Temperature Chart Card",
 	description: "Hourly temperature forecast chart as standalone card"
 }), di({
-	type: Ui,
+	type: Wi,
 	name: "SwissWeather Precipitation Chart Card",
 	description: "Hourly precipitation forecast chart as standalone card"
 }), di({
-	type: Gi,
+	type: Ki,
 	name: "SwissWeather Sunshine Chart Card",
 	description: "Hourly sunshine duration chart as standalone card"
 }), di({
-	type: qi,
+	type: Ji,
 	name: "SwissWeather Wind Chart Card",
 	description: "Hourly wind speed & direction chart as standalone card"
+}), di({
+	type: ca,
+	name: "SwissWeather Warning Card",
+	description: "Standalone weather warning card supporting ranked and legacy warning models"
 }), console.log(`%c 📦 SwissWeather Card module loading completed - version: ${e}`, "color: #ef5350; font-weight: 700;");
 //#endregion
-export { N as DailyForecastChart, qe as DailyForecastDiagram, _i as ForecastDiagramCard, gi as ForecastDiagramCardEditor, We as ForecastTemperatureChart, ta as PrecipitationCard, na as PrecipitationCardEditor, Ge as PrecipitationChart, ra as SunshineCard, ia as SunshineCardEditor, P as SunshineChart, zi as SwissWeatherBGCard, Bi as SwissWeatherBGCardEditor, Z as SwissWeatherCard, an as SwissWeatherCardEditor, $i as TemperatureCard, ea as TemperatureCardEditor, aa as WindCard, oa as WindCardEditor, Ke as WindChart };
+export { N as DailyForecastChart, qe as DailyForecastDiagram, vi as ForecastDiagramCard, _i as ForecastDiagramCardEditor, We as ForecastTemperatureChart, na as PrecipitationCard, ra as PrecipitationCardEditor, Ge as PrecipitationChart, ia as SunshineCard, aa as SunshineCardEditor, P as SunshineChart, Bi as SwissWeatherBGCard, Vi as SwissWeatherBGCardEditor, pi as SwissWeatherCard, rn as SwissWeatherCardEditor, ea as TemperatureCard, ta as TemperatureCardEditor, fa as WarningCard, pa as WarningCardEditor, oa as WindCard, sa as WindCardEditor, Ke as WindChart };
 
 //# sourceMappingURL=swissweather-card.js.map

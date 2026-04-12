@@ -11,6 +11,7 @@ import type {
   WeatherForecast,
   WeatherCondition,
   SwissWeatherWarning,
+  RankedWarningAttributes,
 } from '../../types/home-assistant';
 import { getWeatherIcon } from '../../icons';
 import { type CardConfig, FULL_CARD_EDITOR_NAME, FULL_CARD_NAME, schema } from './const';
@@ -428,19 +429,187 @@ export class SwissWeatherCard extends LitElement {
     return directions[index];
   }
 
-  private _renderWarningSection(warningEntity: HassEntity | null | undefined): TemplateResult {
+  // Add this state property to your class:
+  @state() private _openWarnings: Record<string, boolean> = {};
+
+  /** Maps icon_color keyword (ranked model) to a CSS color value. */
+  private _rankedIconColorToCSS(iconColor: string): string {
+    const map: Record<string, string> = {
+      yellow: '#f6c90e',
+      orange: '#e17055',
+      red: '#dc143c',
+      violet: '#8e44ad',
+      gray: 'var(--disabled-text-color, #9e9e9e)',
+    };
+    return map[iconColor?.toLowerCase()] ?? 'var(--primary-text-color, #fff)';
+  }
+
+  /**
+   * Renders one ranked warning slot (primary / secondary / tertiary).
+   * Returns null when the slot has no active warning.
+   */
+  private _renderRankedSlot(
+    entity: HassEntity,
+    slotId: string,
+    toggleWarning: (id: string) => void
+  ): TemplateResult | null {
+    const attrs = entity.attributes as RankedWarningAttributes & Record<string, any>;
+    if (!attrs.has_warning) return null;
+
+    const color = this._rankedIconColorToCSS(attrs.icon_color);
+    const icon = attrs.icon || 'mdi:alert';
+    const label = attrs.warning_type || attrs.level_name || entity.state;
+    const isOpen = !!this._openWarnings[slotId];
+    const hasContent = !!(attrs.html_text || attrs.text || attrs.links?.length);
+    const additionalCount =
+      slotId === 'primary' && typeof attrs.additional_warning_count === 'number'
+        ? attrs.additional_warning_count
+        : 0;
+
+    return html`
+      <li style="margin-bottom: 12px;">
+        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+          <ha-icon icon="${icon}" style="color: ${color}; flex-shrink: 0;"></ha-icon>
+          <span style="font-weight: bold;">${label}</span>
+          ${attrs.level_name
+            ? html`<span style="font-size: 12px; opacity: 0.8;">(${attrs.level_name})</span>`
+            : ''}
+          ${additionalCount > 0
+            ? html`<span
+                style="font-size: 12px; opacity: 0.75; margin-left: 4px;"
+                title="${_t('warnings_additional', { count: additionalCount })}"
+              >
+                +${additionalCount}
+              </span>`
+            : ''}
+          ${hasContent
+            ? html`
+                <button
+                  @click=${() => toggleWarning(slotId)}
+                  style="background:none;border:none;cursor:pointer;color:var(--primary-text-color,#fff);font-size:16px;margin-left:auto;"
+                  title="${isOpen ? _t('collapse') : _t('expand')}"
+                  aria-label="${isOpen ? _t('collapse') : _t('expand')}"
+                >
+                  <ha-icon icon="${isOpen ? 'mdi:chevron-up' : 'mdi:chevron-down'}"></ha-icon>
+                </button>
+              `
+            : ''}
+        </div>
+        ${isOpen
+          ? html`
+              <div style="margin-top: 6px; font-size: 13px; opacity: 0.85;">
+                ${attrs.valid_from || attrs.valid_to
+                  ? html`
+                      <div style="margin-bottom: 4px;">
+                        ${attrs.valid_from
+                          ? html`<strong>${_t('valid_from')}: </strong>${new Date(
+                                attrs.valid_from
+                              ).toLocaleString()}&nbsp;`
+                          : ''}
+                        ${attrs.valid_to
+                          ? html`<strong>${_t('valid_to')}: </strong>${new Date(
+                                attrs.valid_to
+                              ).toLocaleString()}`
+                          : ''}
+                      </div>
+                    `
+                  : ''}
+                ${attrs.html_text
+                  ? html`
+                      <div
+                        style="line-height: 1.4; margin-bottom: 4px;"
+                        .innerHTML="${attrs.html_text}"
+                      ></div>
+                    `
+                  : attrs.text
+                    ? html`<div style="line-height: 1.4; margin-bottom: 4px;">${attrs.text}</div>`
+                    : ''}
+                ${attrs.links?.length
+                  ? html`
+                      <div style="display: flex; flex-direction: column; gap: 2px;">
+                        ${attrs.links.map(
+                          (l: { url: string; text: string; alt_url?: string }) => html`
+                            <a
+                              href="${l.url.startsWith('http') ? l.url : (l.alt_url ?? l.url)}"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style="color: var(--primary-text-color, #fff); text-decoration: underline; display: flex; align-items: center; gap: 4px;"
+                            >
+                              <ha-icon icon="mdi:link-variant" style="font-size: 14px;"></ha-icon>
+                              ${l.text}
+                            </a>
+                          `
+                        )}
+                      </div>
+                    `
+                  : ''}
+              </div>
+            `
+          : ''}
+      </li>
+    `;
+  }
+
+  /**
+   * Renders warnings using the ranked entity model (primary/secondary/tertiary).
+   * Returns empty template when none of the slots have an active warning.
+   */
+  private _renderRankedWarnings(
+    primaryEntity: HassEntity,
+    secondaryEntity: HassEntity | null | undefined,
+    tertiaryEntity: HassEntity | null | undefined
+  ): TemplateResult {
+    const toggleWarning = (id: string) => {
+      this._openWarnings = { ...this._openWarnings, [id]: !this._openWarnings[id] };
+      this.requestUpdate();
+    };
+
+    const primaryAttrs = primaryEntity.attributes as RankedWarningAttributes & Record<string, any>;
+    if (!primaryAttrs.has_warning) return html``;
+
+    // Determine container severity class from icon_color of primary
+    const containerClass =
+      {
+        red: 'danger',
+        violet: 'danger',
+        orange: 'severe',
+        yellow: 'warning',
+      }[primaryAttrs.icon_color?.toLowerCase() as string] ?? 'info';
+
+    const slots = [
+      this._renderRankedSlot(primaryEntity, 'primary', toggleWarning),
+      secondaryEntity ? this._renderRankedSlot(secondaryEntity, 'secondary', toggleWarning) : null,
+      tertiaryEntity ? this._renderRankedSlot(tertiaryEntity, 'tertiary', toggleWarning) : null,
+    ].filter(Boolean);
+
+    return html`
+      <div class="warning-section ${containerClass}">
+        <div>
+          <strong>${_t('weather_warning')}</strong>
+          <ul style="margin: 6px 0 0 0; padding-left: 18px;">
+            ${slots}
+          </ul>
+        </div>
+      </div>
+    `;
+  }
+
+  /**
+   * Renders warnings using the legacy aggregated sensor model (izacus/hass-swissweather).
+   */
+  private _renderLegacyWarnings(warningEntity: HassEntity): TemplateResult {
     const warnings: SwissWeatherWarning[] = [];
     if (
-      warningEntity?.attributes?.warning_levels &&
+      warningEntity.attributes.warning_levels &&
       Array.isArray(warningEntity.attributes.warning_levels)
     ) {
-      for (let i = 0; i < warningEntity?.attributes.warning_levels.length; i++)
+      for (let i = 0; i < warningEntity.attributes.warning_levels.length; i++)
         warnings.push({
           id: `warning_${i}`,
-          title: warningEntity?.attributes.warning_levels[i],
-          level: warningEntity?.attributes.warning_levels[i],
-          type: warningEntity?.attributes.warning_types[i],
-          description: warningEntity?.attributes.warning_texts[i],
+          title: warningEntity.attributes.warning_levels[i],
+          level: warningEntity.attributes.warning_levels[i],
+          type: warningEntity.attributes.warning_types[i],
+          description: warningEntity.attributes.warning_texts[i],
           valid_from: warningEntity.attributes.warning_valid_from[i],
           valid_to: warningEntity.attributes.warning_valid_to[i],
           link: warningEntity.attributes.warning_links[i],
@@ -448,105 +617,127 @@ export class SwissWeatherCard extends LitElement {
           phenomena: [],
         });
     }
+    if (warnings.length === 0) return html``;
+
     const warningLevel = this._getWarningLevel(warnings);
-    // Helper: Map level number to icon color
     const levelToColor = (level: number): string => {
-      if (level >= 4) return '#dc143c'; // danger – red
-      if (level >= 3) return '#e17055'; // severe – orange
-      if (level >= 2) return '#f6c90e'; // warning – yellow
+      if (level >= 4) return '#dc143c';
+      if (level >= 3) return '#e17055';
+      if (level >= 2) return '#f6c90e';
       return 'var(--primary-text-color, #fff)';
     };
-    // Helper: Map warning type to icon
     const typeToIcon: Record<string, string> = {
       storm: 'mdi:weather-lightning',
+      thunderstorms: 'mdi:weather-lightning-rainy',
       rain: 'mdi:weather-pouring',
       snow: 'mdi:snowflake',
       wind: 'mdi:weather-windy',
       fog: 'mdi:weather-fog',
       heat: 'mdi:weather-sunny-alert',
+      heat_waves: 'mdi:thermometer-high',
       cold: 'mdi:snowflake-alert',
-      flood: 'mdi:waves',
-      // add more as needed
+      frost: 'mdi:snowflake-thermometer',
+      thaw: 'mdi:thermometer-high',
+      flood: 'mdi:waves-arrow-up',
+      drought: 'mdi:water-off',
+      avalanches: 'mdi:snowflake-alert',
+      slippery_roads: 'mdi:car-brake-alert',
+      forest_fires: 'mdi:fire-alert',
+      earthquakes: 'mdi:pulse',
       default: 'mdi:alert',
     };
 
-    // Collapsible state for each warning (open/closed)
     if (!this._openWarnings) this._openWarnings = {};
     const toggleWarning = (id: string) => {
       this._openWarnings = { ...this._openWarnings, [id]: !this._openWarnings[id] };
       this.requestUpdate();
     };
 
-    return warnings.length > 0
-      ? html`
-          <div class="warning-section ${warningLevel}">
-            <div>
-              <strong>${_t('weather_warning')}</strong>
-              <ul style="margin: 6px 0 0 0; padding-left: 18px;">
-                ${warnings.map(
-                  w => html`
-                    <li style="margin-bottom: 12px;">
-                      <div style="display: flex; align-items: center; gap: 8px;">
-                        <ha-icon
-                          icon="${typeToIcon[w.type?.toLowerCase?.()] || typeToIcon.default}"
-                          style="color: ${levelToColor(w.level)};"
-                        ></ha-icon>
-                        <span style="font-weight:bold;">${w.title}</span>
-                        ${w.link
-                          ? html`
-                              <a
-                                href="${w.link}"
-                                target="_blank"
-                                style="color: var(--primary-text-color, #fff); text-decoration: underline; display: flex; align-items: center;"
-                                title="More info"
-                              >
-                                <ha-icon
-                                  icon="mdi:link-variant"
-                                  style="font-size: 16px; margin-left: 2px;"
-                                ></ha-icon>
-                              </a>
-                            `
-                          : ''}
-                        <button
-                          @click=${() => toggleWarning(w.id)}
-                          style="background:none;border:none;cursor:pointer;color:var(--primary-text-color,#fff);font-size:16px;"
-                          title="${this._openWarnings[w.id] ? _t('collapse') : _t('expand')}"
-                          aria-label="${this._openWarnings[w.id] ? _t('collapse') : _t('expand')}"
-                        >
-                          <ha-icon
-                            icon="${this._openWarnings[w.id]
-                              ? 'mdi:chevron-up'
-                              : 'mdi:chevron-down'}"
-                          ></ha-icon>
-                        </button>
-                      </div>
-                      ${this._openWarnings[w.id] && w.description
-                        ? html`
-                            <div>
-                              <strong>${_t('valid_from')}: </strong>
-                              ${w.valid_from
-                                ? new Date(w.valid_from).toLocaleString()
-                                : _t('unknown')}
-                              <strong>${_t('valid_to')}: </strong>
-                              ${w.valid_to ? new Date(w.valid_to).toLocaleString() : _t('unknown')}
-                            </div>
-                            <div
-                              style="color: var(--primary-text-color, #fff); font-size: 14px; line-height: 1.4; margin-left: 2px; margin-top: 4px;"
-                              .innerHTML="${marked.parse(w.description || '')}"
-                            ></div>
-                          `
-                        : ''}
-                    </li>
-                  `
-                )}
-              </ul>
-            </div>
-          </div>
-        `
-      : html``;
+    return html`
+      <div class="warning-section ${warningLevel}">
+        <div>
+          <strong>${_t('weather_warning')}</strong>
+          <ul style="margin: 6px 0 0 0; padding-left: 18px;">
+            ${warnings.map(
+              w => html`
+                <li style="margin-bottom: 12px;">
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <ha-icon
+                      icon="${typeToIcon[w.type?.toLowerCase?.()] || typeToIcon.default}"
+                      style="color: ${levelToColor(w.level)};"
+                    ></ha-icon>
+                    <span style="font-weight:bold;">${w.title}</span>
+                    ${w.link
+                      ? html`
+                          <a
+                            href="${w.link}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style="color: var(--primary-text-color, #fff); text-decoration: underline; display: flex; align-items: center;"
+                            title="More info"
+                          >
+                            <ha-icon
+                              icon="mdi:link-variant"
+                              style="font-size: 16px; margin-left: 2px;"
+                            ></ha-icon>
+                          </a>
+                        `
+                      : ''}
+                    <button
+                      @click=${() => toggleWarning(w.id)}
+                      style="background:none;border:none;cursor:pointer;color:var(--primary-text-color,#fff);font-size:16px;"
+                      title="${this._openWarnings[w.id] ? _t('collapse') : _t('expand')}"
+                      aria-label="${this._openWarnings[w.id] ? _t('collapse') : _t('expand')}"
+                    >
+                      <ha-icon
+                        icon="${this._openWarnings[w.id] ? 'mdi:chevron-up' : 'mdi:chevron-down'}"
+                      ></ha-icon>
+                    </button>
+                  </div>
+                  ${this._openWarnings[w.id] && w.description
+                    ? html`
+                        <div>
+                          <strong>${_t('valid_from')}: </strong>
+                          ${w.valid_from ? new Date(w.valid_from).toLocaleString() : _t('unknown')}
+                          <strong>${_t('valid_to')}: </strong>
+                          ${w.valid_to ? new Date(w.valid_to).toLocaleString() : _t('unknown')}
+                        </div>
+                        <div
+                          style="color: var(--primary-text-color, #fff); font-size: 14px; line-height: 1.4; margin-left: 2px; margin-top: 4px;"
+                          .innerHTML="${marked.parse(w.description || '')}"
+                        ></div>
+                      `
+                    : ''}
+                </li>
+              `
+            )}
+          </ul>
+        </div>
+      </div>
+    `;
   }
-  // Add this state property to your class:
-  @state() private _openWarnings: Record<string, boolean> = {};
+
+  /**
+   * Entry point: detects which warning model is in use and delegates accordingly.
+   * - Ranked model: primary_warning_entity with `has_warning` attribute (mastameista fork)
+   * - Legacy model: warning_entity with `warning_levels` array (izacus/hass-swissweather)
+   */
+  private _renderWarningSection(
+    warningEntity: HassEntity | null | undefined,
+    primaryEntity: HassEntity | null | undefined,
+    secondaryEntity: HassEntity | null | undefined,
+    tertiaryEntity: HassEntity | null | undefined
+  ): TemplateResult {
+    // Ranked model: prefer if primary entity is configured and exposes has_warning
+    if (primaryEntity && primaryEntity.attributes?.has_warning !== undefined) {
+      return this._renderRankedWarnings(primaryEntity, secondaryEntity, tertiaryEntity);
+    }
+    // Legacy model
+    if (warningEntity) {
+      return this._renderLegacyWarnings(warningEntity);
+    }
+    return html``;
+  }
 
   // @property({ type: Array }) hourlyForecast: WeatherForecast[] = [];
   // @property({ type: Number }) forecastHours = 12;
@@ -751,6 +942,15 @@ export class SwissWeatherCard extends LitElement {
     const warningEntity = this.config.warning_entity
       ? this._getEntityState(this.config.warning_entity)
       : null;
+    const primaryWarningEntity = this.config.primary_warning_entity
+      ? this._getEntityState(this.config.primary_warning_entity)
+      : null;
+    const secondaryWarningEntity = this.config.secondary_warning_entity
+      ? this._getEntityState(this.config.secondary_warning_entity)
+      : null;
+    const tertiaryWarningEntity = this.config.tertiary_warning_entity
+      ? this._getEntityState(this.config.tertiary_warning_entity)
+      : null;
 
     const windSpeed = windEntity
       ? parseFloat(windEntity.state)
@@ -771,7 +971,14 @@ export class SwissWeatherCard extends LitElement {
             </div>
           `
         : ''}
-      ${this.config.show_warnings ? this._renderWarningSection(warningEntity) : ''}
+      ${this.config.show_warnings
+        ? this._renderWarningSection(
+            warningEntity,
+            primaryWarningEntity,
+            secondaryWarningEntity,
+            tertiaryWarningEntity
+          )
+        : ''}
 
       <div class="current-weather">
         <div>
