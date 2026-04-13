@@ -451,7 +451,8 @@ export class SwissWeatherCard extends LitElement {
   private _renderRankedSlot(
     entity: HassEntity,
     slotId: string,
-    toggleWarning: (id: string) => void
+    toggleWarning: (id: string) => void,
+    effectiveAdditional = 0
   ): TemplateResult | null {
     const attrs = entity.attributes as RankedWarningAttributes & Record<string, any>;
     if (!attrs.has_warning) return null;
@@ -461,10 +462,7 @@ export class SwissWeatherCard extends LitElement {
     const label = attrs.warning_type || attrs.level_name || entity.state;
     const isOpen = !!this._openWarnings[slotId];
     const hasContent = !!(attrs.html_text || attrs.text || attrs.links?.length);
-    const additionalCount =
-      slotId === 'primary' && typeof attrs.additional_warning_count === 'number'
-        ? attrs.additional_warning_count
-        : 0;
+    const additionalCount = effectiveAdditional;
 
     return html`
       <li style="margin-bottom: 12px;">
@@ -576,8 +574,19 @@ export class SwissWeatherCard extends LitElement {
         yellow: 'warning',
       }[primaryAttrs.icon_color?.toLowerCase() as string] ?? 'info';
 
+    const secondaryActive = !!(secondaryEntity?.attributes as any)?.has_warning;
+    const tertiaryActive = !!(tertiaryEntity?.attributes as any)?.has_warning;
+    const rawAdditional = primaryAttrs.additional_warning_count ?? 0;
+    const effectiveAdditional = Math.max(
+      rawAdditional - (secondaryActive ? 1 : 0) - (tertiaryActive ? 1 : 0),
+      0
+    );
+    const totalCount = 1 + rawAdditional;
+    const title =
+      totalCount === 1 ? _t('weather_warning') : _t('weather_warnings', { count: totalCount });
+
     const slots = [
-      this._renderRankedSlot(primaryEntity, 'primary', toggleWarning),
+      this._renderRankedSlot(primaryEntity, 'primary', toggleWarning, effectiveAdditional),
       secondaryEntity ? this._renderRankedSlot(secondaryEntity, 'secondary', toggleWarning) : null,
       tertiaryEntity ? this._renderRankedSlot(tertiaryEntity, 'tertiary', toggleWarning) : null,
     ].filter(Boolean);
@@ -585,7 +594,7 @@ export class SwissWeatherCard extends LitElement {
     return html`
       <div class="warning-section ${containerClass}">
         <div>
-          <strong>${_t('weather_warning')}</strong>
+          <strong>${title}</strong>
           <ul style="margin: 6px 0 0 0; padding-left: 18px;">
             ${slots}
           </ul>

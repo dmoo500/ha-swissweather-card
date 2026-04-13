@@ -112,7 +112,11 @@ export class WarningCard extends LitElement {
     return map[iconColor?.toLowerCase()] ?? 'var(--primary-text-color, #fff)';
   }
 
-  private _renderRankedSlot(entity: HassEntity, slotId: string): TemplateResult | null {
+  private _renderRankedSlot(
+    entity: HassEntity,
+    slotId: string,
+    effectiveAdditional = 0
+  ): TemplateResult | null {
     const attrs = entity.attributes as RankedWarningAttributes & Record<string, any>;
     if (!attrs.has_warning) return null;
 
@@ -121,10 +125,7 @@ export class WarningCard extends LitElement {
     const label = attrs.warning_type || attrs.level_name || entity.state;
     const isOpen = !!this._openWarnings[slotId];
     const hasContent = !!(attrs.html_text || attrs.text || attrs.links?.length);
-    const additionalCount =
-      slotId === 'primary' && typeof attrs.additional_warning_count === 'number'
-        ? attrs.additional_warning_count
-        : 0;
+    const additionalCount = effectiveAdditional;
 
     const toggleWarning = (id: string) => {
       this._openWarnings = { ...this._openWarnings, [id]: !this._openWarnings[id] };
@@ -226,15 +227,26 @@ export class WarningCard extends LitElement {
         >
       )[primaryAttrs.icon_color?.toLowerCase()] ?? 'info';
 
+    const secondaryActive = !!(secondaryEntity?.attributes as any)?.has_warning;
+    const tertiaryActive = !!(tertiaryEntity?.attributes as any)?.has_warning;
+    const rawAdditional = primaryAttrs.additional_warning_count ?? 0;
+    const effectiveAdditional = Math.max(
+      rawAdditional - (secondaryActive ? 1 : 0) - (tertiaryActive ? 1 : 0),
+      0
+    );
+    const totalCount = 1 + rawAdditional;
+    const title =
+      totalCount === 1 ? _t('weather_warning') : _t('weather_warnings', { count: totalCount });
+
     const slots = [
-      this._renderRankedSlot(primaryEntity, 'primary'),
+      this._renderRankedSlot(primaryEntity, 'primary', effectiveAdditional),
       secondaryEntity ? this._renderRankedSlot(secondaryEntity, 'secondary') : null,
       tertiaryEntity ? this._renderRankedSlot(tertiaryEntity, 'tertiary') : null,
     ].filter(Boolean);
 
     return html`
       <div class="warning-section ${containerClass}">
-        <strong>${_t('weather_warning')}</strong>
+        <strong>${title}</strong>
         <ul style="margin: 6px 0 0 0; padding-left: 18px;">
           ${slots}
         </ul>

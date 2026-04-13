@@ -1,5 +1,5 @@
 //#region package.json
-var e = "1.8.0b1", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
+var e = "1.8.0b2", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
 	constructor(e, t, n) {
 		if (this._$cssResult$ = !0, n !== r) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
 		this.cssText = e, this.t = t;
@@ -2248,6 +2248,7 @@ var V = (e, t, n, r) => {
 		visibility: "Sicht",
 		current_weather: "Aktuelles Wetter",
 		weather_warning: "Wetterwarnung aktiv",
+		weather_warnings: "{{count}} Wetterwarnungen aktiv",
 		forecast_loading: "Lädt...",
 		forecast_days: "{{count}}-Tage-Prognose",
 		forecast_days_7: "7-Tage-Prognose",
@@ -2396,6 +2397,7 @@ var V = (e, t, n, r) => {
 		visibility: "Visibility",
 		current_weather: "Current Weather",
 		weather_warning: "Weather warning active",
+		weather_warnings: "{{count}} weather warnings active",
 		forecast_loading: "Loading...",
 		forecast_days: "{{count}}-day forecast",
 		forecast_days_7: "7-day forecast",
@@ -4889,50 +4891,50 @@ var pi = class extends D {
 			gray: "var(--disabled-text-color, #9e9e9e)"
 		}[e?.toLowerCase()] ?? "var(--primary-text-color, #fff)";
 	}
-	_renderRankedSlot(e, t, n) {
-		let r = e.attributes;
-		if (!r.has_warning) return null;
-		let i = this._rankedIconColorToCSS(r.icon_color), a = r.icon || "mdi:alert", o = r.warning_type || r.level_name || e.state, s = !!this._openWarnings[t], c = !!(r.html_text || r.text || r.links?.length), l = t === "primary" && typeof r.additional_warning_count == "number" ? r.additional_warning_count : 0;
+	_renderRankedSlot(e, t, n, r = 0) {
+		let i = e.attributes;
+		if (!i.has_warning) return null;
+		let a = this._rankedIconColorToCSS(i.icon_color), o = i.icon || "mdi:alert", s = i.warning_type || i.level_name || e.state, c = !!this._openWarnings[t], l = !!(i.html_text || i.text || i.links?.length), u = r;
 		return w`
       <li style="margin-bottom: 12px;">
         <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-          <ha-icon icon="${a}" style="color: ${i}; flex-shrink: 0;"></ha-icon>
-          <span style="font-weight: bold;">${o}</span>
-          ${r.level_name ? w`<span style="font-size: 12px; opacity: 0.8;">(${r.level_name})</span>` : ""}
-          ${l > 0 ? w`<span
+          <ha-icon icon="${o}" style="color: ${a}; flex-shrink: 0;"></ha-icon>
+          <span style="font-weight: bold;">${s}</span>
+          ${i.level_name ? w`<span style="font-size: 12px; opacity: 0.8;">(${i.level_name})</span>` : ""}
+          ${u > 0 ? w`<span
                 style="font-size: 12px; opacity: 0.75; margin-left: 4px;"
-                title="${B("warnings_additional", { count: l })}"
+                title="${B("warnings_additional", { count: u })}"
               >
-                +${l}
+                +${u}
               </span>` : ""}
-          ${c ? w`
+          ${l ? w`
                 <button
                   @click=${() => n(t)}
                   style="background:none;border:none;cursor:pointer;color:var(--primary-text-color,#fff);font-size:16px;margin-left:auto;"
-                  title="${B(s ? "collapse" : "expand")}"
-                  aria-label="${B(s ? "collapse" : "expand")}"
+                  title="${B(c ? "collapse" : "expand")}"
+                  aria-label="${B(c ? "collapse" : "expand")}"
                 >
-                  <ha-icon icon="${s ? "mdi:chevron-up" : "mdi:chevron-down"}"></ha-icon>
+                  <ha-icon icon="${c ? "mdi:chevron-up" : "mdi:chevron-down"}"></ha-icon>
                 </button>
               ` : ""}
         </div>
-        ${s ? w`
+        ${c ? w`
               <div style="margin-top: 6px; font-size: 13px; opacity: 0.85;">
-                ${r.valid_from || r.valid_to ? w`
+                ${i.valid_from || i.valid_to ? w`
                       <div style="margin-bottom: 4px;">
-                        ${r.valid_from ? w`<strong>${B("valid_from")}: </strong>${new Date(r.valid_from).toLocaleString()}&nbsp;` : ""}
-                        ${r.valid_to ? w`<strong>${B("valid_to")}: </strong>${new Date(r.valid_to).toLocaleString()}` : ""}
+                        ${i.valid_from ? w`<strong>${B("valid_from")}: </strong>${new Date(i.valid_from).toLocaleString()}&nbsp;` : ""}
+                        ${i.valid_to ? w`<strong>${B("valid_to")}: </strong>${new Date(i.valid_to).toLocaleString()}` : ""}
                       </div>
                     ` : ""}
-                ${r.html_text ? w`
+                ${i.html_text ? w`
                       <div
                         style="line-height: 1.4; margin-bottom: 4px;"
-                        .innerHTML="${r.html_text}"
+                        .innerHTML="${i.html_text}"
                       ></div>
-                    ` : r.text ? w`<div style="line-height: 1.4; margin-bottom: 4px;">${r.text}</div>` : ""}
-                ${r.links?.length ? w`
+                    ` : i.text ? w`<div style="line-height: 1.4; margin-bottom: 4px;">${i.text}</div>` : ""}
+                ${i.links?.length ? w`
                       <div style="display: flex; flex-direction: column; gap: 2px;">
-                        ${r.links.map((e) => w`
+                        ${i.links.map((e) => w`
                             <a
                               href="${e.url.startsWith("http") ? e.url : e.alt_url ?? e.url}"
                               target="_blank"
@@ -4963,17 +4965,17 @@ var pi = class extends D {
 			violet: "danger",
 			orange: "severe",
 			yellow: "warning"
-		}[i.icon_color?.toLowerCase()] ?? "info", o = [
-			this._renderRankedSlot(e, "primary", r),
-			t ? this._renderRankedSlot(t, "secondary", r) : null,
-			n ? this._renderRankedSlot(n, "tertiary", r) : null
-		].filter(Boolean);
+		}[i.icon_color?.toLowerCase()] ?? "info", o = !!t?.attributes?.has_warning, s = !!n?.attributes?.has_warning, c = i.additional_warning_count ?? 0, l = Math.max(c - +!!o - !!s, 0), u = 1 + c;
 		return w`
       <div class="warning-section ${a}">
         <div>
-          <strong>${B("weather_warning")}</strong>
+          <strong>${u === 1 ? B("weather_warning") : B("weather_warnings", { count: u })}</strong>
           <ul style="margin: 6px 0 0 0; padding-left: 18px;">
-            ${o}
+            ${[
+			this._renderRankedSlot(e, "primary", r, l),
+			t ? this._renderRankedSlot(t, "secondary", r) : null,
+			n ? this._renderRankedSlot(n, "tertiary", r) : null
+		].filter(Boolean)}
           </ul>
         </div>
       </div>
@@ -9035,10 +9037,10 @@ var fa = class extends D {
 			gray: "var(--disabled-text-color, #9e9e9e)"
 		}[e?.toLowerCase()] ?? "var(--primary-text-color, #fff)";
 	}
-	_renderRankedSlot(e, t) {
-		let n = e.attributes;
-		if (!n.has_warning) return null;
-		let r = this._rankedIconColorToCSS(n.icon_color), i = n.icon || "mdi:alert", a = n.warning_type || n.level_name || e.state, o = !!this._openWarnings[t], s = !!(n.html_text || n.text || n.links?.length), c = t === "primary" && typeof n.additional_warning_count == "number" ? n.additional_warning_count : 0, l = (e) => {
+	_renderRankedSlot(e, t, n = 0) {
+		let r = e.attributes;
+		if (!r.has_warning) return null;
+		let i = this._rankedIconColorToCSS(r.icon_color), a = r.icon || "mdi:alert", o = r.warning_type || r.level_name || e.state, s = !!this._openWarnings[t], c = !!(r.html_text || r.text || r.links?.length), l = n, u = (e) => {
 			this._openWarnings = {
 				...this._openWarnings,
 				[e]: !this._openWarnings[e]
@@ -9047,38 +9049,38 @@ var fa = class extends D {
 		return w`
       <li style="margin-bottom: 12px;">
         <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-          <ha-icon icon="${i}" style="color: ${r}; flex-shrink: 0;"></ha-icon>
-          <span style="font-weight: bold;">${a}</span>
-          ${n.level_name ? w`<span style="font-size: 12px; opacity: 0.8;">(${n.level_name})</span>` : ""}
-          ${c > 0 ? w`<span style="font-size: 12px; opacity: 0.75; margin-left: 4px;">
-                +${c}
+          <ha-icon icon="${a}" style="color: ${i}; flex-shrink: 0;"></ha-icon>
+          <span style="font-weight: bold;">${o}</span>
+          ${r.level_name ? w`<span style="font-size: 12px; opacity: 0.8;">(${r.level_name})</span>` : ""}
+          ${l > 0 ? w`<span style="font-size: 12px; opacity: 0.75; margin-left: 4px;">
+                +${l}
               </span>` : ""}
-          ${s ? w`
+          ${c ? w`
                 <button
-                  @click=${() => l(t)}
+                  @click=${() => u(t)}
                   style="background:none;border:none;cursor:pointer;color:var(--primary-text-color,#fff);font-size:16px;margin-left:auto;"
-                  title="${L(o ? "collapse" : "expand")}"
-                  aria-label="${L(o ? "collapse" : "expand")}"
+                  title="${L(s ? "collapse" : "expand")}"
+                  aria-label="${L(s ? "collapse" : "expand")}"
                 >
-                  <ha-icon icon="${o ? "mdi:chevron-up" : "mdi:chevron-down"}"></ha-icon>
+                  <ha-icon icon="${s ? "mdi:chevron-up" : "mdi:chevron-down"}"></ha-icon>
                 </button>
               ` : ""}
         </div>
-        ${o ? w`
+        ${s ? w`
               <div style="margin-top: 6px; font-size: 13px; opacity: 0.85;">
-                ${n.valid_from || n.valid_to ? w`
+                ${r.valid_from || r.valid_to ? w`
                       <div style="margin-bottom: 4px;">
-                        ${n.valid_from ? w`<strong>${L("valid_from")}: </strong>${new Date(n.valid_from).toLocaleString()}&nbsp;` : ""}
-                        ${n.valid_to ? w`<strong>${L("valid_to")}: </strong>${new Date(n.valid_to).toLocaleString()}` : ""}
+                        ${r.valid_from ? w`<strong>${L("valid_from")}: </strong>${new Date(r.valid_from).toLocaleString()}&nbsp;` : ""}
+                        ${r.valid_to ? w`<strong>${L("valid_to")}: </strong>${new Date(r.valid_to).toLocaleString()}` : ""}
                       </div>
                     ` : ""}
-                ${n.html_text ? w`<div
+                ${r.html_text ? w`<div
                       style="line-height: 1.4; margin-bottom: 4px;"
-                      .innerHTML="${n.html_text}"
-                    ></div>` : n.text ? w`<div style="line-height: 1.4; margin-bottom: 4px;">${n.text}</div>` : ""}
-                ${n.links?.length ? w`
+                      .innerHTML="${r.html_text}"
+                    ></div>` : r.text ? w`<div style="line-height: 1.4; margin-bottom: 4px;">${r.text}</div>` : ""}
+                ${r.links?.length ? w`
                       <div style="display: flex; flex-direction: column; gap: 2px;">
-                        ${n.links.map((e) => w`
+                        ${r.links.map((e) => w`
                             <a
                               href="${e.url.startsWith("http") ? e.url : e.alt_url ?? e.url}"
                               target="_blank"
@@ -9104,16 +9106,16 @@ var fa = class extends D {
 			violet: "danger",
 			orange: "severe",
 			yellow: "warning"
-		}[r.icon_color?.toLowerCase()] ?? "info", a = [
-			this._renderRankedSlot(e, "primary"),
-			t ? this._renderRankedSlot(t, "secondary") : null,
-			n ? this._renderRankedSlot(n, "tertiary") : null
-		].filter(Boolean);
+		}[r.icon_color?.toLowerCase()] ?? "info", a = !!t?.attributes?.has_warning, o = !!n?.attributes?.has_warning, s = r.additional_warning_count ?? 0, c = Math.max(s - +!!a - !!o, 0), l = 1 + s;
 		return w`
       <div class="warning-section ${i}">
-        <strong>${L("weather_warning")}</strong>
+        <strong>${l === 1 ? L("weather_warning") : L("weather_warnings", { count: l })}</strong>
         <ul style="margin: 6px 0 0 0; padding-left: 18px;">
-          ${a}
+          ${[
+			this._renderRankedSlot(e, "primary", c),
+			t ? this._renderRankedSlot(t, "secondary") : null,
+			n ? this._renderRankedSlot(n, "tertiary") : null
+		].filter(Boolean)}
         </ul>
       </div>
     `;
