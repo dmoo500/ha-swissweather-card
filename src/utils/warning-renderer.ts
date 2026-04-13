@@ -36,25 +36,29 @@ export function renderRankedSlot(
 
   return html`
     <li style="margin-bottom: 12px;">
-      <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+      <div style="display: flex; align-items: center; gap: 8px;">
         <ha-icon icon="${icon}" style="color: ${color}; flex-shrink: 0;"></ha-icon>
-        <span style="font-weight: bold;">${label}</span>
-        ${attrs.level_name
-          ? html`<span style="font-size: 12px; opacity: 0.8;">(${attrs.level_name})</span>`
-          : ''}
-        ${effectiveAdditional > 0
-          ? html`<span
-              style="font-size: 12px; opacity: 0.75; margin-left: 4px;"
-              title="${_t('warnings_additional', { count: effectiveAdditional })}"
-            >
-              +${effectiveAdditional}
-            </span>`
-          : ''}
+        <div
+          style="flex: 1; min-width: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px;"
+        >
+          <span style="font-weight: bold;">${label}</span>
+          ${attrs.level_name
+            ? html`<span style="font-size: 12px; opacity: 0.8;">(${attrs.level_name})</span>`
+            : ''}
+          ${effectiveAdditional > 0
+            ? html`<span
+                style="font-size: 12px; opacity: 0.75;"
+                title="${_t('warnings_additional', { count: effectiveAdditional })}"
+              >
+                +${effectiveAdditional}
+              </span>`
+            : ''}
+        </div>
         ${hasContent
           ? html`
               <button
                 @click=${() => toggle(slotId)}
-                style="background:none;border:none;cursor:pointer;color:var(--primary-text-color,#fff);font-size:16px;margin-left:auto;"
+                style="background:none;border:none;cursor:pointer;color:var(--primary-text-color,#fff);font-size:16px;flex-shrink:0;"
                 title="${isOpen ? _t('collapse') : _t('expand')}"
                 aria-label="${isOpen ? _t('collapse') : _t('expand')}"
               >

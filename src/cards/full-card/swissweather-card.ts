@@ -38,6 +38,7 @@ export class SwissWeatherCard extends LitElement {
 
   private _toggleWarning = (id: string) => {
     this._openWarnings = { ...this._openWarnings, [id]: !this._openWarnings[id] };
+    this.requestUpdate();
   };
 
   constructor() {
@@ -169,9 +170,6 @@ export class SwissWeatherCard extends LitElement {
         border-radius: 12px;
         padding: 15px;
         margin-bottom: 20px;
-        display: flex;
-        align-items: center;
-        gap: 12px;
       }
 
       .warning-section.danger {

@@ -1,5 +1,5 @@
 //#region package.json
-var e = "1.8.0b3", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
+var e = "1.8.0b4", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
 	constructor(e, t, n) {
 		if (this._$cssResult$ = !0, n !== r) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
 		this.cssText = e, this.t = t;
@@ -4552,20 +4552,22 @@ function mi(e, t, n, r, i = 0) {
 	let o = pi(a.icon_color), s = a.icon || "mdi:alert", c = a.warning_type || a.level_name || e.state, l = !!n[t], u = !!(a.html_text || a.text || a.links?.length);
 	return C`
     <li style="margin-bottom: 12px;">
-      <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+      <div style="display: flex; align-items: center; gap: 8px;">
         <ha-icon icon="${s}" style="color: ${o}; flex-shrink: 0;"></ha-icon>
-        <span style="font-weight: bold;">${c}</span>
-        ${a.level_name ? C`<span style="font-size: 12px; opacity: 0.8;">(${a.level_name})</span>` : ""}
-        ${i > 0 ? C`<span
-              style="font-size: 12px; opacity: 0.75; margin-left: 4px;"
-              title="${I("warnings_additional", { count: i })}"
-            >
-              +${i}
-            </span>` : ""}
+        <div style="flex: 1; min-width: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px;">
+          <span style="font-weight: bold;">${c}</span>
+          ${a.level_name ? C`<span style="font-size: 12px; opacity: 0.8;">(${a.level_name})</span>` : ""}
+          ${i > 0 ? C`<span
+                style="font-size: 12px; opacity: 0.75;"
+                title="${I("warnings_additional", { count: i })}"
+              >
+                +${i}
+              </span>` : ""}
+        </div>
         ${u ? C`
               <button
                 @click=${() => r(t)}
-                style="background:none;border:none;cursor:pointer;color:var(--primary-text-color,#fff);font-size:16px;margin-left:auto;"
+                style="background:none;border:none;cursor:pointer;color:var(--primary-text-color,#fff);font-size:16px;flex-shrink:0;"
                 title="${I(l ? "collapse" : "expand")}"
                 aria-label="${I(l ? "collapse" : "expand")}"
               >
@@ -4732,7 +4734,7 @@ var Z = class extends E {
 		this._openWarnings = {
 			...this._openWarnings,
 			[e]: !this._openWarnings[e]
-		};
+		}, this.requestUpdate();
 	};
 	constructor() {
 		super();
@@ -4822,9 +4824,6 @@ var Z = class extends E {
         border-radius: 12px;
         padding: 15px;
         margin-bottom: 20px;
-        display: flex;
-        align-items: center;
-        gap: 12px;
       }
 
       .warning-section.danger {
