@@ -1,5 +1,16 @@
 # Release Notes
 
+## [1.8.1b1] - 2026-04-15
+
+### Added
+- Translation files split into per-language JSON files (`src/translations/de.json`, `src/translations/en.json`) — easier to maintain and extend with new languages.
+
+### Fixed
+- Missing `7d_forecast` translation key — the full card showed `[7d_forecast]` as literal text instead of "7-Tage-Prognose" / "7-day forecast".
+
+### Changed
+- Rebuilt artifact with vite 8.0.8 (`@oxc-project/runtime` 0.123 → 0.124).
+
 ## [1.8.0] - 2026-04-15
 
 ### Added
@@ -25,6 +36,9 @@
 ### Migration Notes
 - Existing configs with `warning_entity` continue to work unchanged (legacy fallback).
 - To use the ranked model, configure `primary_warning_entity` (and optionally secondary/tertiary) in the Visual Editor. No `warning_entity` is needed.
+
+### Acknowledgements
+- Many thanks to [@mastameista](https://github.com/mastameista) for the idea, implementation input, and thorough beta testing of the ranked warning model across b1–b4.
 
 ## [1.7.0] - 2026-03-28
 
