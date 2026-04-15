@@ -1,6 +1,6 @@
 # Release Notes
 
-## [1.8.1b1] - 2026-04-15
+## [1.8.1] - 2026-04-15
 
 ### Added
 - Translation files split into per-language JSON files (`src/translations/de.json`, `src/translations/en.json`) — easier to maintain and extend with new languages.
