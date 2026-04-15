@@ -1,5 +1,5 @@
 //#region package.json
-var e = "1.8.0b4", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
+var e = "1.8.0", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
 	constructor(e, t, n) {
 		if (this._$cssResult$ = !0, n !== r) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
 		this.cssText = e, this.t = t;
@@ -4554,7 +4554,9 @@ function mi(e, t, n, r, i = 0) {
     <li style="margin-bottom: 12px;">
       <div style="display: flex; align-items: center; gap: 8px;">
         <ha-icon icon="${s}" style="color: ${o}; flex-shrink: 0;"></ha-icon>
-        <div style="flex: 1; min-width: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px;">
+        <div
+          style="flex: 1; min-width: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px;"
+        >
           <span style="font-weight: bold;">${c}</span>
           ${a.level_name ? C`<span style="font-size: 12px; opacity: 0.8;">(${a.level_name})</span>` : ""}
           ${i > 0 ? C`<span
