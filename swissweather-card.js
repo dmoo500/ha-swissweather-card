@@ -587,12 +587,12 @@ function We(e, t) {
 	};
 }
 //#endregion
-//#region \0@oxc-project+runtime@0.123.0/helpers/decorateMetadata.js
+//#region \0@oxc-project+runtime@0.124.0/helpers/decorateMetadata.js
 function A(e, t) {
 	if (typeof Reflect == "object" && typeof Reflect.metadata == "function") return Reflect.metadata(e, t);
 }
 //#endregion
-//#region \0@oxc-project+runtime@0.123.0/helpers/decorate.js
+//#region \0@oxc-project+runtime@0.124.0/helpers/decorate.js
 function j(e, t, n, r) {
 	var i = arguments.length, a = i < 3 ? t : r === null ? r = Object.getOwnPropertyDescriptor(t, n) : r, o;
 	if (typeof Reflect == "object" && typeof Reflect.decorate == "function") a = Reflect.decorate(e, t, n, r);
