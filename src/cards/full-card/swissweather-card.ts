@@ -3,18 +3,17 @@ import { formatDateToWeekDay, showHoursChartLabel } from '../../charts/index';
 import { LitElement, html, css, PropertyValues, TemplateResult } from 'lit';
 import { use, translate as _t, registerTranslateConfig } from 'lit-translate';
 import { customElement, property, state } from 'lit/decorators.js';
-import { marked } from 'marked';
 import type {
   HomeAssistant,
   HassEntity,
   WeatherEntity,
   WeatherForecast,
   WeatherCondition,
-  SwissWeatherWarning,
 } from '../../types/home-assistant';
 import { getWeatherIcon } from '../../icons';
 import { type CardConfig, FULL_CARD_EDITOR_NAME, FULL_CARD_NAME, schema } from './const';
 import { isDay } from '../../utils';
+import { renderWarningSection } from '../../utils/warning-renderer';
 
 registerTranslateConfig({
   // Loads the language by returning a JSON structure for a given language
@@ -34,6 +33,13 @@ export class SwissWeatherCard extends LitElement {
   @state() private _forecast: WeatherForecast[] = [];
   @state() private _hourlyForecast: WeatherForecast[] = [];
   @state() private _forecastLoading = false;
+  @state() private _openWarnings: Record<string, boolean> = {};
+  private _loadedLang: string | undefined;
+
+  private _toggleWarning = (id: string) => {
+    this._openWarnings = { ...this._openWarnings, [id]: !this._openWarnings[id] };
+    this.requestUpdate();
+  };
 
   constructor() {
     super();
@@ -164,9 +170,6 @@ export class SwissWeatherCard extends LitElement {
         border-radius: 12px;
         padding: 15px;
         margin-bottom: 20px;
-        display: flex;
-        align-items: center;
-        gap: 12px;
       }
 
       .warning-section.danger {
@@ -395,16 +398,6 @@ export class SwissWeatherCard extends LitElement {
     return this.hass?.states[entityId];
   }
 
-  private _getWarningLevel(warnings: SwissWeatherWarning[]): string {
-    if (!warnings || warnings.length === 0) return 'none';
-
-    const maxLevel = Math.max(...warnings.map((w: SwissWeatherWarning) => w.level || 0));
-    if (maxLevel >= 4) return 'danger';
-    if (maxLevel >= 3) return 'severe';
-    if (maxLevel >= 2) return 'warning';
-    return 'info';
-  }
-
   private _formatWindDirection(degrees: number): string {
     const directions = [
       'N',
@@ -428,125 +421,21 @@ export class SwissWeatherCard extends LitElement {
     return directions[index];
   }
 
-  private _renderWarningSection(warningEntity: HassEntity | null | undefined): TemplateResult {
-    const warnings: SwissWeatherWarning[] = [];
-    if (
-      warningEntity?.attributes?.warning_levels &&
-      Array.isArray(warningEntity.attributes.warning_levels)
-    ) {
-      for (let i = 0; i < warningEntity?.attributes.warning_levels.length; i++)
-        warnings.push({
-          id: `warning_${i}`,
-          title: warningEntity?.attributes.warning_levels[i],
-          level: warningEntity?.attributes.warning_levels[i],
-          type: warningEntity?.attributes.warning_types[i],
-          description: warningEntity?.attributes.warning_texts[i],
-          valid_from: warningEntity.attributes.warning_valid_from[i],
-          valid_to: warningEntity.attributes.warning_valid_to[i],
-          link: warningEntity.attributes.warning_links[i],
-          regions: [],
-          phenomena: [],
-        });
-    }
-    const warningLevel = this._getWarningLevel(warnings);
-    // Helper: Map level number to icon color
-    const levelToColor = (level: number): string => {
-      if (level >= 4) return '#dc143c'; // danger – red
-      if (level >= 3) return '#e17055'; // severe – orange
-      if (level >= 2) return '#f6c90e'; // warning – yellow
-      return 'var(--primary-text-color, #fff)';
-    };
-    // Helper: Map warning type to icon
-    const typeToIcon: Record<string, string> = {
-      storm: 'mdi:weather-lightning',
-      rain: 'mdi:weather-pouring',
-      snow: 'mdi:snowflake',
-      wind: 'mdi:weather-windy',
-      fog: 'mdi:weather-fog',
-      heat: 'mdi:weather-sunny-alert',
-      cold: 'mdi:snowflake-alert',
-      flood: 'mdi:waves',
-      // add more as needed
-      default: 'mdi:alert',
-    };
-
-    // Collapsible state for each warning (open/closed)
-    if (!this._openWarnings) this._openWarnings = {};
-    const toggleWarning = (id: string) => {
-      this._openWarnings = { ...this._openWarnings, [id]: !this._openWarnings[id] };
-      this.requestUpdate();
-    };
-
-    return warnings.length > 0
-      ? html`
-          <div class="warning-section ${warningLevel}">
-            <div>
-              <strong>${_t('weather_warning')}</strong>
-              <ul style="margin: 6px 0 0 0; padding-left: 18px;">
-                ${warnings.map(
-                  w => html`
-                    <li style="margin-bottom: 12px;">
-                      <div style="display: flex; align-items: center; gap: 8px;">
-                        <ha-icon
-                          icon="${typeToIcon[w.type?.toLowerCase?.()] || typeToIcon.default}"
-                          style="color: ${levelToColor(w.level)};"
-                        ></ha-icon>
-                        <span style="font-weight:bold;">${w.title}</span>
-                        ${w.link
-                          ? html`
-                              <a
-                                href="${w.link}"
-                                target="_blank"
-                                style="color: var(--primary-text-color, #fff); text-decoration: underline; display: flex; align-items: center;"
-                                title="More info"
-                              >
-                                <ha-icon
-                                  icon="mdi:link-variant"
-                                  style="font-size: 16px; margin-left: 2px;"
-                                ></ha-icon>
-                              </a>
-                            `
-                          : ''}
-                        <button
-                          @click=${() => toggleWarning(w.id)}
-                          style="background:none;border:none;cursor:pointer;color:var(--primary-text-color,#fff);font-size:16px;"
-                          title="${this._openWarnings[w.id] ? _t('collapse') : _t('expand')}"
-                          aria-label="${this._openWarnings[w.id] ? _t('collapse') : _t('expand')}"
-                        >
-                          <ha-icon
-                            icon="${this._openWarnings[w.id]
-                              ? 'mdi:chevron-up'
-                              : 'mdi:chevron-down'}"
-                          ></ha-icon>
-                        </button>
-                      </div>
-                      ${this._openWarnings[w.id] && w.description
-                        ? html`
-                            <div>
-                              <strong>${_t('valid_from')}: </strong>
-                              ${w.valid_from
-                                ? new Date(w.valid_from).toLocaleString()
-                                : _t('unknown')}
-                              <strong>${_t('valid_to')}: </strong>
-                              ${w.valid_to ? new Date(w.valid_to).toLocaleString() : _t('unknown')}
-                            </div>
-                            <div
-                              style="color: var(--primary-text-color, #fff); font-size: 14px; line-height: 1.4; margin-left: 2px; margin-top: 4px;"
-                              .innerHTML="${marked.parse(w.description || '')}"
-                            ></div>
-                          `
-                        : ''}
-                    </li>
-                  `
-                )}
-              </ul>
-            </div>
-          </div>
-        `
-      : html``;
+  private _renderWarningSection(
+    warningEntity: HassEntity | null | undefined,
+    primaryEntity: HassEntity | null | undefined,
+    secondaryEntity: HassEntity | null | undefined,
+    tertiaryEntity: HassEntity | null | undefined
+  ): TemplateResult | null {
+    return renderWarningSection(
+      warningEntity,
+      primaryEntity,
+      secondaryEntity,
+      tertiaryEntity,
+      this._openWarnings,
+      this._toggleWarning
+    );
   }
-  // Add this state property to your class:
-  @state() private _openWarnings: Record<string, boolean> = {};
 
   // @property({ type: Array }) hourlyForecast: WeatherForecast[] = [];
   // @property({ type: Number }) forecastHours = 12;
@@ -722,10 +611,14 @@ export class SwissWeatherCard extends LitElement {
   }
 
   public render(): TemplateResult {
-    use((this.hass.selectedLanguage || this.hass.language || 'en').substring(0, 2));
-
     if (!this.hass || !this.config) {
       return html``;
+    }
+
+    const lang = (this.hass.selectedLanguage || this.hass.language || 'en').substring(0, 2);
+    if (lang !== this._loadedLang) {
+      this._loadedLang = lang;
+      use(lang).then(() => this.requestUpdate());
     }
 
     const weatherEntity = this._getEntityState(this.config.entity) as WeatherEntity;
@@ -751,6 +644,15 @@ export class SwissWeatherCard extends LitElement {
     const warningEntity = this.config.warning_entity
       ? this._getEntityState(this.config.warning_entity)
       : null;
+    const primaryWarningEntity = this.config.primary_warning_entity
+      ? this._getEntityState(this.config.primary_warning_entity)
+      : null;
+    const secondaryWarningEntity = this.config.secondary_warning_entity
+      ? this._getEntityState(this.config.secondary_warning_entity)
+      : null;
+    const tertiaryWarningEntity = this.config.tertiary_warning_entity
+      ? this._getEntityState(this.config.tertiary_warning_entity)
+      : null;
 
     const windSpeed = windEntity
       ? parseFloat(windEntity.state)
@@ -771,7 +673,14 @@ export class SwissWeatherCard extends LitElement {
             </div>
           `
         : ''}
-      ${this.config.show_warnings ? this._renderWarningSection(warningEntity) : ''}
+      ${this.config.show_warnings
+        ? this._renderWarningSection(
+            warningEntity,
+            primaryWarningEntity,
+            secondaryWarningEntity,
+            tertiaryWarningEntity
+          )
+        : ''}
 
       <div class="current-weather">
         <div>

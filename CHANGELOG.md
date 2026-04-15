@@ -1,5 +1,31 @@
 # Release Notes
 
+## [1.8.0] - 2026-04-15
+
+### Added
+- **Ranked warning model support** — full compatibility with mastameista's `hass-swissweather` fork (API v2).
+  - New `primary_warning_entity`, `secondary_warning_entity`, `tertiary_warning_entity` entity pickers in the full card Visual Editor.
+  - Auto-detection: if `has_warning` attribute is present on the primary entity, the ranked model is used; otherwise falls back to the legacy aggregated sensor (izacus/hass-swissweather).
+  - Warning count shown in the section title ("2 weather warnings active").
+  - +N badge on the primary slot only shows warnings hidden beyond secondary/tertiary slots.
+  - Expand/collapse per warning slot with validity period, HTML text, and links.
+  - Icons derived from `warning_type`; color from `icon_color` (yellow/orange/red/violet/gray).
+  - Null-text handling for warnings without text (e.g. avalanche bulletins — links still render).
+- **Standalone `swissweather-warning-card`** — dedicated card showing only weather warnings, configurable with the three ranked entities independently of the full weather card.
+
+### Changed
+- Warning rendering logic extracted into a shared utility (`src/utils/warning-renderer.ts`) — single source of truth used by both the full card and the standalone warning card.
+- Async translation loading fixed: warning title now appears immediately on first render.
+
+### Fixed
+- Warning section layout on the full card (title and list were rendering side-by-side due to leftover `display: flex`).
+- Expand button on the full card now triggers re-render correctly (missing `requestUpdate()`).
+- Expand button stays pinned to the right in narrow layouts (4-section dashboard view).
+
+### Migration Notes
+- Existing configs with `warning_entity` continue to work unchanged (legacy fallback).
+- To use the ranked model, configure `primary_warning_entity` (and optionally secondary/tertiary) in the Visual Editor. No `warning_entity` is needed.
+
 ## [1.7.0] - 2026-03-28
 
 ### Added
@@ -29,7 +55,7 @@
 - Older configs without `forecast` in `chart_order` continue to work; `forecast` is auto-added when `show_forecast` is enabled.
 - If legacy dashboard sections show outdated sizing, open the card editor once and save to refresh stored grid options.
 
-## [1.6.0] - 2025-09-??
+## [1.6.0] - 2025-10-16
 
 ### Added
 - new "sub" cards are available

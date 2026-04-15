@@ -257,3 +257,30 @@ export type WeatherWarningType =
   | 'flood'
   | 'avalanche'
   | 'forest_fire';
+
+/**
+ * Attributes exposed by the ranked warning entities in mastameista's fork.
+ * Each slot (primary/secondary/tertiary) carries exactly these fields.
+ */
+export interface RankedWarningAttributes {
+  has_warning: boolean;
+  rank: number;
+  warning_type: string | null;
+  warning_type_raw: number | null;
+  warning_level: number | null;
+  warning_level_raw: number | null;
+  level_name: string | null;
+  valid_from: string | null;
+  valid_to: string | null;
+  outlook: boolean | null;
+  text: string | null;
+  html_text: string | null;
+  links: Array<{ url: string; text: string; alt_url?: string }>;
+  icon_color: 'yellow' | 'orange' | 'red' | 'violet' | 'gray' | string;
+  icon: string;
+  fingerprint: string | null;
+  /** Only present on primary slot: max(total_warnings - 1, 0) */
+  additional_warning_count?: number;
+  attribution?: string;
+  friendly_name?: string;
+}

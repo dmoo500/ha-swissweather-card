@@ -12,7 +12,10 @@ export const translations = {
       wind_direction_entity: 'Windrichtung',
       sunshine_entity: 'Sonnenscheindauer',
       precipitation_entity: 'Niederschlagsprognose',
-      warning_entity: 'Wetterwarnungen',
+      warning_entity: 'Wetterwarnungen (Legacy)',
+      primary_warning_entity: 'Primäre Wetterwarnung',
+      secondary_warning_entity: 'Sekundäre Wetterwarnung',
+      tertiary_warning_entity: 'Tertiäre Wetterwarnung',
       show_forecast: 'Wettervorhersage anzeigen',
       forecast_mode: 'Vorhersage-Modus',
       show_temperature: 'Temperaturdiagramm anzeigen',
@@ -52,7 +55,13 @@ export const translations = {
         wind_direction_entity:
           'Die Windrichtungs-Entity wird benötigt, um die Windrichtung anzuzeigen.',
         warning_entity:
-          'Die Wetterwarnungen Entity wird von SiwssWeather angelegt und kann hier verwendet werden. Sollte sie nicht gesetzt sein, werden keine Wetterwarnungen angezeigt.',
+          'Legacy: Die Wetterwarnungen Entity wird von der ursprünglichen SwissWeather Integration angelegt (izacus/hass-swissweather). Wenn die neueren Ranked-Entities gesetzt sind, wird diese Entity ignoriert.',
+        primary_warning_entity:
+          'Primäre Wetterwarnung (*_primary_weather_warning) aus mastameista/hass-swissweather. Wenn gesetzt, wird das neue Ranked-Model aktiviert.',
+        secondary_warning_entity:
+          'Sekundäre Wetterwarnung (*_secondary_weather_warning) aus mastameista/hass-swissweather.',
+        tertiary_warning_entity:
+          'Tertiäre Wetterwarnung (*_tertiary_weather_warning) aus mastameista/hass-swissweather.',
         precipitation_entity:
           'Die Niederschlags-Entity wird benötigt, um die Niederschlagsprognose anzuzeigen.',
         show_forecast:
@@ -97,6 +106,7 @@ export const translations = {
     visibility: 'Sicht',
     current_weather: 'Aktuelles Wetter',
     weather_warning: 'Wetterwarnung aktiv',
+    weather_warnings: '{{count}} Wetterwarnungen aktiv',
     forecast_loading: 'Lädt...',
     forecast_days: '{{count}}-Tage-Prognose',
     forecast_days_7: '7-Tage-Prognose',
@@ -155,6 +165,10 @@ export const translations = {
     valid_from: 'Gültig ab',
     valid_to: 'Gültig bis',
     unknown: 'Unbekannt',
+    collapse: 'Einklappen',
+    expand: 'Ausklappen',
+    warnings_additional: '+{{count}} weitere',
+    warnings_none: 'Keine aktiven Wetterwarnungen',
   },
   en: {
     config: {
@@ -167,7 +181,10 @@ export const translations = {
       wind_direction_entity: 'Wind Direction',
       sunshine_entity: 'Sunshine Duration',
       precipitation_entity: 'Precipitation Forecast',
-      warning_entity: 'Weather Warnings',
+      warning_entity: 'Weather Warnings (Legacy)',
+      primary_warning_entity: 'Primary Weather Warning',
+      secondary_warning_entity: 'Secondary Weather Warning',
+      tertiary_warning_entity: 'Tertiary Weather Warning',
       show_forecast: 'Show Weather Forecast',
       forecast_mode: 'Forecast Mode',
       show_temperature: 'Show Temperature Chart',
@@ -204,7 +221,13 @@ export const translations = {
         wind_entity: 'The wind entity is required to display wind speed.',
         wind_direction_entity: 'The wind direction entity is required to display wind direction.',
         warning_entity:
-          'The weather warnings entity is created by SwissWeather and can be used here. If it is not set, no weather warnings will be displayed.',
+          'Legacy: The weather warnings entity created by the original SwissWeather integration (izacus/hass-swissweather). Ignored when the ranked warning entities below are configured.',
+        primary_warning_entity:
+          'Primary weather warning entity (*_primary_weather_warning) from mastameista/hass-swissweather. When set, the new ranked model is activated.',
+        secondary_warning_entity:
+          'Secondary weather warning entity (*_secondary_weather_warning) from mastameista/hass-swissweather.',
+        tertiary_warning_entity:
+          'Tertiary weather warning entity (*_tertiary_weather_warning) from mastameista/hass-swissweather.',
         precipitation_entity:
           'The precipitation entity is required to display the precipitation forecast.',
         show_forecast:
@@ -243,6 +266,7 @@ export const translations = {
     visibility: 'Visibility',
     current_weather: 'Current Weather',
     weather_warning: 'Weather warning active',
+    weather_warnings: '{{count}} weather warnings active',
     forecast_loading: 'Loading...',
     forecast_days: '{{count}}-day forecast',
     forecast_days_7: '7-day forecast',
@@ -299,5 +323,9 @@ export const translations = {
     valid_from: 'Valid from',
     valid_to: 'Valid to',
     unknown: 'Unknown',
+    collapse: 'Collapse',
+    expand: 'Expand',
+    warnings_additional: '+{{count}} more',
+    warnings_none: 'No active weather warnings',
   },
 };

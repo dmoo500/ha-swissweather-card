@@ -34,6 +34,9 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
       'wind_direction_entity',
       'sunshine_entity',
       'warning_entity',
+      'primary_warning_entity',
+      'secondary_warning_entity',
+      'tertiary_warning_entity',
     ];
     for (const key of entityFields) {
       if (cleanConfig[key as keyof CardConfig] === '') {
@@ -215,6 +218,18 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
           : undefined,
       warning_entity:
         typeof this._config?.warning_entity === 'string' ? this._config.warning_entity : undefined,
+      primary_warning_entity:
+        typeof this._config?.primary_warning_entity === 'string'
+          ? this._config.primary_warning_entity
+          : undefined,
+      secondary_warning_entity:
+        typeof this._config?.secondary_warning_entity === 'string'
+          ? this._config.secondary_warning_entity
+          : undefined,
+      tertiary_warning_entity:
+        typeof this._config?.tertiary_warning_entity === 'string'
+          ? this._config.tertiary_warning_entity
+          : undefined,
       show_forecast: this._config?.show_forecast ?? true,
       forecast_hours: this._config?.forecast_hours ?? 6,
       show_temperature: this._config?.show_temperature ?? true,
@@ -258,6 +273,9 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
             .hass=${this.hass}
             .data=${data}
             .schema=${[
+              schema.find(s => s.name === 'primary_warning_entity'),
+              schema.find(s => s.name === 'secondary_warning_entity'),
+              schema.find(s => s.name === 'tertiary_warning_entity'),
               schema.find(s => s.name === 'warning_entity'),
               schema.find(s => s.name === 'precipitation_entity'),
               schema.find(s => s.name === 'sun_entity'),
@@ -360,6 +378,9 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
       wind_direction_entity: _t('config.wind_direction_entity'),
       sunshine_entity: _t('config.sunshine_entity'),
       warning_entity: _t('config.warning_entity'),
+      primary_warning_entity: _t('config.primary_warning_entity'),
+      secondary_warning_entity: _t('config.secondary_warning_entity'),
+      tertiary_warning_entity: _t('config.tertiary_warning_entity'),
       show_forecast: _t('config.show_forecast'),
       forecast_hours: _t('config.forecast_hours'),
       show_temperature: _t('config.show_temperature'),
