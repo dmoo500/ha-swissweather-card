@@ -42,7 +42,7 @@
     "descr": {
       "entity": "The weather entity is required and should be from the SwissWeather integration. If another weather entity is used, not all data may be displayed correctly.",
       "sun_entity": "The sun entity is required to display sunrise and sunset times.",
-      "show_forecast": "The weather forecast displays the forecast with up to 7 days, depending on what the weather service provides.",
+      "show_forecast": "Toggle the weather forecast section on or off. The forecast shows up to 7 days depending on what the weather service provides.",
       "sunshine_entity": "The sunshine entity is required to display sunshine duration.",
       "wind_entity": "The wind entity is required to display wind speed.",
       "wind_direction_entity": "The wind direction entity is required to display wind direction.",
@@ -143,5 +143,9 @@
   "collapse": "Collapse",
   "expand": "Expand",
   "warnings_additional": "+{{count}} more",
-  "warnings_none": "No active weather warnings"
+  "warnings_none": "No active weather warnings",
+  "loading": "Loading...",
+  "loading_forecast": "Loading forecast data...",
+  "check_devtools": "Check Developer Tools → Services → weather.get_forecasts",
+  "try_other_entity": "Try a different weather entity"
 }

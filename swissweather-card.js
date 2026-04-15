@@ -2205,9 +2205,9 @@ var B = (e, t, n, r) => {
 			chart_wind: "Wind",
 			chart_forecast: "Prognose-Diagramm",
 			descr: {
-				entity: "Die Wetter-Entity ist erforderlich und sollte von der Integration SwissWeather sein. Wenn eine andere Wetter Entity genutzt wird kann es passieren, das nicht alle Daten korrekt angezeuigt werden.",
+				entity: "Die Wetter-Entity ist erforderlich und sollte von der Integration SwissWeather sein. Wenn eine andere Wetter Entity genutzt wird kann es passieren, das nicht alle Daten korrekt angezeigt werden.",
 				sun_entity: "Die Sonnen-Entity ist erforderlich, um Sonnenaufgangs- und Sonnenuntergangszeiten anzuzeigen.",
-				show_forecast: "Die Wettervorhersage zeigt die Vorhersage mit maximal 7 Tagen an, je nach dem, was der Wetterdienst liefert.",
+				show_forecast: "Blende den Wettervorhersage-Bereich ein oder aus. Die Vorhersage zeigt bis zu 7 Tage an, je nach dem was der Wetterdienst liefert.",
 				sunshine_entity: "Die Sonnenscheindauer-Entity wird benötigt, um die Sonnenscheindauer anzuzeigen.",
 				wind_entity: "Die Wind-Entity wird benötigt, um die Windgeschwindigkeit anzuzeigen.",
 				wind_direction_entity: "Die Windrichtungs-Entity wird benötigt, um die Windrichtung anzuzeigen.",
@@ -2310,7 +2310,11 @@ var B = (e, t, n, r) => {
 		collapse: "Einklappen",
 		expand: "Ausklappen",
 		warnings_additional: "+{{count}} weitere",
-		warnings_none: "Keine aktiven Wetterwarnungen"
+		warnings_none: "Keine aktiven Wetterwarnungen",
+		loading: "Lädt...",
+		loading_forecast: "Vorhersagedaten werden geladen...",
+		check_devtools: "Prüfen Sie die Developer Tools → Services → weather.get_forecasts",
+		try_other_entity: "Versuchen Sie eine andere Wetter-Entity"
 	},
 	en: {
 		config: {
@@ -2356,7 +2360,7 @@ var B = (e, t, n, r) => {
 			descr: {
 				entity: "The weather entity is required and should be from the SwissWeather integration. If another weather entity is used, not all data may be displayed correctly.",
 				sun_entity: "The sun entity is required to display sunrise and sunset times.",
-				show_forecast: "The weather forecast displays the forecast with up to 7 days, depending on what the weather service provides.",
+				show_forecast: "Toggle the weather forecast section on or off. The forecast shows up to 7 days depending on what the weather service provides.",
 				sunshine_entity: "The sunshine entity is required to display sunshine duration.",
 				wind_entity: "The wind entity is required to display wind speed.",
 				wind_direction_entity: "The wind direction entity is required to display wind direction.",
@@ -2457,7 +2461,11 @@ var B = (e, t, n, r) => {
 		collapse: "Collapse",
 		expand: "Expand",
 		warnings_additional: "+{{count}} more",
-		warnings_none: "No active weather warnings"
+		warnings_none: "No active weather warnings",
+		loading: "Loading...",
+		loading_forecast: "Loading forecast data...",
+		check_devtools: "Check Developer Tools → Services → weather.get_forecasts",
+		try_other_entity: "Try a different weather entity"
 	}
 }, tn = "swissweather", nn = `${tn}-card`, rn = `${nn}-editor`, H = [
 	{
