@@ -31,8 +31,10 @@ export const warningSchema = [
   },
 ];
 
-export type WarningCardConfig = BasicCardConfig & {
+export type WarningCardConfig = Omit<BasicCardConfig, 'entity'> & {
   type: typeof WARNING_CARD_NAME;
+  /** Optional entity — not used by this card but kept for schema compatibility */
+  entity?: string;
   /** Ranked model – primary slot (*_primary_weather_warning) */
   primary_warning_entity?: string;
   /** Ranked model – secondary slot (*_secondary_weather_warning) */

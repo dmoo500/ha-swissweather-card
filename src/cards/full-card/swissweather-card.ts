@@ -426,7 +426,7 @@ export class SwissWeatherCard extends LitElement {
     primaryEntity: HassEntity | null | undefined,
     secondaryEntity: HassEntity | null | undefined,
     tertiaryEntity: HassEntity | null | undefined
-  ): TemplateResult {
+  ): TemplateResult | null {
     return renderWarningSection(
       warningEntity,
       primaryEntity,
@@ -611,14 +611,14 @@ export class SwissWeatherCard extends LitElement {
   }
 
   public render(): TemplateResult {
+    if (!this.hass || !this.config) {
+      return html``;
+    }
+
     const lang = (this.hass.selectedLanguage || this.hass.language || 'en').substring(0, 2);
     if (lang !== this._loadedLang) {
       this._loadedLang = lang;
       use(lang).then(() => this.requestUpdate());
-    }
-
-    if (!this.hass || !this.config) {
-      return html``;
     }
 
     const weatherEntity = this._getEntityState(this.config.entity) as WeatherEntity;

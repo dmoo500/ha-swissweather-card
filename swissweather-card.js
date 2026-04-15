@@ -29,11 +29,11 @@ var e = "1.8.0", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t
 	let t = "";
 	for (let n of e.cssRules) t += n.cssText;
 	return o(t);
-})(e) : e, { is: u, defineProperty: d, getOwnPropertyDescriptor: f, getOwnPropertyNames: p, getOwnPropertySymbols: m, getPrototypeOf: h } = Object, ee = globalThis, g = ee.trustedTypes, te = g ? g.emptyScript : "", ne = ee.reactiveElementPolyfillSupport, re = (e, t) => e, ie = {
+})(e) : e, { is: u, defineProperty: d, getOwnPropertyDescriptor: f, getOwnPropertyNames: p, getOwnPropertySymbols: m, getPrototypeOf: ee } = Object, te = globalThis, h = te.trustedTypes, ne = h ? h.emptyScript : "", re = te.reactiveElementPolyfillSupport, ie = (e, t) => e, ae = {
 	toAttribute(e, t) {
 		switch (t) {
 			case Boolean:
-				e = e ? te : null;
+				e = e ? ne : null;
 				break;
 			case Object:
 			case Array: e = e == null ? e : JSON.stringify(e);
@@ -58,23 +58,23 @@ var e = "1.8.0", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t
 		}
 		return n;
 	}
-}, ae = (e, t) => !u(e, t), _ = {
+}, oe = (e, t) => !u(e, t), g = {
 	attribute: !0,
 	type: String,
-	converter: ie,
+	converter: ae,
 	reflect: !1,
 	useDefault: !1,
-	hasChanged: ae
+	hasChanged: oe
 };
-Symbol.metadata ??= Symbol("metadata"), ee.litPropertyMetadata ??= /* @__PURE__ */ new WeakMap();
-var v = class extends HTMLElement {
+Symbol.metadata ??= Symbol("metadata"), te.litPropertyMetadata ??= /* @__PURE__ */ new WeakMap();
+var _ = class extends HTMLElement {
 	static addInitializer(e) {
 		this._$Ei(), (this.l ??= []).push(e);
 	}
 	static get observedAttributes() {
 		return this.finalize(), this._$Eh && [...this._$Eh.keys()];
 	}
-	static createProperty(e, t = _) {
+	static createProperty(e, t = g) {
 		if (t.state && (t.attribute = !1), this._$Ei(), this.prototype.hasOwnProperty(e) && ((t = Object.create(t)).wrapped = !0), this.elementProperties.set(e, t), !t.noAccessor) {
 			let n = Symbol(), r = this.getPropertyDescriptor(e, n, t);
 			r !== void 0 && d(this.prototype, e, r);
@@ -100,16 +100,16 @@ var v = class extends HTMLElement {
 		};
 	}
 	static getPropertyOptions(e) {
-		return this.elementProperties.get(e) ?? _;
+		return this.elementProperties.get(e) ?? g;
 	}
 	static _$Ei() {
-		if (this.hasOwnProperty(re("elementProperties"))) return;
-		let e = h(this);
+		if (this.hasOwnProperty(ie("elementProperties"))) return;
+		let e = ee(this);
 		e.finalize(), e.l !== void 0 && (this.l = [...e.l]), this.elementProperties = new Map(e.elementProperties);
 	}
 	static finalize() {
-		if (this.hasOwnProperty(re("finalized"))) return;
-		if (this.finalized = !0, this._$Ei(), this.hasOwnProperty(re("properties"))) {
+		if (this.hasOwnProperty(ie("finalized"))) return;
+		if (this.finalized = !0, this._$Ei(), this.hasOwnProperty(ie("properties"))) {
 			let e = this.properties, t = [...p(e), ...m(e)];
 			for (let n of t) this.createProperty(n, e[n]);
 		}
@@ -171,14 +171,14 @@ var v = class extends HTMLElement {
 	_$ET(e, t) {
 		let n = this.constructor.elementProperties.get(e), r = this.constructor._$Eu(e, n);
 		if (r !== void 0 && !0 === n.reflect) {
-			let i = (n.converter?.toAttribute === void 0 ? ie : n.converter).toAttribute(t, n.type);
+			let i = (n.converter?.toAttribute === void 0 ? ae : n.converter).toAttribute(t, n.type);
 			this._$Em = e, i == null ? this.removeAttribute(r) : this.setAttribute(r, i), this._$Em = null;
 		}
 	}
 	_$AK(e, t) {
 		let n = this.constructor, r = n._$Eh.get(e);
 		if (r !== void 0 && this._$Em !== r) {
-			let e = n.getPropertyOptions(r), i = typeof e.converter == "function" ? { fromAttribute: e.converter } : e.converter?.fromAttribute === void 0 ? ie : e.converter;
+			let e = n.getPropertyOptions(r), i = typeof e.converter == "function" ? { fromAttribute: e.converter } : e.converter?.fromAttribute === void 0 ? ae : e.converter;
 			this._$Em = r;
 			let a = i.fromAttribute(t, e.type);
 			this[r] = a ?? this._$Ej?.get(r) ?? a, this._$Em = null;
@@ -187,7 +187,7 @@ var v = class extends HTMLElement {
 	requestUpdate(e, t, n) {
 		if (e !== void 0) {
 			let r = this.constructor, i = this[e];
-			if (n ??= r.getPropertyOptions(e), !((n.hasChanged ?? ae)(i, t) || n.useDefault && n.reflect && i === this._$Ej?.get(e) && !this.hasAttribute(r._$Eu(e, n)))) return;
+			if (n ??= r.getPropertyOptions(e), !((n.hasChanged ?? oe)(i, t) || n.useDefault && n.reflect && i === this._$Ej?.get(e) && !this.hasAttribute(r._$Eu(e, n)))) return;
 			this.C(e, t, n);
 		}
 		!1 === this.isUpdatePending && (this._$ES = this._$EP());
@@ -251,25 +251,25 @@ var v = class extends HTMLElement {
 	updated(e) {}
 	firstUpdated(e) {}
 };
-v.elementStyles = [], v.shadowRootOptions = { mode: "open" }, v[re("elementProperties")] = /* @__PURE__ */ new Map(), v[re("finalized")] = /* @__PURE__ */ new Map(), ne?.({ ReactiveElement: v }), (ee.reactiveElementVersions ??= []).push("2.1.1");
+_.elementStyles = [], _.shadowRootOptions = { mode: "open" }, _[ie("elementProperties")] = /* @__PURE__ */ new Map(), _[ie("finalized")] = /* @__PURE__ */ new Map(), re?.({ ReactiveElement: _ }), (te.reactiveElementVersions ??= []).push("2.1.1");
 //#endregion
 //#region node_modules/lit/node_modules/lit-html/lit-html.js
-var oe = globalThis, se = oe.trustedTypes, ce = se ? se.createPolicy("lit-html", { createHTML: (e) => e }) : void 0, le = "$lit$", y = `lit$${Math.random().toFixed(9).slice(2)}$`, ue = "?" + y, de = `<${ue}>`, fe = document, b = () => fe.createComment(""), x = (e) => e === null || typeof e != "object" && typeof e != "function", S = Array.isArray, pe = (e) => S(e) || typeof e?.[Symbol.iterator] == "function", me = "[ 	\n\f\r]", he = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, ge = /-->/g, _e = />/g, ve = RegExp(`>|${me}(?:([^\\s"'>=/]+)(${me}*=${me}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`, "g"), ye = /'/g, be = /"/g, xe = /^(?:script|style|textarea|title)$/i, Se = (e) => (t, ...n) => ({
+var se = globalThis, ce = se.trustedTypes, le = ce ? ce.createPolicy("lit-html", { createHTML: (e) => e }) : void 0, ue = "$lit$", v = `lit$${Math.random().toFixed(9).slice(2)}$`, de = "?" + v, fe = `<${de}>`, pe = document, y = () => pe.createComment(""), b = (e) => e === null || typeof e != "object" && typeof e != "function", x = Array.isArray, me = (e) => x(e) || typeof e?.[Symbol.iterator] == "function", he = "[ 	\n\f\r]", ge = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, _e = /-->/g, ve = />/g, S = RegExp(`>|${he}(?:([^\\s"'>=/]+)(${he}*=${he}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`, "g"), ye = /'/g, be = /"/g, xe = /^(?:script|style|textarea|title)$/i, Se = (e) => (t, ...n) => ({
 	_$litType$: e,
 	strings: t,
 	values: n
-}), C = Se(1), w = Se(2), Ce = Symbol.for("lit-noChange"), T = Symbol.for("lit-nothing"), we = /* @__PURE__ */ new WeakMap(), Te = fe.createTreeWalker(fe, 129);
+}), C = Se(1), w = Se(2), Ce = Symbol.for("lit-noChange"), T = Symbol.for("lit-nothing"), we = /* @__PURE__ */ new WeakMap(), Te = pe.createTreeWalker(pe, 129);
 function Ee(e, t) {
-	if (!S(e) || !e.hasOwnProperty("raw")) throw Error("invalid template strings array");
-	return ce === void 0 ? t : ce.createHTML(t);
+	if (!x(e) || !e.hasOwnProperty("raw")) throw Error("invalid template strings array");
+	return le === void 0 ? t : le.createHTML(t);
 }
 var De = (e, t) => {
-	let n = e.length - 1, r = [], i, a = t === 2 ? "<svg>" : t === 3 ? "<math>" : "", o = he;
+	let n = e.length - 1, r = [], i, a = t === 2 ? "<svg>" : t === 3 ? "<math>" : "", o = ge;
 	for (let t = 0; t < n; t++) {
 		let n = e[t], s, c, l = -1, u = 0;
-		for (; u < n.length && (o.lastIndex = u, c = o.exec(n), c !== null);) u = o.lastIndex, o === he ? c[1] === "!--" ? o = ge : c[1] === void 0 ? c[2] === void 0 ? c[3] !== void 0 && (o = ve) : (xe.test(c[2]) && (i = RegExp("</" + c[2], "g")), o = ve) : o = _e : o === ve ? c[0] === ">" ? (o = i ?? he, l = -1) : c[1] === void 0 ? l = -2 : (l = o.lastIndex - c[2].length, s = c[1], o = c[3] === void 0 ? ve : c[3] === "\"" ? be : ye) : o === be || o === ye ? o = ve : o === ge || o === _e ? o = he : (o = ve, i = void 0);
-		let d = o === ve && e[t + 1].startsWith("/>") ? " " : "";
-		a += o === he ? n + de : l >= 0 ? (r.push(s), n.slice(0, l) + le + n.slice(l) + y + d) : n + y + (l === -2 ? t : d);
+		for (; u < n.length && (o.lastIndex = u, c = o.exec(n), c !== null);) u = o.lastIndex, o === ge ? c[1] === "!--" ? o = _e : c[1] === void 0 ? c[2] === void 0 ? c[3] !== void 0 && (o = S) : (xe.test(c[2]) && (i = RegExp("</" + c[2], "g")), o = S) : o = ve : o === S ? c[0] === ">" ? (o = i ?? ge, l = -1) : c[1] === void 0 ? l = -2 : (l = o.lastIndex - c[2].length, s = c[1], o = c[3] === void 0 ? S : c[3] === "\"" ? be : ye) : o === be || o === ye ? o = S : o === _e || o === ve ? o = ge : (o = S, i = void 0);
+		let d = o === S && e[t + 1].startsWith("/>") ? " " : "";
+		a += o === ge ? n + fe : l >= 0 ? (r.push(s), n.slice(0, l) + ue + n.slice(l) + v + d) : n + v + (l === -2 ? t : d);
 	}
 	return [Ee(e, a + (e[n] || "<?>") + (t === 2 ? "</svg>" : t === 3 ? "</math>" : "")), r];
 }, Oe = class e {
@@ -283,8 +283,8 @@ var De = (e, t) => {
 		}
 		for (; (i = Te.nextNode()) !== null && c.length < s;) {
 			if (i.nodeType === 1) {
-				if (i.hasAttributes()) for (let e of i.getAttributeNames()) if (e.endsWith(le)) {
-					let t = u[o++], n = i.getAttribute(e).split(y), r = /([.?@])?(.*)/.exec(t);
+				if (i.hasAttributes()) for (let e of i.getAttributeNames()) if (e.endsWith(ue)) {
+					let t = u[o++], n = i.getAttribute(e).split(v), r = /([.?@])?(.*)/.exec(t);
 					c.push({
 						type: 1,
 						index: a,
@@ -292,43 +292,43 @@ var De = (e, t) => {
 						strings: n,
 						ctor: r[1] === "." ? Ne : r[1] === "?" ? Pe : r[1] === "@" ? Fe : Me
 					}), i.removeAttribute(e);
-				} else e.startsWith(y) && (c.push({
+				} else e.startsWith(v) && (c.push({
 					type: 6,
 					index: a
 				}), i.removeAttribute(e));
 				if (xe.test(i.tagName)) {
-					let e = i.textContent.split(y), t = e.length - 1;
+					let e = i.textContent.split(v), t = e.length - 1;
 					if (t > 0) {
-						i.textContent = se ? se.emptyScript : "";
-						for (let n = 0; n < t; n++) i.append(e[n], b()), Te.nextNode(), c.push({
+						i.textContent = ce ? ce.emptyScript : "";
+						for (let n = 0; n < t; n++) i.append(e[n], y()), Te.nextNode(), c.push({
 							type: 2,
 							index: ++a
 						});
-						i.append(e[t], b());
+						i.append(e[t], y());
 					}
 				}
-			} else if (i.nodeType === 8) if (i.data === ue) c.push({
+			} else if (i.nodeType === 8) if (i.data === de) c.push({
 				type: 2,
 				index: a
 			});
 			else {
 				let e = -1;
-				for (; (e = i.data.indexOf(y, e + 1)) !== -1;) c.push({
+				for (; (e = i.data.indexOf(v, e + 1)) !== -1;) c.push({
 					type: 7,
 					index: a
-				}), e += y.length - 1;
+				}), e += v.length - 1;
 			}
 			a++;
 		}
 	}
 	static createElement(e, t) {
-		let n = fe.createElement("template");
+		let n = pe.createElement("template");
 		return n.innerHTML = e, n;
 	}
 };
 function ke(e, t, n = e, r) {
 	if (t === Ce) return t;
-	let i = r === void 0 ? n._$Cl : n._$Co?.[r], a = x(t) ? void 0 : t._$litDirective$;
+	let i = r === void 0 ? n._$Cl : n._$Co?.[r], a = b(t) ? void 0 : t._$litDirective$;
 	return i?.constructor !== a && (i?._$AO?.(!1), a === void 0 ? i = void 0 : (i = new a(e), i._$AT(e, n, r)), r === void 0 ? n._$Cl = i : (n._$Co ??= [])[r] = i), i !== void 0 && (t = ke(e, i._$AS(e, t.values), i, r)), t;
 }
 var Ae = class {
@@ -342,7 +342,7 @@ var Ae = class {
 		return this._$AM._$AU;
 	}
 	u(e) {
-		let { el: { content: t }, parts: n } = this._$AD, r = (e?.creationScope ?? fe).importNode(t, !0);
+		let { el: { content: t }, parts: n } = this._$AD, r = (e?.creationScope ?? pe).importNode(t, !0);
 		Te.currentNode = r;
 		let i = Te.nextNode(), a = 0, o = 0, s = n[0];
 		for (; s !== void 0;) {
@@ -352,7 +352,7 @@ var Ae = class {
 			}
 			a !== s?.index && (i = Te.nextNode(), a++);
 		}
-		return Te.currentNode = fe, r;
+		return Te.currentNode = pe, r;
 	}
 	p(e) {
 		let t = 0;
@@ -376,7 +376,7 @@ var Ae = class {
 		return this._$AB;
 	}
 	_$AI(e, t = this) {
-		e = ke(this, e, t), x(e) ? e === T || e == null || e === "" ? (this._$AH !== T && this._$AR(), this._$AH = T) : e !== this._$AH && e !== Ce && this._(e) : e._$litType$ === void 0 ? e.nodeType === void 0 ? pe(e) ? this.k(e) : this._(e) : this.T(e) : this.$(e);
+		e = ke(this, e, t), b(e) ? e === T || e == null || e === "" ? (this._$AH !== T && this._$AR(), this._$AH = T) : e !== this._$AH && e !== Ce && this._(e) : e._$litType$ === void 0 ? e.nodeType === void 0 ? me(e) ? this.k(e) : this._(e) : this.T(e) : this.$(e);
 	}
 	O(e) {
 		return this._$AA.parentNode.insertBefore(e, this._$AB);
@@ -385,7 +385,7 @@ var Ae = class {
 		this._$AH !== e && (this._$AR(), this._$AH = this.O(e));
 	}
 	_(e) {
-		this._$AH !== T && x(this._$AH) ? this._$AA.nextSibling.data = e : this.T(fe.createTextNode(e)), this._$AH = e;
+		this._$AH !== T && b(this._$AH) ? this._$AA.nextSibling.data = e : this.T(pe.createTextNode(e)), this._$AH = e;
 	}
 	$(e) {
 		let { values: t, _$litType$: n } = e, r = typeof n == "number" ? this._$AC(e) : (n.el === void 0 && (n.el = Oe.createElement(Ee(n.h, n.h[0]), this.options)), n);
@@ -400,9 +400,9 @@ var Ae = class {
 		return t === void 0 && we.set(e.strings, t = new Oe(e)), t;
 	}
 	k(t) {
-		S(this._$AH) || (this._$AH = [], this._$AR());
+		x(this._$AH) || (this._$AH = [], this._$AR());
 		let n = this._$AH, r, i = 0;
-		for (let a of t) i === n.length ? n.push(r = new e(this.O(b()), this.O(b()), this, this.options)) : r = n[i], r._$AI(a), i++;
+		for (let a of t) i === n.length ? n.push(r = new e(this.O(y()), this.O(y()), this, this.options)) : r = n[i], r._$AI(a), i++;
 		i < n.length && (this._$AR(r && r._$AB.nextSibling, i), n.length = i);
 	}
 	_$AR(e = this._$AA.nextSibling, t) {
@@ -426,10 +426,10 @@ var Ae = class {
 	}
 	_$AI(e, t = this, n, r) {
 		let i = this.strings, a = !1;
-		if (i === void 0) e = ke(this, e, t, 0), a = !x(e) || e !== this._$AH && e !== Ce, a && (this._$AH = e);
+		if (i === void 0) e = ke(this, e, t, 0), a = !b(e) || e !== this._$AH && e !== Ce, a && (this._$AH = e);
 		else {
 			let r = e, o, s;
-			for (e = i[0], o = 0; o < i.length - 1; o++) s = ke(this, r[n + o], t, o), s === Ce && (s = this._$AH[o]), a ||= !x(s) || s !== this._$AH[o], s === T ? e = T : e !== T && (e += (s ?? "") + i[o + 1]), this._$AH[o] = s;
+			for (e = i[0], o = 0; o < i.length - 1; o++) s = ke(this, r[n + o], t, o), s === Ce && (s = this._$AH[o]), a ||= !b(s) || s !== this._$AH[o], s === T ? e = T : e !== T && (e += (s ?? "") + i[o + 1]), this._$AH[o] = s;
 		}
 		a && !r && this.j(e);
 	}
@@ -472,16 +472,16 @@ var Ae = class {
 	_$AI(e) {
 		ke(this, e);
 	}
-}, Le = oe.litHtmlPolyfillSupport;
-Le?.(Oe, je), (oe.litHtmlVersions ??= []).push("3.3.1");
+}, Le = se.litHtmlPolyfillSupport;
+Le?.(Oe, je), (se.litHtmlVersions ??= []).push("3.3.1");
 var Re = (e, t, n) => {
 	let r = n?.renderBefore ?? t, i = r._$litPart$;
 	if (i === void 0) {
 		let e = n?.renderBefore ?? null;
-		r._$litPart$ = i = new je(t.insertBefore(b(), e), e, void 0, n ?? {});
+		r._$litPart$ = i = new je(t.insertBefore(y(), e), e, void 0, n ?? {});
 	}
 	return i._$AI(e), i;
-}, ze = globalThis, E = class extends v {
+}, ze = globalThis, E = class extends _ {
 	constructor() {
 		super(...arguments), this.renderOptions = { host: this }, this._$Do = void 0;
 	}
@@ -515,9 +515,9 @@ var D = (e) => (t, n) => {
 }, Ve = {
 	attribute: !0,
 	type: String,
-	converter: ie,
+	converter: ae,
 	reflect: !1,
-	hasChanged: ae
+	hasChanged: oe
 }, He = (e = Ve, t, n) => {
 	let { kind: r, metadata: i } = n, a = globalThis.litPropertyMetadata.get(i);
 	if (a === void 0 && globalThis.litPropertyMetadata.set(i, a = /* @__PURE__ */ new Map()), r === "setter" && ((e = Object.create(e)).wrapped = !0), a.set(n.name, e), r === "accessor") {
@@ -1083,16 +1083,16 @@ var Ke = class extends E {
                   </text>
                 `);
 			}
-			let h = [], ee = [], g = Math.max(2, u * .55);
+			let ee = [], te = [], h = Math.max(2, u * .55);
 			for (let n = 0; n < t; n++) {
-				let t = e[n], r = d(n) - g / 2, i = typeof t.precipitation_probability == "number" && !isNaN(t.precipitation_probability) ? t.precipitation_probability : 0, o = typeof t.precipitation == "number" && !isNaN(t.precipitation) ? t.precipitation : 0, s = i / 100 * 5 / c * a;
-				if (i > 0 && h.push(w`
-                  <rect x="${r}" y="${l(0) - s}" width="${g}" height="${s}"
+				let t = e[n], r = d(n) - h / 2, i = typeof t.precipitation_probability == "number" && !isNaN(t.precipitation_probability) ? t.precipitation_probability : 0, o = typeof t.precipitation == "number" && !isNaN(t.precipitation) ? t.precipitation : 0, s = i / 100 * 5 / c * a;
+				if (i > 0 && ee.push(w`
+                  <rect x="${r}" y="${l(0) - s}" width="${h}" height="${s}"
                     fill="#87898e" opacity="0.35" rx="1.5"/>
                 `), o > 0) {
 					let e = o / c * a;
-					ee.push(w`
-                  <rect x="${r}" y="${l(0) - e}" width="${g}" height="${e}"
+					te.push(w`
+                  <rect x="${r}" y="${l(0) - e}" width="${h}" height="${e}"
                     fill="url(#precip-grad)" opacity="1" rx="1.5"/>
                 `);
 				}
@@ -1106,8 +1106,8 @@ var Ke = class extends E {
               </defs>
               ${p}
               ${m}
-              ${h}
               ${ee}
+              ${te}
             </svg>`;
 		})()}
         </div>
@@ -1417,17 +1417,17 @@ var qe = class extends E {
                   </text>
                 `);
 			}
-			let h = o.map((e, t) => e === null ? "" : `${f(t)},${u(e)}`).filter(Boolean).join(" "), ee = o.map((e, t) => e === null ? null : w`<circle cx="${f(t)}" cy="${u(e)}" r="2.5" fill="#44739e"/>`), g = r - 22 / 2 + 2;
+			let ee = o.map((e, t) => e === null ? "" : `${f(t)},${u(e)}`).filter(Boolean).join(" "), te = o.map((e, t) => e === null ? null : w`<circle cx="${f(t)}" cy="${u(e)}" r="2.5" fill="#44739e"/>`), h = r - 22 / 2 + 2;
 			return w`<svg width="100%" height="100%" viewBox="0 0 ${n} ${r}" style="display:block;">
               ${p}
               ${m}
-              <polyline points="${h}" fill="none" stroke="#44739e" stroke-width="2.5"
+              <polyline points="${ee}" fill="none" stroke="#44739e" stroke-width="2.5"
                 stroke-linecap="round" stroke-linejoin="round"/>
-              ${ee}
+              ${te}
               ${e.map((e, t) => {
 				let n = typeof e.wind_bearing == "number" && !isNaN(e.wind_bearing) ? e.wind_bearing : null;
 				if (n === null) return null;
-				let r = f(t), i = g, a = (n - 90) * (Math.PI / 180), o = r + 7 * Math.cos(a), s = i + 7 * Math.sin(a), c = a + Math.PI;
+				let r = f(t), i = h, a = (n - 90) * (Math.PI / 180), o = r + 7 * Math.cos(a), s = i + 7 * Math.sin(a), c = a + Math.PI;
 				return w`
                 <circle cx="${r}" cy="${i}" r="${7}" fill="none" stroke="#44739e" stroke-width="0.8" opacity="0.5"/>
                 <line x1="${r + 5 * Math.cos(c)}" y1="${i + 5 * Math.sin(c)}" x2="${o}" y2="${s}"
@@ -1525,36 +1525,36 @@ var Je = class extends E {
 			let e = this.getBoundingClientRect?.();
 			a = e?.width ? Math.floor(e.width) : 400;
 		}
-		let o = a, s = i, c = s - 32, l = o - 16 - 0, u = Math.max(0, l - 16) / n, d = Math.min(120, Math.max(80, c * .35)), f = Math.max(10, c * .05), p = c - d - f, m = Math.min(u * .7, d * .4), h = Math.max(9, Math.round(d * .075)), ee = Math.max(11, Math.round(d * .11)), g = this.config?.diagram_labels ?? "compact", te = Math.max(8, Math.min(10, Math.round(p * .05))), ne = 26 + h, re = ne + 10, ie = re + m + 10, ae = 16 + d + f, _ = u / 24, v = t.map((e) => typeof e.temperature == "number" ? e.temperature : null), oe = Math.min(...v.filter((e) => e !== null)), se = Math.max(...v.filter((e) => e !== null)), ce = ae, le = ae + p, y = t.map((e) => {
+		let o = a, s = i, c = s - 32, l = o - 16 - 0, u = Math.max(0, l - 16) / n, d = Math.min(120, Math.max(80, c * .35)), f = Math.max(10, c * .05), p = c - d - f, m = Math.min(u * .7, d * .4), ee = Math.max(9, Math.round(d * .075)), te = Math.max(11, Math.round(d * .11)), h = this.config?.diagram_labels ?? "compact", ne = Math.max(8, Math.min(10, Math.round(p * .05))), re = 26 + ee, ie = re + 10, ae = ie + m + 10, oe = 16 + d + f, g = u / 24, _ = t.map((e) => typeof e.temperature == "number" ? e.temperature : null), se = Math.min(..._.filter((e) => e !== null)), ce = Math.max(..._.filter((e) => e !== null)), le = oe, ue = oe + p, v = t.map((e) => {
 			let t = e;
 			return typeof t.precipitation == "number" ? t.precipitation : typeof t.rain == "number" ? t.rain : 0;
-		}), ue = t.map((e) => {
+		}), de = t.map((e) => {
 			let t = e, n = typeof t.precipitation_probability == "number" ? t.precipitation_probability : typeof t.probability_of_precipitation == "number" ? t.probability_of_precipitation : typeof t.pop == "number" ? t.pop <= 1 ? t.pop * 100 : t.pop : 0, r = Number(n);
 			return Number.isFinite(r) ? Math.max(0, Math.min(100, r)) : 0;
-		}), de = {};
+		}), fe = {};
 		e.forEach((e, t) => {
 			let n = new Date(e.datetime), r = `${n.getFullYear()}-${n.getMonth()}-${n.getDate()}`;
-			de[r] = t;
+			fe[r] = t;
 		});
-		function fe(e) {
-			let t = de[`${e.getFullYear()}-${e.getMonth()}-${e.getDate()}`], n = e.getHours();
+		function pe(e) {
+			let t = fe[`${e.getFullYear()}-${e.getMonth()}-${e.getDate()}`], n = e.getHours();
 			return {
 				dayIdx: t === void 0 ? -1 : t,
 				hourInDay: n >= 0 && n < 24 ? n : -1
 			};
 		}
-		let b = {};
+		let y = {};
 		for (let e = 0; e < n; e++) for (let t = 0; t < 24; t++) {
 			let n = `${e}-${t}`;
-			b[n] = null;
+			y[n] = null;
 		}
 		t.forEach((e, t) => {
-			if (e.datetime && v[t] !== null) {
-				let r = new Date(e.datetime), { dayIdx: i, hourInDay: a } = fe(r), o = `${i}-${a}`;
-				i >= 0 && i < n && a >= 0 && a < 24 ? b[o] = {
-					temp: v[t],
-					precip: y[t],
-					precipProb: ue[t],
+			if (e.datetime && _[t] !== null) {
+				let r = new Date(e.datetime), { dayIdx: i, hourInDay: a } = pe(r), o = `${i}-${a}`;
+				i >= 0 && i < n && a >= 0 && a < 24 ? y[o] = {
+					temp: _[t],
+					precip: v[t],
+					precipProb: de[t],
 					originalIndex: t
 				} : console.warn(`Data point ${t} outside bounds:`, {
 					dayIdx: i,
@@ -1564,21 +1564,21 @@ var Je = class extends E {
 				});
 			}
 		});
-		let x = Math.floor(oe / 5) * 5, S = Math.ceil(se / 5) * 5;
-		x > 0 && (x = 0), S < 0 && (S = 0);
-		let pe = S - x, me = [], he = [];
+		let b = Math.floor(se / 5) * 5, x = Math.ceil(ce / 5) * 5;
+		b > 0 && (b = 0), x < 0 && (x = 0);
+		let me = x - b, he = [], ge = [];
 		for (let e = 0; e < n; e++) for (let t = 0; t < 24; t++) {
-			let n = b[`${e}-${t}`];
+			let n = y[`${e}-${t}`];
 			if (n && n.temp !== null) {
-				let r = 16 + e * u + t * _ + _ / 2, i = le - (n.temp - x) / pe * (le - ce);
-				he.push(`${r},${i}`);
+				let r = 16 + e * u + t * g + g / 2, i = ue - (n.temp - b) / me * (ue - le);
+				ge.push(`${r},${i}`);
 			}
 		}
-		he.length > 0 && me.push(w`
+		ge.length > 0 && he.push(w`
           <!-- Main temperature line -->
-          <polyline points="${he.join(" ")}" fill="none" stroke="#e74c3c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+          <polyline points="${ge.join(" ")}" fill="none" stroke="#e74c3c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
         `);
-		let ge = Math.max(3, Math.floor(_) - 2), _e = le, ve = 5 / pe * (le - ce) / 5;
+		let _e = Math.max(3, Math.floor(g) - 2), ve = ue, S = 5 / me * (ue - le) / 5;
 		function ye(e) {
 			if (e <= 0) return "transparent";
 			let t = [
@@ -1632,25 +1632,25 @@ var Je = class extends E {
 		}
 		let be = [];
 		for (let e = 0; e < n; e++) for (let t = 0; t < 24; t++) {
-			let n = b[`${e}-${t}`];
+			let n = y[`${e}-${t}`];
 			if (n && n.precipProb > 0) {
-				let r = 16 + e * u + t * _ + _ / 2 - ge / 2, i = 16 + e * u, a = 16 + (e + 1) * u - ge, o = Math.max(i, Math.min(a, r)), s = n.precipProb / 100 * 5 * ve;
-				be.push(w`<rect x="${o}" y="${_e - s}" width="${ge}" height="${s}" fill="#988d8dff" opacity="0.4" rx="1.5"/>`);
+				let r = 16 + e * u + t * g + g / 2 - _e / 2, i = 16 + e * u, a = 16 + (e + 1) * u - _e, o = Math.max(i, Math.min(a, r)), s = n.precipProb / 100 * 5 * S;
+				be.push(w`<rect x="${o}" y="${ve - s}" width="${_e}" height="${s}" fill="#988d8dff" opacity="0.4" rx="1.5"/>`);
 			}
 		}
 		let xe = [];
 		for (let e = 0; e < n; e++) for (let t = 0; t < 24; t++) {
-			let n = b[`${e}-${t}`];
+			let n = y[`${e}-${t}`];
 			if (n && n.precip > 0) {
-				let r = 16 + e * u + t * _ + _ / 2 - ge / 2, i = 16 + e * u, a = 16 + (e + 1) * u - ge, o = Math.max(i, Math.min(a, r)), s = n.precip * ve, c = ye(n.precip);
-				xe.push(w`<rect x="${o}" y="${_e - s}" width="${ge}" height="${s}"
+				let r = 16 + e * u + t * g + g / 2 - _e / 2, i = 16 + e * u, a = 16 + (e + 1) * u - _e, o = Math.max(i, Math.min(a, r)), s = n.precip * S, c = ye(n.precip);
+				xe.push(w`<rect x="${o}" y="${ve - s}" width="${_e}" height="${s}"
               fill="${c}" opacity="1" rx="1.5"/>`);
 			}
 		}
 		let Se = [];
 		if (t.length > 0) for (let e = 0; e <= n; e++) {
 			let t = 16 + e * u;
-			Se.push(w`<line x1="${t}" y1="${ce}" x2="${t}" y2="${le}" stroke="#ddd" stroke-width="0.5" stroke-dasharray="2,2" opacity="0.4"/>`);
+			Se.push(w`<line x1="${t}" y1="${le}" x2="${t}" y2="${ue}" stroke="#ddd" stroke-width="0.5" stroke-dasharray="2,2" opacity="0.4"/>`);
 		}
 		let Ce = [];
 		if (n > 0) for (let t = 0; t < n; t++) {
@@ -1658,29 +1658,29 @@ var Je = class extends E {
 			Ce.push(w`
         <g>
           <!-- Weekday -->
-          <text x="${n}" y="${ne}" text-anchor="middle" font-size="${h}" class="weather-day">
+          <text x="${n}" y="${re}" text-anchor="middle" font-size="${ee}" class="weather-day">
             ${new Date(e[t].datetime).toLocaleDateString(void 0, { weekday: "short" })}
           </text>
           <!-- Icon -->
-          <foreignObject x="${n - m / 2}" y="${re}" width="${m}" height="${m}">
+          <foreignObject x="${n - m / 2}" y="${ie}" width="${m}" height="${m}">
               ${this.getWeatherIcon(e[t].condition || "", this.config.enable_animate_weather_icons ? "animated" : "mdiAsSVG", m + "px", !0)}
           </foreignObject>
           <!-- Min/Max temp -->
-          <text class="weather-temp" x="${n}" y="${ie}" text-anchor="middle" font-size="${ee}">${r}°<tspan fill="#aaa"> | </tspan><tspan class="weather-temp">${i}°</tspan></text>
+          <text class="weather-temp" x="${n}" y="${ae}" text-anchor="middle" font-size="${te}">${r}°<tspan fill="#aaa"> | </tspan><tspan class="weather-temp">${i}°</tspan></text>
         </g>
       `);
 		}
 		let T = [], we = /* @__PURE__ */ new Set();
-		we.add(x), x < 0 && S > 0 && we.add(0), we.add(S);
-		for (let e = x; e <= S; e += 5) if (e % 5 == 0) {
-			let t = ce + (S - e) / pe * (le - ce);
-			if (t >= ce && t <= le) {
+		we.add(b), b < 0 && x > 0 && we.add(0), we.add(x);
+		for (let e = b; e <= x; e += 5) if (e % 5 == 0) {
+			let t = le + (x - e) / me * (ue - le);
+			if (t >= le && t <= ue) {
 				let n = e % 10 == 0;
 				T.push(w`
             <line x1="${16}" y1="${t}" x2="${l}" y2="${t}"
               stroke="#ddd" stroke-width="${n ? 1 : .5}"
               stroke-dasharray="${n ? "none" : "2,2"}" opacity="0.6"/>
-            ${g === "none" ? w`` : g === "full" ? n ? w`<text x="${20}" y="${t}" font-size="${te}" fill="#888" opacity="0.9" text-anchor="start" dominant-baseline="middle">${e}°</text>` : w`` : we.has(e) ? w`<text x="${20}" y="${t}" font-size="${te}" fill="#888" opacity="0.9" text-anchor="start" dominant-baseline="middle">${e}°</text>` : w``}
+            ${h === "none" ? w`` : h === "full" ? n ? w`<text x="${20}" y="${t}" font-size="${ne}" fill="#888" opacity="0.9" text-anchor="start" dominant-baseline="middle">${e}°</text>` : w`` : we.has(e) ? w`<text x="${20}" y="${t}" font-size="${ne}" fill="#888" opacity="0.9" text-anchor="start" dominant-baseline="middle">${e}°</text>` : w``}
           `);
 			}
 		}
@@ -1723,7 +1723,7 @@ var Je = class extends E {
           viewBox="0 0 ${o} ${s}"
           style="display:block; position: absolute; top: 0; left: 0; pointer-events: none;"
         >
-          ${me}
+          ${he}
         </svg>
       </div>
     `;
@@ -4538,6 +4538,19 @@ X.options = X.setOptions = function(e) {
 //#endregion
 //#region src/utils/warning-renderer.ts
 function pi(e) {
+	let t = document.createElement("template");
+	t.innerHTML = e, t.content.querySelectorAll("script,style,iframe,object,embed,form,meta,base").forEach((e) => e.remove()), t.content.querySelectorAll("*").forEach((e) => {
+		if (Array.from(e.attributes).forEach((t) => {
+			/^on/i.test(t.name) && e.removeAttribute(t.name);
+		}), e.tagName === "A") {
+			let t = e.getAttribute("href") ?? "";
+			/^https?:\/\//i.test(t) || e.removeAttribute("href");
+		}
+	});
+	let n = document.createElement("div");
+	return n.appendChild(t.content), n.innerHTML;
+}
+function mi(e) {
 	return {
 		yellow: "#f6c90e",
 		orange: "#e17055",
@@ -4546,10 +4559,10 @@ function pi(e) {
 		gray: "var(--disabled-text-color, #9e9e9e)"
 	}[e?.toLowerCase()] ?? "var(--primary-text-color, #fff)";
 }
-function mi(e, t, n, r, i = 0) {
+function hi(e, t, n, r, i = 0) {
 	let a = e.attributes;
 	if (!a.has_warning) return null;
-	let o = pi(a.icon_color), s = a.icon || "mdi:alert", c = a.warning_type || a.level_name || e.state, l = !!n[t], u = !!(a.html_text || a.text || a.links?.length);
+	let o = mi(a.icon_color), s = a.icon || "mdi:alert", c = a.warning_type || a.level_name || e.state, l = !!n[t], u = !!(a.html_text || a.text || a.links?.length);
 	return C`
     <li style="margin-bottom: 12px;">
       <div style="display: flex; align-items: center; gap: 8px;">
@@ -4587,7 +4600,7 @@ function mi(e, t, n, r, i = 0) {
                   ` : ""}
               ${a.html_text ? C`<div
                     style="line-height: 1.4; margin-bottom: 4px;"
-                    .innerHTML="${a.html_text}"
+                    .innerHTML="${pi(a.html_text)}"
                   ></div>` : a.text ? C`<div style="line-height: 1.4; margin-bottom: 4px;">${a.text}</div>` : ""}
               ${a.links?.length ? C`
                     <div style="display: flex; flex-direction: column; gap: 2px;">
@@ -4609,9 +4622,9 @@ function mi(e, t, n, r, i = 0) {
     </li>
   `;
 }
-function hi(e, t, n, r, i) {
+function gi(e, t, n, r, i) {
 	let a = e.attributes;
-	if (!a.has_warning) return C``;
+	if (!a.has_warning) return null;
 	let o = {
 		red: "danger",
 		violet: "danger",
@@ -4623,15 +4636,15 @@ function hi(e, t, n, r, i) {
       <strong>${d === 1 ? I("weather_warning") : I("weather_warnings", { count: d })}</strong>
       <ul style="margin: 6px 0 0 0; padding-left: 18px;">
         ${[
-		mi(e, "primary", r, i, u),
-		t ? mi(t, "secondary", r, i) : null,
-		n ? mi(n, "tertiary", r, i) : null
+		hi(e, "primary", r, i, u),
+		t ? hi(t, "secondary", r, i) : null,
+		n ? hi(n, "tertiary", r, i) : null
 	].filter(Boolean)}
       </ul>
     </div>
   `;
 }
-function gi(e, t, n) {
+function _i(e, t, n) {
 	let r = [];
 	if (e.attributes.warning_levels && Array.isArray(e.attributes.warning_levels)) for (let t = 0; t < e.attributes.warning_levels.length; t++) r.push({
 		id: `warning_${t}`,
@@ -4645,7 +4658,7 @@ function gi(e, t, n) {
 		regions: [],
 		phenomena: []
 	});
-	if (r.length === 0) return C``;
+	if (r.length === 0) return null;
 	let i = Math.max(...r.map((e) => e.level || 0)), a = i >= 4 ? "danger" : i >= 3 ? "severe" : i >= 2 ? "warning" : "info", o = (e) => e >= 4 ? "#dc143c" : e >= 3 ? "#e17055" : e >= 2 ? "#f6c90e" : "var(--primary-text-color, #fff)", s = {
 		storm: "mdi:weather-lightning",
 		thunderstorms: "mdi:weather-lightning-rainy",
@@ -4708,7 +4721,7 @@ function gi(e, t, n) {
                     </div>
                     <div
                       style="font-size: 14px; line-height: 1.4; margin-top: 4px;"
-                      .innerHTML="${X.parse(e.description || "")}"
+                      .innerHTML="${pi(String(X.parse(e.description || "")))}"
                     ></div>
                   ` : ""}
             </li>
@@ -4717,12 +4730,12 @@ function gi(e, t, n) {
     </div>
   `;
 }
-function _i(e, t, n, r, i, a) {
-	return t && t.attributes?.has_warning !== void 0 ? hi(t, n, r, i, a) : e ? gi(e, i, a) : C``;
+function vi(e, t, n, r, i, a) {
+	return t && t.attributes?.has_warning !== void 0 ? gi(t, n, r, i, a) : e ? _i(e, i, a) : null;
 }
 //#endregion
 //#region src/cards/full-card/swissweather-card.ts
-var vi;
+var yi;
 P({ loader: (e) => V[e] }), console.log("🎯 About to apply @customElement decorator to SwissweatherCard"), console.log("🎯 customElements registry available:", !!customElements);
 var Z = class extends E {
 	hass;
@@ -5067,7 +5080,7 @@ var Z = class extends E {
 		][Math.round(e / 22.5) % 16];
 	}
 	_renderWarningSection(e, t, n, r) {
-		return _i(e, t, n, r, this._openWarnings, this._toggleWarning);
+		return vi(e, t, n, r, this._openWarnings, this._toggleWarning);
 	}
 	_renderForecastTemperature(e) {
 		let t = (e, t) => `${z(e, t)}`;
@@ -5172,11 +5185,12 @@ var Z = class extends E {
     `;
 	}
 	render() {
+		if (!this.hass || !this.config) return C``;
 		let e = (this.hass.selectedLanguage || this.hass.language || "en").substring(0, 2);
-		if (e !== this._loadedLang && (this._loadedLang = e, F(e).then(() => this.requestUpdate())), !this.hass || !this.config) return C``;
+		e !== this._loadedLang && (this._loadedLang = e, F(e).then(() => this.requestUpdate()));
 		let t = this._getEntityState(this.config.entity), n = this._getEntityState(this.config.sun_entity || "sun.sun");
 		if (!t) return C`<div>Entity not found: ${this.config.entity}</div>`;
-		let r = this.config.show_location !== !1, i = this.config.location || z("location"), a = t.attributes.temperature, o = t.state, s = this.config.wind_entity ? this._getEntityState(this.config.wind_entity) : null, c = this.config.wind_direction_entity ? this._getEntityState(this.config.wind_direction_entity) : null, l = this.config.sunshine_entity ? this._getEntityState(this.config.sunshine_entity) : null, u = this.config.warning_entity ? this._getEntityState(this.config.warning_entity) : null, d = this.config.primary_warning_entity ? this._getEntityState(this.config.primary_warning_entity) : null, f = this.config.secondary_warning_entity ? this._getEntityState(this.config.secondary_warning_entity) : null, p = this.config.tertiary_warning_entity ? this._getEntityState(this.config.tertiary_warning_entity) : null, m = s ? parseFloat(s.state) : t.attributes.wind_speed || 0, h = c ? parseFloat(c.state) : t.attributes.wind_bearing || 0, ee = t.attributes.humidity || 0, g = t.attributes.pressure || 0, te = t.attributes.visibility || 0, ne = this.config.forecast_hours ?? 6;
+		let r = this.config.show_location !== !1, i = this.config.location || z("location"), a = t.attributes.temperature, o = t.state, s = this.config.wind_entity ? this._getEntityState(this.config.wind_entity) : null, c = this.config.wind_direction_entity ? this._getEntityState(this.config.wind_direction_entity) : null, l = this.config.sunshine_entity ? this._getEntityState(this.config.sunshine_entity) : null, u = this.config.warning_entity ? this._getEntityState(this.config.warning_entity) : null, d = this.config.primary_warning_entity ? this._getEntityState(this.config.primary_warning_entity) : null, f = this.config.secondary_warning_entity ? this._getEntityState(this.config.secondary_warning_entity) : null, p = this.config.tertiary_warning_entity ? this._getEntityState(this.config.tertiary_warning_entity) : null, m = s ? parseFloat(s.state) : t.attributes.wind_speed || 0, ee = c ? parseFloat(c.state) : t.attributes.wind_bearing || 0, te = t.attributes.humidity || 0, h = t.attributes.pressure || 0, ne = t.attributes.visibility || 0, re = this.config.forecast_hours ?? 6;
 		return C`
       ${r ? C`
             <div class="header">
@@ -5200,19 +5214,19 @@ var Z = class extends E {
         </div>
       </div>
 
-      ${this._renderCurrentWeatherSection(m, h, ee, g, te, l)}
+      ${this._renderCurrentWeatherSection(m, ee, te, h, ne, l)}
       ${this.config.show_temperature !== !1 || this.config.show_precipitation !== !1 || this.config.show_sunshine !== !1 || this.config.show_wind !== !1 || this.config.show_forecast !== !1 ? C`
             <div class="section-title">
               <ha-icon icon="mdi:clock"></ha-icon>
-              ${z("forecast_hours", { hours: ne })}
+              ${z("forecast_hours", { hours: re })}
             </div>
           ` : ""}
       ${this._getEffectiveChartOrder().map((e) => {
 			switch (e) {
-				case "temperature": return this._renderForecastTemperature(ne);
-				case "precipitation": return this._renderForecastPrecipitation(ne);
-				case "sunshine": return this._renderForecastSunshine(t, n, ne);
-				case "wind": return this._renderForecastWind(ne);
+				case "temperature": return this._renderForecastTemperature(re);
+				case "precipitation": return this._renderForecastPrecipitation(re);
+				case "sunshine": return this._renderForecastSunshine(t, n, re);
+				case "wind": return this._renderForecastWind(re);
 				case "forecast": return this._showDailyForecast();
 				default: return "";
 			}
@@ -5293,10 +5307,10 @@ var Z = class extends E {
         ></daily-forecast-diagram>` : C``;
 	}
 };
-j([O({ attribute: !1 }), A("design:type", Object)], Z.prototype, "hass", void 0), j([O({ attribute: !1 }), A("design:type", Object)], Z.prototype, "config", void 0), j([k(), A("design:type", Array)], Z.prototype, "_forecast", void 0), j([k(), A("design:type", Array)], Z.prototype, "_hourlyForecast", void 0), j([k(), A("design:type", Object)], Z.prototype, "_forecastLoading", void 0), j([k(), A("design:type", typeof (vi = typeof Record < "u" && Record) == "function" ? vi : Object)], Z.prototype, "_openWarnings", void 0), Z = j([D(nn), A("design:paramtypes", [])], Z);
+j([O({ attribute: !1 }), A("design:type", Object)], Z.prototype, "hass", void 0), j([O({ attribute: !1 }), A("design:type", Object)], Z.prototype, "config", void 0), j([k(), A("design:type", Array)], Z.prototype, "_forecast", void 0), j([k(), A("design:type", Array)], Z.prototype, "_hourlyForecast", void 0), j([k(), A("design:type", Object)], Z.prototype, "_forecastLoading", void 0), j([k(), A("design:type", typeof (yi = typeof Record < "u" && Record) == "function" ? yi : Object)], Z.prototype, "_openWarnings", void 0), Z = j([D(nn), A("design:paramtypes", [])], Z);
 //#endregion
 //#region src/cards/forecast-diagram/const.ts
-var yi = `${tn}-forecast-diagram-card`, bi = `${yi}-editor`, xi = [{
+var bi = `${tn}-forecast-diagram-card`, xi = `${bi}-editor`, Si = [{
 	name: "entity",
 	required: !0,
 	selector: { entity: { domain: "weather" } },
@@ -5305,7 +5319,7 @@ var yi = `${tn}-forecast-diagram-card`, bi = `${yi}-editor`, xi = [{
 //#endregion
 //#region src/cards/forecast-diagram/forecast-diagram-card-editor.ts
 P({ loader: (e) => V[e] });
-var Si = class extends E {
+var Ci = class extends E {
 	hass;
 	lovelace;
 	_config;
@@ -5472,7 +5486,7 @@ var Si = class extends E {
           <ha-form
             .hass=${this.hass}
             .data=${e}
-            .schema=${[xi.find((e) => e.name === "entity")].filter(Boolean)}
+            .schema=${[Si.find((e) => e.name === "entity")].filter(Boolean)}
             .computeLabel=${this._computeLabel}
             .computeHelper=${this._computeHelper}
             @value-changed=${this._valueChanged}
@@ -5485,7 +5499,7 @@ var Si = class extends E {
           <ha-form
             .hass=${this.hass}
             .data=${e}
-            .schema=${[xi.find((e) => e.name === "sun_entity")].filter(Boolean)}
+            .schema=${[Si.find((e) => e.name === "sun_entity")].filter(Boolean)}
             .computeLabel=${this._computeLabel}
             .computeHelper=${this._computeHelper}
             @value-changed=${this._valueChanged}
@@ -5509,13 +5523,13 @@ var Si = class extends E {
 	_computeHelper = (e) => e.description ? I(e.description) : "";
 	_renderConfigPreview() {
 		let e = { ...this._config };
-		return e.type ||= "custom:" + yi, Object.keys(e).forEach((t) => {
+		return e.type ||= "custom:" + bi, Object.keys(e).forEach((t) => {
 			(e[t] === void 0 || e[t] === "") && delete e[t];
 		}), Object.entries(e).map(([e, t]) => typeof t == "string" ? `${e}: "${t}"` : `${e}: ${t}`).join("\n");
 	}
 	_valueChanged(e) {
 		if (this._config ||= {
-			type: `custom:${yi}`,
+			type: `custom:${bi}`,
 			entity: "",
 			sun_entity: ""
 		}, e.type === "value-changed") {
@@ -5523,7 +5537,7 @@ var Si = class extends E {
 				...this._config,
 				...n,
 				...t,
-				type: "custom:" + yi
+				type: "custom:" + bi
 			};
 			Object.keys(r).forEach((e) => {
 				(r[e] === "" || r[e] === void 0) && delete r[e];
@@ -5533,8 +5547,8 @@ var Si = class extends E {
 };
 //#endregion
 //#region src/cards/forecast-diagram/forecast-diagram-card.ts
-j([O({ attribute: !1 }), A("design:type", Object)], Si.prototype, "hass", void 0), j([O({ attribute: !1 }), A("design:type", Object)], Si.prototype, "lovelace", void 0), j([O({ attribute: !1 }), A("design:type", Object)], Si.prototype, "_config", void 0), Si = j([D(bi), A("design:paramtypes", [])], Si), P({ loader: (e) => V[e] });
-var Ci = class extends E {
+j([O({ attribute: !1 }), A("design:type", Object)], Ci.prototype, "hass", void 0), j([O({ attribute: !1 }), A("design:type", Object)], Ci.prototype, "lovelace", void 0), j([O({ attribute: !1 }), A("design:type", Object)], Ci.prototype, "_config", void 0), Ci = j([D(xi), A("design:paramtypes", [])], Ci), P({ loader: (e) => V[e] });
+var wi = class extends E {
 	hass;
 	config;
 	_forecast = [];
@@ -5633,15 +5647,15 @@ var Ci = class extends E {
 	}
 	static getStubConfig() {
 		return {
-			type: `custom:${yi}`,
+			type: `custom:${bi}`,
 			entity: ""
 		};
 	}
 	static getConfigElement() {
-		return document.createElement(bi);
+		return document.createElement(xi);
 	}
 	static getConfigSchema() {
-		return xi;
+		return Si;
 	}
 	getCardSize() {
 		return this.config?.grid_options?.rows ?? 3;
@@ -5671,10 +5685,10 @@ var Ci = class extends E {
         ></daily-forecast-diagram>` : C`` : C`<div>Entity not found: ${this.config.entity}</div>`;
 	}
 };
-j([O({ attribute: !1 }), A("design:type", Object)], Ci.prototype, "hass", void 0), j([O({ attribute: !1 }), A("design:type", Object)], Ci.prototype, "config", void 0), j([k(), A("design:type", Array)], Ci.prototype, "_forecast", void 0), j([k(), A("design:type", Array)], Ci.prototype, "_hourlyForecast", void 0), j([k(), A("design:type", Object)], Ci.prototype, "_forecastLoading", void 0), Ci = j([D(yi), A("design:paramtypes", [])], Ci);
+j([O({ attribute: !1 }), A("design:type", Object)], wi.prototype, "hass", void 0), j([O({ attribute: !1 }), A("design:type", Object)], wi.prototype, "config", void 0), j([k(), A("design:type", Array)], wi.prototype, "_forecast", void 0), j([k(), A("design:type", Array)], wi.prototype, "_hourlyForecast", void 0), j([k(), A("design:type", Object)], wi.prototype, "_forecastLoading", void 0), wi = j([D(bi), A("design:paramtypes", [])], wi);
 //#endregion
 //#region src/cards/animated-background/effects/lightning-flash-effect.ts
-var wi = () => w`
+var Ti = () => w`
   <defs>
     <radialGradient id="lwStormFlashGradient" cx="50%" cy="20%" r="90%">
       <stop offset="0%" style="stop-color:#ffff88;stop-opacity:1" />
@@ -5713,27 +5727,27 @@ var wi = () => w`
   <use href="#lwLightningFlicker"/>
   <use href="#lwStormFlash"/>
   <use href="#lwThunderRumble"/>
-`, Ti = (e, t, n) => {
+`, Ei = (e, t, n) => {
 	if (!e) return C``;
 	let r = {
-		"clear-night": Ei(n || 400),
-		cloudy: Oi(n || 400),
-		fog: ki(n || 400),
-		hail: Ai(n || 400),
-		lightning: Pi(n || 400),
-		"lightning-rainy": Fi(n || 400),
-		partlycloudy: t ? Ri(n || 400) : zi(n || 400),
-		pouring: Mi(n || 400),
-		rainy: ji(n || 400),
-		snowy: Li(n || 400),
-		"snowy-rainy": Ii(n || 400),
-		sunny: Di(),
-		windy: Ni(n || 400),
-		"windy-variant": Ni(n || 400),
-		exceptional: Bi(n || 400)
+		"clear-night": Di(n || 400),
+		cloudy: ki(n || 400),
+		fog: Ai(n || 400),
+		hail: ji(n || 400),
+		lightning: Fi(n || 400),
+		"lightning-rainy": Ii(n || 400),
+		partlycloudy: t ? zi(n || 400) : Bi(n || 400),
+		pouring: Ni(n || 400),
+		rainy: Mi(n || 400),
+		snowy: Ri(n || 400),
+		"snowy-rainy": Li(n || 400),
+		sunny: Oi(),
+		windy: Pi(n || 400),
+		"windy-variant": Pi(n || 400),
+		exceptional: Vi(n || 400)
 	};
 	return e ? r[e] : C``;
-}, Ei = (e) => w`
+}, Di = (e) => w`
   <defs>
     <linearGradient id="moonGradient" x1="21.92" x2="38.52" y1="18.75" y2="47.52" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#86c3db"/>
@@ -5770,7 +5784,7 @@ var wi = () => w`
     `;
 })}
   </g>
-`, Di = () => w`
+`, Oi = () => w`
   <defs>
     <linearGradient id="sunshineBlueGradient" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#4fc3f7" />
@@ -5792,7 +5806,7 @@ var wi = () => w`
       <animateTransform attributeName="transform" dur="45s" repeatCount="indefinite" type="rotate" values="0 32 32; 360 32 32"/>
     </path>
   </g>
-`, Oi = (e) => w`
+`, ki = (e) => w`
   <defs>
     <linearGradient id="background" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#a3bdc9ff" />
@@ -5811,7 +5825,7 @@ var wi = () => w`
   <!-- background -->
   <rect width="100%" height="80%" fill="url(#background)" />
   ${Q(e)}
-  `, ki = (e) => w`
+  `, Ai = (e) => w`
   <defs>
     <linearGradient id="background" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#a3bdc9ff" />
@@ -5840,7 +5854,7 @@ var wi = () => w`
   <!-- background -->
   <rect width="100%" height="80%" fill="url(#background)" />
   ${Q(e)}
-  `, Ai = (e) => w`
+  `, ji = (e) => w`
   <defs>
     <linearGradient id="hailBackground" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#9eb7c6" />
@@ -5882,7 +5896,7 @@ var wi = () => w`
   </g>
   `;
 })}
-  `, ji = (e) => w`
+  `, Mi = (e) => w`
   <defs>
     <linearGradient id="background" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#3580a39c" />
@@ -5922,7 +5936,7 @@ var wi = () => w`
   
   `;
 w`<g transform="translate(168,-30) scale(3)"><path fill="#f3f7fe" stroke="#e6effc" stroke-miterlimit="10" stroke-width=".5" d="M46.5 31.5h-.32a10.49 10.49 0 00-19.11-8 7 7 0 00-10.57 6 7.21 7.21 0 00.1 1.14A7.5 7.5 0 0018 45.5a4.19 4.19 0 00.5 0v0h28a7 7 0 000-14z"/><circle cx="24" cy="50" r="2.2" fill="#9ac9e4"/><circle cx="32" cy="52" r="2.4" fill="#9ac9e4"/><circle cx="40" cy="50" r="2.2" fill="#9ac9e4"/></g>`;
-var Mi = (e) => w`
+var Ni = (e) => w`
   <defs>
     <linearGradient id="extremeRainGradient" x1="22.56" x2="39.2" y1="21.96" y2="50.8" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#f3f7fe"/>
@@ -5956,7 +5970,7 @@ var Mi = (e) => w`
     </line>
     `;
 })}
-  `, Ni = (e) => w`
+  `, Pi = (e) => w`
   <defs>
     <linearGradient id="windGradient" x1="22.56" x2="39.2" y1="21.96" y2="50.8" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#f3f7fe"/>
@@ -5991,7 +6005,7 @@ var Mi = (e) => w`
     </line>
     `;
 })}
-  `, Pi = (e) => w`
+  `, Fi = (e) => w`
   <defs>
     <linearGradient id="background" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#2e414aff" />
@@ -6023,8 +6037,8 @@ var Mi = (e) => w`
    ${Q(e)}
    
   <!-- Lightning flash effect that illuminates the entire background (full-size overlay) -->
-  ${wi()}
-  `, Fi = (e) => w`
+  ${Ti()}
+  `, Ii = (e) => w`
   <defs>
     <linearGradient id="b" x1="22.56" x2="39.2" y1="21.96" y2="50.8" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#f3f7fe"/>
@@ -6062,7 +6076,7 @@ var Mi = (e) => w`
   ${Q(e)}
   
   <!-- Lightning flash effect for rainy thunderstorms -->
-  ${wi()}
+  ${Ti()}
   `, Q = (e) => w`
 ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
 	let t = Math.floor(Math.random() * 100), n = Math.floor(Math.random() * 10), r = (t - 50) / 5 + e * Math.floor(Math.random() * 25), i = e * 100 + n, a = Math.floor(Math.random() * 2) + 1, o = 1 + Math.random() * 1, s = 44 + Math.floor(Math.random() * 90);
@@ -6075,7 +6089,7 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
     </g>
     `;
 })}
-  `, Ii = (e) => w`
+  `, Li = (e) => w`
   <defs>
     <linearGradient id="sleetGradient" x1="22.56" x2="39.2" y1="21.96" y2="50.8" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#f3f7fe"/>
@@ -6096,7 +6110,7 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
   </defs>
   
   ${Q(e)}
-  `, Li = (e) => w`
+  `, Ri = (e) => w`
   <defs>
     <linearGradient id="snowGradient" x1="22.56" x2="39.2" y1="21.96" y2="50.8" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#f3f7fe"/>
@@ -6129,7 +6143,7 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
   </defs>
   
   ${Q(e)}
-  `, Ri = (e) => w`
+  `, zi = (e) => w`
   <defs>
     <linearGradient id="sunshineBlueGradient" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#4fc3f7" />
@@ -6167,7 +6181,7 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
     <use href="#sunIcon" x="200" y="50" width="100" height="100" opacity="0.9"/>
   </g>
   ${Q(e)}
-  `, zi = (e) => w`
+  `, Bi = (e) => w`
   <defs>
     <linearGradient id="partlyCloudyNightGradient" x1="22.56" x2="39.2" y1="21.96" y2="50.8" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#f3f7fe"/>
@@ -6188,7 +6202,7 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
     <use href="#moonIcon" x="200" y="50" width="100" height="100" opacity="0.9"/>
   </g>
   ${Q(e)}
-  `, Bi = (e) => w`
+  `, Vi = (e) => w`
   <defs>
     <linearGradient id="hurricaneGradient" x1="22.56" x2="39.2" y1="21.96" y2="50.8" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#f3f7fe"/>
@@ -6204,7 +6218,7 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
   </defs>
   
   ${Q(e)}
-  `, Vi = `${tn}-animated-background-card`, Hi = `${Vi}-editor`, Ui = [
+  `, Hi = `${tn}-animated-background-card`, Ui = `${Hi}-editor`, Wi = [
 	{
 		name: "entity",
 		required: !0,
@@ -6387,9 +6401,9 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
 j([O({ type: Array }), A("design:type", Array)], $.prototype, "hourlyForecast", void 0), j([O({ type: Boolean }), A("design:type", Object)], $.prototype, "forecastLoading", void 0), j([O({ type: Boolean }), A("design:type", Object)], $.prototype, "show_forecast", void 0), j([O({ type: Object }), A("design:type", Object)], $.prototype, "config", void 0), j([O({ type: Function }), A("design:type", Function)], $.prototype, "_t", void 0), j([O({ type: Function }), A("design:type", Function)], $.prototype, "getWeatherIcon", void 0), j([O({ type: Boolean }), A("design:type", Boolean)], $.prototype, "compact", void 0), j([O({ type: Number }), A("design:type", Number)], $.prototype, "maxHours", void 0), j([O({ type: Boolean }), A("design:type", Boolean)], $.prototype, "alignRight", void 0), $ = j([D("hourly-forecast-chart")], $);
 //#endregion
 //#region src/cards/animated-background/swissweather-bg-card.ts
-var Wi;
+var Gi;
 P({ loader: (e) => V[e] }), console.log("🎯 About to apply @customElement decorator to SwissweatherCard (BG)"), console.log("🎯 customElements registry available:", !!customElements);
-var Gi = class extends E {
+var Ki = class extends E {
 	hass;
 	config;
 	_tempEl;
@@ -7570,15 +7584,15 @@ var Gi = class extends E {
 	}
 	static getStubConfig() {
 		return {
-			type: `custom:${Vi}`,
+			type: `custom:${Hi}`,
 			entity: ""
 		};
 	}
 	static getConfigElement() {
-		return document.createElement(Hi);
+		return document.createElement(Ui);
 	}
 	static getConfigSchema() {
-		return Ui;
+		return Wi;
 	}
 	updated(e) {
 		if (super.updated(e), this.hass && this.config?.entity) {
@@ -7596,7 +7610,7 @@ var Gi = class extends E {
 		this.style.setProperty("--card-grid-rows", e.toString());
 		let t = zn(this.hass, this.config.entity), n = t.attributes.temperature, r = t.state, i = Bn(this.hass, this.config), a = this.clientWidth || 300, o = e * 64 - 8, s = this.config?.temperature_font_size, c = typeof s == "number" && s > 0 ? `${s}px` : "36px";
 		this.style.setProperty("--bg-temp-font-size", c), this.style.setProperty("--bg-temp-img-top", `calc(${c})`);
-		let l = this._forecast && this._forecast.length > 0 ? this._forecast[0] : t.attributes.forecast ? t.attributes.forecast[0] : null, u = this.config.sun_entity, d = u ? this.hass.states[u] : void 0, f = d?.attributes?.next_rising ? new Date(d.attributes.next_rising) : void 0, p = d?.attributes?.next_setting ? new Date(d.attributes.next_setting) : void 0, m = (this.hass.selectedLanguage || this.hass.language || "en").replace("_", "-"), h = (e) => e ? e.toLocaleTimeString(m, {
+		let l = this._forecast && this._forecast.length > 0 ? this._forecast[0] : t.attributes.forecast ? t.attributes.forecast[0] : null, u = this.config.sun_entity, d = u ? this.hass.states[u] : void 0, f = d?.attributes?.next_rising ? new Date(d.attributes.next_rising) : void 0, p = d?.attributes?.next_setting ? new Date(d.attributes.next_setting) : void 0, m = (this.hass.selectedLanguage || this.hass.language || "en").replace("_", "-"), ee = (e) => e ? e.toLocaleTimeString(m, {
 			hour: "2-digit",
 			minute: "2-digit"
 		}) : "--:--";
@@ -7613,7 +7627,7 @@ var Gi = class extends E {
                       xmlns:xlink="http://www.w3.org/1999/xlink"
                       preserveAspectRatio="xMidYMid slice"
                     >
-                      ${a > 0 ? Ti(r, i, a) : w``}
+                      ${a > 0 ? Ei(r, i, a) : w``}
                     </svg>
                   </div>`}
               ${l && this.config.show_day_temps !== !1 ? C`
@@ -7629,10 +7643,10 @@ var Gi = class extends E {
               ${u && this.config.show_sun_times !== !1 && r !== "clear-night" ? C`
                     <div class="sun-times">
                       <span title="${z("sunrise")}">
-                        <ha-icon icon="mdi:weather-sunset-up"></ha-icon> ${h(f)}
+                        <ha-icon icon="mdi:weather-sunset-up"></ha-icon> ${ee(f)}
                       </span>
                       <span title="${z("sunset")}">
-                        <ha-icon icon="mdi:weather-sunset-down"></ha-icon> ${h(p)}
+                        <ha-icon icon="mdi:weather-sunset-down"></ha-icon> ${ee(p)}
                       </span>
                     </div>
                   ` : ""}
@@ -7908,8 +7922,8 @@ var Gi = class extends E {
 };
 //#endregion
 //#region src/cards/animated-background/swissweather-bg-card-editor.ts
-j([O({ attribute: !1 }), A("design:type", Object)], Gi.prototype, "hass", void 0), j([O({ attribute: !1 }), A("design:type", Object)], Gi.prototype, "config", void 0), j([We(".temperature"), A("design:type", typeof (Wi = typeof HTMLElement < "u" && HTMLElement) == "function" ? Wi : Object)], Gi.prototype, "_tempEl", void 0), j([k(), A("design:type", Array)], Gi.prototype, "_forecast", void 0), j([k(), A("design:type", Array)], Gi.prototype, "_hourly", void 0), Gi = j([D(Vi)], Gi), console.log("✅ SwissWeatherCard (animated Background) fully loaded and registered"), P({ loader: (e) => V[e] });
-var Ki = class extends E {
+j([O({ attribute: !1 }), A("design:type", Object)], Ki.prototype, "hass", void 0), j([O({ attribute: !1 }), A("design:type", Object)], Ki.prototype, "config", void 0), j([We(".temperature"), A("design:type", typeof (Gi = typeof HTMLElement < "u" && HTMLElement) == "function" ? Gi : Object)], Ki.prototype, "_tempEl", void 0), j([k(), A("design:type", Array)], Ki.prototype, "_forecast", void 0), j([k(), A("design:type", Array)], Ki.prototype, "_hourly", void 0), Ki = j([D(Hi)], Ki), console.log("✅ SwissWeatherCard (animated Background) fully loaded and registered"), P({ loader: (e) => V[e] });
+var qi = class extends E {
 	hass;
 	lovelace;
 	_config;
@@ -8066,7 +8080,7 @@ var Ki = class extends E {
 			show_day_temps: typeof this._config?.show_day_temps == "boolean" ? this._config.show_day_temps : void 0,
 			temperature_font_size: typeof this._config?.temperature_font_size == "number" ? this._config.temperature_font_size : void 0,
 			photo_mode: typeof this._config?.photo_mode == "boolean" ? this._config.photo_mode : void 0
-		}, t = Ui.find((e) => e.name === "forecast_mode"), n = t ? {
+		}, t = Wi.find((e) => e.name === "forecast_mode"), n = t ? {
 			...t,
 			selector: {
 				...t.selector,
@@ -8104,9 +8118,9 @@ var Ki = class extends E {
             .hass=${this.hass}
             .data=${e}
             .schema=${[
-			Ui.find((e) => e.name === "entity"),
-			Ui.find((e) => e.name === "sun_entity"),
-			Ui.find((e) => e.name === "temperature_font_size")
+			Wi.find((e) => e.name === "entity"),
+			Wi.find((e) => e.name === "sun_entity"),
+			Wi.find((e) => e.name === "temperature_font_size")
 		].filter(Boolean)}
             .computeLabel=${this._computeLabel}
             .computeHelper=${this._computeHelper}
@@ -8122,9 +8136,9 @@ var Ki = class extends E {
             .data=${e}
             .schema=${[
 			n,
-			Ui.find((e) => e.name === "show_day_temps"),
-			Ui.find((e) => e.name === "show_sun_times"),
-			Ui.find((e) => e.name === "photo_mode")
+			Wi.find((e) => e.name === "show_day_temps"),
+			Wi.find((e) => e.name === "show_sun_times"),
+			Wi.find((e) => e.name === "photo_mode")
 		].filter(Boolean)}
             .computeLabel=${this._computeLabel}
             .computeHelper=${this._computeHelper}
@@ -8154,20 +8168,20 @@ var Ki = class extends E {
 	_computeHelper = (e) => e.description ? I(e.description) : "";
 	_renderConfigPreview() {
 		let e = { ...this._config };
-		return e.type ||= `custom:${Vi}`, Object.keys(e).forEach((t) => {
+		return e.type ||= `custom:${Hi}`, Object.keys(e).forEach((t) => {
 			(e[t] === void 0 || e[t] === "") && delete e[t];
 		}), Object.entries(e).map(([e, t]) => typeof t == "string" ? `${e}: "${t}"` : `${e}: ${t}`).join("\n");
 	}
 	_valueChanged(e) {
 		if (this._config ||= {
-			type: `custom:${Vi}`,
+			type: `custom:${Hi}`,
 			entity: ""
 		}, e.type === "value-changed") {
 			let t = {}, { ...n } = e.detail.value || {}, r = {
 				...this._config,
 				...n,
 				...t,
-				type: `custom:${Vi}`
+				type: `custom:${Hi}`
 			};
 			delete r.show_forecast, Object.keys(r).forEach((e) => {
 				(r[e] === "" || r[e] === void 0) && delete r[e];
@@ -8175,10 +8189,10 @@ var Ki = class extends E {
 		}
 	}
 };
-j([O({ attribute: !1 }), A("design:type", Object)], Ki.prototype, "hass", void 0), j([O({ attribute: !1 }), A("design:type", Object)], Ki.prototype, "lovelace", void 0), j([O({ attribute: !1 }), A("design:type", Object)], Ki.prototype, "_config", void 0), Ki = j([D(Hi), A("design:paramtypes", [])], Ki);
+j([O({ attribute: !1 }), A("design:type", Object)], qi.prototype, "hass", void 0), j([O({ attribute: !1 }), A("design:type", Object)], qi.prototype, "lovelace", void 0), j([O({ attribute: !1 }), A("design:type", Object)], qi.prototype, "_config", void 0), qi = j([D(Ui), A("design:paramtypes", [])], qi);
 //#endregion
 //#region src/cards/hourly-charts/const.ts
-var qi = `${tn}-temperature-card`, Ji = `${qi}-editor`, Yi = `${tn}-precipitation-card`, Xi = `${Yi}-editor`, Zi = `${tn}-sunshine-card`, Qi = `${Zi}-editor`, $i = `${tn}-wind-card`, ea = `${$i}-editor`, ta = [{
+var Ji = `${tn}-temperature-card`, Yi = `${Ji}-editor`, Xi = `${tn}-precipitation-card`, Zi = `${Xi}-editor`, Qi = `${tn}-sunshine-card`, $i = `${Qi}-editor`, ea = `${tn}-wind-card`, ta = `${ea}-editor`, na = [{
 	name: "entity",
 	required: !0,
 	selector: { entity: { domain: "weather" } },
@@ -8193,7 +8207,7 @@ var qi = `${tn}-temperature-card`, Ji = `${qi}-editor`, Yi = `${tn}-precipitatio
 		mode: "box"
 	} },
 	description: "config.descr.forecast_hours"
-}], na = [{
+}], ra = [{
 	name: "entity",
 	required: !0,
 	selector: { entity: { domain: "weather" } },
@@ -8208,7 +8222,7 @@ var qi = `${tn}-temperature-card`, Ji = `${qi}-editor`, Yi = `${tn}-precipitatio
 		mode: "box"
 	} },
 	description: "config.descr.forecast_hours"
-}], ra = [
+}], ia = [
 	{
 		name: "entity",
 		required: !0,
@@ -8238,7 +8252,7 @@ var qi = `${tn}-temperature-card`, Ji = `${qi}-editor`, Yi = `${tn}-precipitatio
 		selector: { entity: { domain: "sensor" } },
 		description: "config.descr.sunshine_entity"
 	}
-], ia = class extends E {
+], aa = class extends E {
 	hass;
 	config;
 	_hourlyForecast = [];
@@ -8285,8 +8299,8 @@ var qi = `${tn}-temperature-card`, Ji = `${qi}-editor`, Yi = `${tn}-precipitatio
 };
 //#endregion
 //#region src/cards/hourly-charts/temperature-card.ts
-j([O({ attribute: !1 }), A("design:type", Object)], ia.prototype, "hass", void 0), j([O({ attribute: !1 }), A("design:type", Object)], ia.prototype, "config", void 0), j([k(), A("design:type", Array)], ia.prototype, "_hourlyForecast", void 0), j([k(), A("design:type", Object)], ia.prototype, "_forecastLoading", void 0), P({ loader: (e) => V[e] });
-var aa = class extends ia {
+j([O({ attribute: !1 }), A("design:type", Object)], aa.prototype, "hass", void 0), j([O({ attribute: !1 }), A("design:type", Object)], aa.prototype, "config", void 0), j([k(), A("design:type", Array)], aa.prototype, "_hourlyForecast", void 0), j([k(), A("design:type", Object)], aa.prototype, "_forecastLoading", void 0), P({ loader: (e) => V[e] });
+var oa = class extends aa {
 	static get styles() {
 		return s`
       :host {
@@ -8330,15 +8344,15 @@ var aa = class extends ia {
 	}
 	static getStubConfig() {
 		return {
-			type: `custom:${qi}`,
+			type: `custom:${Ji}`,
 			entity: ""
 		};
 	}
 	static getConfigElement() {
-		return document.createElement(Ji);
+		return document.createElement(Yi);
 	}
 	static getConfigSchema() {
-		return ta;
+		return na;
 	}
 	getCardSize() {
 		return this.config?.grid_options?.rows ?? 3;
@@ -8375,8 +8389,8 @@ var aa = class extends ia {
 };
 //#endregion
 //#region src/cards/hourly-charts/temperature-card-editor.ts
-aa = j([D(qi)], aa), P({ loader: (e) => V[e] });
-var oa = class extends E {
+oa = j([D(Ji)], oa), P({ loader: (e) => V[e] });
+var sa = class extends E {
 	hass;
 	_config;
 	setConfig(e) {
@@ -8418,7 +8432,7 @@ var oa = class extends E {
         <ha-form
           .hass=${this.hass}
           .data=${e}
-          .schema=${ta}
+          .schema=${na}
           .computeLabel=${(e) => ({
 			entity: I("config.entity"),
 			forecast_hours: I("config.forecast_hours") ?? "Forecast hours"
@@ -8430,7 +8444,7 @@ var oa = class extends E {
 	}
 	_valueChanged(e) {
 		this._config ||= {
-			type: `custom:${qi}`,
+			type: `custom:${Ji}`,
 			entity: ""
 		};
 		let t = {
@@ -8442,8 +8456,8 @@ var oa = class extends E {
 };
 //#endregion
 //#region src/cards/hourly-charts/precipitation-card.ts
-j([O({ attribute: !1 }), A("design:type", Object)], oa.prototype, "hass", void 0), j([O({ attribute: !1 }), A("design:type", Object)], oa.prototype, "_config", void 0), oa = j([D(Ji)], oa), P({ loader: (e) => V[e] });
-var sa = class extends ia {
+j([O({ attribute: !1 }), A("design:type", Object)], sa.prototype, "hass", void 0), j([O({ attribute: !1 }), A("design:type", Object)], sa.prototype, "_config", void 0), sa = j([D(Yi)], sa), P({ loader: (e) => V[e] });
+var ca = class extends aa {
 	static get styles() {
 		return s`
       :host {
@@ -8487,15 +8501,15 @@ var sa = class extends ia {
 	}
 	static getStubConfig() {
 		return {
-			type: `custom:${Yi}`,
+			type: `custom:${Xi}`,
 			entity: ""
 		};
 	}
 	static getConfigElement() {
-		return document.createElement(Xi);
+		return document.createElement(Zi);
 	}
 	static getConfigSchema() {
-		return ta;
+		return na;
 	}
 	getCardSize() {
 		return this.config?.grid_options?.rows ?? 3;
@@ -8532,8 +8546,8 @@ var sa = class extends ia {
 };
 //#endregion
 //#region src/cards/hourly-charts/precipitation-card-editor.ts
-sa = j([D(Yi)], sa), P({ loader: (e) => V[e] });
-var ca = class extends E {
+ca = j([D(Xi)], ca), P({ loader: (e) => V[e] });
+var la = class extends E {
 	hass;
 	_config;
 	setConfig(e) {
@@ -8575,7 +8589,7 @@ var ca = class extends E {
         <ha-form
           .hass=${this.hass}
           .data=${e}
-          .schema=${ta}
+          .schema=${na}
           .computeLabel=${(e) => ({
 			entity: I("config.entity"),
 			forecast_hours: I("config.forecast_hours") ?? "Forecast hours"
@@ -8587,7 +8601,7 @@ var ca = class extends E {
 	}
 	_valueChanged(e) {
 		this._config ||= {
-			type: `custom:${Yi}`,
+			type: `custom:${Xi}`,
 			entity: ""
 		};
 		let t = {
@@ -8599,8 +8613,8 @@ var ca = class extends E {
 };
 //#endregion
 //#region src/cards/hourly-charts/sunshine-card.ts
-j([O({ attribute: !1 }), A("design:type", Object)], ca.prototype, "hass", void 0), j([O({ attribute: !1 }), A("design:type", Object)], ca.prototype, "_config", void 0), ca = j([D(Xi)], ca), P({ loader: (e) => V[e] });
-var la = class extends ia {
+j([O({ attribute: !1 }), A("design:type", Object)], la.prototype, "hass", void 0), j([O({ attribute: !1 }), A("design:type", Object)], la.prototype, "_config", void 0), la = j([D(Zi)], la), P({ loader: (e) => V[e] });
+var ua = class extends aa {
 	static get styles() {
 		return s`
       :host {
@@ -8644,15 +8658,15 @@ var la = class extends ia {
 	}
 	static getStubConfig() {
 		return {
-			type: `custom:${Zi}`,
+			type: `custom:${Qi}`,
 			entity: ""
 		};
 	}
 	static getConfigElement() {
-		return document.createElement(Qi);
+		return document.createElement($i);
 	}
 	static getConfigSchema() {
-		return ra;
+		return ia;
 	}
 	getCardSize() {
 		return this.config?.grid_options?.rows ?? 3;
@@ -8690,8 +8704,8 @@ var la = class extends ia {
 };
 //#endregion
 //#region src/cards/hourly-charts/sunshine-card-editor.ts
-la = j([D(Zi)], la), P({ loader: (e) => V[e] });
-var ua = class extends E {
+ua = j([D(Qi)], ua), P({ loader: (e) => V[e] });
+var da = class extends E {
 	hass;
 	_config;
 	setConfig(e) {
@@ -8735,7 +8749,7 @@ var ua = class extends E {
         <ha-form
           .hass=${this.hass}
           .data=${e}
-          .schema=${ra}
+          .schema=${ia}
           .computeLabel=${(e) => ({
 			entity: I("config.entity"),
 			forecast_hours: I("config.forecast_hours") ?? "Forecast hours",
@@ -8749,7 +8763,7 @@ var ua = class extends E {
 	}
 	_valueChanged(e) {
 		this._config ||= {
-			type: `custom:${Zi}`,
+			type: `custom:${Qi}`,
 			entity: ""
 		};
 		let t = {
@@ -8761,8 +8775,8 @@ var ua = class extends E {
 };
 //#endregion
 //#region src/cards/hourly-charts/wind-card.ts
-j([O({ attribute: !1 }), A("design:type", Object)], ua.prototype, "hass", void 0), j([O({ attribute: !1 }), A("design:type", Object)], ua.prototype, "_config", void 0), ua = j([D(Qi)], ua), P({ loader: (e) => V[e] });
-var da = class extends ia {
+j([O({ attribute: !1 }), A("design:type", Object)], da.prototype, "hass", void 0), j([O({ attribute: !1 }), A("design:type", Object)], da.prototype, "_config", void 0), da = j([D($i)], da), P({ loader: (e) => V[e] });
+var fa = class extends aa {
 	static get styles() {
 		return s`
       :host {
@@ -8806,15 +8820,15 @@ var da = class extends ia {
 	}
 	static getStubConfig() {
 		return {
-			type: `custom:${$i}`,
+			type: `custom:${ea}`,
 			entity: ""
 		};
 	}
 	static getConfigElement() {
-		return document.createElement(ea);
+		return document.createElement(ta);
 	}
 	static getConfigSchema() {
-		return na;
+		return ra;
 	}
 	getCardSize() {
 		return this.config?.grid_options?.rows ?? 3;
@@ -8849,8 +8863,8 @@ var da = class extends ia {
 };
 //#endregion
 //#region src/cards/hourly-charts/wind-card-editor.ts
-da = j([D($i)], da), P({ loader: (e) => V[e] });
-var fa = class extends E {
+fa = j([D(ea)], fa), P({ loader: (e) => V[e] });
+var pa = class extends E {
 	hass;
 	_config;
 	setConfig(e) {
@@ -8892,7 +8906,7 @@ var fa = class extends E {
         <ha-form
           .hass=${this.hass}
           .data=${e}
-          .schema=${na}
+          .schema=${ra}
           .computeLabel=${(e) => ({
 			entity: I("config.entity"),
 			forecast_hours: I("config.forecast_hours") ?? "Forecast hours"
@@ -8904,7 +8918,7 @@ var fa = class extends E {
 	}
 	_valueChanged(e) {
 		this._config ||= {
-			type: `custom:${$i}`,
+			type: `custom:${ea}`,
 			entity: ""
 		};
 		let t = {
@@ -8914,10 +8928,10 @@ var fa = class extends E {
 		B(this, "config-changed", { config: t });
 	}
 };
-j([O({ attribute: !1 }), A("design:type", Object)], fa.prototype, "hass", void 0), j([O({ attribute: !1 }), A("design:type", Object)], fa.prototype, "_config", void 0), fa = j([D(ea)], fa);
+j([O({ attribute: !1 }), A("design:type", Object)], pa.prototype, "hass", void 0), j([O({ attribute: !1 }), A("design:type", Object)], pa.prototype, "_config", void 0), pa = j([D(ta)], pa);
 //#endregion
 //#region src/cards/warnings/const.ts
-var pa = `${tn}-warning-card`, ma = `${pa}-editor`, ha = [
+var ma = `${tn}-warning-card`, ha = `${ma}-editor`, ga = [
 	{
 		name: "primary_warning_entity",
 		required: !1,
@@ -8942,9 +8956,9 @@ var pa = `${tn}-warning-card`, ma = `${pa}-editor`, ha = [
 		selector: { entity: { domain: "sensor" } },
 		description: "config.descr.warning_entity"
 	}
-], ga;
+], _a;
 P({ loader: (e) => V[e] });
-var _a = class extends E {
+var va = class extends E {
 	hass;
 	config;
 	_openWarnings = {};
@@ -9001,17 +9015,17 @@ var _a = class extends E {
 	}
 	static getStubConfig() {
 		return {
-			type: `custom:${pa}`,
+			type: `custom:${ma}`,
 			primary_warning_entity: "",
 			secondary_warning_entity: "",
 			tertiary_warning_entity: ""
 		};
 	}
 	static getConfigElement() {
-		return document.createElement(ma);
+		return document.createElement(ha);
 	}
 	static getConfigSchema() {
-		return ha;
+		return ga;
 	}
 	_getEntityState(e) {
 		return this.hass?.states[e];
@@ -9027,13 +9041,13 @@ var _a = class extends E {
 		let e = (this.hass.selectedLanguage || this.hass.language || "en").substring(0, 2);
 		e !== this._loadedLang && (this._loadedLang = e, F(e).then(() => this.requestUpdate()));
 		let t = this.config.primary_warning_entity ? this._getEntityState(this.config.primary_warning_entity) : null, n = this.config.secondary_warning_entity ? this._getEntityState(this.config.secondary_warning_entity) : null, r = this.config.tertiary_warning_entity ? this._getEntityState(this.config.tertiary_warning_entity) : null, i = this.config.warning_entity ? this._getEntityState(this.config.warning_entity) : null;
-		return t && t.attributes?.has_warning !== void 0 && !t.attributes.has_warning ? C`<div class="no-warnings">${I("warnings_none")}</div>` : _i(i, t, n, r, this._openWarnings, this._toggle) || C`<div class="no-warnings">${I("warnings_none")}</div>`;
+		return t && t.attributes?.has_warning !== void 0 && !t.attributes.has_warning ? C`<div class="no-warnings">${I("warnings_none")}</div>` : vi(i, t, n, r, this._openWarnings, this._toggle) || C`<div class="no-warnings">${I("warnings_none")}</div>`;
 	}
 };
 //#endregion
 //#region src/cards/warnings/warning-card-editor.ts
-j([O({ attribute: !1 }), A("design:type", Object)], _a.prototype, "hass", void 0), j([O({ attribute: !1 }), A("design:type", Object)], _a.prototype, "config", void 0), j([k(), A("design:type", typeof (ga = typeof Record < "u" && Record) == "function" ? ga : Object)], _a.prototype, "_openWarnings", void 0), _a = j([D(pa)], _a), P({ loader: (e) => V[e] });
-var va = class extends E {
+j([O({ attribute: !1 }), A("design:type", Object)], va.prototype, "hass", void 0), j([O({ attribute: !1 }), A("design:type", Object)], va.prototype, "config", void 0), j([k(), A("design:type", typeof (_a = typeof Record < "u" && Record) == "function" ? _a : Object)], va.prototype, "_openWarnings", void 0), va = j([D(ma)], va), P({ loader: (e) => V[e] });
+var ya = class extends E {
 	hass;
 	_config;
 	setConfig(e) {
@@ -9084,7 +9098,7 @@ var va = class extends E {
         <ha-form
           .hass=${this.hass}
           .data=${e}
-          .schema=${ha}
+          .schema=${ga}
           .computeLabel=${(e) => ({
 			primary_warning_entity: I("config.primary_warning_entity"),
 			secondary_warning_entity: I("config.secondary_warning_entity"),
@@ -9104,7 +9118,7 @@ var va = class extends E {
 	}
 	_valueChanged(e) {
 		this._config ||= {
-			type: `custom:${pa}`,
+			type: `custom:${ma}`,
 			entity: ""
 		};
 		let t = {
@@ -9114,7 +9128,7 @@ var va = class extends E {
 		B(this, "config-changed", { config: t });
 	}
 };
-j([O({ attribute: !1 }), A("design:type", Object)], va.prototype, "hass", void 0), j([O({ attribute: !1 }), A("design:type", Object)], va.prototype, "_config", void 0), va = j([D(ma)], va), console.log("📦 SwissWeather Card TypeScript file imported"), setTimeout(() => {
+j([O({ attribute: !1 }), A("design:type", Object)], ya.prototype, "hass", void 0), j([O({ attribute: !1 }), A("design:type", Object)], ya.prototype, "_config", void 0), ya = j([D(ha)], ya), console.log("📦 SwissWeather Card TypeScript file imported"), setTimeout(() => {
 	let e = customElements.get("swissweather-card"), t = customElements.get("swissweather-card-editor");
 	console.log("🔍 SwissWeather Card registration status:", e ? "SUCCESS ✅" : "FAILED ❌"), console.log("🔍 SwissWeather Editor registration status:", t ? "SUCCESS ✅" : "FAILED ❌"), e ? (console.log("🔍 Element constructor:", e), console.log("🔍 Element prototype:", e.prototype)) : (console.error("❌ Custom element \"swissweather-card\" was not registered!"), console.log("🔍 Checking custom elements registry..."));
 }, 100), console.log("📦 SwissWeather Card module loading started..."), console.log("📦 Browser support check:", {
@@ -9125,35 +9139,35 @@ j([O({ attribute: !1 }), A("design:type", Object)], va.prototype, "hass", void 0
 	name: "SwissWeather Diagram Card",
 	description: "A comprehensive weather card for Home Assistant with Swiss weather warnings and forecasts"
 }), Vn({
-	type: yi,
+	type: bi,
 	name: "SwissWeather Daily Forecast Diagram Card",
 	description: "A card to show daily weather forecast as diagram"
 }), Vn({
-	type: Vi,
+	type: Hi,
 	name: "SwissWeather Animated Background Card (Experimental) Editor",
 	description: "the SwissWeather Animated Background Card (Experimental)"
 }), Vn({
-	type: qi,
+	type: Ji,
 	name: "SwissWeather Temperature Chart Card",
 	description: "Hourly temperature forecast chart as standalone card"
 }), Vn({
-	type: Yi,
+	type: Xi,
 	name: "SwissWeather Precipitation Chart Card",
 	description: "Hourly precipitation forecast chart as standalone card"
 }), Vn({
-	type: Zi,
+	type: Qi,
 	name: "SwissWeather Sunshine Chart Card",
 	description: "Hourly sunshine duration chart as standalone card"
 }), Vn({
-	type: $i,
+	type: ea,
 	name: "SwissWeather Wind Chart Card",
 	description: "Hourly wind speed & direction chart as standalone card"
 }), Vn({
-	type: pa,
+	type: ma,
 	name: "SwissWeather Warning Card",
 	description: "Standalone weather warning card supporting ranked and legacy warning models"
 }), console.log(`%c 📦 SwissWeather Card module loading completed - version: ${e}`, "color: #ef5350; font-weight: 700;");
 //#endregion
-export { M as DailyForecastChart, Je as DailyForecastDiagram, Ci as ForecastDiagramCard, Si as ForecastDiagramCardEditor, Ge as ForecastTemperatureChart, sa as PrecipitationCard, ca as PrecipitationCardEditor, Ke as PrecipitationChart, la as SunshineCard, ua as SunshineCardEditor, N as SunshineChart, Gi as SwissWeatherBGCard, Ki as SwissWeatherBGCardEditor, Z as SwissWeatherCard, an as SwissWeatherCardEditor, aa as TemperatureCard, oa as TemperatureCardEditor, _a as WarningCard, va as WarningCardEditor, da as WindCard, fa as WindCardEditor, qe as WindChart };
+export { M as DailyForecastChart, Je as DailyForecastDiagram, wi as ForecastDiagramCard, Ci as ForecastDiagramCardEditor, Ge as ForecastTemperatureChart, ca as PrecipitationCard, la as PrecipitationCardEditor, Ke as PrecipitationChart, ua as SunshineCard, da as SunshineCardEditor, N as SunshineChart, Ki as SwissWeatherBGCard, qi as SwissWeatherBGCardEditor, Z as SwissWeatherCard, an as SwissWeatherCardEditor, oa as TemperatureCard, sa as TemperatureCardEditor, va as WarningCard, ya as WarningCardEditor, fa as WindCard, pa as WindCardEditor, qe as WindChart };
 
 //# sourceMappingURL=swissweather-card.js.map

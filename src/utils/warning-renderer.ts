@@ -1,6 +1,26 @@
 import { html, TemplateResult } from 'lit';
 import { get as _t } from 'lit-translate';
 import { marked } from 'marked';
+
+function sanitizeHtml(dirty: string): string {
+  const template = document.createElement('template');
+  template.innerHTML = dirty;
+  template.content
+    .querySelectorAll('script,style,iframe,object,embed,form,meta,base')
+    .forEach(el => el.remove());
+  template.content.querySelectorAll('*').forEach(el => {
+    Array.from(el.attributes).forEach(attr => {
+      if (/^on/i.test(attr.name)) el.removeAttribute(attr.name);
+    });
+    if (el.tagName === 'A') {
+      const href = el.getAttribute('href') ?? '';
+      if (!/^https?:\/\//i.test(href)) el.removeAttribute('href');
+    }
+  });
+  const div = document.createElement('div');
+  div.appendChild(template.content);
+  return div.innerHTML;
+}
 import type {
   HassEntity,
   RankedWarningAttributes,
@@ -89,7 +109,7 @@ export function renderRankedSlot(
               ${attrs.html_text
                 ? html`<div
                     style="line-height: 1.4; margin-bottom: 4px;"
-                    .innerHTML="${attrs.html_text}"
+                    .innerHTML="${sanitizeHtml(attrs.html_text)}"
                   ></div>`
                 : attrs.text
                   ? html`<div style="line-height: 1.4; margin-bottom: 4px;">${attrs.text}</div>`
@@ -126,9 +146,9 @@ export function renderRankedWarnings(
   tertiaryEntity: HassEntity | null | undefined,
   openWarnings: Record<string, boolean>,
   toggle: (id: string) => void
-): TemplateResult {
+): TemplateResult | null {
   const primaryAttrs = primaryEntity.attributes as RankedWarningAttributes & Record<string, any>;
-  if (!primaryAttrs.has_warning) return html``;
+  if (!primaryAttrs.has_warning) return null;
 
   const containerClass =
     (
@@ -171,7 +191,7 @@ export function renderLegacyWarnings(
   warningEntity: HassEntity,
   openWarnings: Record<string, boolean>,
   toggle: (id: string) => void
-): TemplateResult {
+): TemplateResult | null {
   const warnings: SwissWeatherWarning[] = [];
   if (
     warningEntity.attributes.warning_levels &&
@@ -191,7 +211,7 @@ export function renderLegacyWarnings(
         phenomena: [],
       });
   }
-  if (warnings.length === 0) return html``;
+  if (warnings.length === 0) return null;
 
   const maxLevel = Math.max(...warnings.map(w => w.level || 0));
   const containerClass =
@@ -271,7 +291,7 @@ export function renderLegacyWarnings(
                     </div>
                     <div
                       style="font-size: 14px; line-height: 1.4; margin-top: 4px;"
-                      .innerHTML="${marked.parse(w.description || '')}"
+                      .innerHTML="${sanitizeHtml(String(marked.parse(w.description || '')))}"
                     ></div>
                   `
                 : ''}
@@ -290,7 +310,7 @@ export function renderWarningSection(
   tertiaryEntity: HassEntity | null | undefined,
   openWarnings: Record<string, boolean>,
   toggle: (id: string) => void
-): TemplateResult {
+): TemplateResult | null {
   if (primaryEntity && primaryEntity.attributes?.has_warning !== undefined) {
     return renderRankedWarnings(
       primaryEntity,
@@ -303,5 +323,5 @@ export function renderWarningSection(
   if (warningEntity) {
     return renderLegacyWarnings(warningEntity, openWarnings, toggle);
   }
-  return html``;
+  return null;
 }
