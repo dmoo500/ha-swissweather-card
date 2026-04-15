@@ -1,6 +1,8 @@
-// Note: avoid importing Node/browser externals in translations file
+// Re-export from split language files — see src/translations/
+export { translations } from './translations/index';
 
-export const translations = {
+/* Legacy content removed — language data now lives in
+   src/translations/de.json and src/translations/en.json
   de: {
     config: {
       temperature_font_size: 'Temperatur Schriftgröße (px)',
@@ -110,6 +112,7 @@ export const translations = {
     forecast_loading: 'Lädt...',
     forecast_days: '{{count}}-Tage-Prognose',
     forecast_days_7: '7-Tage-Prognose',
+    '7d_forecast': '7-Tage-Prognose',
     forecast_hours: 'Prognose (nächste {{hours}}h)',
     xd_forecast: 'Tages Prognose',
     forecast_days_hint: 'Hinweis: Es wurden nur {{count}} Tage vom Wetterdienst geliefert.',
@@ -270,6 +273,7 @@ export const translations = {
     forecast_loading: 'Loading...',
     forecast_days: '{{count}}-day forecast',
     forecast_days_7: '7-day forecast',
+    '7d_forecast': '7-day forecast',
     xd_forecast: 'Daily forecast',
     forecast_days_hint: 'Note: Only {{count}} days were delivered by the weather service.',
     forecast_hours: 'Forecast (next {{hours}}h)',
@@ -328,4 +332,4 @@ export const translations = {
     warnings_additional: '+{{count}} more',
     warnings_none: 'No active weather warnings',
   },
-};
+*/

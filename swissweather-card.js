@@ -1,5 +1,5 @@
 //#region package.json
-var e = "1.8.0", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
+var e = "1.8.1", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
 	constructor(e, t, n) {
 		if (this._$cssResult$ = !0, n !== r) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
 		this.cssText = e, this.t = t;
@@ -2186,7 +2186,7 @@ var B = (e, t, n, r) => {
 			show_warnings: "Wetterwarnungen anzeigen",
 			show_wind: "Winddiagramm anzeigen",
 			show_day_temps: "Tages-Min/Max anzeigen",
-			show_sun_times: "Sonnenauf-/untergang anzeigen",
+			show_sun_times: "Sonnenauf-/-untergang anzeigen",
 			photo_mode: "Fotorealistischer Hintergrund (PoC)",
 			enable_animate_weather_icons: "Animierte Wetter-Icons aktivieren",
 			forecast_hours: "Prognose Stunden (Standard: 6)",
@@ -2205,9 +2205,9 @@ var B = (e, t, n, r) => {
 			chart_wind: "Wind",
 			chart_forecast: "Prognose-Diagramm",
 			descr: {
-				entity: "Die Wetter-Entity ist erforderlich und sollte von der Integration SwissWeather sein. Wenn eine andere Wetter Entity genutzt wird kann es passieren, das nicht alle Daten korrekt angezeuigt werden.",
+				entity: "Die Wetter-Entity ist erforderlich und sollte von der Integration SwissWeather sein. Wenn eine andere Wetter Entity genutzt wird kann es passieren, das nicht alle Daten korrekt angezeigt werden.",
 				sun_entity: "Die Sonnen-Entity ist erforderlich, um Sonnenaufgangs- und Sonnenuntergangszeiten anzuzeigen.",
-				show_forecast: "Die Vorhersage unter dem Hintergrund kann optional ein- oder ausgeschaltet werden.",
+				show_forecast: "Blende den Wettervorhersage-Bereich ein oder aus. Die Vorhersage zeigt bis zu 7 Tage an, je nach dem was der Wetterdienst liefert.",
 				sunshine_entity: "Die Sonnenscheindauer-Entity wird benötigt, um die Sonnenscheindauer anzuzeigen.",
 				wind_entity: "Die Wind-Entity wird benötigt, um die Windgeschwindigkeit anzuzeigen.",
 				wind_direction_entity: "Die Windrichtungs-Entity wird benötigt, um die Windrichtung anzuzeigen.",
@@ -2216,7 +2216,6 @@ var B = (e, t, n, r) => {
 				secondary_warning_entity: "Sekundäre Wetterwarnung (*_secondary_weather_warning) aus mastameista/hass-swissweather.",
 				tertiary_warning_entity: "Tertiäre Wetterwarnung (*_tertiary_weather_warning) aus mastameista/hass-swissweather.",
 				precipitation_entity: "Die Niederschlags-Entity wird benötigt, um die Niederschlagsprognose anzuzeigen.",
-				show_forecast: "Die Wettervorhersage zeigt die Vorhersage mit maximal 7 Tagen an, je nach dem, was der Wetterdienst liefert.",
 				forecast_mode: "Wähle, ob in der BG-Card die Tages- oder Stunden-Vorhersage (oder keine) angezeigt wird.",
 				show_temperature: "Zeige das Temperaturdiagramm an, mit den Vorhersage anhand der eingestellten Stunden",
 				show_precipitation: "Zeige das Niederschlags an, mit den Vorhersage anhand der eingestellten Stunden",
@@ -2252,6 +2251,7 @@ var B = (e, t, n, r) => {
 		forecast_loading: "Lädt...",
 		forecast_days: "{{count}}-Tage-Prognose",
 		forecast_days_7: "7-Tage-Prognose",
+		"7d_forecast": "7-Tage-Prognose",
 		forecast_hours: "Prognose (nächste {{hours}}h)",
 		xd_forecast: "Tages Prognose",
 		forecast_days_hint: "Hinweis: Es wurden nur {{count}} Tage vom Wetterdienst geliefert.",
@@ -2310,7 +2310,11 @@ var B = (e, t, n, r) => {
 		collapse: "Einklappen",
 		expand: "Ausklappen",
 		warnings_additional: "+{{count}} weitere",
-		warnings_none: "Keine aktiven Wetterwarnungen"
+		warnings_none: "Keine aktiven Wetterwarnungen",
+		loading: "Lädt...",
+		loading_forecast: "Vorhersagedaten werden geladen...",
+		check_devtools: "Prüfen Sie die Developer Tools → Services → weather.get_forecasts",
+		try_other_entity: "Versuchen Sie eine andere Wetter-Entity"
 	},
 	en: {
 		config: {
@@ -2356,7 +2360,7 @@ var B = (e, t, n, r) => {
 			descr: {
 				entity: "The weather entity is required and should be from the SwissWeather integration. If another weather entity is used, not all data may be displayed correctly.",
 				sun_entity: "The sun entity is required to display sunrise and sunset times.",
-				show_forecast: "You can optionally enable or disable the forecast section below the animated background.",
+				show_forecast: "Toggle the weather forecast section on or off. The forecast shows up to 7 days depending on what the weather service provides.",
 				sunshine_entity: "The sunshine entity is required to display sunshine duration.",
 				wind_entity: "The wind entity is required to display wind speed.",
 				wind_direction_entity: "The wind direction entity is required to display wind direction.",
@@ -2365,7 +2369,6 @@ var B = (e, t, n, r) => {
 				secondary_warning_entity: "Secondary weather warning entity (*_secondary_weather_warning) from mastameista/hass-swissweather.",
 				tertiary_warning_entity: "Tertiary weather warning entity (*_tertiary_weather_warning) from mastameista/hass-swissweather.",
 				precipitation_entity: "The precipitation entity is required to display the precipitation forecast.",
-				show_forecast: "The weather forecast displays the forecast with up to 7 days, depending on what the weather service provides.",
 				forecast_mode: "Choose whether the BG card shows the daily or hourly forecast (or none).",
 				show_temperature: "Show the temperature chart with the forecast based on the set hours",
 				show_precipitation: "Show the precipitation chart with the forecast based on the set hours",
@@ -2401,6 +2404,7 @@ var B = (e, t, n, r) => {
 		forecast_loading: "Loading...",
 		forecast_days: "{{count}}-day forecast",
 		forecast_days_7: "7-day forecast",
+		"7d_forecast": "7-day forecast",
 		xd_forecast: "Daily forecast",
 		forecast_days_hint: "Note: Only {{count}} days were delivered by the weather service.",
 		forecast_hours: "Forecast (next {{hours}}h)",
@@ -2457,7 +2461,11 @@ var B = (e, t, n, r) => {
 		collapse: "Collapse",
 		expand: "Expand",
 		warnings_additional: "+{{count}} more",
-		warnings_none: "No active weather warnings"
+		warnings_none: "No active weather warnings",
+		loading: "Loading...",
+		loading_forecast: "Loading forecast data...",
+		check_devtools: "Check Developer Tools → Services → weather.get_forecasts",
+		try_other_entity: "Try a different weather entity"
 	}
 }, tn = "swissweather", nn = `${tn}-card`, rn = `${nn}-editor`, H = [
 	{

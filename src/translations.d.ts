@@ -1,7 +1,3 @@
-// TypeScript declaration for translations object to allow string index
-export interface TranslationDict {
-  [lang: string]: any;
-}
-declare module './translations.js' {
-  export const translations: TranslationDict;
-}
+// TypeScript declaration for translations — actual implementation in src/translations/index.ts
+export type { TranslationDict } from './translations/index';
+export { translations } from './translations/index';
