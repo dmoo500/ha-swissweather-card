@@ -199,7 +199,7 @@ export class ForecastDiagramCardEditor extends LitElement implements LovelaceCar
 
         <!-- General -->
         <div class="group">
-          <div class="group-title">${_t('config.group_general') || 'General'}</div>
+          <div class="group-title">${_t('forecast_diagram.config.group_general') || 'General'}</div>
           <ha-form
             .hass=${this.hass}
             .data=${data}
@@ -212,7 +212,7 @@ export class ForecastDiagramCardEditor extends LitElement implements LovelaceCar
 
         <!-- Sensors -->
         <div class="group">
-          <div class="group-title">${_t('config.group_sensors') || 'Sensors'}</div>
+          <div class="group-title">${_t('forecast_diagram.config.group_sensors') || 'Sensors'}</div>
           <ha-form
             .hass=${this.hass}
             .data=${data}
@@ -238,8 +238,8 @@ export class ForecastDiagramCardEditor extends LitElement implements LovelaceCar
 
   private _computeLabel = (schema: any) => {
     const labels: Record<string, string> = {
-      entity: _t('config.entity'),
-      sun_entity: _t('config.sun_entity'),
+      entity: _t('forecast_diagram.config.entity'),
+      sun_entity: _t('forecast_diagram.config.sun_entity'),
     };
     return labels[schema.name] || schema.name;
   };

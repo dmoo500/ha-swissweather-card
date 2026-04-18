@@ -9,25 +9,25 @@ export const warningSchema = [
     name: 'primary_warning_entity',
     required: false,
     selector: { entity: { domain: 'sensor' } },
-    description: 'config.descr.primary_warning_entity',
+    description: 'warning.config.descr.primary_warning_entity',
   },
   {
     name: 'secondary_warning_entity',
     required: false,
     selector: { entity: { domain: 'sensor' } },
-    description: 'config.descr.secondary_warning_entity',
+    description: 'warning.config.descr.secondary_warning_entity',
   },
   {
     name: 'tertiary_warning_entity',
     required: false,
     selector: { entity: { domain: 'sensor' } },
-    description: 'config.descr.tertiary_warning_entity',
+    description: 'warning.config.descr.tertiary_warning_entity',
   },
   {
     name: 'warning_entity',
     required: false,
     selector: { entity: { domain: 'sensor' } },
-    description: 'config.descr.warning_entity',
+    description: 'warning.config.descr.warning_entity',
   },
 ];
 

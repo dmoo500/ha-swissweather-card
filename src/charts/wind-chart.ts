@@ -95,7 +95,7 @@ export class WindChart extends LitElement {
       <div class="chart">
         <div class="section-title">
           <ha-icon icon="mdi:weather-windy"></ha-icon>
-          ${this._t('wind_hours', { hours: this.forecastHours })}
+          ${this._t('hourly_charts.wind_hours', { hours: this.forecastHours })}
           <span style="font-size:12px; font-weight:normal; color:var(--secondary-text-color, #888);"
             >km/h</span
           >

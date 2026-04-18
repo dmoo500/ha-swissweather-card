@@ -1336,10 +1336,10 @@ export class SwissWeatherBGCard extends LitElement {
               ${sunEntityId && this.config.show_sun_times !== false && condition !== 'clear-night'
                 ? html`
                     <div class="sun-times">
-                      <span title="${_t('sunrise')}">
+                      <span title="${_t('bg_card.sunrise')}">
                         <ha-icon icon="mdi:weather-sunset-up"></ha-icon> ${fmt(nextSunrise)}
                       </span>
-                      <span title="${_t('sunset')}">
+                      <span title="${_t('bg_card.sunset')}">
                         <ha-icon icon="mdi:weather-sunset-down"></ha-icon> ${fmt(nextSunset)}
                       </span>
                     </div>

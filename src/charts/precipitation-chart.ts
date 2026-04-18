@@ -95,10 +95,10 @@ export class PrecipitationChart extends LitElement {
         <div class="chart">
           <div class="section-title">
             <ha-icon icon="mdi:weather-pouring"></ha-icon>
-            ${this._t('precipitation_hours', { hours: this.forecastHours })}
+            ${this._t('hourly_charts.precipitation_hours', { hours: this.forecastHours })}
           </div>
           <div style="text-align:center; color:#888; padding:16px; font-size:14px;">
-            ${this._t('no_precipitation_data')}
+            ${this._t('hourly_charts.no_precipitation_data')}
           </div>
         </div>
       `;
@@ -108,7 +108,7 @@ export class PrecipitationChart extends LitElement {
       <div class="chart">
         <div class="section-title">
           <ha-icon icon="mdi:weather-pouring"></ha-icon>
-          ${this._t('precipitation_hours', { hours: this.forecastHours })}
+          ${this._t('hourly_charts.precipitation_hours', { hours: this.forecastHours })}
           <span style="font-size:12px; font-weight:normal; color:var(--secondary-text-color, #888);"
             >mm</span
           >

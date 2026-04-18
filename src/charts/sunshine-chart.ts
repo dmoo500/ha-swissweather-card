@@ -119,7 +119,7 @@ export class SunshineChart extends LitElement {
             <div class="chart-sunshine" style="position:relative;">
               <div class="section-title">
                 <ha-icon icon="mdi:white-balance-sunny"></ha-icon>
-                ${this._t('sunshine_hours', { hours: this.forecastHours })}
+                ${this._t('hourly_charts.sunshine_hours', { hours: this.forecastHours })}
                 <span
                   style="font-size:12px; font-weight:normal; color:var(--secondary-text-color, #888);"
                   >min</span
@@ -245,10 +245,10 @@ export class SunshineChart extends LitElement {
             <div class="chart">
               <div class="section-title">
                 <ha-icon icon="mdi:white-balance-sunny"></ha-icon>
-                ${this._t('sunshine_hours', { hours: this.forecastHours })}
+                ${this._t('hourly_charts.sunshine_hours', { hours: this.forecastHours })}
               </div>
               <div style="text-align:center; color:#888; padding:16px; font-size:14px;">
-                ${this._t('no_sunshine_data')}
+                ${this._t('hourly_charts.no_sunshine_data')}
               </div>
             </div>
           `

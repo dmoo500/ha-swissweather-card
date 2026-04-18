@@ -23,13 +23,13 @@ export const baseSchema = [
     name: 'entity',
     required: true,
     selector: { entity: { domain: 'weather' } },
-    description: 'config.descr.entity',
+    description: 'hourly_charts.config.descr.entity',
   },
   {
     name: 'forecast_hours',
     required: false,
     selector: { number: { min: 6, max: 48, step: 1, mode: 'box' } },
-    description: 'config.descr.forecast_hours',
+    description: 'hourly_charts.config.descr.forecast_hours',
   },
 ];
 
@@ -39,13 +39,13 @@ export const windSchema = [
     name: 'entity',
     required: true,
     selector: { entity: { domain: 'weather' } },
-    description: 'config.descr.entity',
+    description: 'hourly_charts.config.descr.entity',
   },
   {
     name: 'forecast_hours',
     required: false,
     selector: { number: { min: 6, max: 48, step: 1, mode: 'box' } },
-    description: 'config.descr.forecast_hours',
+    description: 'hourly_charts.config.descr.forecast_hours',
   },
 ];
 
@@ -55,25 +55,25 @@ export const sunshineSchema = [
     name: 'entity',
     required: true,
     selector: { entity: { domain: 'weather' } },
-    description: 'config.descr.entity',
+    description: 'hourly_charts.config.descr.entity',
   },
   {
     name: 'forecast_hours',
     required: false,
     selector: { number: { min: 6, max: 48, step: 1, mode: 'box' } },
-    description: 'config.descr.forecast_hours',
+    description: 'hourly_charts.config.descr.forecast_hours',
   },
   {
     name: 'sun_entity',
     required: false,
     selector: { entity: { domain: 'sun' } },
-    description: 'config.descr.sun_entity',
+    description: 'hourly_charts.config.descr.sun_entity',
   },
   {
     name: 'sunshine_entity',
     required: false,
     selector: { entity: { domain: 'sensor' } },
-    description: 'config.descr.sunshine_entity',
+    description: 'hourly_charts.config.descr.sunshine_entity',
   },
 ];
 

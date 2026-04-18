@@ -97,7 +97,7 @@ export class ForecastTemperatureChart extends LitElement {
       <div class="chart">
         <div class="section-title">
           <ha-icon icon="mdi:thermometer"></ha-icon>
-          ${this._t('temperature_hours', { hours: this.forecastHours })}
+          ${this._t('hourly_charts.temperature_hours', { hours: this.forecastHours })}
           <span style="font-size:12px; font-weight:normal; color:var(--secondary-text-color, #888);"
             >°C</span
           >

@@ -56,7 +56,7 @@ export const schema = [
   },
   {
     name: 'warning_entity',
-    description: 'config.descr.warning_entity',
+    description: 'warning.config.descr.warning_entity',
     selector: {
       entity: {
         domain: 'sensor',
@@ -65,7 +65,7 @@ export const schema = [
   },
   {
     name: 'primary_warning_entity',
-    description: 'config.descr.primary_warning_entity',
+    description: 'warning.config.descr.primary_warning_entity',
     selector: {
       entity: {
         domain: 'sensor',
@@ -74,7 +74,7 @@ export const schema = [
   },
   {
     name: 'secondary_warning_entity',
-    description: 'config.descr.secondary_warning_entity',
+    description: 'warning.config.descr.secondary_warning_entity',
     selector: {
       entity: {
         domain: 'sensor',
@@ -83,7 +83,7 @@ export const schema = [
   },
   {
     name: 'tertiary_warning_entity',
-    description: 'config.descr.tertiary_warning_entity',
+    description: 'warning.config.descr.tertiary_warning_entity',
     selector: {
       entity: {
         domain: 'sensor',
@@ -127,7 +127,7 @@ export const schema = [
   },
   {
     name: 'show_warnings',
-    description: 'config.descr.show_warnings',
+    description: 'warning.config.descr.show_warnings',
     selector: { boolean: {} },
   },
   {
