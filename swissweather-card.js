@@ -2362,6 +2362,7 @@ var B = (e, t, n, r) => {
 		pollen: {
 			title: "Pollenbelastung",
 			no_data: "Keine Pollen-Typen aktiviert",
+			not_configured: "Keine Pollen-Sensoren konfiguriert. Bitte Karte einrichten und Stufen-Sensoren aus hass-swissweather zuweisen.",
 			config: {
 				level_sensor: "Stufen-Sensor",
 				level_sensor_hint: "Pollen-Stufen-Sensor (SwissPollenLevelSensor aus izacus/hass-swissweather). Mögliche Werte: NONE / LOW / MEDIUM / STRONG / VERY_STRONG",
@@ -2585,6 +2586,7 @@ var B = (e, t, n, r) => {
 		pollen: {
 			title: "Pollen levels",
 			no_data: "No pollen types enabled",
+			not_configured: "No pollen sensors configured. Please edit the card and assign level sensors from hass-swissweather.",
 			config: {
 				level_sensor: "Level sensor",
 				level_sensor_hint: "Pollen level sensor (SwissPollenLevelSensor from izacus/hass-swissweather). Values: NONE / LOW / MEDIUM / STRONG / VERY_STRONG",
@@ -4744,8 +4746,8 @@ function mi(e, t, n, r, i = 0) {
             <div style="margin-top: 6px; font-size: 13px; opacity: 0.85;">
               ${a.valid_from || a.valid_to ? C`
                     <div style="margin-bottom: 4px;">
-                      ${a.valid_from ? C`<strong>${I("valid_from")}: </strong>${new Date(a.valid_from).toLocaleString()}&nbsp;` : ""}
-                      ${a.valid_to ? C`<strong>${I("valid_to")}: </strong>${new Date(a.valid_to).toLocaleString()}` : ""}
+                      ${a.valid_from ? C`<strong>${I("warning.valid_from")}: </strong>${new Date(a.valid_from).toLocaleString()}&nbsp;` : ""}
+                      ${a.valid_to ? C`<strong>${I("warning.valid_to")}: </strong>${new Date(a.valid_to).toLocaleString()}` : ""}
                     </div>
                   ` : ""}
               ${a.html_text ? C`<div
@@ -4783,7 +4785,7 @@ function hi(e, t, n, r, i) {
 	}[a.icon_color?.toLowerCase()] ?? "info", s = !!t?.attributes?.has_warning, c = !!n?.attributes?.has_warning, l = a.additional_warning_count ?? 0, u = Math.max(l - +!!s - !!c, 0), d = 1 + l;
 	return C`
     <div class="warning-section ${o}">
-      <strong>${d === 1 ? I("weather_warning") : I("weather_warnings", { count: d })}</strong>
+      <strong>${d === 1 ? I("warning.weather_warning") : I("warning.weather_warnings", { count: d })}</strong>
       <ul style="margin: 6px 0 0 0; padding-left: 18px;">
         ${[
 		mi(e, "primary", r, i, u),
@@ -4831,7 +4833,7 @@ function gi(e, t, n) {
 	};
 	return C`
     <div class="warning-section ${a}">
-      <strong>${I("weather_warning")}</strong>
+      <strong>${I("warning.weather_warning")}</strong>
       <ul style="margin: 6px 0 0 0; padding-left: 18px;">
         ${r.map((e) => C`
             <li style="margin-bottom: 12px;">
@@ -4864,9 +4866,9 @@ function gi(e, t, n) {
               </div>
               ${t[e.id] && e.description ? C`
                     <div>
-                      <strong>${I("valid_from")}: </strong>
+                      <strong>${I("warning.valid_from")}: </strong>
                       ${e.valid_from ? new Date(e.valid_from).toLocaleString() : I("unknown")}
-                      <strong>${I("valid_to")}: </strong>
+                      <strong>${I("warning.valid_to")}: </strong>
                       ${e.valid_to ? new Date(e.valid_to).toLocaleString() : I("unknown")}
                     </div>
                     <div
@@ -9452,27 +9454,29 @@ var Da = class extends E {
 		if (!this.hass || !this.config) return C``;
 		let e = (this.hass.selectedLanguage || this.hass.language || "en").substring(0, 2);
 		e !== this._loadedLang && (this._loadedLang = e, F(e).then(() => this.requestUpdate()));
-		let t = [];
+		let t = [], n = !1;
 		for (let e of Sa) {
 			if (this.config[`${e}_enabled`] === !1) continue;
-			let n = this._getEntityState(this.config[`${e}_entity`]);
-			if (!n) continue;
-			let r = Ta(n.state), i = this._getEntityState(this.config[`${e}_raw_entity`]);
+			let r = this.config[`${e}_entity`];
+			r && (n = !0);
+			let i = this._getEntityState(r);
+			if (!i) continue;
+			let a = Ta(i.state), o = this._getEntityState(this.config[`${e}_raw_entity`]);
 			t.push({
 				type: e,
-				level: r,
-				raw: i ? i.state : void 0,
-				unit: i?.attributes?.unit_of_measurement
+				level: a,
+				raw: o ? o.state : void 0,
+				unit: o?.attributes?.unit_of_measurement
 			});
 		}
-		if (t.length === 0) return C`<div class="no-data">${I("pollen.no_data")}</div>`;
-		let n = Ea(t.map((e) => e.level)), r = wa[n];
+		if (t.length === 0) return C`<div class="no-data">${I(n ? "pollen.no_data" : "pollen.not_configured")}</div>`;
+		let r = Ea(t.map((e) => e.level)), i = wa[r];
 		return C`
       <div class="header" @click=${this._toggle}>
         <div class="header-left">
           <span class="title">🌿 ${I("pollen.title")}</span>
-          <span class="overall-badge" style="background: ${r};">
-            ${I(`pollen.levels.${n.toLowerCase()}`)}
+          <span class="overall-badge" style="background: ${i};">
+            ${I(`pollen.levels.${r.toLowerCase()}`)}
           </span>
         </div>
         <span class="chevron ${this._expanded ? "open" : ""}">⌄</span>

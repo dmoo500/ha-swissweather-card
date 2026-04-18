@@ -199,6 +199,7 @@
   "pollen": {
     "title": "Pollen levels",
     "no_data": "No pollen types enabled",
+    "not_configured": "No pollen sensors configured. Please edit the card and assign level sensors from hass-swissweather.",
     "config": {
       "level_sensor": "Level sensor",
       "level_sensor_hint": "Pollen level sensor (SwissPollenLevelSensor from izacus/hass-swissweather). Values: NONE / LOW / MEDIUM / STRONG / VERY_STRONG",
