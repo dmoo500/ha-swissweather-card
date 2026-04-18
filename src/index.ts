@@ -21,6 +21,8 @@ import { WindCard } from './cards/hourly-charts/wind-card';
 import { WindCardEditor } from './cards/hourly-charts/wind-card-editor';
 import { WarningCard } from './cards/warnings/warning-card';
 import { WarningCardEditor } from './cards/warnings/warning-card-editor';
+import { PollenCard } from './cards/pollen/pollen-card';
+import { PollenCardEditor } from './cards/pollen/pollen-card-editor';
 import {
   TEMPERATURE_CARD_NAME,
   PRECIPITATION_CARD_NAME,
@@ -28,6 +30,7 @@ import {
   WIND_CARD_NAME,
 } from './cards/hourly-charts/const';
 import { WARNING_CARD_NAME } from './cards/warnings/const';
+import { POLLEN_CARD_NAME } from './cards/pollen/const';
 import { registerCustomCard } from './utils';
 import { FORECAST_DIAGRAM_CARD_NAME } from './cards/forecast-diagram/const';
 import { FULL_CARD_NAME } from './cards/full-card/const';
@@ -112,6 +115,11 @@ registerCustomCard({
   name: 'SwissWeather Warning Card',
   description: 'Standalone weather warning card supporting ranked and legacy warning models',
 });
+registerCustomCard({
+  type: POLLEN_CARD_NAME,
+  name: 'SwissWeather Pollen Card',
+  description: 'Displays current pollen levels for up to 7 pollen types from SwissWeather integration',
+});
 console.log(
   `%c 📦 SwissWeather Card module loading completed - version: ${version}`,
   'color: #ef5350; font-weight: 700;'
@@ -136,6 +144,9 @@ export {
   // Warning Card
   WarningCard,
   WarningCardEditor,
+  // Pollen Card
+  PollenCard,
+  PollenCardEditor,
   // Charts
   DailyForecastChart,
   ForecastTemperatureChart,

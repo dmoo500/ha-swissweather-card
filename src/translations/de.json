@@ -149,5 +149,31 @@
   "loading": "Lädt...",
   "loading_forecast": "Vorhersagedaten werden geladen...",
   "check_devtools": "Prüfen Sie die Developer Tools → Services → weather.get_forecasts",
-  "try_other_entity": "Versuchen Sie eine andere Wetter-Entity"
+  "try_other_entity": "Versuchen Sie eine andere Wetter-Entity",
+  "pollen": {
+    "title": "Pollenbelastung",
+    "no_data": "Keine Pollen-Typen aktiviert",
+    "config": {
+      "level_sensor": "Stufen-Sensor",
+      "level_sensor_hint": "Pollen-Stufen-Sensor (SwissPollenLevelSensor aus izacus/hass-swissweather). Mögliche Werte: NONE / LOW / MEDIUM / STRONG / VERY_STRONG",
+      "raw_sensor": "Rohwert-Sensor (optional)",
+      "raw_sensor_hint": "Optionaler Rohwert-Sensor in Partikel/m³"
+    },
+    "types": {
+      "birch": "Birke",
+      "grasses": "Gräser",
+      "alder": "Erle",
+      "hazel": "Hasel",
+      "beech": "Buche",
+      "ash": "Esche",
+      "oak": "Eiche"
+    },
+    "levels": {
+      "none": "Keine",
+      "low": "Gering",
+      "medium": "Mittel",
+      "strong": "Stark",
+      "very_strong": "Sehr stark"
+    }
+  }
 }

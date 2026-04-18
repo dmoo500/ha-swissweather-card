@@ -147,5 +147,31 @@
   "loading": "Loading...",
   "loading_forecast": "Loading forecast data...",
   "check_devtools": "Check Developer Tools → Services → weather.get_forecasts",
-  "try_other_entity": "Try a different weather entity"
+  "try_other_entity": "Try a different weather entity",
+  "pollen": {
+    "title": "Pollen levels",
+    "no_data": "No pollen types enabled",
+    "config": {
+      "level_sensor": "Level sensor",
+      "level_sensor_hint": "Pollen level sensor (SwissPollenLevelSensor from izacus/hass-swissweather). Values: NONE / LOW / MEDIUM / STRONG / VERY_STRONG",
+      "raw_sensor": "Raw value sensor (optional)",
+      "raw_sensor_hint": "Optional raw value sensor in particles/m³"
+    },
+    "types": {
+      "birch": "Birch",
+      "grasses": "Grasses",
+      "alder": "Alder",
+      "hazel": "Hazel",
+      "beech": "Beech",
+      "ash": "Ash",
+      "oak": "Oak"
+    },
+    "levels": {
+      "none": "None",
+      "low": "Low",
+      "medium": "Medium",
+      "strong": "Strong",
+      "very_strong": "Very strong"
+    }
+  }
 }
