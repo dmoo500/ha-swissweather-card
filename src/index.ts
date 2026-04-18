@@ -118,7 +118,8 @@ registerCustomCard({
 registerCustomCard({
   type: POLLEN_CARD_NAME,
   name: 'SwissWeather Pollen Card',
-  description: 'Displays current pollen levels for up to 7 pollen types from SwissWeather integration',
+  description:
+    'Displays current pollen levels for up to 7 pollen types from SwissWeather integration',
 });
 console.log(
   `%c 📦 SwissWeather Card module loading completed - version: ${version}`,

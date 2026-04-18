@@ -41,7 +41,7 @@ export class PollenCardEditor extends LitElement implements LovelaceCardEditor {
       }
       .pollen-type-block {
         margin-bottom: 12px;
-        border: 1px solid var(--card-divider-color, rgba(0,0,0,0.12));
+        border: 1px solid var(--card-divider-color, rgba(0, 0, 0, 0.12));
         border-radius: 10px;
         overflow: hidden;
       }
@@ -50,7 +50,7 @@ export class PollenCardEditor extends LitElement implements LovelaceCardEditor {
         align-items: center;
         justify-content: space-between;
         padding: 10px 14px;
-        background: var(--secondary-background-color, rgba(0,0,0,0.04));
+        background: var(--secondary-background-color, rgba(0, 0, 0, 0.04));
         cursor: pointer;
         user-select: none;
       }
@@ -93,8 +93,10 @@ export class PollenCardEditor extends LitElement implements LovelaceCardEditor {
     const enabled = this._config?.[`${type}_enabled` as keyof PollenCardConfig] !== false;
     const levelKey = `${type}_entity`;
     const rawKey = `${type}_raw_entity`;
-    const levelValue = (this._config?.[levelKey as keyof PollenCardConfig] as string | undefined) ?? undefined;
-    const rawValue = (this._config?.[rawKey as keyof PollenCardConfig] as string | undefined) ?? undefined;
+    const levelValue =
+      (this._config?.[levelKey as keyof PollenCardConfig] as string | undefined) ?? undefined;
+    const rawValue =
+      (this._config?.[rawKey as keyof PollenCardConfig] as string | undefined) ?? undefined;
 
     return html`
       <div class="pollen-type-block">
@@ -113,7 +115,9 @@ export class PollenCardEditor extends LitElement implements LovelaceCardEditor {
                 <ha-form
                   .hass=${this.hass}
                   .data=${{ [levelKey]: levelValue }}
-                  .schema=${[{ name: levelKey, required: false, selector: { entity: { domain: 'sensor' } } }]}
+                  .schema=${[
+                    { name: levelKey, required: false, selector: { entity: { domain: 'sensor' } } },
+                  ]}
                   .computeLabel=${() => _t('pollen.config.level_sensor')}
                   .computeHelper=${() => _t('pollen.config.level_sensor_hint')}
                   @value-changed=${this._valueChanged}
@@ -122,7 +126,9 @@ export class PollenCardEditor extends LitElement implements LovelaceCardEditor {
                 <ha-form
                   .hass=${this.hass}
                   .data=${{ [rawKey]: rawValue }}
-                  .schema=${[{ name: rawKey, required: false, selector: { entity: { domain: 'sensor' } } }]}
+                  .schema=${[
+                    { name: rawKey, required: false, selector: { entity: { domain: 'sensor' } } },
+                  ]}
                   .computeLabel=${() => _t('pollen.config.raw_sensor')}
                   .computeHelper=${() => _t('pollen.config.raw_sensor_hint')}
                   @value-changed=${this._valueChanged}

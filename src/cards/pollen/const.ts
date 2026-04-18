@@ -38,4 +38,3 @@ export interface PollenCardConfig extends Omit<BasicCardConfig, 'entity'> {
   ash_raw_entity?: string;
   oak_raw_entity?: string;
 }
-

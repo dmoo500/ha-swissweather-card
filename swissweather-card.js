@@ -9487,10 +9487,7 @@ var Da = class extends E {
               ${t.map(({ type: e, level: t, raw: n, unit: r }) => C`
                   <div class="pollen-item">
                     <div class="pollen-name">${I(`pollen.types.${e}`)}</div>
-                    <div
-                      class="pollen-level-dot"
-                      style="background: ${wa[t]};"
-                    ></div>
+                    <div class="pollen-level-dot" style="background: ${wa[t]};"></div>
                     <div class="pollen-level-label" style="color: ${wa[t]};">
                       ${I(`pollen.levels.${t.toLowerCase()}`)}
                     </div>
@@ -9528,7 +9525,7 @@ var Oa = class extends E {
       }
       .pollen-type-block {
         margin-bottom: 12px;
-        border: 1px solid var(--card-divider-color, rgba(0,0,0,0.12));
+        border: 1px solid var(--card-divider-color, rgba(0, 0, 0, 0.12));
         border-radius: 10px;
         overflow: hidden;
       }
@@ -9537,7 +9534,7 @@ var Oa = class extends E {
         align-items: center;
         justify-content: space-between;
         padding: 10px 14px;
-        background: var(--secondary-background-color, rgba(0,0,0,0.04));
+        background: var(--secondary-background-color, rgba(0, 0, 0, 0.04));
         cursor: pointer;
         user-select: none;
       }
