@@ -94,12 +94,12 @@ export function renderRankedSlot(
                 ? html`
                     <div style="margin-bottom: 4px;">
                       ${attrs.valid_from
-                        ? html`<strong>${_t('valid_from')}: </strong>${new Date(
+                        ? html`<strong>${_t('warning.valid_from')}: </strong>${new Date(
                               attrs.valid_from
                             ).toLocaleString()}&nbsp;`
                         : ''}
                       ${attrs.valid_to
-                        ? html`<strong>${_t('valid_to')}: </strong>${new Date(
+                        ? html`<strong>${_t('warning.valid_to')}: </strong>${new Date(
                               attrs.valid_to
                             ).toLocaleString()}`
                         : ''}
@@ -169,7 +169,9 @@ export function renderRankedWarnings(
   );
   const totalCount = 1 + rawAdditional;
   const title =
-    totalCount === 1 ? _t('weather_warning') : _t('weather_warnings', { count: totalCount });
+    totalCount === 1
+      ? _t('warning.weather_warning')
+      : _t('warning.weather_warnings', { count: totalCount });
 
   const slots = [
     renderRankedSlot(primaryEntity, 'primary', openWarnings, toggle, effectiveAdditional),
@@ -247,7 +249,7 @@ export function renderLegacyWarnings(
 
   return html`
     <div class="warning-section ${containerClass}">
-      <strong>${_t('weather_warning')}</strong>
+      <strong>${_t('warning.weather_warning')}</strong>
       <ul style="margin: 6px 0 0 0; padding-left: 18px;">
         ${warnings.map(
           w => html`
@@ -284,9 +286,9 @@ export function renderLegacyWarnings(
               ${openWarnings[w.id] && w.description
                 ? html`
                     <div>
-                      <strong>${_t('valid_from')}: </strong>
+                      <strong>${_t('warning.valid_from')}: </strong>
                       ${w.valid_from ? new Date(w.valid_from).toLocaleString() : _t('unknown')}
-                      <strong>${_t('valid_to')}: </strong>
+                      <strong>${_t('warning.valid_to')}: </strong>
                       ${w.valid_to ? new Date(w.valid_to).toLocaleString() : _t('unknown')}
                     </div>
                     <div

@@ -204,13 +204,18 @@ export class PollenCard extends LitElement {
       unit?: string;
     }> = [];
 
+    let anyEntityConfigured = false;
+
     for (const type of POLLEN_TYPES) {
       const enabled = this.config[`${type}_enabled` as keyof PollenCardConfig];
       if (enabled === false) continue;
 
-      const levelEntity = this._getEntityState(
-        this.config[`${type}_entity` as keyof PollenCardConfig] as string | undefined
-      );
+      const entityId = this.config[`${type}_entity` as keyof PollenCardConfig] as
+        | string
+        | undefined;
+      if (entityId) anyEntityConfigured = true;
+
+      const levelEntity = this._getEntityState(entityId);
       if (!levelEntity) continue;
 
       const level = parseLevel(levelEntity.state);
@@ -226,7 +231,8 @@ export class PollenCard extends LitElement {
     }
 
     if (pollenData.length === 0) {
-      return html`<div class="no-data">${_t('pollen.no_data')}</div>`;
+      const msg = anyEntityConfigured ? _t('pollen.no_data') : _t('pollen.not_configured');
+      return html`<div class="no-data">${msg}</div>`;
     }
 
     const overall = maxLevel(pollenData.map(d => d.level));
@@ -250,10 +256,7 @@ export class PollenCard extends LitElement {
                 ({ type, level, raw, unit }) => html`
                   <div class="pollen-item">
                     <div class="pollen-name">${_t(`pollen.types.${type}`)}</div>
-                    <div
-                      class="pollen-level-dot"
-                      style="background: ${LEVEL_COLOR[level]};"
-                    ></div>
+                    <div class="pollen-level-dot" style="background: ${LEVEL_COLOR[level]};"></div>
                     <div class="pollen-level-label" style="color: ${LEVEL_COLOR[level]};">
                       ${_t(`pollen.levels.${level.toLowerCase()}`)}
                     </div>

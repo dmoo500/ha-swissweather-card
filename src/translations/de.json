@@ -199,6 +199,7 @@
   "pollen": {
     "title": "Pollenbelastung",
     "no_data": "Keine Pollen-Typen aktiviert",
+    "not_configured": "Keine Pollen-Sensoren konfiguriert. Bitte Karte einrichten und Stufen-Sensoren aus hass-swissweather zuweisen.",
     "config": {
       "level_sensor": "Stufen-Sensor",
       "level_sensor_hint": "Pollen-Stufen-Sensor (SwissPollenLevelSensor aus izacus/hass-swissweather). Mögliche Werte: NONE / LOW / MEDIUM / STRONG / VERY_STRONG",
