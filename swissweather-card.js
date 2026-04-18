@@ -762,16 +762,16 @@ var M = class extends E {
             <div class="${n}">
               <div class="section-title">
                 <ha-icon icon="mdi:calendar"></ha-icon>
-                ${this._t("7d_forecast")}
+                ${this._t("hourly_charts.7d_forecast")}
                 <small
                   style="font-size: 12px; color: var(--secondary-text-color, #666); margin-left: 10px;"
-                  >${this._t("loading")}</small
+                  >${this._t("hourly_charts.loading")}</small
                 >
               </div>
               <div
                 style="text-align: center; padding: 20px; color: var(--secondary-text-color, #666); font-style: italic;"
               >
-                ⏳ ${this._t("loading_forecast")}<br />
+                ⏳ ${this._t("hourly_charts.loading_forecast")}<br />
                 <small>Service: weather.get_forecasts</small>
               </div>
             </div>
@@ -781,11 +781,11 @@ var M = class extends E {
                   ${this.compact ? C`` : C`
                         <div class="section-title">
                           <ha-icon icon="mdi:calendar"></ha-icon>
-                          ${t.length === 7 ? this._t("7d_forecast") : this._t("xd_forecast", { days: t.length })}
+                          ${t.length === 7 ? this._t("hourly_charts.7d_forecast") : this._t("hourly_charts.xd_forecast", { days: t.length })}
                           <small
                             style="font-size: 12px; color: var(--secondary-text-color, #666); margin-left: 10px;"
                           >
-                            (${t.length} ${this._t("days_available")})
+                            (${t.length} ${this._t("hourly_charts.days_available")})
                           </small>
                         </div>
                       `}
@@ -813,16 +813,16 @@ var M = class extends E {
               <div class="${n}">
                 <div class="section-title">
                   <ha-icon icon="mdi:calendar"></ha-icon>
-                  ${this._t("7d_forecast")}
+                  ${this._t("hourly_charts.7d_forecast")}
                   <small style="font-size: 12px; color: #666; margin-left: 10px;">
-                    (0 ${this._t("days_available")})
+                    (0 ${this._t("hourly_charts.days_available")})
                   </small>
                 </div>
                 <div style="text-align: center; padding: 20px; color: #666; font-style: italic;">
-                  ⚠️ ${this._t("no_forecast_data")}<br />
+                  ⚠️ ${this._t("hourly_charts.no_forecast_data")}<br />
                   <small>Entity: ${this.config.entity}</small><br />
-                  <small>${this._t("check_devtools")}</small><br />
-                  <small style="color: #999;">${this._t("try_other_entity")}</small>
+                  <small>${this._t("hourly_charts.check_devtools")}</small><br />
+                  <small style="color: #999;">${this._t("hourly_charts.try_other_entity")}</small>
                 </div>
               </div>
             `;
@@ -903,7 +903,7 @@ var Ge = class extends E {
       <div class="chart">
         <div class="section-title">
           <ha-icon icon="mdi:thermometer"></ha-icon>
-          ${this._t("temperature_hours", { hours: this.forecastHours })}
+          ${this._t("hourly_charts.temperature_hours", { hours: this.forecastHours })}
           <span style="font-size:12px; font-weight:normal; color:var(--secondary-text-color, #888);"
             >°C</span
           >
@@ -1024,17 +1024,17 @@ var Ke = class extends E {
         <div class="chart">
           <div class="section-title">
             <ha-icon icon="mdi:weather-pouring"></ha-icon>
-            ${this._t("precipitation_hours", { hours: this.forecastHours })}
+            ${this._t("hourly_charts.precipitation_hours", { hours: this.forecastHours })}
           </div>
           <div style="text-align:center; color:#888; padding:16px; font-size:14px;">
-            ${this._t("no_precipitation_data")}
+            ${this._t("hourly_charts.no_precipitation_data")}
           </div>
         </div>
       ` : C`
       <div class="chart">
         <div class="section-title">
           <ha-icon icon="mdi:weather-pouring"></ha-icon>
-          ${this._t("precipitation_hours", { hours: this.forecastHours })}
+          ${this._t("hourly_charts.precipitation_hours", { hours: this.forecastHours })}
           <span style="font-size:12px; font-weight:normal; color:var(--secondary-text-color, #888);"
             >mm</span
           >
@@ -1226,7 +1226,7 @@ var N = class extends E {
             <div class="chart-sunshine" style="position:relative;">
               <div class="section-title">
                 <ha-icon icon="mdi:white-balance-sunny"></ha-icon>
-                ${this._t("sunshine_hours", { hours: this.forecastHours })}
+                ${this._t("hourly_charts.sunshine_hours", { hours: this.forecastHours })}
                 <span
                   style="font-size:12px; font-weight:normal; color:var(--secondary-text-color, #888);"
                   >min</span
@@ -1301,10 +1301,10 @@ var N = class extends E {
             <div class="chart">
               <div class="section-title">
                 <ha-icon icon="mdi:white-balance-sunny"></ha-icon>
-                ${this._t("sunshine_hours", { hours: this.forecastHours })}
+                ${this._t("hourly_charts.sunshine_hours", { hours: this.forecastHours })}
               </div>
               <div style="text-align:center; color:#888; padding:16px; font-size:14px;">
-                ${this._t("no_sunshine_data")}
+                ${this._t("hourly_charts.no_sunshine_data")}
               </div>
             </div>
           `;
@@ -1385,7 +1385,7 @@ var qe = class extends E {
       <div class="chart">
         <div class="section-title">
           <ha-icon icon="mdi:weather-windy"></ha-icon>
-          ${this._t("wind_hours", { hours: this.forecastHours })}
+          ${this._t("hourly_charts.wind_hours", { hours: this.forecastHours })}
           <span style="font-size:12px; font-weight:normal; color:var(--secondary-text-color, #888);"
             >km/h</span
           >
@@ -2165,7 +2165,6 @@ var B = (e, t, n, r) => {
 }, V = {
 	de: {
 		config: {
-			temperature_font_size: "Temperatur Schriftgröße (px)",
 			entity: "Wetter Entity *",
 			location: "Standort",
 			show_location: "Standort anzeigen",
@@ -2174,20 +2173,11 @@ var B = (e, t, n, r) => {
 			wind_direction_entity: "Windrichtung",
 			sunshine_entity: "Sonnenscheindauer",
 			precipitation_entity: "Niederschlagsprognose",
-			warning_entity: "Wetterwarnungen (Legacy)",
-			primary_warning_entity: "Primäre Wetterwarnung",
-			secondary_warning_entity: "Sekundäre Wetterwarnung",
-			tertiary_warning_entity: "Tertiäre Wetterwarnung",
 			show_forecast: "Wettervorhersage anzeigen",
-			forecast_mode: "Vorhersage-Modus",
 			show_temperature: "Temperaturdiagramm anzeigen",
 			show_precipitation: "Niederschlagsdiagramm anzeigen",
 			show_sunshine: "Sonnenscheindauerdiagramm anzeigen",
-			show_warnings: "Wetterwarnungen anzeigen",
 			show_wind: "Winddiagramm anzeigen",
-			show_day_temps: "Tages-Min/Max anzeigen",
-			show_sun_times: "Sonnenauf-/-untergang anzeigen",
-			photo_mode: "Fotorealistischer Hintergrund (PoC)",
 			enable_animate_weather_icons: "Animierte Wetter-Icons aktivieren",
 			forecast_hours: "Prognose Stunden (Standard: 6)",
 			compact_mode: "Kompakter Modus",
@@ -2204,40 +2194,132 @@ var B = (e, t, n, r) => {
 			chart_sunshine: "Sonnenschein",
 			chart_wind: "Wind",
 			chart_forecast: "Prognose-Diagramm",
+			move_up: "Nach oben",
+			move_down: "Nach unten",
 			descr: {
 				entity: "Die Wetter-Entity ist erforderlich und sollte von der Integration SwissWeather sein. Wenn eine andere Wetter Entity genutzt wird kann es passieren, das nicht alle Daten korrekt angezeigt werden.",
+				location: "Zeigt diesen Namen als Standort an.",
+				show_location: "Zeige den Standortnamen über dem aktuellen Wetter an",
 				sun_entity: "Die Sonnen-Entity ist erforderlich, um Sonnenaufgangs- und Sonnenuntergangszeiten anzuzeigen.",
-				show_forecast: "Blende den Wettervorhersage-Bereich ein oder aus. Die Vorhersage zeigt bis zu 7 Tage an, je nach dem was der Wetterdienst liefert.",
-				sunshine_entity: "Die Sonnenscheindauer-Entity wird benötigt, um die Sonnenscheindauer anzuzeigen.",
 				wind_entity: "Die Wind-Entity wird benötigt, um die Windgeschwindigkeit anzuzeigen.",
 				wind_direction_entity: "Die Windrichtungs-Entity wird benötigt, um die Windrichtung anzuzeigen.",
-				warning_entity: "Legacy: Die Wetterwarnungen Entity wird von der ursprünglichen SwissWeather Integration angelegt (izacus/hass-swissweather). Wenn die neueren Ranked-Entities gesetzt sind, wird diese Entity ignoriert.",
-				primary_warning_entity: "Primäre Wetterwarnung (*_primary_weather_warning) aus mastameista/hass-swissweather. Wenn gesetzt, wird das neue Ranked-Model aktiviert.",
-				secondary_warning_entity: "Sekundäre Wetterwarnung (*_secondary_weather_warning) aus mastameista/hass-swissweather.",
-				tertiary_warning_entity: "Tertiäre Wetterwarnung (*_tertiary_weather_warning) aus mastameista/hass-swissweather.",
+				sunshine_entity: "Die Sonnenscheindauer-Entity wird benötigt, um die Sonnenscheindauer anzuzeigen.",
 				precipitation_entity: "Die Niederschlags-Entity wird benötigt, um die Niederschlagsprognose anzuzeigen.",
-				forecast_mode: "Wähle, ob in der BG-Card die Tages- oder Stunden-Vorhersage (oder keine) angezeigt wird.",
+				show_forecast: "Blende den Wettervorhersage-Bereich ein oder aus. Die Vorhersage zeigt bis zu 7 Tage an, je nach dem was der Wetterdienst liefert.",
 				show_temperature: "Zeige das Temperaturdiagramm an, mit den Vorhersage anhand der eingestellten Stunden",
 				show_precipitation: "Zeige das Niederschlags an, mit den Vorhersage anhand der eingestellten Stunden",
 				show_sunshine: "Zeige das Sonnenscheindauerdiagramm an, mit den Vorhersage anhand der eingestellten Stunden",
 				show_wind: "Zeige das Winddiagramm an mit den Vorhersage anhand der eingestellten Stunden",
-				show_day_temps: "Blende die Tages-Min/Max-Anzeige ein oder aus.",
-				show_sun_times: "Blende die Anzeige von Sonnenaufgang/-untergang ein oder aus.",
-				photo_mode: "Experimenteller fotorealistischer Hintergrund mit atmosphärischen Overlays (PoC).",
-				show_warnings: "Zeige Wetterwarnungen an, wenn die Wetterwarnung Entity gesetzt ist und aktuelle Warnungen existieren.",
 				enable_animate_weather_icons: "Zeige animierte Icons an. Wenn ausgeschaltet, werden statische Icons angezeigt.",
 				compact_mode: "Im kompakten Modus werden weniger Details angezeigt für die Tagesvorhersage und den aktuellen Daten (z.B. Windrichtung)",
-				forecast_hours: "Anzahl der Stunden für die Anzeige der stündlichen Vorhersage (Standard: 6, maximal 18)",
-				show_location: "Zeige den Standortnamen über dem aktuellen Wetter an",
-				location: "Zeigt diesen Namen als Standort an.",
-				temperature_font_size: "Schriftgröße der Temperaturanzeige in Pixel. Standard: 36"
+				forecast_hours: "Anzahl der Stunden für die Anzeige der stündlichen Vorhersage (Standard: 6, maximal 18)"
 			}
 		},
-		forecast_mode: {
-			daily: "Täglich",
-			hourly: "Stündlich",
-			none: "Keine"
+		warning: {
+			config: {
+				show_warnings: "Wetterwarnungen anzeigen",
+				warning_entity: "Wetterwarnungen (Legacy)",
+				primary_warning_entity: "Primäre Wetterwarnung",
+				secondary_warning_entity: "Sekundäre Wetterwarnung",
+				tertiary_warning_entity: "Tertiäre Wetterwarnung",
+				descr: {
+					show_warnings: "Zeige Wetterwarnungen an, wenn die Wetterwarnung Entity gesetzt ist und aktuelle Warnungen existieren.",
+					warning_entity: "Legacy: Die Wetterwarnungen Entity wird von der ursprünglichen SwissWeather Integration angelegt (izacus/hass-swissweather). Wenn die neueren Ranked-Entities gesetzt sind, wird diese Entity ignoriert.",
+					primary_warning_entity: "Primäre Wetterwarnung (*_primary_weather_warning) aus mastameista/hass-swissweather. Wenn gesetzt, wird das neue Ranked-Model aktiviert.",
+					secondary_warning_entity: "Sekundäre Wetterwarnung (*_secondary_weather_warning) aus mastameista/hass-swissweather.",
+					tertiary_warning_entity: "Tertiäre Wetterwarnung (*_tertiary_weather_warning) aus mastameista/hass-swissweather."
+				}
+			},
+			weather_warning: "Wetterwarnung aktiv",
+			weather_warnings: "{{count}} Wetterwarnungen aktiv",
+			warnings: "Wetterwarnungen",
+			warnings_none: "Keine aktiven Wetterwarnungen",
+			warnings_additional: "+{{count}} weitere",
+			valid_from: "Gültig ab",
+			valid_to: "Gültig bis"
 		},
+		hourly_charts: {
+			config: {
+				entity: "Wetter Entity *",
+				forecast_hours: "Prognose Stunden (Standard: 6)",
+				sun_entity: "Sonnen Entity für Sonnenaufgang und Sonnenuntergang",
+				sunshine_entity: "Sonnenscheindauer",
+				descr: {
+					entity: "Die Wetter-Entity ist erforderlich und sollte von der Integration SwissWeather sein.",
+					forecast_hours: "Anzahl der Stunden für die Anzeige der stündlichen Vorhersage (Standard: 6, maximal 18)",
+					sun_entity: "Die Sonnen-Entity wird für Sonnenaufgangs-/Untergangsmarkierungen im Diagramm benötigt.",
+					sunshine_entity: "Die Sonnenscheindauer-Entity wird benötigt, um die Sonnenscheindauer anzuzeigen."
+				}
+			},
+			forecast_hours: "Prognose (nächste {{hours}}h)",
+			temperature_chart: "Temperatur (nächste 6h)",
+			temperature_hours: "Temperatur (nächste {{hours}}h)",
+			temperature_none: "Keine Temperaturdaten vorhanden",
+			precipitation_hours: "Niederschlag (nächste {{hours}}h)",
+			precipitation_none: "Keine Niederschlagsdaten vorhanden",
+			no_precipitation_data: "Keine Niederschlagsdaten vorhanden",
+			sunshine_chart: "Sonnenschein (nächste 6h)",
+			sunshine_hours: "Sonnenschein (nächste {{hours}}h)",
+			sunshine_none: "Keine Sonnenscheindaten vorhanden",
+			no_sunshine_data: "Keine Sonnenscheindaten vorhanden",
+			wind_hours: "Wind (nächste {{hours}}h)",
+			wind_compass: "Richtung",
+			loading: "Lädt...",
+			loading_forecast: "Vorhersagedaten werden geladen...",
+			check_devtools: "Prüfen Sie die Developer Tools → Services → weather.get_forecasts",
+			try_other_entity: "Versuchen Sie eine andere Wetter-Entity",
+			no_forecast_data: "Keine Vorhersagedaten verfügbar",
+			no_forecast_data_hint: "Prüfen Sie die Developer Tools → Services → weather.get_forecasts",
+			forecast_none: "Keine Forecast-Daten verfügbar",
+			forecast_none_hint: "Prüfen Sie die Developer Tools → Services → weather.get_forecasts",
+			forecast_loading: "Lädt...",
+			forecast_days: "{{count}}-Tage-Prognose",
+			forecast_days_7: "7-Tage-Prognose",
+			"7d_forecast": "7-Tage-Prognose",
+			xd_forecast: "Tages Prognose",
+			days_available: "Verfügbare Tage",
+			now: "Jetzt",
+			hour: "{{h}}h"
+		},
+		bg_card: {
+			config: {
+				entity: "Wetter Entity *",
+				sun_entity: "Sonnen Entity für Sonnenaufgang und Sonnenuntergang",
+				forecast_mode: "Vorhersage-Modus",
+				photo_mode: "Fotorealistischer Hintergrund (PoC)",
+				show_day_temps: "Tages-Min/Max anzeigen",
+				show_sun_times: "Sonnenauf-/-untergang anzeigen",
+				temperature_font_size: "Temperatur Schriftgröße (px)",
+				group_general: "Allgemeineinstellungen",
+				group_display: "Anzeigeeinstellungen",
+				descr: {
+					entity: "Die Wetter-Entity ist erforderlich und sollte von der Integration SwissWeather sein.",
+					sun_entity: "Die Sonnen-Entity ist erforderlich, um Sonnenaufgangs- und Sonnenuntergangszeiten anzuzeigen.",
+					forecast_mode: "Wähle, ob in der BG-Card die Tages- oder Stunden-Vorhersage (oder keine) angezeigt wird.",
+					show_day_temps: "Blende die Tages-Min/Max-Anzeige ein oder aus.",
+					show_sun_times: "Blende die Anzeige von Sonnenaufgang/-untergang ein oder aus.",
+					photo_mode: "Experimenteller fotorealistischer Hintergrund mit atmosphärischen Overlays (PoC).",
+					temperature_font_size: "Schriftgröße der Temperaturanzeige in Pixel. Standard: 36"
+				}
+			},
+			forecast_mode: {
+				daily: "Täglich",
+				hourly: "Stündlich",
+				none: "Keine"
+			},
+			sunrise: "Sonnenaufgang",
+			sunset: "Sonnenuntergang"
+		},
+		forecast_diagram: { config: {
+			entity: "Wetter Entity *",
+			sun_entity: "Sonnen Entity für Sonnenaufgang und Sonnenuntergang",
+			group_general: "Allgemeineinstellungen",
+			group_sensors: "Sensoren",
+			descr: {
+				entity: "Die Wetter-Entity ist erforderlich und sollte von der Integration SwissWeather sein.",
+				sun_entity: "Die Sonnen-Entity ist erforderlich, um Sonnenaufgangs- und Sonnenuntergangszeiten anzuzeigen."
+			}
+		} },
 		location: "Schweiz",
 		wind: "Wind",
 		direction: "Richtung",
@@ -2246,32 +2328,9 @@ var B = (e, t, n, r) => {
 		sunshine: "Sonnenschein",
 		visibility: "Sicht",
 		current_weather: "Aktuelles Wetter",
-		weather_warning: "Wetterwarnung aktiv",
-		weather_warnings: "{{count}} Wetterwarnungen aktiv",
-		forecast_loading: "Lädt...",
-		forecast_days: "{{count}}-Tage-Prognose",
-		forecast_days_7: "7-Tage-Prognose",
-		"7d_forecast": "7-Tage-Prognose",
-		forecast_hours: "Prognose (nächste {{hours}}h)",
-		xd_forecast: "Tages Prognose",
-		forecast_days_hint: "Hinweis: Es wurden nur {{count}} Tage vom Wetterdienst geliefert.",
-		forecast_none: "Keine Forecast-Daten verfügbar",
-		forecast_none_hint: "Prüfen Sie die Developer Tools → Services → weather.get_forecasts",
-		temperature_chart: "Temperatur (nächste 6h)",
-		temperature_none: "Keine Temperaturdaten vorhanden",
-		temperature_hours: "Temperatur (nächste {{hours}}h)",
-		precipitation_hours: "Niederschlag (nächste {{hours}}h)",
-		precipitation_none: "Keine Niederschlagsdaten vorhanden",
-		sunshine_chart: "Sonnenschein (nächste 6h)",
-		sunshine_none: "Keine Sonnenscheindaten vorhanden",
-		sunshine_hours: "Sonnenschein (nächste {{hours}}h)",
-		wind_hours: "Wind (nächste {{hours}}h)",
-		days_available: "Verfügbare Tage",
-		now: "Jetzt",
-		hour: "{{h}}h",
-		wind_compass: "Richtung",
-		warnings: "Wetterwarnungen",
-		compact_mode: "Kompakter Modus",
+		unknown: "Unbekannt",
+		collapse: "Einklappen",
+		expand: "Ausklappen",
 		"clear-night": "Klarer Himmel in der Nacht",
 		cloudy: "Bewölkt",
 		exceptional: "Aussergewöhnliches Wetter",
@@ -2300,21 +2359,6 @@ var B = (e, t, n, r) => {
 		"windy-variant-lightning-rainy": "Windig mit Blitz und Regen",
 		"windy-variant-pouring": "Windig mit starkem Regen",
 		"windy-variant-exceptional": "Windig mit aussergewöhnlichem Wetter",
-		no_forecast_data: "Keine Vorhersagedaten verfügbar",
-		no_forecast_data_hint: "Prüfen Sie die Developer Tools → Services → weather.get_forecasts",
-		sunrise: "Sonnenaufgang",
-		sunset: "Sonnenuntergang",
-		valid_from: "Gültig ab",
-		valid_to: "Gültig bis",
-		unknown: "Unbekannt",
-		collapse: "Einklappen",
-		expand: "Ausklappen",
-		warnings_additional: "+{{count}} weitere",
-		warnings_none: "Keine aktiven Wetterwarnungen",
-		loading: "Lädt...",
-		loading_forecast: "Vorhersagedaten werden geladen...",
-		check_devtools: "Prüfen Sie die Developer Tools → Services → weather.get_forecasts",
-		try_other_entity: "Versuchen Sie eine andere Wetter-Entity",
 		pollen: {
 			title: "Pollenbelastung",
 			no_data: "Keine Pollen-Typen aktiviert",
@@ -2344,29 +2388,19 @@ var B = (e, t, n, r) => {
 	},
 	en: {
 		config: {
-			temperature_font_size: "Temperature font size (px)",
 			entity: "Weather Entity *",
-			show_location: "Show Location",
 			location: "Location",
+			show_location: "Show Location",
 			sun_entity: "Sun Entity to display sunrise and sunset times",
 			wind_entity: "Wind Speed",
 			wind_direction_entity: "Wind Direction",
 			sunshine_entity: "Sunshine Duration",
 			precipitation_entity: "Precipitation Forecast",
-			warning_entity: "Weather Warnings (Legacy)",
-			primary_warning_entity: "Primary Weather Warning",
-			secondary_warning_entity: "Secondary Weather Warning",
-			tertiary_warning_entity: "Tertiary Weather Warning",
 			show_forecast: "Show Weather Forecast",
-			forecast_mode: "Forecast Mode",
 			show_temperature: "Show Temperature Chart",
 			show_precipitation: "Show Precipitation Chart",
 			show_sunshine: "Show Sunshine Duration Chart",
-			show_warnings: "Show Weather Warnings",
 			show_wind: "Show Wind Chart",
-			show_day_temps: "Show Day Min/Max",
-			show_sun_times: "Show Sunrise/Sunset",
-			photo_mode: "Photorealistic Background (PoC)",
 			enable_animate_weather_icons: "Enable Animated Weather Icons",
 			forecast_hours: "Forecast Hours (default: 6)",
 			compact_mode: "Compact Mode",
@@ -2383,40 +2417,132 @@ var B = (e, t, n, r) => {
 			chart_sunshine: "Sunshine",
 			chart_wind: "Wind",
 			chart_forecast: "Forecast Chart",
+			move_up: "Move up",
+			move_down: "Move down",
 			descr: {
 				entity: "The weather entity is required and should be from the SwissWeather integration. If another weather entity is used, not all data may be displayed correctly.",
+				location: "Displays this name as location.",
+				show_location: "Show the location name above the current weather",
 				sun_entity: "The sun entity is required to display sunrise and sunset times.",
-				show_forecast: "Toggle the weather forecast section on or off. The forecast shows up to 7 days depending on what the weather service provides.",
-				sunshine_entity: "The sunshine entity is required to display sunshine duration.",
 				wind_entity: "The wind entity is required to display wind speed.",
 				wind_direction_entity: "The wind direction entity is required to display wind direction.",
-				warning_entity: "Legacy: The weather warnings entity created by the original SwissWeather integration (izacus/hass-swissweather). Ignored when the ranked warning entities below are configured.",
-				primary_warning_entity: "Primary weather warning entity (*_primary_weather_warning) from mastameista/hass-swissweather. When set, the new ranked model is activated.",
-				secondary_warning_entity: "Secondary weather warning entity (*_secondary_weather_warning) from mastameista/hass-swissweather.",
-				tertiary_warning_entity: "Tertiary weather warning entity (*_tertiary_weather_warning) from mastameista/hass-swissweather.",
+				sunshine_entity: "The sunshine entity is required to display sunshine duration.",
 				precipitation_entity: "The precipitation entity is required to display the precipitation forecast.",
-				forecast_mode: "Choose whether the BG card shows the daily or hourly forecast (or none).",
+				show_forecast: "Toggle the weather forecast section on or off. The forecast shows up to 7 days depending on what the weather service provides.",
 				show_temperature: "Show the temperature chart with the forecast based on the set hours",
 				show_precipitation: "Show the precipitation chart with the forecast based on the set hours",
 				show_sunshine: "Show the sunshine duration chart with the forecast based on the set hours",
 				show_wind: "Show the wind chart with the forecast based on the set hours",
-				show_day_temps: "Toggle the per-day min/max display on or off.",
-				show_sun_times: "Toggle the sunrise/sunset display on or off.",
-				photo_mode: "Experimental photorealistic background with atmospheric overlays (PoC).",
-				show_warnings: "Show weather warnings if the weather warning entity is set and the actual warning exists.",
 				enable_animate_weather_icons: "Show animated icons. If disabled, static icons are displayed.",
 				compact_mode: "In compact mode, fewer details are displayed for the daily forecast and current data (e.g. wind direction)",
-				forecast_hours: "Number of hours to show in the hourly forecast (default: 6, maximum 18)",
-				show_location: "Show the location name above the current weather",
-				location: "Displays this name as location.",
-				temperature_font_size: "Font size for the temperature label in pixels. Default: 36"
+				forecast_hours: "Number of hours to show in the hourly forecast (default: 6, maximum 18)"
 			}
 		},
-		forecast_mode: {
-			daily: "Daily",
-			hourly: "Hourly",
-			none: "None"
+		warning: {
+			config: {
+				show_warnings: "Show Weather Warnings",
+				warning_entity: "Weather Warnings (Legacy)",
+				primary_warning_entity: "Primary Weather Warning",
+				secondary_warning_entity: "Secondary Weather Warning",
+				tertiary_warning_entity: "Tertiary Weather Warning",
+				descr: {
+					show_warnings: "Show weather warnings if the weather warning entity is set and the actual warning exists.",
+					warning_entity: "Legacy: The weather warnings entity created by the original SwissWeather integration (izacus/hass-swissweather). Ignored when the ranked warning entities below are configured.",
+					primary_warning_entity: "Primary weather warning entity (*_primary_weather_warning) from mastameista/hass-swissweather. When set, the new ranked model is activated.",
+					secondary_warning_entity: "Secondary weather warning entity (*_secondary_weather_warning) from mastameista/hass-swissweather.",
+					tertiary_warning_entity: "Tertiary weather warning entity (*_tertiary_weather_warning) from mastameista/hass-swissweather."
+				}
+			},
+			weather_warning: "Weather warning active",
+			weather_warnings: "{{count}} weather warnings active",
+			warnings: "Weather warnings",
+			warnings_none: "No active weather warnings",
+			warnings_additional: "+{{count}} more",
+			valid_from: "Valid from",
+			valid_to: "Valid to"
 		},
+		hourly_charts: {
+			config: {
+				entity: "Weather Entity *",
+				forecast_hours: "Forecast Hours (default: 6)",
+				sun_entity: "Sun Entity to display sunrise and sunset times",
+				sunshine_entity: "Sunshine Duration",
+				descr: {
+					entity: "The weather entity is required and should be from the SwissWeather integration.",
+					forecast_hours: "Number of hours to show in the hourly forecast (default: 6, maximum 18)",
+					sun_entity: "The sun entity is required for sunrise/sunset markers in the chart.",
+					sunshine_entity: "The sunshine entity is required to display sunshine duration."
+				}
+			},
+			forecast_hours: "Forecast (next {{hours}}h)",
+			temperature_chart: "Temperature (next 6h)",
+			temperature_hours: "Temperature (next {{hours}}h)",
+			temperature_none: "No temperature data available",
+			precipitation_hours: "Precipitation (next {{hours}}h)",
+			precipitation_none: "No precipitation data available",
+			no_precipitation_data: "No precipitation data available",
+			sunshine_chart: "Sunshine (next 6h)",
+			sunshine_hours: "Sunshine (next {{hours}}h)",
+			sunshine_none: "No sunshine data available",
+			no_sunshine_data: "No sunshine data available",
+			wind_hours: "Wind (next {{hours}}h)",
+			wind_compass: "Direction",
+			loading: "Loading...",
+			loading_forecast: "Loading forecast data...",
+			check_devtools: "Check Developer Tools → Services → weather.get_forecasts",
+			try_other_entity: "Try a different weather entity",
+			no_forecast_data: "No forecast data available",
+			no_forecast_data_hint: "Check Developer Tools → Services → weather.get_forecasts",
+			forecast_none: "No forecast data available",
+			forecast_none_hint: "Check Developer Tools → Services → weather.get_forecasts",
+			forecast_loading: "Loading...",
+			forecast_days: "{{count}}-day forecast",
+			forecast_days_7: "7-day forecast",
+			"7d_forecast": "7-day forecast",
+			xd_forecast: "Daily forecast",
+			days_available: "Available Days",
+			now: "Now",
+			hour: "{{h}}h"
+		},
+		bg_card: {
+			config: {
+				entity: "Weather Entity *",
+				sun_entity: "Sun Entity to display sunrise and sunset times",
+				forecast_mode: "Forecast Mode",
+				photo_mode: "Photorealistic Background (PoC)",
+				show_day_temps: "Show Day Min/Max",
+				show_sun_times: "Show Sunrise/Sunset",
+				temperature_font_size: "Temperature font size (px)",
+				group_general: "General Settings",
+				group_display: "Display Settings",
+				descr: {
+					entity: "The weather entity is required and should be from the SwissWeather integration.",
+					sun_entity: "The sun entity is required to display sunrise and sunset times.",
+					forecast_mode: "Choose whether the BG card shows the daily or hourly forecast (or none).",
+					show_day_temps: "Toggle the per-day min/max display on or off.",
+					show_sun_times: "Toggle the sunrise/sunset display on or off.",
+					photo_mode: "Experimental photorealistic background with atmospheric overlays (PoC).",
+					temperature_font_size: "Font size for the temperature label in pixels. Default: 36"
+				}
+			},
+			forecast_mode: {
+				daily: "Daily",
+				hourly: "Hourly",
+				none: "None"
+			},
+			sunrise: "Sunrise",
+			sunset: "Sunset"
+		},
+		forecast_diagram: { config: {
+			entity: "Weather Entity *",
+			sun_entity: "Sun Entity to display sunrise and sunset times",
+			group_general: "General Settings",
+			group_sensors: "Sensors",
+			descr: {
+				entity: "The weather entity is required and should be from the SwissWeather integration.",
+				sun_entity: "The sun entity is required to display sunrise and sunset times."
+			}
+		} },
 		location: "Switzerland",
 		wind: "Wind",
 		direction: "Direction",
@@ -2425,30 +2551,9 @@ var B = (e, t, n, r) => {
 		sunshine: "Sunshine",
 		visibility: "Visibility",
 		current_weather: "Current Weather",
-		weather_warning: "Weather warning active",
-		weather_warnings: "{{count}} weather warnings active",
-		forecast_loading: "Loading...",
-		forecast_days: "{{count}}-day forecast",
-		forecast_days_7: "7-day forecast",
-		"7d_forecast": "7-day forecast",
-		xd_forecast: "Daily forecast",
-		forecast_days_hint: "Note: Only {{count}} days were delivered by the weather service.",
-		forecast_hours: "Forecast (next {{hours}}h)",
-		forecast_none: "No forecast data available",
-		forecast_none_hint: "Check Developer Tools → Services → weather.get_forecasts",
-		temperature_none: "No temperature data available",
-		temperature_hours: "Temperature (next {{hours}}h)",
-		precipitation_none: "No precipitation data available",
-		precipitation_hours: "Precipitation (next {{hours}}h)",
-		sunshine_none: "No sunshine data available",
-		sunshine_hours: "Sunshine (next {{hours}}h)",
-		wind_hours: "Wind (next {{hours}}h)",
-		days_available: "Available Days",
-		now: "Now",
-		hour: "{{h}}h",
-		wind_compass: "Direction",
-		warnings: "Weather warnings",
-		compact_mode: "Compact mode",
+		unknown: "Unknown",
+		collapse: "Collapse",
+		expand: "Expand",
 		"clear-night": "Clear night sky",
 		cloudy: "Cloudy",
 		exceptional: "Exceptional weather",
@@ -2477,21 +2582,6 @@ var B = (e, t, n, r) => {
 		"windy-variant-lightning-rainy": "Windy with lightning and rain",
 		"windy-variant-pouring": "Windy with pouring rain",
 		"windy-variant-exceptional": "Windy with exceptional weather",
-		no_forecast_data: "No forecast data available",
-		no_forecast_data_hint: "Check Developer Tools → Services → weather.get_forecasts",
-		sunrise: "Sunrise",
-		sunset: "Sunset",
-		valid_from: "Valid from",
-		valid_to: "Valid to",
-		unknown: "Unknown",
-		collapse: "Collapse",
-		expand: "Expand",
-		warnings_additional: "+{{count}} more",
-		warnings_none: "No active weather warnings",
-		loading: "Loading...",
-		loading_forecast: "Loading forecast data...",
-		check_devtools: "Check Developer Tools → Services → weather.get_forecasts",
-		try_other_entity: "Try a different weather entity",
 		pollen: {
 			title: "Pollen levels",
 			no_data: "No pollen types enabled",
@@ -2553,22 +2643,22 @@ var B = (e, t, n, r) => {
 	},
 	{
 		name: "warning_entity",
-		description: "config.descr.warning_entity",
+		description: "warning.config.descr.warning_entity",
 		selector: { entity: { domain: "sensor" } }
 	},
 	{
 		name: "primary_warning_entity",
-		description: "config.descr.primary_warning_entity",
+		description: "warning.config.descr.primary_warning_entity",
 		selector: { entity: { domain: "sensor" } }
 	},
 	{
 		name: "secondary_warning_entity",
-		description: "config.descr.secondary_warning_entity",
+		description: "warning.config.descr.secondary_warning_entity",
 		selector: { entity: { domain: "sensor" } }
 	},
 	{
 		name: "tertiary_warning_entity",
-		description: "config.descr.tertiary_warning_entity",
+		description: "warning.config.descr.tertiary_warning_entity",
 		selector: { entity: { domain: "sensor" } }
 	},
 	{
@@ -2612,7 +2702,7 @@ var B = (e, t, n, r) => {
 	},
 	{
 		name: "show_warnings",
-		description: "config.descr.show_warnings",
+		description: "warning.config.descr.show_warnings",
 		selector: { boolean: {} }
 	},
 	{
@@ -2985,16 +3075,16 @@ var rn = class extends E {
 		wind_entity: I("config.wind_entity"),
 		wind_direction_entity: I("config.wind_direction_entity"),
 		sunshine_entity: I("config.sunshine_entity"),
-		warning_entity: I("config.warning_entity"),
-		primary_warning_entity: I("config.primary_warning_entity"),
-		secondary_warning_entity: I("config.secondary_warning_entity"),
-		tertiary_warning_entity: I("config.tertiary_warning_entity"),
+		warning_entity: I("warning.config.warning_entity"),
+		primary_warning_entity: I("warning.config.primary_warning_entity"),
+		secondary_warning_entity: I("warning.config.secondary_warning_entity"),
+		tertiary_warning_entity: I("warning.config.tertiary_warning_entity"),
 		show_forecast: I("config.show_forecast"),
 		forecast_hours: I("config.forecast_hours"),
 		show_temperature: I("config.show_temperature"),
 		show_precipitation: I("config.show_precipitation"),
 		show_sunshine: I("config.show_sunshine"),
-		show_warnings: I("config.show_warnings"),
+		show_warnings: I("warning.config.show_warnings"),
 		show_wind: I("config.show_wind"),
 		enable_animate_weather_icons: I("config.enable_animate_weather_icons"),
 		compact_mode: I("config.compact_mode")
@@ -5278,7 +5368,7 @@ var yi = class extends E {
       ${this.config.show_temperature !== !1 || this.config.show_precipitation !== !1 || this.config.show_sunshine !== !1 || this.config.show_wind !== !1 || this.config.show_forecast !== !1 ? C`
             <div class="section-title">
               <ha-icon icon="mdi:clock"></ha-icon>
-              ${z("forecast_hours", { hours: ne })}
+              ${z("hourly_charts.forecast_hours", { hours: ne })}
             </div>
           ` : ""}
       ${this._getEffectiveChartOrder().map((e) => {
@@ -5374,7 +5464,7 @@ var bi = `${H}-forecast-diagram-card`, xi = `${bi}-editor`, Si = [{
 	name: "entity",
 	required: !0,
 	selector: { entity: { domain: "weather" } },
-	description: "config.descr.entity"
+	description: "forecast_diagram.config.descr.entity"
 }];
 //#endregion
 //#region src/cards/forecast-diagram/forecast-diagram-card-editor.ts
@@ -5542,7 +5632,7 @@ var Ci = class extends E {
 
         <!-- General -->
         <div class="group">
-          <div class="group-title">${I("config.group_general") || "General"}</div>
+          <div class="group-title">${I("forecast_diagram.config.group_general") || "General"}</div>
           <ha-form
             .hass=${this.hass}
             .data=${e}
@@ -5555,7 +5645,7 @@ var Ci = class extends E {
 
         <!-- Sensors -->
         <div class="group">
-          <div class="group-title">${I("config.group_sensors") || "Sensors"}</div>
+          <div class="group-title">${I("forecast_diagram.config.group_sensors") || "Sensors"}</div>
           <ha-form
             .hass=${this.hass}
             .data=${e}
@@ -5577,8 +5667,8 @@ var Ci = class extends E {
     `;
 	}
 	_computeLabel = (e) => ({
-		entity: I("config.entity"),
-		sun_entity: I("config.sun_entity")
+		entity: I("forecast_diagram.config.entity"),
+		sun_entity: I("forecast_diagram.config.sun_entity")
 	})[e.name] || e.name;
 	_computeHelper = (e) => e.description ? I(e.description) : "";
 	_renderConfigPreview() {
@@ -6283,19 +6373,19 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
 		name: "entity",
 		required: !0,
 		selector: { entity: { domain: "weather" } },
-		description: "config.descr.entity"
+		description: "bg_card.config.descr.entity"
 	},
 	{
 		name: "sun_entity",
 		required: !1,
 		selector: { entity: { domain: "sun" } },
-		description: "config.descr.sun_entity"
+		description: "bg_card.config.descr.sun_entity"
 	},
 	{
 		name: "show_sun_times",
 		required: !1,
 		selector: { boolean: {} },
-		description: "config.descr.show_sun_times"
+		description: "bg_card.config.descr.show_sun_times"
 	},
 	{
 		name: "forecast_mode",
@@ -6317,13 +6407,13 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
 				}
 			]
 		} },
-		description: "config.descr.forecast_mode"
+		description: "bg_card.config.descr.forecast_mode"
 	},
 	{
 		name: "show_day_temps",
 		required: !1,
 		selector: { boolean: {} },
-		description: "config.descr.show_day_temps"
+		description: "bg_card.config.descr.show_day_temps"
 	},
 	{
 		name: "temperature_font_size",
@@ -6334,13 +6424,13 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
 			step: 1,
 			mode: "box"
 		} },
-		description: "config.descr.temperature_font_size"
+		description: "bg_card.config.descr.temperature_font_size"
 	},
 	{
 		name: "photo_mode",
 		required: !1,
 		selector: { boolean: {} },
-		description: "config.descr.photo_mode"
+		description: "bg_card.config.descr.photo_mode"
 	}
 ], $ = class extends E {
 	hourlyForecast = [];
@@ -6438,7 +6528,7 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
         ${this.compact ? C`` : C`
               <div class="section-title">
                 <ha-icon icon="mdi:clock-outline"></ha-icon>
-                ${this._t("forecast_hours", { hours: e.length })}
+                ${this._t("hourly_charts.forecast_hours", { hours: e.length })}
               </div>
             `}
         <div class="grid">
@@ -7702,10 +7792,10 @@ var Ki = class extends E {
                   ` : ""}
               ${u && this.config.show_sun_times !== !1 && r !== "clear-night" ? C`
                     <div class="sun-times">
-                      <span title="${z("sunrise")}">
+                      <span title="${z("bg_card.sunrise")}">
                         <ha-icon icon="mdi:weather-sunset-up"></ha-icon> ${ee(f)}
                       </span>
-                      <span title="${z("sunset")}">
+                      <span title="${z("bg_card.sunset")}">
                         <ha-icon icon="mdi:weather-sunset-down"></ha-icon> ${ee(p)}
                       </span>
                     </div>
@@ -8149,15 +8239,15 @@ var qi = class extends E {
 					options: [
 						{
 							value: "daily",
-							label: I("forecast_mode.daily")
+							label: I("bg_card.forecast_mode.daily")
 						},
 						{
 							value: "hourly",
-							label: I("forecast_mode.hourly")
+							label: I("bg_card.forecast_mode.hourly")
 						},
 						{
 							value: "none",
-							label: I("forecast_mode.none")
+							label: I("bg_card.forecast_mode.none")
 						}
 					]
 				}
@@ -8173,7 +8263,7 @@ var qi = class extends E {
 
         <!-- General -->
         <div class="group">
-          <div class="group-title">${I("config.group_general") || "General"}</div>
+          <div class="group-title">${I("bg_card.config.group_general") || "General"}</div>
           <ha-form
             .hass=${this.hass}
             .data=${e}
@@ -8190,7 +8280,7 @@ var qi = class extends E {
 
         <!-- Display -->
         <div class="group">
-          <div class="group-title">${I("config.group_display") || "Display"}</div>
+          <div class="group-title">${I("bg_card.config.group_display") || "Display"}</div>
           <ha-form
             .hass=${this.hass}
             .data=${e}
@@ -8217,13 +8307,13 @@ var qi = class extends E {
     `;
 	}
 	_computeLabel = (e) => ({
-		entity: I("config.entity"),
-		sun_entity: I("config.sun_entity"),
-		forecast_mode: I("config.forecast_mode"),
-		show_day_temps: I("config.show_day_temps"),
-		show_sun_times: I("config.show_sun_times"),
-		temperature_font_size: I("config.temperature_font_size"),
-		photo_mode: I("config.photo_mode")
+		entity: I("bg_card.config.entity"),
+		sun_entity: I("bg_card.config.sun_entity"),
+		forecast_mode: I("bg_card.config.forecast_mode"),
+		show_day_temps: I("bg_card.config.show_day_temps"),
+		show_sun_times: I("bg_card.config.show_sun_times"),
+		temperature_font_size: I("bg_card.config.temperature_font_size"),
+		photo_mode: I("bg_card.config.photo_mode")
 	})[e.name] || e.name;
 	_computeHelper = (e) => e.description ? I(e.description) : "";
 	_renderConfigPreview() {
@@ -8256,7 +8346,7 @@ var Ji = `${H}-temperature-card`, Yi = `${Ji}-editor`, Xi = `${H}-precipitation-
 	name: "entity",
 	required: !0,
 	selector: { entity: { domain: "weather" } },
-	description: "config.descr.entity"
+	description: "hourly_charts.config.descr.entity"
 }, {
 	name: "forecast_hours",
 	required: !1,
@@ -8266,12 +8356,12 @@ var Ji = `${H}-temperature-card`, Yi = `${Ji}-editor`, Xi = `${H}-precipitation-
 		step: 1,
 		mode: "box"
 	} },
-	description: "config.descr.forecast_hours"
+	description: "hourly_charts.config.descr.forecast_hours"
 }], ra = [{
 	name: "entity",
 	required: !0,
 	selector: { entity: { domain: "weather" } },
-	description: "config.descr.entity"
+	description: "hourly_charts.config.descr.entity"
 }, {
 	name: "forecast_hours",
 	required: !1,
@@ -8281,13 +8371,13 @@ var Ji = `${H}-temperature-card`, Yi = `${Ji}-editor`, Xi = `${H}-precipitation-
 		step: 1,
 		mode: "box"
 	} },
-	description: "config.descr.forecast_hours"
+	description: "hourly_charts.config.descr.forecast_hours"
 }], ia = [
 	{
 		name: "entity",
 		required: !0,
 		selector: { entity: { domain: "weather" } },
-		description: "config.descr.entity"
+		description: "hourly_charts.config.descr.entity"
 	},
 	{
 		name: "forecast_hours",
@@ -8298,19 +8388,19 @@ var Ji = `${H}-temperature-card`, Yi = `${Ji}-editor`, Xi = `${H}-precipitation-
 			step: 1,
 			mode: "box"
 		} },
-		description: "config.descr.forecast_hours"
+		description: "hourly_charts.config.descr.forecast_hours"
 	},
 	{
 		name: "sun_entity",
 		required: !1,
 		selector: { entity: { domain: "sun" } },
-		description: "config.descr.sun_entity"
+		description: "hourly_charts.config.descr.sun_entity"
 	},
 	{
 		name: "sunshine_entity",
 		required: !1,
 		selector: { entity: { domain: "sensor" } },
-		description: "config.descr.sunshine_entity"
+		description: "hourly_charts.config.descr.sunshine_entity"
 	}
 ], aa = class extends E {
 	hass;
@@ -8494,8 +8584,8 @@ var sa = class extends E {
           .data=${e}
           .schema=${na}
           .computeLabel=${(e) => ({
-			entity: I("config.entity"),
-			forecast_hours: I("config.forecast_hours") ?? "Forecast hours"
+			entity: I("hourly_charts.config.entity"),
+			forecast_hours: I("hourly_charts.config.forecast_hours") ?? "Forecast hours"
 		})[e.name] ?? e.name}
           @value-changed=${this._valueChanged}
         ></ha-form>
@@ -8651,8 +8741,8 @@ var la = class extends E {
           .data=${e}
           .schema=${na}
           .computeLabel=${(e) => ({
-			entity: I("config.entity"),
-			forecast_hours: I("config.forecast_hours") ?? "Forecast hours"
+			entity: I("hourly_charts.config.entity"),
+			forecast_hours: I("hourly_charts.config.forecast_hours") ?? "Forecast hours"
 		})[e.name] ?? e.name}
           @value-changed=${this._valueChanged}
         ></ha-form>
@@ -8811,10 +8901,10 @@ var da = class extends E {
           .data=${e}
           .schema=${ia}
           .computeLabel=${(e) => ({
-			entity: I("config.entity"),
-			forecast_hours: I("config.forecast_hours") ?? "Forecast hours",
-			sun_entity: I("config.sun_entity") ?? "Sun entity (sunrise/sunset markers)",
-			sunshine_entity: I("config.sunshine_entity") ?? "Sunshine duration sensor (optional)"
+			entity: I("hourly_charts.config.entity"),
+			forecast_hours: I("hourly_charts.config.forecast_hours") ?? "Forecast hours",
+			sun_entity: I("hourly_charts.config.sun_entity") ?? "Sun entity (sunrise/sunset markers)",
+			sunshine_entity: I("hourly_charts.config.sunshine_entity") ?? "Sunshine duration sensor (optional)"
 		})[e.name] ?? e.name}
           @value-changed=${this._valueChanged}
         ></ha-form>
@@ -8968,8 +9058,8 @@ var pa = class extends E {
           .data=${e}
           .schema=${ra}
           .computeLabel=${(e) => ({
-			entity: I("config.entity"),
-			forecast_hours: I("config.forecast_hours") ?? "Forecast hours"
+			entity: I("hourly_charts.config.entity"),
+			forecast_hours: I("hourly_charts.config.forecast_hours") ?? "Forecast hours"
 		})[e.name] ?? e.name}
           @value-changed=${this._valueChanged}
         ></ha-form>
@@ -8996,25 +9086,25 @@ var ma = `${H}-warning-card`, ha = `${ma}-editor`, ga = [
 		name: "primary_warning_entity",
 		required: !1,
 		selector: { entity: { domain: "sensor" } },
-		description: "config.descr.primary_warning_entity"
+		description: "warning.config.descr.primary_warning_entity"
 	},
 	{
 		name: "secondary_warning_entity",
 		required: !1,
 		selector: { entity: { domain: "sensor" } },
-		description: "config.descr.secondary_warning_entity"
+		description: "warning.config.descr.secondary_warning_entity"
 	},
 	{
 		name: "tertiary_warning_entity",
 		required: !1,
 		selector: { entity: { domain: "sensor" } },
-		description: "config.descr.tertiary_warning_entity"
+		description: "warning.config.descr.tertiary_warning_entity"
 	},
 	{
 		name: "warning_entity",
 		required: !1,
 		selector: { entity: { domain: "sensor" } },
-		description: "config.descr.warning_entity"
+		description: "warning.config.descr.warning_entity"
 	}
 ], _a;
 P({ loader: (e) => V[e] });
@@ -9101,7 +9191,7 @@ var va = class extends E {
 		let e = (this.hass.selectedLanguage || this.hass.language || "en").substring(0, 2);
 		e !== this._loadedLang && (this._loadedLang = e, F(e).then(() => this.requestUpdate()));
 		let t = this.config.primary_warning_entity ? this._getEntityState(this.config.primary_warning_entity) : null, n = this.config.secondary_warning_entity ? this._getEntityState(this.config.secondary_warning_entity) : null, r = this.config.tertiary_warning_entity ? this._getEntityState(this.config.tertiary_warning_entity) : null, i = this.config.warning_entity ? this._getEntityState(this.config.warning_entity) : null;
-		return t && t.attributes?.has_warning !== void 0 && !t.attributes.has_warning ? C`<div class="no-warnings">${I("warnings_none")}</div>` : _i(i, t, n, r, this._openWarnings, this._toggle) || C`<div class="no-warnings">${I("warnings_none")}</div>`;
+		return t && t.attributes?.has_warning !== void 0 && !t.attributes.has_warning ? C`<div class="no-warnings">${I("warning.warnings_none")}</div>` : _i(i, t, n, r, this._openWarnings, this._toggle) || C`<div class="no-warnings">${I("warning.warnings_none")}</div>`;
 	}
 };
 //#endregion
@@ -9160,16 +9250,16 @@ var ya = class extends E {
           .data=${e}
           .schema=${ga}
           .computeLabel=${(e) => ({
-			primary_warning_entity: I("config.primary_warning_entity"),
-			secondary_warning_entity: I("config.secondary_warning_entity"),
-			tertiary_warning_entity: I("config.tertiary_warning_entity"),
-			warning_entity: I("config.warning_entity")
+			primary_warning_entity: I("warning.config.primary_warning_entity"),
+			secondary_warning_entity: I("warning.config.secondary_warning_entity"),
+			tertiary_warning_entity: I("warning.config.tertiary_warning_entity"),
+			warning_entity: I("warning.config.warning_entity")
 		})[e.name] ?? e.name}
           .computeHelper=${(e) => ({
-			primary_warning_entity: I("config.descr.primary_warning_entity"),
-			secondary_warning_entity: I("config.descr.secondary_warning_entity"),
-			tertiary_warning_entity: I("config.descr.tertiary_warning_entity"),
-			warning_entity: I("config.descr.warning_entity")
+			primary_warning_entity: I("warning.config.descr.primary_warning_entity"),
+			secondary_warning_entity: I("warning.config.descr.secondary_warning_entity"),
+			tertiary_warning_entity: I("warning.config.descr.tertiary_warning_entity"),
+			warning_entity: I("warning.config.descr.warning_entity")
 		})[e.name] ?? ""}
           @value-changed=${this._valueChanged}
         ></ha-form>

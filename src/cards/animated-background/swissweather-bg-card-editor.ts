@@ -218,9 +218,9 @@ export class SwissWeatherBGCardEditor extends LitElement implements LovelaceCard
             select: {
               ...forecastModeSchema.selector.select,
               options: [
-                { value: 'daily', label: _t('forecast_mode.daily') },
-                { value: 'hourly', label: _t('forecast_mode.hourly') },
-                { value: 'none', label: _t('forecast_mode.none') },
+                { value: 'daily', label: _t('bg_card.forecast_mode.daily') },
+                { value: 'hourly', label: _t('bg_card.forecast_mode.hourly') },
+                { value: 'none', label: _t('bg_card.forecast_mode.none') },
               ],
             },
           },
@@ -237,7 +237,7 @@ export class SwissWeatherBGCardEditor extends LitElement implements LovelaceCard
 
         <!-- General -->
         <div class="group">
-          <div class="group-title">${_t('config.group_general') || 'General'}</div>
+          <div class="group-title">${_t('bg_card.config.group_general') || 'General'}</div>
           <ha-form
             .hass=${this.hass}
             .data=${data}
@@ -254,7 +254,7 @@ export class SwissWeatherBGCardEditor extends LitElement implements LovelaceCard
 
         <!-- Display -->
         <div class="group">
-          <div class="group-title">${_t('config.group_display') || 'Display'}</div>
+          <div class="group-title">${_t('bg_card.config.group_display') || 'Display'}</div>
           <ha-form
             .hass=${this.hass}
             .data=${data}
@@ -285,13 +285,13 @@ export class SwissWeatherBGCardEditor extends LitElement implements LovelaceCard
 
   private _computeLabel = (schema: any) => {
     const labels: Record<string, string> = {
-      entity: _t('config.entity'),
-      sun_entity: _t('config.sun_entity'),
-      forecast_mode: _t('config.forecast_mode'),
-      show_day_temps: _t('config.show_day_temps'),
-      show_sun_times: _t('config.show_sun_times'),
-      temperature_font_size: _t('config.temperature_font_size'),
-      photo_mode: _t('config.photo_mode'),
+      entity: _t('bg_card.config.entity'),
+      sun_entity: _t('bg_card.config.sun_entity'),
+      forecast_mode: _t('bg_card.config.forecast_mode'),
+      show_day_temps: _t('bg_card.config.show_day_temps'),
+      show_sun_times: _t('bg_card.config.show_sun_times'),
+      temperature_font_size: _t('bg_card.config.temperature_font_size'),
+      photo_mode: _t('bg_card.config.photo_mode'),
     };
     return labels[schema.name] || schema.name;
   };

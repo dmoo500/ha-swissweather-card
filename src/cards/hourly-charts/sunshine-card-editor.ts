@@ -75,11 +75,13 @@ export class SunshineCardEditor extends LitElement implements LovelaceCardEditor
           .computeLabel=${(s: any) =>
             (
               ({
-                entity: _t('config.entity'),
-                forecast_hours: _t('config.forecast_hours') ?? 'Forecast hours',
-                sun_entity: _t('config.sun_entity') ?? 'Sun entity (sunrise/sunset markers)',
+                entity: _t('hourly_charts.config.entity'),
+                forecast_hours: _t('hourly_charts.config.forecast_hours') ?? 'Forecast hours',
+                sun_entity:
+                  _t('hourly_charts.config.sun_entity') ?? 'Sun entity (sunrise/sunset markers)',
                 sunshine_entity:
-                  _t('config.sunshine_entity') ?? 'Sunshine duration sensor (optional)',
+                  _t('hourly_charts.config.sunshine_entity') ??
+                  'Sunshine duration sensor (optional)',
               }) as Record<string, string>
             )[s.name] ?? s.name}
           @value-changed=${this._valueChanged}

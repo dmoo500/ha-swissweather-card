@@ -9,7 +9,7 @@ export const schema = [
     name: 'entity',
     required: true,
     selector: { entity: { domain: 'weather' } },
-    description: 'config.descr.entity',
+    description: 'forecast_diagram.config.descr.entity',
   },
 ];
 

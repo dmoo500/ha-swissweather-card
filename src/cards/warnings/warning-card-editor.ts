@@ -75,19 +75,19 @@ export class WarningCardEditor extends LitElement implements LovelaceCardEditor 
           .computeLabel=${(s: any) =>
             (
               ({
-                primary_warning_entity: _t('config.primary_warning_entity'),
-                secondary_warning_entity: _t('config.secondary_warning_entity'),
-                tertiary_warning_entity: _t('config.tertiary_warning_entity'),
-                warning_entity: _t('config.warning_entity'),
+                primary_warning_entity: _t('warning.config.primary_warning_entity'),
+                secondary_warning_entity: _t('warning.config.secondary_warning_entity'),
+                tertiary_warning_entity: _t('warning.config.tertiary_warning_entity'),
+                warning_entity: _t('warning.config.warning_entity'),
               }) as Record<string, string>
             )[s.name] ?? s.name}
           .computeHelper=${(s: any) =>
             (
               ({
-                primary_warning_entity: _t('config.descr.primary_warning_entity'),
-                secondary_warning_entity: _t('config.descr.secondary_warning_entity'),
-                tertiary_warning_entity: _t('config.descr.tertiary_warning_entity'),
-                warning_entity: _t('config.descr.warning_entity'),
+                primary_warning_entity: _t('warning.config.descr.primary_warning_entity'),
+                secondary_warning_entity: _t('warning.config.descr.secondary_warning_entity'),
+                tertiary_warning_entity: _t('warning.config.descr.tertiary_warning_entity'),
+                warning_entity: _t('warning.config.descr.warning_entity'),
               }) as Record<string, string>
             )[s.name] ?? ''}
           @value-changed=${this._valueChanged}

@@ -183,16 +183,16 @@ export class DailyForecastChart extends LitElement {
             <div class="${sectionClass}">
               <div class="section-title">
                 <ha-icon icon="mdi:calendar"></ha-icon>
-                ${this._t('7d_forecast')}
+                ${this._t('hourly_charts.7d_forecast')}
                 <small
                   style="font-size: 12px; color: var(--secondary-text-color, #666); margin-left: 10px;"
-                  >${this._t('loading')}</small
+                  >${this._t('hourly_charts.loading')}</small
                 >
               </div>
               <div
                 style="text-align: center; padding: 20px; color: var(--secondary-text-color, #666); font-style: italic;"
               >
-                ⏳ ${this._t('loading_forecast')}<br />
+                ⏳ ${this._t('hourly_charts.loading_forecast')}<br />
                 <small>Service: weather.get_forecasts</small>
               </div>
             </div>
@@ -207,12 +207,12 @@ export class DailyForecastChart extends LitElement {
                         <div class="section-title">
                           <ha-icon icon="mdi:calendar"></ha-icon>
                           ${items.length === 7
-                            ? this._t('7d_forecast')
-                            : this._t('xd_forecast', { days: items.length })}
+                            ? this._t('hourly_charts.7d_forecast')
+                            : this._t('hourly_charts.xd_forecast', { days: items.length })}
                           <small
                             style="font-size: 12px; color: var(--secondary-text-color, #666); margin-left: 10px;"
                           >
-                            (${items.length} ${this._t('days_available')})
+                            (${items.length} ${this._t('hourly_charts.days_available')})
                           </small>
                         </div>
                       `}
@@ -250,16 +250,16 @@ export class DailyForecastChart extends LitElement {
               <div class="${sectionClass}">
                 <div class="section-title">
                   <ha-icon icon="mdi:calendar"></ha-icon>
-                  ${this._t('7d_forecast')}
+                  ${this._t('hourly_charts.7d_forecast')}
                   <small style="font-size: 12px; color: #666; margin-left: 10px;">
-                    (0 ${this._t('days_available')})
+                    (0 ${this._t('hourly_charts.days_available')})
                   </small>
                 </div>
                 <div style="text-align: center; padding: 20px; color: #666; font-style: italic;">
-                  ⚠️ ${this._t('no_forecast_data')}<br />
+                  ⚠️ ${this._t('hourly_charts.no_forecast_data')}<br />
                   <small>Entity: ${this.config.entity}</small><br />
-                  <small>${this._t('check_devtools')}</small><br />
-                  <small style="color: #999;">${this._t('try_other_entity')}</small>
+                  <small>${this._t('hourly_charts.check_devtools')}</small><br />
+                  <small style="color: #999;">${this._t('hourly_charts.try_other_entity')}</small>
                 </div>
               </div>
             `

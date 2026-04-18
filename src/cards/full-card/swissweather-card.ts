@@ -718,7 +718,7 @@ export class SwissWeatherCard extends LitElement {
         ? html`
             <div class="section-title">
               <ha-icon icon="mdi:clock"></ha-icon>
-              ${_t('forecast_hours', { hours: forecastHours })}
+              ${_t('hourly_charts.forecast_hours', { hours: forecastHours })}
             </div>
           `
         : ''}
