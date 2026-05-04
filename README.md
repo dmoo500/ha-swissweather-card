@@ -35,6 +35,13 @@ A custom Home Assistant card that recreates the look and feel of the official Sw
 ### ✅ **animated Icons**
 - animated weather icons (can be switched off)
 
+### 🌿 **Pollen**
+- 7 pollen types: Birch, Grasses, Alder, Hazel, Beech, Ash, Oak
+- Color-coded severity levels (None/Low/Medium/Strong/Very Strong)
+- Collapsible detail grid with optional raw particle values (particles/m³)
+- Overall severity badge (highest active level)
+- Per-type enable/disable in the Visual Editor
+
 ## 📱 Screenshots
 
 All enabled
@@ -52,6 +59,14 @@ warn + forecast
 temp diagram
 
 <img src="docs/images/desktop_temp.png" width="250"/> 
+
+Pollen Card (collapsed)
+
+<img src="docs/images/pollen.png" width="250"/>
+
+Pollen Card (expanded)
+
+<img src="docs/images/pollen_extended.png" width="250"/>
 
 ## 📝 Release Notes & Migration
 

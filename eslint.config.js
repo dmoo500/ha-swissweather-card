@@ -18,6 +18,8 @@ export default [
         console: 'readonly',
         customElements: 'readonly',
         HTMLElement: 'readonly',
+        HTMLInputElement: 'readonly',
+        Event: 'readonly',
         CustomEvent: 'readonly',
         setTimeout: 'readonly', 
         clearTimeout: 'readonly',

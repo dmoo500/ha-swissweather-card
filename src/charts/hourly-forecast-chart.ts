@@ -107,7 +107,7 @@ export class HourlyForecastChart extends LitElement {
           : html`
               <div class="section-title">
                 <ha-icon icon="mdi:clock-outline"></ha-icon>
-                ${this._t('forecast_hours', { hours: items.length })}
+                ${this._t('hourly_charts.forecast_hours', { hours: items.length })}
               </div>
             `}
         <div class="grid">

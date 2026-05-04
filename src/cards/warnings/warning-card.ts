@@ -126,7 +126,7 @@ export class WarningCard extends LitElement {
     // Ranked model: show empty state when primary has no active warning
     if (primaryEntity && primaryEntity.attributes?.has_warning !== undefined) {
       if (!(primaryEntity.attributes as any).has_warning) {
-        return html`<div class="no-warnings">${_t('warnings_none')}</div>`;
+        return html`<div class="no-warnings">${_t('warning.warnings_none')}</div>`;
       }
     }
 
@@ -140,7 +140,7 @@ export class WarningCard extends LitElement {
     );
 
     if (!content) {
-      return html`<div class="no-warnings">${_t('warnings_none')}</div>`;
+      return html`<div class="no-warnings">${_t('warning.warnings_none')}</div>`;
     }
     return content;
   }

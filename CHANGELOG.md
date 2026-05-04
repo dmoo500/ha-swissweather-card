@@ -1,5 +1,24 @@
 # Release Notes
 
+## [1.9.0] - 2026-05-04
+
+### Added
+- **New `swissweather-pollen-card`** — standalone card showing Swiss pollen levels from [izacus/hass-swissweather](https://github.com/izacus/hass-swissweather) sensors.
+  - Supports 7 pollen types: Birch, Grasses, Alder, Hazel, Beech, Ash, Oak.
+  - Per-type enable/disable toggle in the Visual Editor.
+  - Level sensor (NONE/LOW/MEDIUM/STRONG/VERY_STRONG) and optional raw particle sensor per type.
+  - Overall severity badge (highest active level) with collapsible detail grid.
+  - Color-coded levels via CSS custom properties for theming.
+
+### Changed
+- **Translation namespace refactor** — translation keys are now grouped by card scope:
+  - `warning.*` — warning card display strings and entity config
+  - `hourly_charts.*` — all hourly/daily chart display strings and editor config
+  - `bg_card.*` — background card display and editor config (forecast_mode, sunrise/sunset)
+  - `forecast_diagram.*` — forecast diagram editor config
+  - `pollen.*` — pollen card types, levels, and editor config
+  - `config.*` stays the full card namespace (full card may still mix all namespaces)
+
 ## [1.8.1] - 2026-04-15
 
 ### Added

@@ -67,8 +67,8 @@ export class PrecipitationCardEditor extends LitElement implements LovelaceCardE
           .computeLabel=${(s: any) =>
             (
               ({
-                entity: _t('config.entity'),
-                forecast_hours: _t('config.forecast_hours') ?? 'Forecast hours',
+                entity: _t('hourly_charts.config.entity'),
+                forecast_hours: _t('hourly_charts.config.forecast_hours') ?? 'Forecast hours',
               }) as Record<string, string>
             )[s.name] ?? s.name}
           @value-changed=${this._valueChanged}

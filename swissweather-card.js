@@ -1,5 +1,5 @@
 //#region package.json
-var e = "1.8.1", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
+var e = "1.9.0b1", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
 	constructor(e, t, n) {
 		if (this._$cssResult$ = !0, n !== r) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
 		this.cssText = e, this.t = t;
@@ -29,11 +29,11 @@ var e = "1.8.1", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t
 	let t = "";
 	for (let n of e.cssRules) t += n.cssText;
 	return o(t);
-})(e) : e, { is: u, defineProperty: d, getOwnPropertyDescriptor: f, getOwnPropertyNames: p, getOwnPropertySymbols: m, getPrototypeOf: ee } = Object, te = globalThis, h = te.trustedTypes, ne = h ? h.emptyScript : "", re = te.reactiveElementPolyfillSupport, ie = (e, t) => e, ae = {
+})(e) : e, { is: u, defineProperty: d, getOwnPropertyDescriptor: f, getOwnPropertyNames: p, getOwnPropertySymbols: m, getPrototypeOf: ee } = Object, h = globalThis, g = h.trustedTypes, te = g ? g.emptyScript : "", ne = h.reactiveElementPolyfillSupport, re = (e, t) => e, ie = {
 	toAttribute(e, t) {
 		switch (t) {
 			case Boolean:
-				e = e ? ne : null;
+				e = e ? te : null;
 				break;
 			case Object:
 			case Array: e = e == null ? e : JSON.stringify(e);
@@ -58,23 +58,23 @@ var e = "1.8.1", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t
 		}
 		return n;
 	}
-}, oe = (e, t) => !u(e, t), g = {
+}, ae = (e, t) => !u(e, t), _ = {
 	attribute: !0,
 	type: String,
-	converter: ae,
+	converter: ie,
 	reflect: !1,
 	useDefault: !1,
-	hasChanged: oe
+	hasChanged: ae
 };
-Symbol.metadata ??= Symbol("metadata"), te.litPropertyMetadata ??= /* @__PURE__ */ new WeakMap();
-var _ = class extends HTMLElement {
+Symbol.metadata ??= Symbol("metadata"), h.litPropertyMetadata ??= /* @__PURE__ */ new WeakMap();
+var v = class extends HTMLElement {
 	static addInitializer(e) {
 		this._$Ei(), (this.l ??= []).push(e);
 	}
 	static get observedAttributes() {
 		return this.finalize(), this._$Eh && [...this._$Eh.keys()];
 	}
-	static createProperty(e, t = g) {
+	static createProperty(e, t = _) {
 		if (t.state && (t.attribute = !1), this._$Ei(), this.prototype.hasOwnProperty(e) && ((t = Object.create(t)).wrapped = !0), this.elementProperties.set(e, t), !t.noAccessor) {
 			let n = Symbol(), r = this.getPropertyDescriptor(e, n, t);
 			r !== void 0 && d(this.prototype, e, r);
@@ -100,16 +100,16 @@ var _ = class extends HTMLElement {
 		};
 	}
 	static getPropertyOptions(e) {
-		return this.elementProperties.get(e) ?? g;
+		return this.elementProperties.get(e) ?? _;
 	}
 	static _$Ei() {
-		if (this.hasOwnProperty(ie("elementProperties"))) return;
+		if (this.hasOwnProperty(re("elementProperties"))) return;
 		let e = ee(this);
 		e.finalize(), e.l !== void 0 && (this.l = [...e.l]), this.elementProperties = new Map(e.elementProperties);
 	}
 	static finalize() {
-		if (this.hasOwnProperty(ie("finalized"))) return;
-		if (this.finalized = !0, this._$Ei(), this.hasOwnProperty(ie("properties"))) {
+		if (this.hasOwnProperty(re("finalized"))) return;
+		if (this.finalized = !0, this._$Ei(), this.hasOwnProperty(re("properties"))) {
 			let e = this.properties, t = [...p(e), ...m(e)];
 			for (let n of t) this.createProperty(n, e[n]);
 		}
@@ -171,14 +171,14 @@ var _ = class extends HTMLElement {
 	_$ET(e, t) {
 		let n = this.constructor.elementProperties.get(e), r = this.constructor._$Eu(e, n);
 		if (r !== void 0 && !0 === n.reflect) {
-			let i = (n.converter?.toAttribute === void 0 ? ae : n.converter).toAttribute(t, n.type);
+			let i = (n.converter?.toAttribute === void 0 ? ie : n.converter).toAttribute(t, n.type);
 			this._$Em = e, i == null ? this.removeAttribute(r) : this.setAttribute(r, i), this._$Em = null;
 		}
 	}
 	_$AK(e, t) {
 		let n = this.constructor, r = n._$Eh.get(e);
 		if (r !== void 0 && this._$Em !== r) {
-			let e = n.getPropertyOptions(r), i = typeof e.converter == "function" ? { fromAttribute: e.converter } : e.converter?.fromAttribute === void 0 ? ae : e.converter;
+			let e = n.getPropertyOptions(r), i = typeof e.converter == "function" ? { fromAttribute: e.converter } : e.converter?.fromAttribute === void 0 ? ie : e.converter;
 			this._$Em = r;
 			let a = i.fromAttribute(t, e.type);
 			this[r] = a ?? this._$Ej?.get(r) ?? a, this._$Em = null;
@@ -187,7 +187,7 @@ var _ = class extends HTMLElement {
 	requestUpdate(e, t, n) {
 		if (e !== void 0) {
 			let r = this.constructor, i = this[e];
-			if (n ??= r.getPropertyOptions(e), !((n.hasChanged ?? oe)(i, t) || n.useDefault && n.reflect && i === this._$Ej?.get(e) && !this.hasAttribute(r._$Eu(e, n)))) return;
+			if (n ??= r.getPropertyOptions(e), !((n.hasChanged ?? ae)(i, t) || n.useDefault && n.reflect && i === this._$Ej?.get(e) && !this.hasAttribute(r._$Eu(e, n)))) return;
 			this.C(e, t, n);
 		}
 		!1 === this.isUpdatePending && (this._$ES = this._$EP());
@@ -251,17 +251,17 @@ var _ = class extends HTMLElement {
 	updated(e) {}
 	firstUpdated(e) {}
 };
-_.elementStyles = [], _.shadowRootOptions = { mode: "open" }, _[ie("elementProperties")] = /* @__PURE__ */ new Map(), _[ie("finalized")] = /* @__PURE__ */ new Map(), re?.({ ReactiveElement: _ }), (te.reactiveElementVersions ??= []).push("2.1.1");
+v.elementStyles = [], v.shadowRootOptions = { mode: "open" }, v[re("elementProperties")] = /* @__PURE__ */ new Map(), v[re("finalized")] = /* @__PURE__ */ new Map(), ne?.({ ReactiveElement: v }), (h.reactiveElementVersions ??= []).push("2.1.1");
 //#endregion
 //#region node_modules/lit/node_modules/lit-html/lit-html.js
-var se = globalThis, ce = se.trustedTypes, le = ce ? ce.createPolicy("lit-html", { createHTML: (e) => e }) : void 0, ue = "$lit$", v = `lit$${Math.random().toFixed(9).slice(2)}$`, de = "?" + v, fe = `<${de}>`, pe = document, y = () => pe.createComment(""), b = (e) => e === null || typeof e != "object" && typeof e != "function", x = Array.isArray, me = (e) => x(e) || typeof e?.[Symbol.iterator] == "function", he = "[ 	\n\f\r]", ge = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, _e = /-->/g, ve = />/g, S = RegExp(`>|${he}(?:([^\\s"'>=/]+)(${he}*=${he}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`, "g"), ye = /'/g, be = /"/g, xe = /^(?:script|style|textarea|title)$/i, Se = (e) => (t, ...n) => ({
+var oe = globalThis, se = oe.trustedTypes, ce = se ? se.createPolicy("lit-html", { createHTML: (e) => e }) : void 0, le = "$lit$", ue = `lit$${Math.random().toFixed(9).slice(2)}$`, de = "?" + ue, fe = `<${de}>`, pe = document, y = () => pe.createComment(""), b = (e) => e === null || typeof e != "object" && typeof e != "function", x = Array.isArray, me = (e) => x(e) || typeof e?.[Symbol.iterator] == "function", he = "[ 	\n\f\r]", ge = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, _e = /-->/g, ve = />/g, S = RegExp(`>|${he}(?:([^\\s"'>=/]+)(${he}*=${he}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`, "g"), ye = /'/g, be = /"/g, xe = /^(?:script|style|textarea|title)$/i, Se = (e) => (t, ...n) => ({
 	_$litType$: e,
 	strings: t,
 	values: n
 }), C = Se(1), w = Se(2), Ce = Symbol.for("lit-noChange"), T = Symbol.for("lit-nothing"), we = /* @__PURE__ */ new WeakMap(), Te = pe.createTreeWalker(pe, 129);
 function Ee(e, t) {
 	if (!x(e) || !e.hasOwnProperty("raw")) throw Error("invalid template strings array");
-	return le === void 0 ? t : le.createHTML(t);
+	return ce === void 0 ? t : ce.createHTML(t);
 }
 var De = (e, t) => {
 	let n = e.length - 1, r = [], i, a = t === 2 ? "<svg>" : t === 3 ? "<math>" : "", o = ge;
@@ -269,7 +269,7 @@ var De = (e, t) => {
 		let n = e[t], s, c, l = -1, u = 0;
 		for (; u < n.length && (o.lastIndex = u, c = o.exec(n), c !== null);) u = o.lastIndex, o === ge ? c[1] === "!--" ? o = _e : c[1] === void 0 ? c[2] === void 0 ? c[3] !== void 0 && (o = S) : (xe.test(c[2]) && (i = RegExp("</" + c[2], "g")), o = S) : o = ve : o === S ? c[0] === ">" ? (o = i ?? ge, l = -1) : c[1] === void 0 ? l = -2 : (l = o.lastIndex - c[2].length, s = c[1], o = c[3] === void 0 ? S : c[3] === "\"" ? be : ye) : o === be || o === ye ? o = S : o === _e || o === ve ? o = ge : (o = S, i = void 0);
 		let d = o === S && e[t + 1].startsWith("/>") ? " " : "";
-		a += o === ge ? n + fe : l >= 0 ? (r.push(s), n.slice(0, l) + ue + n.slice(l) + v + d) : n + v + (l === -2 ? t : d);
+		a += o === ge ? n + fe : l >= 0 ? (r.push(s), n.slice(0, l) + le + n.slice(l) + ue + d) : n + ue + (l === -2 ? t : d);
 	}
 	return [Ee(e, a + (e[n] || "<?>") + (t === 2 ? "</svg>" : t === 3 ? "</math>" : "")), r];
 }, Oe = class e {
@@ -283,8 +283,8 @@ var De = (e, t) => {
 		}
 		for (; (i = Te.nextNode()) !== null && c.length < s;) {
 			if (i.nodeType === 1) {
-				if (i.hasAttributes()) for (let e of i.getAttributeNames()) if (e.endsWith(ue)) {
-					let t = u[o++], n = i.getAttribute(e).split(v), r = /([.?@])?(.*)/.exec(t);
+				if (i.hasAttributes()) for (let e of i.getAttributeNames()) if (e.endsWith(le)) {
+					let t = u[o++], n = i.getAttribute(e).split(ue), r = /([.?@])?(.*)/.exec(t);
 					c.push({
 						type: 1,
 						index: a,
@@ -292,14 +292,14 @@ var De = (e, t) => {
 						strings: n,
 						ctor: r[1] === "." ? Ne : r[1] === "?" ? Pe : r[1] === "@" ? Fe : Me
 					}), i.removeAttribute(e);
-				} else e.startsWith(v) && (c.push({
+				} else e.startsWith(ue) && (c.push({
 					type: 6,
 					index: a
 				}), i.removeAttribute(e));
 				if (xe.test(i.tagName)) {
-					let e = i.textContent.split(v), t = e.length - 1;
+					let e = i.textContent.split(ue), t = e.length - 1;
 					if (t > 0) {
-						i.textContent = ce ? ce.emptyScript : "";
+						i.textContent = se ? se.emptyScript : "";
 						for (let n = 0; n < t; n++) i.append(e[n], y()), Te.nextNode(), c.push({
 							type: 2,
 							index: ++a
@@ -313,10 +313,10 @@ var De = (e, t) => {
 			});
 			else {
 				let e = -1;
-				for (; (e = i.data.indexOf(v, e + 1)) !== -1;) c.push({
+				for (; (e = i.data.indexOf(ue, e + 1)) !== -1;) c.push({
 					type: 7,
 					index: a
-				}), e += v.length - 1;
+				}), e += ue.length - 1;
 			}
 			a++;
 		}
@@ -472,8 +472,8 @@ var Ae = class {
 	_$AI(e) {
 		ke(this, e);
 	}
-}, Le = se.litHtmlPolyfillSupport;
-Le?.(Oe, je), (se.litHtmlVersions ??= []).push("3.3.1");
+}, Le = oe.litHtmlPolyfillSupport;
+Le?.(Oe, je), (oe.litHtmlVersions ??= []).push("3.3.1");
 var Re = (e, t, n) => {
 	let r = n?.renderBefore ?? t, i = r._$litPart$;
 	if (i === void 0) {
@@ -481,7 +481,7 @@ var Re = (e, t, n) => {
 		r._$litPart$ = i = new je(t.insertBefore(y(), e), e, void 0, n ?? {});
 	}
 	return i._$AI(e), i;
-}, ze = globalThis, E = class extends _ {
+}, ze = globalThis, E = class extends v {
 	constructor() {
 		super(...arguments), this.renderOptions = { host: this }, this._$Do = void 0;
 	}
@@ -515,9 +515,9 @@ var D = (e) => (t, n) => {
 }, Ve = {
 	attribute: !0,
 	type: String,
-	converter: ae,
+	converter: ie,
 	reflect: !1,
-	hasChanged: oe
+	hasChanged: ae
 }, He = (e = Ve, t, n) => {
 	let { kind: r, metadata: i } = n, a = globalThis.litPropertyMetadata.get(i);
 	if (a === void 0 && globalThis.litPropertyMetadata.set(i, a = /* @__PURE__ */ new Map()), r === "setter" && ((e = Object.create(e)).wrapped = !0), a.set(n.name, e), r === "accessor") {
@@ -762,16 +762,16 @@ var M = class extends E {
             <div class="${n}">
               <div class="section-title">
                 <ha-icon icon="mdi:calendar"></ha-icon>
-                ${this._t("7d_forecast")}
+                ${this._t("hourly_charts.7d_forecast")}
                 <small
                   style="font-size: 12px; color: var(--secondary-text-color, #666); margin-left: 10px;"
-                  >${this._t("loading")}</small
+                  >${this._t("hourly_charts.loading")}</small
                 >
               </div>
               <div
                 style="text-align: center; padding: 20px; color: var(--secondary-text-color, #666); font-style: italic;"
               >
-                ⏳ ${this._t("loading_forecast")}<br />
+                ⏳ ${this._t("hourly_charts.loading_forecast")}<br />
                 <small>Service: weather.get_forecasts</small>
               </div>
             </div>
@@ -781,11 +781,11 @@ var M = class extends E {
                   ${this.compact ? C`` : C`
                         <div class="section-title">
                           <ha-icon icon="mdi:calendar"></ha-icon>
-                          ${t.length === 7 ? this._t("7d_forecast") : this._t("xd_forecast", { days: t.length })}
+                          ${t.length === 7 ? this._t("hourly_charts.7d_forecast") : this._t("hourly_charts.xd_forecast", { days: t.length })}
                           <small
                             style="font-size: 12px; color: var(--secondary-text-color, #666); margin-left: 10px;"
                           >
-                            (${t.length} ${this._t("days_available")})
+                            (${t.length} ${this._t("hourly_charts.days_available")})
                           </small>
                         </div>
                       `}
@@ -813,16 +813,16 @@ var M = class extends E {
               <div class="${n}">
                 <div class="section-title">
                   <ha-icon icon="mdi:calendar"></ha-icon>
-                  ${this._t("7d_forecast")}
+                  ${this._t("hourly_charts.7d_forecast")}
                   <small style="font-size: 12px; color: #666; margin-left: 10px;">
-                    (0 ${this._t("days_available")})
+                    (0 ${this._t("hourly_charts.days_available")})
                   </small>
                 </div>
                 <div style="text-align: center; padding: 20px; color: #666; font-style: italic;">
-                  ⚠️ ${this._t("no_forecast_data")}<br />
+                  ⚠️ ${this._t("hourly_charts.no_forecast_data")}<br />
                   <small>Entity: ${this.config.entity}</small><br />
-                  <small>${this._t("check_devtools")}</small><br />
-                  <small style="color: #999;">${this._t("try_other_entity")}</small>
+                  <small>${this._t("hourly_charts.check_devtools")}</small><br />
+                  <small style="color: #999;">${this._t("hourly_charts.try_other_entity")}</small>
                 </div>
               </div>
             `;
@@ -903,7 +903,7 @@ var Ge = class extends E {
       <div class="chart">
         <div class="section-title">
           <ha-icon icon="mdi:thermometer"></ha-icon>
-          ${this._t("temperature_hours", { hours: this.forecastHours })}
+          ${this._t("hourly_charts.temperature_hours", { hours: this.forecastHours })}
           <span style="font-size:12px; font-weight:normal; color:var(--secondary-text-color, #888);"
             >°C</span
           >
@@ -1024,17 +1024,17 @@ var Ke = class extends E {
         <div class="chart">
           <div class="section-title">
             <ha-icon icon="mdi:weather-pouring"></ha-icon>
-            ${this._t("precipitation_hours", { hours: this.forecastHours })}
+            ${this._t("hourly_charts.precipitation_hours", { hours: this.forecastHours })}
           </div>
           <div style="text-align:center; color:#888; padding:16px; font-size:14px;">
-            ${this._t("no_precipitation_data")}
+            ${this._t("hourly_charts.no_precipitation_data")}
           </div>
         </div>
       ` : C`
       <div class="chart">
         <div class="section-title">
           <ha-icon icon="mdi:weather-pouring"></ha-icon>
-          ${this._t("precipitation_hours", { hours: this.forecastHours })}
+          ${this._t("hourly_charts.precipitation_hours", { hours: this.forecastHours })}
           <span style="font-size:12px; font-weight:normal; color:var(--secondary-text-color, #888);"
             >mm</span
           >
@@ -1083,16 +1083,16 @@ var Ke = class extends E {
                   </text>
                 `);
 			}
-			let ee = [], te = [], h = Math.max(2, u * .55);
+			let ee = [], h = [], g = Math.max(2, u * .55);
 			for (let n = 0; n < t; n++) {
-				let t = e[n], r = d(n) - h / 2, i = typeof t.precipitation_probability == "number" && !isNaN(t.precipitation_probability) ? t.precipitation_probability : 0, o = typeof t.precipitation == "number" && !isNaN(t.precipitation) ? t.precipitation : 0, s = i / 100 * 5 / c * a;
+				let t = e[n], r = d(n) - g / 2, i = typeof t.precipitation_probability == "number" && !isNaN(t.precipitation_probability) ? t.precipitation_probability : 0, o = typeof t.precipitation == "number" && !isNaN(t.precipitation) ? t.precipitation : 0, s = i / 100 * 5 / c * a;
 				if (i > 0 && ee.push(w`
-                  <rect x="${r}" y="${l(0) - s}" width="${h}" height="${s}"
+                  <rect x="${r}" y="${l(0) - s}" width="${g}" height="${s}"
                     fill="#87898e" opacity="0.35" rx="1.5"/>
                 `), o > 0) {
 					let e = o / c * a;
-					te.push(w`
-                  <rect x="${r}" y="${l(0) - e}" width="${h}" height="${e}"
+					h.push(w`
+                  <rect x="${r}" y="${l(0) - e}" width="${g}" height="${e}"
                     fill="url(#precip-grad)" opacity="1" rx="1.5"/>
                 `);
 				}
@@ -1107,7 +1107,7 @@ var Ke = class extends E {
               ${p}
               ${m}
               ${ee}
-              ${te}
+              ${h}
             </svg>`;
 		})()}
         </div>
@@ -1226,7 +1226,7 @@ var N = class extends E {
             <div class="chart-sunshine" style="position:relative;">
               <div class="section-title">
                 <ha-icon icon="mdi:white-balance-sunny"></ha-icon>
-                ${this._t("sunshine_hours", { hours: this.forecastHours })}
+                ${this._t("hourly_charts.sunshine_hours", { hours: this.forecastHours })}
                 <span
                   style="font-size:12px; font-weight:normal; color:var(--secondary-text-color, #888);"
                   >min</span
@@ -1301,10 +1301,10 @@ var N = class extends E {
             <div class="chart">
               <div class="section-title">
                 <ha-icon icon="mdi:white-balance-sunny"></ha-icon>
-                ${this._t("sunshine_hours", { hours: this.forecastHours })}
+                ${this._t("hourly_charts.sunshine_hours", { hours: this.forecastHours })}
               </div>
               <div style="text-align:center; color:#888; padding:16px; font-size:14px;">
-                ${this._t("no_sunshine_data")}
+                ${this._t("hourly_charts.no_sunshine_data")}
               </div>
             </div>
           `;
@@ -1385,7 +1385,7 @@ var qe = class extends E {
       <div class="chart">
         <div class="section-title">
           <ha-icon icon="mdi:weather-windy"></ha-icon>
-          ${this._t("wind_hours", { hours: this.forecastHours })}
+          ${this._t("hourly_charts.wind_hours", { hours: this.forecastHours })}
           <span style="font-size:12px; font-weight:normal; color:var(--secondary-text-color, #888);"
             >km/h</span
           >
@@ -1417,17 +1417,17 @@ var qe = class extends E {
                   </text>
                 `);
 			}
-			let ee = o.map((e, t) => e === null ? "" : `${f(t)},${u(e)}`).filter(Boolean).join(" "), te = o.map((e, t) => e === null ? null : w`<circle cx="${f(t)}" cy="${u(e)}" r="2.5" fill="#44739e"/>`), h = r - 22 / 2 + 2;
+			let ee = o.map((e, t) => e === null ? "" : `${f(t)},${u(e)}`).filter(Boolean).join(" "), h = o.map((e, t) => e === null ? null : w`<circle cx="${f(t)}" cy="${u(e)}" r="2.5" fill="#44739e"/>`), g = r - 22 / 2 + 2;
 			return w`<svg width="100%" height="100%" viewBox="0 0 ${n} ${r}" style="display:block;">
               ${p}
               ${m}
               <polyline points="${ee}" fill="none" stroke="#44739e" stroke-width="2.5"
                 stroke-linecap="round" stroke-linejoin="round"/>
-              ${te}
+              ${h}
               ${e.map((e, t) => {
 				let n = typeof e.wind_bearing == "number" && !isNaN(e.wind_bearing) ? e.wind_bearing : null;
 				if (n === null) return null;
-				let r = f(t), i = h, a = (n - 90) * (Math.PI / 180), o = r + 7 * Math.cos(a), s = i + 7 * Math.sin(a), c = a + Math.PI;
+				let r = f(t), i = g, a = (n - 90) * (Math.PI / 180), o = r + 7 * Math.cos(a), s = i + 7 * Math.sin(a), c = a + Math.PI;
 				return w`
                 <circle cx="${r}" cy="${i}" r="${7}" fill="none" stroke="#44739e" stroke-width="0.8" opacity="0.5"/>
                 <line x1="${r + 5 * Math.cos(c)}" y1="${i + 5 * Math.sin(c)}" x2="${o}" y2="${s}"
@@ -1525,7 +1525,7 @@ var Je = class extends E {
 			let e = this.getBoundingClientRect?.();
 			a = e?.width ? Math.floor(e.width) : 400;
 		}
-		let o = a, s = i, c = s - 32, l = o - 16 - 0, u = Math.max(0, l - 16) / n, d = Math.min(120, Math.max(80, c * .35)), f = Math.max(10, c * .05), p = c - d - f, m = Math.min(u * .7, d * .4), ee = Math.max(9, Math.round(d * .075)), te = Math.max(11, Math.round(d * .11)), h = this.config?.diagram_labels ?? "compact", ne = Math.max(8, Math.min(10, Math.round(p * .05))), re = 26 + ee, ie = re + 10, ae = ie + m + 10, oe = 16 + d + f, g = u / 24, _ = t.map((e) => typeof e.temperature == "number" ? e.temperature : null), se = Math.min(..._.filter((e) => e !== null)), ce = Math.max(..._.filter((e) => e !== null)), le = oe, ue = oe + p, v = t.map((e) => {
+		let o = a, s = i, c = s - 32, l = o - 16 - 0, u = Math.max(0, l - 16) / n, d = Math.min(120, Math.max(80, c * .35)), f = Math.max(10, c * .05), p = c - d - f, m = Math.min(u * .7, d * .4), ee = Math.max(9, Math.round(d * .075)), h = Math.max(11, Math.round(d * .11)), g = this.config?.diagram_labels ?? "compact", te = Math.max(8, Math.min(10, Math.round(p * .05))), ne = 26 + ee, re = ne + 10, ie = re + m + 10, ae = 16 + d + f, _ = u / 24, v = t.map((e) => typeof e.temperature == "number" ? e.temperature : null), oe = Math.min(...v.filter((e) => e !== null)), se = Math.max(...v.filter((e) => e !== null)), ce = ae, le = ae + p, ue = t.map((e) => {
 			let t = e;
 			return typeof t.precipitation == "number" ? t.precipitation : typeof t.rain == "number" ? t.rain : 0;
 		}), de = t.map((e) => {
@@ -1549,11 +1549,11 @@ var Je = class extends E {
 			y[n] = null;
 		}
 		t.forEach((e, t) => {
-			if (e.datetime && _[t] !== null) {
+			if (e.datetime && v[t] !== null) {
 				let r = new Date(e.datetime), { dayIdx: i, hourInDay: a } = pe(r), o = `${i}-${a}`;
 				i >= 0 && i < n && a >= 0 && a < 24 ? y[o] = {
-					temp: _[t],
-					precip: v[t],
+					temp: v[t],
+					precip: ue[t],
 					precipProb: de[t],
 					originalIndex: t
 				} : console.warn(`Data point ${t} outside bounds:`, {
@@ -1564,13 +1564,13 @@ var Je = class extends E {
 				});
 			}
 		});
-		let b = Math.floor(se / 5) * 5, x = Math.ceil(ce / 5) * 5;
+		let b = Math.floor(oe / 5) * 5, x = Math.ceil(se / 5) * 5;
 		b > 0 && (b = 0), x < 0 && (x = 0);
 		let me = x - b, he = [], ge = [];
 		for (let e = 0; e < n; e++) for (let t = 0; t < 24; t++) {
 			let n = y[`${e}-${t}`];
 			if (n && n.temp !== null) {
-				let r = 16 + e * u + t * g + g / 2, i = ue - (n.temp - b) / me * (ue - le);
+				let r = 16 + e * u + t * _ + _ / 2, i = le - (n.temp - b) / me * (le - ce);
 				ge.push(`${r},${i}`);
 			}
 		}
@@ -1578,7 +1578,7 @@ var Je = class extends E {
           <!-- Main temperature line -->
           <polyline points="${ge.join(" ")}" fill="none" stroke="#e74c3c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
         `);
-		let _e = Math.max(3, Math.floor(g) - 2), ve = ue, S = 5 / me * (ue - le) / 5;
+		let _e = Math.max(3, Math.floor(_) - 2), ve = le, S = 5 / me * (le - ce) / 5;
 		function ye(e) {
 			if (e <= 0) return "transparent";
 			let t = [
@@ -1634,7 +1634,7 @@ var Je = class extends E {
 		for (let e = 0; e < n; e++) for (let t = 0; t < 24; t++) {
 			let n = y[`${e}-${t}`];
 			if (n && n.precipProb > 0) {
-				let r = 16 + e * u + t * g + g / 2 - _e / 2, i = 16 + e * u, a = 16 + (e + 1) * u - _e, o = Math.max(i, Math.min(a, r)), s = n.precipProb / 100 * 5 * S;
+				let r = 16 + e * u + t * _ + _ / 2 - _e / 2, i = 16 + e * u, a = 16 + (e + 1) * u - _e, o = Math.max(i, Math.min(a, r)), s = n.precipProb / 100 * 5 * S;
 				be.push(w`<rect x="${o}" y="${ve - s}" width="${_e}" height="${s}" fill="#988d8dff" opacity="0.4" rx="1.5"/>`);
 			}
 		}
@@ -1642,7 +1642,7 @@ var Je = class extends E {
 		for (let e = 0; e < n; e++) for (let t = 0; t < 24; t++) {
 			let n = y[`${e}-${t}`];
 			if (n && n.precip > 0) {
-				let r = 16 + e * u + t * g + g / 2 - _e / 2, i = 16 + e * u, a = 16 + (e + 1) * u - _e, o = Math.max(i, Math.min(a, r)), s = n.precip * S, c = ye(n.precip);
+				let r = 16 + e * u + t * _ + _ / 2 - _e / 2, i = 16 + e * u, a = 16 + (e + 1) * u - _e, o = Math.max(i, Math.min(a, r)), s = n.precip * S, c = ye(n.precip);
 				xe.push(w`<rect x="${o}" y="${ve - s}" width="${_e}" height="${s}"
               fill="${c}" opacity="1" rx="1.5"/>`);
 			}
@@ -1650,7 +1650,7 @@ var Je = class extends E {
 		let Se = [];
 		if (t.length > 0) for (let e = 0; e <= n; e++) {
 			let t = 16 + e * u;
-			Se.push(w`<line x1="${t}" y1="${le}" x2="${t}" y2="${ue}" stroke="#ddd" stroke-width="0.5" stroke-dasharray="2,2" opacity="0.4"/>`);
+			Se.push(w`<line x1="${t}" y1="${ce}" x2="${t}" y2="${le}" stroke="#ddd" stroke-width="0.5" stroke-dasharray="2,2" opacity="0.4"/>`);
 		}
 		let Ce = [];
 		if (n > 0) for (let t = 0; t < n; t++) {
@@ -1658,29 +1658,29 @@ var Je = class extends E {
 			Ce.push(w`
         <g>
           <!-- Weekday -->
-          <text x="${n}" y="${re}" text-anchor="middle" font-size="${ee}" class="weather-day">
+          <text x="${n}" y="${ne}" text-anchor="middle" font-size="${ee}" class="weather-day">
             ${new Date(e[t].datetime).toLocaleDateString(void 0, { weekday: "short" })}
           </text>
           <!-- Icon -->
-          <foreignObject x="${n - m / 2}" y="${ie}" width="${m}" height="${m}">
+          <foreignObject x="${n - m / 2}" y="${re}" width="${m}" height="${m}">
               ${this.getWeatherIcon(e[t].condition || "", this.config.enable_animate_weather_icons ? "animated" : "mdiAsSVG", m + "px", !0)}
           </foreignObject>
           <!-- Min/Max temp -->
-          <text class="weather-temp" x="${n}" y="${ae}" text-anchor="middle" font-size="${te}">${r}°<tspan fill="#aaa"> | </tspan><tspan class="weather-temp">${i}°</tspan></text>
+          <text class="weather-temp" x="${n}" y="${ie}" text-anchor="middle" font-size="${h}">${r}°<tspan fill="#aaa"> | </tspan><tspan class="weather-temp">${i}°</tspan></text>
         </g>
       `);
 		}
 		let T = [], we = /* @__PURE__ */ new Set();
 		we.add(b), b < 0 && x > 0 && we.add(0), we.add(x);
 		for (let e = b; e <= x; e += 5) if (e % 5 == 0) {
-			let t = le + (x - e) / me * (ue - le);
-			if (t >= le && t <= ue) {
+			let t = ce + (x - e) / me * (le - ce);
+			if (t >= ce && t <= le) {
 				let n = e % 10 == 0;
 				T.push(w`
             <line x1="${16}" y1="${t}" x2="${l}" y2="${t}"
               stroke="#ddd" stroke-width="${n ? 1 : .5}"
               stroke-dasharray="${n ? "none" : "2,2"}" opacity="0.6"/>
-            ${h === "none" ? w`` : h === "full" ? n ? w`<text x="${20}" y="${t}" font-size="${ne}" fill="#888" opacity="0.9" text-anchor="start" dominant-baseline="middle">${e}°</text>` : w`` : we.has(e) ? w`<text x="${20}" y="${t}" font-size="${ne}" fill="#888" opacity="0.9" text-anchor="start" dominant-baseline="middle">${e}°</text>` : w``}
+            ${g === "none" ? w`` : g === "full" ? n ? w`<text x="${20}" y="${t}" font-size="${te}" fill="#888" opacity="0.9" text-anchor="start" dominant-baseline="middle">${e}°</text>` : w`` : we.has(e) ? w`<text x="${20}" y="${t}" font-size="${te}" fill="#888" opacity="0.9" text-anchor="start" dominant-baseline="middle">${e}°</text>` : w``}
           `);
 			}
 		}
@@ -2165,7 +2165,6 @@ var B = (e, t, n, r) => {
 }, V = {
 	de: {
 		config: {
-			temperature_font_size: "Temperatur Schriftgröße (px)",
 			entity: "Wetter Entity *",
 			location: "Standort",
 			show_location: "Standort anzeigen",
@@ -2174,20 +2173,11 @@ var B = (e, t, n, r) => {
 			wind_direction_entity: "Windrichtung",
 			sunshine_entity: "Sonnenscheindauer",
 			precipitation_entity: "Niederschlagsprognose",
-			warning_entity: "Wetterwarnungen (Legacy)",
-			primary_warning_entity: "Primäre Wetterwarnung",
-			secondary_warning_entity: "Sekundäre Wetterwarnung",
-			tertiary_warning_entity: "Tertiäre Wetterwarnung",
 			show_forecast: "Wettervorhersage anzeigen",
-			forecast_mode: "Vorhersage-Modus",
 			show_temperature: "Temperaturdiagramm anzeigen",
 			show_precipitation: "Niederschlagsdiagramm anzeigen",
 			show_sunshine: "Sonnenscheindauerdiagramm anzeigen",
-			show_warnings: "Wetterwarnungen anzeigen",
 			show_wind: "Winddiagramm anzeigen",
-			show_day_temps: "Tages-Min/Max anzeigen",
-			show_sun_times: "Sonnenauf-/-untergang anzeigen",
-			photo_mode: "Fotorealistischer Hintergrund (PoC)",
 			enable_animate_weather_icons: "Animierte Wetter-Icons aktivieren",
 			forecast_hours: "Prognose Stunden (Standard: 6)",
 			compact_mode: "Kompakter Modus",
@@ -2204,40 +2194,132 @@ var B = (e, t, n, r) => {
 			chart_sunshine: "Sonnenschein",
 			chart_wind: "Wind",
 			chart_forecast: "Prognose-Diagramm",
+			move_up: "Nach oben",
+			move_down: "Nach unten",
 			descr: {
 				entity: "Die Wetter-Entity ist erforderlich und sollte von der Integration SwissWeather sein. Wenn eine andere Wetter Entity genutzt wird kann es passieren, das nicht alle Daten korrekt angezeigt werden.",
+				location: "Zeigt diesen Namen als Standort an.",
+				show_location: "Zeige den Standortnamen über dem aktuellen Wetter an",
 				sun_entity: "Die Sonnen-Entity ist erforderlich, um Sonnenaufgangs- und Sonnenuntergangszeiten anzuzeigen.",
-				show_forecast: "Blende den Wettervorhersage-Bereich ein oder aus. Die Vorhersage zeigt bis zu 7 Tage an, je nach dem was der Wetterdienst liefert.",
-				sunshine_entity: "Die Sonnenscheindauer-Entity wird benötigt, um die Sonnenscheindauer anzuzeigen.",
 				wind_entity: "Die Wind-Entity wird benötigt, um die Windgeschwindigkeit anzuzeigen.",
 				wind_direction_entity: "Die Windrichtungs-Entity wird benötigt, um die Windrichtung anzuzeigen.",
-				warning_entity: "Legacy: Die Wetterwarnungen Entity wird von der ursprünglichen SwissWeather Integration angelegt (izacus/hass-swissweather). Wenn die neueren Ranked-Entities gesetzt sind, wird diese Entity ignoriert.",
-				primary_warning_entity: "Primäre Wetterwarnung (*_primary_weather_warning) aus mastameista/hass-swissweather. Wenn gesetzt, wird das neue Ranked-Model aktiviert.",
-				secondary_warning_entity: "Sekundäre Wetterwarnung (*_secondary_weather_warning) aus mastameista/hass-swissweather.",
-				tertiary_warning_entity: "Tertiäre Wetterwarnung (*_tertiary_weather_warning) aus mastameista/hass-swissweather.",
+				sunshine_entity: "Die Sonnenscheindauer-Entity wird benötigt, um die Sonnenscheindauer anzuzeigen.",
 				precipitation_entity: "Die Niederschlags-Entity wird benötigt, um die Niederschlagsprognose anzuzeigen.",
-				forecast_mode: "Wähle, ob in der BG-Card die Tages- oder Stunden-Vorhersage (oder keine) angezeigt wird.",
+				show_forecast: "Blende den Wettervorhersage-Bereich ein oder aus. Die Vorhersage zeigt bis zu 7 Tage an, je nach dem was der Wetterdienst liefert.",
 				show_temperature: "Zeige das Temperaturdiagramm an, mit den Vorhersage anhand der eingestellten Stunden",
 				show_precipitation: "Zeige das Niederschlags an, mit den Vorhersage anhand der eingestellten Stunden",
 				show_sunshine: "Zeige das Sonnenscheindauerdiagramm an, mit den Vorhersage anhand der eingestellten Stunden",
 				show_wind: "Zeige das Winddiagramm an mit den Vorhersage anhand der eingestellten Stunden",
-				show_day_temps: "Blende die Tages-Min/Max-Anzeige ein oder aus.",
-				show_sun_times: "Blende die Anzeige von Sonnenaufgang/-untergang ein oder aus.",
-				photo_mode: "Experimenteller fotorealistischer Hintergrund mit atmosphärischen Overlays (PoC).",
-				show_warnings: "Zeige Wetterwarnungen an, wenn die Wetterwarnung Entity gesetzt ist und aktuelle Warnungen existieren.",
 				enable_animate_weather_icons: "Zeige animierte Icons an. Wenn ausgeschaltet, werden statische Icons angezeigt.",
 				compact_mode: "Im kompakten Modus werden weniger Details angezeigt für die Tagesvorhersage und den aktuellen Daten (z.B. Windrichtung)",
-				forecast_hours: "Anzahl der Stunden für die Anzeige der stündlichen Vorhersage (Standard: 6, maximal 18)",
-				show_location: "Zeige den Standortnamen über dem aktuellen Wetter an",
-				location: "Zeigt diesen Namen als Standort an.",
-				temperature_font_size: "Schriftgröße der Temperaturanzeige in Pixel. Standard: 36"
+				forecast_hours: "Anzahl der Stunden für die Anzeige der stündlichen Vorhersage (Standard: 6, maximal 18)"
 			}
 		},
-		forecast_mode: {
-			daily: "Täglich",
-			hourly: "Stündlich",
-			none: "Keine"
+		warning: {
+			config: {
+				show_warnings: "Wetterwarnungen anzeigen",
+				warning_entity: "Wetterwarnungen (Legacy)",
+				primary_warning_entity: "Primäre Wetterwarnung",
+				secondary_warning_entity: "Sekundäre Wetterwarnung",
+				tertiary_warning_entity: "Tertiäre Wetterwarnung",
+				descr: {
+					show_warnings: "Zeige Wetterwarnungen an, wenn die Wetterwarnung Entity gesetzt ist und aktuelle Warnungen existieren.",
+					warning_entity: "Legacy: Die Wetterwarnungen Entity wird von der ursprünglichen SwissWeather Integration angelegt (izacus/hass-swissweather). Wenn die neueren Ranked-Entities gesetzt sind, wird diese Entity ignoriert.",
+					primary_warning_entity: "Primäre Wetterwarnung (*_primary_weather_warning) aus mastameista/hass-swissweather. Wenn gesetzt, wird das neue Ranked-Model aktiviert.",
+					secondary_warning_entity: "Sekundäre Wetterwarnung (*_secondary_weather_warning) aus mastameista/hass-swissweather.",
+					tertiary_warning_entity: "Tertiäre Wetterwarnung (*_tertiary_weather_warning) aus mastameista/hass-swissweather."
+				}
+			},
+			weather_warning: "Wetterwarnung aktiv",
+			weather_warnings: "{{count}} Wetterwarnungen aktiv",
+			warnings: "Wetterwarnungen",
+			warnings_none: "Keine aktiven Wetterwarnungen",
+			warnings_additional: "+{{count}} weitere",
+			valid_from: "Gültig ab",
+			valid_to: "Gültig bis"
 		},
+		hourly_charts: {
+			config: {
+				entity: "Wetter Entity *",
+				forecast_hours: "Prognose Stunden (Standard: 6)",
+				sun_entity: "Sonnen Entity für Sonnenaufgang und Sonnenuntergang",
+				sunshine_entity: "Sonnenscheindauer",
+				descr: {
+					entity: "Die Wetter-Entity ist erforderlich und sollte von der Integration SwissWeather sein.",
+					forecast_hours: "Anzahl der Stunden für die Anzeige der stündlichen Vorhersage (Standard: 6, maximal 18)",
+					sun_entity: "Die Sonnen-Entity wird für Sonnenaufgangs-/Untergangsmarkierungen im Diagramm benötigt.",
+					sunshine_entity: "Die Sonnenscheindauer-Entity wird benötigt, um die Sonnenscheindauer anzuzeigen."
+				}
+			},
+			forecast_hours: "Prognose (nächste {{hours}}h)",
+			temperature_chart: "Temperatur (nächste 6h)",
+			temperature_hours: "Temperatur (nächste {{hours}}h)",
+			temperature_none: "Keine Temperaturdaten vorhanden",
+			precipitation_hours: "Niederschlag (nächste {{hours}}h)",
+			precipitation_none: "Keine Niederschlagsdaten vorhanden",
+			no_precipitation_data: "Keine Niederschlagsdaten vorhanden",
+			sunshine_chart: "Sonnenschein (nächste 6h)",
+			sunshine_hours: "Sonnenschein (nächste {{hours}}h)",
+			sunshine_none: "Keine Sonnenscheindaten vorhanden",
+			no_sunshine_data: "Keine Sonnenscheindaten vorhanden",
+			wind_hours: "Wind (nächste {{hours}}h)",
+			wind_compass: "Richtung",
+			loading: "Lädt...",
+			loading_forecast: "Vorhersagedaten werden geladen...",
+			check_devtools: "Prüfen Sie die Developer Tools → Services → weather.get_forecasts",
+			try_other_entity: "Versuchen Sie eine andere Wetter-Entity",
+			no_forecast_data: "Keine Vorhersagedaten verfügbar",
+			no_forecast_data_hint: "Prüfen Sie die Developer Tools → Services → weather.get_forecasts",
+			forecast_none: "Keine Forecast-Daten verfügbar",
+			forecast_none_hint: "Prüfen Sie die Developer Tools → Services → weather.get_forecasts",
+			forecast_loading: "Lädt...",
+			forecast_days: "{{count}}-Tage-Prognose",
+			forecast_days_7: "7-Tage-Prognose",
+			"7d_forecast": "7-Tage-Prognose",
+			xd_forecast: "Tages Prognose",
+			days_available: "Verfügbare Tage",
+			now: "Jetzt",
+			hour: "{{h}}h"
+		},
+		bg_card: {
+			config: {
+				entity: "Wetter Entity *",
+				sun_entity: "Sonnen Entity für Sonnenaufgang und Sonnenuntergang",
+				forecast_mode: "Vorhersage-Modus",
+				photo_mode: "Fotorealistischer Hintergrund (PoC)",
+				show_day_temps: "Tages-Min/Max anzeigen",
+				show_sun_times: "Sonnenauf-/-untergang anzeigen",
+				temperature_font_size: "Temperatur Schriftgröße (px)",
+				group_general: "Allgemeineinstellungen",
+				group_display: "Anzeigeeinstellungen",
+				descr: {
+					entity: "Die Wetter-Entity ist erforderlich und sollte von der Integration SwissWeather sein.",
+					sun_entity: "Die Sonnen-Entity ist erforderlich, um Sonnenaufgangs- und Sonnenuntergangszeiten anzuzeigen.",
+					forecast_mode: "Wähle, ob in der BG-Card die Tages- oder Stunden-Vorhersage (oder keine) angezeigt wird.",
+					show_day_temps: "Blende die Tages-Min/Max-Anzeige ein oder aus.",
+					show_sun_times: "Blende die Anzeige von Sonnenaufgang/-untergang ein oder aus.",
+					photo_mode: "Experimenteller fotorealistischer Hintergrund mit atmosphärischen Overlays (PoC).",
+					temperature_font_size: "Schriftgröße der Temperaturanzeige in Pixel. Standard: 36"
+				}
+			},
+			forecast_mode: {
+				daily: "Täglich",
+				hourly: "Stündlich",
+				none: "Keine"
+			},
+			sunrise: "Sonnenaufgang",
+			sunset: "Sonnenuntergang"
+		},
+		forecast_diagram: { config: {
+			entity: "Wetter Entity *",
+			sun_entity: "Sonnen Entity für Sonnenaufgang und Sonnenuntergang",
+			group_general: "Allgemeineinstellungen",
+			group_sensors: "Sensoren",
+			descr: {
+				entity: "Die Wetter-Entity ist erforderlich und sollte von der Integration SwissWeather sein.",
+				sun_entity: "Die Sonnen-Entity ist erforderlich, um Sonnenaufgangs- und Sonnenuntergangszeiten anzuzeigen."
+			}
+		} },
 		location: "Schweiz",
 		wind: "Wind",
 		direction: "Richtung",
@@ -2246,32 +2328,9 @@ var B = (e, t, n, r) => {
 		sunshine: "Sonnenschein",
 		visibility: "Sicht",
 		current_weather: "Aktuelles Wetter",
-		weather_warning: "Wetterwarnung aktiv",
-		weather_warnings: "{{count}} Wetterwarnungen aktiv",
-		forecast_loading: "Lädt...",
-		forecast_days: "{{count}}-Tage-Prognose",
-		forecast_days_7: "7-Tage-Prognose",
-		"7d_forecast": "7-Tage-Prognose",
-		forecast_hours: "Prognose (nächste {{hours}}h)",
-		xd_forecast: "Tages Prognose",
-		forecast_days_hint: "Hinweis: Es wurden nur {{count}} Tage vom Wetterdienst geliefert.",
-		forecast_none: "Keine Forecast-Daten verfügbar",
-		forecast_none_hint: "Prüfen Sie die Developer Tools → Services → weather.get_forecasts",
-		temperature_chart: "Temperatur (nächste 6h)",
-		temperature_none: "Keine Temperaturdaten vorhanden",
-		temperature_hours: "Temperatur (nächste {{hours}}h)",
-		precipitation_hours: "Niederschlag (nächste {{hours}}h)",
-		precipitation_none: "Keine Niederschlagsdaten vorhanden",
-		sunshine_chart: "Sonnenschein (nächste 6h)",
-		sunshine_none: "Keine Sonnenscheindaten vorhanden",
-		sunshine_hours: "Sonnenschein (nächste {{hours}}h)",
-		wind_hours: "Wind (nächste {{hours}}h)",
-		days_available: "Verfügbare Tage",
-		now: "Jetzt",
-		hour: "{{h}}h",
-		wind_compass: "Richtung",
-		warnings: "Wetterwarnungen",
-		compact_mode: "Kompakter Modus",
+		unknown: "Unbekannt",
+		collapse: "Einklappen",
+		expand: "Ausklappen",
 		"clear-night": "Klarer Himmel in der Nacht",
 		cloudy: "Bewölkt",
 		exceptional: "Aussergewöhnliches Wetter",
@@ -2300,47 +2359,49 @@ var B = (e, t, n, r) => {
 		"windy-variant-lightning-rainy": "Windig mit Blitz und Regen",
 		"windy-variant-pouring": "Windig mit starkem Regen",
 		"windy-variant-exceptional": "Windig mit aussergewöhnlichem Wetter",
-		no_forecast_data: "Keine Vorhersagedaten verfügbar",
-		no_forecast_data_hint: "Prüfen Sie die Developer Tools → Services → weather.get_forecasts",
-		sunrise: "Sonnenaufgang",
-		sunset: "Sonnenuntergang",
-		valid_from: "Gültig ab",
-		valid_to: "Gültig bis",
-		unknown: "Unbekannt",
-		collapse: "Einklappen",
-		expand: "Ausklappen",
-		warnings_additional: "+{{count}} weitere",
-		warnings_none: "Keine aktiven Wetterwarnungen",
-		loading: "Lädt...",
-		loading_forecast: "Vorhersagedaten werden geladen...",
-		check_devtools: "Prüfen Sie die Developer Tools → Services → weather.get_forecasts",
-		try_other_entity: "Versuchen Sie eine andere Wetter-Entity"
+		pollen: {
+			title: "Pollenbelastung",
+			no_data: "Keine Pollen-Typen aktiviert",
+			not_configured: "Keine Pollen-Sensoren konfiguriert. Bitte Karte einrichten und Stufen-Sensoren aus hass-swissweather zuweisen.",
+			config: {
+				level_sensor: "Stufen-Sensor",
+				level_sensor_hint: "Pollen-Stufen-Sensor (SwissPollenLevelSensor aus izacus/hass-swissweather). Mögliche Werte: NONE / LOW / MEDIUM / STRONG / VERY_STRONG",
+				raw_sensor: "Rohwert-Sensor (optional)",
+				raw_sensor_hint: "Optionaler Rohwert-Sensor in Partikel/m³"
+			},
+			types: {
+				birch: "Birke",
+				grasses: "Gräser",
+				alder: "Erle",
+				hazel: "Hasel",
+				beech: "Buche",
+				ash: "Esche",
+				oak: "Eiche"
+			},
+			levels: {
+				none: "Keine",
+				low: "Gering",
+				medium: "Mittel",
+				strong: "Stark",
+				very_strong: "Sehr stark"
+			}
+		}
 	},
 	en: {
 		config: {
-			temperature_font_size: "Temperature font size (px)",
 			entity: "Weather Entity *",
-			show_location: "Show Location",
 			location: "Location",
+			show_location: "Show Location",
 			sun_entity: "Sun Entity to display sunrise and sunset times",
 			wind_entity: "Wind Speed",
 			wind_direction_entity: "Wind Direction",
 			sunshine_entity: "Sunshine Duration",
 			precipitation_entity: "Precipitation Forecast",
-			warning_entity: "Weather Warnings (Legacy)",
-			primary_warning_entity: "Primary Weather Warning",
-			secondary_warning_entity: "Secondary Weather Warning",
-			tertiary_warning_entity: "Tertiary Weather Warning",
 			show_forecast: "Show Weather Forecast",
-			forecast_mode: "Forecast Mode",
 			show_temperature: "Show Temperature Chart",
 			show_precipitation: "Show Precipitation Chart",
 			show_sunshine: "Show Sunshine Duration Chart",
-			show_warnings: "Show Weather Warnings",
 			show_wind: "Show Wind Chart",
-			show_day_temps: "Show Day Min/Max",
-			show_sun_times: "Show Sunrise/Sunset",
-			photo_mode: "Photorealistic Background (PoC)",
 			enable_animate_weather_icons: "Enable Animated Weather Icons",
 			forecast_hours: "Forecast Hours (default: 6)",
 			compact_mode: "Compact Mode",
@@ -2357,40 +2418,132 @@ var B = (e, t, n, r) => {
 			chart_sunshine: "Sunshine",
 			chart_wind: "Wind",
 			chart_forecast: "Forecast Chart",
+			move_up: "Move up",
+			move_down: "Move down",
 			descr: {
 				entity: "The weather entity is required and should be from the SwissWeather integration. If another weather entity is used, not all data may be displayed correctly.",
+				location: "Displays this name as location.",
+				show_location: "Show the location name above the current weather",
 				sun_entity: "The sun entity is required to display sunrise and sunset times.",
-				show_forecast: "Toggle the weather forecast section on or off. The forecast shows up to 7 days depending on what the weather service provides.",
-				sunshine_entity: "The sunshine entity is required to display sunshine duration.",
 				wind_entity: "The wind entity is required to display wind speed.",
 				wind_direction_entity: "The wind direction entity is required to display wind direction.",
-				warning_entity: "Legacy: The weather warnings entity created by the original SwissWeather integration (izacus/hass-swissweather). Ignored when the ranked warning entities below are configured.",
-				primary_warning_entity: "Primary weather warning entity (*_primary_weather_warning) from mastameista/hass-swissweather. When set, the new ranked model is activated.",
-				secondary_warning_entity: "Secondary weather warning entity (*_secondary_weather_warning) from mastameista/hass-swissweather.",
-				tertiary_warning_entity: "Tertiary weather warning entity (*_tertiary_weather_warning) from mastameista/hass-swissweather.",
+				sunshine_entity: "The sunshine entity is required to display sunshine duration.",
 				precipitation_entity: "The precipitation entity is required to display the precipitation forecast.",
-				forecast_mode: "Choose whether the BG card shows the daily or hourly forecast (or none).",
+				show_forecast: "Toggle the weather forecast section on or off. The forecast shows up to 7 days depending on what the weather service provides.",
 				show_temperature: "Show the temperature chart with the forecast based on the set hours",
 				show_precipitation: "Show the precipitation chart with the forecast based on the set hours",
 				show_sunshine: "Show the sunshine duration chart with the forecast based on the set hours",
 				show_wind: "Show the wind chart with the forecast based on the set hours",
-				show_day_temps: "Toggle the per-day min/max display on or off.",
-				show_sun_times: "Toggle the sunrise/sunset display on or off.",
-				photo_mode: "Experimental photorealistic background with atmospheric overlays (PoC).",
-				show_warnings: "Show weather warnings if the weather warning entity is set and the actual warning exists.",
 				enable_animate_weather_icons: "Show animated icons. If disabled, static icons are displayed.",
 				compact_mode: "In compact mode, fewer details are displayed for the daily forecast and current data (e.g. wind direction)",
-				forecast_hours: "Number of hours to show in the hourly forecast (default: 6, maximum 18)",
-				show_location: "Show the location name above the current weather",
-				location: "Displays this name as location.",
-				temperature_font_size: "Font size for the temperature label in pixels. Default: 36"
+				forecast_hours: "Number of hours to show in the hourly forecast (default: 6, maximum 18)"
 			}
 		},
-		forecast_mode: {
-			daily: "Daily",
-			hourly: "Hourly",
-			none: "None"
+		warning: {
+			config: {
+				show_warnings: "Show Weather Warnings",
+				warning_entity: "Weather Warnings (Legacy)",
+				primary_warning_entity: "Primary Weather Warning",
+				secondary_warning_entity: "Secondary Weather Warning",
+				tertiary_warning_entity: "Tertiary Weather Warning",
+				descr: {
+					show_warnings: "Show weather warnings if the weather warning entity is set and the actual warning exists.",
+					warning_entity: "Legacy: The weather warnings entity created by the original SwissWeather integration (izacus/hass-swissweather). Ignored when the ranked warning entities below are configured.",
+					primary_warning_entity: "Primary weather warning entity (*_primary_weather_warning) from mastameista/hass-swissweather. When set, the new ranked model is activated.",
+					secondary_warning_entity: "Secondary weather warning entity (*_secondary_weather_warning) from mastameista/hass-swissweather.",
+					tertiary_warning_entity: "Tertiary weather warning entity (*_tertiary_weather_warning) from mastameista/hass-swissweather."
+				}
+			},
+			weather_warning: "Weather warning active",
+			weather_warnings: "{{count}} weather warnings active",
+			warnings: "Weather warnings",
+			warnings_none: "No active weather warnings",
+			warnings_additional: "+{{count}} more",
+			valid_from: "Valid from",
+			valid_to: "Valid to"
 		},
+		hourly_charts: {
+			config: {
+				entity: "Weather Entity *",
+				forecast_hours: "Forecast Hours (default: 6)",
+				sun_entity: "Sun Entity to display sunrise and sunset times",
+				sunshine_entity: "Sunshine Duration",
+				descr: {
+					entity: "The weather entity is required and should be from the SwissWeather integration.",
+					forecast_hours: "Number of hours to show in the hourly forecast (default: 6, maximum 18)",
+					sun_entity: "The sun entity is required for sunrise/sunset markers in the chart.",
+					sunshine_entity: "The sunshine entity is required to display sunshine duration."
+				}
+			},
+			forecast_hours: "Forecast (next {{hours}}h)",
+			temperature_chart: "Temperature (next 6h)",
+			temperature_hours: "Temperature (next {{hours}}h)",
+			temperature_none: "No temperature data available",
+			precipitation_hours: "Precipitation (next {{hours}}h)",
+			precipitation_none: "No precipitation data available",
+			no_precipitation_data: "No precipitation data available",
+			sunshine_chart: "Sunshine (next 6h)",
+			sunshine_hours: "Sunshine (next {{hours}}h)",
+			sunshine_none: "No sunshine data available",
+			no_sunshine_data: "No sunshine data available",
+			wind_hours: "Wind (next {{hours}}h)",
+			wind_compass: "Direction",
+			loading: "Loading...",
+			loading_forecast: "Loading forecast data...",
+			check_devtools: "Check Developer Tools → Services → weather.get_forecasts",
+			try_other_entity: "Try a different weather entity",
+			no_forecast_data: "No forecast data available",
+			no_forecast_data_hint: "Check Developer Tools → Services → weather.get_forecasts",
+			forecast_none: "No forecast data available",
+			forecast_none_hint: "Check Developer Tools → Services → weather.get_forecasts",
+			forecast_loading: "Loading...",
+			forecast_days: "{{count}}-day forecast",
+			forecast_days_7: "7-day forecast",
+			"7d_forecast": "7-day forecast",
+			xd_forecast: "Daily forecast",
+			days_available: "Available Days",
+			now: "Now",
+			hour: "{{h}}h"
+		},
+		bg_card: {
+			config: {
+				entity: "Weather Entity *",
+				sun_entity: "Sun Entity to display sunrise and sunset times",
+				forecast_mode: "Forecast Mode",
+				photo_mode: "Photorealistic Background (PoC)",
+				show_day_temps: "Show Day Min/Max",
+				show_sun_times: "Show Sunrise/Sunset",
+				temperature_font_size: "Temperature font size (px)",
+				group_general: "General Settings",
+				group_display: "Display Settings",
+				descr: {
+					entity: "The weather entity is required and should be from the SwissWeather integration.",
+					sun_entity: "The sun entity is required to display sunrise and sunset times.",
+					forecast_mode: "Choose whether the BG card shows the daily or hourly forecast (or none).",
+					show_day_temps: "Toggle the per-day min/max display on or off.",
+					show_sun_times: "Toggle the sunrise/sunset display on or off.",
+					photo_mode: "Experimental photorealistic background with atmospheric overlays (PoC).",
+					temperature_font_size: "Font size for the temperature label in pixels. Default: 36"
+				}
+			},
+			forecast_mode: {
+				daily: "Daily",
+				hourly: "Hourly",
+				none: "None"
+			},
+			sunrise: "Sunrise",
+			sunset: "Sunset"
+		},
+		forecast_diagram: { config: {
+			entity: "Weather Entity *",
+			sun_entity: "Sun Entity to display sunrise and sunset times",
+			group_general: "General Settings",
+			group_sensors: "Sensors",
+			descr: {
+				entity: "The weather entity is required and should be from the SwissWeather integration.",
+				sun_entity: "The sun entity is required to display sunrise and sunset times."
+			}
+		} },
 		location: "Switzerland",
 		wind: "Wind",
 		direction: "Direction",
@@ -2399,30 +2552,9 @@ var B = (e, t, n, r) => {
 		sunshine: "Sunshine",
 		visibility: "Visibility",
 		current_weather: "Current Weather",
-		weather_warning: "Weather warning active",
-		weather_warnings: "{{count}} weather warnings active",
-		forecast_loading: "Loading...",
-		forecast_days: "{{count}}-day forecast",
-		forecast_days_7: "7-day forecast",
-		"7d_forecast": "7-day forecast",
-		xd_forecast: "Daily forecast",
-		forecast_days_hint: "Note: Only {{count}} days were delivered by the weather service.",
-		forecast_hours: "Forecast (next {{hours}}h)",
-		forecast_none: "No forecast data available",
-		forecast_none_hint: "Check Developer Tools → Services → weather.get_forecasts",
-		temperature_none: "No temperature data available",
-		temperature_hours: "Temperature (next {{hours}}h)",
-		precipitation_none: "No precipitation data available",
-		precipitation_hours: "Precipitation (next {{hours}}h)",
-		sunshine_none: "No sunshine data available",
-		sunshine_hours: "Sunshine (next {{hours}}h)",
-		wind_hours: "Wind (next {{hours}}h)",
-		days_available: "Available Days",
-		now: "Now",
-		hour: "{{h}}h",
-		wind_compass: "Direction",
-		warnings: "Weather warnings",
-		compact_mode: "Compact mode",
+		unknown: "Unknown",
+		collapse: "Collapse",
+		expand: "Expand",
 		"clear-night": "Clear night sky",
 		cloudy: "Cloudy",
 		exceptional: "Exceptional weather",
@@ -2451,23 +2583,35 @@ var B = (e, t, n, r) => {
 		"windy-variant-lightning-rainy": "Windy with lightning and rain",
 		"windy-variant-pouring": "Windy with pouring rain",
 		"windy-variant-exceptional": "Windy with exceptional weather",
-		no_forecast_data: "No forecast data available",
-		no_forecast_data_hint: "Check Developer Tools → Services → weather.get_forecasts",
-		sunrise: "Sunrise",
-		sunset: "Sunset",
-		valid_from: "Valid from",
-		valid_to: "Valid to",
-		unknown: "Unknown",
-		collapse: "Collapse",
-		expand: "Expand",
-		warnings_additional: "+{{count}} more",
-		warnings_none: "No active weather warnings",
-		loading: "Loading...",
-		loading_forecast: "Loading forecast data...",
-		check_devtools: "Check Developer Tools → Services → weather.get_forecasts",
-		try_other_entity: "Try a different weather entity"
+		pollen: {
+			title: "Pollen levels",
+			no_data: "No pollen types enabled",
+			not_configured: "No pollen sensors configured. Please edit the card and assign level sensors from hass-swissweather.",
+			config: {
+				level_sensor: "Level sensor",
+				level_sensor_hint: "Pollen level sensor (SwissPollenLevelSensor from izacus/hass-swissweather). Values: NONE / LOW / MEDIUM / STRONG / VERY_STRONG",
+				raw_sensor: "Raw value sensor (optional)",
+				raw_sensor_hint: "Optional raw value sensor in particles/m³"
+			},
+			types: {
+				birch: "Birch",
+				grasses: "Grasses",
+				alder: "Alder",
+				hazel: "Hazel",
+				beech: "Beech",
+				ash: "Ash",
+				oak: "Oak"
+			},
+			levels: {
+				none: "None",
+				low: "Low",
+				medium: "Medium",
+				strong: "Strong",
+				very_strong: "Very strong"
+			}
+		}
 	}
-}, tn = "swissweather", nn = `${tn}-card`, rn = `${nn}-editor`, H = [
+}, H = "swissweather", tn = `${H}-card`, nn = `${tn}-editor`, U = [
 	{
 		name: "entity",
 		required: !0,
@@ -2501,22 +2645,22 @@ var B = (e, t, n, r) => {
 	},
 	{
 		name: "warning_entity",
-		description: "config.descr.warning_entity",
+		description: "warning.config.descr.warning_entity",
 		selector: { entity: { domain: "sensor" } }
 	},
 	{
 		name: "primary_warning_entity",
-		description: "config.descr.primary_warning_entity",
+		description: "warning.config.descr.primary_warning_entity",
 		selector: { entity: { domain: "sensor" } }
 	},
 	{
 		name: "secondary_warning_entity",
-		description: "config.descr.secondary_warning_entity",
+		description: "warning.config.descr.secondary_warning_entity",
 		selector: { entity: { domain: "sensor" } }
 	},
 	{
 		name: "tertiary_warning_entity",
-		description: "config.descr.tertiary_warning_entity",
+		description: "warning.config.descr.tertiary_warning_entity",
 		selector: { entity: { domain: "sensor" } }
 	},
 	{
@@ -2560,7 +2704,7 @@ var B = (e, t, n, r) => {
 	},
 	{
 		name: "show_warnings",
-		description: "config.descr.show_warnings",
+		description: "warning.config.descr.show_warnings",
 		selector: { boolean: {} }
 	},
 	{
@@ -2601,7 +2745,7 @@ var B = (e, t, n, r) => {
 //#endregion
 //#region src/cards/full-card/swissweather-card-editor.ts
 P({ loader: (e) => V[e] });
-var an = class extends E {
+var rn = class extends E {
 	hass;
 	lovelace;
 	_config;
@@ -2819,9 +2963,9 @@ var an = class extends E {
             .hass=${this.hass}
             .data=${n}
             .schema=${[
-			H.find((e) => e.name === "entity"),
-			H.find((e) => e.name === "location"),
-			H.find((e) => e.name === "show_location")
+			U.find((e) => e.name === "entity"),
+			U.find((e) => e.name === "location"),
+			U.find((e) => e.name === "show_location")
 		].filter(Boolean)}
             .computeLabel=${this._computeLabel}
             .computeHelper=${this._computeHelper}
@@ -2836,15 +2980,15 @@ var an = class extends E {
             .hass=${this.hass}
             .data=${n}
             .schema=${[
-			H.find((e) => e.name === "primary_warning_entity"),
-			H.find((e) => e.name === "secondary_warning_entity"),
-			H.find((e) => e.name === "tertiary_warning_entity"),
-			H.find((e) => e.name === "warning_entity"),
-			H.find((e) => e.name === "precipitation_entity"),
-			H.find((e) => e.name === "sun_entity"),
-			H.find((e) => e.name === "sunshine_entity"),
-			H.find((e) => e.name === "wind_entity"),
-			H.find((e) => e.name === "wind_direction_entity")
+			U.find((e) => e.name === "primary_warning_entity"),
+			U.find((e) => e.name === "secondary_warning_entity"),
+			U.find((e) => e.name === "tertiary_warning_entity"),
+			U.find((e) => e.name === "warning_entity"),
+			U.find((e) => e.name === "precipitation_entity"),
+			U.find((e) => e.name === "sun_entity"),
+			U.find((e) => e.name === "sunshine_entity"),
+			U.find((e) => e.name === "wind_entity"),
+			U.find((e) => e.name === "wind_direction_entity")
 		].filter(Boolean)}
             .computeLabel=${this._computeLabel}
             .computeHelper=${this._computeHelper}
@@ -2859,15 +3003,15 @@ var an = class extends E {
             .hass=${this.hass}
             .data=${n}
             .schema=${[
-			H.find((e) => e.name === "forecast_hours"),
-			H.find((e) => e.name === "show_forecast"),
-			H.find((e) => e.name === "show_precipitation"),
-			H.find((e) => e.name === "show_temperature"),
-			H.find((e) => e.name === "show_sunshine"),
-			H.find((e) => e.name === "show_wind"),
-			H.find((e) => e.name === "enable_animate_weather_icons"),
-			H.find((e) => e.name === "show_warnings"),
-			H.find((e) => e.name === "compact_mode")
+			U.find((e) => e.name === "forecast_hours"),
+			U.find((e) => e.name === "show_forecast"),
+			U.find((e) => e.name === "show_precipitation"),
+			U.find((e) => e.name === "show_temperature"),
+			U.find((e) => e.name === "show_sunshine"),
+			U.find((e) => e.name === "show_wind"),
+			U.find((e) => e.name === "enable_animate_weather_icons"),
+			U.find((e) => e.name === "show_warnings"),
+			U.find((e) => e.name === "compact_mode")
 		].filter(Boolean)}
             .computeLabel=${this._computeLabel}
             .computeHelper=${this._computeHelper}
@@ -2933,16 +3077,16 @@ var an = class extends E {
 		wind_entity: I("config.wind_entity"),
 		wind_direction_entity: I("config.wind_direction_entity"),
 		sunshine_entity: I("config.sunshine_entity"),
-		warning_entity: I("config.warning_entity"),
-		primary_warning_entity: I("config.primary_warning_entity"),
-		secondary_warning_entity: I("config.secondary_warning_entity"),
-		tertiary_warning_entity: I("config.tertiary_warning_entity"),
+		warning_entity: I("warning.config.warning_entity"),
+		primary_warning_entity: I("warning.config.primary_warning_entity"),
+		secondary_warning_entity: I("warning.config.secondary_warning_entity"),
+		tertiary_warning_entity: I("warning.config.tertiary_warning_entity"),
 		show_forecast: I("config.show_forecast"),
 		forecast_hours: I("config.forecast_hours"),
 		show_temperature: I("config.show_temperature"),
 		show_precipitation: I("config.show_precipitation"),
 		show_sunshine: I("config.show_sunshine"),
-		show_warnings: I("config.show_warnings"),
+		show_warnings: I("warning.config.show_warnings"),
 		show_wind: I("config.show_wind"),
 		enable_animate_weather_icons: I("config.enable_animate_weather_icons"),
 		compact_mode: I("config.compact_mode")
@@ -2956,7 +3100,7 @@ var an = class extends E {
 	}
 	_valueChanged(e) {
 		if (this._config ||= {
-			type: nn,
+			type: tn,
 			entity: "",
 			location: "Schweiz",
 			show_forecast: !0,
@@ -2995,10 +3139,10 @@ var an = class extends E {
 		}
 	}
 };
-j([O({ attribute: !1 }), A("design:type", Object)], an.prototype, "hass", void 0), j([O({ attribute: !1 }), A("design:type", Object)], an.prototype, "lovelace", void 0), j([O({ attribute: !1 }), A("design:type", Object)], an.prototype, "_config", void 0), an = j([D(rn), A("design:paramtypes", [])], an);
+j([O({ attribute: !1 }), A("design:type", Object)], rn.prototype, "hass", void 0), j([O({ attribute: !1 }), A("design:type", Object)], rn.prototype, "lovelace", void 0), j([O({ attribute: !1 }), A("design:type", Object)], rn.prototype, "_config", void 0), rn = j([D(nn), A("design:paramtypes", [])], rn);
 //#endregion
 //#region src/charts/index.ts
-function on(e, t, n) {
+function an(e, t, n) {
 	let r = n ? new Date(n) : /* @__PURE__ */ new Date();
 	return C`
     <div class="chart-labels">
@@ -3012,7 +3156,7 @@ function on(e, t, n) {
     </div>
   `;
 }
-function sn(e) {
+function on(e) {
 	return [
 		"So",
 		"Mo",
@@ -3025,69 +3169,69 @@ function sn(e) {
 }
 //#endregion
 //#region src/icons/clear-night.svg
-var cn = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='21.92'%20x2='38.52'%20y1='18.75'%20y2='47.52'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%2386c3db'/%3e%3cstop%20offset='.45'%20stop-color='%2386c3db'/%3e%3cstop%20offset='1'%20stop-color='%235eafcf'/%3e%3canimateTransform%20attributeName='gradientTransform'%20dur='10s'%20repeatCount='indefinite'%20type='rotate'%20values='5%2032%2032;%20-15%2032%2032;%205%2032%2032'/%3e%3c/linearGradient%3e%3c/defs%3e%3cpath%20fill='url(%23a)'%20stroke='%2372b9d5'%20stroke-linecap='round'%20stroke-linejoin='round'%20stroke-width='.5'%20d='M46.66%2036.2a16.66%2016.66%200%2001-16.78-16.55%2016.29%2016.29%200%2001.55-4.15A16.56%2016.56%200%201048.5%2036.1c-.61.06-1.22.1-1.84.1z'%3e%3canimateTransform%20attributeName='transform'%20dur='10s'%20repeatCount='indefinite'%20type='rotate'%20values='-5%2032%2032;%2015%2032%2032;%20-5%2032%2032'/%3e%3c/path%3e%3c/svg%3e", ln = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3c/defs%3e%3cpath%20fill='url(%23a)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'%3e%3canimateTransform%20attributeName='transform'%20dur='7s'%20repeatCount='indefinite'%20type='translate'%20values='-3%200;%203%200;%20-3%200'/%3e%3c/path%3e%3c/svg%3e", un = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='16.5'%20x2='21.5'%20y1='19.67'%20y2='28.33'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='.45'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='1'%20stop-color='%23f59e0b'/%3e%3c/linearGradient%3e%3clinearGradient%20id='b'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3c/defs%3e%3ccircle%20cx='19'%20cy='24'%20r='5'%20fill='url(%23a)'%20stroke='%23f8af18'%20stroke-miterlimit='10'%20stroke-width='.5'/%3e%3cpath%20fill='none'%20stroke='%23fbbf24'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M19%2015.67V12.5m0%2023v-3.17m5.89-14.22l2.24-2.24M10.87%2032.13l2.24-2.24m0-11.78l-2.24-2.24m16.26%2016.26l-2.24-2.24M7.5%2024h3.17m19.83%200h-3.17'%3e%3canimateTransform%20attributeName='transform'%20dur='45s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2019%2024;%20360%2019%2024'/%3e%3c/path%3e%3cpath%20fill='url(%23b)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3c/svg%3e", dn = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='13.58'%20x2='24.15'%20y1='15.57'%20y2='33.87'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%2386c3db'/%3e%3cstop%20offset='.45'%20stop-color='%2386c3db'/%3e%3cstop%20offset='1'%20stop-color='%235eafcf'/%3e%3canimateTransform%20attributeName='gradientTransform'%20dur='10s'%20repeatCount='indefinite'%20type='rotate'%20values='10%2019.22%2024.293;%20-10%2019.22%2024.293;%2010%2019.22%2024.293'/%3e%3c/linearGradient%3e%3clinearGradient%20id='b'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3c/defs%3e%3cpath%20fill='url(%23a)'%20stroke='%2372b9d5'%20stroke-linecap='round'%20stroke-linejoin='round'%20stroke-width='.5'%20d='M29.33%2026.68a10.61%2010.61%200%2001-10.68-10.54A10.5%2010.5%200%200119%2013.5a10.54%2010.54%200%201011.5%2013.11%2011.48%2011.48%200%2001-1.17.07z'%3e%3canimateTransform%20attributeName='transform'%20dur='10s'%20repeatCount='indefinite'%20type='rotate'%20values='-10%2019.22%2024.293;%2010%2019.22%2024.293;%20-10%2019.22%2024.293'/%3e%3c/path%3e%3cpath%20fill='url(%23b)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3c/svg%3e", fn = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='b'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3clinearGradient%20id='a'%20x1='27.5'%20x2='36.5'%20y1='50.21'%20y2='65.79'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23d4d7dd'/%3e%3cstop%20offset='.45'%20stop-color='%23d4d7dd'/%3e%3cstop%20offset='1'%20stop-color='%23bec1c6'/%3e%3c/linearGradient%3e%3clinearGradient%20id='c'%20y1='44.21'%20y2='59.79'%20xlink:href='%23a'/%3e%3c/defs%3e%3cpath%20fill='url(%23b)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3cpath%20fill='none'%20stroke='url(%23a)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M17%2058h30'%3e%3canimateTransform%20attributeName='transform'%20begin='0s'%20dur='5s'%20repeatCount='indefinite'%20type='translate'%20values='-4%200;%204%200;%20-4%200'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23c)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M17%2052h30'%3e%3canimateTransform%20attributeName='transform'%20begin='-4s'%20dur='5s'%20repeatCount='indefinite'%20type='translate'%20values='-4%200;%204%200;%20-4%200'/%3e%3c/path%3e%3c/svg%3e", pn = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='b'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3clinearGradient%20id='a'%20x1='23.25'%20x2='24.75'%20y1='43.7'%20y2='46.3'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%2386c3db'/%3e%3cstop%20offset='.45'%20stop-color='%2386c3db'/%3e%3cstop%20offset='1'%20stop-color='%235eafcf'/%3e%3c/linearGradient%3e%3clinearGradient%20id='c'%20x1='30.25'%20x2='31.75'%20y1='43.7'%20y2='46.3'%20xlink:href='%23a'/%3e%3clinearGradient%20id='d'%20x1='37.25'%20x2='38.75'%20y1='43.7'%20y2='46.3'%20xlink:href='%23a'/%3e%3c/defs%3e%3cpath%20fill='url(%23b)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3cpath%20fill='url(%23a)'%20d='M24%2043.5a1.5%201.5%200%20101.5%201.5%201.5%201.5%200%2000-1.5-1.5z'%3e%3canimateTransform%20attributeName='transform'%20dur='0.6s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2018;%20-4%2014'/%3e%3canimate%20attributeName='opacity'%20dur='0.6s'%20repeatCount='indefinite'%20values='1;1;0'/%3e%3c/path%3e%3cpath%20fill='url(%23c)'%20d='M31%2043.5a1.5%201.5%200%20101.5%201.5%201.5%201.5%200%2000-1.5-1.5z'%3e%3canimateTransform%20attributeName='transform'%20begin='-0.4s'%20dur='0.6s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2018;%20-4%2014'/%3e%3canimate%20attributeName='opacity'%20begin='-0.4s'%20dur='0.6s'%20repeatCount='indefinite'%20values='1;1;0'/%3e%3c/path%3e%3cpath%20fill='url(%23d)'%20d='M38%2043.5a1.5%201.5%200%20101.5%201.5%201.5%201.5%200%2000-1.5-1.5z'%3e%3canimateTransform%20attributeName='transform'%20begin='-0.2s'%20dur='0.6s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2018;%20-4%2014'/%3e%3canimate%20attributeName='opacity'%20begin='-0.2s'%20dur='0.6s'%20repeatCount='indefinite'%20values='1;1;0'/%3e%3c/path%3e%3c/svg%3e", mn = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='b'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3clinearGradient%20id='a'%20x1='22.53'%20x2='25.47'%20y1='42.95'%20y2='48.05'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%234286ee'/%3e%3cstop%20offset='.45'%20stop-color='%234286ee'/%3e%3cstop%20offset='1'%20stop-color='%230950bc'/%3e%3c/linearGradient%3e%3clinearGradient%20id='c'%20x1='29.53'%20x2='32.47'%20y1='42.95'%20y2='48.05'%20xlink:href='%23a'/%3e%3clinearGradient%20id='d'%20x1='36.53'%20x2='39.47'%20y1='42.95'%20y2='48.05'%20xlink:href='%23a'/%3e%3clinearGradient%20id='e'%20x1='26.74'%20x2='35.76'%20y1='37.88'%20y2='53.52'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f7b23b'/%3e%3cstop%20offset='.45'%20stop-color='%23f7b23b'/%3e%3cstop%20offset='1'%20stop-color='%23f59e0b'/%3e%3c/linearGradient%3e%3c/defs%3e%3cpath%20fill='url(%23b)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3cpath%20fill='none'%20stroke='url(%23a)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M24.39%2043.03l-.78%204.94'%3e%3canimateTransform%20attributeName='transform'%20dur='0.7s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20dur='0.7s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23c)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M31.39%2043.03l-.78%204.94'%3e%3canimateTransform%20attributeName='transform'%20begin='-0.4s'%20dur='0.7s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20begin='-0.4s'%20dur='0.7s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23d)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M38.39%2043.03l-.78%204.94'%3e%3canimateTransform%20attributeName='transform'%20begin='-0.2s'%20dur='0.7s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20begin='-0.2s'%20dur='0.7s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3cpath%20fill='url(%23e)'%20stroke='%23f6a823'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M30%2036l-4%2012h4l-2%2010%2010-14h-6l4-8h-6z'%3e%3canimate%20attributeName='opacity'%20dur='2s'%20repeatCount='indefinite'%20values='1;%201;%201;%201;%201;%201;%200.1;%201;%200.1;%201;%201;%200.1;%201;%200.1;%201'/%3e%3c/path%3e%3c/svg%3e", hn = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3clinearGradient%20id='b'%20x1='26.74'%20x2='35.76'%20y1='37.88'%20y2='53.52'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f7b23b'/%3e%3cstop%20offset='.45'%20stop-color='%23f7b23b'/%3e%3cstop%20offset='1'%20stop-color='%23f59e0b'/%3e%3c/linearGradient%3e%3c/defs%3e%3cpath%20fill='url(%23a)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3cpath%20fill='url(%23b)'%20stroke='%23f6a823'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M30%2036l-4%2012h4l-2%2010%2010-14h-6l4-8h-6z'%3e%3canimate%20attributeName='opacity'%20dur='2s'%20repeatCount='indefinite'%20values='1;%201;%201;%201;%201;%201;%200.1;%201;%200.1;%201;%201;%200.1;%201;%200.1;%201'/%3e%3c/path%3e%3c/svg%3e", gn = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='b'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3clinearGradient%20id='a'%20x1='22.53'%20x2='25.47'%20y1='42.95'%20y2='48.05'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%234286ee'/%3e%3cstop%20offset='.45'%20stop-color='%234286ee'/%3e%3cstop%20offset='1'%20stop-color='%230950bc'/%3e%3c/linearGradient%3e%3clinearGradient%20id='c'%20x1='29.53'%20x2='32.47'%20y1='42.95'%20y2='48.05'%20xlink:href='%23a'/%3e%3clinearGradient%20id='d'%20x1='36.53'%20x2='39.47'%20y1='42.95'%20y2='48.05'%20xlink:href='%23a'/%3e%3c/defs%3e%3cpath%20fill='url(%23b)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3cpath%20fill='none'%20stroke='url(%23a)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M24.39%2043.03l-.78%204.94'%3e%3canimateTransform%20attributeName='transform'%20dur='0.7s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20dur='0.7s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23c)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M31.39%2043.03l-.78%204.94'%3e%3canimateTransform%20attributeName='transform'%20begin='-0.4s'%20dur='0.7s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20begin='-0.4s'%20dur='0.7s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23d)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M38.39%2043.03l-.78%204.94'%3e%3canimateTransform%20attributeName='transform'%20begin='-0.2s'%20dur='0.7s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20begin='-0.2s'%20dur='0.7s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3c/svg%3e", _n = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='b'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3clinearGradient%20id='a'%20x1='30.12'%20x2='31.88'%20y1='43.48'%20y2='46.52'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%2386c3db'/%3e%3cstop%20offset='.45'%20stop-color='%2386c3db'/%3e%3cstop%20offset='1'%20stop-color='%235eafcf'/%3e%3c/linearGradient%3e%3clinearGradient%20id='c'%20x1='29.67'%20x2='32.33'%20y1='42.69'%20y2='47.31'%20xlink:href='%23a'/%3e%3clinearGradient%20id='d'%20x1='23.12'%20x2='24.88'%20y1='43.48'%20y2='46.52'%20xlink:href='%23a'/%3e%3clinearGradient%20id='e'%20x1='22.67'%20x2='25.33'%20y1='42.69'%20y2='47.31'%20xlink:href='%23a'/%3e%3clinearGradient%20id='f'%20x1='37.12'%20x2='38.88'%20y1='43.48'%20y2='46.52'%20xlink:href='%23a'/%3e%3clinearGradient%20id='g'%20x1='36.67'%20x2='39.33'%20y1='42.69'%20y2='47.31'%20xlink:href='%23a'/%3e%3c/defs%3e%3cpath%20fill='url(%23b)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3cg%3e%3ccircle%20cx='31'%20cy='45'%20r='1.25'%20fill='none'%20stroke='url(%23a)'%20stroke-miterlimit='10'/%3e%3cpath%20fill='none'%20stroke='url(%23c)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20d='M33.17%2046.25l-1.09-.63m-2.16-1.24l-1.09-.63M31%2042.5v1.25m0%203.75v-1.25m-1.08-.63l-1.09.63m4.34-2.5l-1.09.63'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='4s'%20repeatCount='indefinite'%20type='translate'%20values='-1%20-6;%201%2012'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='9s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2031%2045;%20360%2031%2045'/%3e%3canimate%20attributeName='opacity'%20dur='4s'%20repeatCount='indefinite'%20values='0;1;1;1;0'/%3e%3c/g%3e%3cg%3e%3ccircle%20cx='24'%20cy='45'%20r='1.25'%20fill='none'%20stroke='url(%23d)'%20stroke-miterlimit='10'/%3e%3cpath%20fill='none'%20stroke='url(%23e)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20d='M26.17%2046.25l-1.09-.63m-2.16-1.24l-1.09-.63M24%2042.5v1.25m0%203.75v-1.25m-1.08-.63l-1.09.63m4.34-2.5l-1.09.63'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20begin='-2s'%20dur='4s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-6;%20-1%2012'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='9s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2024%2045;%20360%2024%2045'/%3e%3canimate%20attributeName='opacity'%20begin='-2s'%20dur='4s'%20repeatCount='indefinite'%20values='0;1;1;1;0'/%3e%3c/g%3e%3cg%3e%3ccircle%20cx='38'%20cy='45'%20r='1.25'%20fill='none'%20stroke='url(%23f)'%20stroke-miterlimit='10'/%3e%3cpath%20fill='none'%20stroke='url(%23g)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20d='M40.17%2046.25l-1.09-.63m-2.16-1.24l-1.09-.63M38%2042.5v1.25m0%203.75v-1.25m-1.08-.63l-1.09.63m4.34-2.5l-1.09.63'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20begin='-1s'%20dur='4s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-6;%20-1%2012'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='9s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2038%2045;%20360%2038%2045'/%3e%3canimate%20attributeName='opacity'%20begin='-1s'%20dur='4s'%20repeatCount='indefinite'%20values='0;1;1;1;0'/%3e%3c/g%3e%3c/svg%3e", vn = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='c'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3clinearGradient%20id='a'%20x1='23.12'%20x2='24.88'%20y1='43.48'%20y2='46.52'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%2386c3db'/%3e%3cstop%20offset='.45'%20stop-color='%2386c3db'/%3e%3cstop%20offset='1'%20stop-color='%235eafcf'/%3e%3c/linearGradient%3e%3clinearGradient%20id='d'%20x1='22.67'%20x2='25.33'%20y1='42.69'%20y2='47.31'%20xlink:href='%23a'/%3e%3clinearGradient%20id='e'%20x1='37.12'%20x2='38.88'%20y1='43.48'%20y2='46.52'%20xlink:href='%23a'/%3e%3clinearGradient%20id='f'%20x1='36.67'%20x2='39.33'%20y1='42.69'%20y2='47.31'%20xlink:href='%23a'/%3e%3clinearGradient%20id='b'%20x1='23.31'%20x2='24.69'%20y1='44.3'%20y2='46.7'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%234286ee'/%3e%3cstop%20offset='.45'%20stop-color='%234286ee'/%3e%3cstop%20offset='1'%20stop-color='%230950bc'/%3e%3c/linearGradient%3e%3clinearGradient%20id='g'%20x1='30.31'%20x2='31.69'%20y1='44.3'%20y2='46.7'%20xlink:href='%23b'/%3e%3clinearGradient%20id='h'%20x1='37.31'%20x2='38.69'%20y1='44.3'%20y2='46.7'%20xlink:href='%23b'/%3e%3c/defs%3e%3cpath%20fill='url(%23c)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3cg%3e%3ccircle%20cx='24'%20cy='45'%20r='1.25'%20fill='none'%20stroke='url(%23a)'%20stroke-miterlimit='10'/%3e%3cpath%20fill='none'%20stroke='url(%23d)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20d='M26.17%2046.25l-1.09-.63m-2.16-1.24l-1.09-.63M24%2042.5v1.25m0%203.75v-1.25m-1.08-.63l-1.09.63m4.34-2.5l-1.09.63'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20begin='-2s'%20dur='4s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-6;%20-1%2012'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='9s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2024%2045;%20360%2024%2045'/%3e%3canimate%20attributeName='opacity'%20begin='-2s'%20dur='4s'%20repeatCount='indefinite'%20values='0;1;1;1;0'/%3e%3c/g%3e%3cg%3e%3ccircle%20cx='38'%20cy='45'%20r='1.25'%20fill='none'%20stroke='url(%23e)'%20stroke-miterlimit='10'/%3e%3cpath%20fill='none'%20stroke='url(%23f)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20d='M40.17%2046.25l-1.09-.63m-2.16-1.24l-1.09-.63M38%2042.5v1.25m0%203.75v-1.25m-1.08-.63l-1.09.63m4.34-2.5l-1.09.63'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20begin='-1s'%20dur='4s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-6;%20-1%2012'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='9s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2038%2045;%20360%2038%2045'/%3e%3canimate%20attributeName='opacity'%20begin='-1s'%20dur='4s'%20repeatCount='indefinite'%20values='0;1;1;1;0'/%3e%3c/g%3e%3cpath%20fill='none'%20stroke='url(%23b)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M24.08%2045.01l-.16.98'%3e%3canimateTransform%20attributeName='transform'%20dur='1.5s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20dur='1.5s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23g)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M31.08%2045.01l-.16.98'%3e%3canimateTransform%20attributeName='transform'%20begin='-0.5s'%20dur='1.5s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20begin='-0.5s'%20dur='1.5s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23h)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M38.08%2045.01l-.16.98'%3e%3canimateTransform%20attributeName='transform'%20begin='-1s'%20dur='1.5s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20begin='-1s'%20dur='1.5s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3c/svg%3e", yn = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='21.97'%20x2='42.03'%20y1='14.63'%20y2='49.37'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23d4d7dd'/%3e%3cstop%20offset='.45'%20stop-color='%23d4d7dd'/%3e%3cstop%20offset='1'%20stop-color='%23bec1c6'/%3e%3canimateTransform%20attributeName='gradientTransform'%20dur='1s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2032%2032;%20360%2032%2032'/%3e%3c/linearGradient%3e%3c/defs%3e%3cpath%20fill='none'%20stroke='url(%23a)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M43%2032a11%2011%200%2011-11-11%2011%2011%200%200111%2011zM25%2014.61l-.48%201a33.68%2033.68%200%2000-3.42%2017.82h0M39%2049.39l.48-1a33.68%2033.68%200%20003.42-17.82h0'%3e%3canimateTransform%20attributeName='transform'%20dur='1s'%20repeatCount='indefinite'%20type='rotate'%20values='360%2032%2032;%200%2032%2032'/%3e%3c/path%3e%3c/svg%3e", bn = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='27.56'%20x2='38.27'%20y1='17.64'%20y2='36.19'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23d4d7dd'/%3e%3cstop%20offset='.45'%20stop-color='%23d4d7dd'/%3e%3cstop%20offset='1'%20stop-color='%23bec1c6'/%3e%3c/linearGradient%3e%3clinearGradient%20id='b'%20x1='19.96'%20x2='31.37'%20y1='29.03'%20y2='48.8'%20xlink:href='%23a'/%3e%3c/defs%3e%3cpath%20fill='none'%20stroke='url(%23a)'%20stroke-dasharray='35%2022'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M43.64%2020a5%205%200%20113.61%208.46h-35.5'%3e%3canimate%20attributeName='stroke-dashoffset'%20dur='2s'%20repeatCount='indefinite'%20values='-57;%2057'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23b)'%20stroke-dasharray='24%2015'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M29.14%2044a5%205%200%20103.61-8.46h-21'%3e%3canimate%20attributeName='stroke-dashoffset'%20begin='-1.5s'%20dur='2s'%20repeatCount='indefinite'%20values='-39;%2039'/%3e%3c/path%3e%3c/svg%3e", xn = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='26.75'%20x2='37.25'%20y1='22.91'%20y2='41.09'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='.45'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='1'%20stop-color='%23f59e0b'/%3e%3c/linearGradient%3e%3c/defs%3e%3ccircle%20cx='32'%20cy='32'%20r='10.5'%20fill='url(%23a)'%20stroke='%23f8af18'%20stroke-miterlimit='10'%20stroke-width='.5'/%3e%3cpath%20fill='none'%20stroke='%23fbbf24'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M32%2015.71V9.5m0%2045v-6.21m11.52-27.81l4.39-4.39M16.09%2047.91l4.39-4.39m0-23l-4.39-4.39m31.82%2031.78l-4.39-4.39M15.71%2032H9.5m45%200h-6.21'%3e%3canimateTransform%20attributeName='transform'%20dur='45s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2032%2032;%20360%2032%2032'/%3e%3c/path%3e%3c/svg%3e", Sn = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%20512%20512'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='52.7'%20x2='133.4'%20y1='9.6'%20y2='149.3'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%239ca3af'/%3e%3cstop%20offset='.5'%20stop-color='%239ca3af'/%3e%3cstop%20offset='1'%20stop-color='%236b7280'/%3e%3c/linearGradient%3e%3clinearGradient%20id='b'%20x1='99.5'%20x2='232.6'%20y1='30.7'%20y2='261.4'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%236b7280'/%3e%3cstop%20offset='.5'%20stop-color='%236b7280'/%3e%3cstop%20offset='1'%20stop-color='%234b5563'/%3e%3c/linearGradient%3e%3clinearGradient%20id='c'%20x1='1381.3'%20x2='1399.5'%20y1='-1144.7'%20y2='-1097.4'%20gradientTransform='rotate(-9%208002.567%208233.063)'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%230b65ed'/%3e%3cstop%20offset='.5'%20stop-color='%230a5ad4'/%3e%3cstop%20offset='1'%20stop-color='%230950bc'/%3e%3c/linearGradient%3e%3clinearGradient%20xlink:href='%23c'%20id='d'%20x1='1436.7'%20x2='1454.9'%20y1='-1137'%20y2='-1089.7'%20gradientTransform='rotate(-9%208009.537%208233.037)'/%3e%3clinearGradient%20xlink:href='%23c'%20id='e'%20x1='1492.1'%20x2='1510.3'%20y1='-1129.3'%20y2='-1082.1'%20gradientTransform='rotate(-9%208016.566%208233.078)'/%3e%3csymbol%20id='g'%20viewBox='0%200%20200.3%20126.1'%3e%3cpath%20fill='url(%23a)'%20stroke='%23848b98'%20stroke-miterlimit='10'%20d='M.5%2093.2a32.4%2032.4%200%200032.4%2032.4h129.8v-.1l2.3.1a34.8%2034.8%200%20006.5-68.9%2032.4%2032.4%200%2000-48.5-33%2048.6%2048.6%200%2000-88.6%2037.1h-1.5A32.4%2032.4%200%2000.5%2093.1Z'/%3e%3c/symbol%3e%3csymbol%20id='h'%20viewBox='0%200%20350%20222'%3e%3cpath%20fill='url(%23b)'%20stroke='%235b6472'%20stroke-miterlimit='10'%20stroke-width='6'%20d='m291%20107-2.5.1A83.9%2083.9%200%2000135.6%2043%2056%2056%200%200051%2091a56.6%2056.6%200%2000.8%209A60%2060%200%200063%20219l4-.2v.2h224a56%2056%200%20000-112Z'/%3e%3c/symbol%3e%3csymbol%20id='f'%20overflow='visible'%20viewBox='0%200%20398%20222'%3e%3cuse%20xlink:href='%23g'%20width='200.3'%20height='126.1'%20transform='translate(198%2027)'%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='6s'%20repeatCount='indefinite'%20type='translate'%20values='-9%200;%209%200;%20-9%200'/%3e%3c/use%3e%3cuse%20xlink:href='%23h'%20width='350'%20height='222'%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='6s'%20repeatCount='indefinite'%20type='translate'%20values='-18%200;%2018%200;%20-18%200'/%3e%3c/use%3e%3c/symbol%3e%3csymbol%20id='i'%20overflow='visible'%20viewBox='0%200%20129%2057'%3e%3cpath%20fill='url(%23c)'%20stroke='%230a5ad4'%20stroke-miterlimit='10'%20d='M8.5%2056.5a8%208%200%2001-8-8v-40a8%208%200%200116%200v40a8%208%200%2001-8%208Z'%20opacity='0'%3e%3canimateTransform%20id='x1'%20additive='sum'%20attributeName='transform'%20begin='0s;%20x1.end+.33s'%20dur='.67s'%20type='translate'%20values='0%20-60;%200%2060'/%3e%3canimate%20id='y1'%20attributeName='opacity'%20begin='0s;%20y1.end+.33s'%20dur='.67s'%20keyTimes='0;%20.25;%201'%20values='0;%201;%200'/%3e%3c/path%3e%3cpath%20fill='url(%23d)'%20stroke='%230a5ad4'%20stroke-miterlimit='10'%20d='M64.5%2056.5a8%208%200%2001-8-8v-40a8%208%200%200116%200v40a8%208%200%2001-8%208Z'%20opacity='0'%3e%3canimateTransform%20id='x2'%20additive='sum'%20attributeName='transform'%20begin='.33s;%20x2.end+.33s'%20dur='.67s'%20type='translate'%20values='0%20-60;%200%2060'/%3e%3canimate%20id='y2'%20attributeName='opacity'%20begin='.33s;%20y2.end+.33s'%20dur='.67s'%20keyTimes='0;%20.25;%201'%20values='0;%201;%200'/%3e%3c/path%3e%3cpath%20fill='url(%23e)'%20stroke='%230a5ad4'%20stroke-miterlimit='10'%20d='M120.5%2056.5a8%208%200%2001-8-8v-40a8%208%200%200116%200v40a8%208%200%2001-8%208Z'%20opacity='0'%3e%3canimateTransform%20id='x3'%20additive='sum'%20attributeName='transform'%20begin='-.33s;%20x3.end+.33s'%20dur='.67s'%20type='translate'%20values='0%20-60;%200%2060'/%3e%3canimate%20id='y3'%20attributeName='opacity'%20begin='-.33s;%20y3.end+.33s'%20dur='.67s'%20keyTimes='0;%20.25;%201'%20values='0;%201;%200'/%3e%3c/path%3e%3c/symbol%3e%3c/defs%3e%3cuse%20xlink:href='%23f'%20width='398'%20height='222'%20transform='translate(68.84%20145)'/%3e%3cuse%20xlink:href='%23i'%20width='129'%20height='57'%20transform='translate(191.5%20343.5)'/%3e%3c/svg%3e", Cn = "M6,19A5,5 0 0,1 1,14A5,5 0 0,1 6,9C7,6.65 9.3,5 12,5C15.43,5 18.24,7.66 18.5,11.03L19,11A4,4 0 0,1 23,15A4,4 0 0,1 19,19H6M19,13H17V12A5,5 0 0,0 12,7C9.5,7 7.45,8.82 7.06,11.19C6.73,11.07 6.37,11 6,11A3,3 0 0,0 3,14A3,3 0 0,0 6,17H19A2,2 0 0,0 21,15A2,2 0 0,0 19,13Z", wn = "M3,15H13A1,1 0 0,1 14,16A1,1 0 0,1 13,17H3A1,1 0 0,1 2,16A1,1 0 0,1 3,15M16,15H21A1,1 0 0,1 22,16A1,1 0 0,1 21,17H16A1,1 0 0,1 15,16A1,1 0 0,1 16,15M1,12A5,5 0 0,1 6,7C7,4.65 9.3,3 12,3C15.43,3 18.24,5.66 18.5,9.03L19,9C21.19,9 22.97,10.76 23,13H21A2,2 0 0,0 19,11H17V10A5,5 0 0,0 12,5C9.5,5 7.45,6.82 7.06,9.19C6.73,9.07 6.37,9 6,9A3,3 0 0,0 3,12C3,12.35 3.06,12.69 3.17,13H1.1L1,12M3,19H5A1,1 0 0,1 6,20A1,1 0 0,1 5,21H3A1,1 0 0,1 2,20A1,1 0 0,1 3,19M8,19H21A1,1 0 0,1 22,20A1,1 0 0,1 21,21H8A1,1 0 0,1 7,20A1,1 0 0,1 8,19Z", Tn = "M6,14A1,1 0 0,1 7,15A1,1 0 0,1 6,16A5,5 0 0,1 1,11A5,5 0 0,1 6,6C7,3.65 9.3,2 12,2C15.43,2 18.24,4.66 18.5,8.03L19,8A4,4 0 0,1 23,12A4,4 0 0,1 19,16H18A1,1 0 0,1 17,15A1,1 0 0,1 18,14H19A2,2 0 0,0 21,12A2,2 0 0,0 19,10H17V9A5,5 0 0,0 12,4C9.5,4 7.45,5.82 7.06,8.19C6.73,8.07 6.37,8 6,8A3,3 0 0,0 3,11A3,3 0 0,0 6,14M10,18A2,2 0 0,1 12,20A2,2 0 0,1 10,22A2,2 0 0,1 8,20A2,2 0 0,1 10,18M14.5,16A1.5,1.5 0 0,1 16,17.5A1.5,1.5 0 0,1 14.5,19A1.5,1.5 0 0,1 13,17.5A1.5,1.5 0 0,1 14.5,16M10.5,12A1.5,1.5 0 0,1 12,13.5A1.5,1.5 0 0,1 10.5,15A1.5,1.5 0 0,1 9,13.5A1.5,1.5 0 0,1 10.5,12Z", En = "M15,6.79C16.86,7.86 18,9.85 18,12C18,22 6,22 6,22C7.25,21.06 8.38,19.95 9.34,18.71C9.38,18.66 9.41,18.61 9.44,18.55C9.69,18.06 9.5,17.46 9,17.21C7.14,16.14 6,14.15 6,12C6,2 18,2 18,2C16.75,2.94 15.62,4.05 14.66,5.29C14.62,5.34 14.59,5.39 14.56,5.45C14.31,5.94 14.5,6.54 15,6.79M12,14A2,2 0 0,0 14,12A2,2 0 0,0 12,10A2,2 0 0,0 10,12A2,2 0 0,0 12,14Z", Dn = "M6,16A5,5 0 0,1 1,11A5,5 0 0,1 6,6C7,3.65 9.3,2 12,2C15.43,2 18.24,4.66 18.5,8.03L19,8A4,4 0 0,1 23,12A4,4 0 0,1 19,16H18A1,1 0 0,1 17,15A1,1 0 0,1 18,14H19A2,2 0 0,0 21,12A2,2 0 0,0 19,10H17V9A5,5 0 0,0 12,4C9.5,4 7.45,5.82 7.06,8.19C6.73,8.07 6.37,8 6,8A3,3 0 0,0 3,11A3,3 0 0,0 6,14H7A1,1 0 0,1 8,15A1,1 0 0,1 7,16H6M12,11H15L13,15H15L11.25,22L12,17H9.5L12,11Z", On = "M4.5,13.59C5,13.87 5.14,14.5 4.87,14.96C4.59,15.44 4,15.6 3.5,15.33V15.33C2,14.47 1,12.85 1,11A5,5 0 0,1 6,6C7,3.65 9.3,2 12,2C15.43,2 18.24,4.66 18.5,8.03L19,8A4,4 0 0,1 23,12A4,4 0 0,1 19,16A1,1 0 0,1 18,15A1,1 0 0,1 19,14A2,2 0 0,0 21,12A2,2 0 0,0 19,10H17V9A5,5 0 0,0 12,4C9.5,4 7.45,5.82 7.06,8.19C6.73,8.07 6.37,8 6,8A3,3 0 0,0 3,11C3,12.11 3.6,13.08 4.5,13.6V13.59M9.5,11H12.5L10.5,15H12.5L8.75,22L9.5,17H7L9.5,11M17.5,18.67C17.5,19.96 16.5,21 15.25,21C14,21 13,19.96 13,18.67C13,17.12 15.25,14.5 15.25,14.5C15.25,14.5 17.5,17.12 17.5,18.67Z", kn = "M17.75,4.09L15.22,6.03L16.13,9.09L13.5,7.28L10.87,9.09L11.78,6.03L9.25,4.09L12.44,4L13.5,1L14.56,4L17.75,4.09M21.25,11L19.61,12.25L20.2,14.23L18.5,13.06L16.8,14.23L17.39,12.25L15.75,11L17.81,10.95L18.5,9L19.19,10.95L21.25,11M18.97,15.95C19.8,15.87 20.69,17.05 20.16,17.8C19.84,18.25 19.5,18.67 19.08,19.07C15.17,23 8.84,23 4.94,19.07C1.03,15.17 1.03,8.83 4.94,4.93C5.34,4.53 5.76,4.17 6.21,3.85C6.96,3.32 8.14,4.21 8.06,5.04C7.79,7.9 8.75,10.87 10.95,13.06C13.14,15.26 16.1,16.22 18.97,15.95M17.33,17.97C14.5,17.81 11.7,16.64 9.53,14.5C7.36,12.31 6.2,9.5 6.04,6.68C3.23,9.82 3.34,14.64 6.35,17.66C9.37,20.67 14.19,20.78 17.33,17.97Z", An = "M12.74,5.47C15.1,6.5 16.35,9.03 15.92,11.46C17.19,12.56 18,14.19 18,16V16.17C18.31,16.06 18.65,16 19,16A3,3 0 0,1 22,19A3,3 0 0,1 19,22H6A4,4 0 0,1 2,18A4,4 0 0,1 6,14H6.27C5,12.45 4.6,10.24 5.5,8.26C6.72,5.5 9.97,4.24 12.74,5.47M11.93,7.3C10.16,6.5 8.09,7.31 7.31,9.07C6.85,10.09 6.93,11.22 7.41,12.13C8.5,10.83 10.16,10 12,10C12.7,10 13.38,10.12 14,10.34C13.94,9.06 13.18,7.86 11.93,7.3M13.55,3.64C13,3.4 12.45,3.23 11.88,3.12L14.37,1.82L15.27,4.71C14.76,4.29 14.19,3.93 13.55,3.64M6.09,4.44C5.6,4.79 5.17,5.19 4.8,5.63L4.91,2.82L7.87,3.5C7.25,3.71 6.65,4.03 6.09,4.44M18,9.71C17.91,9.12 17.78,8.55 17.59,8L19.97,9.5L17.92,11.73C18.03,11.08 18.05,10.4 18,9.71M3.04,11.3C3.11,11.9 3.24,12.47 3.43,13L1.06,11.5L3.1,9.28C3,9.93 2.97,10.61 3.04,11.3M19,18H16V16A4,4 0 0,0 12,12A4,4 0 0,0 8,16H6A2,2 0 0,0 4,18A2,2 0 0,0 6,20H19A1,1 0 0,0 20,19A1,1 0 0,0 19,18Z", jn = "M9,12C9.53,12.14 9.85,12.69 9.71,13.22L8.41,18.05C8.27,18.59 7.72,18.9 7.19,18.76C6.65,18.62 6.34,18.07 6.5,17.54L7.78,12.71C7.92,12.17 8.47,11.86 9,12M13,12C13.53,12.14 13.85,12.69 13.71,13.22L11.64,20.95C11.5,21.5 10.95,21.8 10.41,21.66C9.88,21.5 9.56,20.97 9.7,20.43L11.78,12.71C11.92,12.17 12.47,11.86 13,12M17,12C17.53,12.14 17.85,12.69 17.71,13.22L16.41,18.05C16.27,18.59 15.72,18.9 15.19,18.76C14.65,18.62 14.34,18.07 14.5,17.54L15.78,12.71C15.92,12.17 16.47,11.86 17,12M17,10V9A5,5 0 0,0 12,4C9.5,4 7.45,5.82 7.06,8.19C6.73,8.07 6.37,8 6,8A3,3 0 0,0 3,11C3,12.11 3.6,13.08 4.5,13.6V13.59C5,13.87 5.14,14.5 4.87,14.96C4.59,15.43 4,15.6 3.5,15.32V15.33C2,14.47 1,12.85 1,11A5,5 0 0,1 6,6C7,3.65 9.3,2 12,2C15.43,2 18.24,4.66 18.5,8.03L19,8A4,4 0 0,1 23,12C23,13.5 22.2,14.77 21,15.46V15.46C20.5,15.73 19.91,15.57 19.63,15.09C19.36,14.61 19.5,14 20,13.72V13.73C20.6,13.39 21,12.74 21,12A2,2 0 0,0 19,10H17Z", Mn = "M6,14.03A1,1 0 0,1 7,15.03C7,15.58 6.55,16.03 6,16.03C3.24,16.03 1,13.79 1,11.03C1,8.27 3.24,6.03 6,6.03C7,3.68 9.3,2.03 12,2.03C15.43,2.03 18.24,4.69 18.5,8.06L19,8.03A4,4 0 0,1 23,12.03C23,14.23 21.21,16.03 19,16.03H18C17.45,16.03 17,15.58 17,15.03C17,14.47 17.45,14.03 18,14.03H19A2,2 0 0,0 21,12.03A2,2 0 0,0 19,10.03H17V9.03C17,6.27 14.76,4.03 12,4.03C9.5,4.03 7.45,5.84 7.06,8.21C6.73,8.09 6.37,8.03 6,8.03A3,3 0 0,0 3,11.03A3,3 0 0,0 6,14.03M12,14.15C12.18,14.39 12.37,14.66 12.56,14.94C13,15.56 14,17.03 14,18C14,19.11 13.1,20 12,20A2,2 0 0,1 10,18C10,17.03 11,15.56 11.44,14.94C11.63,14.66 11.82,14.4 12,14.15M12,11.03L11.5,11.59C11.5,11.59 10.65,12.55 9.79,13.81C8.93,15.06 8,16.56 8,18A4,4 0 0,0 12,22A4,4 0 0,0 16,18C16,16.56 15.07,15.06 14.21,13.81C13.35,12.55 12.5,11.59 12.5,11.59", Nn = "M6,14A1,1 0 0,1 7,15A1,1 0 0,1 6,16A5,5 0 0,1 1,11A5,5 0 0,1 6,6C7,3.65 9.3,2 12,2C15.43,2 18.24,4.66 18.5,8.03L19,8A4,4 0 0,1 23,12A4,4 0 0,1 19,16H18A1,1 0 0,1 17,15A1,1 0 0,1 18,14H19A2,2 0 0,0 21,12A2,2 0 0,0 19,10H17V9A5,5 0 0,0 12,4C9.5,4 7.45,5.82 7.06,8.19C6.73,8.07 6.37,8 6,8A3,3 0 0,0 3,11A3,3 0 0,0 6,14M7.88,18.07L10.07,17.5L8.46,15.88C8.07,15.5 8.07,14.86 8.46,14.46C8.85,14.07 9.5,14.07 9.88,14.46L11.5,16.07L12.07,13.88C12.21,13.34 12.76,13.03 13.29,13.17C13.83,13.31 14.14,13.86 14,14.4L13.41,16.59L15.6,16C16.14,15.86 16.69,16.17 16.83,16.71C16.97,17.24 16.66,17.79 16.12,17.93L13.93,18.5L15.54,20.12C15.93,20.5 15.93,21.15 15.54,21.54C15.15,21.93 14.5,21.93 14.12,21.54L12.5,19.93L11.93,22.12C11.79,22.66 11.24,22.97 10.71,22.83C10.17,22.69 9.86,22.14 10,21.6L10.59,19.41L8.4,20C7.86,20.14 7.31,19.83 7.17,19.29C7.03,18.76 7.34,18.21 7.88,18.07Z", Pn = "M18.5,18.67C18.5,19.96 17.5,21 16.25,21C15,21 14,19.96 14,18.67C14,17.12 16.25,14.5 16.25,14.5C16.25,14.5 18.5,17.12 18.5,18.67M4,17.36C3.86,16.82 4.18,16.25 4.73,16.11L7,15.5L5.33,13.86C4.93,13.46 4.93,12.81 5.33,12.4C5.73,12 6.4,12 6.79,12.4L8.45,14.05L9.04,11.8C9.18,11.24 9.75,10.92 10.29,11.07C10.85,11.21 11.17,11.78 11,12.33L10.42,14.58L12.67,14C13.22,13.83 13.79,14.15 13.93,14.71C14.08,15.25 13.76,15.82 13.2,15.96L10.95,16.55L12.6,18.21C13,18.6 13,19.27 12.6,19.67C12.2,20.07 11.54,20.07 11.15,19.67L9.5,18L8.89,20.27C8.75,20.83 8.18,21.14 7.64,21C7.08,20.86 6.77,20.29 6.91,19.74L7.5,17.5L5.26,18.09C4.71,18.23 4.14,17.92 4,17.36M1,11A5,5 0 0,1 6,6C7,3.65 9.3,2 12,2C15.43,2 18.24,4.66 18.5,8.03L19,8A4,4 0 0,1 23,12A4,4 0 0,1 19,16A1,1 0 0,1 18,15A1,1 0 0,1 19,14A2,2 0 0,0 21,12A2,2 0 0,0 19,10H17V9A5,5 0 0,0 12,4C9.5,4 7.45,5.82 7.06,8.19C6.73,8.07 6.37,8 6,8A3,3 0 0,0 3,11C3,11.85 3.35,12.61 3.91,13.16C4.27,13.55 4.26,14.16 3.88,14.54C3.5,14.93 2.85,14.93 2.47,14.54C1.56,13.63 1,12.38 1,11Z", Fn = "M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M12,2L14.39,5.42C13.65,5.15 12.84,5 12,5C11.16,5 10.35,5.15 9.61,5.42L12,2M3.34,7L7.5,6.65C6.9,7.16 6.36,7.78 5.94,8.5C5.5,9.24 5.25,10 5.11,10.79L3.34,7M3.36,17L5.12,13.23C5.26,14 5.53,14.78 5.95,15.5C6.37,16.24 6.91,16.86 7.5,17.37L3.36,17M20.65,7L18.88,10.79C18.74,10 18.47,9.23 18.05,8.5C17.63,7.78 17.1,7.15 16.5,6.64L20.65,7M20.64,17L16.5,17.36C17.09,16.85 17.62,16.22 18.04,15.5C18.46,14.77 18.73,14 18.87,13.21L20.64,17M12,22L9.59,18.56C10.33,18.83 11.14,19 12,19C12.82,19 13.63,18.83 14.37,18.56L12,22Z", In = "M4,10A1,1 0 0,1 3,9A1,1 0 0,1 4,8H12A2,2 0 0,0 14,6A2,2 0 0,0 12,4C11.45,4 10.95,4.22 10.59,4.59C10.2,5 9.56,5 9.17,4.59C8.78,4.2 8.78,3.56 9.17,3.17C9.9,2.45 10.9,2 12,2A4,4 0 0,1 16,6A4,4 0 0,1 12,10H4M19,12A1,1 0 0,0 20,11A1,1 0 0,0 19,10C18.72,10 18.47,10.11 18.29,10.29C17.9,10.68 17.27,10.68 16.88,10.29C16.5,9.9 16.5,9.27 16.88,8.88C17.42,8.34 18.17,8 19,8A3,3 0 0,1 22,11A3,3 0 0,1 19,14H5A1,1 0 0,1 4,13A1,1 0 0,1 5,12H19M18,18H4A1,1 0 0,1 3,17A1,1 0 0,1 4,16H18A3,3 0 0,1 21,19A3,3 0 0,1 18,22C17.17,22 16.42,21.66 15.88,21.12C15.5,20.73 15.5,20.1 15.88,19.71C16.27,19.32 16.9,19.32 17.29,19.71C17.47,19.89 17.72,20 18,20A1,1 0 0,0 19,19A1,1 0 0,0 18,18Z", Ln = "M6,6L6.69,6.06C7.32,3.72 9.46,2 12,2A5.5,5.5 0 0,1 17.5,7.5L17.42,8.45C17.88,8.16 18.42,8 19,8A3,3 0 0,1 22,11A3,3 0 0,1 19,14H6A4,4 0 0,1 2,10A4,4 0 0,1 6,6M6,8A2,2 0 0,0 4,10A2,2 0 0,0 6,12H19A1,1 0 0,0 20,11A1,1 0 0,0 19,10H15.5V7.5A3.5,3.5 0 0,0 12,4A3.5,3.5 0 0,0 8.5,7.5V8H6M18,18H4A1,1 0 0,1 3,17A1,1 0 0,1 4,16H18A3,3 0 0,1 21,19A3,3 0 0,1 18,22C17.17,22 16.42,21.66 15.88,21.12C15.5,20.73 15.5,20.1 15.88,19.71C16.27,19.32 16.9,19.32 17.29,19.71C17.47,19.89 17.72,20 18,20A1,1 0 0,0 19,19A1,1 0 0,0 18,18Z", U = (e, t) => e ? (t ||= "24px", C`<ha-icon
+var sn = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='21.92'%20x2='38.52'%20y1='18.75'%20y2='47.52'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%2386c3db'/%3e%3cstop%20offset='.45'%20stop-color='%2386c3db'/%3e%3cstop%20offset='1'%20stop-color='%235eafcf'/%3e%3canimateTransform%20attributeName='gradientTransform'%20dur='10s'%20repeatCount='indefinite'%20type='rotate'%20values='5%2032%2032;%20-15%2032%2032;%205%2032%2032'/%3e%3c/linearGradient%3e%3c/defs%3e%3cpath%20fill='url(%23a)'%20stroke='%2372b9d5'%20stroke-linecap='round'%20stroke-linejoin='round'%20stroke-width='.5'%20d='M46.66%2036.2a16.66%2016.66%200%2001-16.78-16.55%2016.29%2016.29%200%2001.55-4.15A16.56%2016.56%200%201048.5%2036.1c-.61.06-1.22.1-1.84.1z'%3e%3canimateTransform%20attributeName='transform'%20dur='10s'%20repeatCount='indefinite'%20type='rotate'%20values='-5%2032%2032;%2015%2032%2032;%20-5%2032%2032'/%3e%3c/path%3e%3c/svg%3e", cn = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3c/defs%3e%3cpath%20fill='url(%23a)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'%3e%3canimateTransform%20attributeName='transform'%20dur='7s'%20repeatCount='indefinite'%20type='translate'%20values='-3%200;%203%200;%20-3%200'/%3e%3c/path%3e%3c/svg%3e", ln = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='16.5'%20x2='21.5'%20y1='19.67'%20y2='28.33'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='.45'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='1'%20stop-color='%23f59e0b'/%3e%3c/linearGradient%3e%3clinearGradient%20id='b'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3c/defs%3e%3ccircle%20cx='19'%20cy='24'%20r='5'%20fill='url(%23a)'%20stroke='%23f8af18'%20stroke-miterlimit='10'%20stroke-width='.5'/%3e%3cpath%20fill='none'%20stroke='%23fbbf24'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M19%2015.67V12.5m0%2023v-3.17m5.89-14.22l2.24-2.24M10.87%2032.13l2.24-2.24m0-11.78l-2.24-2.24m16.26%2016.26l-2.24-2.24M7.5%2024h3.17m19.83%200h-3.17'%3e%3canimateTransform%20attributeName='transform'%20dur='45s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2019%2024;%20360%2019%2024'/%3e%3c/path%3e%3cpath%20fill='url(%23b)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3c/svg%3e", un = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='13.58'%20x2='24.15'%20y1='15.57'%20y2='33.87'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%2386c3db'/%3e%3cstop%20offset='.45'%20stop-color='%2386c3db'/%3e%3cstop%20offset='1'%20stop-color='%235eafcf'/%3e%3canimateTransform%20attributeName='gradientTransform'%20dur='10s'%20repeatCount='indefinite'%20type='rotate'%20values='10%2019.22%2024.293;%20-10%2019.22%2024.293;%2010%2019.22%2024.293'/%3e%3c/linearGradient%3e%3clinearGradient%20id='b'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3c/defs%3e%3cpath%20fill='url(%23a)'%20stroke='%2372b9d5'%20stroke-linecap='round'%20stroke-linejoin='round'%20stroke-width='.5'%20d='M29.33%2026.68a10.61%2010.61%200%2001-10.68-10.54A10.5%2010.5%200%200119%2013.5a10.54%2010.54%200%201011.5%2013.11%2011.48%2011.48%200%2001-1.17.07z'%3e%3canimateTransform%20attributeName='transform'%20dur='10s'%20repeatCount='indefinite'%20type='rotate'%20values='-10%2019.22%2024.293;%2010%2019.22%2024.293;%20-10%2019.22%2024.293'/%3e%3c/path%3e%3cpath%20fill='url(%23b)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3c/svg%3e", dn = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='b'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3clinearGradient%20id='a'%20x1='27.5'%20x2='36.5'%20y1='50.21'%20y2='65.79'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23d4d7dd'/%3e%3cstop%20offset='.45'%20stop-color='%23d4d7dd'/%3e%3cstop%20offset='1'%20stop-color='%23bec1c6'/%3e%3c/linearGradient%3e%3clinearGradient%20id='c'%20y1='44.21'%20y2='59.79'%20xlink:href='%23a'/%3e%3c/defs%3e%3cpath%20fill='url(%23b)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3cpath%20fill='none'%20stroke='url(%23a)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M17%2058h30'%3e%3canimateTransform%20attributeName='transform'%20begin='0s'%20dur='5s'%20repeatCount='indefinite'%20type='translate'%20values='-4%200;%204%200;%20-4%200'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23c)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M17%2052h30'%3e%3canimateTransform%20attributeName='transform'%20begin='-4s'%20dur='5s'%20repeatCount='indefinite'%20type='translate'%20values='-4%200;%204%200;%20-4%200'/%3e%3c/path%3e%3c/svg%3e", fn = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='b'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3clinearGradient%20id='a'%20x1='23.25'%20x2='24.75'%20y1='43.7'%20y2='46.3'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%2386c3db'/%3e%3cstop%20offset='.45'%20stop-color='%2386c3db'/%3e%3cstop%20offset='1'%20stop-color='%235eafcf'/%3e%3c/linearGradient%3e%3clinearGradient%20id='c'%20x1='30.25'%20x2='31.75'%20y1='43.7'%20y2='46.3'%20xlink:href='%23a'/%3e%3clinearGradient%20id='d'%20x1='37.25'%20x2='38.75'%20y1='43.7'%20y2='46.3'%20xlink:href='%23a'/%3e%3c/defs%3e%3cpath%20fill='url(%23b)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3cpath%20fill='url(%23a)'%20d='M24%2043.5a1.5%201.5%200%20101.5%201.5%201.5%201.5%200%2000-1.5-1.5z'%3e%3canimateTransform%20attributeName='transform'%20dur='0.6s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2018;%20-4%2014'/%3e%3canimate%20attributeName='opacity'%20dur='0.6s'%20repeatCount='indefinite'%20values='1;1;0'/%3e%3c/path%3e%3cpath%20fill='url(%23c)'%20d='M31%2043.5a1.5%201.5%200%20101.5%201.5%201.5%201.5%200%2000-1.5-1.5z'%3e%3canimateTransform%20attributeName='transform'%20begin='-0.4s'%20dur='0.6s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2018;%20-4%2014'/%3e%3canimate%20attributeName='opacity'%20begin='-0.4s'%20dur='0.6s'%20repeatCount='indefinite'%20values='1;1;0'/%3e%3c/path%3e%3cpath%20fill='url(%23d)'%20d='M38%2043.5a1.5%201.5%200%20101.5%201.5%201.5%201.5%200%2000-1.5-1.5z'%3e%3canimateTransform%20attributeName='transform'%20begin='-0.2s'%20dur='0.6s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2018;%20-4%2014'/%3e%3canimate%20attributeName='opacity'%20begin='-0.2s'%20dur='0.6s'%20repeatCount='indefinite'%20values='1;1;0'/%3e%3c/path%3e%3c/svg%3e", pn = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='b'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3clinearGradient%20id='a'%20x1='22.53'%20x2='25.47'%20y1='42.95'%20y2='48.05'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%234286ee'/%3e%3cstop%20offset='.45'%20stop-color='%234286ee'/%3e%3cstop%20offset='1'%20stop-color='%230950bc'/%3e%3c/linearGradient%3e%3clinearGradient%20id='c'%20x1='29.53'%20x2='32.47'%20y1='42.95'%20y2='48.05'%20xlink:href='%23a'/%3e%3clinearGradient%20id='d'%20x1='36.53'%20x2='39.47'%20y1='42.95'%20y2='48.05'%20xlink:href='%23a'/%3e%3clinearGradient%20id='e'%20x1='26.74'%20x2='35.76'%20y1='37.88'%20y2='53.52'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f7b23b'/%3e%3cstop%20offset='.45'%20stop-color='%23f7b23b'/%3e%3cstop%20offset='1'%20stop-color='%23f59e0b'/%3e%3c/linearGradient%3e%3c/defs%3e%3cpath%20fill='url(%23b)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3cpath%20fill='none'%20stroke='url(%23a)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M24.39%2043.03l-.78%204.94'%3e%3canimateTransform%20attributeName='transform'%20dur='0.7s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20dur='0.7s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23c)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M31.39%2043.03l-.78%204.94'%3e%3canimateTransform%20attributeName='transform'%20begin='-0.4s'%20dur='0.7s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20begin='-0.4s'%20dur='0.7s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23d)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M38.39%2043.03l-.78%204.94'%3e%3canimateTransform%20attributeName='transform'%20begin='-0.2s'%20dur='0.7s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20begin='-0.2s'%20dur='0.7s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3cpath%20fill='url(%23e)'%20stroke='%23f6a823'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M30%2036l-4%2012h4l-2%2010%2010-14h-6l4-8h-6z'%3e%3canimate%20attributeName='opacity'%20dur='2s'%20repeatCount='indefinite'%20values='1;%201;%201;%201;%201;%201;%200.1;%201;%200.1;%201;%201;%200.1;%201;%200.1;%201'/%3e%3c/path%3e%3c/svg%3e", mn = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3clinearGradient%20id='b'%20x1='26.74'%20x2='35.76'%20y1='37.88'%20y2='53.52'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f7b23b'/%3e%3cstop%20offset='.45'%20stop-color='%23f7b23b'/%3e%3cstop%20offset='1'%20stop-color='%23f59e0b'/%3e%3c/linearGradient%3e%3c/defs%3e%3cpath%20fill='url(%23a)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3cpath%20fill='url(%23b)'%20stroke='%23f6a823'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M30%2036l-4%2012h4l-2%2010%2010-14h-6l4-8h-6z'%3e%3canimate%20attributeName='opacity'%20dur='2s'%20repeatCount='indefinite'%20values='1;%201;%201;%201;%201;%201;%200.1;%201;%200.1;%201;%201;%200.1;%201;%200.1;%201'/%3e%3c/path%3e%3c/svg%3e", hn = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='b'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3clinearGradient%20id='a'%20x1='22.53'%20x2='25.47'%20y1='42.95'%20y2='48.05'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%234286ee'/%3e%3cstop%20offset='.45'%20stop-color='%234286ee'/%3e%3cstop%20offset='1'%20stop-color='%230950bc'/%3e%3c/linearGradient%3e%3clinearGradient%20id='c'%20x1='29.53'%20x2='32.47'%20y1='42.95'%20y2='48.05'%20xlink:href='%23a'/%3e%3clinearGradient%20id='d'%20x1='36.53'%20x2='39.47'%20y1='42.95'%20y2='48.05'%20xlink:href='%23a'/%3e%3c/defs%3e%3cpath%20fill='url(%23b)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3cpath%20fill='none'%20stroke='url(%23a)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M24.39%2043.03l-.78%204.94'%3e%3canimateTransform%20attributeName='transform'%20dur='0.7s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20dur='0.7s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23c)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M31.39%2043.03l-.78%204.94'%3e%3canimateTransform%20attributeName='transform'%20begin='-0.4s'%20dur='0.7s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20begin='-0.4s'%20dur='0.7s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23d)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M38.39%2043.03l-.78%204.94'%3e%3canimateTransform%20attributeName='transform'%20begin='-0.2s'%20dur='0.7s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20begin='-0.2s'%20dur='0.7s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3c/svg%3e", gn = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='b'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3clinearGradient%20id='a'%20x1='30.12'%20x2='31.88'%20y1='43.48'%20y2='46.52'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%2386c3db'/%3e%3cstop%20offset='.45'%20stop-color='%2386c3db'/%3e%3cstop%20offset='1'%20stop-color='%235eafcf'/%3e%3c/linearGradient%3e%3clinearGradient%20id='c'%20x1='29.67'%20x2='32.33'%20y1='42.69'%20y2='47.31'%20xlink:href='%23a'/%3e%3clinearGradient%20id='d'%20x1='23.12'%20x2='24.88'%20y1='43.48'%20y2='46.52'%20xlink:href='%23a'/%3e%3clinearGradient%20id='e'%20x1='22.67'%20x2='25.33'%20y1='42.69'%20y2='47.31'%20xlink:href='%23a'/%3e%3clinearGradient%20id='f'%20x1='37.12'%20x2='38.88'%20y1='43.48'%20y2='46.52'%20xlink:href='%23a'/%3e%3clinearGradient%20id='g'%20x1='36.67'%20x2='39.33'%20y1='42.69'%20y2='47.31'%20xlink:href='%23a'/%3e%3c/defs%3e%3cpath%20fill='url(%23b)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3cg%3e%3ccircle%20cx='31'%20cy='45'%20r='1.25'%20fill='none'%20stroke='url(%23a)'%20stroke-miterlimit='10'/%3e%3cpath%20fill='none'%20stroke='url(%23c)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20d='M33.17%2046.25l-1.09-.63m-2.16-1.24l-1.09-.63M31%2042.5v1.25m0%203.75v-1.25m-1.08-.63l-1.09.63m4.34-2.5l-1.09.63'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='4s'%20repeatCount='indefinite'%20type='translate'%20values='-1%20-6;%201%2012'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='9s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2031%2045;%20360%2031%2045'/%3e%3canimate%20attributeName='opacity'%20dur='4s'%20repeatCount='indefinite'%20values='0;1;1;1;0'/%3e%3c/g%3e%3cg%3e%3ccircle%20cx='24'%20cy='45'%20r='1.25'%20fill='none'%20stroke='url(%23d)'%20stroke-miterlimit='10'/%3e%3cpath%20fill='none'%20stroke='url(%23e)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20d='M26.17%2046.25l-1.09-.63m-2.16-1.24l-1.09-.63M24%2042.5v1.25m0%203.75v-1.25m-1.08-.63l-1.09.63m4.34-2.5l-1.09.63'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20begin='-2s'%20dur='4s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-6;%20-1%2012'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='9s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2024%2045;%20360%2024%2045'/%3e%3canimate%20attributeName='opacity'%20begin='-2s'%20dur='4s'%20repeatCount='indefinite'%20values='0;1;1;1;0'/%3e%3c/g%3e%3cg%3e%3ccircle%20cx='38'%20cy='45'%20r='1.25'%20fill='none'%20stroke='url(%23f)'%20stroke-miterlimit='10'/%3e%3cpath%20fill='none'%20stroke='url(%23g)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20d='M40.17%2046.25l-1.09-.63m-2.16-1.24l-1.09-.63M38%2042.5v1.25m0%203.75v-1.25m-1.08-.63l-1.09.63m4.34-2.5l-1.09.63'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20begin='-1s'%20dur='4s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-6;%20-1%2012'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='9s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2038%2045;%20360%2038%2045'/%3e%3canimate%20attributeName='opacity'%20begin='-1s'%20dur='4s'%20repeatCount='indefinite'%20values='0;1;1;1;0'/%3e%3c/g%3e%3c/svg%3e", _n = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='c'%20x1='22.56'%20x2='39.2'%20y1='21.96'%20y2='50.8'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='.45'%20stop-color='%23f3f7fe'/%3e%3cstop%20offset='1'%20stop-color='%23deeafb'/%3e%3c/linearGradient%3e%3clinearGradient%20id='a'%20x1='23.12'%20x2='24.88'%20y1='43.48'%20y2='46.52'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%2386c3db'/%3e%3cstop%20offset='.45'%20stop-color='%2386c3db'/%3e%3cstop%20offset='1'%20stop-color='%235eafcf'/%3e%3c/linearGradient%3e%3clinearGradient%20id='d'%20x1='22.67'%20x2='25.33'%20y1='42.69'%20y2='47.31'%20xlink:href='%23a'/%3e%3clinearGradient%20id='e'%20x1='37.12'%20x2='38.88'%20y1='43.48'%20y2='46.52'%20xlink:href='%23a'/%3e%3clinearGradient%20id='f'%20x1='36.67'%20x2='39.33'%20y1='42.69'%20y2='47.31'%20xlink:href='%23a'/%3e%3clinearGradient%20id='b'%20x1='23.31'%20x2='24.69'%20y1='44.3'%20y2='46.7'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%234286ee'/%3e%3cstop%20offset='.45'%20stop-color='%234286ee'/%3e%3cstop%20offset='1'%20stop-color='%230950bc'/%3e%3c/linearGradient%3e%3clinearGradient%20id='g'%20x1='30.31'%20x2='31.69'%20y1='44.3'%20y2='46.7'%20xlink:href='%23b'/%3e%3clinearGradient%20id='h'%20x1='37.31'%20x2='38.69'%20y1='44.3'%20y2='46.7'%20xlink:href='%23b'/%3e%3c/defs%3e%3cpath%20fill='url(%23c)'%20stroke='%23e6effc'%20stroke-miterlimit='10'%20stroke-width='.5'%20d='M46.5%2031.5h-.32a10.49%2010.49%200%2000-19.11-8%207%207%200%2000-10.57%206%207.21%207.21%200%2000.1%201.14A7.5%207.5%200%200018%2045.5a4.19%204.19%200%2000.5%200v0h28a7%207%200%20000-14z'/%3e%3cg%3e%3ccircle%20cx='24'%20cy='45'%20r='1.25'%20fill='none'%20stroke='url(%23a)'%20stroke-miterlimit='10'/%3e%3cpath%20fill='none'%20stroke='url(%23d)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20d='M26.17%2046.25l-1.09-.63m-2.16-1.24l-1.09-.63M24%2042.5v1.25m0%203.75v-1.25m-1.08-.63l-1.09.63m4.34-2.5l-1.09.63'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20begin='-2s'%20dur='4s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-6;%20-1%2012'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='9s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2024%2045;%20360%2024%2045'/%3e%3canimate%20attributeName='opacity'%20begin='-2s'%20dur='4s'%20repeatCount='indefinite'%20values='0;1;1;1;0'/%3e%3c/g%3e%3cg%3e%3ccircle%20cx='38'%20cy='45'%20r='1.25'%20fill='none'%20stroke='url(%23e)'%20stroke-miterlimit='10'/%3e%3cpath%20fill='none'%20stroke='url(%23f)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20d='M40.17%2046.25l-1.09-.63m-2.16-1.24l-1.09-.63M38%2042.5v1.25m0%203.75v-1.25m-1.08-.63l-1.09.63m4.34-2.5l-1.09.63'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20begin='-1s'%20dur='4s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-6;%20-1%2012'/%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='9s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2038%2045;%20360%2038%2045'/%3e%3canimate%20attributeName='opacity'%20begin='-1s'%20dur='4s'%20repeatCount='indefinite'%20values='0;1;1;1;0'/%3e%3c/g%3e%3cpath%20fill='none'%20stroke='url(%23b)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M24.08%2045.01l-.16.98'%3e%3canimateTransform%20attributeName='transform'%20dur='1.5s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20dur='1.5s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23g)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M31.08%2045.01l-.16.98'%3e%3canimateTransform%20attributeName='transform'%20begin='-0.5s'%20dur='1.5s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20begin='-0.5s'%20dur='1.5s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23h)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='2'%20d='M38.08%2045.01l-.16.98'%3e%3canimateTransform%20attributeName='transform'%20begin='-1s'%20dur='1.5s'%20repeatCount='indefinite'%20type='translate'%20values='1%20-5;%20-2%2010'/%3e%3canimate%20attributeName='opacity'%20begin='-1s'%20dur='1.5s'%20repeatCount='indefinite'%20values='0;1;1;0'/%3e%3c/path%3e%3c/svg%3e", vn = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='21.97'%20x2='42.03'%20y1='14.63'%20y2='49.37'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23d4d7dd'/%3e%3cstop%20offset='.45'%20stop-color='%23d4d7dd'/%3e%3cstop%20offset='1'%20stop-color='%23bec1c6'/%3e%3canimateTransform%20attributeName='gradientTransform'%20dur='1s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2032%2032;%20360%2032%2032'/%3e%3c/linearGradient%3e%3c/defs%3e%3cpath%20fill='none'%20stroke='url(%23a)'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M43%2032a11%2011%200%2011-11-11%2011%2011%200%200111%2011zM25%2014.61l-.48%201a33.68%2033.68%200%2000-3.42%2017.82h0M39%2049.39l.48-1a33.68%2033.68%200%20003.42-17.82h0'%3e%3canimateTransform%20attributeName='transform'%20dur='1s'%20repeatCount='indefinite'%20type='rotate'%20values='360%2032%2032;%200%2032%2032'/%3e%3c/path%3e%3c/svg%3e", yn = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='27.56'%20x2='38.27'%20y1='17.64'%20y2='36.19'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23d4d7dd'/%3e%3cstop%20offset='.45'%20stop-color='%23d4d7dd'/%3e%3cstop%20offset='1'%20stop-color='%23bec1c6'/%3e%3c/linearGradient%3e%3clinearGradient%20id='b'%20x1='19.96'%20x2='31.37'%20y1='29.03'%20y2='48.8'%20xlink:href='%23a'/%3e%3c/defs%3e%3cpath%20fill='none'%20stroke='url(%23a)'%20stroke-dasharray='35%2022'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M43.64%2020a5%205%200%20113.61%208.46h-35.5'%3e%3canimate%20attributeName='stroke-dashoffset'%20dur='2s'%20repeatCount='indefinite'%20values='-57;%2057'/%3e%3c/path%3e%3cpath%20fill='none'%20stroke='url(%23b)'%20stroke-dasharray='24%2015'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M29.14%2044a5%205%200%20103.61-8.46h-21'%3e%3canimate%20attributeName='stroke-dashoffset'%20begin='-1.5s'%20dur='2s'%20repeatCount='indefinite'%20values='-39;%2039'/%3e%3c/path%3e%3c/svg%3e", bn = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='26.75'%20x2='37.25'%20y1='22.91'%20y2='41.09'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='.45'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='1'%20stop-color='%23f59e0b'/%3e%3c/linearGradient%3e%3c/defs%3e%3ccircle%20cx='32'%20cy='32'%20r='10.5'%20fill='url(%23a)'%20stroke='%23f8af18'%20stroke-miterlimit='10'%20stroke-width='.5'/%3e%3cpath%20fill='none'%20stroke='%23fbbf24'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M32%2015.71V9.5m0%2045v-6.21m11.52-27.81l4.39-4.39M16.09%2047.91l4.39-4.39m0-23l-4.39-4.39m31.82%2031.78l-4.39-4.39M15.71%2032H9.5m45%200h-6.21'%3e%3canimateTransform%20attributeName='transform'%20dur='45s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2032%2032;%20360%2032%2032'/%3e%3c/path%3e%3c/svg%3e", xn = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%20512%20512'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='52.7'%20x2='133.4'%20y1='9.6'%20y2='149.3'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%239ca3af'/%3e%3cstop%20offset='.5'%20stop-color='%239ca3af'/%3e%3cstop%20offset='1'%20stop-color='%236b7280'/%3e%3c/linearGradient%3e%3clinearGradient%20id='b'%20x1='99.5'%20x2='232.6'%20y1='30.7'%20y2='261.4'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%236b7280'/%3e%3cstop%20offset='.5'%20stop-color='%236b7280'/%3e%3cstop%20offset='1'%20stop-color='%234b5563'/%3e%3c/linearGradient%3e%3clinearGradient%20id='c'%20x1='1381.3'%20x2='1399.5'%20y1='-1144.7'%20y2='-1097.4'%20gradientTransform='rotate(-9%208002.567%208233.063)'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%230b65ed'/%3e%3cstop%20offset='.5'%20stop-color='%230a5ad4'/%3e%3cstop%20offset='1'%20stop-color='%230950bc'/%3e%3c/linearGradient%3e%3clinearGradient%20xlink:href='%23c'%20id='d'%20x1='1436.7'%20x2='1454.9'%20y1='-1137'%20y2='-1089.7'%20gradientTransform='rotate(-9%208009.537%208233.037)'/%3e%3clinearGradient%20xlink:href='%23c'%20id='e'%20x1='1492.1'%20x2='1510.3'%20y1='-1129.3'%20y2='-1082.1'%20gradientTransform='rotate(-9%208016.566%208233.078)'/%3e%3csymbol%20id='g'%20viewBox='0%200%20200.3%20126.1'%3e%3cpath%20fill='url(%23a)'%20stroke='%23848b98'%20stroke-miterlimit='10'%20d='M.5%2093.2a32.4%2032.4%200%200032.4%2032.4h129.8v-.1l2.3.1a34.8%2034.8%200%20006.5-68.9%2032.4%2032.4%200%2000-48.5-33%2048.6%2048.6%200%2000-88.6%2037.1h-1.5A32.4%2032.4%200%2000.5%2093.1Z'/%3e%3c/symbol%3e%3csymbol%20id='h'%20viewBox='0%200%20350%20222'%3e%3cpath%20fill='url(%23b)'%20stroke='%235b6472'%20stroke-miterlimit='10'%20stroke-width='6'%20d='m291%20107-2.5.1A83.9%2083.9%200%2000135.6%2043%2056%2056%200%200051%2091a56.6%2056.6%200%2000.8%209A60%2060%200%200063%20219l4-.2v.2h224a56%2056%200%20000-112Z'/%3e%3c/symbol%3e%3csymbol%20id='f'%20overflow='visible'%20viewBox='0%200%20398%20222'%3e%3cuse%20xlink:href='%23g'%20width='200.3'%20height='126.1'%20transform='translate(198%2027)'%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='6s'%20repeatCount='indefinite'%20type='translate'%20values='-9%200;%209%200;%20-9%200'/%3e%3c/use%3e%3cuse%20xlink:href='%23h'%20width='350'%20height='222'%3e%3canimateTransform%20additive='sum'%20attributeName='transform'%20dur='6s'%20repeatCount='indefinite'%20type='translate'%20values='-18%200;%2018%200;%20-18%200'/%3e%3c/use%3e%3c/symbol%3e%3csymbol%20id='i'%20overflow='visible'%20viewBox='0%200%20129%2057'%3e%3cpath%20fill='url(%23c)'%20stroke='%230a5ad4'%20stroke-miterlimit='10'%20d='M8.5%2056.5a8%208%200%2001-8-8v-40a8%208%200%200116%200v40a8%208%200%2001-8%208Z'%20opacity='0'%3e%3canimateTransform%20id='x1'%20additive='sum'%20attributeName='transform'%20begin='0s;%20x1.end+.33s'%20dur='.67s'%20type='translate'%20values='0%20-60;%200%2060'/%3e%3canimate%20id='y1'%20attributeName='opacity'%20begin='0s;%20y1.end+.33s'%20dur='.67s'%20keyTimes='0;%20.25;%201'%20values='0;%201;%200'/%3e%3c/path%3e%3cpath%20fill='url(%23d)'%20stroke='%230a5ad4'%20stroke-miterlimit='10'%20d='M64.5%2056.5a8%208%200%2001-8-8v-40a8%208%200%200116%200v40a8%208%200%2001-8%208Z'%20opacity='0'%3e%3canimateTransform%20id='x2'%20additive='sum'%20attributeName='transform'%20begin='.33s;%20x2.end+.33s'%20dur='.67s'%20type='translate'%20values='0%20-60;%200%2060'/%3e%3canimate%20id='y2'%20attributeName='opacity'%20begin='.33s;%20y2.end+.33s'%20dur='.67s'%20keyTimes='0;%20.25;%201'%20values='0;%201;%200'/%3e%3c/path%3e%3cpath%20fill='url(%23e)'%20stroke='%230a5ad4'%20stroke-miterlimit='10'%20d='M120.5%2056.5a8%208%200%2001-8-8v-40a8%208%200%200116%200v40a8%208%200%2001-8%208Z'%20opacity='0'%3e%3canimateTransform%20id='x3'%20additive='sum'%20attributeName='transform'%20begin='-.33s;%20x3.end+.33s'%20dur='.67s'%20type='translate'%20values='0%20-60;%200%2060'/%3e%3canimate%20id='y3'%20attributeName='opacity'%20begin='-.33s;%20y3.end+.33s'%20dur='.67s'%20keyTimes='0;%20.25;%201'%20values='0;%201;%200'/%3e%3c/path%3e%3c/symbol%3e%3c/defs%3e%3cuse%20xlink:href='%23f'%20width='398'%20height='222'%20transform='translate(68.84%20145)'/%3e%3cuse%20xlink:href='%23i'%20width='129'%20height='57'%20transform='translate(191.5%20343.5)'/%3e%3c/svg%3e", Sn = "M6,19A5,5 0 0,1 1,14A5,5 0 0,1 6,9C7,6.65 9.3,5 12,5C15.43,5 18.24,7.66 18.5,11.03L19,11A4,4 0 0,1 23,15A4,4 0 0,1 19,19H6M19,13H17V12A5,5 0 0,0 12,7C9.5,7 7.45,8.82 7.06,11.19C6.73,11.07 6.37,11 6,11A3,3 0 0,0 3,14A3,3 0 0,0 6,17H19A2,2 0 0,0 21,15A2,2 0 0,0 19,13Z", Cn = "M3,15H13A1,1 0 0,1 14,16A1,1 0 0,1 13,17H3A1,1 0 0,1 2,16A1,1 0 0,1 3,15M16,15H21A1,1 0 0,1 22,16A1,1 0 0,1 21,17H16A1,1 0 0,1 15,16A1,1 0 0,1 16,15M1,12A5,5 0 0,1 6,7C7,4.65 9.3,3 12,3C15.43,3 18.24,5.66 18.5,9.03L19,9C21.19,9 22.97,10.76 23,13H21A2,2 0 0,0 19,11H17V10A5,5 0 0,0 12,5C9.5,5 7.45,6.82 7.06,9.19C6.73,9.07 6.37,9 6,9A3,3 0 0,0 3,12C3,12.35 3.06,12.69 3.17,13H1.1L1,12M3,19H5A1,1 0 0,1 6,20A1,1 0 0,1 5,21H3A1,1 0 0,1 2,20A1,1 0 0,1 3,19M8,19H21A1,1 0 0,1 22,20A1,1 0 0,1 21,21H8A1,1 0 0,1 7,20A1,1 0 0,1 8,19Z", wn = "M6,14A1,1 0 0,1 7,15A1,1 0 0,1 6,16A5,5 0 0,1 1,11A5,5 0 0,1 6,6C7,3.65 9.3,2 12,2C15.43,2 18.24,4.66 18.5,8.03L19,8A4,4 0 0,1 23,12A4,4 0 0,1 19,16H18A1,1 0 0,1 17,15A1,1 0 0,1 18,14H19A2,2 0 0,0 21,12A2,2 0 0,0 19,10H17V9A5,5 0 0,0 12,4C9.5,4 7.45,5.82 7.06,8.19C6.73,8.07 6.37,8 6,8A3,3 0 0,0 3,11A3,3 0 0,0 6,14M10,18A2,2 0 0,1 12,20A2,2 0 0,1 10,22A2,2 0 0,1 8,20A2,2 0 0,1 10,18M14.5,16A1.5,1.5 0 0,1 16,17.5A1.5,1.5 0 0,1 14.5,19A1.5,1.5 0 0,1 13,17.5A1.5,1.5 0 0,1 14.5,16M10.5,12A1.5,1.5 0 0,1 12,13.5A1.5,1.5 0 0,1 10.5,15A1.5,1.5 0 0,1 9,13.5A1.5,1.5 0 0,1 10.5,12Z", Tn = "M15,6.79C16.86,7.86 18,9.85 18,12C18,22 6,22 6,22C7.25,21.06 8.38,19.95 9.34,18.71C9.38,18.66 9.41,18.61 9.44,18.55C9.69,18.06 9.5,17.46 9,17.21C7.14,16.14 6,14.15 6,12C6,2 18,2 18,2C16.75,2.94 15.62,4.05 14.66,5.29C14.62,5.34 14.59,5.39 14.56,5.45C14.31,5.94 14.5,6.54 15,6.79M12,14A2,2 0 0,0 14,12A2,2 0 0,0 12,10A2,2 0 0,0 10,12A2,2 0 0,0 12,14Z", En = "M6,16A5,5 0 0,1 1,11A5,5 0 0,1 6,6C7,3.65 9.3,2 12,2C15.43,2 18.24,4.66 18.5,8.03L19,8A4,4 0 0,1 23,12A4,4 0 0,1 19,16H18A1,1 0 0,1 17,15A1,1 0 0,1 18,14H19A2,2 0 0,0 21,12A2,2 0 0,0 19,10H17V9A5,5 0 0,0 12,4C9.5,4 7.45,5.82 7.06,8.19C6.73,8.07 6.37,8 6,8A3,3 0 0,0 3,11A3,3 0 0,0 6,14H7A1,1 0 0,1 8,15A1,1 0 0,1 7,16H6M12,11H15L13,15H15L11.25,22L12,17H9.5L12,11Z", Dn = "M4.5,13.59C5,13.87 5.14,14.5 4.87,14.96C4.59,15.44 4,15.6 3.5,15.33V15.33C2,14.47 1,12.85 1,11A5,5 0 0,1 6,6C7,3.65 9.3,2 12,2C15.43,2 18.24,4.66 18.5,8.03L19,8A4,4 0 0,1 23,12A4,4 0 0,1 19,16A1,1 0 0,1 18,15A1,1 0 0,1 19,14A2,2 0 0,0 21,12A2,2 0 0,0 19,10H17V9A5,5 0 0,0 12,4C9.5,4 7.45,5.82 7.06,8.19C6.73,8.07 6.37,8 6,8A3,3 0 0,0 3,11C3,12.11 3.6,13.08 4.5,13.6V13.59M9.5,11H12.5L10.5,15H12.5L8.75,22L9.5,17H7L9.5,11M17.5,18.67C17.5,19.96 16.5,21 15.25,21C14,21 13,19.96 13,18.67C13,17.12 15.25,14.5 15.25,14.5C15.25,14.5 17.5,17.12 17.5,18.67Z", On = "M17.75,4.09L15.22,6.03L16.13,9.09L13.5,7.28L10.87,9.09L11.78,6.03L9.25,4.09L12.44,4L13.5,1L14.56,4L17.75,4.09M21.25,11L19.61,12.25L20.2,14.23L18.5,13.06L16.8,14.23L17.39,12.25L15.75,11L17.81,10.95L18.5,9L19.19,10.95L21.25,11M18.97,15.95C19.8,15.87 20.69,17.05 20.16,17.8C19.84,18.25 19.5,18.67 19.08,19.07C15.17,23 8.84,23 4.94,19.07C1.03,15.17 1.03,8.83 4.94,4.93C5.34,4.53 5.76,4.17 6.21,3.85C6.96,3.32 8.14,4.21 8.06,5.04C7.79,7.9 8.75,10.87 10.95,13.06C13.14,15.26 16.1,16.22 18.97,15.95M17.33,17.97C14.5,17.81 11.7,16.64 9.53,14.5C7.36,12.31 6.2,9.5 6.04,6.68C3.23,9.82 3.34,14.64 6.35,17.66C9.37,20.67 14.19,20.78 17.33,17.97Z", kn = "M12.74,5.47C15.1,6.5 16.35,9.03 15.92,11.46C17.19,12.56 18,14.19 18,16V16.17C18.31,16.06 18.65,16 19,16A3,3 0 0,1 22,19A3,3 0 0,1 19,22H6A4,4 0 0,1 2,18A4,4 0 0,1 6,14H6.27C5,12.45 4.6,10.24 5.5,8.26C6.72,5.5 9.97,4.24 12.74,5.47M11.93,7.3C10.16,6.5 8.09,7.31 7.31,9.07C6.85,10.09 6.93,11.22 7.41,12.13C8.5,10.83 10.16,10 12,10C12.7,10 13.38,10.12 14,10.34C13.94,9.06 13.18,7.86 11.93,7.3M13.55,3.64C13,3.4 12.45,3.23 11.88,3.12L14.37,1.82L15.27,4.71C14.76,4.29 14.19,3.93 13.55,3.64M6.09,4.44C5.6,4.79 5.17,5.19 4.8,5.63L4.91,2.82L7.87,3.5C7.25,3.71 6.65,4.03 6.09,4.44M18,9.71C17.91,9.12 17.78,8.55 17.59,8L19.97,9.5L17.92,11.73C18.03,11.08 18.05,10.4 18,9.71M3.04,11.3C3.11,11.9 3.24,12.47 3.43,13L1.06,11.5L3.1,9.28C3,9.93 2.97,10.61 3.04,11.3M19,18H16V16A4,4 0 0,0 12,12A4,4 0 0,0 8,16H6A2,2 0 0,0 4,18A2,2 0 0,0 6,20H19A1,1 0 0,0 20,19A1,1 0 0,0 19,18Z", An = "M9,12C9.53,12.14 9.85,12.69 9.71,13.22L8.41,18.05C8.27,18.59 7.72,18.9 7.19,18.76C6.65,18.62 6.34,18.07 6.5,17.54L7.78,12.71C7.92,12.17 8.47,11.86 9,12M13,12C13.53,12.14 13.85,12.69 13.71,13.22L11.64,20.95C11.5,21.5 10.95,21.8 10.41,21.66C9.88,21.5 9.56,20.97 9.7,20.43L11.78,12.71C11.92,12.17 12.47,11.86 13,12M17,12C17.53,12.14 17.85,12.69 17.71,13.22L16.41,18.05C16.27,18.59 15.72,18.9 15.19,18.76C14.65,18.62 14.34,18.07 14.5,17.54L15.78,12.71C15.92,12.17 16.47,11.86 17,12M17,10V9A5,5 0 0,0 12,4C9.5,4 7.45,5.82 7.06,8.19C6.73,8.07 6.37,8 6,8A3,3 0 0,0 3,11C3,12.11 3.6,13.08 4.5,13.6V13.59C5,13.87 5.14,14.5 4.87,14.96C4.59,15.43 4,15.6 3.5,15.32V15.33C2,14.47 1,12.85 1,11A5,5 0 0,1 6,6C7,3.65 9.3,2 12,2C15.43,2 18.24,4.66 18.5,8.03L19,8A4,4 0 0,1 23,12C23,13.5 22.2,14.77 21,15.46V15.46C20.5,15.73 19.91,15.57 19.63,15.09C19.36,14.61 19.5,14 20,13.72V13.73C20.6,13.39 21,12.74 21,12A2,2 0 0,0 19,10H17Z", jn = "M6,14.03A1,1 0 0,1 7,15.03C7,15.58 6.55,16.03 6,16.03C3.24,16.03 1,13.79 1,11.03C1,8.27 3.24,6.03 6,6.03C7,3.68 9.3,2.03 12,2.03C15.43,2.03 18.24,4.69 18.5,8.06L19,8.03A4,4 0 0,1 23,12.03C23,14.23 21.21,16.03 19,16.03H18C17.45,16.03 17,15.58 17,15.03C17,14.47 17.45,14.03 18,14.03H19A2,2 0 0,0 21,12.03A2,2 0 0,0 19,10.03H17V9.03C17,6.27 14.76,4.03 12,4.03C9.5,4.03 7.45,5.84 7.06,8.21C6.73,8.09 6.37,8.03 6,8.03A3,3 0 0,0 3,11.03A3,3 0 0,0 6,14.03M12,14.15C12.18,14.39 12.37,14.66 12.56,14.94C13,15.56 14,17.03 14,18C14,19.11 13.1,20 12,20A2,2 0 0,1 10,18C10,17.03 11,15.56 11.44,14.94C11.63,14.66 11.82,14.4 12,14.15M12,11.03L11.5,11.59C11.5,11.59 10.65,12.55 9.79,13.81C8.93,15.06 8,16.56 8,18A4,4 0 0,0 12,22A4,4 0 0,0 16,18C16,16.56 15.07,15.06 14.21,13.81C13.35,12.55 12.5,11.59 12.5,11.59", Mn = "M6,14A1,1 0 0,1 7,15A1,1 0 0,1 6,16A5,5 0 0,1 1,11A5,5 0 0,1 6,6C7,3.65 9.3,2 12,2C15.43,2 18.24,4.66 18.5,8.03L19,8A4,4 0 0,1 23,12A4,4 0 0,1 19,16H18A1,1 0 0,1 17,15A1,1 0 0,1 18,14H19A2,2 0 0,0 21,12A2,2 0 0,0 19,10H17V9A5,5 0 0,0 12,4C9.5,4 7.45,5.82 7.06,8.19C6.73,8.07 6.37,8 6,8A3,3 0 0,0 3,11A3,3 0 0,0 6,14M7.88,18.07L10.07,17.5L8.46,15.88C8.07,15.5 8.07,14.86 8.46,14.46C8.85,14.07 9.5,14.07 9.88,14.46L11.5,16.07L12.07,13.88C12.21,13.34 12.76,13.03 13.29,13.17C13.83,13.31 14.14,13.86 14,14.4L13.41,16.59L15.6,16C16.14,15.86 16.69,16.17 16.83,16.71C16.97,17.24 16.66,17.79 16.12,17.93L13.93,18.5L15.54,20.12C15.93,20.5 15.93,21.15 15.54,21.54C15.15,21.93 14.5,21.93 14.12,21.54L12.5,19.93L11.93,22.12C11.79,22.66 11.24,22.97 10.71,22.83C10.17,22.69 9.86,22.14 10,21.6L10.59,19.41L8.4,20C7.86,20.14 7.31,19.83 7.17,19.29C7.03,18.76 7.34,18.21 7.88,18.07Z", Nn = "M18.5,18.67C18.5,19.96 17.5,21 16.25,21C15,21 14,19.96 14,18.67C14,17.12 16.25,14.5 16.25,14.5C16.25,14.5 18.5,17.12 18.5,18.67M4,17.36C3.86,16.82 4.18,16.25 4.73,16.11L7,15.5L5.33,13.86C4.93,13.46 4.93,12.81 5.33,12.4C5.73,12 6.4,12 6.79,12.4L8.45,14.05L9.04,11.8C9.18,11.24 9.75,10.92 10.29,11.07C10.85,11.21 11.17,11.78 11,12.33L10.42,14.58L12.67,14C13.22,13.83 13.79,14.15 13.93,14.71C14.08,15.25 13.76,15.82 13.2,15.96L10.95,16.55L12.6,18.21C13,18.6 13,19.27 12.6,19.67C12.2,20.07 11.54,20.07 11.15,19.67L9.5,18L8.89,20.27C8.75,20.83 8.18,21.14 7.64,21C7.08,20.86 6.77,20.29 6.91,19.74L7.5,17.5L5.26,18.09C4.71,18.23 4.14,17.92 4,17.36M1,11A5,5 0 0,1 6,6C7,3.65 9.3,2 12,2C15.43,2 18.24,4.66 18.5,8.03L19,8A4,4 0 0,1 23,12A4,4 0 0,1 19,16A1,1 0 0,1 18,15A1,1 0 0,1 19,14A2,2 0 0,0 21,12A2,2 0 0,0 19,10H17V9A5,5 0 0,0 12,4C9.5,4 7.45,5.82 7.06,8.19C6.73,8.07 6.37,8 6,8A3,3 0 0,0 3,11C3,11.85 3.35,12.61 3.91,13.16C4.27,13.55 4.26,14.16 3.88,14.54C3.5,14.93 2.85,14.93 2.47,14.54C1.56,13.63 1,12.38 1,11Z", Pn = "M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M12,2L14.39,5.42C13.65,5.15 12.84,5 12,5C11.16,5 10.35,5.15 9.61,5.42L12,2M3.34,7L7.5,6.65C6.9,7.16 6.36,7.78 5.94,8.5C5.5,9.24 5.25,10 5.11,10.79L3.34,7M3.36,17L5.12,13.23C5.26,14 5.53,14.78 5.95,15.5C6.37,16.24 6.91,16.86 7.5,17.37L3.36,17M20.65,7L18.88,10.79C18.74,10 18.47,9.23 18.05,8.5C17.63,7.78 17.1,7.15 16.5,6.64L20.65,7M20.64,17L16.5,17.36C17.09,16.85 17.62,16.22 18.04,15.5C18.46,14.77 18.73,14 18.87,13.21L20.64,17M12,22L9.59,18.56C10.33,18.83 11.14,19 12,19C12.82,19 13.63,18.83 14.37,18.56L12,22Z", Fn = "M4,10A1,1 0 0,1 3,9A1,1 0 0,1 4,8H12A2,2 0 0,0 14,6A2,2 0 0,0 12,4C11.45,4 10.95,4.22 10.59,4.59C10.2,5 9.56,5 9.17,4.59C8.78,4.2 8.78,3.56 9.17,3.17C9.9,2.45 10.9,2 12,2A4,4 0 0,1 16,6A4,4 0 0,1 12,10H4M19,12A1,1 0 0,0 20,11A1,1 0 0,0 19,10C18.72,10 18.47,10.11 18.29,10.29C17.9,10.68 17.27,10.68 16.88,10.29C16.5,9.9 16.5,9.27 16.88,8.88C17.42,8.34 18.17,8 19,8A3,3 0 0,1 22,11A3,3 0 0,1 19,14H5A1,1 0 0,1 4,13A1,1 0 0,1 5,12H19M18,18H4A1,1 0 0,1 3,17A1,1 0 0,1 4,16H18A3,3 0 0,1 21,19A3,3 0 0,1 18,22C17.17,22 16.42,21.66 15.88,21.12C15.5,20.73 15.5,20.1 15.88,19.71C16.27,19.32 16.9,19.32 17.29,19.71C17.47,19.89 17.72,20 18,20A1,1 0 0,0 19,19A1,1 0 0,0 18,18Z", In = "M6,6L6.69,6.06C7.32,3.72 9.46,2 12,2A5.5,5.5 0 0,1 17.5,7.5L17.42,8.45C17.88,8.16 18.42,8 19,8A3,3 0 0,1 22,11A3,3 0 0,1 19,14H6A4,4 0 0,1 2,10A4,4 0 0,1 6,6M6,8A2,2 0 0,0 4,10A2,2 0 0,0 6,12H19A1,1 0 0,0 20,11A1,1 0 0,0 19,10H15.5V7.5A3.5,3.5 0 0,0 12,4A3.5,3.5 0 0,0 8.5,7.5V8H6M18,18H4A1,1 0 0,1 3,17A1,1 0 0,1 4,16H18A3,3 0 0,1 21,19A3,3 0 0,1 18,22C17.17,22 16.42,21.66 15.88,21.12C15.5,20.73 15.5,20.1 15.88,19.71C16.27,19.32 16.9,19.32 17.29,19.71C17.47,19.89 17.72,20 18,20A1,1 0 0,0 19,19A1,1 0 0,0 18,18Z", W = (e, t) => e ? (t ||= "24px", C`<ha-icon
     .icon="${e}"
     style="font-size:${t}; width: ${t}; height: ${t}"
   />`) : C`<ha-icon
       icon="mdi:weather-sunny"
       style="font-size:${t}; width: ${t}; height: ${t}"
-    />`, W = (e, t) => e ? (t ||= "24px", w`<svg height=${t} width=${t} viewport="0 0 48 48"><path d="${e}" /></svg>`) : w`<svg height=${t} width=${t} viewport="0 0 48 48"><path d="${Fn}" /></svg>`, Rn = (e, t, n, r) => {
-	if (!e) return U("mdi:weather-sunny", n);
+    />`, G = (e, t) => e ? (t ||= "24px", w`<svg height=${t} width=${t} viewport="0 0 48 48"><path d="${e}" /></svg>`) : w`<svg height=${t} width=${t} viewport="0 0 48 48"><path d="${Pn}" /></svg>`, Ln = (e, t, n, r) => {
+	if (!e) return W("mdi:weather-sunny", n);
 	let i = String(e).trim().toLowerCase(), a = {
-		"clear-night": W(kn, n),
-		cloudy: W(Cn, n),
-		fog: W(wn, n),
-		hail: W(Tn, n),
-		lightning: W(Dn, n),
-		"lightning-rainy": W(On, n),
-		partlycloudy: W(An, n),
-		pouring: W(jn, n),
-		rainy: W(Mn, n),
-		snowy: W(Nn, n),
-		"snowy-rainy": W(Pn, n),
-		sunny: W(Fn, n),
-		windy: W(In, n),
-		"windy-variant": W(Ln, n),
-		exceptional: W(En, n)
+		"clear-night": G(On, n),
+		cloudy: G(Sn, n),
+		fog: G(Cn, n),
+		hail: G(wn, n),
+		lightning: G(En, n),
+		"lightning-rainy": G(Dn, n),
+		partlycloudy: G(kn, n),
+		pouring: G(An, n),
+		rainy: G(jn, n),
+		snowy: G(Mn, n),
+		"snowy-rainy": G(Nn, n),
+		sunny: G(Pn, n),
+		windy: G(Fn, n),
+		"windy-variant": G(In, n),
+		exceptional: G(Tn, n)
 	}, o = {
-		"clear-night": U("mdi:weather-night", n),
-		cloudy: U("mdi:weather-cloudy", n),
-		fog: U("mdi:weather-fog", n),
-		hail: U("mdi:weather-hail", n),
-		lightning: U("mdi:weather-lightning", n),
-		"lightning-rainy": U("mdi:weather-lightning-rainy", n),
-		partlycloudy: U("mdi:weather-partly-cloudy", n),
-		pouring: U("mdi:weather-pouring", n),
-		rainy: U("mdi:weather-rainy", n),
-		snowy: U("mdi:weather-snowy", n),
-		"snowy-rainy": U("mdi:weather-snowy-rainy", n),
-		sunny: U("mdi:weather-sunny", n),
-		windy: U("mdi:weather-windy", n),
-		"windy-variant": U("mdi:weather-windy-variant", n),
-		exceptional: U("mdi:weather-hurricane", n)
+		"clear-night": W("mdi:weather-night", n),
+		cloudy: W("mdi:weather-cloudy", n),
+		fog: W("mdi:weather-fog", n),
+		hail: W("mdi:weather-hail", n),
+		lightning: W("mdi:weather-lightning", n),
+		"lightning-rainy": W("mdi:weather-lightning-rainy", n),
+		partlycloudy: W("mdi:weather-partly-cloudy", n),
+		pouring: W("mdi:weather-pouring", n),
+		rainy: W("mdi:weather-rainy", n),
+		snowy: W("mdi:weather-snowy", n),
+		"snowy-rainy": W("mdi:weather-snowy-rainy", n),
+		sunny: W("mdi:weather-sunny", n),
+		windy: W("mdi:weather-windy", n),
+		"windy-variant": W("mdi:weather-windy-variant", n),
+		exceptional: W("mdi:weather-hurricane", n)
 	}, s = {
-		"clear-night": C`<img src="${cn}" style="font-size:${n}" />`,
-		cloudy: C`<img src="${ln}" style="font-size:${n}" />`,
-		fog: C`<img src="${fn}" style="font-size:${n}" />`,
-		hail: C`<img src="${pn}" style="font-size:${n}" />`,
-		lightning: C`<img src="${hn}" style="font-size:${n}" />`,
-		"lightning-rainy": C`<img src="${mn}" style="font-size:${n}" />`,
+		"clear-night": C`<img src="${sn}" style="font-size:${n}" />`,
+		cloudy: C`<img src="${cn}" style="font-size:${n}" />`,
+		fog: C`<img src="${dn}" style="font-size:${n}" />`,
+		hail: C`<img src="${fn}" style="font-size:${n}" />`,
+		lightning: C`<img src="${mn}" style="font-size:${n}" />`,
+		"lightning-rainy": C`<img src="${pn}" style="font-size:${n}" />`,
 		partlycloudy: C`<img
-      src="${r ? un : dn}"
+      src="${r ? ln : un}"
       style="font-size:${n}"
     />`,
-		pouring: C`<img src="${Sn}" style="font-size:${n}" />`,
-		rainy: C`<img src="${gn}" style="font-size:${n}" />`,
-		snowy: C`<img src="${_n}" style="font-size:${n}" />`,
-		"snowy-rainy": C`<img src="${vn}" style="font-size:${n}" />`,
-		sunny: C`<img src="${xn}" style="font-size:${n}" />`,
-		windy: C`<img src="${bn}" style="font-size:${n}" />`,
-		"windy-variant": C`<img src="${bn}" style="font-size:${n}" />`,
-		exceptional: C`<img src="${yn}" style="font-size:${n}" />`
+		pouring: C`<img src="${xn}" style="font-size:${n}" />`,
+		rainy: C`<img src="${hn}" style="font-size:${n}" />`,
+		snowy: C`<img src="${gn}" style="font-size:${n}" />`,
+		"snowy-rainy": C`<img src="${_n}" style="font-size:${n}" />`,
+		sunny: C`<img src="${bn}" style="font-size:${n}" />`,
+		windy: C`<img src="${yn}" style="font-size:${n}" />`,
+		"windy-variant": C`<img src="${yn}" style="font-size:${n}" />`,
+		exceptional: C`<img src="${vn}" style="font-size:${n}" />`
 	};
-	return t === "mdi" ? o[i] || U("mdi:weather-sunny", n) : t === "mdiAsSVG" ? a[i] || C`<img src="${"data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='26.75'%20x2='37.25'%20y1='22.91'%20y2='41.09'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='.45'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='1'%20stop-color='%23f59e0b'/%3e%3c/linearGradient%3e%3c/defs%3e%3ccircle%20cx='32'%20cy='32'%20r='10.5'%20fill='url(%23a)'%20stroke='%23f8af18'%20stroke-miterlimit='10'%20stroke-width='.5'/%3e%3cpath%20fill='none'%20stroke='%23fbbf24'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M32%2015.71V9.5m0%2045v-6.21m11.52-27.81l4.39-4.39M16.09%2047.91l4.39-4.39m0-23l-4.39-4.39m31.82%2031.78l-4.39-4.39M15.71%2032H9.5m45%200h-6.21'%3e%3canimateTransform%20attributeName='transform'%20dur='45s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2032%2032;%20360%2032%2032'/%3e%3c/path%3e%3c/svg%3e"}" />` : s[i] || C`<img src="${"data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='26.75'%20x2='37.25'%20y1='22.91'%20y2='41.09'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='.45'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='1'%20stop-color='%23f59e0b'/%3e%3c/linearGradient%3e%3c/defs%3e%3ccircle%20cx='32'%20cy='32'%20r='10.5'%20fill='url(%23a)'%20stroke='%23f8af18'%20stroke-miterlimit='10'%20stroke-width='.5'/%3e%3cpath%20fill='none'%20stroke='%23fbbf24'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M32%2015.71V9.5m0%2045v-6.21m11.52-27.81l4.39-4.39M16.09%2047.91l4.39-4.39m0-23l-4.39-4.39m31.82%2031.78l-4.39-4.39M15.71%2032H9.5m45%200h-6.21'%3e%3canimateTransform%20attributeName='transform'%20dur='45s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2032%2032;%20360%2032%2032'/%3e%3c/path%3e%3c/svg%3e"}" />`;
-}, zn = (e, t) => e?.states[t], Bn = (e, t) => {
-	let n = /* @__PURE__ */ new Date(), r = zn(e, t.entity), i = zn(e, t.sun_entity || "sun.sun");
+	return t === "mdi" ? o[i] || W("mdi:weather-sunny", n) : t === "mdiAsSVG" ? a[i] || C`<img src="${"data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='26.75'%20x2='37.25'%20y1='22.91'%20y2='41.09'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='.45'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='1'%20stop-color='%23f59e0b'/%3e%3c/linearGradient%3e%3c/defs%3e%3ccircle%20cx='32'%20cy='32'%20r='10.5'%20fill='url(%23a)'%20stroke='%23f8af18'%20stroke-miterlimit='10'%20stroke-width='.5'/%3e%3cpath%20fill='none'%20stroke='%23fbbf24'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M32%2015.71V9.5m0%2045v-6.21m11.52-27.81l4.39-4.39M16.09%2047.91l4.39-4.39m0-23l-4.39-4.39m31.82%2031.78l-4.39-4.39M15.71%2032H9.5m45%200h-6.21'%3e%3canimateTransform%20attributeName='transform'%20dur='45s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2032%2032;%20360%2032%2032'/%3e%3c/path%3e%3c/svg%3e"}" />` : s[i] || C`<img src="${"data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cdefs%3e%3clinearGradient%20id='a'%20x1='26.75'%20x2='37.25'%20y1='22.91'%20y2='41.09'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20offset='0'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='.45'%20stop-color='%23fbbf24'/%3e%3cstop%20offset='1'%20stop-color='%23f59e0b'/%3e%3c/linearGradient%3e%3c/defs%3e%3ccircle%20cx='32'%20cy='32'%20r='10.5'%20fill='url(%23a)'%20stroke='%23f8af18'%20stroke-miterlimit='10'%20stroke-width='.5'/%3e%3cpath%20fill='none'%20stroke='%23fbbf24'%20stroke-linecap='round'%20stroke-miterlimit='10'%20stroke-width='3'%20d='M32%2015.71V9.5m0%2045v-6.21m11.52-27.81l4.39-4.39M16.09%2047.91l4.39-4.39m0-23l-4.39-4.39m31.82%2031.78l-4.39-4.39M15.71%2032H9.5m45%200h-6.21'%3e%3canimateTransform%20attributeName='transform'%20dur='45s'%20repeatCount='indefinite'%20type='rotate'%20values='0%2032%2032;%20360%2032%2032'/%3e%3c/path%3e%3c/svg%3e"}" />`;
+}, Rn = (e, t) => e?.states[t], zn = (e, t) => {
+	let n = /* @__PURE__ */ new Date(), r = Rn(e, t.entity), i = Rn(e, t.sun_entity || "sun.sun");
 	if (i?.state === "above_horizon") return !0;
 	if (i?.state === "below_horizon") return !1;
 	let a = null, o = null;
@@ -3101,7 +3245,7 @@ var cn = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewB
 	}
 	return !a || !o ? !0 : n >= a && n < o;
 };
-function Vn(e) {
+function Bn(e) {
 	let t = window;
 	t.customCards = t.customCards || [], t.customCards.push({
 		...e,
@@ -3110,7 +3254,7 @@ function Vn(e) {
 }
 //#endregion
 //#region node_modules/marked/lib/marked.esm.js
-function Hn() {
+function Vn() {
 	return {
 		async: !1,
 		breaks: !1,
@@ -3124,28 +3268,28 @@ function Hn() {
 		walkTokens: null
 	};
 }
-var Un = Hn();
-function Wn(e) {
-	Un = e;
+var Hn = Vn();
+function Un(e) {
+	Hn = e;
 }
-var Gn = { exec: () => null };
-function G(e, t = "") {
+var Wn = { exec: () => null };
+function K(e, t = "") {
 	let n = typeof e == "string" ? e : e.source, r = {
 		replace: (e, t) => {
 			let i = typeof t == "string" ? t : t.source;
-			return i = i.replace(K.caret, "$1"), n = n.replace(e, i), r;
+			return i = i.replace(q.caret, "$1"), n = n.replace(e, i), r;
 		},
 		getRegex: () => new RegExp(n, t)
 	};
 	return r;
 }
-var Kn = (() => {
+var Gn = (() => {
 	try {
 		return !0;
 	} catch {
 		return !1;
 	}
-})(), K = {
+})(), q = {
 	codeRemoveIndent: /^(?: {1,4}| {0,3}\t)/gm,
 	outputLinkReplace: /\\([\[\]])/g,
 	indentCodeCompensation: /^(\s+)(?:```)/,
@@ -3202,115 +3346,115 @@ var Kn = (() => {
 	headingBeginRegex: (e) => RegExp(`^ {0,${Math.min(3, e - 1)}}#`),
 	htmlBeginRegex: (e) => RegExp(`^ {0,${Math.min(3, e - 1)}}<(?:[a-z].*>|!--)`, "i"),
 	blockquoteBeginRegex: (e) => RegExp(`^ {0,${Math.min(3, e - 1)}}>`)
-}, qn = /^(?:[ \t]*(?:\n|$))+/, Jn = /^((?: {4}| {0,3}\t)[^\n]+(?:\n(?:[ \t]*(?:\n|$))*)?)+/, Yn = /^ {0,3}(`{3,}(?=[^`\n]*(?:\n|$))|~{3,})([^\n]*)(?:\n|$)(?:|([\s\S]*?)(?:\n|$))(?: {0,3}\1[~`]* *(?=\n|$)|$)/, Xn = /^ {0,3}((?:-[\t ]*){3,}|(?:_[ \t]*){3,}|(?:\*[ \t]*){3,})(?:\n+|$)/, Zn = /^ {0,3}(#{1,6})(?=\s|$)(.*)(?:\n+|$)/, Qn = / {0,3}(?:[*+-]|\d{1,9}[.)])/, $n = /^(?!bull |blockCode|fences|blockquote|heading|html|table)((?:.|\n(?!\s*?\n|bull |blockCode|fences|blockquote|heading|html|table))+?)\n {0,3}(=+|-+) *(?:\n+|$)/, er = G($n).replace(/bull/g, Qn).replace(/blockCode/g, /(?: {4}| {0,3}\t)/).replace(/fences/g, / {0,3}(?:`{3,}|~{3,})/).replace(/blockquote/g, / {0,3}>/).replace(/heading/g, / {0,3}#{1,6}/).replace(/html/g, / {0,3}<[^\n>]+>\n/).replace(/\|table/g, "").getRegex(), tr = G($n).replace(/bull/g, Qn).replace(/blockCode/g, /(?: {4}| {0,3}\t)/).replace(/fences/g, / {0,3}(?:`{3,}|~{3,})/).replace(/blockquote/g, / {0,3}>/).replace(/heading/g, / {0,3}#{1,6}/).replace(/html/g, / {0,3}<[^\n>]+>\n/).replace(/table/g, / {0,3}\|?(?:[:\- ]*\|)+[\:\- ]*\n/).getRegex(), nr = /^([^\n]+(?:\n(?!hr|heading|lheading|blockquote|fences|list|html|table| +\n)[^\n]+)*)/, rr = /^[^\n]+/, ir = /(?!\s*\])(?:\\[\s\S]|[^\[\]\\])+/, ar = G(/^ {0,3}\[(label)\]: *(?:\n[ \t]*)?([^<\s][^\s]*|<.*?>)(?:(?: +(?:\n[ \t]*)?| *\n[ \t]*)(title))? *(?:\n+|$)/).replace("label", ir).replace("title", /(?:"(?:\\"?|[^"\\])*"|'[^'\n]*(?:\n[^'\n]+)*\n?'|\([^()]*\))/).getRegex(), or = G(/^(bull)([ \t][^\n]+?)?(?:\n|$)/).replace(/bull/g, Qn).getRegex(), sr = "address|article|aside|base|basefont|blockquote|body|caption|center|col|colgroup|dd|details|dialog|dir|div|dl|dt|fieldset|figcaption|figure|footer|form|frame|frameset|h[1-6]|head|header|hr|html|iframe|legend|li|link|main|menu|menuitem|meta|nav|noframes|ol|optgroup|option|p|param|search|section|summary|table|tbody|td|tfoot|th|thead|title|tr|track|ul", cr = /<!--(?:-?>|[\s\S]*?(?:-->|$))/, lr = G("^ {0,3}(?:<(script|pre|style|textarea)[\\s>][\\s\\S]*?(?:</\\1>[^\\n]*\\n+|$)|comment[^\\n]*(\\n+|$)|<\\?[\\s\\S]*?(?:\\?>\\n*|$)|<![A-Z][\\s\\S]*?(?:>\\n*|$)|<!\\[CDATA\\[[\\s\\S]*?(?:\\]\\]>\\n*|$)|</?(tag)(?: +|\\n|/?>)[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$)|<(?!script|pre|style|textarea)([a-z][\\w-]*)(?:attribute)*? */?>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$)|</(?!script|pre|style|textarea)[a-z][\\w-]*\\s*>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$))", "i").replace("comment", cr).replace("tag", sr).replace("attribute", / +[a-zA-Z:_][\w.:-]*(?: *= *"[^"\n]*"| *= *'[^'\n]*'| *= *[^\s"'=<>`]+)?/).getRegex(), ur = G(nr).replace("hr", Xn).replace("heading", " {0,3}#{1,6}(?:\\s|$)").replace("|lheading", "").replace("|table", "").replace("blockquote", " {0,3}>").replace("fences", " {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list", " {0,3}(?:[*+-]|1[.)])[ \\t]").replace("html", "</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag", sr).getRegex(), dr = {
-	blockquote: G(/^( {0,3}> ?(paragraph|[^\n]*)(?:\n|$))+/).replace("paragraph", ur).getRegex(),
-	code: Jn,
-	def: ar,
-	fences: Yn,
-	heading: Zn,
-	hr: Xn,
-	html: lr,
+}, Kn = /^(?:[ \t]*(?:\n|$))+/, qn = /^((?: {4}| {0,3}\t)[^\n]+(?:\n(?:[ \t]*(?:\n|$))*)?)+/, Jn = /^ {0,3}(`{3,}(?=[^`\n]*(?:\n|$))|~{3,})([^\n]*)(?:\n|$)(?:|([\s\S]*?)(?:\n|$))(?: {0,3}\1[~`]* *(?=\n|$)|$)/, Yn = /^ {0,3}((?:-[\t ]*){3,}|(?:_[ \t]*){3,}|(?:\*[ \t]*){3,})(?:\n+|$)/, Xn = /^ {0,3}(#{1,6})(?=\s|$)(.*)(?:\n+|$)/, Zn = / {0,3}(?:[*+-]|\d{1,9}[.)])/, Qn = /^(?!bull |blockCode|fences|blockquote|heading|html|table)((?:.|\n(?!\s*?\n|bull |blockCode|fences|blockquote|heading|html|table))+?)\n {0,3}(=+|-+) *(?:\n+|$)/, $n = K(Qn).replace(/bull/g, Zn).replace(/blockCode/g, /(?: {4}| {0,3}\t)/).replace(/fences/g, / {0,3}(?:`{3,}|~{3,})/).replace(/blockquote/g, / {0,3}>/).replace(/heading/g, / {0,3}#{1,6}/).replace(/html/g, / {0,3}<[^\n>]+>\n/).replace(/\|table/g, "").getRegex(), er = K(Qn).replace(/bull/g, Zn).replace(/blockCode/g, /(?: {4}| {0,3}\t)/).replace(/fences/g, / {0,3}(?:`{3,}|~{3,})/).replace(/blockquote/g, / {0,3}>/).replace(/heading/g, / {0,3}#{1,6}/).replace(/html/g, / {0,3}<[^\n>]+>\n/).replace(/table/g, / {0,3}\|?(?:[:\- ]*\|)+[\:\- ]*\n/).getRegex(), tr = /^([^\n]+(?:\n(?!hr|heading|lheading|blockquote|fences|list|html|table| +\n)[^\n]+)*)/, nr = /^[^\n]+/, rr = /(?!\s*\])(?:\\[\s\S]|[^\[\]\\])+/, ir = K(/^ {0,3}\[(label)\]: *(?:\n[ \t]*)?([^<\s][^\s]*|<.*?>)(?:(?: +(?:\n[ \t]*)?| *\n[ \t]*)(title))? *(?:\n+|$)/).replace("label", rr).replace("title", /(?:"(?:\\"?|[^"\\])*"|'[^'\n]*(?:\n[^'\n]+)*\n?'|\([^()]*\))/).getRegex(), ar = K(/^(bull)([ \t][^\n]+?)?(?:\n|$)/).replace(/bull/g, Zn).getRegex(), or = "address|article|aside|base|basefont|blockquote|body|caption|center|col|colgroup|dd|details|dialog|dir|div|dl|dt|fieldset|figcaption|figure|footer|form|frame|frameset|h[1-6]|head|header|hr|html|iframe|legend|li|link|main|menu|menuitem|meta|nav|noframes|ol|optgroup|option|p|param|search|section|summary|table|tbody|td|tfoot|th|thead|title|tr|track|ul", sr = /<!--(?:-?>|[\s\S]*?(?:-->|$))/, cr = K("^ {0,3}(?:<(script|pre|style|textarea)[\\s>][\\s\\S]*?(?:</\\1>[^\\n]*\\n+|$)|comment[^\\n]*(\\n+|$)|<\\?[\\s\\S]*?(?:\\?>\\n*|$)|<![A-Z][\\s\\S]*?(?:>\\n*|$)|<!\\[CDATA\\[[\\s\\S]*?(?:\\]\\]>\\n*|$)|</?(tag)(?: +|\\n|/?>)[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$)|<(?!script|pre|style|textarea)([a-z][\\w-]*)(?:attribute)*? */?>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$)|</(?!script|pre|style|textarea)[a-z][\\w-]*\\s*>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$))", "i").replace("comment", sr).replace("tag", or).replace("attribute", / +[a-zA-Z:_][\w.:-]*(?: *= *"[^"\n]*"| *= *'[^'\n]*'| *= *[^\s"'=<>`]+)?/).getRegex(), lr = K(tr).replace("hr", Yn).replace("heading", " {0,3}#{1,6}(?:\\s|$)").replace("|lheading", "").replace("|table", "").replace("blockquote", " {0,3}>").replace("fences", " {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list", " {0,3}(?:[*+-]|1[.)])[ \\t]").replace("html", "</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag", or).getRegex(), ur = {
+	blockquote: K(/^( {0,3}> ?(paragraph|[^\n]*)(?:\n|$))+/).replace("paragraph", lr).getRegex(),
+	code: qn,
+	def: ir,
+	fences: Jn,
+	heading: Xn,
+	hr: Yn,
+	html: cr,
+	lheading: $n,
+	list: ar,
+	newline: Kn,
+	paragraph: lr,
+	table: Wn,
+	text: nr
+}, dr = K("^ *([^\\n ].*)\\n {0,3}((?:\\| *)?:?-+:? *(?:\\| *:?-+:? *)*(?:\\| *)?)(?:\\n((?:(?! *\\n|hr|heading|blockquote|code|fences|list|html).*(?:\\n|$))*)\\n*|$)").replace("hr", Yn).replace("heading", " {0,3}#{1,6}(?:\\s|$)").replace("blockquote", " {0,3}>").replace("code", "(?: {4}| {0,3}	)[^\\n]").replace("fences", " {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list", " {0,3}(?:[*+-]|1[.)])[ \\t]").replace("html", "</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag", or).getRegex(), fr = {
+	...ur,
 	lheading: er,
-	list: or,
-	newline: qn,
-	paragraph: ur,
-	table: Gn,
-	text: rr
-}, fr = G("^ *([^\\n ].*)\\n {0,3}((?:\\| *)?:?-+:? *(?:\\| *:?-+:? *)*(?:\\| *)?)(?:\\n((?:(?! *\\n|hr|heading|blockquote|code|fences|list|html).*(?:\\n|$))*)\\n*|$)").replace("hr", Xn).replace("heading", " {0,3}#{1,6}(?:\\s|$)").replace("blockquote", " {0,3}>").replace("code", "(?: {4}| {0,3}	)[^\\n]").replace("fences", " {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list", " {0,3}(?:[*+-]|1[.)])[ \\t]").replace("html", "</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag", sr).getRegex(), pr = {
-	...dr,
-	lheading: tr,
-	table: fr,
-	paragraph: G(nr).replace("hr", Xn).replace("heading", " {0,3}#{1,6}(?:\\s|$)").replace("|lheading", "").replace("table", fr).replace("blockquote", " {0,3}>").replace("fences", " {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list", " {0,3}(?:[*+-]|1[.)])[ \\t]").replace("html", "</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag", sr).getRegex()
-}, mr = {
-	...dr,
-	html: G("^ *(?:comment *(?:\\n|\\s*$)|<(tag)[\\s\\S]+?</\\1> *(?:\\n{2,}|\\s*$)|<tag(?:\"[^\"]*\"|'[^']*'|\\s[^'\"/>\\s]*)*?/?> *(?:\\n{2,}|\\s*$))").replace("comment", cr).replace(/tag/g, "(?!(?:a|em|strong|small|s|cite|q|dfn|abbr|data|time|code|var|samp|kbd|sub|sup|i|b|u|mark|ruby|rt|rp|bdi|bdo|span|br|wbr|ins|del|img)\\b)\\w+(?!:|[^\\w\\s@]*@)\\b").getRegex(),
+	table: dr,
+	paragraph: K(tr).replace("hr", Yn).replace("heading", " {0,3}#{1,6}(?:\\s|$)").replace("|lheading", "").replace("table", dr).replace("blockquote", " {0,3}>").replace("fences", " {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list", " {0,3}(?:[*+-]|1[.)])[ \\t]").replace("html", "</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag", or).getRegex()
+}, pr = {
+	...ur,
+	html: K("^ *(?:comment *(?:\\n|\\s*$)|<(tag)[\\s\\S]+?</\\1> *(?:\\n{2,}|\\s*$)|<tag(?:\"[^\"]*\"|'[^']*'|\\s[^'\"/>\\s]*)*?/?> *(?:\\n{2,}|\\s*$))").replace("comment", sr).replace(/tag/g, "(?!(?:a|em|strong|small|s|cite|q|dfn|abbr|data|time|code|var|samp|kbd|sub|sup|i|b|u|mark|ruby|rt|rp|bdi|bdo|span|br|wbr|ins|del|img)\\b)\\w+(?!:|[^\\w\\s@]*@)\\b").getRegex(),
 	def: /^ *\[([^\]]+)\]: *<?([^\s>]+)>?(?: +(["(][^\n]+[")]))? *(?:\n+|$)/,
 	heading: /^(#{1,6})(.*)(?:\n+|$)/,
-	fences: Gn,
+	fences: Wn,
 	lheading: /^(.+?)\n {0,3}(=+|-+) *(?:\n+|$)/,
-	paragraph: G(nr).replace("hr", Xn).replace("heading", " *#{1,6} *[^\n]").replace("lheading", er).replace("|table", "").replace("blockquote", " {0,3}>").replace("|fences", "").replace("|list", "").replace("|html", "").replace("|tag", "").getRegex()
-}, hr = /^\\([!"#$%&'()*+,\-./:;<=>?@\[\]\\^_`{|}~])/, gr = /^(`+)([^`]|[^`][\s\S]*?[^`])\1(?!`)/, _r = /^( {2,}|\\)\n(?!\s*$)/, vr = /^(`+|[^`])(?:(?= {2,}\n)|[\s\S]*?(?:(?=[\\<!\[`*_]|\b_|$)|[^ ](?= {2,}\n)))/, yr = /[\p{P}\p{S}]/u, br = /[\s\p{P}\p{S}]/u, xr = /[^\s\p{P}\p{S}]/u, Sr = G(/^((?![*_])punctSpace)/, "u").replace(/punctSpace/g, br).getRegex(), Cr = /(?!~)[\p{P}\p{S}]/u, wr = /(?!~)[\s\p{P}\p{S}]/u, Tr = /(?:[^\s\p{P}\p{S}]|~)/u, Er = G(/link|precode-code|html/, "g").replace("link", /\[(?:[^\[\]`]|(?<a>`+)[^`]+\k<a>(?!`))*?\]\((?:\\[\s\S]|[^\\\(\)]|\((?:\\[\s\S]|[^\\\(\)])*\))*\)/).replace("precode-", Kn ? "(?<!`)()" : "(^^|[^`])").replace("code", /(?<b>`+)[^`]+\k<b>(?!`)/).replace("html", /<(?! )[^<>]*?>/).getRegex(), Dr = /^(?:\*+(?:((?!\*)punct)|([^\s*]))?)|^_+(?:((?!_)punct)|([^\s_]))?/, Or = G(Dr, "u").replace(/punct/g, yr).getRegex(), kr = G(Dr, "u").replace(/punct/g, Cr).getRegex(), Ar = "^[^_*]*?__[^_*]*?\\*[^_*]*?(?=__)|[^*]+(?=[^*])|(?!\\*)punct(\\*+)(?=[\\s]|$)|notPunctSpace(\\*+)(?!\\*)(?=punctSpace|$)|(?!\\*)punctSpace(\\*+)(?=notPunctSpace)|[\\s](\\*+)(?!\\*)(?=punct)|(?!\\*)punct(\\*+)(?!\\*)(?=punct)|notPunctSpace(\\*+)(?=notPunctSpace)", jr = G(Ar, "gu").replace(/notPunctSpace/g, xr).replace(/punctSpace/g, br).replace(/punct/g, yr).getRegex(), Mr = G(Ar, "gu").replace(/notPunctSpace/g, Tr).replace(/punctSpace/g, wr).replace(/punct/g, Cr).getRegex(), Nr = G("^[^_*]*?\\*\\*[^_*]*?_[^_*]*?(?=\\*\\*)|[^_]+(?=[^_])|(?!_)punct(_+)(?=[\\s]|$)|notPunctSpace(_+)(?!_)(?=punctSpace|$)|(?!_)punctSpace(_+)(?=notPunctSpace)|[\\s](_+)(?!_)(?=punct)|(?!_)punct(_+)(?!_)(?=punct)", "gu").replace(/notPunctSpace/g, xr).replace(/punctSpace/g, br).replace(/punct/g, yr).getRegex(), Pr = G(/^~~?(?:((?!~)punct)|[^\s~])/, "u").replace(/punct/g, yr).getRegex(), Fr = G("^[^~]+(?=[^~])|(?!~)punct(~~?)(?=[\\s]|$)|notPunctSpace(~~?)(?!~)(?=punctSpace|$)|(?!~)punctSpace(~~?)(?=notPunctSpace)|[\\s](~~?)(?!~)(?=punct)|(?!~)punct(~~?)(?!~)(?=punct)|notPunctSpace(~~?)(?=notPunctSpace)", "gu").replace(/notPunctSpace/g, xr).replace(/punctSpace/g, br).replace(/punct/g, yr).getRegex(), Ir = G(/\\(punct)/, "gu").replace(/punct/g, yr).getRegex(), Lr = G(/^<(scheme:[^\s\x00-\x1f<>]*|email)>/).replace("scheme", /[a-zA-Z][a-zA-Z0-9+.-]{1,31}/).replace("email", /[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+(@)[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+(?![-_])/).getRegex(), Rr = G(cr).replace("(?:-->|$)", "-->").getRegex(), zr = G("^comment|^</[a-zA-Z][\\w:-]*\\s*>|^<[a-zA-Z][\\w-]*(?:attribute)*?\\s*/?>|^<\\?[\\s\\S]*?\\?>|^<![a-zA-Z]+\\s[\\s\\S]*?>|^<!\\[CDATA\\[[\\s\\S]*?\\]\\]>").replace("comment", Rr).replace("attribute", /\s+[a-zA-Z:_][\w.:-]*(?:\s*=\s*"[^"]*"|\s*=\s*'[^']*'|\s*=\s*[^\s"'=<>`]+)?/).getRegex(), Br = /(?:\[(?:\\[\s\S]|[^\[\]\\])*\]|\\[\s\S]|`+(?!`)[^`]*?`+(?!`)|``+(?=\])|[^\[\]\\`])*?/, Vr = G(/^!?\[(label)\]\(\s*(href)(?:(?:[ \t]+(?:\n[ \t]*)?|\n[ \t]*)(title))?\s*\)/).replace("label", Br).replace("href", /<(?:\\.|[^\n<>\\])+>|[^ \t\n\x00-\x1f]*/).replace("title", /"(?:\\"?|[^"\\])*"|'(?:\\'?|[^'\\])*'|\((?:\\\)?|[^)\\])*\)/).getRegex(), Hr = G(/^!?\[(label)\]\[(ref)\]/).replace("label", Br).replace("ref", ir).getRegex(), Ur = G(/^!?\[(ref)\](?:\[\])?/).replace("ref", ir).getRegex(), Wr = G("reflink|nolink(?!\\()", "g").replace("reflink", Hr).replace("nolink", Ur).getRegex(), Gr = /[hH][tT][tT][pP][sS]?|[fF][tT][pP]/, Kr = {
-	_backpedal: Gn,
-	anyPunctuation: Ir,
-	autolink: Lr,
-	blockSkip: Er,
-	br: _r,
-	code: gr,
-	del: Gn,
-	delLDelim: Gn,
-	delRDelim: Gn,
-	emStrongLDelim: Or,
-	emStrongRDelimAst: jr,
-	emStrongRDelimUnd: Nr,
-	escape: hr,
-	link: Vr,
-	nolink: Ur,
-	punctuation: Sr,
-	reflink: Hr,
-	reflinkSearch: Wr,
-	tag: zr,
-	text: vr,
-	url: Gn
+	paragraph: K(tr).replace("hr", Yn).replace("heading", " *#{1,6} *[^\n]").replace("lheading", $n).replace("|table", "").replace("blockquote", " {0,3}>").replace("|fences", "").replace("|list", "").replace("|html", "").replace("|tag", "").getRegex()
+}, mr = /^\\([!"#$%&'()*+,\-./:;<=>?@\[\]\\^_`{|}~])/, hr = /^(`+)([^`]|[^`][\s\S]*?[^`])\1(?!`)/, gr = /^( {2,}|\\)\n(?!\s*$)/, _r = /^(`+|[^`])(?:(?= {2,}\n)|[\s\S]*?(?:(?=[\\<!\[`*_]|\b_|$)|[^ ](?= {2,}\n)))/, vr = /[\p{P}\p{S}]/u, yr = /[\s\p{P}\p{S}]/u, br = /[^\s\p{P}\p{S}]/u, xr = K(/^((?![*_])punctSpace)/, "u").replace(/punctSpace/g, yr).getRegex(), Sr = /(?!~)[\p{P}\p{S}]/u, Cr = /(?!~)[\s\p{P}\p{S}]/u, wr = /(?:[^\s\p{P}\p{S}]|~)/u, Tr = K(/link|precode-code|html/, "g").replace("link", /\[(?:[^\[\]`]|(?<a>`+)[^`]+\k<a>(?!`))*?\]\((?:\\[\s\S]|[^\\\(\)]|\((?:\\[\s\S]|[^\\\(\)])*\))*\)/).replace("precode-", Gn ? "(?<!`)()" : "(^^|[^`])").replace("code", /(?<b>`+)[^`]+\k<b>(?!`)/).replace("html", /<(?! )[^<>]*?>/).getRegex(), Er = /^(?:\*+(?:((?!\*)punct)|([^\s*]))?)|^_+(?:((?!_)punct)|([^\s_]))?/, Dr = K(Er, "u").replace(/punct/g, vr).getRegex(), Or = K(Er, "u").replace(/punct/g, Sr).getRegex(), kr = "^[^_*]*?__[^_*]*?\\*[^_*]*?(?=__)|[^*]+(?=[^*])|(?!\\*)punct(\\*+)(?=[\\s]|$)|notPunctSpace(\\*+)(?!\\*)(?=punctSpace|$)|(?!\\*)punctSpace(\\*+)(?=notPunctSpace)|[\\s](\\*+)(?!\\*)(?=punct)|(?!\\*)punct(\\*+)(?!\\*)(?=punct)|notPunctSpace(\\*+)(?=notPunctSpace)", Ar = K(kr, "gu").replace(/notPunctSpace/g, br).replace(/punctSpace/g, yr).replace(/punct/g, vr).getRegex(), jr = K(kr, "gu").replace(/notPunctSpace/g, wr).replace(/punctSpace/g, Cr).replace(/punct/g, Sr).getRegex(), Mr = K("^[^_*]*?\\*\\*[^_*]*?_[^_*]*?(?=\\*\\*)|[^_]+(?=[^_])|(?!_)punct(_+)(?=[\\s]|$)|notPunctSpace(_+)(?!_)(?=punctSpace|$)|(?!_)punctSpace(_+)(?=notPunctSpace)|[\\s](_+)(?!_)(?=punct)|(?!_)punct(_+)(?!_)(?=punct)", "gu").replace(/notPunctSpace/g, br).replace(/punctSpace/g, yr).replace(/punct/g, vr).getRegex(), Nr = K(/^~~?(?:((?!~)punct)|[^\s~])/, "u").replace(/punct/g, vr).getRegex(), Pr = K("^[^~]+(?=[^~])|(?!~)punct(~~?)(?=[\\s]|$)|notPunctSpace(~~?)(?!~)(?=punctSpace|$)|(?!~)punctSpace(~~?)(?=notPunctSpace)|[\\s](~~?)(?!~)(?=punct)|(?!~)punct(~~?)(?!~)(?=punct)|notPunctSpace(~~?)(?=notPunctSpace)", "gu").replace(/notPunctSpace/g, br).replace(/punctSpace/g, yr).replace(/punct/g, vr).getRegex(), Fr = K(/\\(punct)/, "gu").replace(/punct/g, vr).getRegex(), Ir = K(/^<(scheme:[^\s\x00-\x1f<>]*|email)>/).replace("scheme", /[a-zA-Z][a-zA-Z0-9+.-]{1,31}/).replace("email", /[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+(@)[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+(?![-_])/).getRegex(), Lr = K(sr).replace("(?:-->|$)", "-->").getRegex(), Rr = K("^comment|^</[a-zA-Z][\\w:-]*\\s*>|^<[a-zA-Z][\\w-]*(?:attribute)*?\\s*/?>|^<\\?[\\s\\S]*?\\?>|^<![a-zA-Z]+\\s[\\s\\S]*?>|^<!\\[CDATA\\[[\\s\\S]*?\\]\\]>").replace("comment", Lr).replace("attribute", /\s+[a-zA-Z:_][\w.:-]*(?:\s*=\s*"[^"]*"|\s*=\s*'[^']*'|\s*=\s*[^\s"'=<>`]+)?/).getRegex(), zr = /(?:\[(?:\\[\s\S]|[^\[\]\\])*\]|\\[\s\S]|`+(?!`)[^`]*?`+(?!`)|``+(?=\])|[^\[\]\\`])*?/, Br = K(/^!?\[(label)\]\(\s*(href)(?:(?:[ \t]+(?:\n[ \t]*)?|\n[ \t]*)(title))?\s*\)/).replace("label", zr).replace("href", /<(?:\\.|[^\n<>\\])+>|[^ \t\n\x00-\x1f]*/).replace("title", /"(?:\\"?|[^"\\])*"|'(?:\\'?|[^'\\])*'|\((?:\\\)?|[^)\\])*\)/).getRegex(), Vr = K(/^!?\[(label)\]\[(ref)\]/).replace("label", zr).replace("ref", rr).getRegex(), Hr = K(/^!?\[(ref)\](?:\[\])?/).replace("ref", rr).getRegex(), Ur = K("reflink|nolink(?!\\()", "g").replace("reflink", Vr).replace("nolink", Hr).getRegex(), Wr = /[hH][tT][tT][pP][sS]?|[fF][tT][pP]/, Gr = {
+	_backpedal: Wn,
+	anyPunctuation: Fr,
+	autolink: Ir,
+	blockSkip: Tr,
+	br: gr,
+	code: hr,
+	del: Wn,
+	delLDelim: Wn,
+	delRDelim: Wn,
+	emStrongLDelim: Dr,
+	emStrongRDelimAst: Ar,
+	emStrongRDelimUnd: Mr,
+	escape: mr,
+	link: Br,
+	nolink: Hr,
+	punctuation: xr,
+	reflink: Vr,
+	reflinkSearch: Ur,
+	tag: Rr,
+	text: _r,
+	url: Wn
+}, Kr = {
+	...Gr,
+	link: K(/^!?\[(label)\]\((.*?)\)/).replace("label", zr).getRegex(),
+	reflink: K(/^!?\[(label)\]\s*\[([^\]]*)\]/).replace("label", zr).getRegex()
 }, qr = {
-	...Kr,
-	link: G(/^!?\[(label)\]\((.*?)\)/).replace("label", Br).getRegex(),
-	reflink: G(/^!?\[(label)\]\s*\[([^\]]*)\]/).replace("label", Br).getRegex()
-}, Jr = {
-	...Kr,
-	emStrongRDelimAst: Mr,
-	emStrongLDelim: kr,
-	delLDelim: Pr,
-	delRDelim: Fr,
-	url: G(/^((?:protocol):\/\/|www\.)(?:[a-zA-Z0-9\-]+\.?)+[^\s<]*|^email/).replace("protocol", Gr).replace("email", /[A-Za-z0-9._+-]+(@)[a-zA-Z0-9-_]+(?:\.[a-zA-Z0-9-_]*[a-zA-Z0-9])+(?![-_])/).getRegex(),
+	...Gr,
+	emStrongRDelimAst: jr,
+	emStrongLDelim: Or,
+	delLDelim: Nr,
+	delRDelim: Pr,
+	url: K(/^((?:protocol):\/\/|www\.)(?:[a-zA-Z0-9\-]+\.?)+[^\s<]*|^email/).replace("protocol", Wr).replace("email", /[A-Za-z0-9._+-]+(@)[a-zA-Z0-9-_]+(?:\.[a-zA-Z0-9-_]*[a-zA-Z0-9])+(?![-_])/).getRegex(),
 	_backpedal: /(?:[^?!.,:;*_'"~()&]+|\([^)]*\)|&(?![a-zA-Z0-9]+;$)|[?!.,:;*_'"~)]+(?!$))+/,
 	del: /^(~~?)(?=[^\s~])((?:\\[\s\S]|[^\\])*?(?:\\[\s\S]|[^\s~\\]))\1(?=[^~]|$)/,
-	text: G(/^([`~]+|[^`~])(?:(?= {2,}\n)|(?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@)|[\s\S]*?(?:(?=[\\<!\[`*~_]|\b_|protocol:\/\/|www\.|$)|[^ ](?= {2,}\n)|[^a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-](?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@)))/).replace("protocol", Gr).getRegex()
+	text: K(/^([`~]+|[^`~])(?:(?= {2,}\n)|(?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@)|[\s\S]*?(?:(?=[\\<!\[`*~_]|\b_|protocol:\/\/|www\.|$)|[^ ](?= {2,}\n)|[^a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-](?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@)))/).replace("protocol", Wr).getRegex()
+}, Jr = {
+	...qr,
+	br: K(gr).replace("{2,}", "*").getRegex(),
+	text: K(qr.text).replace("\\b_", "\\b_| {2,}\\n").replace(/\{2,\}/g, "*").getRegex()
 }, Yr = {
-	...Jr,
-	br: G(_r).replace("{2,}", "*").getRegex(),
-	text: G(Jr.text).replace("\\b_", "\\b_| {2,}\\n").replace(/\{2,\}/g, "*").getRegex()
+	normal: ur,
+	gfm: fr,
+	pedantic: pr
 }, Xr = {
-	normal: dr,
-	gfm: pr,
-	pedantic: mr
+	normal: Gr,
+	gfm: qr,
+	breaks: Jr,
+	pedantic: Kr
 }, Zr = {
-	normal: Kr,
-	gfm: Jr,
-	breaks: Yr,
-	pedantic: qr
-}, Qr = {
 	"&": "&amp;",
 	"<": "&lt;",
 	">": "&gt;",
 	"\"": "&quot;",
 	"'": "&#39;"
-}, $r = (e) => Qr[e];
-function q(e, t) {
+}, Qr = (e) => Zr[e];
+function J(e, t) {
 	if (t) {
-		if (K.escapeTest.test(e)) return e.replace(K.escapeReplace, $r);
-	} else if (K.escapeTestNoEncode.test(e)) return e.replace(K.escapeReplaceNoEncode, $r);
+		if (q.escapeTest.test(e)) return e.replace(q.escapeReplace, Qr);
+	} else if (q.escapeTestNoEncode.test(e)) return e.replace(q.escapeReplaceNoEncode, Qr);
 	return e;
 }
-function ei(e) {
+function $r(e) {
 	try {
-		e = encodeURI(e).replace(K.percentDecode, "%");
+		e = encodeURI(e).replace(q.percentDecode, "%");
 	} catch {
 		return null;
 	}
 	return e;
 }
-function ti(e, t) {
-	let n = e.replace(K.findPipe, (e, t, n) => {
+function ei(e, t) {
+	let n = e.replace(q.findPipe, (e, t, n) => {
 		let r = !1, i = t;
 		for (; --i >= 0 && n[i] === "\\";) r = !r;
 		return r ? "|" : " |";
-	}).split(K.splitPipe), r = 0;
+	}).split(q.splitPipe), r = 0;
 	if (n[0].trim() || n.shift(), n.length > 0 && !n.at(-1)?.trim() && n.pop(), t) if (n.length > t) n.splice(t);
 	else for (; n.length < t;) n.push("");
-	for (; r < n.length; r++) n[r] = n[r].trim().replace(K.slashPipe, "|");
+	for (; r < n.length; r++) n[r] = n[r].trim().replace(q.slashPipe, "|");
 	return n;
 }
-function ni(e, t, n) {
+function ti(e, t, n) {
 	let r = e.length;
 	if (r === 0) return "";
 	let i = 0;
@@ -3322,12 +3466,12 @@ function ni(e, t, n) {
 	}
 	return e.slice(0, r - i);
 }
-function ri(e) {
+function ni(e) {
 	let t = e.split("\n"), n = t.length - 1;
 	for (; n >= 0 && !t[n].trim();) n--;
 	return t.length - n <= 2 ? e : t.slice(0, n + 1).join("\n");
 }
-function ii(e, t) {
+function ri(e, t) {
 	if (e.indexOf(t[1]) === -1) return -1;
 	let n = 0;
 	for (let r = 0; r < e.length; r++) if (e[r] === "\\") r++;
@@ -3335,7 +3479,7 @@ function ii(e, t) {
 	else if (e[r] === t[1] && (n--, n < 0)) return r;
 	return n > 0 ? -2 : -1;
 }
-function ai(e, t = 0) {
+function ii(e, t = 0) {
 	let n = t, r = "";
 	for (let t of e) if (t === "	") {
 		let e = 4 - n % 4;
@@ -3343,7 +3487,7 @@ function ai(e, t = 0) {
 	} else r += t, n++;
 	return r;
 }
-function oi(e, t, n, r, i) {
+function ai(e, t, n, r, i) {
 	let a = t.href, o = t.title || null, s = e[1].replace(i.other.outputLinkReplace, "$1");
 	r.state.inLink = !0;
 	let c = {
@@ -3356,7 +3500,7 @@ function oi(e, t, n, r, i) {
 	};
 	return r.state.inLink = !1, c;
 }
-function si(e, t, n) {
+function oi(e, t, n) {
 	let r = e.match(n.other.indentCodeCompensation);
 	if (r === null) return t;
 	let i = r[1];
@@ -3367,12 +3511,12 @@ function si(e, t, n) {
 		return r.length >= i.length ? e.slice(i.length) : e;
 	}).join("\n");
 }
-var ci = class {
+var si = class {
 	options;
 	rules;
 	lexer;
 	constructor(e) {
-		this.options = e || Un;
+		this.options = e || Hn;
 	}
 	space(e) {
 		let t = this.rules.block.newline.exec(e);
@@ -3384,7 +3528,7 @@ var ci = class {
 	code(e) {
 		let t = this.rules.block.code.exec(e);
 		if (t) {
-			let e = this.options.pedantic ? t[0] : ri(t[0]);
+			let e = this.options.pedantic ? t[0] : ni(t[0]);
 			return {
 				type: "code",
 				raw: e,
@@ -3396,7 +3540,7 @@ var ci = class {
 	fences(e) {
 		let t = this.rules.block.fences.exec(e);
 		if (t) {
-			let e = t[0], n = si(e, t[3] || "", this.rules);
+			let e = t[0], n = oi(e, t[3] || "", this.rules);
 			return {
 				type: "code",
 				raw: e,
@@ -3410,12 +3554,12 @@ var ci = class {
 		if (t) {
 			let e = t[2].trim();
 			if (this.rules.other.endingHash.test(e)) {
-				let t = ni(e, "#");
+				let t = ti(e, "#");
 				(this.options.pedantic || !t || this.rules.other.endingSpaceChar.test(t)) && (e = t.trim());
 			}
 			return {
 				type: "heading",
-				raw: ni(t[0], "\n"),
+				raw: ti(t[0], "\n"),
 				depth: t[1].length,
 				text: e,
 				tokens: this.lexer.inline(e)
@@ -3426,13 +3570,13 @@ var ci = class {
 		let t = this.rules.block.hr.exec(e);
 		if (t) return {
 			type: "hr",
-			raw: ni(t[0], "\n")
+			raw: ti(t[0], "\n")
 		};
 	}
 	blockquote(e) {
 		let t = this.rules.block.blockquote.exec(e);
 		if (t) {
-			let e = ni(t[0], "\n").split("\n"), n = "", r = "", i = [];
+			let e = ti(t[0], "\n").split("\n"), n = "", r = "", i = [];
 			for (; e.length > 0;) {
 				let t = !1, a = [], o;
 				for (o = 0; o < e.length; o++) if (this.rules.other.blockquoteStart.test(e[o])) a.push(e[o]), t = !0;
@@ -3482,7 +3626,7 @@ ${c}` : c;
 				let n = !1, r = "", s = "";
 				if (!(t = a.exec(e)) || this.rules.block.hr.test(e)) break;
 				r = t[0], e = e.substring(r.length);
-				let c = ai(t[2].split("\n", 1)[0], t[1].length), l = e.split("\n", 1)[0], u = !c.trim(), d = 0;
+				let c = ii(t[2].split("\n", 1)[0], t[1].length), l = e.split("\n", 1)[0], u = !c.trim(), d = 0;
 				if (this.options.pedantic ? (d = 2, s = c.trimStart()) : u ? d = t[1].length + 1 : (d = c.search(this.rules.other.nonSpaceChar), d = d > 4 ? 1 : d, s = c.slice(d), d += t[1].length), u && this.rules.other.blankLine.test(l) && (r += l + "\n", e = e.substring(l.length + 1), n = !0), !n) {
 					let t = this.rules.other.nextBulletRegex(d), n = this.rules.other.hrRegex(d), i = this.rules.other.fencesBeginRegex(d), a = this.rules.other.headingBeginRegex(d), o = this.rules.other.htmlBeginRegex(d), f = this.rules.other.blockquoteBeginRegex(d);
 					for (; e;) {
@@ -3548,7 +3692,7 @@ ${c}` : c;
 	html(e) {
 		let t = this.rules.block.html.exec(e);
 		if (t) {
-			let e = ri(t[0]);
+			let e = ni(t[0]);
 			return {
 				type: "html",
 				block: !0,
@@ -3565,7 +3709,7 @@ ${c}` : c;
 			return {
 				type: "def",
 				tag: e,
-				raw: ni(t[0], "\n"),
+				raw: ti(t[0], "\n"),
 				href: n,
 				title: r
 			};
@@ -3574,9 +3718,9 @@ ${c}` : c;
 	table(e) {
 		let t = this.rules.block.table.exec(e);
 		if (!t || !this.rules.other.tableDelimiter.test(t[2])) return;
-		let n = ti(t[1]), r = t[2].replace(this.rules.other.tableAlignChars, "").split("|"), i = t[3]?.trim() ? t[3].replace(this.rules.other.tableRowBlankLine, "").split("\n") : [], a = {
+		let n = ei(t[1]), r = t[2].replace(this.rules.other.tableAlignChars, "").split("|"), i = t[3]?.trim() ? t[3].replace(this.rules.other.tableRowBlankLine, "").split("\n") : [], a = {
 			type: "table",
-			raw: ni(t[0], "\n"),
+			raw: ti(t[0], "\n"),
 			header: [],
 			align: [],
 			rows: []
@@ -3589,7 +3733,7 @@ ${c}` : c;
 				header: !0,
 				align: a.align[e]
 			});
-			for (let e of i) a.rows.push(ti(e, a.header.length).map((e, t) => ({
+			for (let e of i) a.rows.push(ei(e, a.header.length).map((e, t) => ({
 				text: e,
 				tokens: this.lexer.inline(e),
 				header: !1,
@@ -3604,7 +3748,7 @@ ${c}` : c;
 			let e = t[1].trim();
 			return {
 				type: "heading",
-				raw: ni(t[0], "\n"),
+				raw: ti(t[0], "\n"),
 				depth: t[2].charAt(0) === "=" ? 1 : 2,
 				text: e,
 				tokens: this.lexer.inline(e)
@@ -3657,10 +3801,10 @@ ${c}` : c;
 			let e = t[2].trim();
 			if (!this.options.pedantic && this.rules.other.startAngleBracket.test(e)) {
 				if (!this.rules.other.endAngleBracket.test(e)) return;
-				let t = ni(e.slice(0, -1), "\\");
+				let t = ti(e.slice(0, -1), "\\");
 				if ((e.length - t.length) % 2 == 0) return;
 			} else {
-				let e = ii(t[2], "()");
+				let e = ri(t[2], "()");
 				if (e === -2) return;
 				if (e > -1) {
 					let n = (t[0].indexOf("!") === 0 ? 5 : 4) + t[1].length + e;
@@ -3672,7 +3816,7 @@ ${c}` : c;
 				let e = this.rules.other.pedanticHrefTitle.exec(n);
 				e && (n = e[1], r = e[3]);
 			} else r = t[3] ? t[3].slice(1, -1) : "";
-			return n = n.trim(), this.rules.other.startAngleBracket.test(n) && (n = this.options.pedantic && !this.rules.other.endAngleBracket.test(e) ? n.slice(1) : n.slice(1, -1)), oi(t, {
+			return n = n.trim(), this.rules.other.startAngleBracket.test(n) && (n = this.options.pedantic && !this.rules.other.endAngleBracket.test(e) ? n.slice(1) : n.slice(1, -1)), ai(t, {
 				href: n && n.replace(this.rules.inline.anyPunctuation, "$1"),
 				title: r && r.replace(this.rules.inline.anyPunctuation, "$1")
 			}, t[0], this.lexer, this.rules);
@@ -3690,7 +3834,7 @@ ${c}` : c;
 					text: e
 				};
 			}
-			return oi(n, e, n[0], this.lexer, this.rules);
+			return ai(n, e, n[0], this.lexer, this.rules);
 		}
 	}
 	emStrong(e, t, n = "") {
@@ -3822,29 +3966,29 @@ ${c}` : c;
 			};
 		}
 	}
-}, J = class e {
+}, Y = class e {
 	tokens;
 	options;
 	state;
 	inlineQueue;
 	tokenizer;
 	constructor(e) {
-		this.tokens = [], this.tokens.links = Object.create(null), this.options = e || Un, this.options.tokenizer = this.options.tokenizer || new ci(), this.tokenizer = this.options.tokenizer, this.tokenizer.options = this.options, this.tokenizer.lexer = this, this.inlineQueue = [], this.state = {
+		this.tokens = [], this.tokens.links = Object.create(null), this.options = e || Hn, this.options.tokenizer = this.options.tokenizer || new si(), this.tokenizer = this.options.tokenizer, this.tokenizer.options = this.options, this.tokenizer.lexer = this, this.inlineQueue = [], this.state = {
 			inLink: !1,
 			inRawBlock: !1,
 			top: !0
 		};
 		let t = {
-			other: K,
-			block: Xr.normal,
-			inline: Zr.normal
+			other: q,
+			block: Yr.normal,
+			inline: Xr.normal
 		};
-		this.options.pedantic ? (t.block = Xr.pedantic, t.inline = Zr.pedantic) : this.options.gfm && (t.block = Xr.gfm, this.options.breaks ? t.inline = Zr.breaks : t.inline = Zr.gfm), this.tokenizer.rules = t;
+		this.options.pedantic ? (t.block = Yr.pedantic, t.inline = Xr.pedantic) : this.options.gfm && (t.block = Yr.gfm, this.options.breaks ? t.inline = Xr.breaks : t.inline = Xr.gfm), this.tokenizer.rules = t;
 	}
 	static get rules() {
 		return {
-			block: Xr,
-			inline: Zr
+			block: Yr,
+			inline: Xr
 		};
 	}
 	static lex(t, n) {
@@ -3854,7 +3998,7 @@ ${c}` : c;
 		return new e(n).inlineTokens(t);
 	}
 	lex(e) {
-		e = e.replace(K.carriageReturn, "\n"), this.blockTokens(e, this.tokens);
+		e = e.replace(q.carriageReturn, "\n"), this.blockTokens(e, this.tokens);
 		for (let e = 0; e < this.inlineQueue.length; e++) {
 			let t = this.inlineQueue[e];
 			this.inlineTokens(t.src, t.tokens);
@@ -3862,7 +4006,7 @@ ${c}` : c;
 		return this.inlineQueue = [], this.tokens;
 	}
 	blockTokens(e, t = [], n = !1) {
-		for (this.tokenizer.lexer = this, this.options.pedantic && (e = e.replace(K.tabCharGlobal, "    ").replace(K.spaceLine, "")); e;) {
+		for (this.tokenizer.lexer = this, this.options.pedantic && (e = e.replace(q.tabCharGlobal, "    ").replace(q.spaceLine, "")); e;) {
 			let r;
 			if (this.options.extensions?.block?.some((n) => (r = n.call({ lexer: this }, e, t)) ? (e = e.substring(r.raw.length), t.push(r), !0) : !1)) continue;
 			if (r = this.tokenizer.space(e)) {
@@ -4033,18 +4177,18 @@ ${c}` : c;
 		}
 		return t;
 	}
-}, li = class {
+}, ci = class {
 	options;
 	parser;
 	constructor(e) {
-		this.options = e || Un;
+		this.options = e || Hn;
 	}
 	space(e) {
 		return "";
 	}
 	code({ text: e, lang: t, escaped: n }) {
-		let r = (t || "").match(K.notSpaceStart)?.[0], i = e.replace(K.endingNewline, "") + "\n";
-		return r ? "<pre><code class=\"language-" + q(r) + "\">" + (n ? i : q(i, !0)) + "</code></pre>\n" : "<pre><code>" + (n ? i : q(i, !0)) + "</code></pre>\n";
+		let r = (t || "").match(q.notSpaceStart)?.[0], i = e.replace(q.endingNewline, "") + "\n";
+		return r ? "<pre><code class=\"language-" + J(r) + "\">" + (n ? i : J(i, !0)) + "</code></pre>\n" : "<pre><code>" + (n ? i : J(i, !0)) + "</code></pre>\n";
 	}
 	blockquote({ tokens: e }) {
 		return `<blockquote>
@@ -4114,7 +4258,7 @@ ${e}</tr>
 		return `<em>${this.parser.parseInline(e)}</em>`;
 	}
 	codespan({ text: e }) {
-		return `<code>${q(e, !0)}</code>`;
+		return `<code>${J(e, !0)}</code>`;
 	}
 	br(e) {
 		return "<br>";
@@ -4123,24 +4267,24 @@ ${e}</tr>
 		return `<del>${this.parser.parseInline(e)}</del>`;
 	}
 	link({ href: e, title: t, tokens: n }) {
-		let r = this.parser.parseInline(n), i = ei(e);
+		let r = this.parser.parseInline(n), i = $r(e);
 		if (i === null) return r;
 		e = i;
 		let a = "<a href=\"" + e + "\"";
-		return t && (a += " title=\"" + q(t) + "\""), a += ">" + r + "</a>", a;
+		return t && (a += " title=\"" + J(t) + "\""), a += ">" + r + "</a>", a;
 	}
 	image({ href: e, title: t, text: n, tokens: r }) {
 		r && (n = this.parser.parseInline(r, this.parser.textRenderer));
-		let i = ei(e);
-		if (i === null) return q(n);
+		let i = $r(e);
+		if (i === null) return J(n);
 		e = i;
-		let a = `<img src="${e}" alt="${q(n)}"`;
-		return t && (a += ` title="${q(t)}"`), a += ">", a;
+		let a = `<img src="${e}" alt="${J(n)}"`;
+		return t && (a += ` title="${J(t)}"`), a += ">", a;
 	}
 	text(e) {
-		return "tokens" in e && e.tokens ? this.parser.parseInline(e.tokens) : "escaped" in e && e.escaped ? e.text : q(e.text);
+		return "tokens" in e && e.tokens ? this.parser.parseInline(e.tokens) : "escaped" in e && e.escaped ? e.text : J(e.text);
 	}
-}, ui = class {
+}, li = class {
 	strong({ text: e }) {
 		return e;
 	}
@@ -4171,12 +4315,12 @@ ${e}</tr>
 	checkbox({ raw: e }) {
 		return e;
 	}
-}, Y = class e {
+}, X = class e {
 	options;
 	renderer;
 	textRenderer;
 	constructor(e) {
-		this.options = e || Un, this.options.renderer = this.options.renderer || new li(), this.renderer = this.options.renderer, this.renderer.options = this.options, this.renderer.parser = this, this.textRenderer = new ui();
+		this.options = e || Hn, this.options.renderer = this.options.renderer || new ci(), this.renderer = this.options.renderer, this.renderer.options = this.options, this.renderer.parser = this, this.textRenderer = new li();
 	}
 	static parse(t, n) {
 		return new e(n).parse(t);
@@ -4322,11 +4466,11 @@ ${e}</tr>
 		}
 		return n;
 	}
-}, di = class {
+}, ui = class {
 	options;
 	block;
 	constructor(e) {
-		this.options = e || Un;
+		this.options = e || Hn;
 	}
 	static passThroughHooks = new Set([
 		"preprocess",
@@ -4352,22 +4496,22 @@ ${e}</tr>
 		return e;
 	}
 	provideLexer(e = this.block) {
-		return e ? J.lex : J.lexInline;
+		return e ? Y.lex : Y.lexInline;
 	}
 	provideParser(e = this.block) {
-		return e ? Y.parse : Y.parseInline;
+		return e ? X.parse : X.parseInline;
 	}
-}, fi = new class {
-	defaults = Hn();
+}, di = new class {
+	defaults = Vn();
 	options = this.setOptions;
 	parse = this.parseMarkdown(!0);
 	parseInline = this.parseMarkdown(!1);
-	Parser = Y;
-	Renderer = li;
-	TextRenderer = ui;
-	Lexer = J;
-	Tokenizer = ci;
-	Hooks = di;
+	Parser = X;
+	Renderer = ci;
+	TextRenderer = li;
+	Lexer = Y;
+	Tokenizer = si;
+	Hooks = ui;
 	constructor(...e) {
 		this.use(...e);
 	}
@@ -4418,7 +4562,7 @@ ${e}</tr>
 				}
 				"childTokens" in e && e.childTokens && (t.childTokens[e.name] = e.childTokens);
 			}), n.extensions = t), e.renderer) {
-				let t = this.defaults.renderer || new li(this.defaults);
+				let t = this.defaults.renderer || new ci(this.defaults);
 				for (let n in e.renderer) {
 					if (!(n in t)) throw Error(`renderer '${n}' does not exist`);
 					if (["options", "parser"].includes(n)) continue;
@@ -4431,7 +4575,7 @@ ${e}</tr>
 				n.renderer = t;
 			}
 			if (e.tokenizer) {
-				let t = this.defaults.tokenizer || new ci(this.defaults);
+				let t = this.defaults.tokenizer || new si(this.defaults);
 				for (let n in e.tokenizer) {
 					if (!(n in t)) throw Error(`tokenizer '${n}' does not exist`);
 					if ([
@@ -4448,13 +4592,13 @@ ${e}</tr>
 				n.tokenizer = t;
 			}
 			if (e.hooks) {
-				let t = this.defaults.hooks || new di();
+				let t = this.defaults.hooks || new ui();
 				for (let n in e.hooks) {
 					if (!(n in t)) throw Error(`hook '${n}' does not exist`);
 					if (["options", "block"].includes(n)) continue;
 					let r = n, i = e.hooks[r], a = t[r];
-					di.passThroughHooks.has(n) ? t[r] = (e) => {
-						if (this.defaults.async && di.passThroughHooksRespectAsync.has(n)) return (async () => {
+					ui.passThroughHooks.has(n) ? t[r] = (e) => {
+						if (this.defaults.async && ui.passThroughHooksRespectAsync.has(n)) return (async () => {
 							let n = await i.call(t, e);
 							return a.call(t, n);
 						})();
@@ -4491,10 +4635,10 @@ ${e}</tr>
 		}, this;
 	}
 	lexer(e, t) {
-		return J.lex(e, t ?? this.defaults);
+		return Y.lex(e, t ?? this.defaults);
 	}
 	parser(e, t) {
-		return Y.parse(e, t ?? this.defaults);
+		return X.parse(e, t ?? this.defaults);
 	}
 	parseMarkdown(e) {
 		return (t, n) => {
@@ -4506,16 +4650,16 @@ ${e}</tr>
 			if (typeof t > "u" || t === null) return a(/* @__PURE__ */ Error("marked(): input parameter is undefined or null"));
 			if (typeof t != "string") return a(/* @__PURE__ */ Error("marked(): input parameter is of type " + Object.prototype.toString.call(t) + ", string expected"));
 			if (i.hooks && (i.hooks.options = i, i.hooks.block = e), i.async) return (async () => {
-				let n = i.hooks ? await i.hooks.preprocess(t) : t, r = await (i.hooks ? await i.hooks.provideLexer(e) : e ? J.lex : J.lexInline)(n, i), a = i.hooks ? await i.hooks.processAllTokens(r) : r;
+				let n = i.hooks ? await i.hooks.preprocess(t) : t, r = await (i.hooks ? await i.hooks.provideLexer(e) : e ? Y.lex : Y.lexInline)(n, i), a = i.hooks ? await i.hooks.processAllTokens(r) : r;
 				i.walkTokens && await Promise.all(this.walkTokens(a, i.walkTokens));
-				let o = await (i.hooks ? await i.hooks.provideParser(e) : e ? Y.parse : Y.parseInline)(a, i);
+				let o = await (i.hooks ? await i.hooks.provideParser(e) : e ? X.parse : X.parseInline)(a, i);
 				return i.hooks ? await i.hooks.postprocess(o) : o;
 			})().catch(a);
 			try {
 				i.hooks && (t = i.hooks.preprocess(t));
-				let n = (i.hooks ? i.hooks.provideLexer(e) : e ? J.lex : J.lexInline)(t, i);
+				let n = (i.hooks ? i.hooks.provideLexer(e) : e ? Y.lex : Y.lexInline)(t, i);
 				i.hooks && (n = i.hooks.processAllTokens(n)), i.walkTokens && this.walkTokens(n, i.walkTokens);
-				let r = (i.hooks ? i.hooks.provideParser(e) : e ? Y.parse : Y.parseInline)(n, i);
+				let r = (i.hooks ? i.hooks.provideParser(e) : e ? X.parse : X.parseInline)(n, i);
 				return i.hooks && (r = i.hooks.postprocess(r)), r;
 			} catch (e) {
 				return a(e);
@@ -4525,7 +4669,7 @@ ${e}</tr>
 	onError(e, t) {
 		return (n) => {
 			if (n.message += "\nPlease report this to https://github.com/markedjs/marked.", e) {
-				let e = "<p>An error occurred:</p><pre>" + q(n.message + "", !0) + "</pre>";
+				let e = "<p>An error occurred:</p><pre>" + J(n.message + "", !0) + "</pre>";
 				return t ? Promise.resolve(e) : e;
 			}
 			if (t) return Promise.reject(n);
@@ -4533,19 +4677,19 @@ ${e}</tr>
 		};
 	}
 }();
-function X(e, t) {
-	return fi.parse(e, t);
+function Z(e, t) {
+	return di.parse(e, t);
 }
-X.options = X.setOptions = function(e) {
-	return fi.setOptions(e), X.defaults = fi.defaults, Wn(X.defaults), X;
-}, X.getDefaults = Hn, X.defaults = Un, X.use = function(...e) {
-	return fi.use(...e), X.defaults = fi.defaults, Wn(X.defaults), X;
-}, X.walkTokens = function(e, t) {
-	return fi.walkTokens(e, t);
-}, X.parseInline = fi.parseInline, X.Parser = Y, X.parser = Y.parse, X.Renderer = li, X.TextRenderer = ui, X.Lexer = J, X.lexer = J.lex, X.Tokenizer = ci, X.Hooks = di, X.parse = X, X.options, X.setOptions, X.use, X.walkTokens, X.parseInline, Y.parse, J.lex;
+Z.options = Z.setOptions = function(e) {
+	return di.setOptions(e), Z.defaults = di.defaults, Un(Z.defaults), Z;
+}, Z.getDefaults = Vn, Z.defaults = Hn, Z.use = function(...e) {
+	return di.use(...e), Z.defaults = di.defaults, Un(Z.defaults), Z;
+}, Z.walkTokens = function(e, t) {
+	return di.walkTokens(e, t);
+}, Z.parseInline = di.parseInline, Z.Parser = X, Z.parser = X.parse, Z.Renderer = ci, Z.TextRenderer = li, Z.Lexer = Y, Z.lexer = Y.lex, Z.Tokenizer = si, Z.Hooks = ui, Z.parse = Z, Z.options, Z.setOptions, Z.use, Z.walkTokens, Z.parseInline, X.parse, Y.lex;
 //#endregion
 //#region src/utils/warning-renderer.ts
-function pi(e) {
+function fi(e) {
 	let t = document.createElement("template");
 	t.innerHTML = e, t.content.querySelectorAll("script,style,iframe,object,embed,form,meta,base").forEach((e) => e.remove()), t.content.querySelectorAll("*").forEach((e) => {
 		if (Array.from(e.attributes).forEach((t) => {
@@ -4558,7 +4702,7 @@ function pi(e) {
 	let n = document.createElement("div");
 	return n.appendChild(t.content), n.innerHTML;
 }
-function mi(e) {
+function pi(e) {
 	return {
 		yellow: "#f6c90e",
 		orange: "#e17055",
@@ -4567,10 +4711,10 @@ function mi(e) {
 		gray: "var(--disabled-text-color, #9e9e9e)"
 	}[e?.toLowerCase()] ?? "var(--primary-text-color, #fff)";
 }
-function hi(e, t, n, r, i = 0) {
+function mi(e, t, n, r, i = 0) {
 	let a = e.attributes;
 	if (!a.has_warning) return null;
-	let o = mi(a.icon_color), s = a.icon || "mdi:alert", c = a.warning_type || a.level_name || e.state, l = !!n[t], u = !!(a.html_text || a.text || a.links?.length);
+	let o = pi(a.icon_color), s = a.icon || "mdi:alert", c = a.warning_type || a.level_name || e.state, l = !!n[t], u = !!(a.html_text || a.text || a.links?.length);
 	return C`
     <li style="margin-bottom: 12px;">
       <div style="display: flex; align-items: center; gap: 8px;">
@@ -4602,13 +4746,13 @@ function hi(e, t, n, r, i = 0) {
             <div style="margin-top: 6px; font-size: 13px; opacity: 0.85;">
               ${a.valid_from || a.valid_to ? C`
                     <div style="margin-bottom: 4px;">
-                      ${a.valid_from ? C`<strong>${I("valid_from")}: </strong>${new Date(a.valid_from).toLocaleString()}&nbsp;` : ""}
-                      ${a.valid_to ? C`<strong>${I("valid_to")}: </strong>${new Date(a.valid_to).toLocaleString()}` : ""}
+                      ${a.valid_from ? C`<strong>${I("warning.valid_from")}: </strong>${new Date(a.valid_from).toLocaleString()}&nbsp;` : ""}
+                      ${a.valid_to ? C`<strong>${I("warning.valid_to")}: </strong>${new Date(a.valid_to).toLocaleString()}` : ""}
                     </div>
                   ` : ""}
               ${a.html_text ? C`<div
                     style="line-height: 1.4; margin-bottom: 4px;"
-                    .innerHTML="${pi(a.html_text)}"
+                    .innerHTML="${fi(a.html_text)}"
                   ></div>` : a.text ? C`<div style="line-height: 1.4; margin-bottom: 4px;">${a.text}</div>` : ""}
               ${a.links?.length ? C`
                     <div style="display: flex; flex-direction: column; gap: 2px;">
@@ -4630,7 +4774,7 @@ function hi(e, t, n, r, i = 0) {
     </li>
   `;
 }
-function gi(e, t, n, r, i) {
+function hi(e, t, n, r, i) {
 	let a = e.attributes;
 	if (!a.has_warning) return null;
 	let o = {
@@ -4641,18 +4785,18 @@ function gi(e, t, n, r, i) {
 	}[a.icon_color?.toLowerCase()] ?? "info", s = !!t?.attributes?.has_warning, c = !!n?.attributes?.has_warning, l = a.additional_warning_count ?? 0, u = Math.max(l - +!!s - !!c, 0), d = 1 + l;
 	return C`
     <div class="warning-section ${o}">
-      <strong>${d === 1 ? I("weather_warning") : I("weather_warnings", { count: d })}</strong>
+      <strong>${d === 1 ? I("warning.weather_warning") : I("warning.weather_warnings", { count: d })}</strong>
       <ul style="margin: 6px 0 0 0; padding-left: 18px;">
         ${[
-		hi(e, "primary", r, i, u),
-		t ? hi(t, "secondary", r, i) : null,
-		n ? hi(n, "tertiary", r, i) : null
+		mi(e, "primary", r, i, u),
+		t ? mi(t, "secondary", r, i) : null,
+		n ? mi(n, "tertiary", r, i) : null
 	].filter(Boolean)}
       </ul>
     </div>
   `;
 }
-function _i(e, t, n) {
+function gi(e, t, n) {
 	let r = [];
 	if (e.attributes.warning_levels && Array.isArray(e.attributes.warning_levels)) for (let t = 0; t < e.attributes.warning_levels.length; t++) r.push({
 		id: `warning_${t}`,
@@ -4689,7 +4833,7 @@ function _i(e, t, n) {
 	};
 	return C`
     <div class="warning-section ${a}">
-      <strong>${I("weather_warning")}</strong>
+      <strong>${I("warning.weather_warning")}</strong>
       <ul style="margin: 6px 0 0 0; padding-left: 18px;">
         ${r.map((e) => C`
             <li style="margin-bottom: 12px;">
@@ -4722,14 +4866,14 @@ function _i(e, t, n) {
               </div>
               ${t[e.id] && e.description ? C`
                     <div>
-                      <strong>${I("valid_from")}: </strong>
+                      <strong>${I("warning.valid_from")}: </strong>
                       ${e.valid_from ? new Date(e.valid_from).toLocaleString() : I("unknown")}
-                      <strong>${I("valid_to")}: </strong>
+                      <strong>${I("warning.valid_to")}: </strong>
                       ${e.valid_to ? new Date(e.valid_to).toLocaleString() : I("unknown")}
                     </div>
                     <div
                       style="font-size: 14px; line-height: 1.4; margin-top: 4px;"
-                      .innerHTML="${pi(String(X.parse(e.description || "")))}"
+                      .innerHTML="${fi(String(Z.parse(e.description || "")))}"
                     ></div>
                   ` : ""}
             </li>
@@ -4738,14 +4882,14 @@ function _i(e, t, n) {
     </div>
   `;
 }
-function vi(e, t, n, r, i, a) {
-	return t && t.attributes?.has_warning !== void 0 ? gi(t, n, r, i, a) : e ? _i(e, i, a) : null;
+function _i(e, t, n, r, i, a) {
+	return t && t.attributes?.has_warning !== void 0 ? hi(t, n, r, i, a) : e ? gi(e, i, a) : null;
 }
 //#endregion
 //#region src/cards/full-card/swissweather-card.ts
-var yi;
+var vi;
 P({ loader: (e) => V[e] }), console.log("🎯 About to apply @customElement decorator to SwissweatherCard"), console.log("🎯 customElements registry available:", !!customElements);
-var Z = class extends E {
+var yi = class extends E {
 	hass;
 	config;
 	_forecast = [];
@@ -5036,7 +5180,7 @@ var Z = class extends E {
 	}
 	static getStubConfig() {
 		return {
-			type: "custom:" + nn,
+			type: "custom:" + tn,
 			entity: "",
 			show_location: !0,
 			location: "Schweiz",
@@ -5059,10 +5203,10 @@ var Z = class extends E {
 		};
 	}
 	static getConfigElement() {
-		return document.createElement(rn);
+		return document.createElement(nn);
 	}
 	static getConfigSchema() {
-		return H;
+		return U;
 	}
 	_getEntityState(e) {
 		return this.hass?.states[e];
@@ -5088,7 +5232,7 @@ var Z = class extends E {
 		][Math.round(e / 22.5) % 16];
 	}
 	_renderWarningSection(e, t, n, r) {
-		return vi(e, t, n, r, this._openWarnings, this._toggleWarning);
+		return _i(e, t, n, r, this._openWarnings, this._toggleWarning);
 	}
 	_renderForecastTemperature(e) {
 		let t = (e, t) => `${z(e, t)}`;
@@ -5097,7 +5241,7 @@ var Z = class extends E {
           .forecastHours=${e}
           .show_temperature=${this.config.show_temperature !== !1}
           ._t=${z}
-          .showHoursChartLabel=${(e) => on(e, t)}
+          .showHoursChartLabel=${(e) => an(e, t)}
         ></forecast-temperature-chart>` : C``;
 	}
 	_renderForecastPrecipitation(e) {
@@ -5107,7 +5251,7 @@ var Z = class extends E {
           .forecastHours=${e}
           .show_precipitation=${this.config.show_precipitation !== !1}
           ._t=${z}
-          .showHoursChartLabel=${(e) => on(e, t)}
+          .showHoursChartLabel=${(e) => an(e, t)}
         ></precipitation-chart>` : C``;
 	}
 	_renderForecastSunshine(e, t, n) {
@@ -5119,7 +5263,7 @@ var Z = class extends E {
           .weatherEntity=${e}
           .sun_entity=${t}
           ._t=${z}
-          .showHoursChartLabel=${(e) => on(e, r)}
+          .showHoursChartLabel=${(e) => an(e, r)}
         ></sunshine-chart>` : C``;
 	}
 	_renderForecastWind(e) {
@@ -5129,7 +5273,7 @@ var Z = class extends E {
           .forecastHours=${e}
           .show_wind=${this.config.show_wind !== !1}
           ._t=${z}
-          .showHoursChartLabel=${(e) => on(e, t)}
+          .showHoursChartLabel=${(e) => an(e, t)}
         ></wind-chart>` : C``;
 	}
 	_renderCurrentWeather(e, t, n, r, i, a) {
@@ -5198,7 +5342,7 @@ var Z = class extends E {
 		e !== this._loadedLang && (this._loadedLang = e, F(e).then(() => this.requestUpdate()));
 		let t = this._getEntityState(this.config.entity), n = this._getEntityState(this.config.sun_entity || "sun.sun");
 		if (!t) return C`<div>Entity not found: ${this.config.entity}</div>`;
-		let r = this.config.show_location !== !1, i = this.config.location || z("location"), a = t.attributes.temperature, o = t.state, s = this.config.wind_entity ? this._getEntityState(this.config.wind_entity) : null, c = this.config.wind_direction_entity ? this._getEntityState(this.config.wind_direction_entity) : null, l = this.config.sunshine_entity ? this._getEntityState(this.config.sunshine_entity) : null, u = this.config.warning_entity ? this._getEntityState(this.config.warning_entity) : null, d = this.config.primary_warning_entity ? this._getEntityState(this.config.primary_warning_entity) : null, f = this.config.secondary_warning_entity ? this._getEntityState(this.config.secondary_warning_entity) : null, p = this.config.tertiary_warning_entity ? this._getEntityState(this.config.tertiary_warning_entity) : null, m = s ? parseFloat(s.state) : t.attributes.wind_speed || 0, ee = c ? parseFloat(c.state) : t.attributes.wind_bearing || 0, te = t.attributes.humidity || 0, h = t.attributes.pressure || 0, ne = t.attributes.visibility || 0, re = this.config.forecast_hours ?? 6;
+		let r = this.config.show_location !== !1, i = this.config.location || z("location"), a = t.attributes.temperature, o = t.state, s = this.config.wind_entity ? this._getEntityState(this.config.wind_entity) : null, c = this.config.wind_direction_entity ? this._getEntityState(this.config.wind_direction_entity) : null, l = this.config.sunshine_entity ? this._getEntityState(this.config.sunshine_entity) : null, u = this.config.warning_entity ? this._getEntityState(this.config.warning_entity) : null, d = this.config.primary_warning_entity ? this._getEntityState(this.config.primary_warning_entity) : null, f = this.config.secondary_warning_entity ? this._getEntityState(this.config.secondary_warning_entity) : null, p = this.config.tertiary_warning_entity ? this._getEntityState(this.config.tertiary_warning_entity) : null, m = s ? parseFloat(s.state) : t.attributes.wind_speed || 0, ee = c ? parseFloat(c.state) : t.attributes.wind_bearing || 0, h = t.attributes.humidity || 0, g = t.attributes.pressure || 0, te = t.attributes.visibility || 0, ne = this.config.forecast_hours ?? 6;
 		return C`
       ${r ? C`
             <div class="header">
@@ -5217,24 +5361,24 @@ var Z = class extends E {
             class="weather-icon"
             style="color: var(--icon-color, #fff); width: 64px; height: 64px;"
           >
-            ${Rn(o, this.config.enable_animate_weather_icons ? "animated" : "mdi", "64px", Bn(this.hass, this.config))}
+            ${Ln(o, this.config.enable_animate_weather_icons ? "animated" : "mdi", "64px", zn(this.hass, this.config))}
           </div>
         </div>
       </div>
 
-      ${this._renderCurrentWeatherSection(m, ee, te, h, ne, l)}
+      ${this._renderCurrentWeatherSection(m, ee, h, g, te, l)}
       ${this.config.show_temperature !== !1 || this.config.show_precipitation !== !1 || this.config.show_sunshine !== !1 || this.config.show_wind !== !1 || this.config.show_forecast !== !1 ? C`
             <div class="section-title">
               <ha-icon icon="mdi:clock"></ha-icon>
-              ${z("forecast_hours", { hours: re })}
+              ${z("hourly_charts.forecast_hours", { hours: ne })}
             </div>
           ` : ""}
       ${this._getEffectiveChartOrder().map((e) => {
 			switch (e) {
-				case "temperature": return this._renderForecastTemperature(re);
-				case "precipitation": return this._renderForecastPrecipitation(re);
-				case "sunshine": return this._renderForecastSunshine(t, n, re);
-				case "wind": return this._renderForecastWind(re);
+				case "temperature": return this._renderForecastTemperature(ne);
+				case "precipitation": return this._renderForecastPrecipitation(ne);
+				case "sunshine": return this._renderForecastSunshine(t, n, ne);
+				case "wind": return this._renderForecastWind(ne);
 				case "forecast": return this._showDailyForecast();
 				default: return "";
 			}
@@ -5300,8 +5444,8 @@ var Z = class extends E {
           .show_forecast=${this.config.show_forecast !== !1}
           .config=${this.config}
           ._t=${z}
-          .getWeatherIcon=${Rn}
-          .formatDate=${sn}
+          .getWeatherIcon=${Ln}
+          .formatDate=${on}
         ></daily-forecast-chart>` : C``;
 	}
 	_renderDailyForecastDiagram() {
@@ -5310,19 +5454,19 @@ var Z = class extends E {
           .forecast=${[...this._forecast?.slice(0, 7) ?? []]}
           .hourlyForecast=${[...this._hourlyForecast]}
           ._t=${z}
-          .getWeatherIcon=${Rn}
+          .getWeatherIcon=${Ln}
           .standalone=${!1}
         ></daily-forecast-diagram>` : C``;
 	}
 };
-j([O({ attribute: !1 }), A("design:type", Object)], Z.prototype, "hass", void 0), j([O({ attribute: !1 }), A("design:type", Object)], Z.prototype, "config", void 0), j([k(), A("design:type", Array)], Z.prototype, "_forecast", void 0), j([k(), A("design:type", Array)], Z.prototype, "_hourlyForecast", void 0), j([k(), A("design:type", Object)], Z.prototype, "_forecastLoading", void 0), j([k(), A("design:type", typeof (yi = typeof Record < "u" && Record) == "function" ? yi : Object)], Z.prototype, "_openWarnings", void 0), Z = j([D(nn), A("design:paramtypes", [])], Z);
+j([O({ attribute: !1 }), A("design:type", Object)], yi.prototype, "hass", void 0), j([O({ attribute: !1 }), A("design:type", Object)], yi.prototype, "config", void 0), j([k(), A("design:type", Array)], yi.prototype, "_forecast", void 0), j([k(), A("design:type", Array)], yi.prototype, "_hourlyForecast", void 0), j([k(), A("design:type", Object)], yi.prototype, "_forecastLoading", void 0), j([k(), A("design:type", typeof (vi = typeof Record < "u" && Record) == "function" ? vi : Object)], yi.prototype, "_openWarnings", void 0), yi = j([D(tn), A("design:paramtypes", [])], yi);
 //#endregion
 //#region src/cards/forecast-diagram/const.ts
-var bi = `${tn}-forecast-diagram-card`, xi = `${bi}-editor`, Si = [{
+var bi = `${H}-forecast-diagram-card`, xi = `${bi}-editor`, Si = [{
 	name: "entity",
 	required: !0,
 	selector: { entity: { domain: "weather" } },
-	description: "config.descr.entity"
+	description: "forecast_diagram.config.descr.entity"
 }];
 //#endregion
 //#region src/cards/forecast-diagram/forecast-diagram-card-editor.ts
@@ -5490,7 +5634,7 @@ var Ci = class extends E {
 
         <!-- General -->
         <div class="group">
-          <div class="group-title">${I("config.group_general") || "General"}</div>
+          <div class="group-title">${I("forecast_diagram.config.group_general") || "General"}</div>
           <ha-form
             .hass=${this.hass}
             .data=${e}
@@ -5503,7 +5647,7 @@ var Ci = class extends E {
 
         <!-- Sensors -->
         <div class="group">
-          <div class="group-title">${I("config.group_sensors") || "Sensors"}</div>
+          <div class="group-title">${I("forecast_diagram.config.group_sensors") || "Sensors"}</div>
           <ha-form
             .hass=${this.hass}
             .data=${e}
@@ -5525,8 +5669,8 @@ var Ci = class extends E {
     `;
 	}
 	_computeLabel = (e) => ({
-		entity: I("config.entity"),
-		sun_entity: I("config.sun_entity")
+		entity: I("forecast_diagram.config.entity"),
+		sun_entity: I("forecast_diagram.config.sun_entity")
 	})[e.name] || e.name;
 	_computeHelper = (e) => e.description ? I(e.description) : "";
 	_renderConfigPreview() {
@@ -5679,7 +5823,7 @@ var wi = class extends E {
 		};
 	}
 	render() {
-		let e = zn(this.hass, this.config.entity), t = this.config?.grid_options?.rows ?? 3;
+		let e = Rn(this.hass, this.config.entity), t = this.config?.grid_options?.rows ?? 3;
 		return this.style.setProperty("--card-grid-rows", t.toString()), e ? !this._forecast || this._forecast.length === 0 ? C`<div>Loading forecast...</div>` : !this._hourlyForecast || this._hourlyForecast.length === 0 ? C`<div>Loading hourly forecast...</div>` : this._forecast.length > 0 && this._hourlyForecast.length > 0 ? C`<daily-forecast-diagram
           .config=${{
 			...this.config,
@@ -5688,7 +5832,7 @@ var wi = class extends E {
           .forecast=${[...this._forecast?.slice(0, 7) ?? []]}
           .hourlyForecast=${[...this._hourlyForecast]}
           ._t=${z}
-          .getWeatherIcon=${Rn}
+          .getWeatherIcon=${Ln}
           .standalone=${!0}
         ></daily-forecast-diagram>` : C`` : C`<div>Entity not found: ${this.config.entity}</div>`;
 	}
@@ -6226,24 +6370,24 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
   </defs>
   
   ${Q(e)}
-  `, Hi = `${tn}-animated-background-card`, Ui = `${Hi}-editor`, Wi = [
+  `, Hi = `${H}-animated-background-card`, Ui = `${Hi}-editor`, Wi = [
 	{
 		name: "entity",
 		required: !0,
 		selector: { entity: { domain: "weather" } },
-		description: "config.descr.entity"
+		description: "bg_card.config.descr.entity"
 	},
 	{
 		name: "sun_entity",
 		required: !1,
 		selector: { entity: { domain: "sun" } },
-		description: "config.descr.sun_entity"
+		description: "bg_card.config.descr.sun_entity"
 	},
 	{
 		name: "show_sun_times",
 		required: !1,
 		selector: { boolean: {} },
-		description: "config.descr.show_sun_times"
+		description: "bg_card.config.descr.show_sun_times"
 	},
 	{
 		name: "forecast_mode",
@@ -6265,13 +6409,13 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
 				}
 			]
 		} },
-		description: "config.descr.forecast_mode"
+		description: "bg_card.config.descr.forecast_mode"
 	},
 	{
 		name: "show_day_temps",
 		required: !1,
 		selector: { boolean: {} },
-		description: "config.descr.show_day_temps"
+		description: "bg_card.config.descr.show_day_temps"
 	},
 	{
 		name: "temperature_font_size",
@@ -6282,13 +6426,13 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
 			step: 1,
 			mode: "box"
 		} },
-		description: "config.descr.temperature_font_size"
+		description: "bg_card.config.descr.temperature_font_size"
 	},
 	{
 		name: "photo_mode",
 		required: !1,
 		selector: { boolean: {} },
-		description: "config.descr.photo_mode"
+		description: "bg_card.config.descr.photo_mode"
 	}
 ], $ = class extends E {
 	hourlyForecast = [];
@@ -6386,7 +6530,7 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
         ${this.compact ? C`` : C`
               <div class="section-title">
                 <ha-icon icon="mdi:clock-outline"></ha-icon>
-                ${this._t("forecast_hours", { hours: e.length })}
+                ${this._t("hourly_charts.forecast_hours", { hours: e.length })}
               </div>
             `}
         <div class="grid">
@@ -7616,7 +7760,7 @@ var Ki = class extends E {
 		if (F((this.hass.selectedLanguage || this.hass.language || "en").substring(0, 2)), !this.hass || !this.config) return C``;
 		let e = this.config?.grid_options?.rows ?? 3;
 		this.style.setProperty("--card-grid-rows", e.toString());
-		let t = zn(this.hass, this.config.entity), n = t.attributes.temperature, r = t.state, i = Bn(this.hass, this.config), a = this.clientWidth || 300, o = e * 64 - 8, s = this.config?.temperature_font_size, c = typeof s == "number" && s > 0 ? `${s}px` : "36px";
+		let t = Rn(this.hass, this.config.entity), n = t.attributes.temperature, r = t.state, i = zn(this.hass, this.config), a = this.clientWidth || 300, o = e * 64 - 8, s = this.config?.temperature_font_size, c = typeof s == "number" && s > 0 ? `${s}px` : "36px";
 		this.style.setProperty("--bg-temp-font-size", c), this.style.setProperty("--bg-temp-img-top", `calc(${c})`);
 		let l = this._forecast && this._forecast.length > 0 ? this._forecast[0] : t.attributes.forecast ? t.attributes.forecast[0] : null, u = this.config.sun_entity, d = u ? this.hass.states[u] : void 0, f = d?.attributes?.next_rising ? new Date(d.attributes.next_rising) : void 0, p = d?.attributes?.next_setting ? new Date(d.attributes.next_setting) : void 0, m = (this.hass.selectedLanguage || this.hass.language || "en").replace("_", "-"), ee = (e) => e ? e.toLocaleTimeString(m, {
 			hour: "2-digit",
@@ -7650,10 +7794,10 @@ var Ki = class extends E {
                   ` : ""}
               ${u && this.config.show_sun_times !== !1 && r !== "clear-night" ? C`
                     <div class="sun-times">
-                      <span title="${z("sunrise")}">
+                      <span title="${z("bg_card.sunrise")}">
                         <ha-icon icon="mdi:weather-sunset-up"></ha-icon> ${ee(f)}
                       </span>
-                      <span title="${z("sunset")}">
+                      <span title="${z("bg_card.sunset")}">
                         <ha-icon icon="mdi:weather-sunset-down"></ha-icon> ${ee(p)}
                       </span>
                     </div>
@@ -7673,8 +7817,8 @@ var Ki = class extends E {
                         .maxDays=${5}
                         .alignRight=${!0}
                         ._t=${z}
-                        .getWeatherIcon=${Rn}
-                        .formatDate=${sn}
+                        .getWeatherIcon=${Ln}
+                        .formatDate=${on}
                       ></daily-forecast-chart>
                     </div>
                   ` : C``}
@@ -7692,7 +7836,7 @@ var Ki = class extends E {
                         .maxHours=${5}
                         .alignRight=${!0}
                         ._t=${z}
-                        .getWeatherIcon=${Rn}
+                        .getWeatherIcon=${Ln}
                       ></hourly-forecast-chart>
                     </div>
                   ` : C``}
@@ -8097,15 +8241,15 @@ var qi = class extends E {
 					options: [
 						{
 							value: "daily",
-							label: I("forecast_mode.daily")
+							label: I("bg_card.forecast_mode.daily")
 						},
 						{
 							value: "hourly",
-							label: I("forecast_mode.hourly")
+							label: I("bg_card.forecast_mode.hourly")
 						},
 						{
 							value: "none",
-							label: I("forecast_mode.none")
+							label: I("bg_card.forecast_mode.none")
 						}
 					]
 				}
@@ -8121,7 +8265,7 @@ var qi = class extends E {
 
         <!-- General -->
         <div class="group">
-          <div class="group-title">${I("config.group_general") || "General"}</div>
+          <div class="group-title">${I("bg_card.config.group_general") || "General"}</div>
           <ha-form
             .hass=${this.hass}
             .data=${e}
@@ -8138,7 +8282,7 @@ var qi = class extends E {
 
         <!-- Display -->
         <div class="group">
-          <div class="group-title">${I("config.group_display") || "Display"}</div>
+          <div class="group-title">${I("bg_card.config.group_display") || "Display"}</div>
           <ha-form
             .hass=${this.hass}
             .data=${e}
@@ -8165,13 +8309,13 @@ var qi = class extends E {
     `;
 	}
 	_computeLabel = (e) => ({
-		entity: I("config.entity"),
-		sun_entity: I("config.sun_entity"),
-		forecast_mode: I("config.forecast_mode"),
-		show_day_temps: I("config.show_day_temps"),
-		show_sun_times: I("config.show_sun_times"),
-		temperature_font_size: I("config.temperature_font_size"),
-		photo_mode: I("config.photo_mode")
+		entity: I("bg_card.config.entity"),
+		sun_entity: I("bg_card.config.sun_entity"),
+		forecast_mode: I("bg_card.config.forecast_mode"),
+		show_day_temps: I("bg_card.config.show_day_temps"),
+		show_sun_times: I("bg_card.config.show_sun_times"),
+		temperature_font_size: I("bg_card.config.temperature_font_size"),
+		photo_mode: I("bg_card.config.photo_mode")
 	})[e.name] || e.name;
 	_computeHelper = (e) => e.description ? I(e.description) : "";
 	_renderConfigPreview() {
@@ -8200,11 +8344,11 @@ var qi = class extends E {
 j([O({ attribute: !1 }), A("design:type", Object)], qi.prototype, "hass", void 0), j([O({ attribute: !1 }), A("design:type", Object)], qi.prototype, "lovelace", void 0), j([O({ attribute: !1 }), A("design:type", Object)], qi.prototype, "_config", void 0), qi = j([D(Ui), A("design:paramtypes", [])], qi);
 //#endregion
 //#region src/cards/hourly-charts/const.ts
-var Ji = `${tn}-temperature-card`, Yi = `${Ji}-editor`, Xi = `${tn}-precipitation-card`, Zi = `${Xi}-editor`, Qi = `${tn}-sunshine-card`, $i = `${Qi}-editor`, ea = `${tn}-wind-card`, ta = `${ea}-editor`, na = [{
+var Ji = `${H}-temperature-card`, Yi = `${Ji}-editor`, Xi = `${H}-precipitation-card`, Zi = `${Xi}-editor`, Qi = `${H}-sunshine-card`, $i = `${Qi}-editor`, ea = `${H}-wind-card`, ta = `${ea}-editor`, na = [{
 	name: "entity",
 	required: !0,
 	selector: { entity: { domain: "weather" } },
-	description: "config.descr.entity"
+	description: "hourly_charts.config.descr.entity"
 }, {
 	name: "forecast_hours",
 	required: !1,
@@ -8214,12 +8358,12 @@ var Ji = `${tn}-temperature-card`, Yi = `${Ji}-editor`, Xi = `${tn}-precipitatio
 		step: 1,
 		mode: "box"
 	} },
-	description: "config.descr.forecast_hours"
+	description: "hourly_charts.config.descr.forecast_hours"
 }], ra = [{
 	name: "entity",
 	required: !0,
 	selector: { entity: { domain: "weather" } },
-	description: "config.descr.entity"
+	description: "hourly_charts.config.descr.entity"
 }, {
 	name: "forecast_hours",
 	required: !1,
@@ -8229,13 +8373,13 @@ var Ji = `${tn}-temperature-card`, Yi = `${Ji}-editor`, Xi = `${tn}-precipitatio
 		step: 1,
 		mode: "box"
 	} },
-	description: "config.descr.forecast_hours"
+	description: "hourly_charts.config.descr.forecast_hours"
 }], ia = [
 	{
 		name: "entity",
 		required: !0,
 		selector: { entity: { domain: "weather" } },
-		description: "config.descr.entity"
+		description: "hourly_charts.config.descr.entity"
 	},
 	{
 		name: "forecast_hours",
@@ -8246,19 +8390,19 @@ var Ji = `${tn}-temperature-card`, Yi = `${Ji}-editor`, Xi = `${tn}-precipitatio
 			step: 1,
 			mode: "box"
 		} },
-		description: "config.descr.forecast_hours"
+		description: "hourly_charts.config.descr.forecast_hours"
 	},
 	{
 		name: "sun_entity",
 		required: !1,
 		selector: { entity: { domain: "sun" } },
-		description: "config.descr.sun_entity"
+		description: "hourly_charts.config.descr.sun_entity"
 	},
 	{
 		name: "sunshine_entity",
 		required: !1,
 		selector: { entity: { domain: "sensor" } },
-		description: "config.descr.sunshine_entity"
+		description: "hourly_charts.config.descr.sunshine_entity"
 	}
 ], aa = class extends E {
 	hass;
@@ -8380,7 +8524,7 @@ var oa = class extends aa {
 	}
 	render() {
 		if (!this.hass || !this.config) return C``;
-		if (this.setCardGridRows(), !zn(this.hass, this.config.entity)) return C`<div class="card-content">Entity not found: ${this.config.entity}</div>`;
+		if (this.setCardGridRows(), !Rn(this.hass, this.config.entity)) return C`<div class="card-content">Entity not found: ${this.config.entity}</div>`;
 		if (this._hourlyForecast.length === 0) return C`<div class="card-content">Loading...</div>`;
 		let e = this.config.forecast_hours ?? 12;
 		return C`
@@ -8442,8 +8586,8 @@ var sa = class extends E {
           .data=${e}
           .schema=${na}
           .computeLabel=${(e) => ({
-			entity: I("config.entity"),
-			forecast_hours: I("config.forecast_hours") ?? "Forecast hours"
+			entity: I("hourly_charts.config.entity"),
+			forecast_hours: I("hourly_charts.config.forecast_hours") ?? "Forecast hours"
 		})[e.name] ?? e.name}
           @value-changed=${this._valueChanged}
         ></ha-form>
@@ -8537,7 +8681,7 @@ var ca = class extends aa {
 	}
 	render() {
 		if (!this.hass || !this.config) return C``;
-		if (this.setCardGridRows(), !zn(this.hass, this.config.entity)) return C`<div class="card-content">Entity not found: ${this.config.entity}</div>`;
+		if (this.setCardGridRows(), !Rn(this.hass, this.config.entity)) return C`<div class="card-content">Entity not found: ${this.config.entity}</div>`;
 		if (this._hourlyForecast.length === 0) return C`<div class="card-content">Loading...</div>`;
 		let e = this.config.forecast_hours ?? 12;
 		return C`
@@ -8599,8 +8743,8 @@ var la = class extends E {
           .data=${e}
           .schema=${na}
           .computeLabel=${(e) => ({
-			entity: I("config.entity"),
-			forecast_hours: I("config.forecast_hours") ?? "Forecast hours"
+			entity: I("hourly_charts.config.entity"),
+			forecast_hours: I("hourly_charts.config.forecast_hours") ?? "Forecast hours"
 		})[e.name] ?? e.name}
           @value-changed=${this._valueChanged}
         ></ha-form>
@@ -8692,10 +8836,10 @@ var ua = class extends aa {
 	render() {
 		if (!this.hass || !this.config) return C``;
 		this.setCardGridRows();
-		let e = zn(this.hass, this.config.entity);
+		let e = Rn(this.hass, this.config.entity);
 		if (!e) return C`<div class="card-content">Entity not found: ${this.config.entity}</div>`;
 		if (this._hourlyForecast.length === 0) return C`<div class="card-content">Loading...</div>`;
-		let t = this.config.forecast_hours ?? 12, n = this.config.sun_entity ? zn(this.hass, this.config.sun_entity) : null;
+		let t = this.config.forecast_hours ?? 12, n = this.config.sun_entity ? Rn(this.hass, this.config.sun_entity) : null;
 		return C`
       <div class="card-content">
         <sunshine-chart
@@ -8759,10 +8903,10 @@ var da = class extends E {
           .data=${e}
           .schema=${ia}
           .computeLabel=${(e) => ({
-			entity: I("config.entity"),
-			forecast_hours: I("config.forecast_hours") ?? "Forecast hours",
-			sun_entity: I("config.sun_entity") ?? "Sun entity (sunrise/sunset markers)",
-			sunshine_entity: I("config.sunshine_entity") ?? "Sunshine duration sensor (optional)"
+			entity: I("hourly_charts.config.entity"),
+			forecast_hours: I("hourly_charts.config.forecast_hours") ?? "Forecast hours",
+			sun_entity: I("hourly_charts.config.sun_entity") ?? "Sun entity (sunrise/sunset markers)",
+			sunshine_entity: I("hourly_charts.config.sunshine_entity") ?? "Sunshine duration sensor (optional)"
 		})[e.name] ?? e.name}
           @value-changed=${this._valueChanged}
         ></ha-form>
@@ -8916,8 +9060,8 @@ var pa = class extends E {
           .data=${e}
           .schema=${ra}
           .computeLabel=${(e) => ({
-			entity: I("config.entity"),
-			forecast_hours: I("config.forecast_hours") ?? "Forecast hours"
+			entity: I("hourly_charts.config.entity"),
+			forecast_hours: I("hourly_charts.config.forecast_hours") ?? "Forecast hours"
 		})[e.name] ?? e.name}
           @value-changed=${this._valueChanged}
         ></ha-form>
@@ -8939,30 +9083,30 @@ var pa = class extends E {
 j([O({ attribute: !1 }), A("design:type", Object)], pa.prototype, "hass", void 0), j([O({ attribute: !1 }), A("design:type", Object)], pa.prototype, "_config", void 0), pa = j([D(ta)], pa);
 //#endregion
 //#region src/cards/warnings/const.ts
-var ma = `${tn}-warning-card`, ha = `${ma}-editor`, ga = [
+var ma = `${H}-warning-card`, ha = `${ma}-editor`, ga = [
 	{
 		name: "primary_warning_entity",
 		required: !1,
 		selector: { entity: { domain: "sensor" } },
-		description: "config.descr.primary_warning_entity"
+		description: "warning.config.descr.primary_warning_entity"
 	},
 	{
 		name: "secondary_warning_entity",
 		required: !1,
 		selector: { entity: { domain: "sensor" } },
-		description: "config.descr.secondary_warning_entity"
+		description: "warning.config.descr.secondary_warning_entity"
 	},
 	{
 		name: "tertiary_warning_entity",
 		required: !1,
 		selector: { entity: { domain: "sensor" } },
-		description: "config.descr.tertiary_warning_entity"
+		description: "warning.config.descr.tertiary_warning_entity"
 	},
 	{
 		name: "warning_entity",
 		required: !1,
 		selector: { entity: { domain: "sensor" } },
-		description: "config.descr.warning_entity"
+		description: "warning.config.descr.warning_entity"
 	}
 ], _a;
 P({ loader: (e) => V[e] });
@@ -9049,7 +9193,7 @@ var va = class extends E {
 		let e = (this.hass.selectedLanguage || this.hass.language || "en").substring(0, 2);
 		e !== this._loadedLang && (this._loadedLang = e, F(e).then(() => this.requestUpdate()));
 		let t = this.config.primary_warning_entity ? this._getEntityState(this.config.primary_warning_entity) : null, n = this.config.secondary_warning_entity ? this._getEntityState(this.config.secondary_warning_entity) : null, r = this.config.tertiary_warning_entity ? this._getEntityState(this.config.tertiary_warning_entity) : null, i = this.config.warning_entity ? this._getEntityState(this.config.warning_entity) : null;
-		return t && t.attributes?.has_warning !== void 0 && !t.attributes.has_warning ? C`<div class="no-warnings">${I("warnings_none")}</div>` : vi(i, t, n, r, this._openWarnings, this._toggle) || C`<div class="no-warnings">${I("warnings_none")}</div>`;
+		return t && t.attributes?.has_warning !== void 0 && !t.attributes.has_warning ? C`<div class="no-warnings">${I("warning.warnings_none")}</div>` : _i(i, t, n, r, this._openWarnings, this._toggle) || C`<div class="no-warnings">${I("warning.warnings_none")}</div>`;
 	}
 };
 //#endregion
@@ -9108,16 +9252,16 @@ var ya = class extends E {
           .data=${e}
           .schema=${ga}
           .computeLabel=${(e) => ({
-			primary_warning_entity: I("config.primary_warning_entity"),
-			secondary_warning_entity: I("config.secondary_warning_entity"),
-			tertiary_warning_entity: I("config.tertiary_warning_entity"),
-			warning_entity: I("config.warning_entity")
+			primary_warning_entity: I("warning.config.primary_warning_entity"),
+			secondary_warning_entity: I("warning.config.secondary_warning_entity"),
+			tertiary_warning_entity: I("warning.config.tertiary_warning_entity"),
+			warning_entity: I("warning.config.warning_entity")
 		})[e.name] ?? e.name}
           .computeHelper=${(e) => ({
-			primary_warning_entity: I("config.descr.primary_warning_entity"),
-			secondary_warning_entity: I("config.descr.secondary_warning_entity"),
-			tertiary_warning_entity: I("config.descr.tertiary_warning_entity"),
-			warning_entity: I("config.descr.warning_entity")
+			primary_warning_entity: I("warning.config.descr.primary_warning_entity"),
+			secondary_warning_entity: I("warning.config.descr.secondary_warning_entity"),
+			tertiary_warning_entity: I("warning.config.descr.tertiary_warning_entity"),
+			warning_entity: I("warning.config.descr.warning_entity")
 		})[e.name] ?? ""}
           @value-changed=${this._valueChanged}
         ></ha-form>
@@ -9136,46 +9280,399 @@ var ya = class extends E {
 		B(this, "config-changed", { config: t });
 	}
 };
-j([O({ attribute: !1 }), A("design:type", Object)], ya.prototype, "hass", void 0), j([O({ attribute: !1 }), A("design:type", Object)], ya.prototype, "_config", void 0), ya = j([D(ha)], ya), console.log("📦 SwissWeather Card TypeScript file imported"), setTimeout(() => {
+j([O({ attribute: !1 }), A("design:type", Object)], ya.prototype, "hass", void 0), j([O({ attribute: !1 }), A("design:type", Object)], ya.prototype, "_config", void 0), ya = j([D(ha)], ya);
+//#endregion
+//#region src/cards/pollen/const.ts
+var ba = `${H}-pollen-card`, xa = `${ba}-editor`, Sa = [
+	"birch",
+	"grasses",
+	"alder",
+	"hazel",
+	"beech",
+	"ash",
+	"oak"
+], Ca = [
+	"NONE",
+	"LOW",
+	"MEDIUM",
+	"STRONG",
+	"VERY_STRONG"
+];
+//#endregion
+//#region src/cards/pollen/pollen-card.ts
+P({ loader: (e) => V[e] });
+var wa = {
+	NONE: "var(--pollen-none-color, #9e9e9e)",
+	LOW: "var(--pollen-low-color, #4caf50)",
+	MEDIUM: "var(--pollen-medium-color, #ff9800)",
+	STRONG: "var(--pollen-strong-color, #f44336)",
+	VERY_STRONG: "var(--pollen-very-strong-color, #9c27b0)"
+};
+function Ta(e) {
+	let t = e.toUpperCase().replace(/ /g, "_");
+	return Ca.includes(t) ? t : "NONE";
+}
+function Ea(e) {
+	return e.length === 0 ? "NONE" : e.reduce((e, t) => Ca.indexOf(t) > Ca.indexOf(e) ? t : e);
+}
+var Da = class extends E {
+	hass;
+	config;
+	_expanded = !1;
+	_loadedLang;
+	static get styles() {
+		return s`
+      :host {
+        display: block;
+        background: var(--ha-card-background, var(--card-background-color, #fff));
+        border-radius: 16px;
+        padding: 16px;
+        box-shadow: var(--ha-card-box-shadow, 0 4px 20px rgba(0, 0, 0, 0.1));
+        font-family: var(
+          --primary-font-family,
+          -apple-system,
+          BlinkMacSystemFont,
+          'Segoe UI',
+          Roboto,
+          sans-serif
+        );
+        color: var(--primary-text-color);
+      }
+
+      .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      .header-left {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .title {
+        font-size: 16px;
+        font-weight: 600;
+      }
+
+      .overall-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 2px 10px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 600;
+        color: #fff;
+      }
+
+      .chevron {
+        font-size: 18px;
+        transition: transform 0.2s ease;
+        color: var(--secondary-text-color);
+      }
+
+      .chevron.open {
+        transform: rotate(180deg);
+      }
+
+      .no-data {
+        opacity: 0.6;
+        font-size: 14px;
+        text-align: center;
+        padding: 8px 0;
+      }
+
+      .pollen-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+        gap: 8px;
+        margin-top: 12px;
+      }
+
+      .pollen-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: var(--secondary-background-color, rgba(0, 0, 0, 0.04));
+        border-radius: 10px;
+        padding: 8px 6px 6px;
+        gap: 4px;
+      }
+
+      .pollen-name {
+        font-size: 12px;
+        font-weight: 500;
+        text-align: center;
+        opacity: 0.85;
+      }
+
+      .pollen-level-dot {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+      }
+
+      .pollen-level-label {
+        font-size: 11px;
+        font-weight: 600;
+        text-align: center;
+      }
+
+      .pollen-raw {
+        font-size: 10px;
+        opacity: 0.6;
+        text-align: center;
+      }
+    `;
+	}
+	setConfig(e) {
+		this.config = e;
+	}
+	getCardSize() {
+		return 2;
+	}
+	static getStubConfig() {
+		return { type: `custom:${ba}` };
+	}
+	static getConfigElement() {
+		return document.createElement(xa);
+	}
+	static getConfigSchema() {
+		return [];
+	}
+	_getEntityState(e) {
+		if (e) return this.hass?.states[e];
+	}
+	_toggle = () => {
+		this._expanded = !this._expanded, this.requestUpdate();
+	};
+	render() {
+		if (!this.hass || !this.config) return C``;
+		let e = (this.hass.selectedLanguage || this.hass.language || "en").substring(0, 2);
+		e !== this._loadedLang && (this._loadedLang = e, F(e).then(() => this.requestUpdate()));
+		let t = [], n = !1;
+		for (let e of Sa) {
+			if (this.config[`${e}_enabled`] === !1) continue;
+			let r = this.config[`${e}_entity`];
+			r && (n = !0);
+			let i = this._getEntityState(r);
+			if (!i) continue;
+			let a = Ta(i.state), o = this._getEntityState(this.config[`${e}_raw_entity`]);
+			t.push({
+				type: e,
+				level: a,
+				raw: o ? o.state : void 0,
+				unit: o?.attributes?.unit_of_measurement
+			});
+		}
+		if (t.length === 0) return C`<div class="no-data">${I(n ? "pollen.no_data" : "pollen.not_configured")}</div>`;
+		let r = Ea(t.map((e) => e.level)), i = wa[r];
+		return C`
+      <div class="header" @click=${this._toggle}>
+        <div class="header-left">
+          <span class="title">🌿 ${I("pollen.title")}</span>
+          <span class="overall-badge" style="background: ${i};">
+            ${I(`pollen.levels.${r.toLowerCase()}`)}
+          </span>
+        </div>
+        <span class="chevron ${this._expanded ? "open" : ""}">⌄</span>
+      </div>
+
+      ${this._expanded ? C`
+            <div class="pollen-grid">
+              ${t.map(({ type: e, level: t, raw: n, unit: r }) => C`
+                  <div class="pollen-item">
+                    <div class="pollen-name">${I(`pollen.types.${e}`)}</div>
+                    <div class="pollen-level-dot" style="background: ${wa[t]};"></div>
+                    <div class="pollen-level-label" style="color: ${wa[t]};">
+                      ${I(`pollen.levels.${t.toLowerCase()}`)}
+                    </div>
+                    ${n === void 0 ? "" : C`<div class="pollen-raw">${n}${r ? "\xA0" + r : ""}</div>`}
+                  </div>
+                `)}
+            </div>
+          ` : ""}
+    `;
+	}
+};
+//#endregion
+//#region src/cards/pollen/pollen-card-editor.ts
+j([O({ attribute: !1 }), A("design:type", Object)], Da.prototype, "hass", void 0), j([O({ attribute: !1 }), A("design:type", Object)], Da.prototype, "config", void 0), j([k(), A("design:type", Object)], Da.prototype, "_expanded", void 0), Da = j([D(ba)], Da), P({ loader: (e) => V[e] });
+var Oa = class extends E {
+	hass;
+	_config;
+	setConfig(e) {
+		this._config = { ...e }, this.requestUpdate();
+	}
+	static get styles() {
+		return s`
+      .card-config {
+        padding: 16px;
+      }
+      .header {
+        margin-bottom: 16px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--card-divider-color);
+      }
+      .header-title {
+        font-size: 20px;
+        font-weight: bold;
+        color: var(--primary-text-color);
+      }
+      .pollen-type-block {
+        margin-bottom: 12px;
+        border: 1px solid var(--card-divider-color, rgba(0, 0, 0, 0.12));
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      .pollen-type-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 14px;
+        background: var(--secondary-background-color, rgba(0, 0, 0, 0.04));
+        cursor: pointer;
+        user-select: none;
+      }
+      .pollen-type-name {
+        font-size: 14px;
+        font-weight: 600;
+      }
+      .pollen-type-fields {
+        padding: 8px 14px 4px;
+      }
+      .field-label {
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+        color: var(--secondary-text-color);
+        margin: 8px 0 2px;
+      }
+      ha-form {
+        display: block;
+      }
+    `;
+	}
+	render() {
+		return this.hass ? (F((this.hass.selectedLanguage || this.hass.language || "en").substring(0, 2)), C`
+      <div class="card-config">
+        <div class="header">
+          <div class="header-title">🌿 SwissWeather Pollen Card</div>
+        </div>
+        ${Sa.map((e) => this._renderTypeBlock(e))}
+      </div>
+    `) : C`<div>Loading...</div>`;
+	}
+	_renderTypeBlock(e) {
+		let t = this._config?.[`${e}_enabled`] !== !1, n = `${e}_entity`, r = `${e}_raw_entity`, i = this._config?.[n] ?? void 0, a = this._config?.[r] ?? void 0;
+		return C`
+      <div class="pollen-type-block">
+        <div class="pollen-type-header" @click=${() => this._toggleType(e, !t)}>
+          <span class="pollen-type-name">${I(`pollen.types.${e}`)}</span>
+          <ha-switch
+            .checked=${t}
+            @click=${(e) => e.stopPropagation()}
+            @change=${(t) => this._toggleType(e, t.target.checked)}
+          ></ha-switch>
+        </div>
+        ${t ? C`
+              <div class="pollen-type-fields">
+                <div class="field-label">${I("pollen.config.level_sensor")}</div>
+                <ha-form
+                  .hass=${this.hass}
+                  .data=${{ [n]: i }}
+                  .schema=${[{
+			name: n,
+			required: !1,
+			selector: { entity: { domain: "sensor" } }
+		}]}
+                  .computeLabel=${() => I("pollen.config.level_sensor")}
+                  .computeHelper=${() => I("pollen.config.level_sensor_hint")}
+                  @value-changed=${this._valueChanged}
+                ></ha-form>
+                <div class="field-label">${I("pollen.config.raw_sensor")}</div>
+                <ha-form
+                  .hass=${this.hass}
+                  .data=${{ [r]: a }}
+                  .schema=${[{
+			name: r,
+			required: !1,
+			selector: { entity: { domain: "sensor" } }
+		}]}
+                  .computeLabel=${() => I("pollen.config.raw_sensor")}
+                  .computeHelper=${() => I("pollen.config.raw_sensor_hint")}
+                  @value-changed=${this._valueChanged}
+                ></ha-form>
+              </div>
+            ` : ""}
+      </div>
+    `;
+	}
+	_toggleType(e, t) {
+		let n = {
+			...this._config,
+			[`${e}_enabled`]: t
+		};
+		this._config = n, B(this, "config-changed", { config: n }), this.requestUpdate();
+	}
+	_valueChanged(e) {
+		this._config ||= { type: `custom:${ba}` };
+		let t = {
+			...this._config,
+			...e.detail.value
+		};
+		this._config = t, B(this, "config-changed", { config: t });
+	}
+};
+j([O({ attribute: !1 }), A("design:type", Object)], Oa.prototype, "hass", void 0), j([O({ attribute: !1 }), A("design:type", Object)], Oa.prototype, "_config", void 0), Oa = j([D(xa)], Oa), console.log("📦 SwissWeather Card TypeScript file imported"), setTimeout(() => {
 	let e = customElements.get("swissweather-card"), t = customElements.get("swissweather-card-editor");
 	console.log("🔍 SwissWeather Card registration status:", e ? "SUCCESS ✅" : "FAILED ❌"), console.log("🔍 SwissWeather Editor registration status:", t ? "SUCCESS ✅" : "FAILED ❌"), e ? (console.log("🔍 Element constructor:", e), console.log("🔍 Element prototype:", e.prototype)) : (console.error("❌ Custom element \"swissweather-card\" was not registered!"), console.log("🔍 Checking custom elements registry..."));
 }, 100), console.log("📦 SwissWeather Card module loading started..."), console.log("📦 Browser support check:", {
 	customElements: !!window.customElements,
 	hasReflect: !!window.Reflect
-}), Vn({
-	type: nn,
+}), Bn({
+	type: tn,
 	name: "SwissWeather Diagram Card",
 	description: "A comprehensive weather card for Home Assistant with Swiss weather warnings and forecasts"
-}), Vn({
+}), Bn({
 	type: bi,
 	name: "SwissWeather Daily Forecast Diagram Card",
 	description: "A card to show daily weather forecast as diagram"
-}), Vn({
+}), Bn({
 	type: Hi,
 	name: "SwissWeather Animated Background Card (Experimental) Editor",
 	description: "the SwissWeather Animated Background Card (Experimental)"
-}), Vn({
+}), Bn({
 	type: Ji,
 	name: "SwissWeather Temperature Chart Card",
 	description: "Hourly temperature forecast chart as standalone card"
-}), Vn({
+}), Bn({
 	type: Xi,
 	name: "SwissWeather Precipitation Chart Card",
 	description: "Hourly precipitation forecast chart as standalone card"
-}), Vn({
+}), Bn({
 	type: Qi,
 	name: "SwissWeather Sunshine Chart Card",
 	description: "Hourly sunshine duration chart as standalone card"
-}), Vn({
+}), Bn({
 	type: ea,
 	name: "SwissWeather Wind Chart Card",
 	description: "Hourly wind speed & direction chart as standalone card"
-}), Vn({
+}), Bn({
 	type: ma,
 	name: "SwissWeather Warning Card",
 	description: "Standalone weather warning card supporting ranked and legacy warning models"
+}), Bn({
+	type: ba,
+	name: "SwissWeather Pollen Card",
+	description: "Displays current pollen levels for up to 7 pollen types from SwissWeather integration"
 }), console.log(`%c 📦 SwissWeather Card module loading completed - version: ${e}`, "color: #ef5350; font-weight: 700;");
 //#endregion
-export { M as DailyForecastChart, Je as DailyForecastDiagram, wi as ForecastDiagramCard, Ci as ForecastDiagramCardEditor, Ge as ForecastTemperatureChart, ca as PrecipitationCard, la as PrecipitationCardEditor, Ke as PrecipitationChart, ua as SunshineCard, da as SunshineCardEditor, N as SunshineChart, Ki as SwissWeatherBGCard, qi as SwissWeatherBGCardEditor, Z as SwissWeatherCard, an as SwissWeatherCardEditor, oa as TemperatureCard, sa as TemperatureCardEditor, va as WarningCard, ya as WarningCardEditor, fa as WindCard, pa as WindCardEditor, qe as WindChart };
+export { M as DailyForecastChart, Je as DailyForecastDiagram, wi as ForecastDiagramCard, Ci as ForecastDiagramCardEditor, Ge as ForecastTemperatureChart, Da as PollenCard, Oa as PollenCardEditor, ca as PrecipitationCard, la as PrecipitationCardEditor, Ke as PrecipitationChart, ua as SunshineCard, da as SunshineCardEditor, N as SunshineChart, Ki as SwissWeatherBGCard, qi as SwissWeatherBGCardEditor, yi as SwissWeatherCard, rn as SwissWeatherCardEditor, oa as TemperatureCard, sa as TemperatureCardEditor, va as WarningCard, ya as WarningCardEditor, fa as WindCard, pa as WindCardEditor, qe as WindChart };
 
 //# sourceMappingURL=swissweather-card.js.map
