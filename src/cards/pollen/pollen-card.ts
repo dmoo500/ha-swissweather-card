@@ -69,6 +69,13 @@ export class PollenCard extends LitElement {
         justify-content: space-between;
         cursor: pointer;
         user-select: none;
+        background: none;
+        border: none;
+        padding: 0;
+        width: 100%;
+        text-align: left;
+        color: inherit;
+        font: inherit;
       }
 
       .header-left {
@@ -204,7 +211,10 @@ export class PollenCard extends LitElement {
       unit?: string;
     }> = [];
 
-    let anyEntityConfigured = false;
+    // Check across ALL types (including disabled) whether any entity is configured
+    const anyEntityConfigured = POLLEN_TYPES.some(
+      t => !!(this.config[`${t}_entity` as keyof PollenCardConfig] as string | undefined)
+    );
 
     for (const type of POLLEN_TYPES) {
       const enabled = this.config[`${type}_enabled` as keyof PollenCardConfig];
@@ -213,7 +223,6 @@ export class PollenCard extends LitElement {
       const entityId = this.config[`${type}_entity` as keyof PollenCardConfig] as
         | string
         | undefined;
-      if (entityId) anyEntityConfigured = true;
 
       const levelEntity = this._getEntityState(entityId);
       if (!levelEntity) continue;
@@ -239,7 +248,7 @@ export class PollenCard extends LitElement {
     const overallColor = LEVEL_COLOR[overall];
 
     return html`
-      <div class="header" @click=${this._toggle}>
+      <button class="header" @click=${this._toggle} aria-expanded=${this._expanded}>
         <div class="header-left">
           <span class="title">🌿 ${_t('pollen.title')}</span>
           <span class="overall-badge" style="background: ${overallColor};">
@@ -247,7 +256,7 @@ export class PollenCard extends LitElement {
           </span>
         </div>
         <span class="chevron ${this._expanded ? 'open' : ''}">⌄</span>
-      </div>
+      </button>
 
       ${this._expanded
         ? html`

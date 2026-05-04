@@ -53,6 +53,11 @@ export class PollenCardEditor extends LitElement implements LovelaceCardEditor {
         background: var(--secondary-background-color, rgba(0, 0, 0, 0.04));
         cursor: pointer;
         user-select: none;
+        width: 100%;
+        border: none;
+        text-align: left;
+        color: inherit;
+        font: inherit;
       }
       .pollen-type-name {
         font-size: 14px;
@@ -100,14 +105,14 @@ export class PollenCardEditor extends LitElement implements LovelaceCardEditor {
 
     return html`
       <div class="pollen-type-block">
-        <div class="pollen-type-header" @click=${() => this._toggleType(type, !enabled)}>
+        <button class="pollen-type-header" @click=${() => this._toggleType(type, !enabled)}>
           <span class="pollen-type-name">${_t(`pollen.types.${type}`)}</span>
           <ha-switch
             .checked=${enabled}
             @click=${(e: Event) => e.stopPropagation()}
             @change=${(e: Event) => this._toggleType(type, (e.target as HTMLInputElement).checked)}
           ></ha-switch>
-        </div>
+        </button>
         ${enabled
           ? html`
               <div class="pollen-type-fields">

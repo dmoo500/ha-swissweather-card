@@ -68,7 +68,7 @@ export function renderRankedSlot(
           ${effectiveAdditional > 0
             ? html`<span
                 style="font-size: 12px; opacity: 0.75;"
-                title="${_t('warnings_additional', { count: effectiveAdditional })}"
+                title="${_t('warning.warnings_additional', { count: effectiveAdditional })}"
               >
                 +${effectiveAdditional}
               </span>`
