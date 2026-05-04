@@ -249,6 +249,65 @@ simplified_charts: true
 minimal_forecast: true
 ```
 
+## Pollen Card Configuration
+
+The `swissweather-pollen-card` shows Swiss pollen levels from [izacus/hass-swissweather](https://github.com/izacus/hass-swissweather) sensors.
+
+### Minimal Example
+
+```yaml
+type: custom:swissweather-pollen-card
+birch_entity: sensor.meteoswiss_pollen_birch
+grasses_entity: sensor.meteoswiss_pollen_grasses
+alder_entity: sensor.meteoswiss_pollen_alder
+hazel_entity: sensor.meteoswiss_pollen_hazel
+beech_entity: sensor.meteoswiss_pollen_beech
+ash_entity: sensor.meteoswiss_pollen_ash
+oak_entity: sensor.meteoswiss_pollen_oak
+```
+
+### Full Example (with optional raw particle sensors)
+
+```yaml
+type: custom:swissweather-pollen-card
+# Level sensors (NONE/LOW/MEDIUM/STRONG/VERY_STRONG)
+birch_entity: sensor.meteoswiss_pollen_birch
+grasses_entity: sensor.meteoswiss_pollen_grasses
+alder_entity: sensor.meteoswiss_pollen_alder
+hazel_entity: sensor.meteoswiss_pollen_hazel
+beech_entity: sensor.meteoswiss_pollen_beech
+ash_entity: sensor.meteoswiss_pollen_ash
+oak_entity: sensor.meteoswiss_pollen_oak
+# Optional: raw particle count sensors (particles/m³)
+birch_raw_entity: sensor.meteoswiss_pollen_birch_raw
+grasses_raw_entity: sensor.meteoswiss_pollen_grasses_raw
+alder_raw_entity: sensor.meteoswiss_pollen_alder_raw
+hazel_raw_entity: sensor.meteoswiss_pollen_hazel_raw
+beech_raw_entity: sensor.meteoswiss_pollen_beech_raw
+ash_raw_entity: sensor.meteoswiss_pollen_ash_raw
+oak_raw_entity: sensor.meteoswiss_pollen_oak_raw
+# Per-type toggle (default: true)
+birch_enabled: true
+grasses_enabled: true
+alder_enabled: false   # disable pollen types not relevant for your region
+```
+
+### Options
+
+| Option                | Type    | Default  | Description                                              |
+|-----------------------|---------|----------|----------------------------------------------------------|
+| `birch_entity`        | string  | Optional | Level sensor for birch pollen                            |
+| `grasses_entity`      | string  | Optional | Level sensor for grasses pollen                          |
+| `alder_entity`        | string  | Optional | Level sensor for alder pollen                            |
+| `hazel_entity`        | string  | Optional | Level sensor for hazel pollen                            |
+| `beech_entity`        | string  | Optional | Level sensor for beech pollen                            |
+| `ash_entity`          | string  | Optional | Level sensor for ash pollen                              |
+| `oak_entity`          | string  | Optional | Level sensor for oak pollen                              |
+| `*_raw_entity`        | string  | Optional | Raw particles/m³ sensor per pollen type (same prefixes)  |
+| `*_enabled`           | boolean | `true`   | Enable/disable each pollen type individually             |
+
+---
+
 ## Integration Examples
 
 ### Home Assistant Automations

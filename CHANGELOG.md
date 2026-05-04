@@ -1,9 +1,9 @@
 # Release Notes
 
-## [1.9.0b1] - 2026-04-18
+## [1.9.0] - 2026-05-04
 
 ### Added
-- **New `swissweather-pollen-card`** *(beta)* — standalone card showing Swiss pollen levels from [izacus/hass-swissweather](https://github.com/izacus/hass-swissweather) sensors.
+- **New `swissweather-pollen-card`** — standalone card showing Swiss pollen levels from [izacus/hass-swissweather](https://github.com/izacus/hass-swissweather) sensors.
   - Supports 7 pollen types: Birch, Grasses, Alder, Hazel, Beech, Ash, Oak.
   - Per-type enable/disable toggle in the Visual Editor.
   - Level sensor (NONE/LOW/MEDIUM/STRONG/VERY_STRONG) and optional raw particle sensor per type.
