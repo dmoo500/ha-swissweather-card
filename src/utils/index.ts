@@ -64,10 +64,19 @@ export const formatDate = (hass: HomeAssistant) => {
     return new Intl.DateTimeFormat(locale, fmtOptions).format(date);
   };
 };
+interface EntitySuggestion {
+  config: { type: string; [key: string]: unknown };
+  label?: string;
+}
+
 interface RegisterCardParams {
   type: string;
   name: string;
   description: string;
+  getEntitySuggestion?: (
+    hass: unknown,
+    entityId: string
+  ) => EntitySuggestion | EntitySuggestion[] | null;
 }
 
 export function registerCustomCard(params: RegisterCardParams) {
