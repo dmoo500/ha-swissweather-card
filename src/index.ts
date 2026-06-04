@@ -32,6 +32,7 @@ import {
 import { WARNING_CARD_NAME } from './cards/warnings/const';
 import { POLLEN_CARD_NAME } from './cards/pollen/const';
 import { registerCustomCard } from './utils';
+import { HomeAssistant } from './types/home-assistant';
 import { FORECAST_DIAGRAM_CARD_NAME } from './cards/forecast-diagram/const';
 import { FULL_CARD_NAME } from './cards/full-card/const';
 import { ANIMATED_BACKGROUND_CARD_NAME } from './cards/animated-background/const';
@@ -45,6 +46,10 @@ declare global {
       description: string;
       preview?: boolean;
       documentationURL?: string;
+      getEntitySuggestion?: (
+        hass: import('./types/home-assistant').HomeAssistant,
+        entityId: string
+      ) => unknown;
     }>;
   }
 }
@@ -73,53 +78,90 @@ console.log('📦 Browser support check:', {
   hasReflect: !!window.Reflect,
 });
 
+const weatherEntitySuggestion = (_type: string) => (_hass: HomeAssistant, entityId: string) => {
+  if (entityId.split('.')[0] !== 'weather') return null;
+  return { config: { type: `custom:${_type}`, entity: entityId } };
+};
+
 registerCustomCard({
   type: FULL_CARD_NAME,
   name: 'SwissWeather Diagram Card',
   description:
     'A comprehensive weather card for Home Assistant with Swiss weather warnings and forecasts',
+  getEntitySuggestion: weatherEntitySuggestion(FULL_CARD_NAME),
 });
 
 registerCustomCard({
   type: FORECAST_DIAGRAM_CARD_NAME,
   name: 'SwissWeather Daily Forecast Diagram Card',
   description: 'A card to show daily weather forecast as diagram',
+  getEntitySuggestion: weatherEntitySuggestion(FORECAST_DIAGRAM_CARD_NAME),
 });
 registerCustomCard({
   type: ANIMATED_BACKGROUND_CARD_NAME,
   name: 'SwissWeather Animated Background Card (Experimental) Editor',
   description: 'the SwissWeather Animated Background Card (Experimental)',
+  getEntitySuggestion: weatherEntitySuggestion(ANIMATED_BACKGROUND_CARD_NAME),
 });
 registerCustomCard({
   type: TEMPERATURE_CARD_NAME,
   name: 'SwissWeather Temperature Chart Card',
   description: 'Hourly temperature forecast chart as standalone card',
+  getEntitySuggestion: weatherEntitySuggestion(TEMPERATURE_CARD_NAME),
 });
 registerCustomCard({
   type: PRECIPITATION_CARD_NAME,
   name: 'SwissWeather Precipitation Chart Card',
   description: 'Hourly precipitation forecast chart as standalone card',
+  getEntitySuggestion: weatherEntitySuggestion(PRECIPITATION_CARD_NAME),
 });
 registerCustomCard({
   type: SUNSHINE_CARD_NAME,
   name: 'SwissWeather Sunshine Chart Card',
   description: 'Hourly sunshine duration chart as standalone card',
+  getEntitySuggestion: weatherEntitySuggestion(SUNSHINE_CARD_NAME),
 });
 registerCustomCard({
   type: WIND_CARD_NAME,
   name: 'SwissWeather Wind Chart Card',
   description: 'Hourly wind speed & direction chart as standalone card',
+  getEntitySuggestion: weatherEntitySuggestion(WIND_CARD_NAME),
 });
 registerCustomCard({
   type: WARNING_CARD_NAME,
   name: 'SwissWeather Warning Card',
   description: 'Standalone weather warning card supporting ranked and legacy warning models',
+  getEntitySuggestion: (_hass: HomeAssistant, entityId: string) => {
+    if (entityId.split('.')[0] !== 'sensor') return null;
+    const id = entityId.toLowerCase();
+    if (!id.includes('warning')) return null;
+    let entityKey: string;
+    if (id.includes('primary')) {
+      entityKey = 'primary_warning_entity';
+    } else if (id.includes('secondary')) {
+      entityKey = 'secondary_warning_entity';
+    } else if (id.includes('tertiary')) {
+      entityKey = 'tertiary_warning_entity';
+    } else {
+      entityKey = 'warning_entity';
+    }
+    return { config: { type: `custom:${WARNING_CARD_NAME}`, [entityKey]: entityId } };
+  },
 });
 registerCustomCard({
   type: POLLEN_CARD_NAME,
   name: 'SwissWeather Pollen Card',
   description:
     'Displays current pollen levels for up to 7 pollen types from SwissWeather integration',
+  getEntitySuggestion: (_hass: HomeAssistant, entityId: string) => {
+    if (entityId.split('.')[0] !== 'sensor') return null;
+    const id = entityId.toLowerCase();
+    if (!id.includes('pollen')) return null;
+    const pollenTypes = ['birch', 'grasses', 'alder', 'hazel', 'beech', 'ash', 'oak'];
+    const matched = pollenTypes.find(p => id.includes(p));
+    if (!matched) return null;
+    return { config: { type: `custom:${POLLEN_CARD_NAME}`, [`${matched}_entity`]: entityId } };
+  },
 });
 console.log(
   `%c 📦 SwissWeather Card module loading completed - version: ${version}`,

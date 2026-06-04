@@ -6,7 +6,7 @@ env:
 on:
   push:
     tags:
-      - 'v*'
+      - '[0-9]*'
 
 jobs:
   release:
@@ -32,7 +32,7 @@ jobs:
       
     - name: Get version from tag
       id: version
-      run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+      run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
       
     - name: Update version in package.json
       run: |
@@ -67,10 +67,10 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: v${{ steps.version.outputs.VERSION }}
-        release_name: SwissWeather Card v${{ steps.version.outputs.VERSION }}
+        tag_name: ${{ steps.version.outputs.VERSION }}
+        release_name: SwissWeather Card ${{ steps.version.outputs.VERSION }}
         body: |
-          ## 🎉 SwissWeather Card v${{ steps.version.outputs.VERSION }}
+          ## 🎉 SwissWeather Card ${{ steps.version.outputs.VERSION }}
           
           ### 📦 Installation
           
