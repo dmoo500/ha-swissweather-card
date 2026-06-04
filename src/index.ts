@@ -32,6 +32,7 @@ import {
 import { WARNING_CARD_NAME } from './cards/warnings/const';
 import { POLLEN_CARD_NAME } from './cards/pollen/const';
 import { registerCustomCard } from './utils';
+import { HomeAssistant } from './types/home-assistant';
 import { FORECAST_DIAGRAM_CARD_NAME } from './cards/forecast-diagram/const';
 import { FULL_CARD_NAME } from './cards/full-card/const';
 import { ANIMATED_BACKGROUND_CARD_NAME } from './cards/animated-background/const';
@@ -45,7 +46,10 @@ declare global {
       description: string;
       preview?: boolean;
       documentationURL?: string;
-      getEntitySuggestion?: (hass: unknown, entityId: string) => unknown;
+      getEntitySuggestion?: (
+        hass: import('./types/home-assistant').HomeAssistant,
+        entityId: string
+      ) => unknown;
     }>;
   }
 }
@@ -74,7 +78,7 @@ console.log('📦 Browser support check:', {
   hasReflect: !!window.Reflect,
 });
 
-const weatherEntitySuggestion = (_type: string) => (_hass: unknown, entityId: string) => {
+const weatherEntitySuggestion = (_type: string) => (_hass: HomeAssistant, entityId: string) => {
   if (entityId.split('.')[0] !== 'weather') return null;
   return { config: { type: `custom:${_type}`, entity: entityId } };
 };
@@ -127,7 +131,7 @@ registerCustomCard({
   type: WARNING_CARD_NAME,
   name: 'SwissWeather Warning Card',
   description: 'Standalone weather warning card supporting ranked and legacy warning models',
-  getEntitySuggestion: (_hass: unknown, entityId: string) => {
+  getEntitySuggestion: (_hass: HomeAssistant, entityId: string) => {
     if (entityId.split('.')[0] !== 'sensor') return null;
     const id = entityId.toLowerCase();
     if (!id.includes('warning')) return null;
@@ -149,7 +153,7 @@ registerCustomCard({
   name: 'SwissWeather Pollen Card',
   description:
     'Displays current pollen levels for up to 7 pollen types from SwissWeather integration',
-  getEntitySuggestion: (_hass: unknown, entityId: string) => {
+  getEntitySuggestion: (_hass: HomeAssistant, entityId: string) => {
     if (entityId.split('.')[0] !== 'sensor') return null;
     const id = entityId.toLowerCase();
     if (!id.includes('pollen')) return null;

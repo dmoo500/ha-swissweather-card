@@ -74,7 +74,7 @@ interface RegisterCardParams {
   name: string;
   description: string;
   getEntitySuggestion?: (
-    hass: unknown,
+    hass: HomeAssistant,
     entityId: string
   ) => EntitySuggestion | EntitySuggestion[] | null;
 }
