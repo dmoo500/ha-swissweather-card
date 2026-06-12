@@ -68,7 +68,7 @@
     "custom-card-helpers": "^2.0.0",
     "lit": "^3.3.3",
     "lit-translate": "^2.0.1",
-    "marked": "^18.0.3"
+    "marked": "^18.0.5"
   },
   "files": [
     "dist/",
