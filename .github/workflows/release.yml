@@ -11,6 +11,8 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     
     steps:
     - name: Checkout code
@@ -65,7 +67,7 @@ jobs:
     - name: Delete existing release if present
       run: gh release delete ${{ steps.version.outputs.VERSION }} -y || true
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_TOKEN: ${{ github.token }}
         
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v2
@@ -97,3 +99,4 @@ jobs:
         files: |
           swissweather-card-${{ steps.version.outputs.VERSION }}.zip
           release/swissweather-card.js
+        fail_on_unmatched_files: false
