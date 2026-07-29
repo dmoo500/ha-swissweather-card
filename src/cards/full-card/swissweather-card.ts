@@ -553,24 +553,28 @@ export class SwissWeatherCard extends LitElement {
           <div class="metric-value">${pressure} hPa</div>
           <div class="metric-label">${_t('pressure')}</div>
         </div>
-        ${sunshineEntity
-          ? html`
-              <div class="metric-card">
-                <div class="metric-icon"><ha-icon icon="mdi:white-balance-sunny"></ha-icon></div>
-                <div class="metric-value">${parseFloat(sunshineEntity.state).toFixed(1)}h</div>
-                <div class="metric-label">${_t('sunshine')}</div>
-              </div>
-            `
-          : ''}
-        ${visibility > 0
-          ? html`
-              <div class="metric-card">
-                <div class="metric-icon"><ha-icon icon="mdi:eye"></ha-icon></div>
-                <div class="metric-value">${visibility} km</div>
-                <div class="metric-label">${_t('visibility')}</div>
-              </div>
-            `
-          : ''}
+        ${
+          sunshineEntity
+            ? html`
+                <div class="metric-card">
+                  <div class="metric-icon"><ha-icon icon="mdi:white-balance-sunny"></ha-icon></div>
+                  <div class="metric-value">${parseFloat(sunshineEntity.state).toFixed(1)}h</div>
+                  <div class="metric-label">${_t('sunshine')}</div>
+                </div>
+              `
+            : ''
+        }
+        ${
+          visibility > 0
+            ? html`
+                <div class="metric-card">
+                  <div class="metric-icon"><ha-icon icon="mdi:eye"></ha-icon></div>
+                  <div class="metric-value">${visibility} km</div>
+                  <div class="metric-label">${_t('visibility')}</div>
+                </div>
+              `
+            : ''
+        }
       </div>
     `;
   }
@@ -585,27 +589,29 @@ export class SwissWeatherCard extends LitElement {
   ): TemplateResult {
     return html`
       <div class="current-weather-section">
-        ${this.config.compact_mode === true
-          ? html`
-              ${this._renderCurrentWeatherCompactMode(
-                windSpeed,
-                windDirection,
-                humidity,
-                pressure,
-                visibility,
-                sunshineEntity
-              )}
-            `
-          : html`
-              ${this._renderCurrentWeather(
-                windSpeed,
-                windDirection,
-                humidity,
-                pressure,
-                visibility,
-                sunshineEntity
-              )}
-            `}
+        ${
+          this.config.compact_mode === true
+            ? html`
+                ${this._renderCurrentWeatherCompactMode(
+                  windSpeed,
+                  windDirection,
+                  humidity,
+                  pressure,
+                  visibility,
+                  sunshineEntity
+                )}
+              `
+            : html`
+                ${this._renderCurrentWeather(
+                  windSpeed,
+                  windDirection,
+                  humidity,
+                  pressure,
+                  visibility,
+                  sunshineEntity
+                )}
+              `
+        }
       </div>
     `;
   }
@@ -666,21 +672,25 @@ export class SwissWeatherCard extends LitElement {
     const forecastHours = this.config.forecast_hours ?? 6;
 
     return html`
-      ${showLocation
-        ? html`
-            <div class="header">
-              <div class="location">${location}</div>
-            </div>
-          `
-        : ''}
-      ${this.config.show_warnings
-        ? this._renderWarningSection(
-            warningEntity,
-            primaryWarningEntity,
-            secondaryWarningEntity,
-            tertiaryWarningEntity
-          )
-        : ''}
+      ${
+        showLocation
+          ? html`
+              <div class="header">
+                <div class="location">${location}</div>
+              </div>
+            `
+          : ''
+      }
+      ${
+        this.config.show_warnings
+          ? this._renderWarningSection(
+              warningEntity,
+              primaryWarningEntity,
+              secondaryWarningEntity,
+              tertiaryWarningEntity
+            )
+          : ''
+      }
 
       <div class="current-weather">
         <div>
@@ -710,18 +720,20 @@ export class SwissWeatherCard extends LitElement {
         visibility,
         sunshineEntity
       )}
-      ${this.config.show_temperature !== false ||
-      this.config.show_precipitation !== false ||
-      this.config.show_sunshine !== false ||
-      this.config.show_wind !== false ||
-      this.config.show_forecast !== false
-        ? html`
-            <div class="section-title">
-              <ha-icon icon="mdi:clock"></ha-icon>
-              ${_t('hourly_charts.forecast_hours', { hours: forecastHours })}
-            </div>
-          `
-        : ''}
+      ${
+        this.config.show_temperature !== false ||
+        this.config.show_precipitation !== false ||
+        this.config.show_sunshine !== false ||
+        this.config.show_wind !== false ||
+        this.config.show_forecast !== false
+          ? html`
+              <div class="section-title">
+                <ha-icon icon="mdi:clock"></ha-icon>
+                ${_t('hourly_charts.forecast_hours', { hours: forecastHours })}
+              </div>
+            `
+          : ''
+      }
       ${this._getEffectiveChartOrder().map(chart => {
         switch (chart) {
           case 'temperature':

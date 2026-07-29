@@ -156,48 +156,58 @@ export class SunshineChart extends LitElement {
                     );
                   }
                   return html`
-                    ${sunriseIdx >= 0 && sunriseIdx < this.forecastHours
-                      ? html`
-                          <div
-                            style="position:absolute;left:calc(${(sunriseIdx / this.forecastHours) *
-                            100}% - 10px);top:0;height:100%;width:20px;pointer-events:none;z-index:2;display:flex;flex-direction:column;align-items:center;"
-                          >
-                            <ha-icon
-                              icon="mdi:weather-sunset-up"
-                              style="color:#fbc02d;font-size:18px;"
-                            ></ha-icon>
-                            <span style="font-size:10px;color:#fbc02d">
-                              ${sunrise
-                                ? sunrise.toLocaleTimeString([], {
-                                    hour: '2-digit',
-                                    minute: '2-digit',
-                                  })
-                                : ''}</span
+                    ${
+                      sunriseIdx >= 0 && sunriseIdx < this.forecastHours
+                        ? html`
+                            <div
+                              style="position:absolute;left:calc(${
+                                (sunriseIdx / this.forecastHours) * 100
+                              }% - 10px);top:0;height:100%;width:20px;pointer-events:none;z-index:2;display:flex;flex-direction:column;align-items:center;"
                             >
-                          </div>
-                        `
-                      : ''}
-                    ${sunsetIdx >= 0 && sunsetIdx < this.forecastHours
-                      ? html`
-                          <div
-                            style="position:absolute;left:calc(${(sunsetIdx / this.forecastHours) *
-                            100}% - 10px);top:0;height:100%;width:20px;pointer-events:none;z-index:2;display:flex;flex-direction:column;align-items:center;"
-                          >
-                            <ha-icon
-                              icon="mdi:weather-sunset-down"
-                              style="color:#fbc02d;font-size:18px;"
-                            ></ha-icon>
-                            <span style="font-size:10px;color:#fbc02d;">
-                              ${sunset
-                                ? sunset.toLocaleTimeString([], {
-                                    hour: '2-digit',
-                                    minute: '2-digit',
-                                  })
-                                : ''}</span
+                              <ha-icon
+                                icon="mdi:weather-sunset-up"
+                                style="color:#fbc02d;font-size:18px;"
+                              ></ha-icon>
+                              <span style="font-size:10px;color:#fbc02d">
+                                ${
+                                  sunrise
+                                    ? sunrise.toLocaleTimeString([], {
+                                        hour: '2-digit',
+                                        minute: '2-digit',
+                                      })
+                                    : ''
+                                }</span
+                              >
+                            </div>
+                          `
+                        : ''
+                    }
+                    ${
+                      sunsetIdx >= 0 && sunsetIdx < this.forecastHours
+                        ? html`
+                            <div
+                              style="position:absolute;left:calc(${
+                                (sunsetIdx / this.forecastHours) * 100
+                              }% - 10px);top:0;height:100%;width:20px;pointer-events:none;z-index:2;display:flex;flex-direction:column;align-items:center;"
                             >
-                          </div>
-                        `
-                      : ''}
+                              <ha-icon
+                                icon="mdi:weather-sunset-down"
+                                style="color:#fbc02d;font-size:18px;"
+                              ></ha-icon>
+                              <span style="font-size:10px;color:#fbc02d;">
+                                ${
+                                  sunset
+                                    ? sunset.toLocaleTimeString([], {
+                                        hour: '2-digit',
+                                        minute: '2-digit',
+                                      })
+                                    : ''
+                                }</span
+                              >
+                            </div>
+                          `
+                        : ''
+                    }
                   `;
                 })()}
                 ${this.hourlyForecast.slice(0, this.forecastHours).map((h: WeatherForecast) => {

@@ -489,9 +489,11 @@ export class DailyForecastDiagram extends LitElement {
     return html`
       <style>
         .chart {
-        ${this.standalone === false
-          ? 'background: var(--card-background-color, #fff);' + 'margin-top: 15px;'
-          : ''}
+        ${
+          this.standalone === false
+            ? 'background: var(--card-background-color, #fff);' + 'margin-top: 15px;'
+            : ''
+        }
           border-radius: 12px;
           padding: 0;
           margin-bottom: var(--chart-margin-bottom, 0);

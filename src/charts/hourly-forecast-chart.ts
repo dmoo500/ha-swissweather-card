@@ -102,14 +102,16 @@ export class HourlyForecastChart extends LitElement {
     const items = (this.hourlyForecast || []).slice(0, Math.max(1, this.maxHours));
     return html`
       <div class="wrapper ${this.alignRight ? 'align-right' : ''}">
-        ${this.compact
-          ? html``
-          : html`
-              <div class="section-title">
-                <ha-icon icon="mdi:clock-outline"></ha-icon>
-                ${this._t('hourly_charts.forecast_hours', { hours: items.length })}
-              </div>
-            `}
+        ${
+          this.compact
+            ? html``
+            : html`
+                <div class="section-title">
+                  <ha-icon icon="mdi:clock-outline"></ha-icon>
+                  ${this._t('hourly_charts.forecast_hours', { hours: items.length })}
+                </div>
+              `
+        }
         <div class="grid">
           ${items.map(
             (h: WeatherForecast) => html`
@@ -124,9 +126,11 @@ export class HourlyForecastChart extends LitElement {
                   )}
                 </div>
                 <div class="temps">
-                  ${typeof (h as any).temperature === 'number'
-                    ? html`<span>${Math.round((h as any).temperature)}°</span>`
-                    : ''}
+                  ${
+                    typeof (h as any).temperature === 'number'
+                      ? html`<span>${Math.round((h as any).temperature)}°</span>`
+                      : ''
+                  }
                 </div>
               </div>
             `
