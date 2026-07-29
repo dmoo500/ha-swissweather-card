@@ -98,58 +98,58 @@ export function renderRankedSlot(
           ? html`
               <div style="margin-top: 6px; font-size: 13px; opacity: 0.85;">
                 ${
-                attrs.valid_from || attrs.valid_to
-                  ? html`
-                      <div style="margin-bottom: 4px;">
-                        ${
-                        attrs.valid_from
-                          ? html`<strong>${_t('warning.valid_from')}: </strong>${new Date(
-                                attrs.valid_from
-                              ).toLocaleString()}&nbsp;`
-                          : ''
-                      }
-                        ${
-                        attrs.valid_to
-                          ? html`<strong>${_t('warning.valid_to')}: </strong>${new Date(
-                                attrs.valid_to
-                              ).toLocaleString()}`
-                          : ''
-                      }
-                      </div>
-                    `
-                  : ''
-              }
-                ${
-                attrs.html_text
-                  ? html`<div
-                      style="line-height: 1.4; margin-bottom: 4px;"
-                      .innerHTML="${sanitizeHtml(attrs.html_text)}"
-                    ></div>`
-                  : attrs.text
-                    ? html`<div style="line-height: 1.4; margin-bottom: 4px;">${attrs.text}</div>`
+                  attrs.valid_from || attrs.valid_to
+                    ? html`
+                        <div style="margin-bottom: 4px;">
+                          ${
+                            attrs.valid_from
+                              ? html`<strong>${_t('warning.valid_from')}: </strong>${new Date(
+                                    attrs.valid_from
+                                  ).toLocaleString()}&nbsp;`
+                              : ''
+                          }
+                          ${
+                            attrs.valid_to
+                              ? html`<strong>${_t('warning.valid_to')}: </strong>${new Date(
+                                    attrs.valid_to
+                                  ).toLocaleString()}`
+                              : ''
+                          }
+                        </div>
+                      `
                     : ''
-              }
+                }
                 ${
-                attrs.links?.length
-                  ? html`
-                      <div style="display: flex; flex-direction: column; gap: 2px;">
-                        ${attrs.links.map(
-                        (l: { url: string; text: string; alt_url?: string }) => html`
-                          <a
-                            href="${l.url.startsWith('http') ? l.url : (l.alt_url ?? l.url)}"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style="color: var(--primary-text-color, #fff); text-decoration: underline; display: flex; align-items: center; gap: 4px;"
-                          >
-                            <ha-icon icon="mdi:link-variant" style="font-size: 14px;"></ha-icon>
-                            ${l.text}
-                          </a>
-                        `
-                      )}
-                      </div>
-                    `
-                  : ''
-              }
+                  attrs.html_text
+                    ? html`<div
+                        style="line-height: 1.4; margin-bottom: 4px;"
+                        .innerHTML="${sanitizeHtml(attrs.html_text)}"
+                      ></div>`
+                    : attrs.text
+                      ? html`<div style="line-height: 1.4; margin-bottom: 4px;">${attrs.text}</div>`
+                      : ''
+                }
+                ${
+                  attrs.links?.length
+                    ? html`
+                        <div style="display: flex; flex-direction: column; gap: 2px;">
+                          ${attrs.links.map(
+                            (l: { url: string; text: string; alt_url?: string }) => html`
+                              <a
+                                href="${l.url.startsWith('http') ? l.url : (l.alt_url ?? l.url)}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style="color: var(--primary-text-color, #fff); text-decoration: underline; display: flex; align-items: center; gap: 4px;"
+                              >
+                                <ha-icon icon="mdi:link-variant" style="font-size: 14px;"></ha-icon>
+                                ${l.text}
+                              </a>
+                            `
+                          )}
+                        </div>
+                      `
+                    : ''
+                }
               </div>
             `
           : ''

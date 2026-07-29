@@ -262,21 +262,24 @@ export class PollenCard extends LitElement {
           ? html`
               <div class="pollen-grid">
                 ${pollenData.map(
-                ({ type, level, raw, unit }) => html`
-                  <div class="pollen-item">
-                    <div class="pollen-name">${_t(`pollen.types.${type}`)}</div>
-                    <div class="pollen-level-dot" style="background: ${LEVEL_COLOR[level]};"></div>
-                    <div class="pollen-level-label" style="color: ${LEVEL_COLOR[level]};">
-                      ${_t(`pollen.levels.${level.toLowerCase()}`)}
+                  ({ type, level, raw, unit }) => html`
+                    <div class="pollen-item">
+                      <div class="pollen-name">${_t(`pollen.types.${type}`)}</div>
+                      <div
+                        class="pollen-level-dot"
+                        style="background: ${LEVEL_COLOR[level]};"
+                      ></div>
+                      <div class="pollen-level-label" style="color: ${LEVEL_COLOR[level]};">
+                        ${_t(`pollen.levels.${level.toLowerCase()}`)}
+                      </div>
+                      ${
+                        raw !== undefined
+                          ? html`<div class="pollen-raw">${raw}${unit ? '\u00a0' + unit : ''}</div>`
+                          : ''
+                      }
                     </div>
-                    ${
-                      raw !== undefined
-                        ? html`<div class="pollen-raw">${raw}${unit ? '\u00a0' + unit : ''}</div>`
-                        : ''
-                    }
-                  </div>
-                `
-              )}
+                  `
+                )}
               </div>
             `
           : ''

@@ -1317,84 +1317,84 @@ export class SwissWeatherBGCard extends LitElement {
                           preserveAspectRatio="xMidYMid slice"
                         >
                           ${
-                        chartWidth > 0
-                          ? getWeatherBackground(condition, daytime, chartWidth)
-                          : svg``
-                      }
+                            chartWidth > 0
+                              ? getWeatherBackground(condition, daytime, chartWidth)
+                              : svg``
+                          }
                         </svg>
                       </div>`
                 }
                 ${
-                day && this.config.show_day_temps !== false
-                  ? html`
-                      <div class="forecast-temps">
-                        <span class="temp-high">
-                          <ha-icon icon="mdi:arrow-up-bold"></ha-icon>
-                          ${Math.round(day.temperature)}°
-                        </span>
-                        <span class="temp-low">
-                          <ha-icon icon="mdi:arrow-down-bold"></ha-icon> ${Math.round(
-                          day.templow || day.temperature - 5
-                        )}°
-                        </span>
-                      </div>
-                    `
-                  : ''
-              }
+                  day && this.config.show_day_temps !== false
+                    ? html`
+                        <div class="forecast-temps">
+                          <span class="temp-high">
+                            <ha-icon icon="mdi:arrow-up-bold"></ha-icon>
+                            ${Math.round(day.temperature)}°
+                          </span>
+                          <span class="temp-low">
+                            <ha-icon icon="mdi:arrow-down-bold"></ha-icon> ${Math.round(
+                              day.templow || day.temperature - 5
+                            )}°
+                          </span>
+                        </div>
+                      `
+                    : ''
+                }
                 ${
-                sunEntityId && this.config.show_sun_times !== false && condition !== 'clear-night'
-                  ? html`
-                      <div class="sun-times">
-                        <span title="${_t('bg_card.sunrise')}">
-                          <ha-icon icon="mdi:weather-sunset-up"></ha-icon> ${fmt(nextSunrise)}
-                        </span>
-                        <span title="${_t('bg_card.sunset')}">
-                          <ha-icon icon="mdi:weather-sunset-down"></ha-icon> ${fmt(nextSunset)}
-                        </span>
-                      </div>
-                    `
-                  : ''
-              }
+                  sunEntityId && this.config.show_sun_times !== false && condition !== 'clear-night'
+                    ? html`
+                        <div class="sun-times">
+                          <span title="${_t('bg_card.sunrise')}">
+                            <ha-icon icon="mdi:weather-sunset-up"></ha-icon> ${fmt(nextSunrise)}
+                          </span>
+                          <span title="${_t('bg_card.sunset')}">
+                            <ha-icon icon="mdi:weather-sunset-down"></ha-icon> ${fmt(nextSunset)}
+                          </span>
+                        </div>
+                      `
+                    : ''
+                }
                 ${
-                (this.config.forecast_mode || 'daily') === 'daily' && this._forecast.length > 0
-                  ? html`
-                      <div class="forecast-mini">
-                        <daily-forecast-chart
-                          .forecast=${this._forecast?.slice(0, 7) ?? []}
-                          .forecastLoading=${this._forecastLoading}
-                          .show_forecast=${true}
-                          .config=${{ ...this.config, enable_animate_weather_icons: true }}
-                          .compact=${true}
-                          .startTomorrow=${true}
-                          .maxDays=${5}
-                          .alignRight=${true}
-                          ._t=${_t}
-                          .getWeatherIcon=${getWeatherIcon}
-                          .formatDate=${formatDateToWeekDay}
-                        ></daily-forecast-chart>
-                      </div>
-                    `
-                  : html``
-              }
+                  (this.config.forecast_mode || 'daily') === 'daily' && this._forecast.length > 0
+                    ? html`
+                        <div class="forecast-mini">
+                          <daily-forecast-chart
+                            .forecast=${this._forecast?.slice(0, 7) ?? []}
+                            .forecastLoading=${this._forecastLoading}
+                            .show_forecast=${true}
+                            .config=${{ ...this.config, enable_animate_weather_icons: true }}
+                            .compact=${true}
+                            .startTomorrow=${true}
+                            .maxDays=${5}
+                            .alignRight=${true}
+                            ._t=${_t}
+                            .getWeatherIcon=${getWeatherIcon}
+                            .formatDate=${formatDateToWeekDay}
+                          ></daily-forecast-chart>
+                        </div>
+                      `
+                    : html``
+                }
                 ${
-                (this.config.forecast_mode || 'daily') === 'hourly' && this._hourly.length > 0
-                  ? html`
-                      <div class="forecast-mini">
-                        <hourly-forecast-chart
-                          .hourlyForecast=${this._hourly}
-                          .forecastLoading=${this._hourlyLoading}
-                          .show_forecast=${true}
-                          .config=${{ ...this.config, enable_animate_weather_icons: true }}
-                          .compact=${true}
-                          .maxHours=${5}
-                          .alignRight=${true}
-                          ._t=${_t}
-                          .getWeatherIcon=${getWeatherIcon}
-                        ></hourly-forecast-chart>
-                      </div>
-                    `
-                  : html``
-              }
+                  (this.config.forecast_mode || 'daily') === 'hourly' && this._hourly.length > 0
+                    ? html`
+                        <div class="forecast-mini">
+                          <hourly-forecast-chart
+                            .hourlyForecast=${this._hourly}
+                            .forecastLoading=${this._hourlyLoading}
+                            .show_forecast=${true}
+                            .config=${{ ...this.config, enable_animate_weather_icons: true }}
+                            .compact=${true}
+                            .maxHours=${5}
+                            .alignRight=${true}
+                            ._t=${_t}
+                            .getWeatherIcon=${getWeatherIcon}
+                          ></hourly-forecast-chart>
+                        </div>
+                      `
+                    : html``
+                }
                 <div class="condition">${_t(condition)}</div> `
             : html``
         }
@@ -1459,39 +1459,43 @@ export class SwissWeatherBGCard extends LitElement {
           hasRain || hasSnow || hasHail
             ? html`<div class="photo-layer weather-particles">
                 ${
-                useCloudBoundMix
-                  ? html`${cloudClusters.map(
-                      cls =>
-                        html`<div class="weather-cluster ${cls}">
-                          ${hasRain ? this._renderRainParticles(6, true) : html``}
-                          ${hasSnow ? this._renderSnowParticles(10, true) : html``}
-                        </div>`
-                    )}`
-                  : html`${
-                      condition === 'pouring' ? this._renderRainParticles(68, false, true) : html``
-                    }
-                    ${
-                    condition === 'pouring' ? this._renderDrizzleParticles(28, false, true) : html``
-                  }
-                    ${condition === 'rainy' ? this._renderRainParticles(66, false, true) : html``}
-                    ${condition === 'rainy' ? this._renderDrizzleParticles(22, false, true) : html``}
-                    ${condition === 'lightning-rainy' ? this._renderRainParticles(54, false) : html``}
-                    ${
-                    condition === 'lightning-rainy'
-                      ? this._renderDrizzleParticles(18, false)
-                      : html``
-                  }
-                    ${
-                    hasRain &&
-                    condition !== 'pouring' &&
-                    condition !== 'rainy' &&
-                    condition !== 'lightning-rainy'
-                      ? this._renderRainParticles(28, false)
-                      : html``
-                  }
-                    ${hasSnow ? this._renderSnowParticles(36, false) : html``}
-                    ${hasHail ? this._renderHailParticles(58, false) : html``}`
-              }
+                  useCloudBoundMix
+                    ? html`${cloudClusters.map(
+                        cls =>
+                          html`<div class="weather-cluster ${cls}">
+                            ${hasRain ? this._renderRainParticles(6, true) : html``}
+                            ${hasSnow ? this._renderSnowParticles(10, true) : html``}
+                          </div>`
+                      )}`
+                    : html`${
+                        condition === 'pouring'
+                          ? this._renderRainParticles(68, false, true)
+                          : html``
+                      }
+                      ${
+                        condition === 'pouring'
+                          ? this._renderDrizzleParticles(28, false, true)
+                          : html``
+                      }
+                      ${condition === 'rainy' ? this._renderRainParticles(66, false, true) : html``}
+                      ${condition === 'rainy' ? this._renderDrizzleParticles(22, false, true) : html``}
+                      ${condition === 'lightning-rainy' ? this._renderRainParticles(54, false) : html``}
+                      ${
+                        condition === 'lightning-rainy'
+                          ? this._renderDrizzleParticles(18, false)
+                          : html``
+                      }
+                      ${
+                        hasRain &&
+                        condition !== 'pouring' &&
+                        condition !== 'rainy' &&
+                        condition !== 'lightning-rainy'
+                          ? this._renderRainParticles(28, false)
+                          : html``
+                      }
+                      ${hasSnow ? this._renderSnowParticles(36, false) : html``}
+                      ${hasHail ? this._renderHailParticles(58, false) : html``}`
+                }
               </div>`
             : html``
         }

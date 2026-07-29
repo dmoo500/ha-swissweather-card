@@ -208,10 +208,10 @@ export class DailyForecastChart extends LitElement {
                           <div class="section-title">
                             <ha-icon icon="mdi:calendar"></ha-icon>
                             ${
-                            items.length === 7
-                              ? this._t('hourly_charts.7d_forecast')
-                              : this._t('hourly_charts.xd_forecast', { days: items.length })
-                          }
+                              items.length === 7
+                                ? this._t('hourly_charts.7d_forecast')
+                                : this._t('hourly_charts.xd_forecast', { days: items.length })
+                            }
                             <small
                               style="font-size: 12px; color: var(--secondary-text-color, #666); margin-left: 10px;"
                             >

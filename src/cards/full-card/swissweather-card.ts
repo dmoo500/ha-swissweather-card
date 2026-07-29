@@ -593,23 +593,23 @@ export class SwissWeatherCard extends LitElement {
           this.config.compact_mode === true
             ? html`
                 ${this._renderCurrentWeatherCompactMode(
-                windSpeed,
-                windDirection,
-                humidity,
-                pressure,
-                visibility,
-                sunshineEntity
-              )}
+                  windSpeed,
+                  windDirection,
+                  humidity,
+                  pressure,
+                  visibility,
+                  sunshineEntity
+                )}
               `
             : html`
                 ${this._renderCurrentWeather(
-                windSpeed,
-                windDirection,
-                humidity,
-                pressure,
-                visibility,
-                sunshineEntity
-              )}
+                  windSpeed,
+                  windDirection,
+                  humidity,
+                  pressure,
+                  visibility,
+                  sunshineEntity
+                )}
               `
         }
       </div>

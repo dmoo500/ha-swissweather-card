@@ -127,8 +127,12 @@ export class PollenCardEditor extends LitElement implements LovelaceCardEditor {
                     .hass=${this.hass}
                     .data=${{ [levelKey]: levelValue }}
                     .schema=${[
-                    { name: levelKey, required: false, selector: { entity: { domain: 'sensor' } } },
-                  ]}
+                      {
+                        name: levelKey,
+                        required: false,
+                        selector: { entity: { domain: 'sensor' } },
+                      },
+                    ]}
                     .computeLabel=${() => _t('pollen.config.level_sensor')}
                     .computeHelper=${() => _t('pollen.config.level_sensor_hint')}
                     @value-changed=${this._valueChanged}
@@ -138,8 +142,8 @@ export class PollenCardEditor extends LitElement implements LovelaceCardEditor {
                     .hass=${this.hass}
                     .data=${{ [rawKey]: rawValue }}
                     .schema=${[
-                    { name: rawKey, required: false, selector: { entity: { domain: 'sensor' } } },
-                  ]}
+                      { name: rawKey, required: false, selector: { entity: { domain: 'sensor' } } },
+                    ]}
                     .computeLabel=${() => _t('pollen.config.raw_sensor')}
                     .computeHelper=${() => _t('pollen.config.raw_sensor_hint')}
                     @value-changed=${this._valueChanged}
