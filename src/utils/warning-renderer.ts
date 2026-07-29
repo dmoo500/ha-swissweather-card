@@ -62,62 +62,78 @@ export function renderRankedSlot(
           style="flex: 1; min-width: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px;"
         >
           <span style="font-weight: bold;">${label}</span>
-          ${attrs.level_name
-            ? html`<span style="font-size: 12px; opacity: 0.8;">(${attrs.level_name})</span>`
-            : ''}
-          ${effectiveAdditional > 0
-            ? html`<span
-                style="font-size: 12px; opacity: 0.75;"
-                title="${_t('warning.warnings_additional', { count: effectiveAdditional })}"
-              >
-                +${effectiveAdditional}
-              </span>`
-            : ''}
+          ${
+            attrs.level_name
+              ? html`<span style="font-size: 12px; opacity: 0.8;">(${attrs.level_name})</span>`
+              : ''
+          }
+          ${
+            effectiveAdditional > 0
+              ? html`<span
+                  style="font-size: 12px; opacity: 0.75;"
+                  title="${_t('warning.warnings_additional', { count: effectiveAdditional })}"
+                >
+                  +${effectiveAdditional}
+                </span>`
+              : ''
+          }
         </div>
-        ${hasContent
-          ? html`
-              <button
-                @click=${() => toggle(slotId)}
-                style="background:none;border:none;cursor:pointer;color:var(--primary-text-color,#fff);font-size:16px;flex-shrink:0;"
-                title="${isOpen ? _t('collapse') : _t('expand')}"
-                aria-label="${isOpen ? _t('collapse') : _t('expand')}"
-              >
-                <ha-icon icon="${isOpen ? 'mdi:chevron-up' : 'mdi:chevron-down'}"></ha-icon>
-              </button>
-            `
-          : ''}
+        ${
+          hasContent
+            ? html`
+                <button
+                  @click=${() => toggle(slotId)}
+                  style="background:none;border:none;cursor:pointer;color:var(--primary-text-color,#fff);font-size:16px;flex-shrink:0;"
+                  title="${isOpen ? _t('collapse') : _t('expand')}"
+                  aria-label="${isOpen ? _t('collapse') : _t('expand')}"
+                >
+                  <ha-icon icon="${isOpen ? 'mdi:chevron-up' : 'mdi:chevron-down'}"></ha-icon>
+                </button>
+              `
+            : ''
+        }
       </div>
-      ${isOpen
-        ? html`
-            <div style="margin-top: 6px; font-size: 13px; opacity: 0.85;">
-              ${attrs.valid_from || attrs.valid_to
-                ? html`
-                    <div style="margin-bottom: 4px;">
-                      ${attrs.valid_from
-                        ? html`<strong>${_t('warning.valid_from')}: </strong>${new Date(
-                              attrs.valid_from
-                            ).toLocaleString()}&nbsp;`
-                        : ''}
-                      ${attrs.valid_to
-                        ? html`<strong>${_t('warning.valid_to')}: </strong>${new Date(
-                              attrs.valid_to
-                            ).toLocaleString()}`
-                        : ''}
-                    </div>
-                  `
-                : ''}
-              ${attrs.html_text
-                ? html`<div
-                    style="line-height: 1.4; margin-bottom: 4px;"
-                    .innerHTML="${sanitizeHtml(attrs.html_text)}"
-                  ></div>`
-                : attrs.text
-                  ? html`<div style="line-height: 1.4; margin-bottom: 4px;">${attrs.text}</div>`
-                  : ''}
-              ${attrs.links?.length
-                ? html`
-                    <div style="display: flex; flex-direction: column; gap: 2px;">
-                      ${attrs.links.map(
+      ${
+        isOpen
+          ? html`
+              <div style="margin-top: 6px; font-size: 13px; opacity: 0.85;">
+                ${
+                attrs.valid_from || attrs.valid_to
+                  ? html`
+                      <div style="margin-bottom: 4px;">
+                        ${
+                        attrs.valid_from
+                          ? html`<strong>${_t('warning.valid_from')}: </strong>${new Date(
+                                attrs.valid_from
+                              ).toLocaleString()}&nbsp;`
+                          : ''
+                      }
+                        ${
+                        attrs.valid_to
+                          ? html`<strong>${_t('warning.valid_to')}: </strong>${new Date(
+                                attrs.valid_to
+                              ).toLocaleString()}`
+                          : ''
+                      }
+                      </div>
+                    `
+                  : ''
+              }
+                ${
+                attrs.html_text
+                  ? html`<div
+                      style="line-height: 1.4; margin-bottom: 4px;"
+                      .innerHTML="${sanitizeHtml(attrs.html_text)}"
+                    ></div>`
+                  : attrs.text
+                    ? html`<div style="line-height: 1.4; margin-bottom: 4px;">${attrs.text}</div>`
+                    : ''
+              }
+                ${
+                attrs.links?.length
+                  ? html`
+                      <div style="display: flex; flex-direction: column; gap: 2px;">
+                        ${attrs.links.map(
                         (l: { url: string; text: string; alt_url?: string }) => html`
                           <a
                             href="${l.url.startsWith('http') ? l.url : (l.alt_url ?? l.url)}"
@@ -130,12 +146,14 @@ export function renderRankedSlot(
                           </a>
                         `
                       )}
-                    </div>
-                  `
-                : ''}
-            </div>
-          `
-        : ''}
+                      </div>
+                    `
+                  : ''
+              }
+              </div>
+            `
+          : ''
+      }
     </li>
   `;
 }
@@ -260,18 +278,20 @@ export function renderLegacyWarnings(
                   style="color: ${levelToColor(w.level)};"
                 ></ha-icon>
                 <span style="font-weight: bold;">${w.title}</span>
-                ${w.link
-                  ? html`
-                      <a
-                        href="${w.link}"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style="color: var(--primary-text-color, #fff); text-decoration: underline; display: flex; align-items: center;"
-                      >
-                        <ha-icon icon="mdi:link-variant" style="font-size: 16px;"></ha-icon>
-                      </a>
-                    `
-                  : ''}
+                ${
+                  w.link
+                    ? html`
+                        <a
+                          href="${w.link}"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style="color: var(--primary-text-color, #fff); text-decoration: underline; display: flex; align-items: center;"
+                        >
+                          <ha-icon icon="mdi:link-variant" style="font-size: 16px;"></ha-icon>
+                        </a>
+                      `
+                    : ''
+                }
                 <button
                   @click=${() => toggle(w.id)}
                   style="background:none;border:none;cursor:pointer;color:var(--primary-text-color,#fff);font-size:16px;"
@@ -283,20 +303,22 @@ export function renderLegacyWarnings(
                   ></ha-icon>
                 </button>
               </div>
-              ${openWarnings[w.id] && w.description
-                ? html`
-                    <div>
-                      <strong>${_t('warning.valid_from')}: </strong>
-                      ${w.valid_from ? new Date(w.valid_from).toLocaleString() : _t('unknown')}
-                      <strong>${_t('warning.valid_to')}: </strong>
-                      ${w.valid_to ? new Date(w.valid_to).toLocaleString() : _t('unknown')}
-                    </div>
-                    <div
-                      style="font-size: 14px; line-height: 1.4; margin-top: 4px;"
-                      .innerHTML="${sanitizeHtml(String(marked.parse(w.description || '')))}"
-                    ></div>
-                  `
-                : ''}
+              ${
+                openWarnings[w.id] && w.description
+                  ? html`
+                      <div>
+                        <strong>${_t('warning.valid_from')}: </strong>
+                        ${w.valid_from ? new Date(w.valid_from).toLocaleString() : _t('unknown')}
+                        <strong>${_t('warning.valid_to')}: </strong>
+                        ${w.valid_to ? new Date(w.valid_to).toLocaleString() : _t('unknown')}
+                      </div>
+                      <div
+                        style="font-size: 14px; line-height: 1.4; margin-top: 4px;"
+                        .innerHTML="${sanitizeHtml(String(marked.parse(w.description || '')))}"
+                      ></div>
+                    `
+                  : ''
+              }
             </li>
           `
         )}

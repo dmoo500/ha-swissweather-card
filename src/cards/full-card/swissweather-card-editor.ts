@@ -340,14 +340,16 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
           </ul>
         </div>
         <!-- Configuration Preview -->
-        ${this._config?.entity
-          ? html`
-              <div class="preview">
-                <div class="preview-title">📋 YAML-Config</div>
-                <div class="preview-config">${this._renderConfigPreview()}</div>
-              </div>
-            `
-          : ''}
+        ${
+          this._config?.entity
+            ? html`
+                <div class="preview">
+                  <div class="preview-title">📋 YAML-Config</div>
+                  <div class="preview-config">${this._renderConfigPreview()}</div>
+                </div>
+              `
+            : ''
+        }
       </div>
     `;
   }

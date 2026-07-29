@@ -118,34 +118,36 @@ export class PollenCardEditor extends LitElement implements LovelaceCardEditor {
             @change=${(e: Event) => this._toggleType(type, (e.target as HTMLInputElement).checked)}
           ></ha-switch>
         </div>
-        ${enabled
-          ? html`
-              <div class="pollen-type-fields">
-                <div class="field-label">${_t('pollen.config.level_sensor')}</div>
-                <ha-form
-                  .hass=${this.hass}
-                  .data=${{ [levelKey]: levelValue }}
-                  .schema=${[
+        ${
+          enabled
+            ? html`
+                <div class="pollen-type-fields">
+                  <div class="field-label">${_t('pollen.config.level_sensor')}</div>
+                  <ha-form
+                    .hass=${this.hass}
+                    .data=${{ [levelKey]: levelValue }}
+                    .schema=${[
                     { name: levelKey, required: false, selector: { entity: { domain: 'sensor' } } },
                   ]}
-                  .computeLabel=${() => _t('pollen.config.level_sensor')}
-                  .computeHelper=${() => _t('pollen.config.level_sensor_hint')}
-                  @value-changed=${this._valueChanged}
-                ></ha-form>
-                <div class="field-label">${_t('pollen.config.raw_sensor')}</div>
-                <ha-form
-                  .hass=${this.hass}
-                  .data=${{ [rawKey]: rawValue }}
-                  .schema=${[
+                    .computeLabel=${() => _t('pollen.config.level_sensor')}
+                    .computeHelper=${() => _t('pollen.config.level_sensor_hint')}
+                    @value-changed=${this._valueChanged}
+                  ></ha-form>
+                  <div class="field-label">${_t('pollen.config.raw_sensor')}</div>
+                  <ha-form
+                    .hass=${this.hass}
+                    .data=${{ [rawKey]: rawValue }}
+                    .schema=${[
                     { name: rawKey, required: false, selector: { entity: { domain: 'sensor' } } },
                   ]}
-                  .computeLabel=${() => _t('pollen.config.raw_sensor')}
-                  .computeHelper=${() => _t('pollen.config.raw_sensor_hint')}
-                  @value-changed=${this._valueChanged}
-                ></ha-form>
-              </div>
-            `
-          : ''}
+                    .computeLabel=${() => _t('pollen.config.raw_sensor')}
+                    .computeHelper=${() => _t('pollen.config.raw_sensor_hint')}
+                    @value-changed=${this._valueChanged}
+                  ></ha-form>
+                </div>
+              `
+            : ''
+        }
       </div>
     `;
   }
