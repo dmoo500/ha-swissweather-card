@@ -1,6 +1,6 @@
 # Release Notes
 
-## [1.11.0-beta.1] - 2026-09-03
+## [1.10.6] - 2026-09-03
 
 ### Fixed
 - Fixed malformed HTML/SVG closing tags that could prevent the card from rendering in Home Assistant 2026.9.
