@@ -1,5 +1,5 @@
 //#region package.json
-var e = "1.10.0", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
+var e = "1.11.0-beta.1", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
 	constructor(e, t, n) {
 		if (this._$cssResult$ = !0, n !== r) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
 		this.cssText = e, this.t = t;
@@ -779,16 +779,16 @@ var N = class extends D {
               <div class="wrapper ${this.alignRight ? "align-right" : ""}">
                 <div class="${n}">
                   ${this.compact ? w`` : w`
-                        <div class="section-title">
-                          <ha-icon icon="mdi:calendar"></ha-icon>
-                          ${t.length === 7 ? this._t("hourly_charts.7d_forecast") : this._t("hourly_charts.xd_forecast", { days: t.length })}
-                          <small
-                            style="font-size: 12px; color: var(--secondary-text-color, #666); margin-left: 10px;"
-                          >
-                            (${t.length} ${this._t("hourly_charts.days_available")})
-                          </small>
-                        </div>
-                      `}
+                          <div class="section-title">
+                            <ha-icon icon="mdi:calendar"></ha-icon>
+                            ${t.length === 7 ? this._t("hourly_charts.7d_forecast") : this._t("hourly_charts.xd_forecast", { days: t.length })}
+                            <small
+                              style="font-size: 12px; color: var(--secondary-text-color, #666); margin-left: 10px;"
+                            >
+                              (${t.length} ${this._t("hourly_charts.days_available")})
+                            </small>
+                          </div>
+                        `}
                   <div class="${r}">
                     ${t.map((e) => w`
                         <div class="forecast-day ${this.compact ? "compact" : ""}">
@@ -1237,37 +1237,37 @@ var P = class extends D {
 			let e = this.weatherEntity?.attributes?.sunrise ? new Date(this.weatherEntity.attributes.sunrise) : this.sun_entity?.attributes?.next_rising ? new Date((this.sun_entity?.attributes).next_rising) : null, t = this.weatherEntity?.attributes?.sunset ? new Date(this.weatherEntity.attributes.sunset) : this.sun_entity?.attributes?.next_setting ? new Date((this.sun_entity?.attributes).next_setting) : null, n = this.hourlyForecast[0]?.datetime ? new Date(this.hourlyForecast[0].datetime) : null, r = -1, i = -1;
 			return e && n && (r = Math.round((e.getTime() - n.getTime()) / (3600 * 1e3))), t && n && (i = Math.round((t.getTime() - n.getTime()) / (3600 * 1e3))), w`
                     ${r >= 0 && r < this.forecastHours ? w`
-                          <div
-                            style="position:absolute;left:calc(${r / this.forecastHours * 100}% - 10px);top:0;height:100%;width:20px;pointer-events:none;z-index:2;display:flex;flex-direction:column;align-items:center;"
-                          >
-                            <ha-icon
-                              icon="mdi:weather-sunset-up"
-                              style="color:#fbc02d;font-size:18px;"
-                            ></ha-icon>
-                            <span style="font-size:10px;color:#fbc02d">
-                              ${e ? e.toLocaleTimeString([], {
+                            <div
+                              style="position:absolute;left:calc(${r / this.forecastHours * 100}% - 10px);top:0;height:100%;width:20px;pointer-events:none;z-index:2;display:flex;flex-direction:column;align-items:center;"
+                            >
+                              <ha-icon
+                                icon="mdi:weather-sunset-up"
+                                style="color:#fbc02d;font-size:18px;"
+                              ></ha-icon>
+                              <span style="font-size:10px;color:#fbc02d">
+                                ${e ? e.toLocaleTimeString([], {
 				hour: "2-digit",
 				minute: "2-digit"
 			}) : ""}</span
-                            >
-                          </div>
-                        ` : ""}
+                              >
+                            </div>
+                          ` : ""}
                     ${i >= 0 && i < this.forecastHours ? w`
-                          <div
-                            style="position:absolute;left:calc(${i / this.forecastHours * 100}% - 10px);top:0;height:100%;width:20px;pointer-events:none;z-index:2;display:flex;flex-direction:column;align-items:center;"
-                          >
-                            <ha-icon
-                              icon="mdi:weather-sunset-down"
-                              style="color:#fbc02d;font-size:18px;"
-                            ></ha-icon>
-                            <span style="font-size:10px;color:#fbc02d;">
-                              ${t ? t.toLocaleTimeString([], {
+                            <div
+                              style="position:absolute;left:calc(${i / this.forecastHours * 100}% - 10px);top:0;height:100%;width:20px;pointer-events:none;z-index:2;display:flex;flex-direction:column;align-items:center;"
+                            >
+                              <ha-icon
+                                icon="mdi:weather-sunset-down"
+                                style="color:#fbc02d;font-size:18px;"
+                              ></ha-icon>
+                              <span style="font-size:10px;color:#fbc02d;">
+                                ${t ? t.toLocaleTimeString([], {
 				hour: "2-digit",
 				minute: "2-digit"
 			}) : ""}</span
-                            >
-                          </div>
-                        ` : ""}
+                              >
+                            </div>
+                          ` : ""}
                   `;
 		})()}
                 ${this.hourlyForecast.slice(0, this.forecastHours).map((e) => {
@@ -3045,11 +3045,11 @@ var rn = class extends D {
         </div>
         <!-- Configuration Preview -->
         ${this._config?.entity ? w`
-              <div class="preview">
-                <div class="preview-title">📋 YAML-Config</div>
-                <div class="preview-config">${this._renderConfigPreview()}</div>
-              </div>
-            ` : ""}
+                <div class="preview">
+                  <div class="preview-title">📋 YAML-Config</div>
+                  <div class="preview-config">${this._renderConfigPreview()}</div>
+                </div>
+              ` : ""}
       </div>
     `;
 	}
@@ -4736,52 +4736,52 @@ function mi(e, t, n, r, i = 0) {
           <span style="font-weight: bold;">${c}</span>
           ${a.level_name ? w`<span style="font-size: 12px; opacity: 0.8;">(${a.level_name})</span>` : ""}
           ${i > 0 ? w`<span
-                style="font-size: 12px; opacity: 0.75;"
-                title="${L("warning.warnings_additional", { count: i })}"
-              >
-                +${i}
-              </span>` : ""}
+                  style="font-size: 12px; opacity: 0.75;"
+                  title="${L("warning.warnings_additional", { count: i })}"
+                >
+                  +${i}
+                </span>` : ""}
         </div>
         ${u ? w`
-              <button
-                @click=${() => r(t)}
-                style="background:none;border:none;cursor:pointer;color:var(--primary-text-color,#fff);font-size:16px;flex-shrink:0;"
-                title="${L(l ? "collapse" : "expand")}"
-                aria-label="${L(l ? "collapse" : "expand")}"
-              >
-                <ha-icon icon="${l ? "mdi:chevron-up" : "mdi:chevron-down"}"></ha-icon>
-              </button>
-            ` : ""}
+                <button
+                  @click=${() => r(t)}
+                  style="background:none;border:none;cursor:pointer;color:var(--primary-text-color,#fff);font-size:16px;flex-shrink:0;"
+                  title="${L(l ? "collapse" : "expand")}"
+                  aria-label="${L(l ? "collapse" : "expand")}"
+                >
+                  <ha-icon icon="${l ? "mdi:chevron-up" : "mdi:chevron-down"}"></ha-icon>
+                </button>
+              ` : ""}
       </div>
       ${l ? w`
-            <div style="margin-top: 6px; font-size: 13px; opacity: 0.85;">
-              ${a.valid_from || a.valid_to ? w`
-                    <div style="margin-bottom: 4px;">
-                      ${a.valid_from ? w`<strong>${L("warning.valid_from")}: </strong>${new Date(a.valid_from).toLocaleString()}&nbsp;` : ""}
-                      ${a.valid_to ? w`<strong>${L("warning.valid_to")}: </strong>${new Date(a.valid_to).toLocaleString()}` : ""}
-                    </div>
-                  ` : ""}
-              ${a.html_text ? w`<div
-                    style="line-height: 1.4; margin-bottom: 4px;"
-                    .innerHTML="${fi(a.html_text)}"
-                  ></div>` : a.text ? w`<div style="line-height: 1.4; margin-bottom: 4px;">${a.text}</div>` : ""}
-              ${a.links?.length ? w`
-                    <div style="display: flex; flex-direction: column; gap: 2px;">
-                      ${a.links.map((e) => w`
-                          <a
-                            href="${e.url.startsWith("http") ? e.url : e.alt_url ?? e.url}"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style="color: var(--primary-text-color, #fff); text-decoration: underline; display: flex; align-items: center; gap: 4px;"
-                          >
-                            <ha-icon icon="mdi:link-variant" style="font-size: 14px;"></ha-icon>
-                            ${e.text}
-                          </a>
-                        `)}
-                    </div>
-                  ` : ""}
-            </div>
-          ` : ""}
+              <div style="margin-top: 6px; font-size: 13px; opacity: 0.85;">
+                ${a.valid_from || a.valid_to ? w`
+                        <div style="margin-bottom: 4px;">
+                          ${a.valid_from ? w`<strong>${L("warning.valid_from")}: </strong>${new Date(a.valid_from).toLocaleString()}&nbsp;` : ""}
+                          ${a.valid_to ? w`<strong>${L("warning.valid_to")}: </strong>${new Date(a.valid_to).toLocaleString()}` : ""}
+                        </div>
+                      ` : ""}
+                ${a.html_text ? w`<div
+                        style="line-height: 1.4; margin-bottom: 4px;"
+                        .innerHTML="${fi(a.html_text)}"
+                      ></div>` : a.text ? w`<div style="line-height: 1.4; margin-bottom: 4px;">${a.text}</div>` : ""}
+                ${a.links?.length ? w`
+                        <div style="display: flex; flex-direction: column; gap: 2px;">
+                          ${a.links.map((e) => w`
+                              <a
+                                href="${e.url.startsWith("http") ? e.url : e.alt_url ?? e.url}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style="color: var(--primary-text-color, #fff); text-decoration: underline; display: flex; align-items: center; gap: 4px;"
+                              >
+                                <ha-icon icon="mdi:link-variant" style="font-size: 14px;"></ha-icon>
+                                ${e.text}
+                              </a>
+                            `)}
+                        </div>
+                      ` : ""}
+              </div>
+            ` : ""}
     </li>
   `;
 }
@@ -4855,15 +4855,15 @@ function gi(e, t, n) {
                 ></ha-icon>
                 <span style="font-weight: bold;">${e.title}</span>
                 ${e.link ? w`
-                      <a
-                        href="${e.link}"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style="color: var(--primary-text-color, #fff); text-decoration: underline; display: flex; align-items: center;"
-                      >
-                        <ha-icon icon="mdi:link-variant" style="font-size: 16px;"></ha-icon>
-                      </a>
-                    ` : ""}
+                        <a
+                          href="${e.link}"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style="color: var(--primary-text-color, #fff); text-decoration: underline; display: flex; align-items: center;"
+                        >
+                          <ha-icon icon="mdi:link-variant" style="font-size: 16px;"></ha-icon>
+                        </a>
+                      ` : ""}
                 <button
                   @click=${() => n(e.id)}
                   style="background:none;border:none;cursor:pointer;color:var(--primary-text-color,#fff);font-size:16px;"
@@ -4876,17 +4876,17 @@ function gi(e, t, n) {
                 </button>
               </div>
               ${t[e.id] && e.description ? w`
-                    <div>
-                      <strong>${L("warning.valid_from")}: </strong>
-                      ${e.valid_from ? new Date(e.valid_from).toLocaleString() : L("unknown")}
-                      <strong>${L("warning.valid_to")}: </strong>
-                      ${e.valid_to ? new Date(e.valid_to).toLocaleString() : L("unknown")}
-                    </div>
-                    <div
-                      style="font-size: 14px; line-height: 1.4; margin-top: 4px;"
-                      .innerHTML="${fi(String(Z.parse(e.description || "")))}"
-                    ></div>
-                  ` : ""}
+                      <div>
+                        <strong>${L("warning.valid_from")}: </strong>
+                        ${e.valid_from ? new Date(e.valid_from).toLocaleString() : L("unknown")}
+                        <strong>${L("warning.valid_to")}: </strong>
+                        ${e.valid_to ? new Date(e.valid_to).toLocaleString() : L("unknown")}
+                      </div>
+                      <div
+                        style="font-size: 14px; line-height: 1.4; margin-top: 4px;"
+                        .innerHTML="${fi(String(Z.parse(e.description || "")))}"
+                      ></div>
+                    ` : ""}
             </li>
           `)}
       </ul>
@@ -5320,19 +5320,19 @@ var yi = class extends D {
           <div class="metric-label">${z("pressure")}</div>
         </div>
         ${a ? w`
-              <div class="metric-card">
-                <div class="metric-icon"><ha-icon icon="mdi:white-balance-sunny"></ha-icon></div>
-                <div class="metric-value">${parseFloat(a.state).toFixed(1)}h</div>
-                <div class="metric-label">${z("sunshine")}</div>
-              </div>
-            ` : ""}
+                <div class="metric-card">
+                  <div class="metric-icon"><ha-icon icon="mdi:white-balance-sunny"></ha-icon></div>
+                  <div class="metric-value">${parseFloat(a.state).toFixed(1)}h</div>
+                  <div class="metric-label">${z("sunshine")}</div>
+                </div>
+              ` : ""}
         ${i > 0 ? w`
-              <div class="metric-card">
-                <div class="metric-icon"><ha-icon icon="mdi:eye"></ha-icon></div>
-                <div class="metric-value">${i} km</div>
-                <div class="metric-label">${z("visibility")}</div>
-              </div>
-            ` : ""}
+                <div class="metric-card">
+                  <div class="metric-icon"><ha-icon icon="mdi:eye"></ha-icon></div>
+                  <div class="metric-value">${i} km</div>
+                  <div class="metric-label">${z("visibility")}</div>
+                </div>
+              ` : ""}
       </div>
     `;
 	}
@@ -5340,10 +5340,10 @@ var yi = class extends D {
 		return w`
       <div class="current-weather-section">
         ${this.config.compact_mode === !0 ? w`
-              ${this._renderCurrentWeatherCompactMode(e, t, n, r, i, a)}
-            ` : w`
-              ${this._renderCurrentWeather(e, t, n, r, i, a)}
-            `}
+                ${this._renderCurrentWeatherCompactMode(e, t, n, r, i, a)}
+              ` : w`
+                ${this._renderCurrentWeather(e, t, n, r, i, a)}
+              `}
       </div>
     `;
 	}
@@ -5356,10 +5356,10 @@ var yi = class extends D {
 		let r = this.config.show_location !== !1, i = this.config.location || z("location"), a = t.attributes.temperature, o = t.state, s = this.config.wind_entity ? this._getEntityState(this.config.wind_entity) : null, c = this.config.wind_direction_entity ? this._getEntityState(this.config.wind_direction_entity) : null, l = this.config.sunshine_entity ? this._getEntityState(this.config.sunshine_entity) : null, u = this.config.warning_entity ? this._getEntityState(this.config.warning_entity) : null, d = this.config.primary_warning_entity ? this._getEntityState(this.config.primary_warning_entity) : null, f = this.config.secondary_warning_entity ? this._getEntityState(this.config.secondary_warning_entity) : null, p = this.config.tertiary_warning_entity ? this._getEntityState(this.config.tertiary_warning_entity) : null, m = s ? parseFloat(s.state) : t.attributes.wind_speed || 0, h = c ? parseFloat(c.state) : t.attributes.wind_bearing || 0, g = t.attributes.humidity || 0, _ = t.attributes.pressure || 0, ee = t.attributes.visibility || 0, te = this.config.forecast_hours ?? 6;
 		return w`
       ${r ? w`
-            <div class="header">
-              <div class="location">${i}</div>
-            </div>
-          ` : ""}
+              <div class="header">
+                <div class="location">${i}</div>
+              </div>
+            ` : ""}
       ${this.config.show_warnings ? this._renderWarningSection(u, d, f, p) : ""}
 
       <div class="current-weather">
@@ -5379,11 +5379,11 @@ var yi = class extends D {
 
       ${this._renderCurrentWeatherSection(m, h, g, _, ee, l)}
       ${this.config.show_temperature !== !1 || this.config.show_precipitation !== !1 || this.config.show_sunshine !== !1 || this.config.show_wind !== !1 || this.config.show_forecast !== !1 ? w`
-            <div class="section-title">
-              <ha-icon icon="mdi:clock"></ha-icon>
-              ${z("hourly_charts.forecast_hours", { hours: te })}
-            </div>
-          ` : ""}
+              <div class="section-title">
+                <ha-icon icon="mdi:clock"></ha-icon>
+                ${z("hourly_charts.forecast_hours", { hours: te })}
+              </div>
+            ` : ""}
       ${this._getEffectiveChartOrder().map((e) => {
 			switch (e) {
 				case "temperature": return this._renderForecastTemperature(te);
@@ -5432,7 +5432,7 @@ var yi = class extends D {
                   <div class="metric-value">${i} km</div>
                 </div>
               ` : ""}
-      </div
+      </div>
       `;
 	}
 	_showDailyForecast() {
@@ -5671,11 +5671,11 @@ var Ci = class extends D {
 
         <!-- Configuration Preview -->
         ${this._config?.entity ? w`
-              <div class="preview">
-                <div class="preview-title">📋 YAML-Config</div>
-                <div class="preview-config">${this._renderConfigPreview()}</div>
-              </div>
-            ` : ""}
+                <div class="preview">
+                  <div class="preview-title">📋 YAML-Config</div>
+                  <div class="preview-config">${this._renderConfigPreview()}</div>
+                </div>
+              ` : ""}
       </div>
     `;
 	}
@@ -6321,7 +6321,7 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
       <stop offset="0" stop-color="#fbbf24"/>
       <stop offset=".45" stop-color="#fbbf24"/>
       <stop offset="1" stop-color="#f59e0b"/>
-    </linearGradient
+    </linearGradient>
     <g id="cloudIcon">
       <path fill="url(#partlyCloudyDayGradient)" stroke="#e6effc" stroke-miterlimit="10" stroke-width=".5"
         d="M46.5 31.5h-.32a10.49 10.49 0 00-19.11-8 7 7 0 00-10.57 6 7.21 7.21 0 00.1 1.14A7.5 7.5 0 0018 45.5a4.19 4.19 0 00.5 0v0h28a7 7 0 000-14z"/>
@@ -6539,11 +6539,11 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
 		return w`
       <div class="wrapper ${this.alignRight ? "align-right" : ""}">
         ${this.compact ? w`` : w`
-              <div class="section-title">
-                <ha-icon icon="mdi:clock-outline"></ha-icon>
-                ${this._t("hourly_charts.forecast_hours", { hours: e.length })}
-              </div>
-            `}
+                <div class="section-title">
+                  <ha-icon icon="mdi:clock-outline"></ha-icon>
+                  ${this._t("hourly_charts.forecast_hours", { hours: e.length })}
+                </div>
+              `}
         <div class="grid">
           ${e.map((e) => w`
               <div class="tile">
@@ -7783,75 +7783,76 @@ var Ki = class extends D {
           ${typeof n == "number" && !isNaN(n) ? n : "--"}°
         </div>
         ${r ? w`${this.config.photo_mode === !0 ? this._renderPhotoLikeBackground(r, i) : w`<div class="img-svg">
-                    <svg
-                      viewBox="0 0 ${a} ${o}"
-                      width="100%"
-                      xmlns="http://www.w3.org/2000/svg"
-                      xmlns:xlink="http://www.w3.org/1999/xlink"
-                      preserveAspectRatio="xMidYMid slice"
-                    >
-                      ${a > 0 ? Ei(r, i, a) : T``}
-                    </svg>
-                  </div>`}
-              ${l && this.config.show_day_temps !== !1 ? w`
-                    <div class="forecast-temps">
-                      <span class="temp-high">
-                        <ha-icon icon="mdi:arrow-up-bold"></ha-icon> ${Math.round(l.temperature)}°
-                      </span>
-                      <span class="temp-low">
-                        <ha-icon icon="mdi:arrow-down-bold"></ha-icon> ${Math.round(l.templow || l.temperature - 5)}°
-                      </span>
-                    </div>
-                  ` : ""}
-              ${u && this.config.show_sun_times !== !1 && r !== "clear-night" ? w`
-                    <div class="sun-times">
-                      <span title="${z("bg_card.sunrise")}">
-                        <ha-icon icon="mdi:weather-sunset-up"></ha-icon> ${h(f)}
-                      </span>
-                      <span title="${z("bg_card.sunset")}">
-                        <ha-icon icon="mdi:weather-sunset-down"></ha-icon> ${h(p)}
-                      </span>
-                    </div>
-                  ` : ""}
-              ${(this.config.forecast_mode || "daily") === "daily" && this._forecast.length > 0 ? w`
-                    <div class="forecast-mini">
-                      <daily-forecast-chart
-                        .forecast=${this._forecast?.slice(0, 7) ?? []}
-                        .forecastLoading=${this._forecastLoading}
-                        .show_forecast=${!0}
-                        .config=${{
+                        <svg
+                          viewBox="0 0 ${a} ${o}"
+                          width="100%"
+                          xmlns="http://www.w3.org/2000/svg"
+                          xmlns:xlink="http://www.w3.org/1999/xlink"
+                          preserveAspectRatio="xMidYMid slice"
+                        >
+                          ${a > 0 ? Ei(r, i, a) : T``}
+                        </svg>
+                      </div>`}
+                ${l && this.config.show_day_temps !== !1 ? w`
+                        <div class="forecast-temps">
+                          <span class="temp-high">
+                            <ha-icon icon="mdi:arrow-up-bold"></ha-icon>
+                            ${Math.round(l.temperature)}°
+                          </span>
+                          <span class="temp-low">
+                            <ha-icon icon="mdi:arrow-down-bold"></ha-icon> ${Math.round(l.templow || l.temperature - 5)}°
+                          </span>
+                        </div>
+                      ` : ""}
+                ${u && this.config.show_sun_times !== !1 && r !== "clear-night" ? w`
+                        <div class="sun-times">
+                          <span title="${z("bg_card.sunrise")}">
+                            <ha-icon icon="mdi:weather-sunset-up"></ha-icon> ${h(f)}
+                          </span>
+                          <span title="${z("bg_card.sunset")}">
+                            <ha-icon icon="mdi:weather-sunset-down"></ha-icon> ${h(p)}
+                          </span>
+                        </div>
+                      ` : ""}
+                ${(this.config.forecast_mode || "daily") === "daily" && this._forecast.length > 0 ? w`
+                        <div class="forecast-mini">
+                          <daily-forecast-chart
+                            .forecast=${this._forecast?.slice(0, 7) ?? []}
+                            .forecastLoading=${this._forecastLoading}
+                            .show_forecast=${!0}
+                            .config=${{
 			...this.config,
 			enable_animate_weather_icons: !0
 		}}
-                        .compact=${!0}
-                        .startTomorrow=${!0}
-                        .maxDays=${5}
-                        .alignRight=${!0}
-                        ._t=${z}
-                        .getWeatherIcon=${Ln}
-                        .formatDate=${on}
-                      ></daily-forecast-chart>
-                    </div>
-                  ` : w``}
-              ${(this.config.forecast_mode || "daily") === "hourly" && this._hourly.length > 0 ? w`
-                    <div class="forecast-mini">
-                      <hourly-forecast-chart
-                        .hourlyForecast=${this._hourly}
-                        .forecastLoading=${this._hourlyLoading}
-                        .show_forecast=${!0}
-                        .config=${{
+                            .compact=${!0}
+                            .startTomorrow=${!0}
+                            .maxDays=${5}
+                            .alignRight=${!0}
+                            ._t=${z}
+                            .getWeatherIcon=${Ln}
+                            .formatDate=${on}
+                          ></daily-forecast-chart>
+                        </div>
+                      ` : w``}
+                ${(this.config.forecast_mode || "daily") === "hourly" && this._hourly.length > 0 ? w`
+                        <div class="forecast-mini">
+                          <hourly-forecast-chart
+                            .hourlyForecast=${this._hourly}
+                            .forecastLoading=${this._hourlyLoading}
+                            .show_forecast=${!0}
+                            .config=${{
 			...this.config,
 			enable_animate_weather_icons: !0
 		}}
-                        .compact=${!0}
-                        .maxHours=${5}
-                        .alignRight=${!0}
-                        ._t=${z}
-                        .getWeatherIcon=${Ln}
-                      ></hourly-forecast-chart>
-                    </div>
-                  ` : w``}
-              <div class="condition">${z(r)}</div> ` : w``}
+                            .compact=${!0}
+                            .maxHours=${5}
+                            .alignRight=${!0}
+                            ._t=${z}
+                            .getWeatherIcon=${Ln}
+                          ></hourly-forecast-chart>
+                        </div>
+                      ` : w``}
+                <div class="condition">${z(r)}</div> ` : w``}
       </div>
     `;
 	}
@@ -7889,23 +7890,23 @@ var Ki = class extends D {
         <div class="photo-layer photo-wind-streaks"></div>
         <div class="photo-layer photo-cloud-shadow"></div>
         ${l || u || d ? w`<div class="photo-layer weather-particles">
-              ${p ? w`${[
+                ${p ? w`${[
 			"c1",
 			"c2",
 			"c3"
 		].map((e) => w`<div class="weather-cluster ${e}">
-                        ${l ? this._renderRainParticles(6, !0) : w``}
-                        ${u ? this._renderSnowParticles(10, !0) : w``}
-                      </div>`)}` : w`${e === "pouring" ? this._renderRainParticles(68, !1, !0) : w``}
-                  ${e === "pouring" ? this._renderDrizzleParticles(28, !1, !0) : w``}
-                  ${e === "rainy" ? this._renderRainParticles(66, !1, !0) : w``}
-                  ${e === "rainy" ? this._renderDrizzleParticles(22, !1, !0) : w``}
-                  ${e === "lightning-rainy" ? this._renderRainParticles(54, !1) : w``}
-                  ${e === "lightning-rainy" ? this._renderDrizzleParticles(18, !1) : w``}
-                  ${l && e !== "pouring" && e !== "rainy" && e !== "lightning-rainy" ? this._renderRainParticles(28, !1) : w``}
-                  ${u ? this._renderSnowParticles(36, !1) : w``}
-                  ${d ? this._renderHailParticles(58, !1) : w``}`}
-            </div>` : w``}
+                            ${l ? this._renderRainParticles(6, !0) : w``}
+                            ${u ? this._renderSnowParticles(10, !0) : w``}
+                          </div>`)}` : w`${e === "pouring" ? this._renderRainParticles(68, !1, !0) : w``}
+                      ${e === "pouring" ? this._renderDrizzleParticles(28, !1, !0) : w``}
+                      ${e === "rainy" ? this._renderRainParticles(66, !1, !0) : w``}
+                      ${e === "rainy" ? this._renderDrizzleParticles(22, !1, !0) : w``}
+                      ${e === "lightning-rainy" ? this._renderRainParticles(54, !1) : w``}
+                      ${e === "lightning-rainy" ? this._renderDrizzleParticles(18, !1) : w``}
+                      ${l && e !== "pouring" && e !== "rainy" && e !== "lightning-rainy" ? this._renderRainParticles(28, !1) : w``}
+                      ${u ? this._renderSnowParticles(36, !1) : w``}
+                      ${d ? this._renderHailParticles(58, !1) : w``}`}
+              </div>` : w``}
         ${f ? w`${this._renderLightningFlashes()} ${this._renderLightningBolts()}` : w``}
         <div class="photo-layer photo-vignette"></div>
         <div class="photo-layer photo-grain"></div>
@@ -8311,11 +8312,11 @@ var qi = class extends D {
 
         <!-- Configuration Preview -->
         ${this._config?.entity ? w`
-              <div class="preview">
-                <div class="preview-title">📋 YAML-Config</div>
-                <div class="preview-config">${this._renderConfigPreview()}</div>
-              </div>
-            ` : ""}
+                <div class="preview">
+                  <div class="preview-title">📋 YAML-Config</div>
+                  <div class="preview-config">${this._renderConfigPreview()}</div>
+                </div>
+              ` : ""}
       </div>
     `;
 	}
@@ -9499,19 +9500,22 @@ var Da = class extends D {
       </button>
 
       ${this._expanded ? w`
-            <div class="pollen-grid">
-              ${t.map(({ type: e, level: t, raw: n, unit: r }) => w`
-                  <div class="pollen-item">
-                    <div class="pollen-name">${L(`pollen.types.${e}`)}</div>
-                    <div class="pollen-level-dot" style="background: ${wa[t]};"></div>
-                    <div class="pollen-level-label" style="color: ${wa[t]};">
-                      ${L(`pollen.levels.${t.toLowerCase()}`)}
+              <div class="pollen-grid">
+                ${t.map(({ type: e, level: t, raw: n, unit: r }) => w`
+                    <div class="pollen-item">
+                      <div class="pollen-name">${L(`pollen.types.${e}`)}</div>
+                      <div
+                        class="pollen-level-dot"
+                        style="background: ${wa[t]};"
+                      ></div>
+                      <div class="pollen-level-label" style="color: ${wa[t]};">
+                        ${L(`pollen.levels.${t.toLowerCase()}`)}
+                      </div>
+                      ${n === void 0 ? "" : w`<div class="pollen-raw">${n}${r ? "\xA0" + r : ""}</div>`}
                     </div>
-                    ${n === void 0 ? "" : w`<div class="pollen-raw">${n}${r ? "\xA0" + r : ""}</div>`}
-                  </div>
-                `)}
-            </div>
-          ` : ""}
+                  `)}
+              </div>
+            ` : ""}
     `;
 	}
 };
@@ -9607,35 +9611,35 @@ var Oa = class extends D {
           ></ha-switch>
         </div>
         ${t ? w`
-              <div class="pollen-type-fields">
-                <div class="field-label">${L("pollen.config.level_sensor")}</div>
-                <ha-form
-                  .hass=${this.hass}
-                  .data=${{ [n]: i }}
-                  .schema=${[{
+                <div class="pollen-type-fields">
+                  <div class="field-label">${L("pollen.config.level_sensor")}</div>
+                  <ha-form
+                    .hass=${this.hass}
+                    .data=${{ [n]: i }}
+                    .schema=${[{
 			name: n,
 			required: !1,
 			selector: { entity: { domain: "sensor" } }
 		}]}
-                  .computeLabel=${() => L("pollen.config.level_sensor")}
-                  .computeHelper=${() => L("pollen.config.level_sensor_hint")}
-                  @value-changed=${this._valueChanged}
-                ></ha-form>
-                <div class="field-label">${L("pollen.config.raw_sensor")}</div>
-                <ha-form
-                  .hass=${this.hass}
-                  .data=${{ [r]: a }}
-                  .schema=${[{
+                    .computeLabel=${() => L("pollen.config.level_sensor")}
+                    .computeHelper=${() => L("pollen.config.level_sensor_hint")}
+                    @value-changed=${this._valueChanged}
+                  ></ha-form>
+                  <div class="field-label">${L("pollen.config.raw_sensor")}</div>
+                  <ha-form
+                    .hass=${this.hass}
+                    .data=${{ [r]: a }}
+                    .schema=${[{
 			name: r,
 			required: !1,
 			selector: { entity: { domain: "sensor" } }
 		}]}
-                  .computeLabel=${() => L("pollen.config.raw_sensor")}
-                  .computeHelper=${() => L("pollen.config.raw_sensor_hint")}
-                  @value-changed=${this._valueChanged}
-                ></ha-form>
-              </div>
-            ` : ""}
+                    .computeLabel=${() => L("pollen.config.raw_sensor")}
+                    .computeHelper=${() => L("pollen.config.raw_sensor_hint")}
+                    @value-changed=${this._valueChanged}
+                  ></ha-form>
+                </div>
+              ` : ""}
       </div>
     `;
 	}
