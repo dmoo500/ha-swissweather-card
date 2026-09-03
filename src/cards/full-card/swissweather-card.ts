@@ -805,7 +805,7 @@ export class SwissWeatherCard extends LitElement {
             : ''
         }
       </div>
-      `;
+    `;
   }
 
   private _showDailyForecast(): TemplateResult {
