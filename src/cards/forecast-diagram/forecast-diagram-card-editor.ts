@@ -3,7 +3,7 @@ import { use, get as _t, registerTranslateConfig } from 'lit-translate';
 import { customElement, property } from 'lit/decorators.js';
 import { fireEvent } from 'custom-card-helpers';
 import type { HomeAssistant, LovelaceCardEditor } from '../../types/home-assistant';
-import { translations } from '../../translations';
+import { getTranslations } from '../../translations';
 import {
   FORECAST_DIAGRAM_CARD_NAME,
   FORECAST_DIAGRAM_CARD_EDITOR_NAME,
@@ -14,7 +14,7 @@ import {
 registerTranslateConfig({
   // Loads the language by returning a JSON structure for a given language
   loader: lang => {
-    return translations[lang];
+    return getTranslations(lang);
   },
 });
 

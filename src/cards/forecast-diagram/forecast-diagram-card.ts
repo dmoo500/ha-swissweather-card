@@ -10,12 +10,12 @@ import { property, state, customElement } from 'lit/decorators.js';
 import { WeatherEntity, WeatherForecast, type HomeAssistant } from '../../types/home-assistant';
 import { getWeatherIcon } from '../../icons';
 import { translate as _t, registerTranslateConfig } from 'lit-translate';
-import { translations } from '../../translations';
+import { getTranslations } from '../../translations';
 
 registerTranslateConfig({
   // Loads the language by returning a JSON structure for a given language
   loader: lang => {
-    return translations[lang];
+    return getTranslations(lang);
   },
 });
 

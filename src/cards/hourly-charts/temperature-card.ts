@@ -1,7 +1,7 @@
 import { css, html, TemplateResult } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { get as _t, registerTranslateConfig } from 'lit-translate';
-import { translations } from '../../translations';
+import { getTranslations } from '../../translations';
 import { getEntityState } from '../../utils';
 import type { WeatherEntity } from '../../types/home-assistant';
 import { ForecastTemperatureChart } from '../../charts/forecast-temperature-chart';
@@ -17,7 +17,7 @@ import { HourlyForecastBaseCard } from './hourly-forecast-base';
 void ForecastTemperatureChart;
 
 registerTranslateConfig({
-  loader: lang => translations[lang],
+  loader: lang => getTranslations(lang),
 });
 
 @customElement(TEMPERATURE_CARD_NAME)

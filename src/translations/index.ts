@@ -4,3 +4,7 @@ import en from './en.json';
 export type TranslationDict = { [lang: string]: any };
 
 export const translations: TranslationDict = { de, en };
+
+export function getTranslations(lang: string): any {
+  return translations[lang] ?? translations.en;
+}

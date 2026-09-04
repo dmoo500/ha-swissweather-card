@@ -1,4 +1,4 @@
-import { translations } from '../../translations';
+import { getTranslations } from '../../translations';
 import { formatDateToWeekDay, showHoursChartLabel } from '../../charts/index';
 import { LitElement, html, css, PropertyValues, TemplateResult } from 'lit';
 import { use, translate as _t, registerTranslateConfig } from 'lit-translate';
@@ -18,7 +18,7 @@ import { renderWarningSection } from '../../utils/warning-renderer';
 registerTranslateConfig({
   // Loads the language by returning a JSON structure for a given language
   loader: lang => {
-    return translations[lang];
+    return getTranslations(lang);
   },
 });
 

@@ -1,7 +1,7 @@
 import { css, html, TemplateResult } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { get as _t, registerTranslateConfig } from 'lit-translate';
-import { translations } from '../../translations';
+import { getTranslations } from '../../translations';
 import { getEntityState } from '../../utils';
 import type { WeatherEntity } from '../../types/home-assistant';
 import { PrecipitationChart } from '../../charts/precipitation-chart';
@@ -15,7 +15,7 @@ import { HourlyForecastBaseCard } from './hourly-forecast-base';
 
 void PrecipitationChart;
 
-registerTranslateConfig({ loader: lang => translations[lang] });
+registerTranslateConfig({ loader: lang => getTranslations(lang) });
 
 @customElement(PRECIPITATION_CARD_NAME)
 export class PrecipitationCard extends HourlyForecastBaseCard {
