@@ -1,5 +1,10 @@
 # Release Notes
 
+## [1.10.7] - 2026-09-04
+
+### Fixed
+- Added English fallback translations for unsupported Home Assistant UI languages.
+
 ## [1.10.6] - 2026-09-03
 
 ### Fixed
