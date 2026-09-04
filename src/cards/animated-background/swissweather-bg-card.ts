@@ -1,4 +1,4 @@
-import { translations } from '../../translations';
+import { getTranslations } from '../../translations';
 import { LitElement, html, css, svg, TemplateResult, PropertyValues } from 'lit';
 import { query } from 'lit/decorators.js';
 import { use, translate as _t, registerTranslateConfig } from 'lit-translate';
@@ -24,7 +24,7 @@ import '../../charts/hourly-forecast-chart';
 registerTranslateConfig({
   // Loads the language by returning a JSON structure for a given language
   loader: lang => {
-    return translations[lang];
+    return getTranslations(lang);
   },
 });
 

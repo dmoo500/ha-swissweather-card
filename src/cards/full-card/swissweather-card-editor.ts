@@ -3,13 +3,13 @@ import { use, get as _t, registerTranslateConfig } from 'lit-translate';
 import { customElement, property } from 'lit/decorators.js';
 import { fireEvent } from 'custom-card-helpers';
 import type { HomeAssistant, LovelaceCardEditor } from '../../types/home-assistant';
-import { translations } from '../../translations';
+import { getTranslations } from '../../translations';
 import { type CardConfig, FULL_CARD_EDITOR_NAME, FULL_CARD_NAME, schema } from './const';
 
 registerTranslateConfig({
   // Loads the language by returning a JSON structure for a given language
   loader: lang => {
-    return translations[lang];
+    return getTranslations(lang);
   },
 });
 

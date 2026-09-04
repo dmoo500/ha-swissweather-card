@@ -1,7 +1,7 @@
 import { css, html, TemplateResult } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { get as _t, registerTranslateConfig } from 'lit-translate';
-import { translations } from '../../translations';
+import { getTranslations } from '../../translations';
 import { WindChart } from '../../charts/wind-chart';
 import {
   WIND_CARD_NAME,
@@ -13,7 +13,7 @@ import { HourlyForecastBaseCard } from './hourly-forecast-base';
 
 void WindChart;
 
-registerTranslateConfig({ loader: lang => translations[lang] });
+registerTranslateConfig({ loader: lang => getTranslations(lang) });
 
 @customElement(WIND_CARD_NAME)
 export class WindCard extends HourlyForecastBaseCard {

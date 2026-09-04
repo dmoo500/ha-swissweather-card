@@ -3,7 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { use, get as _t, registerTranslateConfig } from 'lit-translate';
 import { fireEvent } from 'custom-card-helpers';
 import type { HomeAssistant, LovelaceCardEditor } from '../../types/home-assistant';
-import { translations } from '../../translations';
+import { getTranslations } from '../../translations';
 import {
   WARNING_CARD_NAME,
   WARNING_CARD_EDITOR_NAME,
@@ -11,7 +11,7 @@ import {
   type WarningCardConfig,
 } from './const';
 
-registerTranslateConfig({ loader: lang => translations[lang] });
+registerTranslateConfig({ loader: lang => getTranslations(lang) });
 
 @customElement(WARNING_CARD_EDITOR_NAME)
 export class WarningCardEditor extends LitElement implements LovelaceCardEditor {

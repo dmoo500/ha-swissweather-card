@@ -2,7 +2,7 @@ import { LitElement, html, css, TemplateResult } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { use, get as _t, registerTranslateConfig } from 'lit-translate';
 import type { HomeAssistant, HassEntity } from '../../types/home-assistant';
-import { translations } from '../../translations';
+import { getTranslations } from '../../translations';
 import { registerCustomCard } from '../../utils';
 import {
   POLLEN_CARD_NAME,
@@ -14,7 +14,7 @@ import {
   type PollenType,
 } from './const';
 
-registerTranslateConfig({ loader: lang => translations[lang] });
+registerTranslateConfig({ loader: lang => getTranslations(lang) });
 void registerCustomCard;
 
 const LEVEL_COLOR: Record<PollenLevel, string> = {

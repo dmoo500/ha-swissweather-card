@@ -1,5 +1,5 @@
 // Re-export from split language files — see src/translations/
-export { translations } from './translations/index';
+export { getTranslations, translations } from './translations/index';
 
 /* Legacy content removed — language data now lives in
    src/translations/de.json and src/translations/en.json
