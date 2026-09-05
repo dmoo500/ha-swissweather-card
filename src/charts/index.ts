@@ -24,8 +24,7 @@ export function showHoursChartLabel(
   `;
 }
 
-export function formatDateToWeekDay(dateStr: string): string {
+export function formatDateToWeekDay(dateStr: string, locale = 'en'): string {
   const date = new Date(dateStr);
-  const days = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
-  return days[date.getDay()];
+  return date.toLocaleDateString(locale, { weekday: 'short' });
 }
