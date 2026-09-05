@@ -843,7 +843,8 @@ export class SwissWeatherCard extends LitElement {
           .config=${this.config}
           ._t=${_t}
           .getWeatherIcon=${getWeatherIcon}
-          .formatDate=${formatDateToWeekDay}
+          .formatDate=${(date: string) =>
+            formatDateToWeekDay(date, this.hass.selectedLanguage || this.hass.language || 'en')}
         ></daily-forecast-chart>`
       : html``;
   }

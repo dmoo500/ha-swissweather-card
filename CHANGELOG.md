@@ -1,5 +1,13 @@
 # Release Notes
 
+## [1.10.8] - 2026-09-05
+
+### Added
+- Added Italian (`it`) translations contributed by the community.
+
+### Fixed
+- Localized weekday abbreviations in the 7-day forecast using the Home Assistant UI language.
+
 ## [1.10.7] - 2026-09-04
 
 ### Fixed
