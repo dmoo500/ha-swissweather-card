@@ -1363,7 +1363,7 @@ export class SwissWeatherBGCard extends LitElement {
                     ? html`
                         <div class="forecast-mini">
                           <daily-forecast-chart
-                            .forecast=${this._forecast?.slice(0, 7) ?? []}
+                            .forecast=${this._forecast}
                             .forecastLoading=${this._forecastLoading}
                             .show_forecast=${true}
                             .config=${{ ...this.config, enable_animate_weather_icons: true }}

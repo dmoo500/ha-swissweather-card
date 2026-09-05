@@ -5693,7 +5693,7 @@ var Si = class extends D {
 	}
 	_renderDailyForecastChart() {
 		return this._forecast.length > 0 && this._hourlyForecast.length > 0 ? w`<daily-forecast-chart
-          .forecast=${this._forecast?.slice(0, 7) ?? []}
+          .forecast=${this._forecast}
           .forecastLoading=${this._forecastLoading}
           .show_forecast=${this.config.show_forecast !== !1}
           .config=${this.config}
@@ -8057,7 +8057,7 @@ var Ji = class extends D {
                 ${(this.config.forecast_mode || "daily") === "daily" && this._forecast.length > 0 ? w`
                         <div class="forecast-mini">
                           <daily-forecast-chart
-                            .forecast=${this._forecast?.slice(0, 7) ?? []}
+                            .forecast=${this._forecast}
                             .forecastLoading=${this._forecastLoading}
                             .show_forecast=${!0}
                             .config=${{

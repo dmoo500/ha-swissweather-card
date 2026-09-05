@@ -840,7 +840,7 @@ export class SwissWeatherCard extends LitElement {
   private _renderDailyForecastChart(): TemplateResult {
     return this._forecast.length > 0 && this._hourlyForecast.length > 0
       ? html`<daily-forecast-chart
-          .forecast=${this._forecast?.slice(0, 7) ?? []}
+          .forecast=${this._forecast}
           .forecastLoading=${this._forecastLoading}
           .show_forecast=${this.config.show_forecast !== false}
           .config=${this.config}
