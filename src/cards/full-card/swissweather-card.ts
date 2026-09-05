@@ -41,6 +41,9 @@ export class SwissWeatherCard extends LitElement {
     this.requestUpdate();
   };
 
+  private _formatForecastDate = (date: string): string =>
+    formatDateToWeekDay(date, this.hass?.selectedLanguage || this.hass?.language || 'en');
+
   constructor() {
     super();
     // Debug: SwissweatherCard constructor
@@ -837,14 +840,13 @@ export class SwissWeatherCard extends LitElement {
   private _renderDailyForecastChart(): TemplateResult {
     return this._forecast.length > 0 && this._hourlyForecast.length > 0
       ? html`<daily-forecast-chart
-          .forecast=${this._forecast?.slice(0, 7) ?? []}
+          .forecast=${this._forecast}
           .forecastLoading=${this._forecastLoading}
           .show_forecast=${this.config.show_forecast !== false}
           .config=${this.config}
           ._t=${_t}
           .getWeatherIcon=${getWeatherIcon}
-          .formatDate=${(date: string) =>
-            formatDateToWeekDay(date, this.hass.selectedLanguage || this.hass.language || 'en')}
+          .formatDate=${this._formatForecastDate}
         ></daily-forecast-chart>`
       : html``;
   }

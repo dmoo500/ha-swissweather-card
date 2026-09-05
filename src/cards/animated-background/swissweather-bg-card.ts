@@ -43,6 +43,9 @@ export class SwissWeatherBGCard extends LitElement {
   private _hourlyLoading = false;
   private _lastEntityId: string | undefined;
 
+  private _formatForecastDate = (date: string): string =>
+    formatDateToWeekDay(date, this.hass?.selectedLanguage || this.hass?.language || 'en');
+
   static get styles() {
     return css`
       :host {
@@ -1360,7 +1363,7 @@ export class SwissWeatherBGCard extends LitElement {
                     ? html`
                         <div class="forecast-mini">
                           <daily-forecast-chart
-                            .forecast=${this._forecast?.slice(0, 7) ?? []}
+                            .forecast=${this._forecast}
                             .forecastLoading=${this._forecastLoading}
                             .show_forecast=${true}
                             .config=${{ ...this.config, enable_animate_weather_icons: true }}
@@ -1370,11 +1373,7 @@ export class SwissWeatherBGCard extends LitElement {
                             .alignRight=${true}
                             ._t=${_t}
                             .getWeatherIcon=${getWeatherIcon}
-                            .formatDate=${(date: string) =>
-                              formatDateToWeekDay(
-                                date,
-                                this.hass.selectedLanguage || this.hass.language || 'en'
-                              )}
+                            .formatDate=${this._formatForecastDate}
                           ></daily-forecast-chart>
                         </div>
                       `
