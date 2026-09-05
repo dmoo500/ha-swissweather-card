@@ -6,7 +6,8 @@ export type TranslationDict = { [lang: string]: any };
 
 export const translations: TranslationDict = { de, en, it };
 
-export function getTranslations(lang: string): any {
-  const language = lang.toLowerCase().split('-')[0];
+export function getTranslations(lang?: string | null): any {
+  const language =
+    typeof lang === 'string' ? lang.toLowerCase().replace(/_/g, '-').split('-')[0] : 'en';
   return translations[language] ?? translations.en;
 }

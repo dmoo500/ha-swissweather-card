@@ -2844,7 +2844,7 @@ var V = (e, t, n, r) => {
 	}
 };
 function H(e) {
-	return en[e.toLowerCase().split("-")[0]] ?? en.en;
+	return en[typeof e == "string" ? e.toLowerCase().replace(/_/g, "-").split("-")[0] : "en"] ?? en.en;
 }
 //#endregion
 //#region src/const.ts
@@ -3393,8 +3393,13 @@ function on(e, t, n) {
     </div>
   `;
 }
-function sn(e, t = "en") {
-	return new Date(e).toLocaleDateString(t, { weekday: "short" });
+function sn(e, t) {
+	let n = new Date(e), r = typeof t == "string" ? t.replace(/_/g, "-") : "en";
+	try {
+		return n.toLocaleDateString(r, { weekday: "short" });
+	} catch {
+		return n.toLocaleDateString("en", { weekday: "short" });
+	}
 }
 //#endregion
 //#region src/icons/clear-night.svg

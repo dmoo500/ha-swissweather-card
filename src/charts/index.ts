@@ -24,7 +24,13 @@ export function showHoursChartLabel(
   `;
 }
 
-export function formatDateToWeekDay(dateStr: string, locale = 'en'): string {
+export function formatDateToWeekDay(dateStr: string, locale?: string | null): string {
   const date = new Date(dateStr);
-  return date.toLocaleDateString(locale, { weekday: 'short' });
+  const normalizedLocale = typeof locale === 'string' ? locale.replace(/_/g, '-') : 'en';
+
+  try {
+    return date.toLocaleDateString(normalizedLocale, { weekday: 'short' });
+  } catch {
+    return date.toLocaleDateString('en', { weekday: 'short' });
+  }
 }
