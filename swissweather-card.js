@@ -1,5 +1,5 @@
 //#region package.json
-var e = "1.10.8", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
+var e = "1.10.9", t = globalThis, n = t.ShadowRoot && (t.ShadyCSS === void 0 || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, r = Symbol(), i = /* @__PURE__ */ new WeakMap(), a = class {
 	constructor(e, t, n) {
 		if (this._$cssResult$ = !0, n !== r) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
 		this.cssText = e, this.t = t;
@@ -5156,6 +5156,7 @@ var Si = class extends D {
 			[e]: !this._openWarnings[e]
 		}, this.requestUpdate();
 	};
+	_formatForecastDate = (e) => sn(e, this.hass?.selectedLanguage || this.hass?.language || "en");
 	constructor() {
 		super();
 	}
@@ -5698,7 +5699,7 @@ var Si = class extends D {
           .config=${this.config}
           ._t=${B}
           .getWeatherIcon=${Rn}
-          .formatDate=${(e) => sn(e, this.hass.selectedLanguage || this.hass.language || "en")}
+          .formatDate=${this._formatForecastDate}
         ></daily-forecast-chart>` : w``;
 	}
 	_renderDailyForecastDiagram() {
@@ -6813,6 +6814,7 @@ var Ji = class extends D {
 	_forecastLoading = !1;
 	_hourlyLoading = !1;
 	_lastEntityId;
+	_formatForecastDate = (e) => sn(e, this.hass?.selectedLanguage || this.hass?.language || "en");
 	static get styles() {
 		return s`
       :host {
@@ -8068,7 +8070,7 @@ var Ji = class extends D {
                             .alignRight=${!0}
                             ._t=${B}
                             .getWeatherIcon=${Rn}
-                            .formatDate=${(e) => sn(e, this.hass.selectedLanguage || this.hass.language || "en")}
+                            .formatDate=${this._formatForecastDate}
                           ></daily-forecast-chart>
                         </div>
                       ` : w``}

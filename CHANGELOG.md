@@ -1,5 +1,10 @@
 # Release Notes
 
+## [1.10.9] - 2026-09-05
+
+### Fixed
+- Reused stable forecast date formatter callbacks to avoid unnecessary chart updates during renders.
+
 ## [1.10.8] - 2026-09-05
 
 ### Added
