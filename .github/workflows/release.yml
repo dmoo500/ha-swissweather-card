@@ -29,16 +29,18 @@ jobs:
     - name: Install dependencies
       run: yarn install --immutable
       
-    - name: Build
-      run: yarn build
-      
     - name: Get version from tag
       id: version
       run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
       
     - name: Update version in package.json
+      env:
+        RELEASE_VERSION: ${{ steps.version.outputs.VERSION }}
       run: |
-        node -e "const fs=require('fs');const p=require('./package.json');p.version='${{ steps.version.outputs.VERSION }}';fs.writeFileSync('package.json', JSON.stringify(p,null,2)+'\\n');"
+        node -e "const fs=require('fs');const p=require('./package.json');p.version=process.env.RELEASE_VERSION;fs.writeFileSync('package.json', JSON.stringify(p,null,2)+'\n');"
+
+    - name: Build
+      run: yarn build
         
     - name: Create release archive
       id: create_release 
@@ -53,16 +55,28 @@ jobs:
       
     - name: Generate changelog
       id: changelog
+      env:
+        RELEASE_VERSION: ${{ steps.version.outputs.VERSION }}
+        GH_TOKEN: ${{ github.token }}
       run: |
+        : > current_changes.md
         if [ -f CHANGELOG.md ]; then
-          # Extract current version changes
-          sed -n '/^## \[/,/^## \[/p' CHANGELOG.md | head -n -1 > current_changes.md
-          echo "CHANGELOG<<EOF" >> $GITHUB_OUTPUT
-          cat current_changes.md >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-        else
-          echo "CHANGELOG=Release ${{ steps.version.outputs.VERSION }}" >> $GITHUB_OUTPUT
+          awk -v heading="## [$RELEASE_VERSION]" '
+            /^## \[/ {
+              if (found) exit
+              found = ($0 == heading || index($0, heading " ") == 1)
+            }
+            found { print }
+          ' CHANGELOG.md > current_changes.md
         fi
+        if [ ! -s current_changes.md ]; then
+          gh api "repos/$GITHUB_REPOSITORY/releases/generate-notes" \
+            -f tag_name="$RELEASE_VERSION" --jq '.body' > current_changes.md
+        fi
+        delimiter="CHANGELOG_$(node -p 'crypto.randomUUID()')"
+        echo "CHANGELOG<<$delimiter" >> "$GITHUB_OUTPUT"
+        cat current_changes.md >> "$GITHUB_OUTPUT"
+        echo "$delimiter" >> "$GITHUB_OUTPUT"
         
     - name: Delete existing release if present
       run: gh release delete ${{ steps.version.outputs.VERSION }} -y || true
