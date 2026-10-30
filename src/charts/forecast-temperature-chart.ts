@@ -3,7 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 import type { WeatherForecast } from '../types/home-assistant.js';
 import { ElementSizeController } from './element-size-controller';
 import { hourlyChartStyles } from './hourly-chart-styles';
-import { HourlyTooltipController } from './hourly-tooltip-controller';
+import { ChartTooltipController } from './chart-tooltip-controller';
 
 @customElement('forecast-temperature-chart')
 export class ForecastTemperatureChart extends LitElement {
@@ -16,7 +16,7 @@ export class ForecastTemperatureChart extends LitElement {
   );
 
   static styles = hourlyChartStyles;
-  private readonly _tooltip = new HourlyTooltipController(this);
+  private readonly _tooltip = new ChartTooltipController(this);
 
   render(): TemplateResult {
     if (this.show_temperature === false) return html``;

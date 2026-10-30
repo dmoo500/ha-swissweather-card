@@ -1,12 +1,39 @@
 import {
   html,
   svg,
+  css,
   type ReactiveController,
   type ReactiveControllerHost,
   type TemplateResult,
 } from 'lit';
 
-export class HourlyTooltipController implements ReactiveController {
+export const chartTooltipStyles = css`
+  .chart-tooltip-target:focus-visible {
+    outline: none;
+    stroke: var(--primary-text-color, #222);
+    stroke-width: 1;
+    stroke-dasharray: 3 2;
+  }
+
+  #chart-tooltip {
+    position: absolute;
+    z-index: 2;
+    top: 4px;
+    left: 4px;
+    right: 4px;
+    width: fit-content;
+    max-width: calc(100% - 24px);
+    padding: 6px 8px;
+    border-radius: 6px;
+    background: var(--primary-background-color, #fff);
+    color: var(--primary-text-color, #222);
+    box-shadow: 0 2px 8px rgb(0 0 0 / 28%);
+    font-size: 12px;
+    pointer-events: auto;
+  }
+`;
+
+export class ChartTooltipController implements ReactiveController {
   private _label?: string;
   private _focusedLabel?: string;
   private _focusDismissed = false;
@@ -59,6 +86,10 @@ export class HourlyTooltipController implements ReactiveController {
     this.show(event);
   };
 
+  readonly preserveTooltip = (event: Event): void => {
+    event.stopPropagation();
+  };
+
   readonly keydown = (event: Event & { key: string }): void => {
     if (event.key === 'Escape') {
       event.preventDefault();
@@ -71,17 +102,17 @@ export class HourlyTooltipController implements ReactiveController {
 
   target(x: number, y: number, width: number, height: number, label: string): TemplateResult {
     return svg`<rect
-      class="hourly-tooltip-target"
+      class="chart-tooltip-target"
       x=${x} y=${y} width=${width} height=${height}
       fill="transparent" pointer-events="all"
       tabindex="0" role="button" aria-label=${label}
-      aria-describedby="hourly-chart-tooltip" data-tooltip=${label}
+      aria-describedby="chart-tooltip" data-tooltip=${label}
     />`;
   }
 
-  render(content: TemplateResult): TemplateResult {
+  render(content: TemplateResult, containerClass = 'chart-svg-area'): TemplateResult {
     return html`<div
-      class="chart-svg-area"
+      class=${containerClass}
       @pointerover=${this.show}
       @pointerleave=${this.pointerLeave}
       @click=${this.activate}
@@ -90,7 +121,15 @@ export class HourlyTooltipController implements ReactiveController {
       @keydown=${this.keydown}
     >
       ${content}
-      <div id="hourly-chart-tooltip" role="tooltip" ?hidden=${!this._label}>${this._label}</div>
+      <div
+        id="chart-tooltip"
+        role="tooltip"
+        ?hidden=${!this._label}
+        @pointerover=${this.preserveTooltip}
+        @click=${this.preserveTooltip}
+      >
+        ${this._label}
+      </div>
     </div>`;
   }
 }

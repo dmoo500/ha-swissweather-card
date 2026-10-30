@@ -1,29 +1,11 @@
 import { LitElement, html, svg, css, type TemplateResult } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 import type { WeatherForecast } from '../types/home-assistant.js';
 import { ElementSizeController } from './element-size-controller';
 import { filterForecastToDateKeys, getLocalForecastDateKey } from './forecast-date';
 import { getTranslations } from '../translations';
 import { getPrecipitationValues } from './precipitation-values';
-
-interface TooltipTarget {
-  getAttribute(name: string): string | null;
-  getBoundingClientRect(): { left: number; top: number };
-}
-
-function getTooltipTarget(target: unknown): TooltipTarget | undefined {
-  if (
-    !target ||
-    typeof target !== 'object' ||
-    !('getAttribute' in target) ||
-    typeof target.getAttribute !== 'function' ||
-    !('getBoundingClientRect' in target) ||
-    typeof target.getBoundingClientRect !== 'function'
-  ) {
-    return undefined;
-  }
-  return target as TooltipTarget;
-}
+import { ChartTooltipController, chartTooltipStyles } from './chart-tooltip-controller';
 
 @customElement('daily-forecast-diagram')
 export class DailyForecastDiagram extends LitElement {
@@ -33,9 +15,10 @@ export class DailyForecastDiagram extends LitElement {
   @property({ type: Function }) getWeatherIcon!: (..._args: any[]) => TemplateResult;
   @property({ type: Boolean }) standalone = false;
   @property({ type: String }) language = 'en';
-  @state() private _activeTooltip?: { label: string; left: number; top: number };
+  private readonly _tooltip = new ChartTooltipController(this);
   private readonly _chartSize = new ElementSizeController(this, () => this);
   static styles = css`
+    ${chartTooltipStyles}
     :host {
       display: block;
       width: 100%;
@@ -387,23 +370,15 @@ export class DailyForecastDiagram extends LitElement {
         }
         const label = `${formatHourLabel(data.originalIndex)}: ${readings.join(', ')}`;
         const x = chartX0 + d * dayWidth + h * hourStep;
-        tooltipTargets.push(svg`
-          <rect
-            x="${x}"
-            y="${tempLineYMax}"
-            width="${hourStep}"
-            height="${Math.max(0, tempLineY0 - tempLineYMax)}"
-            fill="transparent"
-            pointer-events="all"
-            data-tooltip="${label}"
-            tabindex="0"
-            role="button"
-            aria-label="${label}"
-            aria-describedby="forecast-tooltip"
-          >
-            <title>${label}</title>
-          </rect>
-        `);
+        tooltipTargets.push(
+          this._tooltip.target(
+            x,
+            tempLineYMax,
+            hourStep,
+            Math.max(0, tempLineY0 - tempLineYMax),
+            label
+          )
+        );
       }
     }
 
@@ -521,99 +496,32 @@ export class DailyForecastDiagram extends LitElement {
           width: 100%;
           height: 100%;
         }
-        .forecast-tooltip {
-          position: absolute;
-          z-index: 2;
-          max-width: calc(100% - 8px);
-          padding: 6px 8px;
-          border-radius: 6px;
-          background: var(--primary-background-color, #222);
-          color: var(--primary-text-color, #fff);
-          box-shadow: 0 2px 8px rgb(0 0 0 / 28%);
-          font-size: 12px;
-          pointer-events: none;
-        }
       </style>
-      <div
-        class="chart"
-        @click=${this._handleChartClick}
-        @focusin=${this._handleTooltipFocus}
-        @focusout=${this._dismissTooltip}
-        @keydown=${this._handleTooltipKeydown}
-      >
-        <svg width="100%" height="100%" viewBox="0 0 ${width} ${height}" style="display:block;">
-          <!-- Background grid lines (behind everything) -->
-          ${horizontalLines} ${verticals}
-          <!-- Day groups (labels and icons) -->
-          ${dayGroups}
-          <!-- Precipitation bars -->
-          ${barsProberly} ${bars} ${tooltipTargets}
-          <!-- Right-side labels for mm and % -->
-          ${rightAxisLabels}
-        </svg>
+      ${this._tooltip.render(
+        html`
+          <svg width="100%" height="100%" viewBox="0 0 ${width} ${height}" style="display:block;">
+            <!-- Background grid lines (behind everything) -->
+            ${horizontalLines} ${verticals}
+            <!-- Day groups (labels and icons) -->
+            ${dayGroups}
+            <!-- Precipitation bars -->
+            ${barsProberly} ${bars} ${tooltipTargets}
+            <!-- Right-side labels for mm and % -->
+            ${rightAxisLabels}
+          </svg>
 
-        <!-- Temperature lines in completely separate SVG overlay (continuous line, always on top) -->
-        <svg
-          width="100%"
-          height="100%"
-          viewBox="0 0 ${width} ${height}"
-          style="display:block; position: absolute; top: 0; left: 0; pointer-events: none;"
-        >
-          ${tempLinesPerDay}
-        </svg>
-        ${
-          this._activeTooltip
-            ? html`<div
-                class="forecast-tooltip"
-                id="forecast-tooltip"
-                role="tooltip"
-                style="left:${this._activeTooltip.left}px; top:${this._activeTooltip.top}px;"
-              >
-                ${this._activeTooltip.label}
-              </div>`
-            : ''
-        }
-      </div>
+          <!-- Temperature lines in completely separate SVG overlay (continuous line, always on top) -->
+          <svg
+            width="100%"
+            height="100%"
+            viewBox="0 0 ${width} ${height}"
+            style="display:block; position: absolute; top: 0; left: 0; pointer-events: none;"
+          >
+            ${tempLinesPerDay}
+          </svg>
+        `,
+        'chart'
+      )}
     `;
-  }
-
-  private _dismissTooltip(): void {
-    this._activeTooltip = undefined;
-  }
-
-  private _handleTooltipFocus(event: Event): void {
-    this._showTooltip(event);
-  }
-
-  private _handleTooltipKeydown(event: Event & { key: string }): void {
-    if (event.key === 'Escape') {
-      this._dismissTooltip();
-    } else if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault();
-      this._showTooltip(event);
-    }
-  }
-
-  private _handleChartClick(event: Event): void {
-    this._showTooltip(event);
-  }
-
-  private _showTooltip(event: Event): void {
-    const chart = this.renderRoot.querySelector<HTMLElement>('.chart');
-    if (!chart) return;
-
-    const target = getTooltipTarget(event.target);
-    const label = target?.getAttribute('data-tooltip');
-    if (!target || !label) {
-      this._activeTooltip = undefined;
-      return;
-    }
-    const targetBounds = target.getBoundingClientRect();
-    const chartBounds = chart.getBoundingClientRect();
-    this._activeTooltip = {
-      label,
-      left: Math.max(4, Math.min(targetBounds.left - chartBounds.left, chartBounds.width - 220)),
-      top: Math.max(4, targetBounds.top - chartBounds.top - 34),
-    };
   }
 }

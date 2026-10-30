@@ -821,6 +821,85 @@ var Ue = class {
 		this._observer?.disconnect(), this._observer = void 0, this._observedElement = void 0;
 	}
 }, We = o`
+  .chart-tooltip-target:focus-visible {
+    outline: none;
+    stroke: var(--primary-text-color, #222);
+    stroke-width: 1;
+    stroke-dasharray: 3 2;
+  }
+
+  #chart-tooltip {
+    position: absolute;
+    z-index: 2;
+    top: 4px;
+    left: 4px;
+    right: 4px;
+    width: fit-content;
+    max-width: calc(100% - 24px);
+    padding: 6px 8px;
+    border-radius: 6px;
+    background: var(--primary-background-color, #fff);
+    color: var(--primary-text-color, #222);
+    box-shadow: 0 2px 8px rgb(0 0 0 / 28%);
+    font-size: 12px;
+    pointer-events: auto;
+  }
+`, Ge = class {
+	constructor(e) {
+		this._focusDismissed = !1, this.dismiss = () => {
+			this._focusDismissed = !0, this._label !== void 0 && (this._label = void 0, this.host.requestUpdate());
+		}, this.show = (e) => {
+			let t = e.target, n = t && "getAttribute" in t && typeof t.getAttribute == "function" ? t.getAttribute("data-tooltip") : void 0;
+			this._label = typeof n == "string" ? n : void 0, this.host.requestUpdate();
+		}, this.focus = (e) => {
+			this.show(e), this._focusedLabel = this._label, this._focusDismissed = !1;
+		}, this.blur = () => {
+			this._focusedLabel = void 0, this.dismiss();
+		}, this.pointerLeave = () => {
+			this._label = this._focusDismissed ? void 0 : this._focusedLabel, this.host.requestUpdate();
+		}, this.activate = (e) => {
+			this._focusDismissed = !1, this.show(e);
+		}, this.preserveTooltip = (e) => {
+			e.stopPropagation();
+		}, this.keydown = (e) => {
+			e.key === "Escape" ? (e.preventDefault(), this.dismiss()) : (e.key === "Enter" || e.key === " ") && (e.preventDefault(), this.activate(e));
+		}, this.host = e, e.addController(this);
+	}
+	hostDisconnected() {
+		this.blur();
+	}
+	target(e, t, n, r, i) {
+		return S`<rect
+      class="chart-tooltip-target"
+      x=${e} y=${t} width=${n} height=${r}
+      fill="transparent" pointer-events="all"
+      tabindex="0" role="button" aria-label=${i}
+      aria-describedby="chart-tooltip" data-tooltip=${i}
+    />`;
+	}
+	render(e, t = "chart-svg-area") {
+		return x`<div
+      class=${t}
+      @pointerover=${this.show}
+      @pointerleave=${this.pointerLeave}
+      @click=${this.activate}
+      @focusin=${this.focus}
+      @focusout=${this.blur}
+      @keydown=${this.keydown}
+    >
+      ${e}
+      <div
+        id="chart-tooltip"
+        role="tooltip"
+        ?hidden=${!this._label}
+        @pointerover=${this.preserveTooltip}
+        @click=${this.preserveTooltip}
+      >
+        ${this._label}
+      </div>
+    </div>`;
+	}
+}, Ke = o`
   :host {
     display: block;
     width: 100%;
@@ -866,79 +945,13 @@ var Ue = class {
     min-height: var(--chart-svg-min-height, 100px);
   }
 
-  .hourly-tooltip-target:focus-visible {
-    outline: none;
-    stroke: var(--primary-text-color, #222);
-    stroke-width: 1;
-    stroke-dasharray: 3 2;
-  }
-
-  #hourly-chart-tooltip {
-    position: absolute;
-    top: 4px;
-    left: 4px;
-    right: 4px;
-    width: fit-content;
-    max-width: calc(100% - 24px);
-    padding: 6px 8px;
-    border-radius: 6px;
-    background: var(--primary-background-color, #fff);
-    color: var(--primary-text-color, #222);
-    box-shadow: 0 2px 8px rgb(0 0 0 / 28%);
-    font-size: 12px;
-    pointer-events: none;
-  }
-`, Ge = class {
-	constructor(e) {
-		this._focusDismissed = !1, this.dismiss = () => {
-			this._focusDismissed = !0, this._label !== void 0 && (this._label = void 0, this.host.requestUpdate());
-		}, this.show = (e) => {
-			let t = e.target, n = t && "getAttribute" in t && typeof t.getAttribute == "function" ? t.getAttribute("data-tooltip") : void 0;
-			this._label = typeof n == "string" ? n : void 0, this.host.requestUpdate();
-		}, this.focus = (e) => {
-			this.show(e), this._focusedLabel = this._label, this._focusDismissed = !1;
-		}, this.blur = () => {
-			this._focusedLabel = void 0, this.dismiss();
-		}, this.pointerLeave = () => {
-			this._label = this._focusDismissed ? void 0 : this._focusedLabel, this.host.requestUpdate();
-		}, this.activate = (e) => {
-			this._focusDismissed = !1, this.show(e);
-		}, this.keydown = (e) => {
-			e.key === "Escape" ? (e.preventDefault(), this.dismiss()) : (e.key === "Enter" || e.key === " ") && (e.preventDefault(), this.activate(e));
-		}, this.host = e, e.addController(this);
-	}
-	hostDisconnected() {
-		this.blur();
-	}
-	target(e, t, n, r, i) {
-		return S`<rect
-      class="hourly-tooltip-target"
-      x=${e} y=${t} width=${n} height=${r}
-      fill="transparent" pointer-events="all"
-      tabindex="0" role="button" aria-label=${i}
-      aria-describedby="hourly-chart-tooltip" data-tooltip=${i}
-    />`;
-	}
-	render(e) {
-		return x`<div
-      class="chart-svg-area"
-      @pointerover=${this.show}
-      @pointerleave=${this.pointerLeave}
-      @click=${this.activate}
-      @focusin=${this.focus}
-      @focusout=${this.blur}
-      @keydown=${this.keydown}
-    >
-      ${e}
-      <div id="hourly-chart-tooltip" role="tooltip" ?hidden=${!this._label}>${this._label}</div>
-    </div>`;
-	}
-}, Ke = class extends T {
+  ${We}
+`, qe = class extends T {
 	constructor(...e) {
 		super(...e), this.hourlyForecast = [], this.forecastHours = 12, this.show_temperature = !0, this._chartSize = new Ue(this, () => this.renderRoot.querySelector(".chart-svg-area")), this._tooltip = new Ge(this);
 	}
 	static {
-		this.styles = We;
+		this.styles = Ke;
 	}
 	render() {
 		if (this.show_temperature === !1) return x``;
@@ -991,14 +1004,14 @@ var Ue = class {
     `;
 	}
 };
-A([D({ type: Array }), k("design:type", Array)], Ke.prototype, "hourlyForecast", void 0), A([D({ type: Number }), k("design:type", Object)], Ke.prototype, "forecastHours", void 0), A([D({ type: Boolean }), k("design:type", Object)], Ke.prototype, "show_temperature", void 0), A([D({ type: Function }), k("design:type", Function)], Ke.prototype, "_t", void 0), Ke = A([E("forecast-temperature-chart")], Ke);
+A([D({ type: Array }), k("design:type", Array)], qe.prototype, "hourlyForecast", void 0), A([D({ type: Number }), k("design:type", Object)], qe.prototype, "forecastHours", void 0), A([D({ type: Boolean }), k("design:type", Object)], qe.prototype, "show_temperature", void 0), A([D({ type: Function }), k("design:type", Function)], qe.prototype, "_t", void 0), qe = A([E("forecast-temperature-chart")], qe);
 //#endregion
 //#region src/charts/precipitation-values.ts
-function qe(e) {
+function Je(e) {
 	return typeof e == "number" && Number.isFinite(e) ? e : void 0;
 }
-function Je(e) {
-	let t = qe(e.precipitation) ?? qe(e.rain), n = qe(e.pop), r = qe(e.precipitation_probability) ?? qe(e.probability_of_precipitation) ?? (n === void 0 ? void 0 : n <= 1 ? n * 100 : n);
+function Ye(e) {
+	let t = Je(e.precipitation) ?? Je(e.rain), n = Je(e.pop), r = Je(e.precipitation_probability) ?? Je(e.probability_of_precipitation) ?? (n === void 0 ? void 0 : n <= 1 ? n * 100 : n);
 	return {
 		amount: t,
 		probability: r === void 0 ? void 0 : Math.max(0, Math.min(100, r))
@@ -1006,16 +1019,16 @@ function Je(e) {
 }
 //#endregion
 //#region src/charts/precipitation-chart.ts
-var Ye = class extends T {
+var Xe = class extends T {
 	constructor(...e) {
 		super(...e), this.hourlyForecast = [], this.forecastHours = 12, this.show_precipitation = !0, this._chartSize = new Ue(this, () => this.renderRoot.querySelector(".chart-svg-area")), this._tooltip = new Ge(this);
 	}
 	static {
-		this.styles = We;
+		this.styles = Ke;
 	}
 	render() {
 		if (this.show_precipitation === !1) return x``;
-		let e = this.hourlyForecast.slice(0, this.forecastHours), t = e.map(Je), n = t.some((e) => e.amount !== void 0 || e.probability !== void 0);
+		let e = this.hourlyForecast.slice(0, this.forecastHours), t = e.map(Ye), n = t.some((e) => e.amount !== void 0 || e.probability !== void 0);
 		return this.hourlyForecast.length === 0 || !n ? x`
         <div class="chart">
           <div class="section-title">
@@ -1112,10 +1125,10 @@ var Ye = class extends T {
     `;
 	}
 };
-A([D({ type: Array }), k("design:type", Array)], Ye.prototype, "hourlyForecast", void 0), A([D({ type: Number }), k("design:type", Object)], Ye.prototype, "forecastHours", void 0), A([D({ type: Boolean }), k("design:type", Object)], Ye.prototype, "show_precipitation", void 0), A([D({ type: Function }), k("design:type", Function)], Ye.prototype, "_t", void 0), Ye = A([E("precipitation-chart")], Ye);
+A([D({ type: Array }), k("design:type", Array)], Xe.prototype, "hourlyForecast", void 0), A([D({ type: Number }), k("design:type", Object)], Xe.prototype, "forecastHours", void 0), A([D({ type: Boolean }), k("design:type", Object)], Xe.prototype, "show_precipitation", void 0), A([D({ type: Function }), k("design:type", Function)], Xe.prototype, "_t", void 0), Xe = A([E("precipitation-chart")], Xe);
 //#endregion
 //#region src/charts/sunshine-chart.ts
-var Xe = class extends T {
+var Ze = class extends T {
 	constructor(...e) {
 		super(...e), this.hourlyForecast = [], this.forecastHours = 12, this.show_sunshine = !0;
 	}
@@ -1305,15 +1318,15 @@ var Xe = class extends T {
           `;
 	}
 };
-A([D({ type: Array }), k("design:type", Array)], Xe.prototype, "hourlyForecast", void 0), A([D({ type: Number }), k("design:type", Object)], Xe.prototype, "forecastHours", void 0), A([D({ type: Boolean }), k("design:type", Object)], Xe.prototype, "show_sunshine", void 0), A([D({ type: Object }), k("design:type", Object)], Xe.prototype, "weatherEntity", void 0), A([D({ type: Object }), k("design:type", Object)], Xe.prototype, "sun_entity", void 0), A([D({ type: Function }), k("design:type", Function)], Xe.prototype, "_t", void 0), Xe = A([E("sunshine-chart")], Xe);
+A([D({ type: Array }), k("design:type", Array)], Ze.prototype, "hourlyForecast", void 0), A([D({ type: Number }), k("design:type", Object)], Ze.prototype, "forecastHours", void 0), A([D({ type: Boolean }), k("design:type", Object)], Ze.prototype, "show_sunshine", void 0), A([D({ type: Object }), k("design:type", Object)], Ze.prototype, "weatherEntity", void 0), A([D({ type: Object }), k("design:type", Object)], Ze.prototype, "sun_entity", void 0), A([D({ type: Function }), k("design:type", Function)], Ze.prototype, "_t", void 0), Ze = A([E("sunshine-chart")], Ze);
 //#endregion
 //#region src/charts/wind-chart.ts
-var Ze = class extends T {
+var Qe = class extends T {
 	constructor(...e) {
 		super(...e), this.hourlyForecast = [], this.forecastHours = 12, this.show_wind = !0, this._chartSize = new Ue(this, () => this.renderRoot.querySelector(".chart-svg-area")), this._tooltip = new Ge(this);
 	}
 	static {
-		this.styles = [We, o`
+		this.styles = [Ke, o`
       :host {
         --chart-svg-min-height: 122px;
       }
@@ -1383,23 +1396,23 @@ var Ze = class extends T {
     `;
 	}
 };
-A([D({ type: Array }), k("design:type", Array)], Ze.prototype, "hourlyForecast", void 0), A([D({ type: Number }), k("design:type", Object)], Ze.prototype, "forecastHours", void 0), A([D({ type: Boolean }), k("design:type", Object)], Ze.prototype, "show_wind", void 0), A([D({ type: Function }), k("design:type", Function)], Ze.prototype, "_t", void 0), Ze = A([E("wind-chart")], Ze);
+A([D({ type: Array }), k("design:type", Array)], Qe.prototype, "hourlyForecast", void 0), A([D({ type: Number }), k("design:type", Object)], Qe.prototype, "forecastHours", void 0), A([D({ type: Boolean }), k("design:type", Object)], Qe.prototype, "show_wind", void 0), A([D({ type: Function }), k("design:type", Function)], Qe.prototype, "_t", void 0), Qe = A([E("wind-chart")], Qe);
 //#endregion
 //#region src/charts/forecast-date.ts
-function Qe(e) {
+function $e(e) {
 	let t = new Date(e);
 	if (!Number.isNaN(t.getTime())) return `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, "0")}-${String(t.getDate()).padStart(2, "0")}`;
 }
-function $e(e, t) {
+function et(e, t) {
 	let n = new Set(t);
 	return e.filter((e) => {
-		let t = Qe(e.datetime);
+		let t = $e(e.datetime);
 		return t !== void 0 && n.has(t);
 	});
 }
 //#endregion
 //#region src/translations/index.ts
-var et = {
+var tt = {
 	de: {
 		config: {
 			entity: "Wetter Entity *",
@@ -2086,19 +2099,17 @@ var et = {
 	}
 };
 function M(e) {
-	return et[typeof e == "string" ? e.toLowerCase().replace(/_/g, "-").split("-")[0] : "en"] ?? et.en;
+	return tt[typeof e == "string" ? e.toLowerCase().replace(/_/g, "-").split("-")[0] : "en"] ?? tt.en;
 }
 //#endregion
 //#region src/charts/daily-forecast-diagram.ts
-function tt(e) {
-	if (e && typeof e == "object" && "getAttribute" in e && typeof e.getAttribute == "function" && "getBoundingClientRect" in e && typeof e.getBoundingClientRect == "function") return e;
-}
 var N = class extends T {
 	constructor(...e) {
-		super(...e), this.forecast = [], this.hourlyForecast = [], this.standalone = !1, this.language = "en", this._chartSize = new Ue(this, () => this);
+		super(...e), this.forecast = [], this.hourlyForecast = [], this.standalone = !1, this.language = "en", this._tooltip = new Ge(this), this._chartSize = new Ue(this, () => this);
 	}
 	static {
 		this.styles = o`
+    ${We}
     :host {
       display: block;
       width: 100%;
@@ -2150,10 +2161,10 @@ var N = class extends T {
 	render() {
 		let e = M(this.language).hourly_charts, t = this.forecast.slice(0, 7), n = /* @__PURE__ */ new Map();
 		t.forEach((e, t) => {
-			let r = Qe(e.datetime);
+			let r = $e(e.datetime);
 			r && n.set(r, t);
 		});
-		let r = $e(this.hourlyForecast, n.keys());
+		let r = et(this.hourlyForecast, n.keys());
 		if (!r.length) return x`<div>No hourly forecast available</div>`;
 		let i = t.length, a = (this.standalone ? this.config.grid_options?.rows || 3 : 2) * 64 - 8, o = this.standalone ? this._chartSize.height > 0 ? this._chartSize.height : a : 200, s = this._chartSize.width;
 		if (!s) {
@@ -2167,9 +2178,9 @@ var N = class extends T {
 				hour: "2-digit",
 				minute: "2-digit"
 			}) : "";
-		}, de = oe, y = oe + h, fe = r.map(Je), pe = fe.map((e) => e.amount ?? 0), me = fe.map((e) => e.probability ?? 0);
+		}, de = oe, y = oe + h, fe = r.map(Ye), pe = fe.map((e) => e.amount ?? 0), me = fe.map((e) => e.probability ?? 0);
 		function he(e) {
-			let t = Qe(e.toISOString()), r = t ? n.get(t) : void 0, i = e.getHours();
+			let t = $e(e.toISOString()), r = t ? n.get(t) : void 0, i = e.getHours();
 			return {
 				dayIdx: r === void 0 ? -1 : r,
 				hourInDay: i >= 0 && i < 24 ? i : -1
@@ -2281,23 +2292,7 @@ var N = class extends T {
 			let i = fe[r.originalIndex], a = [`${r.temp} °C`];
 			i.amount !== void 0 && a.push(`${i.amount} mm ${e.precipitation}`), i.probability !== void 0 && a.push(`${i.probability}% ${e.precipitation_probability}`);
 			let o = `${ue(r.originalIndex)}: ${a.join(", ")}`, s = 16 + t * f + n * v;
-			Ee.push(S`
-          <rect
-            x="${s}"
-            y="${de}"
-            width="${v}"
-            height="${Math.max(0, y - de)}"
-            fill="transparent"
-            pointer-events="all"
-            data-tooltip="${o}"
-            tabindex="0"
-            role="button"
-            aria-label="${o}"
-            aria-describedby="forecast-tooltip"
-          >
-            <title>${o}</title>
-          </rect>
-        `);
+			Ee.push(this._tooltip.target(s, de, v, Math.max(0, y - de), o));
 		}
 		let De = [];
 		if (r.length > 0) for (let e = 0; e <= i; e++) {
@@ -2355,86 +2350,33 @@ var N = class extends T {
           width: 100%;
           height: 100%;
         }
-        .forecast-tooltip {
-          position: absolute;
-          z-index: 2;
-          max-width: calc(100% - 8px);
-          padding: 6px 8px;
-          border-radius: 6px;
-          background: var(--primary-background-color, #222);
-          color: var(--primary-text-color, #fff);
-          box-shadow: 0 2px 8px rgb(0 0 0 / 28%);
-          font-size: 12px;
-          pointer-events: none;
-        }
       </style>
-      <div
-        class="chart"
-        @click=${this._handleChartClick}
-        @focusin=${this._handleTooltipFocus}
-        @focusout=${this._dismissTooltip}
-        @keydown=${this._handleTooltipKeydown}
-      >
-        <svg width="100%" height="100%" viewBox="0 0 ${c} ${l}" style="display:block;">
-          <!-- Background grid lines (behind everything) -->
-          ${ke} ${De}
-          <!-- Day groups (labels and icons) -->
-          ${Oe}
-          <!-- Precipitation bars -->
-          ${C} ${Te} ${Ee}
-          <!-- Right-side labels for mm and % -->
-          ${Ae}
-        </svg>
+      ${this._tooltip.render(x`
+          <svg width="100%" height="100%" viewBox="0 0 ${c} ${l}" style="display:block;">
+            <!-- Background grid lines (behind everything) -->
+            ${ke} ${De}
+            <!-- Day groups (labels and icons) -->
+            ${Oe}
+            <!-- Precipitation bars -->
+            ${C} ${Te} ${Ee}
+            <!-- Right-side labels for mm and % -->
+            ${Ae}
+          </svg>
 
-        <!-- Temperature lines in completely separate SVG overlay (continuous line, always on top) -->
-        <svg
-          width="100%"
-          height="100%"
-          viewBox="0 0 ${c} ${l}"
-          style="display:block; position: absolute; top: 0; left: 0; pointer-events: none;"
-        >
-          ${ye}
-        </svg>
-        ${this._activeTooltip ? x`<div
-                class="forecast-tooltip"
-                id="forecast-tooltip"
-                role="tooltip"
-                style="left:${this._activeTooltip.left}px; top:${this._activeTooltip.top}px;"
-              >
-                ${this._activeTooltip.label}
-              </div>` : ""}
-      </div>
+          <!-- Temperature lines in completely separate SVG overlay (continuous line, always on top) -->
+          <svg
+            width="100%"
+            height="100%"
+            viewBox="0 0 ${c} ${l}"
+            style="display:block; position: absolute; top: 0; left: 0; pointer-events: none;"
+          >
+            ${ye}
+          </svg>
+        `, "chart")}
     `;
 	}
-	_dismissTooltip() {
-		this._activeTooltip = void 0;
-	}
-	_handleTooltipFocus(e) {
-		this._showTooltip(e);
-	}
-	_handleTooltipKeydown(e) {
-		e.key === "Escape" ? this._dismissTooltip() : (e.key === "Enter" || e.key === " ") && (e.preventDefault(), this._showTooltip(e));
-	}
-	_handleChartClick(e) {
-		this._showTooltip(e);
-	}
-	_showTooltip(e) {
-		let t = this.renderRoot.querySelector(".chart");
-		if (!t) return;
-		let n = tt(e.target), r = n?.getAttribute("data-tooltip");
-		if (!n || !r) {
-			this._activeTooltip = void 0;
-			return;
-		}
-		let i = n.getBoundingClientRect(), a = t.getBoundingClientRect();
-		this._activeTooltip = {
-			label: r,
-			left: Math.max(4, Math.min(i.left - a.left, a.width - 220)),
-			top: Math.max(4, i.top - a.top - 34)
-		};
-	}
 };
-A([D({ type: Array }), k("design:type", Array)], N.prototype, "forecast", void 0), A([D({ type: Array }), k("design:type", Array)], N.prototype, "hourlyForecast", void 0), A([D({ type: Object }), k("design:type", Object)], N.prototype, "config", void 0), A([D({ type: Function }), k("design:type", Function)], N.prototype, "getWeatherIcon", void 0), A([D({ type: Boolean }), k("design:type", Object)], N.prototype, "standalone", void 0), A([D({ type: String }), k("design:type", Object)], N.prototype, "language", void 0), A([O(), k("design:type", Object)], N.prototype, "_activeTooltip", void 0), N = A([E("daily-forecast-diagram")], N);
+A([D({ type: Array }), k("design:type", Array)], N.prototype, "forecast", void 0), A([D({ type: Array }), k("design:type", Array)], N.prototype, "hourlyForecast", void 0), A([D({ type: Object }), k("design:type", Object)], N.prototype, "config", void 0), A([D({ type: Function }), k("design:type", Function)], N.prototype, "getWeatherIcon", void 0), A([D({ type: Boolean }), k("design:type", Object)], N.prototype, "standalone", void 0), A([D({ type: String }), k("design:type", Object)], N.prototype, "language", void 0), N = A([E("daily-forecast-diagram")], N);
 //#endregion
 //#region node_modules/lit-translate/config.js
 var nt = "langChanged";
@@ -10077,6 +10019,6 @@ Xn({
 	}
 });
 //#endregion
-export { j as DailyForecastChart, N as DailyForecastDiagram, $i as ForecastDiagramCard, Qi as ForecastDiagramCardEditor, Ke as ForecastTemperatureChart, po as PollenCard, mo as PollenCardEditor, Ja as PrecipitationCard, Ya as PrecipitationCardEditor, Ye as PrecipitationChart, Xa as SunshineCard, Za as SunshineCardEditor, Xe as SunshineChart, Ma as SwissWeatherBGCard, Pa as SwissWeatherBGCardEditor, Y as SwissWeatherCard, mn as SwissWeatherCardEditor, Ka as TemperatureCard, qa as TemperatureCardEditor, ro as WarningCard, io as WarningCardEditor, Qa as WindCard, $a as WindCardEditor, Ze as WindChart };
+export { j as DailyForecastChart, N as DailyForecastDiagram, $i as ForecastDiagramCard, Qi as ForecastDiagramCardEditor, qe as ForecastTemperatureChart, po as PollenCard, mo as PollenCardEditor, Ja as PrecipitationCard, Ya as PrecipitationCardEditor, Xe as PrecipitationChart, Xa as SunshineCard, Za as SunshineCardEditor, Ze as SunshineChart, Ma as SwissWeatherBGCard, Pa as SwissWeatherBGCardEditor, Y as SwissWeatherCard, mn as SwissWeatherCardEditor, Ka as TemperatureCard, qa as TemperatureCardEditor, ro as WarningCard, io as WarningCardEditor, Qa as WindCard, $a as WindCardEditor, Qe as WindChart };
 
 //# sourceMappingURL=swissweather-card.js.map

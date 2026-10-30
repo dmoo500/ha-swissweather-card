@@ -1,6 +1,6 @@
 # Release Notes
 
-## [2.0.0] - 2026-10-30
+## [2.0.0] - Unreleased
 
 ### Added
 - Accessible daily and hourly chart tooltips with mouse, touch, and keyboard interaction.
@@ -8,12 +8,14 @@
 - Regression tests for chart behavior, forecast requests, translations, and Lit reactivity.
 
 ### Changed
+- Unified daily diagram and hourly temperature/wind/precipitation tooltips in one controller with shared interaction, accessible targets, and top-left tooltip styling.
 - Modularized cards, charts, weather effects, and shared forecast utilities.
 - Removed visible temperature/wind point markers, clarified wind direction arrows, and standardized hourly heading spacing.
 - Reorganized the README and corrected installation, configuration, and development guidance.
 - Require Node.js 22.18.0+ for development and run regression tests on that minimum in CI.
 
 ### Fixed
+- Keep hourly tooltip readings stable while hovering or clicking their text instead of passing pointer events through to underlying intervals.
 - Restore the upper fog band by referencing the existing SVG stroke gradient.
 - Prevent continuous background-card forecast requests after empty/error responses and ignore stale results after entity changes.
 - Preserve keyboard-focused hourly tooltip details when the pointer leaves the chart, while honoring Escape dismissal.
@@ -27,6 +29,22 @@
 - Restored responsive sizing after reconnect and improved weather animation/reduced-motion handling.
 - Initialized standalone hourly card languages and completed Italian forecast failure text.
 - Localized daily forecast diagram tooltip precipitation labels using the selected Home Assistant language, both standalone and in the Full Card.
+
+## [2.0.0b6] - 2026-10-30
+
+### Changed
+- Unified daily diagram and hourly temperature/wind/precipitation tooltips in one shared controller with consistent top-left styling and accessible interaction.
+
+### Fixed
+- Keep tooltip text hoverable and preserve focused readings on pointer exit while honoring Escape dismissal.
+- Localize daily diagram precipitation labels and refresh standalone chart text after language changes.
+- Omit unavailable precipitation metrics instead of reporting false zeros; preserve explicit zeros and supported fallback fields.
+- Isolate background card stacking and keep reduced-motion weather symbols visible.
+- Prevent background forecast retry loops and discard stale responses after entity changes.
+- Restore the upper fog band by reusing the defined SVG gradient.
+
+### Tests
+- Expanded regression coverage to 30 tests, including forecast lifecycle, missing metrics, shared tooltip interaction, and fog SVG references.
 
 ## [2.0.0b5] - 2026-10-30
 

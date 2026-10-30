@@ -200,7 +200,7 @@ See [configuration examples](docs/configuration.md) and the [visual editor guide
 
 ## Chart interaction
 
-- **Mouse:** hover over an hourly interval for temperature, wind, or precipitation; click a daily diagram interval to show its exact readings.
+- **Mouse:** hover over or click an interval in the daily diagram or hourly temperature, wind, and precipitation charts to show its exact readings.
 - **Touch:** tap an interval to display its tooltip.
 - **Keyboard:** Tab to an interval; focus, Enter, or Space opens its tooltip. Escape or moving focus away dismisses it.
 - Temperature and wind curves have no visible point markers. Invisible hit areas preserve access to the readings.
@@ -209,6 +209,7 @@ See [configuration examples](docs/configuration.md) and the [visual editor guide
 - Missing precipitation metrics are omitted from tooltips; an explicit zero remains visible as a measured value.
 
 These controls apply to the daily SVG diagram and the hourly temperature, wind, and precipitation charts, both embedded and standalone.
+They share one tooltip controller and display readings in a consistent top-left panel inside the chart. The panel remains hoverable without selecting values underneath it.
 
 ## Updating and beta releases
 

@@ -3,7 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 import type { WeatherForecast } from '../types/home-assistant.js';
 import { ElementSizeController } from './element-size-controller';
 import { hourlyChartStyles } from './hourly-chart-styles';
-import { HourlyTooltipController } from './hourly-tooltip-controller';
+import { ChartTooltipController } from './chart-tooltip-controller';
 
 @customElement('wind-chart')
 export class WindChart extends LitElement {
@@ -14,7 +14,7 @@ export class WindChart extends LitElement {
   private readonly _chartSize = new ElementSizeController(this, () =>
     this.renderRoot.querySelector<HTMLElement>('.chart-svg-area')
   );
-  private readonly _tooltip = new HourlyTooltipController(this);
+  private readonly _tooltip = new ChartTooltipController(this);
 
   static styles = [
     hourlyChartStyles,
