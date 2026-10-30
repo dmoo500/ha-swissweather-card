@@ -3,6 +3,8 @@ import { css } from 'lit';
 export const backgroundLayoutStyles = css`
   :host {
     display: block;
+    position: relative;
+    isolation: isolate;
     box-shadow: none;
     /* Calculate height according to HA docs: rows * 56px + (rows-1) * 8px gap */
     /* Simplified: height = rows * 64px - 8px */
@@ -32,6 +34,12 @@ export const backgroundLayoutStyles = css`
     font-weight: bold;
     text-align: center;
     z-index: 1;
+  }
+
+  .img-svg,
+  .img-photo {
+    z-index: 0;
+    pointer-events: none;
   }
 
   .img-svg {

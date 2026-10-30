@@ -1,6 +1,6 @@
 import { css, html, TemplateResult } from 'lit';
 import { customElement } from 'lit/decorators.js';
-import { get as _t, registerTranslateConfig } from 'lit-translate';
+import { registerTranslateConfig } from 'lit-translate';
 import { getTranslations } from '../../translations';
 import { getEntityState } from '../../utils';
 import type { WeatherEntity, HassEntity } from '../../types/home-assistant';
@@ -110,7 +110,7 @@ export class SunshineCard extends HourlyForecastBaseCard {
           .show_sunshine=${true}
           .weatherEntity=${weatherEntity}
           .sun_entity=${sunEntity}
-          ._t=${_t}
+          ._t=${this._chartTranslate}
         ></sunshine-chart>
       </div>
     `;

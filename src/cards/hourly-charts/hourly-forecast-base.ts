@@ -17,6 +17,7 @@ export abstract class HourlyForecastBaseCard extends LitElement {
   private _requestedEntityId?: string;
   private _forecastRequestId = 0;
   private _loadedLang?: string;
+  protected _chartTranslate: typeof _t = (key, values) => _t(key, values);
 
   protected _retryForecast(): void {
     if (this._forecastLoading || !this.config?.entity) return;
@@ -62,7 +63,11 @@ export abstract class HourlyForecastBaseCard extends LitElement {
       if (lang !== this._loadedLang) {
         this._loadedLang = lang;
         void use(lang)
-          .then(() => this.requestUpdate())
+          .then(() => {
+            if (this._loadedLang !== lang) return;
+            this._chartTranslate = (key, values) => _t(key, values);
+            this.requestUpdate();
+          })
           .catch(error => {
             console.error(`[SwissWeather] Failed to load language ${lang}:`, error);
           });

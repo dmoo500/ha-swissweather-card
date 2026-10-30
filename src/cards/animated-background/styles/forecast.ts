@@ -1,6 +1,13 @@
 import { css } from 'lit';
 
 export const backgroundForecastStyles = css`
+  .condition,
+  .forecast-temps,
+  .sun-times,
+  .forecast-mini {
+    z-index: 1;
+  }
+
   .condition {
     position: absolute;
     top: calc(var(--bg-temp-font-size, 36px) + 16px);
@@ -30,13 +37,11 @@ export const backgroundForecastStyles = css`
     align-items: center;
     color: var(--primary-text-color, #fff);
     font-size: 14px;
-    z-index: 12; /* above photo overlays */
   }
   .forecast-mini {
     position: absolute;
     bottom: 16px; /* align vertically with bottom spacing */
     right: 16px; /* align to the right edge */
-    z-index: 12; /* keep charts above photo overlays */
     max-width: calc(100% - 32px); /* honor left/right margins */
     isolation: isolate;
   }

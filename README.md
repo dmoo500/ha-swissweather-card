@@ -206,6 +206,7 @@ See [configuration examples](docs/configuration.md) and the [visual editor guide
 - Temperature and wind curves have no visible point markers. Invisible hit areas preserve access to the readings.
 - Wind compass arrowheads indicate the supplied wind bearing.
 - Daily diagram precipitation labels follow your Home Assistant language (German, English, or Italian).
+- Missing precipitation metrics are omitted from tooltips; an explicit zero remains visible as a measured value.
 
 These controls apply to the daily SVG diagram and the hourly temperature, wind, and precipitation charts, both embedded and standalone.
 

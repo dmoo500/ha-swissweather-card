@@ -8,6 +8,8 @@ import {
 
 export class HourlyTooltipController implements ReactiveController {
   private _label?: string;
+  private _focusedLabel?: string;
+  private _focusDismissed = false;
   private readonly host: ReactiveControllerHost;
 
   constructor(host: ReactiveControllerHost) {
@@ -16,10 +18,11 @@ export class HourlyTooltipController implements ReactiveController {
   }
 
   hostDisconnected(): void {
-    this.dismiss();
+    this.blur();
   }
 
   readonly dismiss = (): void => {
+    this._focusDismissed = true;
     if (this._label === undefined) return;
     this._label = undefined;
     this.host.requestUpdate();
@@ -35,13 +38,34 @@ export class HourlyTooltipController implements ReactiveController {
     this.host.requestUpdate();
   };
 
+  readonly focus = (event: Event): void => {
+    this.show(event);
+    this._focusedLabel = this._label;
+    this._focusDismissed = false;
+  };
+
+  readonly blur = (): void => {
+    this._focusedLabel = undefined;
+    this.dismiss();
+  };
+
+  readonly pointerLeave = (): void => {
+    this._label = this._focusDismissed ? undefined : this._focusedLabel;
+    this.host.requestUpdate();
+  };
+
+  readonly activate = (event: Event): void => {
+    this._focusDismissed = false;
+    this.show(event);
+  };
+
   readonly keydown = (event: Event & { key: string }): void => {
     if (event.key === 'Escape') {
       event.preventDefault();
       this.dismiss();
     } else if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
-      this.show(event);
+      this.activate(event);
     }
   };
 
@@ -59,10 +83,10 @@ export class HourlyTooltipController implements ReactiveController {
     return html`<div
       class="chart-svg-area"
       @pointerover=${this.show}
-      @pointerleave=${this.dismiss}
-      @click=${this.show}
-      @focusin=${this.show}
-      @focusout=${this.dismiss}
+      @pointerleave=${this.pointerLeave}
+      @click=${this.activate}
+      @focusin=${this.focus}
+      @focusout=${this.blur}
       @keydown=${this.keydown}
     >
       ${content}

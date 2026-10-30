@@ -1,6 +1,6 @@
 import { css, html, TemplateResult } from 'lit';
 import { customElement } from 'lit/decorators.js';
-import { get as _t, registerTranslateConfig } from 'lit-translate';
+import { registerTranslateConfig } from 'lit-translate';
 import { getTranslations } from '../../translations';
 import { WindChart } from '../../charts/wind-chart';
 import {
@@ -104,7 +104,7 @@ export class WindCard extends HourlyForecastBaseCard {
           .hourlyForecast=${this._hourlyForecast}
           .forecastHours=${forecastHours}
           .show_wind=${true}
-          ._t=${_t}
+          ._t=${this._chartTranslate}
         ></wind-chart>
       </div>
     `;

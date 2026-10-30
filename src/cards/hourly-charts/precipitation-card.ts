@@ -1,6 +1,6 @@
 import { css, html, TemplateResult } from 'lit';
 import { customElement } from 'lit/decorators.js';
-import { get as _t, registerTranslateConfig } from 'lit-translate';
+import { registerTranslateConfig } from 'lit-translate';
 import { getTranslations } from '../../translations';
 import { getEntityState } from '../../utils';
 import type { WeatherEntity } from '../../types/home-assistant';
@@ -108,7 +108,7 @@ export class PrecipitationCard extends HourlyForecastBaseCard {
           .hourlyForecast=${this._hourlyForecast}
           .forecastHours=${forecastHours}
           .show_precipitation=${true}
-          ._t=${_t}
+          ._t=${this._chartTranslate}
         ></precipitation-chart>
       </div>
     `;

@@ -160,7 +160,8 @@ export class SwissWeatherBGCard extends LitElement {
       }
 
       if (this._prefersReducedMotion) {
-        svgElement.setCurrentTime(0);
+        // Shared weather symbols fade in over the first third of their 44–133s cycle.
+        svgElement.setCurrentTime(30);
         svgElement.pauseAnimations();
       } else {
         svgElement.unpauseAnimations();

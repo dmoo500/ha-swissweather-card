@@ -13,6 +13,40 @@ test('hourly tooltips expose invisible, labelled keyboard targets', () => {
   assert.deepEqual(target.values, [10, 8, 24, 80, '12:00: 15 °C', '12:00: 15 °C']);
 });
 
+test('pointer exit restores focused details without reopening Escape-dismissed tooltips', () => {
+  const controller = new HourlyTooltipController({ addController() {}, requestUpdate() {} });
+  const content = html`<svg></svg>`;
+  const focused = { getAttribute: () => 'Focused reading' };
+  const hovered = { getAttribute: () => 'Hovered reading' };
+  const visible = label => assert.ok(controller.render(content).values.includes(label));
+  const hidden = () => assert.ok(controller.render(content).values.includes(true));
+
+  controller.show({ target: hovered });
+  controller.pointerLeave();
+  hidden();
+  controller.focus({ target: focused });
+  controller.show({ target: hovered });
+  visible('Hovered reading');
+  controller.pointerLeave();
+  visible('Focused reading');
+  controller.keydown({ key: 'Escape', preventDefault() {} });
+  controller.pointerLeave();
+  hidden();
+  controller.show({ target: hovered });
+  controller.pointerLeave();
+  hidden();
+  controller.keydown({ key: 'Enter', target: focused, preventDefault() {} });
+  controller.pointerLeave();
+  visible('Focused reading');
+  controller.blur();
+  controller.pointerLeave();
+  hidden();
+  controller.focus({ target: focused });
+  controller.hostDisconnected();
+  controller.pointerLeave();
+  hidden();
+});
+
 test('hourly tooltips open on pointer, focus and click and dismiss with Escape or blur', () => {
   const target = {
     getAttribute(name) {

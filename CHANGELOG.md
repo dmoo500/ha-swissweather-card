@@ -14,6 +14,11 @@
 - Require Node.js 22.18.0+ for development and run regression tests on that minimum in CI.
 
 ### Fixed
+- Preserve keyboard-focused hourly tooltip details when the pointer leaves the chart, while honoring Escape dismissal.
+- Isolate background card stacking and keep current weather/forecast content above decorative scenes without leaking z-index into the dashboard.
+- Keep reduced-motion weather symbols visible in a paused scene.
+- Refresh standalone chart headings and no-data messages after language changes.
+- Omit unavailable precipitation metrics from tooltips instead of presenting them as zero, preserving explicit zeros and supported fallback fields.
 - Restored reactive forecast rendering by preserving Lit property setters.
 - Kept daily and hourly forecasts independent, including usable data when one request fails.
 - Filtered daily diagram data by the displayed calendar dates and hid empty hourly headings.

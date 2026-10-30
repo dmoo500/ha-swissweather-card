@@ -4,6 +4,7 @@ import type { WeatherForecast } from '../types/home-assistant.js';
 import { ElementSizeController } from './element-size-controller';
 import { filterForecastToDateKeys, getLocalForecastDateKey } from './forecast-date';
 import { getTranslations } from '../translations';
+import { getPrecipitationValues } from './precipitation-values';
 
 interface TooltipTarget {
   getAttribute(name: string): string | null;
@@ -190,28 +191,10 @@ export class DailyForecastDiagram extends LitElement {
     const tempLineY0 = chartTop + chartHeight; // Chart end Y (bottom)
 
     // Precipitation data
-    const precs = hours.map(h => {
-      const any = h as any;
-      if (typeof any.precipitation === 'number') return any.precipitation;
-      if (typeof any.rain === 'number') return any.rain;
-      return 0;
-    });
+    const precipitationValues = hours.map(getPrecipitationValues);
+    const precs = precipitationValues.map(value => value.amount ?? 0);
     // Precipitation probability (0–100 %), with fallbacks
-    const precsProberly = hours.map(h => {
-      const any = h as any;
-      const v =
-        typeof any.precipitation_probability === 'number'
-          ? any.precipitation_probability
-          : typeof any.probability_of_precipitation === 'number'
-            ? any.probability_of_precipitation
-            : typeof any.pop === 'number'
-              ? any.pop <= 1
-                ? any.pop * 100
-                : any.pop
-              : 0;
-      const n = Number(v);
-      return Number.isFinite(n) ? Math.max(0, Math.min(100, n)) : 0;
-    });
+    const precsProberly = precipitationValues.map(value => value.probability ?? 0);
 
     // Temperature line: scale to full range (tempLineYMax to tempLineY0)
     // Create a mapping based on actual forecast days instead of calculated offsets
@@ -394,7 +377,15 @@ export class DailyForecastDiagram extends LitElement {
         const data = fullDayGrid[`${d}-${h}`];
         if (!data) continue;
 
-        const label = `${formatHourLabel(data.originalIndex)}: ${data.temp} °C, ${data.precip} mm ${tooltipLabels.precipitation}, ${data.precipProb}% ${tooltipLabels.precipitation_probability}`;
+        const values = precipitationValues[data.originalIndex];
+        const readings = [`${data.temp} °C`];
+        if (values.amount !== undefined) {
+          readings.push(`${values.amount} mm ${tooltipLabels.precipitation}`);
+        }
+        if (values.probability !== undefined) {
+          readings.push(`${values.probability}% ${tooltipLabels.precipitation_probability}`);
+        }
+        const label = `${formatHourLabel(data.originalIndex)}: ${readings.join(', ')}`;
         const x = chartX0 + d * dayWidth + h * hourStep;
         tooltipTargets.push(svg`
           <rect
