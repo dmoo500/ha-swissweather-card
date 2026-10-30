@@ -218,7 +218,7 @@ export class SwissWeatherBGCard extends LitElement {
     const fmt = (d?: Date) =>
       d ? d.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' }) : '--:--';
     return html`
-      <div>
+      <div class="weather-content">
         <div class="temperature">
           ${typeof temperature === 'number' && !isNaN(temperature) ? temperature : '--'}°
         </div>
@@ -243,37 +243,41 @@ export class SwissWeatherBGCard extends LitElement {
                         </svg>
                       </div>`
                 }
-                ${
-                  day && this.config.show_day_temps !== false
-                    ? html`
-                        <div class="forecast-temps">
-                          <span class="temp-high">
-                            <ha-icon icon="mdi:arrow-up-bold"></ha-icon>
-                            ${Math.round(day.temperature)}°
-                          </span>
-                          <span class="temp-low">
-                            <ha-icon icon="mdi:arrow-down-bold"></ha-icon> ${Math.round(
-                              day.templow || day.temperature - 5
-                            )}°
-                          </span>
-                        </div>
-                      `
-                    : ''
-                }
-                ${
-                  sunEntityId && this.config.show_sun_times !== false && condition !== 'clear-night'
-                    ? html`
-                        <div class="sun-times">
-                          <span title="${_t('bg_card.sunrise')}">
-                            <ha-icon icon="mdi:weather-sunset-up"></ha-icon> ${fmt(nextSunrise)}
-                          </span>
-                          <span title="${_t('bg_card.sunset')}">
-                            <ha-icon icon="mdi:weather-sunset-down"></ha-icon> ${fmt(nextSunset)}
-                          </span>
-                        </div>
-                      `
-                    : ''
-                }
+                <div class="weather-details">
+                  ${
+                    day && this.config.show_day_temps !== false
+                      ? html`
+                          <div class="forecast-temps">
+                            <span class="temp-high">
+                              <ha-icon icon="mdi:arrow-up-bold"></ha-icon>
+                              ${Math.round(day.temperature)}°
+                            </span>
+                            <span class="temp-low">
+                              <ha-icon icon="mdi:arrow-down-bold"></ha-icon> ${Math.round(
+                                day.templow || day.temperature - 5
+                              )}°
+                            </span>
+                          </div>
+                        `
+                      : ''
+                  }
+                  ${
+                    sunEntityId &&
+                    this.config.show_sun_times !== false &&
+                    condition !== 'clear-night'
+                      ? html`
+                          <div class="sun-times">
+                            <span title="${_t('bg_card.sunrise')}">
+                              <ha-icon icon="mdi:weather-sunset-up"></ha-icon> ${fmt(nextSunrise)}
+                            </span>
+                            <span title="${_t('bg_card.sunset')}">
+                              <ha-icon icon="mdi:weather-sunset-down"></ha-icon> ${fmt(nextSunset)}
+                            </span>
+                          </div>
+                        `
+                      : ''
+                  }
+                </div>
                 ${
                   (this.config.forecast_mode || 'daily') === 'daily' && this._forecast.length > 0
                     ? html`

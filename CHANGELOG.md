@@ -1,5 +1,26 @@
 # Release Notes
 
+## [2.0.1] - Unreleased
+
+### Added
+- French translations for cards, editors, warnings, pollen, and chart tooltips, based on the contribution in Discussion #145 and completed for the current translation keys.
+
+### Fixed
+- Keep background-card conditions, daily min/max, and sunrise/sunset separate from forecast tiles using a responsive content layout shared by photo and SVG backgrounds.
+
+## [2.0.1b1] - 2026-10-30
+
+### Added
+- Add complete French translations based on Discussion #145, including current tooltip and forecast retry messages.
+- Test all 190 French translation keys, interpolation variables, regional locales, and English fallback.
+
+### Fixed
+- Separate background-card weather details and forecast tiles with a responsive layout for photo and SVG scenes.
+- Let card content grow beyond the configured minimum height when narrow widths or larger temperature text require more room.
+
+### Tests
+- 37 regression tests pass; browser checks cover French text and 144 background layout combinations without overlapping content.
+
 ## [2.0.0] - 2026-10-30
 
 ### Added
