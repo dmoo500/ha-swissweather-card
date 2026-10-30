@@ -8178,7 +8178,7 @@ function ja() {
 P({ loader: (e) => M(e) });
 var Ma = class extends T {
 	constructor(...e) {
-		super(...e), this._forecast = [], this._hourly = [], this._forecastLoading = !1, this._hourlyLoading = !1, this._prefersReducedMotion = !1, this._formatForecastDate = (e) => gn(e, this.hass?.selectedLanguage || this.hass?.language || "en");
+		super(...e), this._forecast = [], this._hourly = [], this._forecastLoading = !1, this._hourlyLoading = !1, this._dailyRequestId = 0, this._hourlyRequestId = 0, this._prefersReducedMotion = !1, this._formatForecastDate = (e) => gn(e, this.hass?.selectedLanguage || this.hass?.language || "en");
 	}
 	connectedCallback() {
 		super.connectedCallback();
@@ -8230,12 +8230,9 @@ var Ma = class extends T {
 	}
 	updated(e) {
 		if (super.updated(e), this._syncSvgAnimations(), this.hass && this.config?.entity) {
-			if (this._lastEntityId !== this.config.entity) {
-				this._lastEntityId = this.config.entity;
-				let e = this.config.forecast_mode || "daily";
-				e === "daily" && this._loadDailyForecast(), e === "hourly" && this._loadHourlyForecast();
-			}
-			this.config.show_day_temps !== !1 && !this._forecastLoading && this._forecast.length === 0 && this._loadDailyForecast();
+			this._lastEntityId !== this.config.entity && (this._lastEntityId = this.config.entity, this._dailyRequestedEntityId = void 0, this._hourlyRequestedEntityId = void 0, this._dailyRequestId++, this._hourlyRequestId++, this._forecastLoading = !1, this._hourlyLoading = !1, this._forecast = [], this._hourly = []);
+			let e = this.config.forecast_mode || "daily";
+			(e === "daily" || this.config.show_day_temps !== !1) && this._loadDailyForecast(), e === "hourly" && this._loadHourlyForecast();
 		}
 	}
 	_syncSvgAnimations() {
@@ -8389,27 +8386,33 @@ var Ma = class extends T {
     `;
 	}
 	async _loadDailyForecast() {
-		if (this.hass && this.config?.entity && !this._forecastLoading) {
-			this._forecastLoading = !0;
-			try {
-				this._forecast = await Gi(this.hass, this.config.entity, "daily");
-			} catch (e) {
-				console.warn("⚠️ BG Daily forecast loading failed:", e), this._forecast = [];
-			} finally {
-				this._forecastLoading = !1;
-			}
+		let e = this.config?.entity;
+		if (!this.hass || !e || this._dailyRequestedEntityId === e) return;
+		this._dailyRequestedEntityId = e;
+		let t = ++this._dailyRequestId;
+		this._forecastLoading = !0;
+		try {
+			let n = await Gi(this.hass, e, "daily");
+			t === this._dailyRequestId && (this._forecast = n);
+		} catch (e) {
+			console.warn("⚠️ BG Daily forecast loading failed:", e), t === this._dailyRequestId && (this._forecast = []);
+		} finally {
+			t === this._dailyRequestId && (this._forecastLoading = !1);
 		}
 	}
 	async _loadHourlyForecast() {
-		if (this.hass && this.config?.entity && !this._hourlyLoading) {
-			this._hourlyLoading = !0;
-			try {
-				this._hourly = await Gi(this.hass, this.config.entity, "hourly");
-			} catch (e) {
-				console.warn("⚠️ BG Hourly forecast loading failed:", e), this._hourly = [];
-			} finally {
-				this._hourlyLoading = !1;
-			}
+		let e = this.config?.entity;
+		if (!this.hass || !e || this._hourlyRequestedEntityId === e) return;
+		this._hourlyRequestedEntityId = e;
+		let t = ++this._hourlyRequestId;
+		this._hourlyLoading = !0;
+		try {
+			let n = await Gi(this.hass, e, "hourly");
+			t === this._hourlyRequestId && (this._hourly = n);
+		} catch (e) {
+			console.warn("⚠️ BG Hourly forecast loading failed:", e), t === this._hourlyRequestId && (this._hourly = []);
+		} finally {
+			t === this._hourlyRequestId && (this._hourlyLoading = !1);
 		}
 	}
 };

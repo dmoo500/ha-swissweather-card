@@ -52,6 +52,10 @@ export class SwissWeatherBGCard extends LitElement {
   private _forecastLoading = false;
   private _hourlyLoading = false;
   private _lastEntityId: string | undefined;
+  private _dailyRequestedEntityId?: string;
+  private _hourlyRequestedEntityId?: string;
+  private _dailyRequestId = 0;
+  private _hourlyRequestId = 0;
   private _prefersReducedMotion = false;
   private _removeMotionPreferenceListener?: () => void;
 
@@ -130,18 +134,21 @@ export class SwissWeatherBGCard extends LitElement {
     if (this.hass && this.config?.entity) {
       if (this._lastEntityId !== this.config.entity) {
         this._lastEntityId = this.config.entity;
-        // Load per mode
-        const mode = this.config.forecast_mode || 'daily';
-        if (mode === 'daily') this._loadDailyForecast();
-        if (mode === 'hourly') this._loadHourlyForecast();
+        this._dailyRequestedEntityId = undefined;
+        this._hourlyRequestedEntityId = undefined;
+        this._dailyRequestId++;
+        this._hourlyRequestId++;
+        this._forecastLoading = false;
+        this._hourlyLoading = false;
+        this._forecast = [];
+        this._hourly = [];
       }
-      // Ensure day min/max can render even in hourly/none mode
-      if (
-        this.config.show_day_temps !== false &&
-        !this._forecastLoading &&
-        this._forecast.length === 0
-      ) {
-        this._loadDailyForecast();
+      const mode = this.config.forecast_mode || 'daily';
+      if (mode === 'daily' || this.config.show_day_temps !== false) {
+        void this._loadDailyForecast();
+      }
+      if (mode === 'hourly') {
+        void this._loadHourlyForecast();
       }
     }
   }
@@ -413,29 +420,37 @@ export class SwissWeatherBGCard extends LitElement {
 
   // Load only the daily forecast via Home Assistant WS API
   private async _loadDailyForecast(): Promise<void> {
-    if (!this.hass || !this.config?.entity || this._forecastLoading) return;
+    const entityId = this.config?.entity;
+    if (!this.hass || !entityId || this._dailyRequestedEntityId === entityId) return;
+    this._dailyRequestedEntityId = entityId;
+    const requestId = ++this._dailyRequestId;
     this._forecastLoading = true;
     try {
-      this._forecast = await fetchWeatherForecast(this.hass, this.config.entity, 'daily');
+      const forecast = await fetchWeatherForecast(this.hass, entityId, 'daily');
+      if (requestId === this._dailyRequestId) this._forecast = forecast;
     } catch (err) {
       console.warn('⚠️ BG Daily forecast loading failed:', err);
-      this._forecast = [];
+      if (requestId === this._dailyRequestId) this._forecast = [];
     } finally {
-      this._forecastLoading = false;
+      if (requestId === this._dailyRequestId) this._forecastLoading = false;
     }
   }
 
   // Load only the hourly forecast via Home Assistant WS API
   private async _loadHourlyForecast(): Promise<void> {
-    if (!this.hass || !this.config?.entity || this._hourlyLoading) return;
+    const entityId = this.config?.entity;
+    if (!this.hass || !entityId || this._hourlyRequestedEntityId === entityId) return;
+    this._hourlyRequestedEntityId = entityId;
+    const requestId = ++this._hourlyRequestId;
     this._hourlyLoading = true;
     try {
-      this._hourly = await fetchWeatherForecast(this.hass, this.config.entity, 'hourly');
+      const forecast = await fetchWeatherForecast(this.hass, entityId, 'hourly');
+      if (requestId === this._hourlyRequestId) this._hourly = forecast;
     } catch (err) {
       console.warn('⚠️ BG Hourly forecast loading failed:', err);
-      this._hourly = [];
+      if (requestId === this._hourlyRequestId) this._hourly = [];
     } finally {
-      this._hourlyLoading = false;
+      if (requestId === this._hourlyRequestId) this._hourlyLoading = false;
     }
   }
 }

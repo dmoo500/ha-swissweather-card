@@ -236,6 +236,8 @@ These controls apply to the daily SVG diagram and the hourly temperature, wind, 
 
 Daily and hourly requests in the Full Card are independent: one failing should not hide usable data from the other.
 
+The animated-background card requests each required forecast type once per selected entity, including after an empty or failed response. Reload the card/dashboard to try again; it does not continuously retry in the background.
+
 ### Forecast diagnostics
 
 For additional detail, run this in the browser console, then reload the dashboard:

@@ -14,6 +14,7 @@
 - Require Node.js 22.18.0+ for development and run regression tests on that minimum in CI.
 
 ### Fixed
+- Prevent continuous background-card forecast requests after empty/error responses and ignore stale results after entity changes.
 - Preserve keyboard-focused hourly tooltip details when the pointer leaves the chart, while honoring Escape dismissal.
 - Isolate background card stacking and keep current weather/forecast content above decorative scenes without leaking z-index into the dashboard.
 - Keep reduced-motion weather symbols visible in a paused scene.
