@@ -26,7 +26,6 @@ export class ForecastDiagramCardEditor extends LitElement implements LovelaceCar
 
   constructor() {
     super();
-    console.log('🎨 SwissweatherCardEditor (Forecast Diagram) constructor called');
   }
 
   public setConfig(config: CardConfig): void {

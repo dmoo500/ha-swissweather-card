@@ -1,6 +1,10 @@
-import { LitElement, html, svg, css, type TemplateResult } from 'lit';
+import { LitElement, html, svg, type TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import type { WeatherForecast } from '../types/home-assistant.js';
+import { ElementSizeController } from './element-size-controller';
+import { hourlyChartStyles } from './hourly-chart-styles';
+import { ChartTooltipController } from './chart-tooltip-controller';
+import { getPrecipitationValues } from './precipitation-values';
 
 @customElement('precipitation-chart')
 export class PrecipitationChart extends LitElement {
@@ -8,87 +12,21 @@ export class PrecipitationChart extends LitElement {
   @property({ type: Number }) forecastHours = 12;
   @property({ type: Boolean }) show_precipitation = true;
   @property({ type: Function }) _t!: (key: string, vars?: Record<string, any>) => string;
-  @property({ type: Function }) showHoursChartLabel!: (hours: number) => TemplateResult;
-  private _resizeObserver?: ResizeObserver;
-  private _measuredWidth = 0;
-  private _measuredHeight = 0;
+  private readonly _chartSize = new ElementSizeController(this, () =>
+    this.renderRoot.querySelector<HTMLElement>('.chart-svg-area')
+  );
 
-  static styles = css`
-    :host {
-      display: block;
-      width: 100%;
-      height: 100%;
-      min-height: 0;
-    }
-
-    .section-title {
-      font-weight: bold;
-      font-size: 16px;
-      margin-bottom: 10px;
-      color: var(--primary-text-color, #fff);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .section-title ha-icon {
-      color: var(--primary-text-color, #fff);
-      font-size: 20px;
-    }
-    .chart {
-      background: var(--card-background-color, #fff);
-      border-radius: 12px;
-      padding: var(--chart-padding, 15px);
-      margin-top: var(--chart-margin-top, 15px);
-      margin-bottom: var(--chart-margin-bottom, 0);
-      border: var(--chart-inner-border, 1px solid var(--border-color, rgba(220, 20, 60, 0.1)));
-      width: 100%;
-      box-sizing: border-box;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-    }
-    .chart-svg-area {
-      width: 100%;
-      overflow: hidden;
-      border-radius: 4px;
-      flex: 1;
-      min-height: 100px;
-    }
-  `;
-
-  protected firstUpdated(): void {
-    const area = this.renderRoot.querySelector('.chart-svg-area') as HTMLElement | null;
-    if (!area) return;
-    this._resizeObserver = new ResizeObserver(entries => {
-      let changed = false;
-      for (const entry of entries) {
-        const w = Math.floor(entry.contentRect.width);
-        const h = Math.floor(entry.contentRect.height);
-        if (w > 0 && w !== this._measuredWidth) {
-          this._measuredWidth = w;
-          changed = true;
-        }
-        if (h > 0 && h !== this._measuredHeight) {
-          this._measuredHeight = h;
-          changed = true;
-        }
-      }
-      if (changed) this.requestUpdate();
-    });
-    this._resizeObserver.observe(area);
-  }
-
-  disconnectedCallback(): void {
-    this._resizeObserver?.disconnect();
-    this._resizeObserver = undefined;
-    super.disconnectedCallback();
-  }
+  static styles = hourlyChartStyles;
+  private readonly _tooltip = new ChartTooltipController(this);
 
   render(): TemplateResult {
     if (this.show_precipitation === false) return html``;
 
     const slice = this.hourlyForecast.slice(0, this.forecastHours);
-    const hasData = slice.some(h => typeof h.precipitation === 'number' && !isNaN(h.precipitation));
+    const precipitationValues = slice.map(getPrecipitationValues);
+    const hasData = precipitationValues.some(
+      value => value.amount !== undefined || value.probability !== undefined
+    );
 
     if (this.hourlyForecast.length === 0 || !hasData) {
       return html`
@@ -113,13 +51,13 @@ export class PrecipitationChart extends LitElement {
             >mm</span
           >
         </div>
-        <div class="chart-svg-area">
-          ${(() => {
+        ${this._tooltip.render(
+          (() => {
             const n = slice.length;
             if (n === 0) return html``;
 
-            const svgW = this._measuredWidth > 0 ? this._measuredWidth : 600;
-            const svgH = this._measuredHeight > 0 ? this._measuredHeight : 100;
+            const svgW = this._chartSize.width > 0 ? this._chartSize.width : 600;
+            const svgH = this._chartSize.height > 0 ? this._chartSize.height : 100;
             const padLeft = 28;
             const padRight = 6;
             const padTop = 8;
@@ -129,9 +67,7 @@ export class PrecipitationChart extends LitElement {
             const chartH = svgH - padTop - padBottom;
 
             // Y-axis: 0 to max mm rounded up to next mm, minimum 5 mm
-            const precVals = slice.map(h =>
-              typeof h.precipitation === 'number' && !isNaN(h.precipitation) ? h.precipitation : 0
-            );
+            const precVals = precipitationValues.map(value => value.amount ?? 0);
             const maxPrec = Math.max(5, Math.ceil(Math.max(...precVals)));
             const yRange = maxPrec;
             const yOf = (v: number) => padTop + chartH - (v / yRange) * chartH;
@@ -183,20 +119,15 @@ export class PrecipitationChart extends LitElement {
             // Precipitation probability bars (behind)
             const probBars: unknown[] = [];
             const precipBars: unknown[] = [];
+            const tooltipTargets: TemplateResult[] = [];
             const barWidth = Math.max(2, step * 0.55);
 
             for (let i = 0; i < n; i++) {
               const h = slice[i];
               const x = xCenter(i) - barWidth / 2;
-              const prob =
-                typeof h.precipitation_probability === 'number' &&
-                !isNaN(h.precipitation_probability)
-                  ? h.precipitation_probability
-                  : 0;
-              const prec =
-                typeof h.precipitation === 'number' && !isNaN(h.precipitation)
-                  ? h.precipitation
-                  : 0;
+              const values = precipitationValues[i];
+              const prob = values.probability ?? 0;
+              const prec = values.amount ?? 0;
 
               // Prob bar: 100% → same height as 5mm
               const probMM = (prob / 100) * 5;
@@ -214,6 +145,19 @@ export class PrecipitationChart extends LitElement {
                     fill="url(#precip-grad)" opacity="1" rx="1.5"/>
                 `);
               }
+              const readings: string[] = [];
+              if (values.amount !== undefined) readings.push(`${values.amount} mm`);
+              if (values.probability !== undefined) readings.push(`${values.probability}%`);
+              if (readings.length > 0)
+                tooltipTargets.push(
+                  this._tooltip.target(
+                    padLeft + i * step,
+                    padTop,
+                    step,
+                    chartH,
+                    `${new Date(h.datetime).toLocaleString()}: ${readings.join(' · ')}`
+                  )
+                );
             }
 
             return svg`<svg width="100%" height="100%" viewBox="0 0 ${svgW} ${svgH}" style="display:block;">
@@ -227,9 +171,10 @@ export class PrecipitationChart extends LitElement {
               ${verticals}
               ${probBars}
               ${precipBars}
+              ${tooltipTargets}
             </svg>`;
-          })()}
-        </div>
+          })()
+        )}
       </div>
     `;
   }
