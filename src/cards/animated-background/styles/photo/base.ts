@@ -8,7 +8,7 @@ export const photoBaseStyles = css`
     width: 100%;
     border-radius: 12px;
     overflow: hidden;
-    min-height: 200px;
+    min-height: 0;
     isolation: isolate;
     box-shadow: var(--ha-card-box-shadow, 0 4px 20px var(--box-shadow-color, rgba(0, 0, 0, 0.1)));
     transition:

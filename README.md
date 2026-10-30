@@ -205,7 +205,7 @@ See [configuration examples](docs/configuration.md) and the [visual editor guide
 - **Keyboard:** Tab to an interval; focus, Enter, or Space opens its tooltip. Escape or moving focus away dismisses it.
 - Temperature and wind curves have no visible point markers. Invisible hit areas preserve access to the readings.
 - Wind compass arrowheads indicate the supplied wind bearing.
-- Daily diagram precipitation labels follow your Home Assistant language (German, English, or Italian).
+- Card text, editors, and daily diagram precipitation labels follow your Home Assistant language (German, English, French, or Italian), including regional variants such as `fr-CH`. Unsupported languages fall back to English.
 - Missing precipitation metrics are omitted from tooltips; an explicit zero remains visible as a measured value.
 
 These controls apply to the daily SVG diagram and the hourly temperature, wind, and precipitation charts, both embedded and standalone.
@@ -238,6 +238,8 @@ They share one tooltip controller and display readings in a consistent top-left 
 Daily and hourly requests in the Full Card are independent: one failing should not hide usable data from the other.
 
 The animated-background card requests each required forecast type once per selected entity, including after an empty or failed response. Reload the card/dashboard to try again; it does not continuously retry in the background.
+
+Photo and SVG backgrounds share a responsive content layout: current weather, daily min/max and sun times, and forecast tiles occupy separate rows. Narrow cards stack the condition below the temperature and scale large temperature text to their own width. Without explicit `grid_options.rows`, Sections uses automatic content height. An explicit row count fixes the allocated height and scrolls overflowing content inside the card instead of covering neighboring cards.
 
 ### Forecast diagnostics
 

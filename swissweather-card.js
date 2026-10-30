@@ -1881,6 +1881,234 @@ var tt = {
 			}
 		}
 	},
+	fr: {
+		config: {
+			entity: "Entité météo *",
+			location: "Localisation",
+			show_location: "Afficher la localisation",
+			sun_entity: "Entité soleil pour lever/coucher du soleil",
+			wind_entity: "Vitesse du vent",
+			wind_direction_entity: "Direction du vent",
+			sunshine_entity: "Durée d'ensoleillement",
+			precipitation_entity: "Prévisions de précipitations",
+			show_forecast: "Afficher les prévisions météo",
+			show_temperature: "Afficher le graphique de température",
+			show_precipitation: "Afficher le graphique de précipitations",
+			show_sunshine: "Afficher le graphique d'ensoleillement",
+			show_wind: "Afficher le graphique de vent",
+			enable_animate_weather_icons: "Activer les icônes météo animées",
+			forecast_hours: "Heures de prévision (défaut : 6)",
+			compact_mode: "Mode compact",
+			group_general: "Paramètres généraux",
+			group_current: "Météo actuelle",
+			group_forecast: "Prévisions météo",
+			group_charts: "Graphiques",
+			group_sensors: "Capteurs",
+			group_display: "Paramètres d'affichage",
+			group_chart_order: "Ordre des graphiques",
+			chart_order: "Ordre des graphiques (ex. temperature,precipitation,sunshine,wind)",
+			chart_temperature: "Température",
+			chart_precipitation: "Précipitations",
+			chart_sunshine: "Ensoleillement",
+			chart_wind: "Vent",
+			chart_forecast: "Graphique de prévisions",
+			move_up: "Monter",
+			move_down: "Descendre",
+			descr: {
+				entity: "L'entité météo est requise et doit provenir de l'intégration SwissWeather. Si une autre entité est utilisée, certaines données pourraient ne pas s'afficher correctement.",
+				location: "Affiche ce nom comme localisation.",
+				show_location: "Afficher le nom de la localisation au-dessus de la météo actuelle",
+				sun_entity: "L'entité soleil est requise pour afficher les heures de lever et coucher du soleil.",
+				wind_entity: "L'entité vent est requise pour afficher la vitesse du vent.",
+				wind_direction_entity: "L'entité direction du vent est requise pour afficher la direction du vent.",
+				sunshine_entity: "L'entité ensoleillement est requise pour afficher la durée d'ensoleillement.",
+				precipitation_entity: "L'entité précipitations est requise pour afficher les prévisions de précipitations.",
+				show_forecast: "Activer/désactiver la section des prévisions météo. Les prévisions affichent jusqu'à 7 jours selon le service météo.",
+				show_temperature: "Afficher le graphique de température avec les prévisions selon les heures configurées",
+				show_precipitation: "Afficher le graphique de précipitations avec les prévisions selon les heures configurées",
+				show_sunshine: "Afficher le graphique d'ensoleillement avec les prévisions selon les heures configurées",
+				show_wind: "Afficher le graphique de vent avec les prévisions selon les heures configurées",
+				enable_animate_weather_icons: "Afficher des icônes animées. Si désactivé, des icônes statiques sont affichées.",
+				compact_mode: "En mode compact, moins de détails sont affichés pour les prévisions journalières et les données actuelles (ex. direction du vent)",
+				forecast_hours: "Nombre d'heures pour les prévisions horaires (défaut : 6, maximum 18)"
+			}
+		},
+		warning: {
+			config: {
+				show_warnings: "Afficher les alertes météo",
+				warning_entity: "Alertes météo (ancien modèle)",
+				primary_warning_entity: "Alerte météo principale",
+				secondary_warning_entity: "Alerte météo secondaire",
+				tertiary_warning_entity: "Alerte météo tertiaire",
+				descr: {
+					show_warnings: "Afficher les alertes météo si l'entité d'alerte est configurée et qu'une alerte est active.",
+					warning_entity: "Ancien modèle : entité d'alerte créée par l'intégration SwissWeather originale (izacus/hass-swissweather). Ignorée si les entités classées ci-dessous sont configurées.",
+					primary_warning_entity: "Alerte météo principale (*_primary_weather_warning) de mastameista/hass-swissweather. Si configurée, le nouveau modèle classé est activé.",
+					secondary_warning_entity: "Alerte météo secondaire (*_secondary_weather_warning) de mastameista/hass-swissweather.",
+					tertiary_warning_entity: "Alerte météo tertiaire (*_tertiary_weather_warning) de mastameista/hass-swissweather."
+				}
+			},
+			weather_warning: "Alerte météo active",
+			weather_warnings: "{{count}} alertes météo actives",
+			warnings: "Alertes météo",
+			warnings_none: "Aucune alerte météo active",
+			warnings_additional: "+{{count}} de plus",
+			valid_from: "Valable dès",
+			valid_to: "Valable jusqu'à"
+		},
+		hourly_charts: {
+			precipitation: "précipitations",
+			precipitation_probability: "probabilité de précipitations",
+			config: {
+				entity: "Entité météo *",
+				forecast_hours: "Heures de prévision (défaut : 6)",
+				sun_entity: "Entité soleil pour lever/coucher du soleil",
+				sunshine_entity: "Durée d'ensoleillement",
+				descr: {
+					entity: "L'entité météo est requise et doit provenir de l'intégration SwissWeather.",
+					forecast_hours: "Nombre d'heures pour les prévisions horaires (défaut : 6, maximum 18)",
+					sun_entity: "L'entité soleil est requise pour les marqueurs de lever/coucher dans le graphique.",
+					sunshine_entity: "L'entité ensoleillement est requise pour afficher la durée d'ensoleillement."
+				}
+			},
+			forecast_hours: "Prévisions ({{hours}} prochaines heures)",
+			temperature_chart: "Température (6 prochaines heures)",
+			temperature_hours: "Température ({{hours}} prochaines heures)",
+			temperature_none: "Aucune donnée de température disponible",
+			precipitation_hours: "Précipitations ({{hours}} prochaines heures)",
+			precipitation_none: "Aucune donnée de précipitations disponible",
+			no_precipitation_data: "Aucune donnée de précipitations disponible",
+			sunshine_chart: "Ensoleillement (6 prochaines heures)",
+			sunshine_hours: "Ensoleillement ({{hours}} prochaines heures)",
+			sunshine_none: "Aucune donnée d'ensoleillement disponible",
+			no_sunshine_data: "Aucune donnée d'ensoleillement disponible",
+			wind_hours: "Vent ({{hours}} prochaines heures)",
+			wind_compass: "Direction",
+			loading: "Chargement...",
+			loading_forecast: "Chargement des prévisions...",
+			check_devtools: "Vérifiez les Outils de développement → Actions → weather.get_forecasts",
+			try_other_entity: "Essayez une autre entité météo",
+			no_forecast_data: "Aucune donnée de prévision disponible",
+			no_forecast_data_hint: "Vérifiez les Outils de développement → Actions → weather.get_forecasts",
+			forecast_request_failed: "Impossible de charger les prévisions. Consultez la console du navigateur pour plus de détails.",
+			retry_forecast: "Réessayer",
+			forecast_none: "Aucune donnée de prévision disponible",
+			forecast_none_hint: "Vérifiez les Outils de développement → Actions → weather.get_forecasts",
+			forecast_loading: "Chargement...",
+			forecast_days: "Prévisions sur {{count}} jours",
+			forecast_days_7: "Prévisions sur 7 jours",
+			"7d_forecast": "Prévisions sur 7 jours",
+			xd_forecast: "Prévisions journalières",
+			days_available: "Jours disponibles",
+			now: "Maintenant",
+			hour: "{{h}}h"
+		},
+		bg_card: {
+			config: {
+				entity: "Entité météo *",
+				sun_entity: "Entité soleil pour lever/coucher du soleil",
+				forecast_mode: "Mode de prévision",
+				photo_mode: "Fond photoréaliste (PoC)",
+				show_day_temps: "Afficher Min/Max journalier",
+				show_sun_times: "Afficher lever/coucher du soleil",
+				temperature_font_size: "Taille de police de la température (px)",
+				group_general: "Paramètres généraux",
+				group_display: "Paramètres d'affichage",
+				descr: {
+					entity: "L'entité météo est requise et doit provenir de l'intégration SwissWeather.",
+					sun_entity: "L'entité soleil est requise pour afficher les heures de lever et coucher du soleil.",
+					forecast_mode: "Choisissez si la carte BG affiche les prévisions journalières, horaires ou aucune.",
+					show_day_temps: "Activer/désactiver l'affichage Min/Max journalier.",
+					show_sun_times: "Activer/désactiver l'affichage du lever/coucher du soleil.",
+					photo_mode: "Fond photoréaliste expérimental avec effets atmosphériques (PoC).",
+					temperature_font_size: "Taille de police de la température en pixels. Défaut : 36"
+				}
+			},
+			forecast_mode: {
+				daily: "Journalier",
+				hourly: "Horaire",
+				none: "Aucun"
+			},
+			sunrise: "Lever du soleil",
+			sunset: "Coucher du soleil"
+		},
+		forecast_diagram: { config: {
+			entity: "Entité météo *",
+			sun_entity: "Entité soleil pour lever/coucher du soleil",
+			group_general: "Paramètres généraux",
+			group_sensors: "Capteurs",
+			descr: {
+				entity: "L'entité météo est requise et doit provenir de l'intégration SwissWeather.",
+				sun_entity: "L'entité soleil est requise pour afficher les heures de lever et coucher du soleil."
+			}
+		} },
+		location: "Suisse",
+		wind: "Vent",
+		direction: "Direction",
+		humidity: "Humidité",
+		pressure: "Pression",
+		sunshine: "Ensoleillement",
+		visibility: "Visibilité",
+		current_weather: "Météo actuelle",
+		unknown: "Inconnu",
+		collapse: "Réduire",
+		expand: "Développer",
+		"clear-night": "Ciel dégagé la nuit",
+		cloudy: "Nuageux",
+		exceptional: "Météo exceptionnelle",
+		fog: "Brouillard",
+		hail: "Grêle",
+		lightning: "Orage",
+		"lightning-rainy": "Orage pluvieux",
+		partlycloudy: "Partiellement nuageux",
+		pouring: "Pluie torrentielle",
+		rainy: "Pluvieux",
+		snowy: "Neige",
+		"snowy-rainy": "Neige et pluie",
+		sunny: "Ensoleillé",
+		windy: "Venteux",
+		"windy-variant": "Variante venteuse",
+		"windy-variant-cloudy": "Venteux et nuageux",
+		"windy-variant-partlycloudy": "Venteux et partiellement nuageux",
+		"windy-variant-rainy": "Venteux et pluvieux",
+		"windy-variant-snowy": "Venteux et neigeux",
+		"windy-variant-snowy-rainy": "Venteux avec neige et pluie",
+		"windy-variant-sunny": "Venteux et ensoleillé",
+		"windy-variant-clear-night": "Venteux avec ciel dégagé la nuit",
+		"windy-variant-fog": "Venteux et brouillard",
+		"windy-variant-hail": "Venteux et grêle",
+		"windy-variant-lightning": "Venteux et orageux",
+		"windy-variant-lightning-rainy": "Venteux, orageux et pluvieux",
+		"windy-variant-pouring": "Venteux avec pluie torrentielle",
+		"windy-variant-exceptional": "Venteux avec météo exceptionnelle",
+		pollen: {
+			title: "Niveaux de pollen",
+			no_data: "Aucun type de pollen activé",
+			not_configured: "Aucun capteur de pollen configuré. Veuillez éditer la carte et assigner les capteurs de niveau de hass-swissweather.",
+			config: {
+				level_sensor: "Capteur de niveau",
+				level_sensor_hint: "Capteur de niveau de pollen (SwissPollenLevelSensor de izacus/hass-swissweather). Valeurs : NONE / LOW / MEDIUM / STRONG / VERY_STRONG",
+				raw_sensor: "Capteur de valeur brute (optionnel)",
+				raw_sensor_hint: "Capteur optionnel de valeur brute en particules/m³"
+			},
+			types: {
+				birch: "Bouleau",
+				grasses: "Graminées",
+				alder: "Aulne",
+				hazel: "Noisetier",
+				beech: "Hêtre",
+				ash: "Frêne",
+				oak: "Chêne"
+			},
+			levels: {
+				none: "Aucun",
+				low: "Faible",
+				medium: "Moyen",
+				strong: "Fort",
+				very_strong: "Très fort"
+			}
+		}
+	},
 	it: {
 		config: {
 			entity: "Entità meteo *",
@@ -7025,48 +7253,51 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
   }
 
   .condition {
-    position: absolute;
-    top: calc(var(--bg-temp-font-size, 36px) + 16px);
-    right: 16px;
-    margin-left: 16px;
+    grid-area: 1 / 2;
+    align-self: end;
+    overflow-wrap: anywhere;
     font-size: 16px;
     color: var(--primary-text-color, #fff);
     text-align: right;
   }
+  .weather-details {
+    grid-area: 2 / 1 / 3 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 16px;
+  }
+  .weather-details:empty {
+    display: none;
+  }
   .forecast-temps {
-    position: absolute;
-    top: calc(var(--bg-temp-font-size, 36px) * 2 + 16px);
-    left: 16px;
+    position: relative;
     font-size: 14px;
     color: var(--primary-text-color, #fff);
-    max-width: calc(100% - 32px); /* honor left/right margins */
     display: flex;
     flex-direction: row;
     gap: 10px;
   }
   .sun-times {
-    position: absolute;
-    top: calc(var(--bg-temp-font-size, 36px) * 2 + 16px);
-    right: 16px;
+    position: relative;
+    margin-left: auto;
     display: flex;
+    flex-wrap: wrap;
     gap: 12px;
     align-items: center;
     color: var(--primary-text-color, #fff);
     font-size: 14px;
   }
-  .forecast-mini {
-    position: absolute;
-    bottom: 16px; /* align vertically with bottom spacing */
-    right: 16px; /* align to the right edge */
-    max-width: calc(100% - 32px); /* honor left/right margins */
-    isolation: isolate;
+  .sun-times span,
+  .forecast-temps span {
+    white-space: nowrap;
   }
-  @media (max-width: 400px) {
-    .forecast-mini {
-      right: 12px;
-      bottom: 12px;
-      max-width: calc(100% - 24px);
-    }
+  .forecast-mini {
+    position: relative;
+    grid-area: 3 / 1 / 4 / -1;
+    align-self: end;
+    min-width: 0;
+    isolation: isolate;
   }
   .temp-high {
     font-weight: bold;
@@ -7077,7 +7308,7 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
   }
   @media (max-width: 400px) {
     .temperature {
-      font-size: calc(var(--bg-temp-font-size, 36px) * 0.8);
+      font-size: min(calc(var(--bg-temp-font-size, 36px) * 0.8), 22cqi);
       padding: 4px 8px;
     }
     .condition {
@@ -7092,16 +7323,44 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
       grid-template-columns: repeat(2, 1fr);
     }
   }
+  @container (max-width: 320px) {
+    .weather-content {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: auto auto auto 1fr;
+    }
+    .condition {
+      grid-area: 2 / 1;
+    }
+    .weather-details {
+      grid-area: 3 / 1;
+    }
+    .forecast-mini {
+      grid-area: 4 / 1;
+    }
+  }
 `, wa = o`
   :host {
     display: block;
     position: relative;
     isolation: isolate;
+    container-type: inline-size;
     box-shadow: none;
     /* Calculate height according to HA docs: rows * 56px + (rows-1) * 8px gap */
     /* Simplified: height = rows * 64px - 8px */
-    height: calc(var(--card-grid-rows, 3) * 64px - 8px);
+    height: var(--bg-card-height, auto);
     min-height: calc(var(--card-grid-rows, 3) * 64px - 8px);
+  }
+
+  .weather-content {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-rows: auto auto 1fr;
+    gap: 12px;
+    box-sizing: border-box;
+    min-height: calc(var(--card-grid-rows, 3) * 64px - 8px);
+    height: var(--bg-card-height, auto);
+    overflow-y: auto;
+    padding: 0 16px 16px;
   }
 
   .temperature {
@@ -7110,7 +7369,9 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
     border: 2px solid var(--primary-text-color, #fff);
     background: var(--ha-card-background, var(--card-background-color, #fff));
     padding: 5px 10px;
-    float: left;
+    grid-area: 1 / 1;
+    justify-self: start;
+    align-self: start;
     box-shadow: var(
       --ha-card-box-shadow,
       0 2px 2px 0 rgba(0, 0, 0, 0.14),
@@ -7122,7 +7383,10 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
     align-content: center;
     align-items: center;
     position: relative;
-    font-size: var(--bg-temp-font-size, 36px);
+    box-sizing: border-box;
+    max-width: 100%;
+    min-width: 0;
+    font-size: min(var(--bg-temp-font-size, 36px), 22cqi);
     font-weight: bold;
     text-align: center;
     z-index: 1;
@@ -7143,7 +7407,7 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
     overflow: hidden;
     display: flex;
     flex-direction: row;
-    min-height: 200px;
+    min-height: 0;
     box-shadow: var(--ha-card-box-shadow, 0 4px 20px var(--box-shadow-color, rgba(0, 0, 0, 0.1)));
   }
 `, Ta = o`
@@ -7569,7 +7833,7 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
     width: 100%;
     border-radius: 12px;
     overflow: hidden;
-    min-height: 200px;
+    min-height: 0;
     isolation: isolate;
     box-shadow: var(--ha-card-box-shadow, 0 4px 20px var(--box-shadow-color, rgba(0, 0, 0, 0.1)));
     transition:
@@ -8193,12 +8457,10 @@ var Pa = class extends T {
 	}
 	getGridOptions() {
 		return {
-			rows: this.config?.grid_options?.rows ?? 3,
+			rows: this.config?.grid_options?.rows ?? "auto",
 			columns: this.config?.grid_options?.columns ?? 12,
 			min_columns: 12,
-			max_columns: 48,
-			min_rows: 4,
-			max_rows: 8
+			max_columns: 48
 		};
 	}
 	static getStubConfig() {
@@ -8226,7 +8488,7 @@ var Pa = class extends T {
 	render() {
 		if (P((this.hass.selectedLanguage || this.hass.language || "en").substring(0, 2)), !this.hass || !this.config) return x``;
 		let e = this.config?.grid_options?.rows ?? 3;
-		this.style.setProperty("--card-grid-rows", e.toString());
+		this.style.setProperty("--card-grid-rows", e.toString()), this.style.setProperty("--bg-card-height", this.config.grid_options?.rows === void 0 ? "auto" : `${e * 64 - 8}px`);
 		let t = Yn(this.hass, this.config.entity), n = t.attributes.temperature, r = t.state, i = Xn(this.hass, this.config), a = this.clientWidth || 300, o = e * 64 - 8, s = this.config?.temperature_font_size, c = typeof s == "number" && s > 0 ? `${s}px` : "36px";
 		this.style.setProperty("--bg-temp-font-size", c), this.style.setProperty("--bg-temp-img-top", `calc(${c})`);
 		let l = this._forecast && this._forecast.length > 0 ? this._forecast[0] : t.attributes.forecast ? t.attributes.forecast[0] : null, u = this.config.sun_entity, d = u ? this.hass.states[u] : void 0, f = d?.attributes?.next_rising ? new Date(d.attributes.next_rising) : void 0, p = d?.attributes?.next_setting ? new Date(d.attributes.next_setting) : void 0, m = (this.hass.selectedLanguage || this.hass.language || "en").replace("_", "-"), h = (e) => e ? e.toLocaleTimeString(m, {
@@ -8234,7 +8496,7 @@ var Pa = class extends T {
 			minute: "2-digit"
 		}) : "--:--";
 		return x`
-      <div>
+      <div class="weather-content">
         <div class="temperature">
           ${typeof n == "number" && !isNaN(n) ? n : "--"}°
         </div>
@@ -8249,27 +8511,29 @@ var Pa = class extends T {
                           ${a > 0 ? va(r, i, a) : S``}
                         </svg>
                       </div>`}
-                ${l && this.config.show_day_temps !== !1 ? x`
-                        <div class="forecast-temps">
-                          <span class="temp-high">
-                            <ha-icon icon="mdi:arrow-up-bold"></ha-icon>
-                            ${Math.round(l.temperature)}°
-                          </span>
-                          <span class="temp-low">
-                            <ha-icon icon="mdi:arrow-down-bold"></ha-icon> ${Math.round(l.templow || l.temperature - 5)}°
-                          </span>
-                        </div>
-                      ` : ""}
-                ${u && this.config.show_sun_times !== !1 && r !== "clear-night" ? x`
-                        <div class="sun-times">
-                          <span title="${L("bg_card.sunrise")}">
-                            <ha-icon icon="mdi:weather-sunset-up"></ha-icon> ${h(f)}
-                          </span>
-                          <span title="${L("bg_card.sunset")}">
-                            <ha-icon icon="mdi:weather-sunset-down"></ha-icon> ${h(p)}
-                          </span>
-                        </div>
-                      ` : ""}
+                <div class="weather-details">
+                  ${l && this.config.show_day_temps !== !1 ? x`
+                          <div class="forecast-temps">
+                            <span class="temp-high">
+                              <ha-icon icon="mdi:arrow-up-bold"></ha-icon>
+                              ${Math.round(l.temperature)}°
+                            </span>
+                            <span class="temp-low">
+                              <ha-icon icon="mdi:arrow-down-bold"></ha-icon> ${Math.round(l.templow || l.temperature - 5)}°
+                            </span>
+                          </div>
+                        ` : ""}
+                  ${u && this.config.show_sun_times !== !1 && r !== "clear-night" ? x`
+                          <div class="sun-times">
+                            <span title="${L("bg_card.sunrise")}">
+                              <ha-icon icon="mdi:weather-sunset-up"></ha-icon> ${h(f)}
+                            </span>
+                            <span title="${L("bg_card.sunset")}">
+                              <ha-icon icon="mdi:weather-sunset-down"></ha-icon> ${h(p)}
+                            </span>
+                          </div>
+                        ` : ""}
+                </div>
                 ${(this.config.forecast_mode || "daily") === "daily" && this._forecast.length > 0 ? x`
                         <div class="forecast-mini">
                           <daily-forecast-chart

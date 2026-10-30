@@ -1,10 +1,11 @@
 import de from './de.json';
 import en from './en.json';
+import fr from './fr.json';
 import it from './it.json';
 
 export type TranslationDict = { [lang: string]: any };
 
-export const translations: TranslationDict = { de, en, it };
+export const translations: TranslationDict = { de, en, fr, it };
 
 export function getTranslations(lang?: string | null): any {
   const language =
