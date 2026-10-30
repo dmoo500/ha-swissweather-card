@@ -102,12 +102,10 @@ export class SwissWeatherBGCard extends LitElement {
   // The rules for sizing your card in the grid in sections view
   public getGridOptions() {
     return {
-      rows: this.config?.grid_options?.rows ?? 3,
+      rows: this.config?.grid_options?.rows ?? 'auto',
       columns: this.config?.grid_options?.columns ?? 12,
       min_columns: 12,
       max_columns: 48,
-      min_rows: 4,
-      max_rows: 8,
     };
   }
 
@@ -186,6 +184,10 @@ export class SwissWeatherBGCard extends LitElement {
 
     // Set CSS variable for card height calculation
     this.style.setProperty('--card-grid-rows', gridRows.toString());
+    this.style.setProperty(
+      '--bg-card-height',
+      this.config.grid_options?.rows !== undefined ? `${gridRows * 64 - 8}px` : 'auto'
+    );
 
     const weatherEntity = getEntityState(this.hass, this.config.entity) as WeatherEntity;
     const temperature = weatherEntity.attributes.temperature;

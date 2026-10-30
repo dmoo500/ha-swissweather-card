@@ -239,7 +239,7 @@ Daily and hourly requests in the Full Card are independent: one failing should n
 
 The animated-background card requests each required forecast type once per selected entity, including after an empty or failed response. Reload the card/dashboard to try again; it does not continuously retry in the background.
 
-Photo and SVG backgrounds share a responsive content layout: current weather, daily min/max and sun times, and forecast tiles occupy separate rows. The configured grid rows set the minimum height; content can grow when a narrow card or larger temperature text needs more room.
+Photo and SVG backgrounds share a responsive content layout: current weather, daily min/max and sun times, and forecast tiles occupy separate rows. Narrow cards stack the condition below the temperature and scale large temperature text to their own width. Without explicit `grid_options.rows`, Sections uses automatic content height. An explicit row count fixes the allocated height and scrolls overflowing content inside the card instead of covering neighboring cards.
 
 ### Forecast diagnostics
 

@@ -7308,7 +7308,7 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
   }
   @media (max-width: 400px) {
     .temperature {
-      font-size: calc(var(--bg-temp-font-size, 36px) * 0.8);
+      font-size: min(calc(var(--bg-temp-font-size, 36px) * 0.8), 22cqi);
       padding: 4px 8px;
     }
     .condition {
@@ -7323,15 +7323,31 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
       grid-template-columns: repeat(2, 1fr);
     }
   }
+  @container (max-width: 320px) {
+    .weather-content {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: auto auto auto 1fr;
+    }
+    .condition {
+      grid-area: 2 / 1;
+    }
+    .weather-details {
+      grid-area: 3 / 1;
+    }
+    .forecast-mini {
+      grid-area: 4 / 1;
+    }
+  }
 `, wa = o`
   :host {
     display: block;
     position: relative;
     isolation: isolate;
+    container-type: inline-size;
     box-shadow: none;
     /* Calculate height according to HA docs: rows * 56px + (rows-1) * 8px gap */
     /* Simplified: height = rows * 64px - 8px */
-    height: auto;
+    height: var(--bg-card-height, auto);
     min-height: calc(var(--card-grid-rows, 3) * 64px - 8px);
   }
 
@@ -7342,6 +7358,8 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
     gap: 12px;
     box-sizing: border-box;
     min-height: calc(var(--card-grid-rows, 3) * 64px - 8px);
+    height: var(--bg-card-height, auto);
+    overflow-y: auto;
     padding: 0 16px 16px;
   }
 
@@ -7365,7 +7383,10 @@ ${Array.from({ length: Math.ceil(e / 10) }, (e, t) => t).map((e) => {
     align-content: center;
     align-items: center;
     position: relative;
-    font-size: var(--bg-temp-font-size, 36px);
+    box-sizing: border-box;
+    max-width: 100%;
+    min-width: 0;
+    font-size: min(var(--bg-temp-font-size, 36px), 22cqi);
     font-weight: bold;
     text-align: center;
     z-index: 1;
@@ -8436,12 +8457,10 @@ var Pa = class extends T {
 	}
 	getGridOptions() {
 		return {
-			rows: this.config?.grid_options?.rows ?? 3,
+			rows: this.config?.grid_options?.rows ?? "auto",
 			columns: this.config?.grid_options?.columns ?? 12,
 			min_columns: 12,
-			max_columns: 48,
-			min_rows: 4,
-			max_rows: 8
+			max_columns: 48
 		};
 	}
 	static getStubConfig() {
@@ -8469,7 +8488,7 @@ var Pa = class extends T {
 	render() {
 		if (P((this.hass.selectedLanguage || this.hass.language || "en").substring(0, 2)), !this.hass || !this.config) return x``;
 		let e = this.config?.grid_options?.rows ?? 3;
-		this.style.setProperty("--card-grid-rows", e.toString());
+		this.style.setProperty("--card-grid-rows", e.toString()), this.style.setProperty("--bg-card-height", this.config.grid_options?.rows === void 0 ? "auto" : `${e * 64 - 8}px`);
 		let t = Yn(this.hass, this.config.entity), n = t.attributes.temperature, r = t.state, i = Xn(this.hass, this.config), a = this.clientWidth || 300, o = e * 64 - 8, s = this.config?.temperature_font_size, c = typeof s == "number" && s > 0 ? `${s}px` : "36px";
 		this.style.setProperty("--bg-temp-font-size", c), this.style.setProperty("--bg-temp-img-top", `calc(${c})`);
 		let l = this._forecast && this._forecast.length > 0 ? this._forecast[0] : t.attributes.forecast ? t.attributes.forecast[0] : null, u = this.config.sun_entity, d = u ? this.hass.states[u] : void 0, f = d?.attributes?.next_rising ? new Date(d.attributes.next_rising) : void 0, p = d?.attributes?.next_setting ? new Date(d.attributes.next_setting) : void 0, m = (this.hass.selectedLanguage || this.hass.language || "en").replace("_", "-"), h = (e) => e ? e.toLocaleTimeString(m, {

@@ -5,10 +5,11 @@ export const backgroundLayoutStyles = css`
     display: block;
     position: relative;
     isolation: isolate;
+    container-type: inline-size;
     box-shadow: none;
     /* Calculate height according to HA docs: rows * 56px + (rows-1) * 8px gap */
     /* Simplified: height = rows * 64px - 8px */
-    height: auto;
+    height: var(--bg-card-height, auto);
     min-height: calc(var(--card-grid-rows, 3) * 64px - 8px);
   }
 
@@ -19,6 +20,8 @@ export const backgroundLayoutStyles = css`
     gap: 12px;
     box-sizing: border-box;
     min-height: calc(var(--card-grid-rows, 3) * 64px - 8px);
+    height: var(--bg-card-height, auto);
+    overflow-y: auto;
     padding: 0 16px 16px;
   }
 
@@ -42,7 +45,10 @@ export const backgroundLayoutStyles = css`
     align-content: center;
     align-items: center;
     position: relative;
-    font-size: var(--bg-temp-font-size, 36px);
+    box-sizing: border-box;
+    max-width: 100%;
+    min-width: 0;
+    font-size: min(var(--bg-temp-font-size, 36px), 22cqi);
     font-weight: bold;
     text-align: center;
     z-index: 1;

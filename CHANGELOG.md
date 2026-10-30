@@ -6,7 +6,18 @@
 - French translations for cards, editors, warnings, pollen, and chart tooltips, based on the contribution in Discussion #145 and completed for the current translation keys.
 
 ### Fixed
+- Match background-card automatic height to the Sections sizing contract, contain overflow within explicit row allocations, and stack/scale content for narrow cards.
 - Keep background-card conditions, daily min/max, and sunrise/sunset separate from forecast tiles using a responsive content layout shared by photo and SVG backgrounds.
+
+## [2.0.1b2] - 2026-10-30
+
+### Fixed
+- Advertise automatic Sections height when no row count is configured; preserve explicit row allocations and scroll overflowing content inside the card.
+- Stack weather conditions below the temperature in narrow cards using a container query, including on desktop dashboards.
+- Scale large temperature text to the card width so signed decimal readings do not overflow.
+
+### Tests
+- 39 regression tests pass. Browser checks cover 18 photo/SVG layout cases at desktop width, including 240px cards, -12.5° at a requested 96px font size, and automatic/fixed row allocations.
 
 ## [2.0.1b1] - 2026-10-30
 

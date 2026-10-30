@@ -64,7 +64,7 @@ export const backgroundForecastStyles = css`
   }
   @media (max-width: 400px) {
     .temperature {
-      font-size: calc(var(--bg-temp-font-size, 36px) * 0.8);
+      font-size: min(calc(var(--bg-temp-font-size, 36px) * 0.8), 22cqi);
       padding: 4px 8px;
     }
     .condition {
@@ -77,6 +77,21 @@ export const backgroundForecastStyles = css`
   @media (max-width: 768px) {
     .metrics-grid {
       grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @container (max-width: 320px) {
+    .weather-content {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: auto auto auto 1fr;
+    }
+    .condition {
+      grid-area: 2 / 1;
+    }
+    .weather-details {
+      grid-area: 3 / 1;
+    }
+    .forecast-mini {
+      grid-area: 4 / 1;
     }
   }
 `;
