@@ -1,6 +1,6 @@
 # Release Notes
 
-## [2.0.1] - Unreleased
+## [2.0.1] - 2026-10-30
 
 ### Added
 - French translations for cards, editors, warnings, pollen, and chart tooltips, based on the contribution in Discussion #145 and completed for the current translation keys.
