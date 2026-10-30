@@ -846,8 +846,10 @@ var Ue = class {
   }
 `, Ge = class {
 	constructor(e) {
-		this._focusDismissed = !1, this.dismiss = () => {
-			this._focusDismissed = !0, this._label !== void 0 && (this._label = void 0, this.host.requestUpdate());
+		this._focusDismissed = !1, this._documentKeydown = (e) => {
+			this._label && "key" in e && e.key === "Escape" && (e.preventDefault(), this.dismiss());
+		}, this.dismiss = () => {
+			this._focusDismissed = !0, this._label !== void 0 && (this._label = void 0, this._removeEscapeListener(), this.host.requestUpdate());
 		}, this.show = (e) => {
 			let t = e.target, n = t && "getAttribute" in t && typeof t.getAttribute == "function" ? t.getAttribute("data-tooltip") : void 0;
 			this._label = typeof n == "string" ? n : void 0, this.host.requestUpdate();
@@ -861,12 +863,21 @@ var Ue = class {
 			this._focusDismissed = !1, this.show(e);
 		}, this.preserveTooltip = (e) => {
 			e.stopPropagation();
+		}, this.preserveFocus = (e) => {
+			e.preventDefault(), e.stopPropagation();
 		}, this.keydown = (e) => {
 			e.key === "Escape" ? (e.preventDefault(), this.dismiss()) : (e.key === "Enter" || e.key === " ") && (e.preventDefault(), this.activate(e));
 		}, this.host = e, e.addController(this);
 	}
 	hostDisconnected() {
-		this.blur();
+		this.blur(), this._removeEscapeListener();
+	}
+	hostUpdated() {
+		let e = this._label ? this.host.ownerDocument : void 0;
+		e !== this._escapeDocument && (this._removeEscapeListener(), this._escapeDocument = e, e?.addEventListener("keydown", this._documentKeydown, !0));
+	}
+	_removeEscapeListener() {
+		this._escapeDocument?.removeEventListener("keydown", this._documentKeydown, !0), this._escapeDocument = void 0;
 	}
 	target(e, t, n, r, i) {
 		return S`<rect
@@ -892,6 +903,7 @@ var Ue = class {
         id="chart-tooltip"
         role="tooltip"
         ?hidden=${!this._label}
+        @pointerdown=${this.preserveFocus}
         @pointerover=${this.preserveTooltip}
         @click=${this.preserveTooltip}
       >

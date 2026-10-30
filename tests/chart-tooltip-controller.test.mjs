@@ -3,6 +3,59 @@ import test from 'node:test';
 import { html } from 'lit';
 import { ChartTooltipController, chartTooltipStyles } from '../src/charts/chart-tooltip-controller.ts';
 
+test('hover-only tooltips handle document Escape and clean up listeners', () => {
+  const document = new EventTarget();
+  let added = 0;
+  let removed = 0;
+  const ownerDocument = {
+    addEventListener(...args) { added++; document.addEventListener(...args); },
+    removeEventListener(...args) { removed++; document.removeEventListener(...args); },
+  };
+  const controller = new ChartTooltipController({ ownerDocument, addController() {}, requestUpdate() {} });
+  const content = html`<svg></svg>`;
+  const key = value => {
+    const event = new Event('keydown', { cancelable: true });
+    Object.defineProperty(event, 'key', { value });
+    document.dispatchEvent(event);
+    return event;
+  };
+  controller.hostUpdated();
+  assert.equal(added, 0);
+  controller.show({ target: { getAttribute: () => 'Hovered' } });
+  controller.hostUpdated();
+  controller.hostUpdated();
+  assert.equal(added, 1, 'no duplicate listener during renders');
+  assert.equal(key('Enter').defaultPrevented, false);
+  assert.ok(controller.render(content).values.includes('Hovered'));
+  assert.equal(key('Escape').defaultPrevented, true);
+  assert.ok(controller.render(content).values.includes(true));
+  assert.equal(removed, 1);
+  controller.show({ target: { getAttribute: () => 'Hovered again' } });
+  controller.hostUpdated();
+  controller.hostDisconnected();
+  assert.equal(removed, 2);
+  assert.equal(key('Escape').defaultPrevented, false);
+  controller.show({ target: { getAttribute: () => 'Reconnected' } });
+  controller.hostUpdated();
+  assert.equal(key('Escape').defaultPrevented, true);
+  assert.equal(added, removed);
+});
+
+test('tooltip pointerdown prevents focus loss while genuine blur dismisses it', () => {
+  const controller = new ChartTooltipController({ addController() {}, requestUpdate() {} });
+  const content = html`<svg></svg>`;
+  controller.focus({ target: { getAttribute: () => 'Focused' } });
+  assert.ok(controller.render(content).values.includes(controller.preserveFocus));
+  const event = new Event('pointerdown', { cancelable: true });
+  controller.preserveFocus(event);
+  assert.equal(event.defaultPrevented, true);
+  controller.preserveTooltip(new Event('click'));
+  controller.pointerLeave();
+  assert.ok(controller.render(content).values.includes('Focused'));
+  controller.blur();
+  assert.ok(controller.render(content).values.includes(true));
+});
+
 test('tooltip text receives pointer events without changing the displayed reading', () => {
   const controller = new ChartTooltipController({ addController() {}, requestUpdate() {} });
   const content = html`<svg></svg>`;

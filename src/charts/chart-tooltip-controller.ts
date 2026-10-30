@@ -37,21 +37,44 @@ export class ChartTooltipController implements ReactiveController {
   private _label?: string;
   private _focusedLabel?: string;
   private _focusDismissed = false;
-  private readonly host: ReactiveControllerHost;
+  private readonly host: ReactiveControllerHost & { ownerDocument?: HTMLElement['ownerDocument'] };
+  private _escapeDocument?: HTMLElement['ownerDocument'];
 
-  constructor(host: ReactiveControllerHost) {
+  constructor(host: ReactiveControllerHost & { ownerDocument?: HTMLElement['ownerDocument'] }) {
     this.host = host;
     host.addController(this);
   }
 
   hostDisconnected(): void {
     this.blur();
+    this._removeEscapeListener();
+  }
+
+  hostUpdated(): void {
+    const document = this._label ? this.host.ownerDocument : undefined;
+    if (document === this._escapeDocument) return;
+    this._removeEscapeListener();
+    this._escapeDocument = document;
+    document?.addEventListener('keydown', this._documentKeydown, true);
+  }
+
+  private readonly _documentKeydown = (event: Event): void => {
+    if (this._label && 'key' in event && event.key === 'Escape') {
+      event.preventDefault();
+      this.dismiss();
+    }
+  };
+
+  private _removeEscapeListener(): void {
+    this._escapeDocument?.removeEventListener('keydown', this._documentKeydown, true);
+    this._escapeDocument = undefined;
   }
 
   readonly dismiss = (): void => {
     this._focusDismissed = true;
     if (this._label === undefined) return;
     this._label = undefined;
+    this._removeEscapeListener();
     this.host.requestUpdate();
   };
 
@@ -90,6 +113,11 @@ export class ChartTooltipController implements ReactiveController {
     event.stopPropagation();
   };
 
+  readonly preserveFocus = (event: Event): void => {
+    event.preventDefault();
+    event.stopPropagation();
+  };
+
   readonly keydown = (event: Event & { key: string }): void => {
     if (event.key === 'Escape') {
       event.preventDefault();
@@ -125,6 +153,7 @@ export class ChartTooltipController implements ReactiveController {
         id="chart-tooltip"
         role="tooltip"
         ?hidden=${!this._label}
+        @pointerdown=${this.preserveFocus}
         @pointerover=${this.preserveTooltip}
         @click=${this.preserveTooltip}
       >
