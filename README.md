@@ -205,11 +205,13 @@ See [configuration examples](docs/configuration.md) and the [visual editor guide
 - **Keyboard:** Tab to an interval; focus, Enter, or Space opens its tooltip. Escape or moving focus away dismisses it.
 - Temperature and wind curves have no visible point markers. Invisible hit areas preserve access to the readings.
 - Wind compass arrowheads indicate the supplied wind bearing.
+- Daily diagram precipitation labels follow your Home Assistant language (German, English, or Italian).
 
 These controls apply to the daily SVG diagram and the hourly temperature, wind, and precipitation charts, both embedded and standalone.
 
 ## Updating and beta releases
 
+- **Updating to 2.0.0:** existing card type names are unchanged. Development now requires Node.js 22.18.0+, but using the card in Home Assistant does not require Node.js.
 - Update through HACS, or replace the JavaScript file for a manual installation.
 - Reload the dashboard; if an older version remains visible, hard-refresh the browser or clear the frontend cache.
 - To test a beta, enable pre-release versions in the repository's HACS download/version selection. Beta releases may contain regressions.

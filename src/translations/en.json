@@ -74,6 +74,8 @@
     "valid_to": "Valid to"
   },
   "hourly_charts": {
+    "precipitation": "precipitation",
+    "precipitation_probability": "precipitation probability",
     "config": {
       "entity": "Weather Entity *",
       "forecast_hours": "Forecast Hours (default: 6)",

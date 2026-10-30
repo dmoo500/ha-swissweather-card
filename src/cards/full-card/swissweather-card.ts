@@ -578,6 +578,7 @@ export class SwissWeatherCard extends LitElement {
   private _renderDailyForecastDiagram(): TemplateResult {
     return this._forecast.length > 0 && this._hourlyForecast.length > 0
       ? html`<daily-forecast-diagram
+          .language=${this.hass.selectedLanguage || this.hass.language || 'en'}
           .config=${this.config}
           .forecast=${[...(this._forecast?.slice(0, 7) ?? [])]}
           .hourlyForecast=${[...this._hourlyForecast]}

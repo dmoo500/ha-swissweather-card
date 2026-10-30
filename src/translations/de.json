@@ -74,6 +74,8 @@
     "valid_to": "Gültig bis"
   },
   "hourly_charts": {
+    "precipitation": "Niederschlag",
+    "precipitation_probability": "Niederschlagswahrscheinlichkeit",
     "config": {
       "entity": "Wetter Entity *",
       "forecast_hours": "Prognose Stunden (Standard: 6)",

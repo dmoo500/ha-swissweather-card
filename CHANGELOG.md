@@ -1,5 +1,26 @@
 # Release Notes
 
+## [2.0.0] - 2026-10-30
+
+### Added
+- Accessible daily and hourly chart tooltips with mouse, touch, and keyboard interaction.
+- Explicit retry actions, a 20-second forecast timeout, and opt-in forecast diagnostics.
+- Regression tests for chart behavior, forecast requests, translations, and Lit reactivity.
+
+### Changed
+- Modularized cards, charts, weather effects, and shared forecast utilities.
+- Removed visible temperature/wind point markers, clarified wind direction arrows, and standardized hourly heading spacing.
+- Reorganized the README and corrected installation, configuration, and development guidance.
+- Require Node.js 22.18.0+ for development and run regression tests on that minimum in CI.
+
+### Fixed
+- Restored reactive forecast rendering by preserving Lit property setters.
+- Kept daily and hourly forecasts independent, including usable data when one request fails.
+- Filtered daily diagram data by the displayed calendar dates and hid empty hourly headings.
+- Restored responsive sizing after reconnect and improved weather animation/reduced-motion handling.
+- Initialized standalone hourly card languages and completed Italian forecast failure text.
+- Localized daily forecast diagram tooltip precipitation labels using the selected Home Assistant language, both standalone and in the Full Card.
+
 ## [2.0.0b5] - 2026-10-30
 
 ### Changed

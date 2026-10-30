@@ -3,6 +3,7 @@ import { customElement, property, state } from 'lit/decorators.js';
 import type { WeatherForecast } from '../types/home-assistant.js';
 import { ElementSizeController } from './element-size-controller';
 import { filterForecastToDateKeys, getLocalForecastDateKey } from './forecast-date';
+import { getTranslations } from '../translations';
 
 interface TooltipTarget {
   getAttribute(name: string): string | null;
@@ -30,6 +31,7 @@ export class DailyForecastDiagram extends LitElement {
   @property({ type: Object }) config: any;
   @property({ type: Function }) getWeatherIcon!: (..._args: any[]) => TemplateResult;
   @property({ type: Boolean }) standalone = false;
+  @property({ type: String }) language = 'en';
   @state() private _activeTooltip?: { label: string; left: number; top: number };
   private readonly _chartSize = new ElementSizeController(this, () => this);
   static styles = css`
@@ -81,6 +83,7 @@ export class DailyForecastDiagram extends LitElement {
     }
   `;
   render(): TemplateResult {
+    const tooltipLabels = getTranslations(this.language).hourly_charts;
     // Daily forecast SVG diagram for temperature and precipitation
     const days = this.forecast.slice(0, 7);
     const dayMapping = new Map<string, number>();
@@ -352,7 +355,7 @@ export class DailyForecastDiagram extends LitElement {
 
           // 0–100 % → 0–probBarMaxMM → pixel height
           const barHeight = (data.precipProb / 100) * probBarMaxMM * mmToPixelRatio;
-          const label = `${formatHourLabel(data.originalIndex)}: ${data.precipProb}% precipitation probability`;
+          const label = `${formatHourLabel(data.originalIndex)}: ${data.precipProb}% ${tooltipLabels.precipitation_probability}`;
           barsProberly.push(
             svg`<rect x="${clampedX}" y="${barYBase - barHeight}" width="${barWidth}" height="${barHeight}" fill="#988d8dff" opacity="0.4" rx="1.5"><title>${label}</title></rect>`
           );
@@ -376,7 +379,7 @@ export class DailyForecastDiagram extends LitElement {
 
           const barHeight = data.precip * mmToPixelRatio;
           const color = getPrecipColor(data.precip);
-          const label = `${formatHourLabel(data.originalIndex)}: ${data.precip} mm precipitation`;
+          const label = `${formatHourLabel(data.originalIndex)}: ${data.precip} mm ${tooltipLabels.precipitation}`;
           bars.push(
             svg`<rect x="${clampedX}" y="${barYBase - barHeight}" width="${barWidth}" height="${barHeight}"
               fill="${color}" opacity="1" rx="1.5"><title>${label}</title></rect>`
@@ -391,7 +394,7 @@ export class DailyForecastDiagram extends LitElement {
         const data = fullDayGrid[`${d}-${h}`];
         if (!data) continue;
 
-        const label = `${formatHourLabel(data.originalIndex)}: ${data.temp} °C, ${data.precip} mm precipitation, ${data.precipProb}% precipitation probability`;
+        const label = `${formatHourLabel(data.originalIndex)}: ${data.temp} °C, ${data.precip} mm ${tooltipLabels.precipitation}, ${data.precipProb}% ${tooltipLabels.precipitation_probability}`;
         const x = chartX0 + d * dayWidth + h * hourStep;
         tooltipTargets.push(svg`
           <rect

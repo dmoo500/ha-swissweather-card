@@ -74,6 +74,8 @@
     "valid_to": "Valida fino al"
   },
   "hourly_charts": {
+    "precipitation": "precipitazioni",
+    "precipitation_probability": "probabilità di precipitazioni",
     "config": {
       "entity": "Entità meteo *",
       "forecast_hours": "Ore di previsione (predefinito: 6)",
