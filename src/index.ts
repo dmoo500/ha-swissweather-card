@@ -1,4 +1,3 @@
-import { version } from '../package.json';
 import { DailyForecastChart } from './charts/daily-forecast-chart';
 import { ForecastTemperatureChart } from './charts/forecast-temperature-chart';
 import { PrecipitationChart } from './charts/precipitation-chart';
@@ -54,29 +53,7 @@ declare global {
   }
 }
 
-console.log('📦 SwissWeather Card TypeScript file imported');
-
-// Debug: Check if element is registered
-setTimeout(() => {
-  const element = customElements.get('swissweather-card');
-  const editor = customElements.get('swissweather-card-editor');
-  console.log('🔍 SwissWeather Card registration status:', element ? 'SUCCESS ✅' : 'FAILED ❌');
-  console.log('🔍 SwissWeather Editor registration status:', editor ? 'SUCCESS ✅' : 'FAILED ❌');
-  if (element) {
-    console.log('🔍 Element constructor:', element);
-    console.log('🔍 Element prototype:', element.prototype);
-  } else {
-    console.error('❌ Custom element "swissweather-card" was not registered!');
-    console.log('🔍 Checking custom elements registry...');
-  }
-}, 100);
-
 // Home Assistant 2025.8+ Card Registration
-console.log('📦 SwissWeather Card module loading started...');
-console.log('📦 Browser support check:', {
-  customElements: !!window.customElements,
-  hasReflect: !!window.Reflect,
-});
 
 const weatherEntitySuggestion = (_type: string) => (_hass: HomeAssistant, entityId: string) => {
   if (entityId.split('.')[0] !== 'weather') return null;
@@ -163,11 +140,6 @@ registerCustomCard({
     return { config: { type: `custom:${POLLEN_CARD_NAME}`, [`${matched}_entity`]: entityId } };
   },
 });
-console.log(
-  `%c 📦 SwissWeather Card module loading completed - version: ${version}`,
-  'color: #ef5350; font-weight: 700;'
-);
-
 export {
   SwissWeatherCardEditor, // Full SwissWeather Card Editor
   SwissWeatherCard, // Full SwissWeather Card

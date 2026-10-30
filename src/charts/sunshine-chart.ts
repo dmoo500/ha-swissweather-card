@@ -10,7 +10,6 @@ export class SunshineChart extends LitElement {
   @property({ type: Object }) weatherEntity!: WeatherEntity;
   @property({ type: Object }) sun_entity?: HassEntity | null;
   @property({ type: Function }) _t!: (key: string, vars?: Record<string, any>) => string;
-  @property({ type: Function }) showHoursChartLabel!: (hours: number) => TemplateResult;
 
   static styles = css`
     :host {

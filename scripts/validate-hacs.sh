@@ -98,9 +98,9 @@ if [ -f "swissweather-card.js" ]; then
     else
         error "Build file too small ($size bytes) - possibly faulty"
     fi
-    # Check for modern JS features
-    if grep -q "class.*extends.*LitElement" "swissweather-card.js"; then
-        success "LitElement class found"
+    # Lit's class names are minified in the production bundle. Check its runtime marker instead.
+    if grep -q "litElementVersions" "swissweather-card.js"; then
+        success "LitElement runtime found"
     else
         warning "LitElement class not found"
     fi
@@ -144,12 +144,12 @@ fi
 echo ""
 echo "🏷️  Git tags check..."
 
-# Check for git tags
-if git tag --list | grep -q "v[0-9]"; then
-    latest_tag=$(git tag --list | grep "^[[:digit:]]" | sort -V | tail -n1)
-    success "Git tags found, latest: $latest_tag"
+# Check for semantic-version release tags, with or without a v prefix.
+latest_tag=$(git tag --list --sort=-version:refname | grep -E '^[vV]?[0-9]+\.[0-9]+\.[0-9]+' | head -n1)
+if [ -n "$latest_tag" ]; then
+    success "Git release tags found, latest: $latest_tag"
 else
-    warning "No git tags found - required for releases"
+    warning "No semantic-version release tags found - required for releases"
 fi
 
 echo ""

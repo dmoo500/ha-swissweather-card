@@ -1,6 +1,6 @@
 import { css, html, TemplateResult } from 'lit';
 import { customElement } from 'lit/decorators.js';
-import { get as _t, registerTranslateConfig } from 'lit-translate';
+import { registerTranslateConfig } from 'lit-translate';
 import { getTranslations } from '../../translations';
 import { getEntityState } from '../../utils';
 import type { WeatherEntity } from '../../types/home-assistant';
@@ -99,7 +99,7 @@ export class PrecipitationCard extends HourlyForecastBaseCard {
     const weatherEntity = getEntityState(this.hass, this.config.entity) as WeatherEntity;
     if (!weatherEntity)
       return html`<div class="card-content">Entity not found: ${this.config.entity}</div>`;
-    if (this._hourlyForecast.length === 0) return html`<div class="card-content">Loading...</div>`;
+    if (this._hourlyForecast.length === 0) return this._renderForecastStatus();
 
     const forecastHours = this.config.forecast_hours ?? 12;
     return html`
@@ -108,7 +108,7 @@ export class PrecipitationCard extends HourlyForecastBaseCard {
           .hourlyForecast=${this._hourlyForecast}
           .forecastHours=${forecastHours}
           .show_precipitation=${true}
-          ._t=${_t}
+          ._t=${this._chartTranslate}
         ></precipitation-chart>
       </div>
     `;
