@@ -74,6 +74,8 @@
     "valid_to": "Gültig bis"
   },
   "hourly_charts": {
+    "precipitation": "Niederschlag",
+    "precipitation_probability": "Niederschlagswahrscheinlichkeit",
     "config": {
       "entity": "Wetter Entity *",
       "forecast_hours": "Prognose Stunden (Standard: 6)",
@@ -105,6 +107,8 @@
     "try_other_entity": "Versuchen Sie eine andere Wetter-Entity",
     "no_forecast_data": "Keine Vorhersagedaten verfügbar",
     "no_forecast_data_hint": "Prüfen Sie die Developer Tools → Services → weather.get_forecasts",
+    "forecast_request_failed": "Vorhersage konnte nicht geladen werden. Details stehen in der Browser-Konsole.",
+    "retry_forecast": "Erneut versuchen",
     "forecast_none": "Keine Forecast-Daten verfügbar",
     "forecast_none_hint": "Prüfen Sie die Developer Tools → Services → weather.get_forecasts",
     "forecast_loading": "Lädt...",

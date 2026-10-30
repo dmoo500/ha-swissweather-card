@@ -209,6 +209,7 @@ export class ForecastDiagramCard extends LitElement {
     // @property({ type: Function }) getWeatherIcon!: (...args: any[]) => TemplateResult;
     return this._forecast.length > 0 && this._hourlyForecast.length > 0
       ? html`<daily-forecast-diagram
+          .language=${this.hass.selectedLanguage || this.hass.language || 'en'}
           .config=${{ ...this.config, enable_animate_weather_icons: true }}
           .forecast=${[...(this._forecast?.slice(0, 7) ?? [])]}
           .hourlyForecast=${[...this._hourlyForecast]}

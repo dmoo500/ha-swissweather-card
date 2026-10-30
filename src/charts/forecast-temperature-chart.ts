@@ -1,6 +1,9 @@
-import { LitElement, html, svg, css, type TemplateResult } from 'lit';
+import { LitElement, html, svg, type TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import type { WeatherForecast } from '../types/home-assistant.js';
+import { ElementSizeController } from './element-size-controller';
+import { hourlyChartStyles } from './hourly-chart-styles';
+import { ChartTooltipController } from './chart-tooltip-controller';
 
 @customElement('forecast-temperature-chart')
 export class ForecastTemperatureChart extends LitElement {
@@ -8,81 +11,12 @@ export class ForecastTemperatureChart extends LitElement {
   @property({ type: Number }) forecastHours = 12;
   @property({ type: Boolean }) show_temperature = true;
   @property({ type: Function }) _t!: (key: string, vars?: Record<string, any>) => string;
-  @property({ type: Function }) showHoursChartLabel!: (hours: number) => TemplateResult;
-  private _resizeObserver?: ResizeObserver;
-  private _measuredWidth = 0;
-  private _measuredHeight = 0;
+  private readonly _chartSize = new ElementSizeController(this, () =>
+    this.renderRoot.querySelector<HTMLElement>('.chart-svg-area')
+  );
 
-  static styles = css`
-    :host {
-      display: block;
-      width: 100%;
-      height: 100%;
-      min-height: 0;
-    }
-
-    .section-title {
-      font-weight: bold;
-      font-size: 16px;
-      margin-bottom: 10px;
-      color: var(--primary-text-color, #fff);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .section-title ha-icon {
-      color: var(--primary-text-color, #fff);
-      font-size: 20px;
-    }
-    .chart {
-      background: var(--card-background-color, #fff);
-      border-radius: 12px;
-      padding: var(--chart-padding, 15px);
-      margin-top: var(--chart-margin-top, 15px);
-      margin-bottom: var(--chart-margin-bottom, 0);
-      border: var(--chart-inner-border, 1px solid var(--border-color, rgba(220, 20, 60, 0.1)));
-      width: 100%;
-      box-sizing: border-box;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-    }
-    .chart-svg-area {
-      width: 100%;
-      overflow: hidden;
-      border-radius: 4px;
-      flex: 1;
-      min-height: 100px;
-    }
-  `;
-
-  protected firstUpdated(): void {
-    const area = this.renderRoot.querySelector('.chart-svg-area') as HTMLElement | null;
-    if (!area) return;
-    this._resizeObserver = new ResizeObserver(entries => {
-      let changed = false;
-      for (const entry of entries) {
-        const w = Math.floor(entry.contentRect.width);
-        const h = Math.floor(entry.contentRect.height);
-        if (w > 0 && w !== this._measuredWidth) {
-          this._measuredWidth = w;
-          changed = true;
-        }
-        if (h > 0 && h !== this._measuredHeight) {
-          this._measuredHeight = h;
-          changed = true;
-        }
-      }
-      if (changed) this.requestUpdate();
-    });
-    this._resizeObserver.observe(area);
-  }
-
-  disconnectedCallback(): void {
-    this._resizeObserver?.disconnect();
-    this._resizeObserver = undefined;
-    super.disconnectedCallback();
-  }
+  static styles = hourlyChartStyles;
+  private readonly _tooltip = new ChartTooltipController(this);
 
   render(): TemplateResult {
     if (this.show_temperature === false) return html``;
@@ -102,14 +36,14 @@ export class ForecastTemperatureChart extends LitElement {
             >°C</span
           >
         </div>
-        <div class="chart-svg-area">
-          ${(() => {
+        ${this._tooltip.render(
+          (() => {
             if (temps.length < 2) return html``;
             const n = tempsRaw.length;
 
             // SVG dimensions
-            const svgW = this._measuredWidth > 0 ? this._measuredWidth : 600;
-            const svgH = this._measuredHeight > 0 ? this._measuredHeight : 100;
+            const svgW = this._chartSize.width > 0 ? this._chartSize.width : 600;
+            const svgH = this._chartSize.height > 0 ? this._chartSize.height : 100;
             const padLeft = 28; // space for y-axis labels
             const padRight = 6;
             const padTop = 8;
@@ -164,14 +98,19 @@ export class ForecastTemperatureChart extends LitElement {
               }
             }
 
-            // Temperature line + dots
             const points = tempsRaw
               .map((t, i) => (t !== null ? `${xOf(i)},${yOf(t)}` : ''))
               .filter(Boolean)
               .join(' ');
-            const dots = tempsRaw.map((t, i) =>
+            const tooltipTargets = tempsRaw.map((t, i) =>
               t !== null
-                ? svg`<circle cx="${xOf(i)}" cy="${yOf(t)}" r="2.5" fill="#db4a34"/>`
+                ? this._tooltip.target(
+                    Math.max(padLeft, xOf(i) - step / 2),
+                    padTop,
+                    i === 0 || i === n - 1 ? step / 2 : step,
+                    chartH,
+                    `${new Date(slice[i].datetime).toLocaleString()}: ${t} °C`
+                  )
                 : null
             );
 
@@ -180,10 +119,10 @@ export class ForecastTemperatureChart extends LitElement {
               ${verticals}
               <polyline points="${points}" fill="none" stroke="#db4a34" stroke-width="2.5"
                 stroke-linecap="round" stroke-linejoin="round"/>
-              ${dots}
+              ${tooltipTargets}
             </svg>`;
-          })()}
-        </div>
+          })()
+        )}
       </div>
     `;
   }

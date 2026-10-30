@@ -1,6 +1,11 @@
 import { LitElement, html, svg, css, type TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import type { WeatherForecast } from '../types/home-assistant.js';
+import { ElementSizeController } from './element-size-controller';
+import { filterForecastToDateKeys, getLocalForecastDateKey } from './forecast-date';
+import { getTranslations } from '../translations';
+import { getPrecipitationValues } from './precipitation-values';
+import { ChartTooltipController, chartTooltipStyles } from './chart-tooltip-controller';
 
 @customElement('daily-forecast-diagram')
 export class DailyForecastDiagram extends LitElement {
@@ -9,10 +14,11 @@ export class DailyForecastDiagram extends LitElement {
   @property({ type: Object }) config: any;
   @property({ type: Function }) getWeatherIcon!: (..._args: any[]) => TemplateResult;
   @property({ type: Boolean }) standalone = false;
-  private _resizeObserver?: ResizeObserver;
-  private _measuredWidth = 0;
-  private _measuredHeight = 0;
+  @property({ type: String }) language = 'en';
+  private readonly _tooltip = new ChartTooltipController(this);
+  private readonly _chartSize = new ElementSizeController(this, () => this);
   static styles = css`
+    ${chartTooltipStyles}
     :host {
       display: block;
       width: 100%;
@@ -60,42 +66,16 @@ export class DailyForecastDiagram extends LitElement {
       fill: var(--primary-text-color, #fff);
     }
   `;
-  // fallback function to get a CSS variable with a default value
-  getCSSVariable(varName: string, fallback = '50'): number {
-    const value = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
-    return Number.parseInt(value || fallback);
-  }
-
-  connectedCallback(): void {
-    super.connectedCallback();
-    // Observe size changes to adapt the SVG layout to available width
-    this._resizeObserver = new ResizeObserver(entries => {
-      for (const entry of entries) {
-        const w = Math.floor(entry.contentRect.width);
-        const h = Math.floor(entry.contentRect.height);
-        if (h > 0 && h !== this._measuredHeight) {
-          this._measuredHeight = h;
-          this.requestUpdate();
-        }
-        if (w > 0 && w !== this._measuredWidth) {
-          this._measuredWidth = w;
-          this.requestUpdate();
-        }
-      }
-    });
-    this._resizeObserver.observe(this);
-  }
-
-  disconnectedCallback(): void {
-    this._resizeObserver?.disconnect();
-    this._resizeObserver = undefined;
-    super.disconnectedCallback();
-  }
-
   render(): TemplateResult {
+    const tooltipLabels = getTranslations(this.language).hourly_charts;
     // Daily forecast SVG diagram for temperature and precipitation
     const days = this.forecast.slice(0, 7);
-    const hours = this.hourlyForecast.slice(0, days.length * 24);
+    const dayMapping = new Map<string, number>();
+    days.forEach((day, index) => {
+      const dateKey = getLocalForecastDateKey(day.datetime);
+      if (dateKey) dayMapping.set(dateKey, index);
+    });
+    const hours = filterForecastToDateKeys(this.hourlyForecast, dayMapping.keys());
     if (!hours.length) return html`<div>No hourly forecast available</div>`;
 
     const nDays = days.length;
@@ -104,12 +84,12 @@ export class DailyForecastDiagram extends LitElement {
     const rows = this.standalone ? this.config.grid_options?.rows || 3 : 2;
     const standaloneFallbackHeight = rows * 64 - 8;
     const containerHeight = this.standalone
-      ? this._measuredHeight > 0
-        ? this._measuredHeight
+      ? this._chartSize.height > 0
+        ? this._chartSize.height
         : standaloneFallbackHeight
       : 200;
     // Use actual measured width; fall back to current bounding rect or 400
-    let containerWidth = this._measuredWidth;
+    let containerWidth = this._chartSize.width;
     if (!containerWidth) {
       const rect = this.getBoundingClientRect?.();
       containerWidth = rect?.width ? Math.floor(rect.width) : 400;
@@ -178,47 +158,32 @@ export class DailyForecastDiagram extends LitElement {
     const temps = hours.map(h => (typeof h.temperature === 'number' ? h.temperature : null));
     const minTemp = Math.min(...(temps.filter(t => t !== null) as number[]));
     const maxTemp = Math.max(...(temps.filter(t => t !== null) as number[]));
+    const formatHourLabel = (index: number): string => {
+      const datetime = hours[index]?.datetime;
+      return datetime
+        ? new Date(datetime).toLocaleString(undefined, {
+            weekday: 'short',
+            hour: '2-digit',
+            minute: '2-digit',
+          })
+        : '';
+    };
 
     // Chart area layout
     const tempLineYMax = chartTop; // Chart start Y
     const tempLineY0 = chartTop + chartHeight; // Chart end Y (bottom)
 
     // Precipitation data
-    const precs = hours.map(h => {
-      const any = h as any;
-      if (typeof any.precipitation === 'number') return any.precipitation;
-      if (typeof any.rain === 'number') return any.rain;
-      return 0;
-    });
+    const precipitationValues = hours.map(getPrecipitationValues);
+    const precs = precipitationValues.map(value => value.amount ?? 0);
     // Precipitation probability (0–100 %), with fallbacks
-    const precsProberly = hours.map(h => {
-      const any = h as any;
-      const v =
-        typeof any.precipitation_probability === 'number'
-          ? any.precipitation_probability
-          : typeof any.probability_of_precipitation === 'number'
-            ? any.probability_of_precipitation
-            : typeof any.pop === 'number'
-              ? any.pop <= 1
-                ? any.pop * 100
-                : any.pop
-              : 0;
-      const n = Number(v);
-      return Number.isFinite(n) ? Math.max(0, Math.min(100, n)) : 0;
-    });
+    const precsProberly = precipitationValues.map(value => value.probability ?? 0);
 
     // Temperature line: scale to full range (tempLineYMax to tempLineY0)
     // Create a mapping based on actual forecast days instead of calculated offsets
-    const dayMapping: { [dateString: string]: number } = {};
-    days.forEach((day, idx) => {
-      const dayDate = new Date(day.datetime);
-      const dateKey = `${dayDate.getFullYear()}-${dayDate.getMonth()}-${dayDate.getDate()}`;
-      dayMapping[dateKey] = idx;
-    });
-
     function getDayAndHourIdx(dt: Date) {
-      const dateKey = `${dt.getFullYear()}-${dt.getMonth()}-${dt.getDate()}`;
-      const dayIdx = dayMapping[dateKey];
+      const dateKey = getLocalForecastDateKey(dt.toISOString());
+      const dayIdx = dateKey ? dayMapping.get(dateKey) : undefined;
       const hourInDay = dt.getHours(); // Use actual hour of day (0-23)
       return {
         dayIdx: dayIdx !== undefined ? dayIdx : -1,
@@ -252,13 +217,6 @@ export class DailyForecastDiagram extends LitElement {
             precipProb: precsProberly[i],
             originalIndex: i,
           };
-        } else {
-          console.warn(`Data point ${i} outside bounds:`, {
-            dayIdx,
-            hourInDay,
-            nDays,
-            dt: dt.toISOString(),
-          });
         }
       }
     });
@@ -303,7 +261,7 @@ export class DailyForecastDiagram extends LitElement {
       tempLinesPerDay.push(
         svg`
           <!-- Main temperature line -->
-          <polyline points="${allTempPoints.join(' ')}" fill="none" stroke="#e74c3c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+          <polyline points="${allTempPoints.join(' ')}" fill="none" stroke="#e74c3c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" pointer-events="none" />
         `
       );
     }
@@ -363,8 +321,9 @@ export class DailyForecastDiagram extends LitElement {
 
           // 0–100 % → 0–probBarMaxMM → pixel height
           const barHeight = (data.precipProb / 100) * probBarMaxMM * mmToPixelRatio;
+          const label = `${formatHourLabel(data.originalIndex)}: ${data.precipProb}% ${tooltipLabels.precipitation_probability}`;
           barsProberly.push(
-            svg`<rect x="${clampedX}" y="${barYBase - barHeight}" width="${barWidth}" height="${barHeight}" fill="#988d8dff" opacity="0.4" rx="1.5"/>`
+            svg`<rect x="${clampedX}" y="${barYBase - barHeight}" width="${barWidth}" height="${barHeight}" fill="#988d8dff" opacity="0.4" rx="1.5"><title>${label}</title></rect>`
           );
         }
       }
@@ -386,11 +345,40 @@ export class DailyForecastDiagram extends LitElement {
 
           const barHeight = data.precip * mmToPixelRatio;
           const color = getPrecipColor(data.precip);
+          const label = `${formatHourLabel(data.originalIndex)}: ${data.precip} mm ${tooltipLabels.precipitation}`;
           bars.push(
             svg`<rect x="${clampedX}" y="${barYBase - barHeight}" width="${barWidth}" height="${barHeight}"
-              fill="${color}" opacity="1" rx="1.5"/>`
+              fill="${color}" opacity="1" rx="1.5"><title>${label}</title></rect>`
           );
         }
+      }
+    }
+
+    const tooltipTargets: TemplateResult[] = [];
+    for (let d = 0; d < nDays; d++) {
+      for (let h = 0; h < hoursPerDay; h++) {
+        const data = fullDayGrid[`${d}-${h}`];
+        if (!data) continue;
+
+        const values = precipitationValues[data.originalIndex];
+        const readings = [`${data.temp} °C`];
+        if (values.amount !== undefined) {
+          readings.push(`${values.amount} mm ${tooltipLabels.precipitation}`);
+        }
+        if (values.probability !== undefined) {
+          readings.push(`${values.probability}% ${tooltipLabels.precipitation_probability}`);
+        }
+        const label = `${formatHourLabel(data.originalIndex)}: ${readings.join(', ')}`;
+        const x = chartX0 + d * dayWidth + h * hourStep;
+        tooltipTargets.push(
+          this._tooltip.target(
+            x,
+            tempLineYMax,
+            hourStep,
+            Math.max(0, tempLineY0 - tempLineYMax),
+            label
+          )
+        );
       }
     }
 
@@ -499,7 +487,7 @@ export class DailyForecastDiagram extends LitElement {
           margin-bottom: var(--chart-margin-bottom, 0);
           border: var(--chart-inner-border, 1px solid var(--border-color, rgba(220, 20, 60, 0.1)));
           overflow: hidden;
-          position: relative; /* Enable absolute positioning for SVG overlay */
+          position: relative;
           width: 100%;
           height: 100%;
           box-sizing: border-box;
@@ -509,28 +497,31 @@ export class DailyForecastDiagram extends LitElement {
           height: 100%;
         }
       </style>
-      <div class="chart">
-        <svg width="100%" height="100%" viewBox="0 0 ${width} ${height}" style="display:block;">
-          <!-- Background grid lines (behind everything) -->
-          ${horizontalLines} ${verticals}
-          <!-- Day groups (labels and icons) -->
-          ${dayGroups}
-          <!-- Precipitation bars -->
-          ${barsProberly} ${bars}
-          <!-- Right-side labels for mm and % -->
-          ${rightAxisLabels}
-        </svg>
+      ${this._tooltip.render(
+        html`
+          <svg width="100%" height="100%" viewBox="0 0 ${width} ${height}" style="display:block;">
+            <!-- Background grid lines (behind everything) -->
+            ${horizontalLines} ${verticals}
+            <!-- Day groups (labels and icons) -->
+            ${dayGroups}
+            <!-- Precipitation bars -->
+            ${barsProberly} ${bars} ${tooltipTargets}
+            <!-- Right-side labels for mm and % -->
+            ${rightAxisLabels}
+          </svg>
 
-        <!-- Temperature lines in completely separate SVG overlay (continuous line, always on top) -->
-        <svg
-          width="100%"
-          height="100%"
-          viewBox="0 0 ${width} ${height}"
-          style="display:block; position: absolute; top: 0; left: 0; pointer-events: none;"
-        >
-          ${tempLinesPerDay}
-        </svg>
-      </div>
+          <!-- Temperature lines in completely separate SVG overlay (continuous line, always on top) -->
+          <svg
+            width="100%"
+            height="100%"
+            viewBox="0 0 ${width} ${height}"
+            style="display:block; position: absolute; top: 0; left: 0; pointer-events: none;"
+          >
+            ${tempLinesPerDay}
+          </svg>
+        `,
+        'chart'
+      )}
     `;
   }
 }

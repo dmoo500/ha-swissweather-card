@@ -22,7 +22,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '22'
+        node-version: '22.18.0'
 
     - name: Enable Corepack
       run: corepack enable
@@ -53,6 +53,9 @@ jobs:
 
     - name: Check formatting
       run: yarn format:check
+
+    - name: Run regression tests
+      run: yarn test
 
     - name: Build
       run: yarn build

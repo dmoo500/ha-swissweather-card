@@ -1,5 +1,113 @@
 # Release Notes
 
+## [2.0.0] - 2026-10-30
+
+### Added
+- Accessible daily and hourly chart tooltips with mouse, touch, and keyboard interaction.
+- Explicit retry actions, a 20-second forecast timeout, and opt-in forecast diagnostics.
+- Regression tests for chart behavior, forecast requests, translations, and Lit reactivity.
+
+### Changed
+- Unified daily diagram and hourly temperature/wind/precipitation tooltips in one controller with shared interaction, accessible targets, and top-left tooltip styling.
+- Modularized cards, charts, weather effects, and shared forecast utilities.
+- Removed visible temperature/wind point markers, clarified wind direction arrows, and standardized hourly heading spacing.
+- Reorganized the README and corrected installation, configuration, and development guidance.
+- Require Node.js 22.18.0+ for development and run regression tests on that minimum in CI.
+
+### Fixed
+- Keep hover-only chart tooltips reachable across headings and empty chart areas, while preserving focused-reading fallback and explicit dismissal.
+- Dismiss hover-only chart tooltips with document-level Escape and preserve focused readings when pressing tooltip text.
+- Keep hourly tooltip readings stable while hovering or clicking their text instead of passing pointer events through to underlying intervals.
+- Restore the upper fog band by referencing the existing SVG stroke gradient.
+- Prevent continuous background-card forecast requests after empty/error responses and ignore stale results after entity changes.
+- Preserve keyboard-focused chart tooltip details when the pointer crosses axes or background areas or leaves the chart, while honoring Escape dismissal.
+- Isolate background card stacking and keep current weather/forecast content above decorative scenes without leaking z-index into the dashboard.
+- Keep reduced-motion weather symbols visible in a paused scene.
+- Refresh standalone chart headings and no-data messages after language changes.
+- Omit unavailable precipitation metrics from tooltips instead of presenting them as zero, preserving explicit zeros and supported fallback fields.
+- Restored reactive forecast rendering by preserving Lit property setters.
+- Kept daily and hourly forecasts independent, including usable data when one request fails.
+- Filtered daily diagram data by the displayed calendar dates and hid empty hourly headings.
+- Restored responsive sizing after reconnect and improved weather animation/reduced-motion handling.
+- Initialized standalone hourly card languages and completed Italian forecast failure text.
+- Localized daily forecast diagram tooltip precipitation labels using the selected Home Assistant language, both standalone and in the Full Card.
+
+## [2.0.0b6] - 2026-10-30
+
+### Changed
+- Unified daily diagram and hourly temperature/wind/precipitation tooltips in one shared controller with consistent top-left styling and accessible interaction.
+
+### Fixed
+- Keep tooltip text hoverable and preserve focused readings on pointer exit while honoring Escape dismissal.
+- Localize daily diagram precipitation labels and refresh standalone chart text after language changes.
+- Omit unavailable precipitation metrics instead of reporting false zeros; preserve explicit zeros and supported fallback fields.
+- Isolate background card stacking and keep reduced-motion weather symbols visible.
+- Prevent background forecast retry loops and discard stale responses after entity changes.
+- Restore the upper fog band by reusing the defined SVG gradient.
+
+### Tests
+- Expanded regression coverage to 30 tests, including forecast lifecycle, missing metrics, shared tooltip interaction, and fog SVG references.
+
+## [2.0.0b5] - 2026-10-30
+
+### Changed
+- Added consistent space above the Full Card's hourly forecast heading regardless of chart order or compact mode.
+- Reorganized the README around installation, card selection, configuration, interaction, and troubleshooting.
+
+### Fixed
+- Load the Home Assistant language for standalone hourly cards and provide the Italian forecast failure message.
+- Add shared mouse, touch, and keyboard tooltip interaction to hourly temperature, wind, and precipitation charts.
+- Align the development Node.js minimum with the test/build tooling (22.18.0+) and run regression tests on that minimum in CI.
+
+## [2.0.0b4] - 2026-10-30
+
+### Changed
+- Hid point markers on the hourly temperature and wind lines while retaining invisible tooltip targets.
+- Replaced the wind diagram's dot-ended direction indicators with clear arrowheads and shafts, matching the direction metric.
+
+## [2.0.0b3] - 2026-10-30
+
+### Added
+- Added opt-in forecast diagnostics and an explicit retry action for standalone hourly cards.
+- Added a 20-second timeout for forecast requests and regression coverage for Lit reactivity.
+
+### Fixed
+- Prevented JavaScript class fields from shadowing Lit reactive setters, restoring chart updates after forecasts arrive.
+- Filtered hourly diagram data by the displayed calendar dates instead of a fixed 168-hour slice.
+- Hid the hourly forecast heading until hourly data is available.
+- Restored tooltip pointer access through the temperature overlay and added keyboard activation and dismissal.
+
+### Changed
+- Removed visible temperature point markers while preserving the line and tooltip targets.
+- Removed noisy development console logs; targeted forecast logs can be enabled explicitly.
+
+## [2.0.0b2] - 2026-10-30
+
+### Added
+- Added desktop and touch tooltips to the daily forecast chart.
+
+### Fixed
+- Prevented standalone hourly forecast cards from remaining in a loading state after empty or failed requests.
+- Kept available hourly forecasts when the daily forecast request fails.
+- Restored chart size observation after a card reconnects.
+- Made rain, drizzle, and hail particles fall through the full scene.
+- Paused SVG background animations immediately when reduced motion is enabled.
+
+## [2.0.0b1] - 2026-10-30
+
+### Added
+- Added focused tests for chart ordering, responsive chart sizing, forecast requests, and weather effects.
+- Added reduced-motion support for animated backgrounds.
+
+### Changed
+- Refactored card, chart, warning, and animated-background code into smaller reusable modules.
+- Stabilized generated weather-scene variations so clouds, stars, and particles do not jump on rerender.
+- Refined the photo-style weather backgrounds and reduced the frequency and intensity of lightning flashes.
+
+### Fixed
+- Positioned the hourly forecast heading according to the configured chart order.
+- Allowed hourly charts to render when daily forecast data is unavailable.
+
 ## [1.10.9] - 2026-09-05
 
 ### Fixed
