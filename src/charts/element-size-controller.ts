@@ -24,6 +24,10 @@ export class ElementSizeController implements ReactiveController {
     return this._height;
   }
 
+  hostConnected(): void {
+    this.host.requestUpdate();
+  }
+
   hostUpdated(): void {
     const element = this.getElement();
     if (!element) {

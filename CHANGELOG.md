@@ -1,5 +1,17 @@
 # Release Notes
 
+## [2.0.0b2] - 2026-10-30
+
+### Added
+- Added desktop and touch tooltips to the daily forecast chart.
+
+### Fixed
+- Prevented standalone hourly forecast cards from remaining in a loading state after empty or failed requests.
+- Kept available hourly forecasts when the daily forecast request fails.
+- Restored chart size observation after a card reconnects.
+- Made rain, drizzle, and hail particles fall through the full scene.
+- Paused SVG background animations immediately when reduced motion is enabled.
+
 ## [2.0.0b1] - 2026-10-30
 
 ### Added

@@ -108,7 +108,9 @@ export class WindChart extends LitElement {
               .join(' ');
             const dots = windsRaw.map((v, i) =>
               v !== null
-                ? svg`<circle cx="${xOf(i)}" cy="${yOf(v)}" r="2.5" fill="#44739e"/>`
+                ? svg`<circle cx="${xOf(i)}" cy="${yOf(v)}" r="4" fill="#44739e">
+                    <title>${`${new Date(slice[i].datetime).toLocaleString()}: ${v} km/h${typeof slice[i].wind_bearing === 'number' ? ` · ${slice[i].wind_bearing}°` : ''}`}</title>
+                  </circle>`
                 : null
             );
 

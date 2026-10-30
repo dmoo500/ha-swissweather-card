@@ -1,57 +1,76 @@
-import { LitElement, PropertyValues } from 'lit';
+import { LitElement, html, type PropertyValues, type TemplateResult } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import type { HomeAssistant, WeatherForecast } from '../../types/home-assistant';
 import { fetchWeatherForecast } from '../../utils/weather-forecast';
 import type { HourlyChartCardConfig } from './const';
+import { get as _t } from 'lit-translate';
 
-/**
- * Shared base class for all standalone hourly-chart cards.
- *
- * Mirrors forecast-diagram-card.ts exactly:
- * - setBaseConfig() schedules load with setTimeout(1000)
- * - updated() does nothing (same as forecast-diagram-card)
- * - render just checks _hourlyForecast.length === 0
- */
+/** Shared forecast lifecycle and status rendering for standalone hourly charts. */
 export abstract class HourlyForecastBaseCard extends LitElement {
   @property({ attribute: false }) public hass!: HomeAssistant;
   @property({ attribute: false }) public config!: HourlyChartCardConfig;
 
   @state() protected _hourlyForecast: WeatherForecast[] = [];
   @state() protected _forecastLoading = false;
+  @state() protected _forecastLoaded = false;
+  @state() protected _forecastError = false;
+  private _requestedEntityId?: string;
+  private _forecastRequestId = 0;
 
-  protected async _loadForecast(): Promise<void> {
-    if (!this.hass || !this.config?.entity || this._forecastLoading) return;
+  protected async _loadForecast(entityId: string): Promise<void> {
+    if (!this.hass || !entityId) return;
+
+    const requestId = ++this._forecastRequestId;
     this._forecastLoading = true;
+    this._forecastLoaded = false;
+    this._forecastError = false;
     try {
-      this._hourlyForecast = await fetchWeatherForecast(this.hass, this.config.entity, 'hourly');
+      const forecast = await fetchWeatherForecast(this.hass, entityId, 'hourly');
+      if (requestId === this._forecastRequestId) this._hourlyForecast = forecast;
     } catch (e) {
-      console.error(`[SwissWeather] Forecast load failed for ${this.config.entity}:`, e);
-      this._hourlyForecast = [];
+      console.error(`[SwissWeather] Forecast load failed for ${entityId}:`, e);
+      if (requestId === this._forecastRequestId) {
+        this._forecastError = true;
+        this._hourlyForecast = [];
+      }
     } finally {
-      this._forecastLoading = false;
+      if (requestId === this._forecastRequestId) {
+        this._forecastLoading = false;
+        this._forecastLoaded = true;
+      }
     }
   }
 
   protected updated(changedProperties: PropertyValues): void {
     super.updated(changedProperties);
 
-    const hassChanged = changedProperties.has('hass');
-    const configChanged = changedProperties.has('config');
-    if (
-      (hassChanged || configChanged) &&
-      this._hourlyForecast.length === 0 &&
-      !this._forecastLoading
-    ) {
-      void this._loadForecast();
+    if (!this.hass || !this.config?.entity) return;
+
+    if (this._requestedEntityId !== this.config.entity) {
+      this._requestedEntityId = this.config.entity;
+      this._hourlyForecast = [];
+      this._forecastLoaded = false;
+      void this._loadForecast(this.config.entity);
     }
   }
 
   protected setBaseConfig(config: HourlyChartCardConfig): void {
     this.config = config;
-    // Same pattern as forecast-diagram-card.ts
-    setTimeout(() => {
-      this._loadForecast();
-    }, 1000);
+    if (this._requestedEntityId !== config.entity) {
+      this._requestedEntityId = undefined;
+      this._hourlyForecast = [];
+      this._forecastLoaded = false;
+    }
+  }
+
+  protected _renderForecastStatus(): TemplateResult {
+    const message =
+      this._forecastLoading || !this._forecastLoaded
+        ? _t('hourly_charts.forecast_loading')
+        : this._forecastError
+          ? _t('hourly_charts.forecast_request_failed')
+          : _t('hourly_charts.no_forecast_data');
+    return html`<div class="card-content">${message}</div>`;
   }
 
   protected getDefaultRows(): number {

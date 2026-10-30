@@ -57,28 +57,33 @@ export const backgroundAnimationStyles = css`
 
   @keyframes rain-drop-fall {
     0% {
-      transform: translate3d(0, -12%, 0) rotate(10deg);
+      top: var(--start-y, -12%);
+      transform: translate3d(0, 0, 0) rotate(10deg);
     }
     100% {
-      transform: translate3d(var(--drift, 6px), 132%, 0) rotate(10deg);
+      top: 112%;
+      transform: translate3d(var(--drift, 6px), 0, 0) rotate(10deg);
     }
   }
 
   @keyframes hail-stone-fall {
     0% {
-      transform: translate3d(0, -10%, 0) scale(0.95);
+      top: -14%;
+      transform: translate3d(0, 0, 0) scale(0.95);
     }
     82% {
-      transform: translate3d(var(--drift, 4px), 126%, 0) scale(1);
+      top: 96%;
+      transform: translate3d(var(--drift, 4px), 0, 0) scale(1);
     }
     100% {
-      transform: translate3d(calc(var(--drift, 4px) * 1.15), 138%, 0) scale(0.92);
+      top: 112%;
+      transform: translate3d(calc(var(--drift, 4px) * 1.15), 0, 0) scale(0.92);
     }
   }
 
   @keyframes snow-flake-fall {
     0% {
-      top: -12%;
+      top: var(--start-y, -12%);
       transform: translate3d(0, 0, 0) rotate(0deg);
     }
     35% {
@@ -224,11 +229,6 @@ export const backgroundAnimationStyles = css`
 
     .img-photo .photo-lightning,
     .img-photo .photo-lightning-bolt {
-      display: none !important;
-    }
-
-    .img-svg svg animate,
-    .img-svg svg animateTransform {
       display: none !important;
     }
   }

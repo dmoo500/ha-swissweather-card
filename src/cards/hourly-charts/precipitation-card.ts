@@ -99,7 +99,7 @@ export class PrecipitationCard extends HourlyForecastBaseCard {
     const weatherEntity = getEntityState(this.hass, this.config.entity) as WeatherEntity;
     if (!weatherEntity)
       return html`<div class="card-content">Entity not found: ${this.config.entity}</div>`;
-    if (this._hourlyForecast.length === 0) return html`<div class="card-content">Loading...</div>`;
+    if (this._hourlyForecast.length === 0) return this._renderForecastStatus();
 
     const forecastHours = this.config.forecast_hours ?? 12;
     return html`

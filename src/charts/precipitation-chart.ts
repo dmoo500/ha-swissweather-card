@@ -136,14 +136,18 @@ export class PrecipitationChart extends LitElement {
               if (prob > 0) {
                 probBars.push(svg`
                   <rect x="${x}" y="${yOf(0) - probH}" width="${barWidth}" height="${probH}"
-                    fill="#87898e" opacity="0.35" rx="1.5"/>
+                    fill="#87898e" opacity="0.35" rx="1.5">
+                    <title>${`${new Date(h.datetime).toLocaleString()}: ${prec} mm · ${prob}%`}</title>
+                  </rect>
                 `);
               }
               if (prec > 0) {
                 const h2 = (prec / yRange) * chartH;
                 precipBars.push(svg`
                   <rect x="${x}" y="${yOf(0) - h2}" width="${barWidth}" height="${h2}"
-                    fill="url(#precip-grad)" opacity="1" rx="1.5"/>
+                    fill="url(#precip-grad)" opacity="1" rx="1.5">
+                    <title>${`${new Date(h.datetime).toLocaleString()}: ${prec} mm · ${prob}%`}</title>
+                  </rect>
                 `);
               }
             }

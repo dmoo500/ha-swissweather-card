@@ -8,6 +8,7 @@ test('tracks element dimensions and requests a host update when the size changes
   let resizeCallback;
   let requestedUpdates = 0;
   let observedElement;
+  let observedCount = 0;
   let disconnected = false;
 
   globalThis.ResizeObserver = class {
@@ -17,6 +18,7 @@ test('tracks element dimensions and requests a host update when the size changes
 
     observe(target) {
       observedElement = target;
+      observedCount++;
     }
 
     disconnect() {
@@ -43,6 +45,12 @@ test('tracks element dimensions and requests a host update when the size changes
 
     controller.hostDisconnected();
     assert.equal(disconnected, true);
+
+    controller.hostConnected();
+    assert.equal(requestedUpdates, 2);
+    controller.hostUpdated();
+    assert.equal(observedElement, element);
+    assert.equal(observedCount, 2);
   } finally {
     globalThis.ResizeObserver = originalResizeObserver;
   }

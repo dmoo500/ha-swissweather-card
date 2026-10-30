@@ -103,7 +103,9 @@ export class ForecastTemperatureChart extends LitElement {
               .join(' ');
             const dots = tempsRaw.map((t, i) =>
               t !== null
-                ? svg`<circle cx="${xOf(i)}" cy="${yOf(t)}" r="2.5" fill="#db4a34"/>`
+                ? svg`<circle cx="${xOf(i)}" cy="${yOf(t)}" r="4" fill="#db4a34">
+                    <title>${`${new Date(slice[i].datetime).toLocaleString()}: ${t} °C`}</title>
+                  </circle>`
                 : null
             );
 

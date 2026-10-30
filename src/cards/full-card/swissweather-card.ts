@@ -15,7 +15,7 @@ import { getWeatherIcon } from '../../icons';
 import { type CardConfig, FULL_CARD_EDITOR_NAME, FULL_CARD_NAME, schema } from './const';
 import { isDay } from '../../utils';
 import { renderWarningSection } from '../../utils/warning-renderer';
-import { fetchWeatherForecast } from '../../utils/weather-forecast';
+import { fetchWeatherForecastsIndependently } from '../../utils/weather-forecast';
 import { getOrderedCharts } from './chart-order';
 
 registerTranslateConfig({
@@ -36,8 +36,10 @@ export class SwissWeatherCard extends LitElement {
   @state() private _forecast: WeatherForecast[] = [];
   @state() private _hourlyForecast: WeatherForecast[] = [];
   @state() private _forecastLoading = false;
+  @state() private _hourlyForecastError = false;
   @state() private _openWarnings: Record<string, boolean> = {};
   private _loadedLang: string | undefined;
+  private _forecastRequestId = 0;
 
   private _toggleWarning = (id: string) => {
     this._openWarnings = { ...this._openWarnings, [id]: !this._openWarnings[id] };
@@ -54,35 +56,41 @@ export class SwissWeatherCard extends LitElement {
     if (this.hass && this.config && this.config.entity) {
       if (this._lastEntityId !== this.config.entity) {
         this._lastEntityId = this.config.entity;
-        this._loadForecast();
+        void this._loadForecast(this.config.entity);
       }
     }
   }
 
-  private async _loadForecast(): Promise<void> {
-    if (!this.hass || !this.config?.entity || this._forecastLoading) {
+  private async _loadForecast(entityId: string): Promise<void> {
+    if (!this.hass || !entityId) {
       return;
     }
+    const requestId = ++this._forecastRequestId;
     this._forecastLoading = true;
 
     try {
-      // Load both forecasts in parallel
-      const [dailyForecast, hourlyForecast] = await Promise.all([
-        fetchWeatherForecast(this.hass, this.config.entity, 'daily'),
-        fetchWeatherForecast(this.hass, this.config.entity, 'hourly'),
-      ]);
-      this._forecast = dailyForecast;
-      this._hourlyForecast = hourlyForecast;
+      const forecasts = await fetchWeatherForecastsIndependently(this.hass, entityId);
+      if (requestId !== this._forecastRequestId) return;
+      this._forecast = forecasts.daily.forecast;
+      this._hourlyForecast = forecasts.hourly.forecast;
+      this._hourlyForecastError = !!forecasts.hourly.error;
+      if (forecasts.daily.error) {
+        console.warn('⚠️ Daily forecast loading failed:', forecasts.daily.error);
+      }
+      if (forecasts.hourly.error) {
+        console.warn('⚠️ Hourly forecast loading failed:', forecasts.hourly.error);
+      }
       console.log('🟢 Forecast geladen:', {
         forecast: this._forecast,
         hourlyForecast: this._hourlyForecast,
       });
     } catch (wsError) {
-      console.warn('⚠️ Forecast loading failed:', wsError);
+      if (requestId !== this._forecastRequestId) return;
+      console.error('⚠️ Forecast loading failed:', wsError);
       this._forecast = [];
       this._hourlyForecast = [];
     } finally {
-      this._forecastLoading = false;
+      if (requestId === this._forecastRequestId) this._forecastLoading = false;
     }
   }
 
@@ -93,11 +101,6 @@ export class SwissWeatherCard extends LitElement {
       throw new Error('You need to define an entity');
     }
     this.config = config;
-
-    // Load forecast when config changes (with delay to ensure HA is ready)
-    setTimeout(() => {
-      this._loadForecast();
-    }, 1000);
   }
 
   public getCardSize(): number {
@@ -414,6 +417,17 @@ export class SwissWeatherCard extends LitElement {
                   <ha-icon icon="mdi:clock"></ha-icon>
                   ${_t('hourly_charts.forecast_hours', { hours: forecastHours })}
                 </div>
+                ${
+                  this._hourlyForecast.length === 0 && !this._forecastLoading
+                    ? html`<div class="forecast-error">
+                        ${_t(
+                          this._hourlyForecastError
+                            ? 'hourly_charts.forecast_request_failed'
+                            : 'hourly_charts.no_forecast_data'
+                        )}
+                      </div>`
+                    : ''
+                }
               `
             : ''
         }
@@ -537,7 +551,7 @@ export class SwissWeatherCard extends LitElement {
   }
 
   private _renderDailyForecastChart(): TemplateResult {
-    return this._forecast.length > 0 && this._hourlyForecast.length > 0
+    return this._forecast.length > 0
       ? html`<daily-forecast-chart
           .forecast=${this._forecast}
           .forecastLoading=${this._forecastLoading}
@@ -559,6 +573,8 @@ export class SwissWeatherCard extends LitElement {
           .getWeatherIcon=${getWeatherIcon}
           .standalone=${false}
         ></daily-forecast-diagram>`
-      : html``;
+      : this._forecast.length > 0
+        ? this._renderDailyForecastChart()
+        : html``;
   }
 }

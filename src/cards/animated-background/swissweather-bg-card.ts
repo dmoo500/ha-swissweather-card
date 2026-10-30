@@ -56,6 +56,27 @@ export class SwissWeatherBGCard extends LitElement {
   private _forecastLoading = false;
   private _hourlyLoading = false;
   private _lastEntityId: string | undefined;
+  private _prefersReducedMotion = false;
+  private _removeMotionPreferenceListener?: () => void;
+
+  public connectedCallback(): void {
+    super.connectedCallback();
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const onPreferenceChange = () => {
+      this._prefersReducedMotion = motionQuery.matches;
+      this._syncSvgAnimations();
+    };
+    this._prefersReducedMotion = motionQuery.matches;
+    motionQuery.addEventListener('change', onPreferenceChange);
+    this._removeMotionPreferenceListener = () =>
+      motionQuery.removeEventListener('change', onPreferenceChange);
+  }
+
+  public disconnectedCallback(): void {
+    this._removeMotionPreferenceListener?.();
+    this._removeMotionPreferenceListener = undefined;
+    super.disconnectedCallback();
+  }
 
   private _formatForecastDate = (date: string): string =>
     formatDateToWeekDay(date, this.hass?.selectedLanguage || this.hass?.language || 'en');
@@ -109,6 +130,7 @@ export class SwissWeatherBGCard extends LitElement {
 
   protected updated(changed: PropertyValues): void {
     super.updated(changed);
+    this._syncSvgAnimations();
     if (this.hass && this.config?.entity) {
       if (this._lastEntityId !== this.config.entity) {
         this._lastEntityId = this.config.entity;
@@ -124,6 +146,28 @@ export class SwissWeatherBGCard extends LitElement {
         this._forecast.length === 0
       ) {
         this._loadDailyForecast();
+      }
+    }
+  }
+
+  private _syncSvgAnimations(): void {
+    for (const svgElement of this.renderRoot.querySelectorAll('.img-svg svg')) {
+      if (
+        !('setCurrentTime' in svgElement) ||
+        typeof svgElement.setCurrentTime !== 'function' ||
+        !('pauseAnimations' in svgElement) ||
+        typeof svgElement.pauseAnimations !== 'function' ||
+        !('unpauseAnimations' in svgElement) ||
+        typeof svgElement.unpauseAnimations !== 'function'
+      ) {
+        continue;
+      }
+
+      if (this._prefersReducedMotion) {
+        svgElement.setCurrentTime(0);
+        svgElement.pauseAnimations();
+      } else {
+        svgElement.unpauseAnimations();
       }
     }
   }

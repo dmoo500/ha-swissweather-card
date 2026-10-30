@@ -96,7 +96,7 @@ export class WindCard extends HourlyForecastBaseCard {
     if (!this.hass || !this.config) return html``;
     const forecastHours = this.config.forecast_hours ?? 12;
 
-    if (this._hourlyForecast.length === 0) return html`<div class="card-content">Loading...</div>`;
+    if (this._hourlyForecast.length === 0) return this._renderForecastStatus();
 
     return html`
       <div class="card-content">
