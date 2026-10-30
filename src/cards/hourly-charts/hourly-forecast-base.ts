@@ -3,7 +3,7 @@ import { property, state } from 'lit/decorators.js';
 import type { HomeAssistant, WeatherForecast } from '../../types/home-assistant';
 import { fetchWeatherForecast, forecastDebug } from '../../utils/weather-forecast';
 import type { HourlyChartCardConfig } from './const';
-import { get as _t } from 'lit-translate';
+import { get as _t, use } from 'lit-translate';
 
 /** Shared forecast lifecycle and status rendering for standalone hourly charts. */
 export abstract class HourlyForecastBaseCard extends LitElement {
@@ -16,6 +16,7 @@ export abstract class HourlyForecastBaseCard extends LitElement {
   @state() protected _forecastError = false;
   private _requestedEntityId?: string;
   private _forecastRequestId = 0;
+  private _loadedLang?: string;
 
   protected _retryForecast(): void {
     if (this._forecastLoading || !this.config?.entity) return;
@@ -56,6 +57,17 @@ export abstract class HourlyForecastBaseCard extends LitElement {
 
   protected updated(changedProperties: PropertyValues): void {
     super.updated(changedProperties);
+    if (this.hass) {
+      const lang = this.hass.selectedLanguage || this.hass.language || 'en';
+      if (lang !== this._loadedLang) {
+        this._loadedLang = lang;
+        void use(lang)
+          .then(() => this.requestUpdate())
+          .catch(error => {
+            console.error(`[SwissWeather] Failed to load language ${lang}:`, error);
+          });
+      }
+    }
     if (changedProperties.has('_hourlyForecast') || changedProperties.has('_forecastLoaded')) {
       forecastDebug('card rendered', {
         card: this.localName,

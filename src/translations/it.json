@@ -105,6 +105,7 @@
     "try_other_entity": "Prova un'altra entità meteo",
     "no_forecast_data": "Nessun dato di previsione disponibile",
     "retry_forecast": "Riprova",
+    "forecast_request_failed": "Impossibile caricare le previsioni meteo",
     "no_forecast_data_hint": "Controlla Strumenti per sviluppatori → Azioni → weather.get_forecasts",
     "forecast_none": "Nessun dato di previsione disponibile",
     "forecast_none_hint": "Controlla Strumenti per sviluppatori → Azioni → weather.get_forecasts",

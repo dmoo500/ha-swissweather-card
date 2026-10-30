@@ -3,6 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 import type { WeatherForecast } from '../types/home-assistant.js';
 import { ElementSizeController } from './element-size-controller';
 import { hourlyChartStyles } from './hourly-chart-styles';
+import { HourlyTooltipController } from './hourly-tooltip-controller';
 
 @customElement('wind-chart')
 export class WindChart extends LitElement {
@@ -13,6 +14,7 @@ export class WindChart extends LitElement {
   private readonly _chartSize = new ElementSizeController(this, () =>
     this.renderRoot.querySelector<HTMLElement>('.chart-svg-area')
   );
+  private readonly _tooltip = new HourlyTooltipController(this);
 
   static styles = [
     hourlyChartStyles,
@@ -39,8 +41,8 @@ export class WindChart extends LitElement {
             >km/h</span
           >
         </div>
-        <div class="chart-svg-area">
-          ${(() => {
+        ${this._tooltip.render(
+          (() => {
             const n = slice.length;
             if (n < 2) return html``;
 
@@ -107,9 +109,13 @@ export class WindChart extends LitElement {
               .join(' ');
             const tooltipTargets = windsRaw.map((v, i) =>
               v !== null
-                ? svg`<circle cx="${xOf(i)}" cy="${yOf(v)}" r="4" fill="transparent" pointer-events="all">
-                    <title>${`${new Date(slice[i].datetime).toLocaleString()}: ${v} km/h${typeof slice[i].wind_bearing === 'number' ? ` · ${slice[i].wind_bearing}°` : ''}`}</title>
-                  </circle>`
+                ? this._tooltip.target(
+                    Math.max(padLeft, xOf(i) - step / 2),
+                    padTop,
+                    i === 0 || i === n - 1 ? step / 2 : step,
+                    chartH,
+                    `${new Date(slice[i].datetime).toLocaleString()}: ${v} km/h${typeof slice[i].wind_bearing === 'number' ? ` · ${slice[i].wind_bearing}°` : ''}`
+                  )
                 : null
             );
 
@@ -141,8 +147,8 @@ export class WindChart extends LitElement {
               ${tooltipTargets}
               ${compassArrows}
             </svg>`;
-          })()}
-        </div>
+          })()
+        )}
       </div>
     `;
   }

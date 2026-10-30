@@ -27,6 +27,16 @@ export const fullCardStyles = css`
     padding-bottom: 15px;
   }
 
+  .hourly-forecast-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-top: 24px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-weight: bold;
+  }
+
   .location {
     font-size: 24px;
     font-weight: bold;

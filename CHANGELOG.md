@@ -1,5 +1,16 @@
 # Release Notes
 
+## [2.0.0b5] - 2026-10-30
+
+### Changed
+- Added consistent space above the Full Card's hourly forecast heading regardless of chart order or compact mode.
+- Reorganized the README around installation, card selection, configuration, interaction, and troubleshooting.
+
+### Fixed
+- Load the Home Assistant language for standalone hourly cards and provide the Italian forecast failure message.
+- Add shared mouse, touch, and keyboard tooltip interaction to hourly temperature, wind, and precipitation charts.
+- Align the development Node.js minimum with the test/build tooling (22.18.0+) and run regression tests on that minimum in CI.
+
 ## [2.0.0b4] - 2026-10-30
 
 ### Changed

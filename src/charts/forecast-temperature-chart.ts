@@ -3,6 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 import type { WeatherForecast } from '../types/home-assistant.js';
 import { ElementSizeController } from './element-size-controller';
 import { hourlyChartStyles } from './hourly-chart-styles';
+import { HourlyTooltipController } from './hourly-tooltip-controller';
 
 @customElement('forecast-temperature-chart')
 export class ForecastTemperatureChart extends LitElement {
@@ -15,6 +16,7 @@ export class ForecastTemperatureChart extends LitElement {
   );
 
   static styles = hourlyChartStyles;
+  private readonly _tooltip = new HourlyTooltipController(this);
 
   render(): TemplateResult {
     if (this.show_temperature === false) return html``;
@@ -34,8 +36,8 @@ export class ForecastTemperatureChart extends LitElement {
             >°C</span
           >
         </div>
-        <div class="chart-svg-area">
-          ${(() => {
+        ${this._tooltip.render(
+          (() => {
             if (temps.length < 2) return html``;
             const n = tempsRaw.length;
 
@@ -102,9 +104,13 @@ export class ForecastTemperatureChart extends LitElement {
               .join(' ');
             const tooltipTargets = tempsRaw.map((t, i) =>
               t !== null
-                ? svg`<circle cx="${xOf(i)}" cy="${yOf(t)}" r="4" fill="transparent" pointer-events="all">
-                    <title>${`${new Date(slice[i].datetime).toLocaleString()}: ${t} °C`}</title>
-                  </circle>`
+                ? this._tooltip.target(
+                    Math.max(padLeft, xOf(i) - step / 2),
+                    padTop,
+                    i === 0 || i === n - 1 ? step / 2 : step,
+                    chartH,
+                    `${new Date(slice[i].datetime).toLocaleString()}: ${t} °C`
+                  )
                 : null
             );
 
@@ -115,8 +121,8 @@ export class ForecastTemperatureChart extends LitElement {
                 stroke-linecap="round" stroke-linejoin="round"/>
               ${tooltipTargets}
             </svg>`;
-          })()}
-        </div>
+          })()
+        )}
       </div>
     `;
   }

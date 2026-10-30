@@ -1,294 +1,287 @@
-
-[![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/hacs/integration)
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/dmoo500/ha-swissweather-card)](https://github.com/dmoo500/ha-swissweather-card/releases)
-[![License](https://img.shields.io/github/license/dmoo500/ha-swissweather-card)](LICENSE)
-[![Issues](https://img.shields.io/github/issues-raw/dmoo500/ha-swissweather-card?maxAge=25000)](https://github.com/dmoo500/ha-swissweather-card/issues)  
-[![GitHub stars](https://img.shields.io/github/stars/dmoo500/ha-swissweather-card?style=social&label=Stars&style=plastic)]()
-[![GitHub watchers](https://img.shields.io/github/watchers/dmoo500/ha-swissweather-card?style=social&label=Watch&style=plastic)]()
-
 # SwissWeather Home Assistant Card
 
-A custom Home Assistant card that recreates the look and feel of the official SwissWeather app. **Optimized for Home Assistant 2025.8+ with TypeScript and modern web standards.**
+[![HACS](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/hacs/integration)
+[![Latest release](https://img.shields.io/github/v/release/dmoo500/ha-swissweather-card)](https://github.com/dmoo500/ha-swissweather-card/releases)
+[![License](https://img.shields.io/github/license/dmoo500/ha-swissweather-card)](LICENSE)
+[![Issues](https://img.shields.io/github/issues-raw/dmoo500/ha-swissweather-card)](https://github.com/dmoo500/ha-swissweather-card/issues)
 
-## ⭐ Features
+Swiss weather at a glance: forecasts, warnings, sunshine, wind, and pollen on your Home Assistant dashboard. Inspired by the SwissWeather app, built with TypeScript, Lit, and responsive SVG charts.
 
-### 🚨 **Weather Warnings**
-- Color-coded warning levels (green, yellow, orange, red, violet)
-- Current alerts for selected regions
-- Icons for various weather hazards
-- Automatic display when warnings are active
+Use the **Full Card** for an overview or combine **standalone cards** to build your own layout. An experimental animated-background card is also included.
 
-### 🌧️ **Forecasts**
-- 7-day weather forecast with icons
-- Min/Max temperatures on daily forecast
-- Hourly temperature forecast with line chart
-- Hourly precipitation forecast with bar chart  
-- Hourly Sunshine forecast with bar chart
-- Hourly wind and -direction forecast with line chart
-- wind direction in the chart
+## Contents
 
+- [Features](#features)
+- [Screenshots](#screenshots)
+- [Requirements and weather data](#requirements-and-weather-data)
+- [Installation](#installation)
+- [Quick start](#quick-start)
+- [Available cards](#available-cards)
+- [Configuration](#configuration)
+- [Chart interaction](#chart-interaction)
+- [Updating and beta releases](#updating-and-beta-releases)
+- [Troubleshooting](#troubleshooting)
+- [Development and contributing](#development-and-contributing)
+- [Links and acknowledgements](#links-and-acknowledgements)
 
-### ☀️ **Sunshine**
-- Hourly Sunshine forecast with bar chart
-- Integration with HA sunshine sensors to show sunset and sunrise in the chart
+## Features
 
-### ✅ **animated Icons**
-- animated weather icons (can be switched off)
+| Feature | What you get |
+| --- | --- |
+| Weather overview | Current conditions, temperature, wind, humidity, pressure, and optional sunshine sensor readings |
+| Daily forecast | Up to seven days, weather icons, and minimum/maximum temperatures; compact SVG diagram |
+| Hourly charts | Temperature, precipitation amount/probability, sunshine duration, and wind speed/direction |
+| Chart interaction | Daily diagram and hourly temperature, precipitation, and wind tooltips for mouse, touch, and keyboard |
+| Weather warnings | Color-coded severity levels, hazard icons, and support for legacy or ranked warning sensors |
+| Pollen | Seven pollen types, severity badge, collapsible details, and optional particle counts |
+| Presentation | Visual editors, configurable chart order, compact mode, and optional animated weather icons |
 
-### 🌿 **Pollen**
-- 7 pollen types: Birch, Grasses, Alder, Hazel, Beech, Ash, Oak
-- Color-coded severity levels (None/Low/Medium/Strong/Very Strong)
-- Collapsible detail grid with optional raw particle values (particles/m³)
-- Overall severity badge (highest active level)
-- Per-type enable/disable in the Visual Editor
+Available data depends on your weather integration; installing the card does not create weather or sensor entities.
 
-## Forecast diagnostics
+## Screenshots
 
-To enable targeted forecast diagnostics, run this in the browser console and reload the dashboard:
+<table>
+  <tr>
+    <th>Full overview</th>
+    <th>Minimal layout</th>
+    <th>Warnings and forecast</th>
+  </tr>
+  <tr>
+    <td><img src="docs/images/desktop_max.png" alt="Full SwissWeather overview" width="250"></td>
+    <td><img src="docs/images/desktop_minimal.png" alt="Minimal weather layout" width="250"></td>
+    <td><img src="docs/images/desktop_warn_forecast.png" alt="Weather warnings and forecast" width="250"></td>
+  </tr>
+  <tr>
+    <th>Temperature diagram</th>
+    <th>Pollen summary</th>
+    <th>Pollen details</th>
+  </tr>
+  <tr>
+    <td><img src="docs/images/desktop_temp.png" alt="Temperature diagram" width="250"></td>
+    <td><img src="docs/images/pollen.png" alt="Collapsed pollen card" width="250"></td>
+    <td><img src="docs/images/pollen_extended.png" alt="Expanded pollen card" width="250"></td>
+  </tr>
+</table>
+
+Screenshots illustrate example configurations and may differ from the latest beta.
+
+## Requirements and weather data
+
+- **Home Assistant 2025.8+** is the recommended baseline.
+- Use a current browser with ES2022, custom elements, and SVG support.
+- Forecast cards need a `weather.*` entity supporting `weather.get_forecasts`. Hourly charts require hourly forecasts; daily views require daily forecasts.
+- Sunshine duration, precipitation probability, and wind bearing appear only if the integration supplies them.
+- Warning and pollen cards need the corresponding sensor entities.
+
+Recommended integration: [hass-swissweather](https://github.com/izacus/hass-swissweather). Ranked warning sensors from [mastameista/hass-swissweather](https://github.com/mastameista/hass-swissweather) are also supported. Other Home Assistant weather integrations can be used, but may not provide every field.
+
+## Installation
+
+### HACS
+
+[![Open the repository in HACS](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=dmoo500&repository=ha-swissweather-card&category=frontend)
+
+1. Open the repository using the button above, or add `https://github.com/dmoo500/ha-swissweather-card` under **HACS → Custom repositories** as a dashboard/Lovelace repository.
+2. Find **SwissWeather Card** and download the desired release.
+3. Reload your browser. A Home Assistant restart is normally not needed for a dashboard resource.
+4. If the resource was not added automatically, add it under **Settings → Dashboards → Resources**:
+   - URL: `/hacsfiles/ha-swissweather-card/swissweather-card.js`
+   - Type: **JavaScript module**
+
+Resource management may require advanced mode in your Home Assistant profile.
+
+### Manual installation
+
+1. Download `swissweather-card.js` from [Releases](https://github.com/dmoo500/ha-swissweather-card/releases).
+2. Copy it to `/config/www/swissweather-card.js`.
+3. Add a dashboard resource:
+   - URL: `/local/swissweather-card.js`
+   - Type: **JavaScript module**
+4. Reload the browser, then add a card.
+
+Use either the HACS resource or the manual resource, not both.
+
+## Quick start
+
+Open **Edit dashboard → Add card** and search for **SwissWeather**. Choose the overview or a standalone card, select your entities, and configure the display in its visual editor.
+
+For a minimal Full Card, use:
+
+```yaml
+type: custom:swissweather-card
+entity: weather.home
+location: Zurich
+```
+
+Replace `weather.home` with an existing weather entity.
+
+## Available cards
+
+All variants are included in the same JavaScript resource.
+
+| Card | YAML `type` | Purpose |
+| --- | --- | --- |
+| Full Card | `custom:swissweather-card` | Current weather, warnings, and configurable forecast sections |
+| Daily Forecast Diagram | `custom:swissweather-forecast-diagram-card` | Standalone daily SVG diagram |
+| Temperature | `custom:swissweather-temperature-card` | Hourly temperature line |
+| Precipitation | `custom:swissweather-precipitation-card` | Hourly amount and probability bars |
+| Sunshine | `custom:swissweather-sunshine-card` | Hourly sunshine duration with optional sun markers |
+| Wind | `custom:swissweather-wind-card` | Hourly speed and direction arrows |
+| Warnings | `custom:swissweather-warning-card` | Weather warning sensors |
+| Pollen | `custom:swissweather-pollen-card` | Pollen sensor summary and details |
+| Animated Background | `custom:swissweather-animated-background-card` | Experimental weather scenes |
+
+For example, to add only a wind chart:
+
+```yaml
+type: custom:swissweather-wind-card
+entity: weather.home
+forecast_hours: 12
+```
+
+Standalone hourly editors allow **6–48 hours**. The Full Card editor allows **6–18 hours**. The actual number of readings depends on the integration.
+
+## Configuration
+
+### Full Card example
+
+```yaml
+type: custom:swissweather-card
+entity: weather.home
+location: Zurich
+show_location: true
+show_warnings: true
+show_temperature: true
+show_precipitation: true
+show_sunshine: true
+show_wind: true
+show_forecast: true
+forecast_hours: 12
+compact_mode: false
+enable_animate_weather_icons: true
+sun_entity: sun.sun
+chart_order:
+  - temperature
+  - precipitation
+  - sunshine
+  - wind
+  - forecast
+```
+
+### Full Card options
+
+| Option | Default | Description |
+| --- | --- | --- |
+| `entity` | Required | Weather entity for current conditions and forecasts |
+| `location` | Translated location label | Displayed place name |
+| `show_location` | `true` | Show the location header |
+| `show_warnings` | Enabled in editor presets | Show active warnings when warning sensors are configured |
+| `show_temperature` | `true` | Show hourly temperature |
+| `show_precipitation` | `true` | Show hourly precipitation |
+| `show_sunshine` | `true` | Show hourly sunshine |
+| `show_wind` | `true` | Show hourly wind |
+| `show_forecast` | `true` | Show daily forecasts |
+| `forecast_hours` | `6` | Hours requested for the hourly display |
+| `compact_mode` | `false` | Compact current metrics and daily diagram instead of daily tiles |
+| `enable_animate_weather_icons` | Enabled in editor presets | Use animated rather than static weather icons |
+| `chart_order` | Temperature, precipitation, sunshine, wind, forecast | Section order; visibility switches still apply |
+| `sun_entity` | `sun.sun` | Sun entity for sunrise/sunset markers |
+| `wind_entity` | Weather entity value | Optional current wind-speed sensor |
+| `wind_direction_entity` | Weather entity value | Optional current wind-bearing sensor |
+| `sunshine_entity` | None | Optional current sunshine-duration sensor |
+| `warning_entity` | None | Legacy aggregated weather-warning sensor |
+| `primary_warning_entity` | None | Ranked primary warning sensor |
+| `secondary_warning_entity` | None | Ranked secondary warning sensor |
+| `tertiary_warning_entity` | None | Ranked tertiary warning sensor |
+
+Use your own sensor IDs. Ranked warning sensors take precedence over the legacy aggregated sensor. Hourly charts use forecast fields from the weather entity, not the optional current-value sensors.
+
+See [configuration examples](docs/configuration.md) and the [visual editor guide](docs/visual-editor-guide.md) for additional setup information.
+
+## Chart interaction
+
+- **Mouse:** hover over an hourly interval for temperature, wind, or precipitation; click a daily diagram interval to show its exact readings.
+- **Touch:** tap an interval to display its tooltip.
+- **Keyboard:** Tab to an interval; focus, Enter, or Space opens its tooltip. Escape or moving focus away dismisses it.
+- Temperature and wind curves have no visible point markers. Invisible hit areas preserve access to the readings.
+- Wind compass arrowheads indicate the supplied wind bearing.
+
+These controls apply to the daily SVG diagram and the hourly temperature, wind, and precipitation charts, both embedded and standalone.
+
+## Updating and beta releases
+
+- Update through HACS, or replace the JavaScript file for a manual installation.
+- Reload the dashboard; if an older version remains visible, hard-refresh the browser or clear the frontend cache.
+- To test a beta, enable pre-release versions in the repository's HACS download/version selection. Beta releases may contain regressions.
+- Read [CHANGELOG.md](CHANGELOG.md) and the selected [release notes](https://github.com/dmoo500/ha-swissweather-card/releases) before updating, especially when migrating older 1.x configurations.
+
+## Troubleshooting
+
+### Card not found or an old version is displayed
+
+1. Check that the dashboard resource is a JavaScript module and its URL matches your installation method.
+2. Ensure the resource is registered only once.
+3. Reload the browser with a hard refresh.
+4. Check the browser console for JavaScript errors.
+
+### Missing forecasts or loading errors
+
+1. Confirm that the configured weather entity exists.
+2. Test **Developer Tools → Actions → `weather.get_forecasts`** with that entity and `type: hourly` or `type: daily`.
+3. Check that the response contains the required forecast fields.
+4. Use **Retry** on standalone hourly cards after an empty or failed response. Pending requests time out after 20 seconds.
+
+Daily and hourly requests in the Full Card are independent: one failing should not hide usable data from the other.
+
+### Forecast diagnostics
+
+For additional detail, run this in the browser console, then reload the dashboard:
 
 ```js
 localStorage.setItem('swissweather-debug', 'true');
 ```
 
-Enable the console's Debug/Verbose level to see `[SwissWeather forecast]` messages.
-They show request start/completion, forecast counts, and card render state without logging
-the full forecast payload. To disable logging:
+Enable the console's **Debug/Verbose** level to see `[SwissWeather forecast]` messages. They include request start/completion, forecast counts, and card render state without logging the full forecast payload.
+
+To disable:
 
 ```js
 localStorage.removeItem('swissweather-debug');
 ```
 
-Empty or failed standalone hourly forecasts provide a Retry button. Requests that do
-not complete fail after 20 seconds instead of leaving the card loading indefinitely.
+### Layout and missing optional values
 
-## 📱 Screenshots
+- Long forecast ranges can crowd labels on narrow cards. Reduce `forecast_hours` or increase the available width.
+- Missing sunshine, probability, or direction readings usually mean the weather integration does not supply that field.
+- When reporting an issue, include the card version, Home Assistant version, browser, card configuration, and relevant console errors. Remove private location/entity details first.
 
-All enabled
+## Development and contributing
 
-<img src="docs/images/desktop_max.png" width="250"/> 
+Development requires **Node.js 22.18.0 or newer** and **Yarn 4**. This minimum supports both the build tooling and the test runner's native TypeScript stripping. Node.js is not needed to use the built card in Home Assistant.
 
-All disabled 
-
-<img src="docs/images/desktop_minimal.png" width="250"/>
-
-warn + forecast
-
-<img src="docs/images/desktop_warn_forecast.png" width="250"/> 
-
-temp diagram
-
-<img src="docs/images/desktop_temp.png" width="250"/> 
-
-Pollen Card (collapsed)
-
-<img src="docs/images/pollen.png" width="250"/>
-
-Pollen Card (expanded)
-
-<img src="docs/images/pollen_extended.png" width="250"/>
-
-## 📝 Release Notes & Migration
-
-- Full release notes are maintained in [CHANGELOG.md](CHANGELOG.md)
-- GitHub release notes (including beta notes) are available under [Releases](https://github.com/dmoo500/ha-swissweather-card/releases)
-- If you update from older 1.x configs, check migration notes in the latest 1.7.0-beta entries first (especially forecast and chart order behavior)
-
-
-## 📦 Installation
-
-[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=dmoo500&repository=ha-swissweather-card&category=frontend)
-
-1. Open HACS in Home Assistant
-2. Go to "Frontend" 
-3. Click the three dots menu → "Custom repositories"
-4. Add repository URL: `https://github.com/dmoo500/ha-swissweather-card`
-5. Category: Lovelace
-6. Install the "Enhanced Person Card"
-7. Restart Home Assistant
-8. Add the card resource to your dashboard
-
-### Manual
-1. Download the latest `swissweather-card.js` from [Releases](https://github.com/dmoo500/ha-swissweather-card/releases)
-2. Copy it to your `config/www/` folder (so the path is `/config/www/swissweather-card.js`)
-3. In Home Assistant, go to **Settings → Dashboards → More Options (⋮) → Resources**
-4. Click **Add Resource** and enter:
-   - **URL:** `/local/swissweather-card.js`
-   - **Type:** `module`
-5. Click **Create** and reload the dashboard (or restart Home Assistant if required)
-6. Now add a new card to your dashboard:
-   - Click **Edit Dashboard**
-   - Click **Add Card**
-   - Search for **SwissWeather Card** or choose **Custom: SwissWeather Card**
-   - Configure the card as desired and save
-
-## 🎨 Visual Editor
-
-The SwissWeather Card comes with a full visual editor for the Lovelace UI:
-
-### Usage:
-1. **Edit dashboard** → **Add card**
-2. Select **"SwissWeather Card"** from the list
-3. Configure entities using the dropdown menus
-4. Adjust options with the toggles
-5. **Save** – done!
-
-#### 📊 Additional Sensors (Optional)
-
-#### 🎨 Display Options
-- **Weather warnings**: Toggle warning display
-- **Temprature chart**: Toggle hourly chart
-- **Precipitation chart**: Toggle hourly chart  
-- **Sunshine char**: Toggle hourly chart
-- **Wind chart**: Toggle hourly chart
-- **Weather forecast**: Toggle 7-day forecast
-- **Animated Weather Icons**: show animated Weather Icons
-- **forecast hours**: select 6, 12 or 18 hours to show
-
-## ⚠️ Known Issues
-If you select 12 or 18 hours in the forecast charts it is possible that some bars and/or some value texts are outside of the card
-
-## ⚙️ Configuration
-
-### Basic Configuration
-```yaml
-type: custom:swissweather-card
-entity: weather.home
-location: "Zurich"
-```
-
-
-### Full Configuration
-```yaml
-type: custom:swissweather-card
-entity: weather.openweathermap
-location: "Zurich"
-show_location: true
-warning_entity: sensor.meteoswiss_warnings
-wind_entity: sensor.wind_speed
-wind_direction_entity: sensor.wind_bearing
-sunshine_entity: sensor.sunshine_duration
-precipitation_entity: sensor.precipitation_forecast
-sun_entity: sun.sun
-show_warnings: false
-show_temperature: false
-show_precipitation: false
-show_sunshine: false
-show_wind: false
-enable_animate_weather_icons: true
-show_forecast: false
-forecast_hours: 12
-```
-
-### Options
-
-| Option                | Type    | Default      | Description                       |
-|-----------------------|---------|--------------|-----------------------------------|
-| `entity`              | string  | **Required** | Main weather entity               |
-| `location`            | string  | "Switzerland" | Displayed location                |
-| `warning_entity`      | string  | Optional     | Entity for weather warnings        |
-| `wind_entity`         | string  | Optional     | Entity for wind speed              |
-| `wind_direction_entity`| string | Optional     | Entity for wind direction          |
-| `sunshine_entity`     | string  | Optional     | Entity for sunshine duration       |
-| `precipitation_entity`| string  | Optional     | Entity for precipitation forecast  |
-| `show_warnings`       | boolean | `true`       | Show weather warnings             |
-| `show_temperature`    | boolean | `true`       | Show temperature hourly forecast chart |
-| `show_precipitation`  | boolean | `true`       | Show precipitation hourly forecastchart |
-| `show_sun`            | boolean | `true`       | Show sun hourly forecastchart     |
-| `show_wind`           | boolean | `false`      | Show wind hourly forecastchart    |
-| `enable_animate_weather_icons`| boolean | true | show HA MDI weather icons or animated weather icons |
-| `show_forecast`       | boolean | `true`       | Show 7-day forecast               |
-| `forecast_hours`      | number  | 6            | How many hours you will see on.   |
-
-## 🔧 Recommended Integrations
-
-### hass-swissweather
-
-This card is compatible with the [hass-swissweather](https://github.com/izacus/hass-swissweather) integration by @izacus, which provides high-quality Swiss weather data and warnings directly in Home Assistant. For best results, use this integration as your data source for weather, warnings, and sensor entities.
-
-### weather icons
-
-This card is using the animated svg icons from [Meteocons](https://github.com/basmilius/weather-icons)
-
-## 🛠️ Development
-
-### Requirements
-- Node.js 18+
-- Yarn 4+
-
-### Setup
 ```bash
 git clone https://github.com/dmoo500/ha-swissweather-card.git
 cd ha-swissweather-card
-yarn dev          # Development with live reload
-yarn type-check   # TypeScript check
-yarn lint         # Code linting
-yarn format       # Code formatting
-yarn build        # Production build
+corepack enable
+yarn install --immutable
+yarn validate       # TypeScript, ESLint, and formatting
+yarn test           # Regression tests
+yarn build          # Build the root JavaScript bundle and source map
+yarn validate:hacs  # Validate the HACS distribution
 ```
 
-## 🤝 Contributing
+`yarn dev` rebuilds on file changes; it is not a live-reload server. `yarn serve` provides a local static server on port 8000.
 
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/amazing-feature`
-3. Commit your changes: `git commit -m 'Add amazing feature'`
-4. Push to the branch: `git push origin feature/amazing-feature`
-5. Open a pull request
+Keep shared chart behavior in the chart components/controllers and forecast fetching in the shared utilities. Changes to charts should work in both the Full Card and standalone cards.
 
-## 📋 Requirements
+Contributions are welcome: fork the repository, create a feature branch, validate your changes, and open a pull request.
 
-### Home Assistant
-- **Home Assistant 2025.8+** (for best compatibility)
-- **Modern browser** with ES2022 support
+## Links and acknowledgements
 
-### Browser Support
-- ✅ Edge 90+
+- [Documentation](docs/)
+- [Changelog](CHANGELOG.md) · [Releases](https://github.com/dmoo500/ha-swissweather-card/releases)
+- [Bug reports](https://github.com/dmoo500/ha-swissweather-card/issues) · [Discussions](https://github.com/dmoo500/ha-swissweather-card/discussions)
+- Animated SVG weather icons: [Meteocons by Bas Milius](https://github.com/basmilius/weather-icons)
+- Thanks to MeteoSwiss for the inspiration, and to the Home Assistant community and Lit team.
 
-**Possible causes and solutions:**
-```
-   resources:
-      - url: /hacsfiles/swissweather-card/swissweather-card.js
-      type: module
-```
-
-2. **Cache issue**
-   - Clear browser cache (Ctrl+F5 or Cmd+Shift+R)
-   - Restart Home Assistant
-
-3. **Check file path**
-   - HACS: `/hacsfiles/swissweather-card/swissweather-card.js`
-   - Manual: `/local/swissweather-card.js` (if in `config/www/`)
-
-4. **Check browser console**
-   - Open F12 → Console tab
-   - Look for JavaScript errors
-
-5. **Home Assistant version**
-   - At least Home Assistant 2025.8+ required
-   - TypeScript-based custom cards require modern browsers
-
-### Other common issues
-
-- **Entity not found**: Check if `entity: weather.xyz` exists in HA
-- **No data**: Is the weather integration configured correctly?
-- **Layout issues**: Set browser zoom to 100%
-
-## 🔗 Links
-
-- [📖 Documentation](docs/)
-- [🐛 Bug Reports](https://github.com/dmoo500/ha-swissweather-card/issues)
-- [💡 Feature Requests](https://github.com/dmoo500/ha-swissweather-card/discussions)
-- [📋 Changelog](CHANGELOG.md)
-
-## 📄 License
-
-MIT License – see [LICENSE](LICENSE) file
-
-## 🙏 Acknowledgements
-
-- **MeteoSwiss** for the inspiration
-- **Home Assistant Community** for the support
-- **Lit Team** for the great web components library
-
----
-
-⭐ **Like this card? Give the repository a star!**
+Distributed under the [MIT License](LICENSE).

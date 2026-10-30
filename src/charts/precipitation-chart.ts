@@ -3,6 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 import type { WeatherForecast } from '../types/home-assistant.js';
 import { ElementSizeController } from './element-size-controller';
 import { hourlyChartStyles } from './hourly-chart-styles';
+import { HourlyTooltipController } from './hourly-tooltip-controller';
 
 @customElement('precipitation-chart')
 export class PrecipitationChart extends LitElement {
@@ -15,6 +16,7 @@ export class PrecipitationChart extends LitElement {
   );
 
   static styles = hourlyChartStyles;
+  private readonly _tooltip = new HourlyTooltipController(this);
 
   render(): TemplateResult {
     if (this.show_precipitation === false) return html``;
@@ -45,8 +47,8 @@ export class PrecipitationChart extends LitElement {
             >mm</span
           >
         </div>
-        <div class="chart-svg-area">
-          ${(() => {
+        ${this._tooltip.render(
+          (() => {
             const n = slice.length;
             if (n === 0) return html``;
 
@@ -115,6 +117,7 @@ export class PrecipitationChart extends LitElement {
             // Precipitation probability bars (behind)
             const probBars: unknown[] = [];
             const precipBars: unknown[] = [];
+            const tooltipTargets: TemplateResult[] = [];
             const barWidth = Math.max(2, step * 0.55);
 
             for (let i = 0; i < n; i++) {
@@ -136,20 +139,25 @@ export class PrecipitationChart extends LitElement {
               if (prob > 0) {
                 probBars.push(svg`
                   <rect x="${x}" y="${yOf(0) - probH}" width="${barWidth}" height="${probH}"
-                    fill="#87898e" opacity="0.35" rx="1.5">
-                    <title>${`${new Date(h.datetime).toLocaleString()}: ${prec} mm · ${prob}%`}</title>
-                  </rect>
+                    fill="#87898e" opacity="0.35" rx="1.5"/>
                 `);
               }
               if (prec > 0) {
                 const h2 = (prec / yRange) * chartH;
                 precipBars.push(svg`
                   <rect x="${x}" y="${yOf(0) - h2}" width="${barWidth}" height="${h2}"
-                    fill="url(#precip-grad)" opacity="1" rx="1.5">
-                    <title>${`${new Date(h.datetime).toLocaleString()}: ${prec} mm · ${prob}%`}</title>
-                  </rect>
+                    fill="url(#precip-grad)" opacity="1" rx="1.5"/>
                 `);
               }
+              tooltipTargets.push(
+                this._tooltip.target(
+                  padLeft + i * step,
+                  padTop,
+                  step,
+                  chartH,
+                  `${new Date(h.datetime).toLocaleString()}: ${prec} mm · ${prob}%`
+                )
+              );
             }
 
             return svg`<svg width="100%" height="100%" viewBox="0 0 ${svgW} ${svgH}" style="display:block;">
@@ -163,9 +171,10 @@ export class PrecipitationChart extends LitElement {
               ${verticals}
               ${probBars}
               ${precipBars}
+              ${tooltipTargets}
             </svg>`;
-          })()}
-        </div>
+          })()
+        )}
       </div>
     `;
   }
