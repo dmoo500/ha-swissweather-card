@@ -13,6 +13,7 @@
 - Removed visible temperature/wind point markers, clarified wind direction arrows, and standardized hourly heading spacing.
 - Reorganized the README and corrected installation, configuration, and development guidance.
 - Require Node.js 22.18.0+ for development and run regression tests on that minimum in CI.
+- Update the marked runtime dependency and development dependencies; align the TypeScript ESLint parser and plugin versions.
 
 ### Fixed
 - Keep hover-only chart tooltips reachable across headings and empty chart areas, while preserving focused-reading fallback and explicit dismissal.
