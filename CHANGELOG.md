@@ -1,5 +1,11 @@
 # Release Notes
 
+## [2.0.0b4] - 2026-10-30
+
+### Changed
+- Hid point markers on the hourly temperature and wind lines while retaining invisible tooltip targets.
+- Replaced the wind diagram's dot-ended direction indicators with clear arrowheads and shafts, matching the direction metric.
+
 ## [2.0.0b3] - 2026-10-30
 
 ### Added

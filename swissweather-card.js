@@ -916,7 +916,7 @@ var Ue = class {
               ${h}
               <polyline points="${t.map((e, t) => e === null ? "" : `${f(t)},${p(e)}`).filter(Boolean).join(" ")}" fill="none" stroke="#db4a34" stroke-width="2.5"
                 stroke-linecap="round" stroke-linejoin="round"/>
-              ${t.map((t, n) => t === null ? null : C`<circle cx="${f(n)}" cy="${p(t)}" r="4" fill="#db4a34">
+              ${t.map((t, n) => t === null ? null : C`<circle cx="${f(n)}" cy="${p(t)}" r="4" fill="transparent" pointer-events="all">
                     <title>${`${new Date(e[n].datetime).toLocaleString()}: ${t} °C`}</title>
                   </circle>`)}
             </svg>`;
@@ -1284,7 +1284,7 @@ var Je = class extends T {
                   </text>
                 `);
 			}
-			let h = o.map((e, t) => e === null ? "" : `${f(t)},${u(e)}`).filter(Boolean).join(" "), ee = o.map((t, n) => t === null ? null : C`<circle cx="${f(n)}" cy="${u(t)}" r="4" fill="#44739e">
+			let h = o.map((e, t) => e === null ? "" : `${f(t)},${u(e)}`).filter(Boolean).join(" "), ee = o.map((t, n) => t === null ? null : C`<circle cx="${f(n)}" cy="${u(t)}" r="4" fill="transparent" pointer-events="all">
                     <title>${`${new Date(e[n].datetime).toLocaleString()}: ${t} km/h${typeof e[n].wind_bearing == "number" ? ` · ${e[n].wind_bearing}°` : ""}`}</title>
                   </circle>`), te = r - 11 + 2;
 			return C`<svg width="100%" height="100%" viewBox="0 0 ${n} ${r}" style="display:block;">
@@ -1296,12 +1296,14 @@ var Je = class extends T {
               ${e.map((e, t) => {
 				let n = typeof e.wind_bearing == "number" && !isNaN(e.wind_bearing) ? e.wind_bearing : null;
 				if (n === null) return null;
-				let r = f(t), i = te, a = (n - 90) * (Math.PI / 180), o = r + 7 * Math.cos(a), s = i + 7 * Math.sin(a), c = a + Math.PI;
+				let r = f(t), i = te;
 				return C`
                 <circle cx="${r}" cy="${i}" r="${7}" fill="none" stroke="#44739e" stroke-width="0.8" opacity="0.5"/>
-                <line x1="${r + 5 * Math.cos(c)}" y1="${i + 5 * Math.sin(c)}" x2="${o}" y2="${s}"
-                  stroke="#44739e" stroke-width="1.5" stroke-linecap="round" opacity="0.85"/>
-                <circle cx="${o}" cy="${s}" r="1.5" fill="#44739e" opacity="0.85"/>
+                <g transform="translate(${r} ${i}) rotate(${n})" fill="#44739e">
+                  <path d="M 0 -6 L 3.5 0 L -3.5 0 Z"/>
+                  <line x1="0" y1="-1" x2="0" y2="4"
+                    stroke="#44739e" stroke-width="1.5" stroke-linecap="round"/>
+                </g>
               `;
 			})}
             </svg>`;

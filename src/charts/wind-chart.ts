@@ -101,21 +101,18 @@ export class WindChart extends LitElement {
               }
             }
 
-            // Wind line + dots
             const points = windsRaw
               .map((v, i) => (v !== null ? `${xOf(i)},${yOf(v)}` : ''))
               .filter(Boolean)
               .join(' ');
-            const dots = windsRaw.map((v, i) =>
+            const tooltipTargets = windsRaw.map((v, i) =>
               v !== null
-                ? svg`<circle cx="${xOf(i)}" cy="${yOf(v)}" r="4" fill="#44739e">
+                ? svg`<circle cx="${xOf(i)}" cy="${yOf(v)}" r="4" fill="transparent" pointer-events="all">
                     <title>${`${new Date(slice[i].datetime).toLocaleString()}: ${v} km/h${typeof slice[i].wind_bearing === 'number' ? ` · ${slice[i].wind_bearing}°` : ''}`}</title>
                   </circle>`
                 : null
             );
 
-            // Compass arrows at the bottom
-            // Arrow: a small triangle pointing in wind_bearing direction
             const compassY = svgH - compassH / 2 + 2; // center of compass band
             const arrowR = 7; // radius of circle
             const compassArrows = slice.map((h, i) => {
@@ -126,19 +123,13 @@ export class WindChart extends LitElement {
               if (bearing === null) return null;
               const cx = xOf(i);
               const cy = compassY;
-              // tip of arrow points in wind direction (bearing = degrees from North, clockwise)
-              const rad = (bearing - 90) * (Math.PI / 180);
-              const tipX = cx + arrowR * Math.cos(rad);
-              const tipY = cy + arrowR * Math.sin(rad);
-              // tail
-              const tailRad = rad + Math.PI;
-              const tailX = cx + (arrowR - 2) * Math.cos(tailRad);
-              const tailY = cy + (arrowR - 2) * Math.sin(tailRad);
               return svg`
                 <circle cx="${cx}" cy="${cy}" r="${arrowR}" fill="none" stroke="#44739e" stroke-width="0.8" opacity="0.5"/>
-                <line x1="${tailX}" y1="${tailY}" x2="${tipX}" y2="${tipY}"
-                  stroke="#44739e" stroke-width="1.5" stroke-linecap="round" opacity="0.85"/>
-                <circle cx="${tipX}" cy="${tipY}" r="1.5" fill="#44739e" opacity="0.85"/>
+                <g transform="translate(${cx} ${cy}) rotate(${bearing})" fill="#44739e">
+                  <path d="M 0 -6 L 3.5 0 L -3.5 0 Z"/>
+                  <line x1="0" y1="-1" x2="0" y2="4"
+                    stroke="#44739e" stroke-width="1.5" stroke-linecap="round"/>
+                </g>
               `;
             });
 
@@ -147,7 +138,7 @@ export class WindChart extends LitElement {
               ${verticals}
               <polyline points="${points}" fill="none" stroke="#44739e" stroke-width="2.5"
                 stroke-linecap="round" stroke-linejoin="round"/>
-              ${dots}
+              ${tooltipTargets}
               ${compassArrows}
             </svg>`;
           })()}

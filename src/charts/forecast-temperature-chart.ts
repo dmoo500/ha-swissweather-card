@@ -96,14 +96,13 @@ export class ForecastTemperatureChart extends LitElement {
               }
             }
 
-            // Temperature line + dots
             const points = tempsRaw
               .map((t, i) => (t !== null ? `${xOf(i)},${yOf(t)}` : ''))
               .filter(Boolean)
               .join(' ');
-            const dots = tempsRaw.map((t, i) =>
+            const tooltipTargets = tempsRaw.map((t, i) =>
               t !== null
-                ? svg`<circle cx="${xOf(i)}" cy="${yOf(t)}" r="4" fill="#db4a34">
+                ? svg`<circle cx="${xOf(i)}" cy="${yOf(t)}" r="4" fill="transparent" pointer-events="all">
                     <title>${`${new Date(slice[i].datetime).toLocaleString()}: ${t} °C`}</title>
                   </circle>`
                 : null
@@ -114,7 +113,7 @@ export class ForecastTemperatureChart extends LitElement {
               ${verticals}
               <polyline points="${points}" fill="none" stroke="#db4a34" stroke-width="2.5"
                 stroke-linecap="round" stroke-linejoin="round"/>
-              ${dots}
+              ${tooltipTargets}
             </svg>`;
           })()}
         </div>
