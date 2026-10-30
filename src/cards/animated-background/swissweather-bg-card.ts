@@ -43,10 +43,6 @@ registerTranslateConfig({
   },
 });
 
-// Debug: Log before decorator application
-console.log('🎯 About to apply @customElement decorator to SwissweatherCard (BG)');
-console.log('🎯 customElements registry available:', !!customElements);
-
 @customElement(ANIMATED_BACKGROUND_CARD_NAME)
 export class SwissWeatherBGCard extends LitElement {
   @property({ attribute: false }) public hass!: HomeAssistant;
@@ -442,5 +438,3 @@ export class SwissWeatherBGCard extends LitElement {
     }
   }
 }
-
-console.log('✅ SwissWeatherCard (animated Background) fully loaded and registered');

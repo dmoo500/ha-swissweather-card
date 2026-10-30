@@ -2,6 +2,7 @@ import { LitElement, html, svg, css, type TemplateResult } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import type { WeatherForecast } from '../types/home-assistant.js';
 import { ElementSizeController } from './element-size-controller';
+import { filterForecastToDateKeys, getLocalForecastDateKey } from './forecast-date';
 
 interface TooltipTarget {
   getAttribute(name: string): string | null;
@@ -82,7 +83,12 @@ export class DailyForecastDiagram extends LitElement {
   render(): TemplateResult {
     // Daily forecast SVG diagram for temperature and precipitation
     const days = this.forecast.slice(0, 7);
-    const hours = this.hourlyForecast.slice(0, days.length * 24);
+    const dayMapping = new Map<string, number>();
+    days.forEach((day, index) => {
+      const dateKey = getLocalForecastDateKey(day.datetime);
+      if (dateKey) dayMapping.set(dateKey, index);
+    });
+    const hours = filterForecastToDateKeys(this.hourlyForecast, dayMapping.keys());
     if (!hours.length) return html`<div>No hourly forecast available</div>`;
 
     const nDays = days.length;
@@ -206,16 +212,9 @@ export class DailyForecastDiagram extends LitElement {
 
     // Temperature line: scale to full range (tempLineYMax to tempLineY0)
     // Create a mapping based on actual forecast days instead of calculated offsets
-    const dayMapping: { [dateString: string]: number } = {};
-    days.forEach((day, idx) => {
-      const dayDate = new Date(day.datetime);
-      const dateKey = `${dayDate.getFullYear()}-${dayDate.getMonth()}-${dayDate.getDate()}`;
-      dayMapping[dateKey] = idx;
-    });
-
     function getDayAndHourIdx(dt: Date) {
-      const dateKey = `${dt.getFullYear()}-${dt.getMonth()}-${dt.getDate()}`;
-      const dayIdx = dayMapping[dateKey];
+      const dateKey = getLocalForecastDateKey(dt.toISOString());
+      const dayIdx = dateKey ? dayMapping.get(dateKey) : undefined;
       const hourInDay = dt.getHours(); // Use actual hour of day (0-23)
       return {
         dayIdx: dayIdx !== undefined ? dayIdx : -1,
@@ -249,13 +248,6 @@ export class DailyForecastDiagram extends LitElement {
             precipProb: precsProberly[i],
             originalIndex: i,
           };
-        } else {
-          console.warn(`Data point ${i} outside bounds:`, {
-            dayIdx,
-            hourInDay,
-            nDays,
-            dt: dt.toISOString(),
-          });
         }
       }
     });
@@ -278,7 +270,6 @@ export class DailyForecastDiagram extends LitElement {
     // Generate ONE continuous temperature line across all days
     const tempLinesPerDay: any[] = [];
     const allTempPoints: string[] = [];
-    const tempPointMarkers: TemplateResult[] = [];
 
     // Collect all temperature points across all days in chronological order
     for (let d = 0; d < nDays; d++) {
@@ -292,12 +283,6 @@ export class DailyForecastDiagram extends LitElement {
             tempLineY0 -
             ((data.temp - roundedMinTemp) / displayTempRange) * (tempLineY0 - tempLineYMax);
           allTempPoints.push(`${x},${y}`);
-          const label = `${formatHourLabel(data.originalIndex)}: ${data.temp} °C, ${data.precip} mm precipitation, ${data.precipProb}% precipitation probability`;
-          tempPointMarkers.push(svg`
-            <circle cx="${x}" cy="${y}" r="4" fill="#e74c3c">
-              <title>${label}</title>
-            </circle>
-          `);
         }
       }
     }
@@ -417,6 +402,10 @@ export class DailyForecastDiagram extends LitElement {
             fill="transparent"
             pointer-events="all"
             data-tooltip="${label}"
+            tabindex="0"
+            role="button"
+            aria-label="${label}"
+            aria-describedby="forecast-tooltip"
           >
             <title>${label}</title>
           </rect>
@@ -551,7 +540,13 @@ export class DailyForecastDiagram extends LitElement {
           pointer-events: none;
         }
       </style>
-      <div class="chart" @click=${this._handleChartClick}>
+      <div
+        class="chart"
+        @click=${this._handleChartClick}
+        @focusin=${this._handleTooltipFocus}
+        @focusout=${this._dismissTooltip}
+        @keydown=${this._handleTooltipKeydown}
+      >
         <svg width="100%" height="100%" viewBox="0 0 ${width} ${height}" style="display:block;">
           <!-- Background grid lines (behind everything) -->
           ${horizontalLines} ${verticals}
@@ -568,14 +563,15 @@ export class DailyForecastDiagram extends LitElement {
           width="100%"
           height="100%"
           viewBox="0 0 ${width} ${height}"
-          style="display:block; position: absolute; top: 0; left: 0;"
+          style="display:block; position: absolute; top: 0; left: 0; pointer-events: none;"
         >
-          ${tempLinesPerDay} ${tempPointMarkers}
+          ${tempLinesPerDay}
         </svg>
         ${
           this._activeTooltip
             ? html`<div
                 class="forecast-tooltip"
+                id="forecast-tooltip"
                 role="tooltip"
                 style="left:${this._activeTooltip.left}px; top:${this._activeTooltip.top}px;"
               >
@@ -587,7 +583,28 @@ export class DailyForecastDiagram extends LitElement {
     `;
   }
 
+  private _dismissTooltip(): void {
+    this._activeTooltip = undefined;
+  }
+
+  private _handleTooltipFocus(event: Event): void {
+    this._showTooltip(event);
+  }
+
+  private _handleTooltipKeydown(event: Event & { key: string }): void {
+    if (event.key === 'Escape') {
+      this._dismissTooltip();
+    } else if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      this._showTooltip(event);
+    }
+  }
+
   private _handleChartClick(event: Event): void {
+    this._showTooltip(event);
+  }
+
+  private _showTooltip(event: Event): void {
     const chart = this.renderRoot.querySelector<HTMLElement>('.chart');
     if (!chart) return;
 
@@ -597,11 +614,6 @@ export class DailyForecastDiagram extends LitElement {
       this._activeTooltip = undefined;
       return;
     }
-    if (this._activeTooltip?.label === label) {
-      this._activeTooltip = undefined;
-      return;
-    }
-
     const targetBounds = target.getBoundingClientRect();
     const chartBounds = chart.getBoundingClientRect();
     this._activeTooltip = {

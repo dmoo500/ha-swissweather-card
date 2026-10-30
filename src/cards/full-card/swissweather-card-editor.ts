@@ -22,7 +22,6 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
 
   constructor() {
     super();
-    console.log('🎨 SwissweatherCardEditor constructor called');
   }
 
   public setConfig(config: CardConfig): void {

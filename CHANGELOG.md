@@ -1,5 +1,21 @@
 # Release Notes
 
+## [2.0.0b3] - 2026-10-30
+
+### Added
+- Added opt-in forecast diagnostics and an explicit retry action for standalone hourly cards.
+- Added a 20-second timeout for forecast requests and regression coverage for Lit reactivity.
+
+### Fixed
+- Prevented JavaScript class fields from shadowing Lit reactive setters, restoring chart updates after forecasts arrive.
+- Filtered hourly diagram data by the displayed calendar dates instead of a fixed 168-hour slice.
+- Hid the hourly forecast heading until hourly data is available.
+- Restored tooltip pointer access through the temperature overlay and added keyboard activation and dismissal.
+
+### Changed
+- Removed visible temperature point markers while preserving the line and tooltip targets.
+- Removed noisy development console logs; targeted forecast logs can be enabled explicitly.
+
 ## [2.0.0b2] - 2026-10-30
 
 ### Added

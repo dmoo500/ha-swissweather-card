@@ -106,6 +106,7 @@
     "no_forecast_data": "No forecast data available",
     "no_forecast_data_hint": "Check Developer Tools → Services → weather.get_forecasts",
     "forecast_request_failed": "Could not load forecast. See the browser console for details.",
+    "retry_forecast": "Retry",
     "forecast_none": "No forecast data available",
     "forecast_none_hint": "Check Developer Tools → Services → weather.get_forecasts",
     "forecast_loading": "Loading...",

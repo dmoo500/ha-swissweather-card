@@ -1,7 +1,7 @@
 import { LitElement, html, type PropertyValues, type TemplateResult } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import type { HomeAssistant, WeatherForecast } from '../../types/home-assistant';
-import { fetchWeatherForecast } from '../../utils/weather-forecast';
+import { fetchWeatherForecast, forecastDebug } from '../../utils/weather-forecast';
 import type { HourlyChartCardConfig } from './const';
 import { get as _t } from 'lit-translate';
 
@@ -17,6 +17,11 @@ export abstract class HourlyForecastBaseCard extends LitElement {
   private _requestedEntityId?: string;
   private _forecastRequestId = 0;
 
+  protected _retryForecast(): void {
+    if (this._forecastLoading || !this.config?.entity) return;
+    void this._loadForecast(this.config.entity);
+  }
+
   protected async _loadForecast(entityId: string): Promise<void> {
     if (!this.hass || !entityId) return;
 
@@ -24,6 +29,7 @@ export abstract class HourlyForecastBaseCard extends LitElement {
     this._forecastLoading = true;
     this._forecastLoaded = false;
     this._forecastError = false;
+    forecastDebug('card loading', { card: this.localName, entityId, requestId });
     try {
       const forecast = await fetchWeatherForecast(this.hass, entityId, 'hourly');
       if (requestId === this._forecastRequestId) this._hourlyForecast = forecast;
@@ -37,12 +43,28 @@ export abstract class HourlyForecastBaseCard extends LitElement {
       if (requestId === this._forecastRequestId) {
         this._forecastLoading = false;
         this._forecastLoaded = true;
+        forecastDebug('card settled', {
+          card: this.localName,
+          entityId,
+          requestId,
+          count: this._hourlyForecast.length,
+          error: this._forecastError,
+        });
       }
     }
   }
 
   protected updated(changedProperties: PropertyValues): void {
     super.updated(changedProperties);
+    if (changedProperties.has('_hourlyForecast') || changedProperties.has('_forecastLoaded')) {
+      forecastDebug('card rendered', {
+        card: this.localName,
+        entityId: this.config?.entity,
+        count: this._hourlyForecast.length,
+        loading: this._forecastLoading,
+        loaded: this._forecastLoaded,
+      });
+    }
 
     if (!this.hass || !this.config?.entity) return;
 
@@ -70,7 +92,16 @@ export abstract class HourlyForecastBaseCard extends LitElement {
         : this._forecastError
           ? _t('hourly_charts.forecast_request_failed')
           : _t('hourly_charts.no_forecast_data');
-    return html`<div class="card-content">${message}</div>`;
+    return html`<div class="card-content">
+      ${message}
+      ${
+        this._forecastLoaded && !this._forecastLoading
+          ? html`<button type="button" @click=${this._retryForecast}>
+              ${_t('hourly_charts.retry_forecast')}
+            </button>`
+          : ''
+      }
+    </div>`;
   }
 
   protected getDefaultRows(): number {

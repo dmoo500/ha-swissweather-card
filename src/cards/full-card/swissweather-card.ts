@@ -15,7 +15,7 @@ import { getWeatherIcon } from '../../icons';
 import { type CardConfig, FULL_CARD_EDITOR_NAME, FULL_CARD_NAME, schema } from './const';
 import { isDay } from '../../utils';
 import { renderWarningSection } from '../../utils/warning-renderer';
-import { fetchWeatherForecastsIndependently } from '../../utils/weather-forecast';
+import { fetchWeatherForecastsIndependently, forecastDebug } from '../../utils/weather-forecast';
 import { getOrderedCharts } from './chart-order';
 
 registerTranslateConfig({
@@ -25,10 +25,6 @@ registerTranslateConfig({
   },
 });
 
-// Debug: Log before decorator application
-console.log('🎯 About to apply @customElement decorator to SwissweatherCard');
-console.log('🎯 customElements registry available:', !!customElements);
-
 @customElement(FULL_CARD_NAME)
 export class SwissWeatherCard extends LitElement {
   @property({ attribute: false }) public hass!: HomeAssistant;
@@ -36,6 +32,7 @@ export class SwissWeatherCard extends LitElement {
   @state() private _forecast: WeatherForecast[] = [];
   @state() private _hourlyForecast: WeatherForecast[] = [];
   @state() private _forecastLoading = false;
+  @state() private _forecastLoaded = false;
   @state() private _hourlyForecastError = false;
   @state() private _openWarnings: Record<string, boolean> = {};
   private _loadedLang: string | undefined;
@@ -52,6 +49,13 @@ export class SwissWeatherCard extends LitElement {
   private _lastEntityId: string | undefined;
   protected updated(changedProperties: PropertyValues): void {
     super.updated(changedProperties);
+    if (changedProperties.has('_hourlyForecast')) {
+      forecastDebug('full card rendered', {
+        entityId: this.config?.entity,
+        hourlyCount: this._hourlyForecast.length,
+        dailyCount: this._forecast.length,
+      });
+    }
     // Only reload if the entity changes
     if (this.hass && this.config && this.config.entity) {
       if (this._lastEntityId !== this.config.entity) {
@@ -67,6 +71,8 @@ export class SwissWeatherCard extends LitElement {
     }
     const requestId = ++this._forecastRequestId;
     this._forecastLoading = true;
+    this._forecastLoaded = false;
+    this._hourlyForecastError = false;
 
     try {
       const forecasts = await fetchWeatherForecastsIndependently(this.hass, entityId);
@@ -80,17 +86,17 @@ export class SwissWeatherCard extends LitElement {
       if (forecasts.hourly.error) {
         console.warn('⚠️ Hourly forecast loading failed:', forecasts.hourly.error);
       }
-      console.log('🟢 Forecast geladen:', {
-        forecast: this._forecast,
-        hourlyForecast: this._hourlyForecast,
-      });
     } catch (wsError) {
       if (requestId !== this._forecastRequestId) return;
       console.error('⚠️ Forecast loading failed:', wsError);
       this._forecast = [];
       this._hourlyForecast = [];
+      this._hourlyForecastError = true;
     } finally {
-      if (requestId === this._forecastRequestId) this._forecastLoading = false;
+      if (requestId === this._forecastRequestId) {
+        this._forecastLoading = false;
+        this._forecastLoaded = true;
+      }
     }
   }
 
@@ -391,6 +397,12 @@ export class SwissWeatherCard extends LitElement {
       showForecast: this.config.show_forecast,
     }).map(({ chart, showHourlyTitle }) => {
       let chartContent: TemplateResult | string = '';
+      const showHourlyHeading = showHourlyTitle && this._hourlyForecast.length > 0;
+      const showHourlyError =
+        showHourlyTitle &&
+        this._forecastLoaded &&
+        this._hourlyForecast.length === 0 &&
+        !this._forecastLoading;
       switch (chart) {
         case 'temperature':
           chartContent = this._renderForecastTemperature(forecastHours);
@@ -411,24 +423,24 @@ export class SwissWeatherCard extends LitElement {
 
       return html`
         ${
-          showHourlyTitle
+          showHourlyHeading
             ? html`
                 <div class="section-title">
                   <ha-icon icon="mdi:clock"></ha-icon>
                   ${_t('hourly_charts.forecast_hours', { hours: forecastHours })}
                 </div>
-                ${
-                  this._hourlyForecast.length === 0 && !this._forecastLoading
-                    ? html`<div class="forecast-error">
-                        ${_t(
-                          this._hourlyForecastError
-                            ? 'hourly_charts.forecast_request_failed'
-                            : 'hourly_charts.no_forecast_data'
-                        )}
-                      </div>`
-                    : ''
-                }
               `
+            : ''
+        }
+        ${
+          showHourlyError
+            ? html`<div class="forecast-error">
+                ${_t(
+                  this._hourlyForecastError
+                    ? 'hourly_charts.forecast_request_failed'
+                    : 'hourly_charts.no_forecast_data'
+                )}
+              </div>`
             : ''
         }
         ${chartContent}

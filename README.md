@@ -42,6 +42,25 @@ A custom Home Assistant card that recreates the look and feel of the official Sw
 - Overall severity badge (highest active level)
 - Per-type enable/disable in the Visual Editor
 
+## Forecast diagnostics
+
+To enable targeted forecast diagnostics, run this in the browser console and reload the dashboard:
+
+```js
+localStorage.setItem('swissweather-debug', 'true');
+```
+
+Enable the console's Debug/Verbose level to see `[SwissWeather forecast]` messages.
+They show request start/completion, forecast counts, and card render state without logging
+the full forecast payload. To disable logging:
+
+```js
+localStorage.removeItem('swissweather-debug');
+```
+
+Empty or failed standalone hourly forecasts provide a Retry button. Requests that do
+not complete fail after 20 seconds instead of leaving the card loading indefinitely.
+
 ## 📱 Screenshots
 
 All enabled
