@@ -92,7 +92,7 @@ test('daily and hourly containers share accessible targets and interaction handl
   assert.deepEqual(hourly.values.slice(1), daily.values.slice(1));
 });
 
-test('non-target pointer movement preserves focused details and honors Escape and blur', () => {
+test('non-target pointer movement preserves hover or focused details and honors dismissal', () => {
   const controller = new ChartTooltipController({ addController() {}, requestUpdate() {} });
   const content = html`<svg></svg>`;
   const focused = { getAttribute: () => 'Focused reading' };
@@ -107,6 +107,16 @@ test('non-target pointer movement preserves focused details and honors Escape an
   };
 
   controller.show({ target: hovered });
+  moveAcrossBackground('Hovered reading');
+  controller.preserveTooltip({ stopPropagation() {} });
+  assert.equal(reading(), 'Hovered reading', 'tooltip is reachable across non-target areas');
+  controller.pointerLeave();
+  moveAcrossBackground(undefined);
+  controller.show({ target: hovered });
+  controller.activate({ type: 'click', target: nonTargets[0] });
+  moveAcrossBackground(undefined);
+  controller.show({ target: hovered });
+  controller.keydown({ key: 'Escape', preventDefault() {} });
   moveAcrossBackground(undefined);
   controller.focus({ target: focused });
   moveAcrossBackground('Focused reading');
@@ -120,6 +130,11 @@ test('non-target pointer movement preserves focused details and honors Escape an
   moveAcrossBackground(undefined);
   controller.keydown({ key: 'Enter', target: focused, preventDefault() {} });
   moveAcrossBackground('Focused reading');
+  controller.activate({ type: 'click', target: nonTargets[0] });
+  moveAcrossBackground(undefined);
+  controller.pointerLeave();
+  assert.equal(reading(), undefined, 'background click must not restore focused text');
+  controller.focus({ target: focused });
   controller.blur();
   moveAcrossBackground(undefined);
 });

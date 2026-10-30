@@ -209,7 +209,7 @@ See [configuration examples](docs/configuration.md) and the [visual editor guide
 - Missing precipitation metrics are omitted from tooltips; an explicit zero remains visible as a measured value.
 
 These controls apply to the daily SVG diagram and the hourly temperature, wind, and precipitation charts, both embedded and standalone.
-They share one tooltip controller and display readings in a consistent top-left panel inside the chart. The panel remains hoverable without selecting values underneath it.
+They share one tooltip controller and display readings in a consistent top-left panel inside the chart. Hover-only text remains visible while crossing headings or empty areas to reach the panel, which is hoverable without selecting values underneath it. Leaving the chart, clicking its background, or pressing Escape dismisses hover-only text; a keyboard-focused reading is restored on pointer exit unless explicitly dismissed.
 
 ## Updating and beta releases
 

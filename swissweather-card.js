@@ -852,7 +852,7 @@ var Ue = class {
 			this._focusDismissed = !0, this._label !== void 0 && (this._label = void 0, this._removeEscapeListener(), this.host.requestUpdate());
 		}, this.show = (e) => {
 			let t = e.target, n = t && "getAttribute" in t && typeof t.getAttribute == "function" ? t.getAttribute("data-tooltip") : void 0;
-			typeof n == "string" ? (this._label = n, this.host.requestUpdate()) : this.pointerLeave();
+			typeof n == "string" ? (this._label = n, this.host.requestUpdate()) : e.type === "pointerover" ? this._focusedLabel !== void 0 && this.pointerLeave() : this.dismiss();
 		}, this.focus = (e) => {
 			this.show(e), this._focusedLabel = this._label, this._focusDismissed = !1;
 		}, this.blur = () => {

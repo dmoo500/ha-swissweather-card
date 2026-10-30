@@ -1,6 +1,6 @@
 # Release Notes
 
-## [2.0.0] - Unreleased
+## [2.0.0] - 2026-10-30
 
 ### Added
 - Accessible daily and hourly chart tooltips with mouse, touch, and keyboard interaction.
@@ -15,6 +15,7 @@
 - Require Node.js 22.18.0+ for development and run regression tests on that minimum in CI.
 
 ### Fixed
+- Keep hover-only chart tooltips reachable across headings and empty chart areas, while preserving focused-reading fallback and explicit dismissal.
 - Dismiss hover-only chart tooltips with document-level Escape and preserve focused readings when pressing tooltip text.
 - Keep hourly tooltip readings stable while hovering or clicking their text instead of passing pointer events through to underlying intervals.
 - Restore the upper fog band by referencing the existing SVG stroke gradient.
