@@ -1,6 +1,8 @@
 import { LitElement, html, svg, css, type TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import type { WeatherForecast } from '../types/home-assistant.js';
+import { ElementSizeController } from './element-size-controller';
+import { hourlyChartStyles } from './hourly-chart-styles';
 
 @customElement('wind-chart')
 export class WindChart extends LitElement {
@@ -8,81 +10,18 @@ export class WindChart extends LitElement {
   @property({ type: Number }) forecastHours = 12;
   @property({ type: Boolean }) show_wind = true;
   @property({ type: Function }) _t!: (key: string, vars?: Record<string, any>) => string;
-  @property({ type: Function }) showHoursChartLabel!: (hours: number) => TemplateResult;
-  private _resizeObserver?: ResizeObserver;
-  private _measuredWidth = 0;
-  private _measuredHeight = 0;
+  private readonly _chartSize = new ElementSizeController(this, () =>
+    this.renderRoot.querySelector<HTMLElement>('.chart-svg-area')
+  );
 
-  static styles = css`
-    :host {
-      display: block;
-      width: 100%;
-      height: 100%;
-      min-height: 0;
-    }
-
-    .chart {
-      background: var(--card-background-color, #fff);
-      border-radius: 12px;
-      padding: var(--chart-padding, 15px);
-      margin-top: var(--chart-margin-top, 15px);
-      margin-bottom: var(--chart-margin-bottom, 0);
-      border: var(--chart-inner-border, 1px solid var(--border-color, rgba(220, 20, 60, 0.1)));
-      width: 100%;
-      box-sizing: border-box;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-    }
-    .section-title {
-      font-weight: bold;
-      font-size: 16px;
-      margin-bottom: 10px;
-      color: var(--primary-text-color, #fff);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .section-title ha-icon {
-      color: var(--primary-text-color, #fff);
-      font-size: 20px;
-    }
-    .chart-svg-area {
-      width: 100%;
-      overflow: hidden;
-      border-radius: 4px;
-      flex: 1;
-      min-height: 122px;
-    }
-  `;
-
-  protected firstUpdated(): void {
-    const area = this.renderRoot.querySelector('.chart-svg-area') as HTMLElement | null;
-    if (!area) return;
-    this._resizeObserver = new ResizeObserver(entries => {
-      let changed = false;
-      for (const entry of entries) {
-        const w = Math.floor(entry.contentRect.width);
-        const h = Math.floor(entry.contentRect.height);
-        if (w > 0 && w !== this._measuredWidth) {
-          this._measuredWidth = w;
-          changed = true;
-        }
-        if (h > 0 && h !== this._measuredHeight) {
-          this._measuredHeight = h;
-          changed = true;
-        }
+  static styles = [
+    hourlyChartStyles,
+    css`
+      :host {
+        --chart-svg-min-height: 122px;
       }
-      if (changed) this.requestUpdate();
-    });
-    this._resizeObserver.observe(area);
-  }
-
-  disconnectedCallback(): void {
-    this._resizeObserver?.disconnect();
-    this._resizeObserver = undefined;
-    super.disconnectedCallback();
-  }
+    `,
+  ];
 
   render(): TemplateResult {
     if (this.show_wind === false) return html``;
@@ -105,10 +44,10 @@ export class WindChart extends LitElement {
             const n = slice.length;
             if (n < 2) return html``;
 
-            const svgW = this._measuredWidth > 0 ? this._measuredWidth : 600;
+            const svgW = this._chartSize.width > 0 ? this._chartSize.width : 600;
             // Extra height at the bottom for compass arrows
             const compassH = 22;
-            const svgH = this._measuredHeight > 0 ? this._measuredHeight : 100 + compassH;
+            const svgH = this._chartSize.height > 0 ? this._chartSize.height : 100 + compassH;
             const padLeft = 28;
             const padRight = 6;
             const padTop = 8;

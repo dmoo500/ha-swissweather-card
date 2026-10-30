@@ -1,5 +1,20 @@
 # Release Notes
 
+## [2.0.0b1] - 2026-10-30
+
+### Added
+- Added focused tests for chart ordering, responsive chart sizing, forecast requests, and weather effects.
+- Added reduced-motion support for animated backgrounds.
+
+### Changed
+- Refactored card, chart, warning, and animated-background code into smaller reusable modules.
+- Stabilized generated weather-scene variations so clouds, stars, and particles do not jump on rerender.
+- Refined the photo-style weather backgrounds and reduced the frequency and intensity of lightning flashes.
+
+### Fixed
+- Positioned the hourly forecast heading according to the configured chart order.
+- Allowed hourly charts to render when daily forecast data is unavailable.
+
 ## [1.10.9] - 2026-09-05
 
 ### Fixed

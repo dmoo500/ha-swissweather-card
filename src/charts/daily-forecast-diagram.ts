@@ -1,6 +1,7 @@
 import { LitElement, html, svg, css, type TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import type { WeatherForecast } from '../types/home-assistant.js';
+import { ElementSizeController } from './element-size-controller';
 
 @customElement('daily-forecast-diagram')
 export class DailyForecastDiagram extends LitElement {
@@ -9,9 +10,7 @@ export class DailyForecastDiagram extends LitElement {
   @property({ type: Object }) config: any;
   @property({ type: Function }) getWeatherIcon!: (..._args: any[]) => TemplateResult;
   @property({ type: Boolean }) standalone = false;
-  private _resizeObserver?: ResizeObserver;
-  private _measuredWidth = 0;
-  private _measuredHeight = 0;
+  private readonly _chartSize = new ElementSizeController(this, () => this);
   static styles = css`
     :host {
       display: block;
@@ -60,38 +59,6 @@ export class DailyForecastDiagram extends LitElement {
       fill: var(--primary-text-color, #fff);
     }
   `;
-  // fallback function to get a CSS variable with a default value
-  getCSSVariable(varName: string, fallback = '50'): number {
-    const value = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
-    return Number.parseInt(value || fallback);
-  }
-
-  connectedCallback(): void {
-    super.connectedCallback();
-    // Observe size changes to adapt the SVG layout to available width
-    this._resizeObserver = new ResizeObserver(entries => {
-      for (const entry of entries) {
-        const w = Math.floor(entry.contentRect.width);
-        const h = Math.floor(entry.contentRect.height);
-        if (h > 0 && h !== this._measuredHeight) {
-          this._measuredHeight = h;
-          this.requestUpdate();
-        }
-        if (w > 0 && w !== this._measuredWidth) {
-          this._measuredWidth = w;
-          this.requestUpdate();
-        }
-      }
-    });
-    this._resizeObserver.observe(this);
-  }
-
-  disconnectedCallback(): void {
-    this._resizeObserver?.disconnect();
-    this._resizeObserver = undefined;
-    super.disconnectedCallback();
-  }
-
   render(): TemplateResult {
     // Daily forecast SVG diagram for temperature and precipitation
     const days = this.forecast.slice(0, 7);
@@ -104,12 +71,12 @@ export class DailyForecastDiagram extends LitElement {
     const rows = this.standalone ? this.config.grid_options?.rows || 3 : 2;
     const standaloneFallbackHeight = rows * 64 - 8;
     const containerHeight = this.standalone
-      ? this._measuredHeight > 0
-        ? this._measuredHeight
+      ? this._chartSize.height > 0
+        ? this._chartSize.height
         : standaloneFallbackHeight
       : 200;
     // Use actual measured width; fall back to current bounding rect or 400
-    let containerWidth = this._measuredWidth;
+    let containerWidth = this._chartSize.width;
     if (!containerWidth) {
       const rect = this.getBoundingClientRect?.();
       containerWidth = rect?.width ? Math.floor(rect.width) : 400;
