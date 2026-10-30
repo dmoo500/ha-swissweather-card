@@ -84,7 +84,11 @@ export class ChartTooltipController implements ReactiveController {
       target && 'getAttribute' in target && typeof target.getAttribute === 'function'
         ? target.getAttribute('data-tooltip')
         : undefined;
-    this._label = typeof label === 'string' ? label : undefined;
+    if (typeof label !== 'string') {
+      this.pointerLeave();
+      return;
+    }
+    this._label = label;
     this.host.requestUpdate();
   };
 

@@ -19,7 +19,7 @@
 - Keep hourly tooltip readings stable while hovering or clicking their text instead of passing pointer events through to underlying intervals.
 - Restore the upper fog band by referencing the existing SVG stroke gradient.
 - Prevent continuous background-card forecast requests after empty/error responses and ignore stale results after entity changes.
-- Preserve keyboard-focused hourly tooltip details when the pointer leaves the chart, while honoring Escape dismissal.
+- Preserve keyboard-focused chart tooltip details when the pointer crosses axes or background areas or leaves the chart, while honoring Escape dismissal.
 - Isolate background card stacking and keep current weather/forecast content above decorative scenes without leaking z-index into the dashboard.
 - Keep reduced-motion weather symbols visible in a paused scene.
 - Refresh standalone chart headings and no-data messages after language changes.
