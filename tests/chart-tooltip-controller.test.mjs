@@ -78,18 +78,93 @@ test('tooltip text receives pointer events without changing the displayed readin
 
 test('daily and hourly containers share accessible targets and interaction handlers', () => {
   const controller = new ChartTooltipController({ addController() {}, requestUpdate() {} });
-  const target = controller.target(10, 8, 24, 80, '12:00: 15 °C');
+  const target = controller.target(10, 8, 24, 80, '12:00: 15 °C', 'interval-1');
   const markup = target.strings.join('');
   assert.match(markup, /fill="transparent"/);
   assert.match(markup, /tabindex="0" role="button" aria-label=/);
   assert.match(markup, /aria-describedby="chart-tooltip"/);
-  assert.deepEqual(target.values, [10, 8, 24, 80, '12:00: 15 °C', '12:00: 15 °C']);
+  assert.deepEqual(target.values, ['chart-tooltip-target', 10, 8, 24, 80, '12:00: 15 °C', '12:00: 15 °C', 'interval-1']);
   const content = html`<svg></svg>`;
   const hourly = controller.render(content);
   const daily = controller.render(content, 'chart');
   assert.equal(hourly.values[0], 'chart-svg-area');
   assert.equal(daily.values[0], 'chart');
   assert.deepEqual(hourly.values.slice(1), daily.values.slice(1));
+});
+
+test('active interval marker follows the tooltip through pointer, click, focus and dismissal', () => {
+  const controller = new ChartTooltipController({ addController() {}, requestUpdate() {} });
+  const label = '12:00: 15 °C';
+  const first = () => controller.target(10, 8, 24, 80, label, '10');
+  const second = () => controller.target(34, 8, 24, 80, label, '34');
+  const event = (x, type = 'pointerover') => ({
+    type,
+    target: { getAttribute: name => name === 'data-tooltip' ? label : String(x) },
+  });
+  const active = target => target().values[0].includes('is-active');
+  assert.equal(active(first), false);
+  controller.activate(event(10, 'click'));
+  assert.equal(active(first), true);
+  assert.equal(active(second), false, 'identical labels do not select a different interval');
+  controller.show({ type: 'pointerover', target: null });
+  assert.equal(active(first), true, 'moving toward tooltip preserves the marker');
+  controller.preserveTooltip({ stopPropagation() {} });
+  assert.equal(active(first), true);
+  controller.pointerLeave();
+  assert.equal(active(first), false);
+  controller.focus(event(10, 'focusin'));
+  controller.show(event(34));
+  assert.equal(active(second), true);
+  assert.equal(active(first), false);
+  controller.pointerLeave();
+  assert.equal(active(first), true, 'restore focused interval with its tooltip');
+  assert.ok(controller.target(20, 16, 48, 160, label, '10').values[0].includes('is-active'), 'focused highlight survives new pixel geometry');
+  controller.show(event(34));
+  assert.ok(controller.target(68, 16, 48, 160, label, '34').values[0].includes('is-active'), 'hover highlight survives resizing');
+  controller.pointerLeave();
+  assert.ok(controller.target(20, 16, 48, 160, label, '10').values[0].includes('is-active'), 'focused restoration uses the stable interval ID');
+  controller.keydown({ key: 'Escape', preventDefault() {} });
+  controller.pointerLeave();
+  assert.equal(active(first), false);
+  controller.keydown({ ...event(10), key: 'Enter', preventDefault() {} });
+  assert.equal(active(first), true);
+  controller.blur();
+  assert.equal(active(first), false);
+  controller.activate(event(10, 'click'));
+  controller.hostDisconnected();
+  assert.equal(active(first), false);
+  assert.match(chartTooltipStyles.cssText, /\.chart-tooltip-target\.is-active\s*\{[^}]*fill-opacity:\s*0\.16;/s);
+  assert.doesNotMatch(chartTooltipStyles.cssText, /\.chart-tooltip-target\.is-active\s*\{[^}]*stroke/s);
+});
+
+test('updated forecast labels do not highlight stale hover or restored focused readings', () => {
+  const controller = new ChartTooltipController({ addController() {}, requestUpdate() {} });
+  const content = html`<svg></svg>`;
+  const key = '2026-10-31T12:00:00Z';
+  const oldLabel = '12:00: 15 °C';
+  const newLabel = '12:00: 16 °C';
+  const event = label => ({
+    target: { getAttribute: name => name === 'data-tooltip' ? label : key },
+  });
+  const active = label => controller.target(20, 16, 48, 160, label, key).values[0].includes('is-active');
+  const reading = () => controller.render(content).values.at(-1);
+
+  controller.show(event(oldLabel));
+  assert.equal(active(oldLabel), true, 'geometry-only resizing keeps the selection');
+  assert.equal(active(newLabel), false, 'updated value must not match a stale hover tooltip');
+  assert.equal(reading(), oldLabel);
+  controller.focus(event(oldLabel));
+  controller.show(event(newLabel));
+  assert.equal(active(newLabel), true, 'a new interaction selects the updated value');
+  assert.equal(active(oldLabel), false);
+  controller.pointerLeave();
+  assert.equal(reading(), oldLabel, 'pointer leave restores the cached focused reading');
+  assert.equal(active(newLabel), false, 'restored stale focus must not highlight the updated value');
+  assert.equal(active(oldLabel), true, 'unchanged focused reading still survives resizing');
+  controller.focus(event(newLabel));
+  controller.pointerLeave();
+  assert.equal(reading(), newLabel);
+  assert.equal(active(newLabel), true, 'refocusing restores the current reading and highlight');
 });
 
 test('non-target pointer movement preserves hover or focused details and honors dismissal', () => {

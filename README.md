@@ -205,11 +205,11 @@ See [configuration examples](docs/configuration.md) and the [visual editor guide
 - **Keyboard:** Tab to an interval; focus, Enter, or Space opens its tooltip. Escape or moving focus away dismisses it.
 - Temperature and wind curves have no visible point markers. Invisible hit areas preserve access to the readings.
 - Wind compass arrowheads indicate the supplied wind bearing.
-- Card text, editors, and daily diagram precipitation labels follow your Home Assistant language (German, English, French, or Italian), including regional variants such as `fr-CH`. Unsupported languages fall back to English.
+- Card text, editors, and daily diagram precipitation labels follow your Home Assistant language (German, English, French, or Italian), including regional variants such as `fr-CH`. Unsupported languages fall back to English; missing or not-yet-loaded UI translations also use the English text instead of showing translation keys.
 - Missing precipitation metrics are omitted from tooltips; an explicit zero remains visible as a measured value.
 
 These controls apply to the daily SVG diagram and the hourly temperature, wind, and precipitation charts, both embedded and standalone.
-They share one tooltip controller and display readings in a consistent top-left panel inside the chart. Hover-only text remains visible while crossing headings or empty areas to reach the panel, which is hoverable without selecting values underneath it. Leaving the chart, clicking its background, or pressing Escape dismisses hover-only text; a keyboard-focused reading is restored on pointer exit unless explicitly dismissed.
+They share one tooltip controller and display readings in a consistent top-left panel inside the chart. The interval matching the displayed tooltip is highlighted with a borderless translucent band for mouse, touch, and keyboard interaction; keyboard navigation retains a separate focus outline. Hover-only text remains visible while crossing headings or empty areas to reach the panel, which is hoverable without selecting values underneath it. Leaving the chart, clicking its background, or pressing Escape dismisses hover-only text and its highlight; a keyboard-focused reading and highlight are restored on pointer exit unless explicitly dismissed.
 
 ## Updating and beta releases
 

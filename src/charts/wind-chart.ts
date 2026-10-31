@@ -114,7 +114,8 @@ export class WindChart extends LitElement {
                     padTop,
                     i === 0 || i === n - 1 ? step / 2 : step,
                     chartH,
-                    `${new Date(slice[i].datetime).toLocaleString()}: ${v} km/h${typeof slice[i].wind_bearing === 'number' ? ` · ${slice[i].wind_bearing}°` : ''}`
+                    `${new Date(slice[i].datetime).toLocaleString()}: ${v} km/h${typeof slice[i].wind_bearing === 'number' ? ` · ${slice[i].wind_bearing}°` : ''}`,
+                    slice[i].datetime
                   )
                 : null
             );

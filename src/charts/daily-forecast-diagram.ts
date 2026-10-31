@@ -376,7 +376,8 @@ export class DailyForecastDiagram extends LitElement {
             tempLineYMax,
             hourStep,
             Math.max(0, tempLineY0 - tempLineYMax),
-            label
+            label,
+            hours[data.originalIndex].datetime
           )
         );
       }

@@ -1,5 +1,30 @@
 # Release Notes
 
+## [2.0.2] - 2026-10-31
+
+### Added
+- Highlight the active interval in tooltip-enabled daily and hourly charts so pointer, touch, and keyboard selections can be identified in the plot.
+
+### Fixed
+- Preserve active and keyboard-focused interval highlights across chart resizing with stable forecast interval identifiers.
+- Match selection highlights to both the interval and displayed reading when forecast values change.
+- Use English text for missing or not-yet-loaded translations instead of displaying known translation keys.
+
+### Tests
+- 44 regression tests pass, including stable selection across resizing, changed forecast readings, and production translation fallback with interpolation.
+
+## [2.0.2b1] - 2026-10-31
+
+### Added
+- Show a borderless translucent highlight for the interval matching the displayed tooltip in daily, temperature, wind, and precipitation charts.
+- Keep selection highlights synchronized with pointer, touch, keyboard focus, and tooltip dismissal; retain the separate keyboard focus outline.
+
+### Fixed
+- Fall back to English for missing or not-yet-loaded UI translations, including interpolation values, while reporting keys missing from English.
+
+### Tests
+- 42 regression tests pass; browser checks cover selection highlights and Escape dismissal in all four charts and English fallback for unsupported languages.
+
 ## [2.0.1] - 2026-10-30
 
 ### Added
