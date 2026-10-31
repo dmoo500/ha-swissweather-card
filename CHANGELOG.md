@@ -7,6 +7,7 @@
 
 ### Fixed
 - Preserve active and keyboard-focused interval highlights across chart resizing with stable forecast interval identifiers.
+- Match selection highlights to both the interval and displayed reading when forecast values change.
 - Use English text for missing or not-yet-loaded translations instead of displaying known translation keys.
 
 ## [2.0.2b1] - 2026-10-31

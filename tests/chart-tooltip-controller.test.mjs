@@ -137,6 +137,36 @@ test('active interval marker follows the tooltip through pointer, click, focus a
   assert.doesNotMatch(chartTooltipStyles.cssText, /\.chart-tooltip-target\.is-active\s*\{[^}]*stroke/s);
 });
 
+test('updated forecast labels do not highlight stale hover or restored focused readings', () => {
+  const controller = new ChartTooltipController({ addController() {}, requestUpdate() {} });
+  const content = html`<svg></svg>`;
+  const key = '2026-10-31T12:00:00Z';
+  const oldLabel = '12:00: 15 °C';
+  const newLabel = '12:00: 16 °C';
+  const event = label => ({
+    target: { getAttribute: name => name === 'data-tooltip' ? label : key },
+  });
+  const active = label => controller.target(20, 16, 48, 160, label, key).values[0].includes('is-active');
+  const reading = () => controller.render(content).values.at(-1);
+
+  controller.show(event(oldLabel));
+  assert.equal(active(oldLabel), true, 'geometry-only resizing keeps the selection');
+  assert.equal(active(newLabel), false, 'updated value must not match a stale hover tooltip');
+  assert.equal(reading(), oldLabel);
+  controller.focus(event(oldLabel));
+  controller.show(event(newLabel));
+  assert.equal(active(newLabel), true, 'a new interaction selects the updated value');
+  assert.equal(active(oldLabel), false);
+  controller.pointerLeave();
+  assert.equal(reading(), oldLabel, 'pointer leave restores the cached focused reading');
+  assert.equal(active(newLabel), false, 'restored stale focus must not highlight the updated value');
+  assert.equal(active(oldLabel), true, 'unchanged focused reading still survives resizing');
+  controller.focus(event(newLabel));
+  controller.pointerLeave();
+  assert.equal(reading(), newLabel);
+  assert.equal(active(newLabel), true, 'refocusing restores the current reading and highlight');
+});
+
 test('non-target pointer movement preserves hover or focused details and honors dismissal', () => {
   const controller = new ChartTooltipController({ addController() {}, requestUpdate() {} });
   const content = html`<svg></svg>`;

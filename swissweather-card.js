@@ -892,7 +892,7 @@ var Ue = class {
 	}
 	target(e, t, n, r, i, a) {
 		return S`<rect
-      class=${this._label && this._activeTarget === a ? "chart-tooltip-target is-active" : "chart-tooltip-target"}
+      class=${this._label === i && this._activeTarget === a ? "chart-tooltip-target is-active" : "chart-tooltip-target"}
       x=${e} y=${t} width=${n} height=${r}
       fill="transparent" pointer-events="all"
       tabindex="0" role="button" aria-label=${i}

@@ -162,7 +162,7 @@ export class ChartTooltipController implements ReactiveController {
   ): TemplateResult {
     return svg`<rect
       class=${
-        this._label && this._activeTarget === key
+        this._label === label && this._activeTarget === key
           ? 'chart-tooltip-target is-active'
           : 'chart-tooltip-target'
       }
