@@ -1,6 +1,6 @@
 # Release Notes
 
-## [2.0.2] - Unreleased
+## [2.0.2] - 2026-10-31
 
 ### Added
 - Highlight the active interval in tooltip-enabled daily and hourly charts so pointer, touch, and keyboard selections can be identified in the plot.
@@ -9,6 +9,9 @@
 - Preserve active and keyboard-focused interval highlights across chart resizing with stable forecast interval identifiers.
 - Match selection highlights to both the interval and displayed reading when forecast values change.
 - Use English text for missing or not-yet-loaded translations instead of displaying known translation keys.
+
+### Tests
+- 44 regression tests pass, including stable selection across resizing, changed forecast readings, and production translation fallback with interpolation.
 
 ## [2.0.2b1] - 2026-10-31
 
