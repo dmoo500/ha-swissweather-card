@@ -109,7 +109,8 @@ export class ForecastTemperatureChart extends LitElement {
                     padTop,
                     i === 0 || i === n - 1 ? step / 2 : step,
                     chartH,
-                    `${new Date(slice[i].datetime).toLocaleString()}: ${t} °C`
+                    `${new Date(slice[i].datetime).toLocaleString()}: ${t} °C`,
+                    slice[i].datetime
                   )
                 : null
             );

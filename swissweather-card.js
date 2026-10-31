@@ -890,14 +890,7 @@ var Ue = class {
 	_removeEscapeListener() {
 		this._escapeDocument?.removeEventListener("keydown", this._documentKeydown, !0), this._escapeDocument = void 0;
 	}
-	target(e, t, n, r, i) {
-		let a = JSON.stringify([
-			e,
-			t,
-			n,
-			r,
-			i
-		]);
+	target(e, t, n, r, i, a) {
 		return S`<rect
       class=${this._label && this._activeTarget === a ? "chart-tooltip-target is-active" : "chart-tooltip-target"}
       x=${e} y=${t} width=${n} height=${r}
@@ -1027,7 +1020,7 @@ var Ue = class {
               ${h}
               <polyline points="${t.map((e, t) => e === null ? "" : `${f(t)},${p(e)}`).filter(Boolean).join(" ")}" fill="none" stroke="#db4a34" stroke-width="2.5"
                 stroke-linecap="round" stroke-linejoin="round"/>
-              ${t.map((t, n) => t === null ? null : this._tooltip.target(Math.max(28, f(n) - d / 2), 8, n === 0 || n === r - 1 ? d / 2 : d, s, `${new Date(e[n].datetime).toLocaleString()}: ${t} °C`))}
+              ${t.map((t, n) => t === null ? null : this._tooltip.target(Math.max(28, f(n) - d / 2), 8, n === 0 || n === r - 1 ? d / 2 : d, s, `${new Date(e[n].datetime).toLocaleString()}: ${t} °C`, e[n].datetime))}
             </svg>`;
 		})())}
       </div>
@@ -1135,7 +1128,7 @@ var Xe = class extends T {
                 `);
 				}
 				let m = [];
-				a.amount !== void 0 && m.push(`${a.amount} mm`), a.probability !== void 0 && m.push(`${a.probability}%`), m.length > 0 && te.push(this._tooltip.target(28 + r * d, 8, d, o, `${new Date(n.datetime).toLocaleString()}: ${m.join(" · ")}`));
+				a.amount !== void 0 && m.push(`${a.amount} mm`), a.probability !== void 0 && m.push(`${a.probability}%`), m.length > 0 && te.push(this._tooltip.target(28 + r * d, 8, d, o, `${new Date(n.datetime).toLocaleString()}: ${m.join(" · ")}`, n.datetime));
 			}
 			return S`<svg width="100%" height="100%" viewBox="0 0 ${r} ${i}" style="display:block;">
               <defs>
@@ -1400,7 +1393,7 @@ var Qe = class extends T {
                   </text>
                 `);
 			}
-			let h = o.map((e, t) => e === null ? "" : `${f(t)},${u(e)}`).filter(Boolean).join(" "), g = o.map((n, r) => n === null ? null : this._tooltip.target(Math.max(28, f(r) - d / 2), 8, r === 0 || r === t - 1 ? d / 2 : d, a, `${new Date(e[r].datetime).toLocaleString()}: ${n} km/h${typeof e[r].wind_bearing == "number" ? ` · ${e[r].wind_bearing}°` : ""}`)), ee = r - 11 + 2;
+			let h = o.map((e, t) => e === null ? "" : `${f(t)},${u(e)}`).filter(Boolean).join(" "), g = o.map((n, r) => n === null ? null : this._tooltip.target(Math.max(28, f(r) - d / 2), 8, r === 0 || r === t - 1 ? d / 2 : d, a, `${new Date(e[r].datetime).toLocaleString()}: ${n} km/h${typeof e[r].wind_bearing == "number" ? ` · ${e[r].wind_bearing}°` : ""}`, e[r].datetime)), ee = r - 11 + 2;
 			return S`<svg width="100%" height="100%" viewBox="0 0 ${n} ${r}" style="display:block;">
               ${p}
               ${m}
@@ -2548,12 +2541,12 @@ var at = class extends T {
 		}
 		let Ee = [];
 		for (let t = 0; t < i; t++) for (let n = 0; n < 24; n++) {
-			let r = ge[`${t}-${n}`];
-			if (!r) continue;
-			let i = fe[r.originalIndex], a = [`${r.temp} °C`];
-			i.amount !== void 0 && a.push(`${i.amount} mm ${e.precipitation}`), i.probability !== void 0 && a.push(`${i.probability}% ${e.precipitation_probability}`);
-			let o = `${ue(r.originalIndex)}: ${a.join(", ")}`, s = 16 + t * f + n * v;
-			Ee.push(this._tooltip.target(s, de, v, Math.max(0, y - de), o));
+			let i = ge[`${t}-${n}`];
+			if (!i) continue;
+			let a = fe[i.originalIndex], o = [`${i.temp} °C`];
+			a.amount !== void 0 && o.push(`${a.amount} mm ${e.precipitation}`), a.probability !== void 0 && o.push(`${a.probability}% ${e.precipitation_probability}`);
+			let s = `${ue(i.originalIndex)}: ${o.join(", ")}`, c = 16 + t * f + n * v;
+			Ee.push(this._tooltip.target(c, de, v, Math.max(0, y - de), s, r[i.originalIndex].datetime));
 		}
 		let De = [];
 		if (r.length > 0) for (let e = 0; e <= i; e++) {

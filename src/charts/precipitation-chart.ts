@@ -155,7 +155,8 @@ export class PrecipitationChart extends LitElement {
                     padTop,
                     step,
                     chartH,
-                    `${new Date(h.datetime).toLocaleString()}: ${readings.join(' · ')}`
+                    `${new Date(h.datetime).toLocaleString()}: ${readings.join(' · ')}`,
+                    h.datetime
                   )
                 );
             }

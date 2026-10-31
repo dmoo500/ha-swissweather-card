@@ -6,6 +6,7 @@
 - Highlight the active interval in tooltip-enabled daily and hourly charts so pointer, touch, and keyboard selections can be identified in the plot.
 
 ### Fixed
+- Preserve active and keyboard-focused interval highlights across chart resizing with stable forecast interval identifiers.
 - Use English text for missing or not-yet-loaded translations instead of displaying known translation keys.
 
 ## [2.0.2b1] - 2026-10-31

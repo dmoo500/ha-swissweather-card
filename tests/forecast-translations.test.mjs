@@ -21,6 +21,35 @@ test('missing or not-yet-loaded translations fall back to English text', () => {
   assert.equal(getEnglishTranslation('hourly_charts.temperature_hours'), translations.en.hourly_charts.temperature_hours);
 });
 
+test('production lit-translate fallback registration interpolates unloaded and missing entries', async () => {
+  const dataUrl = text => `data:text/javascript;base64,${Buffer.from(text).toString('base64')}`;
+  const directory = new URL('../node_modules/lit-translate/', import.meta.url);
+  const helpers = dataUrl(await readFile(new URL('helpers.js', directory), 'utf8'));
+  const config = dataUrl(await readFile(new URL('config.js', directory), 'utf8'));
+  const util = (await readFile(new URL('util.js', directory), 'utf8'))
+    .replace('"./helpers"', JSON.stringify(helpers))
+    .replace('"./config"', JSON.stringify(config));
+  const { registerTranslateConfig, get } = await import(dataUrl(util));
+  const entry = await readFile(new URL('../src/index.ts', import.meta.url), 'utf8');
+  const parsed = ts.createSourceFile('index.ts', entry, ts.ScriptTarget.Latest, true);
+  const registration = parsed.statements.find(node =>
+    ts.isExpressionStatement(node) && ts.isCallExpression(node.expression) &&
+    node.expression.expression.getText(parsed) === 'registerTranslateConfig'
+  );
+  assert.ok(registration, 'production fallback registration must exist');
+  new Function('registerTranslateConfig', 'getEnglishTranslation', registration.getText(parsed))(
+    registerTranslateConfig, getEnglishTranslation
+  );
+  assert.equal(get('hourly_charts.temperature_hours', { hours: 12 }), 'Temperature (next 12h)');
+  registerTranslateConfig({ strings: { hourly_charts: {} }, translationCache: {} });
+  assert.equal(get('hourly_charts.temperature_hours', { hours: 12 }), 'Temperature (next 12h)');
+  registerTranslateConfig({
+    strings: { hourly_charts: { temperature_hours: 'Température ({{hours}} prochaines heures)' } },
+    translationCache: {},
+  });
+  assert.equal(get('hourly_charts.temperature_hours', { hours: 12 }), 'Température (12 prochaines heures)');
+});
+
 test('unknown translation keys report the missing English entry', t => {
   const warning = t.mock.method(console, 'warn', () => {});
   assert.equal(getEnglishTranslation('missing.message'), '[missing.message]');

@@ -78,12 +78,12 @@ test('tooltip text receives pointer events without changing the displayed readin
 
 test('daily and hourly containers share accessible targets and interaction handlers', () => {
   const controller = new ChartTooltipController({ addController() {}, requestUpdate() {} });
-  const target = controller.target(10, 8, 24, 80, '12:00: 15 °C');
+  const target = controller.target(10, 8, 24, 80, '12:00: 15 °C', 'interval-1');
   const markup = target.strings.join('');
   assert.match(markup, /fill="transparent"/);
   assert.match(markup, /tabindex="0" role="button" aria-label=/);
   assert.match(markup, /aria-describedby="chart-tooltip"/);
-  assert.deepEqual(target.values, ['chart-tooltip-target', 10, 8, 24, 80, '12:00: 15 °C', '12:00: 15 °C', JSON.stringify([10, 8, 24, 80, '12:00: 15 °C'])]);
+  assert.deepEqual(target.values, ['chart-tooltip-target', 10, 8, 24, 80, '12:00: 15 °C', '12:00: 15 °C', 'interval-1']);
   const content = html`<svg></svg>`;
   const hourly = controller.render(content);
   const daily = controller.render(content, 'chart');
@@ -95,11 +95,11 @@ test('daily and hourly containers share accessible targets and interaction handl
 test('active interval marker follows the tooltip through pointer, click, focus and dismissal', () => {
   const controller = new ChartTooltipController({ addController() {}, requestUpdate() {} });
   const label = '12:00: 15 °C';
-  const first = () => controller.target(10, 8, 24, 80, label);
-  const second = () => controller.target(34, 8, 24, 80, label);
+  const first = () => controller.target(10, 8, 24, 80, label, '10');
+  const second = () => controller.target(34, 8, 24, 80, label, '34');
   const event = (x, type = 'pointerover') => ({
     type,
-    target: { getAttribute: name => name === 'data-tooltip' ? label : JSON.stringify([x, 8, 24, 80, label]) },
+    target: { getAttribute: name => name === 'data-tooltip' ? label : String(x) },
   });
   const active = target => target().values[0].includes('is-active');
   assert.equal(active(first), false);
@@ -118,6 +118,11 @@ test('active interval marker follows the tooltip through pointer, click, focus a
   assert.equal(active(first), false);
   controller.pointerLeave();
   assert.equal(active(first), true, 'restore focused interval with its tooltip');
+  assert.ok(controller.target(20, 16, 48, 160, label, '10').values[0].includes('is-active'), 'focused highlight survives new pixel geometry');
+  controller.show(event(34));
+  assert.ok(controller.target(68, 16, 48, 160, label, '34').values[0].includes('is-active'), 'hover highlight survives resizing');
+  controller.pointerLeave();
+  assert.ok(controller.target(20, 16, 48, 160, label, '10').values[0].includes('is-active'), 'focused restoration uses the stable interval ID');
   controller.keydown({ key: 'Escape', preventDefault() {} });
   controller.pointerLeave();
   assert.equal(active(first), false);

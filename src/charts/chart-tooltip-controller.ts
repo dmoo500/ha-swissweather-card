@@ -152,8 +152,14 @@ export class ChartTooltipController implements ReactiveController {
     }
   };
 
-  target(x: number, y: number, width: number, height: number, label: string): TemplateResult {
-    const key = JSON.stringify([x, y, width, height, label]);
+  target(
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+    label: string,
+    key: string
+  ): TemplateResult {
     return svg`<rect
       class=${
         this._label && this._activeTarget === key
