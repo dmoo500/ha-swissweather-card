@@ -11,9 +11,21 @@ const source = (await readFile(new URL('../src/translations/index.ts', import.me
 const { outputText } = ts.transpileModule(source, {
   compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 },
 });
-const { getTranslations, translations } = await import(
+const { getTranslations, getEnglishTranslation, translations } = await import(
   `data:text/javascript;base64,${Buffer.from(outputText).toString('base64')}`
 );
+
+test('missing or not-yet-loaded translations fall back to English text', () => {
+  assert.equal(getEnglishTranslation('cloudy'), 'Cloudy');
+  assert.equal(getEnglishTranslation('hourly_charts.retry_forecast'), 'Retry');
+  assert.equal(getEnglishTranslation('hourly_charts.temperature_hours'), translations.en.hourly_charts.temperature_hours);
+});
+
+test('unknown translation keys report the missing English entry', t => {
+  const warning = t.mock.method(console, 'warn', () => {});
+  assert.equal(getEnglishTranslation('missing.message'), '[missing.message]');
+  assert.equal(warning.mock.calls.length, 1);
+});
 
 test('all supported languages provide forecast status and retry messages', async () => {
   for (const lang of Object.keys(translations)) {

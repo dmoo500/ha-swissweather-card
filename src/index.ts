@@ -35,6 +35,10 @@ import { HomeAssistant } from './types/home-assistant';
 import { FORECAST_DIAGRAM_CARD_NAME } from './cards/forecast-diagram/const';
 import { FULL_CARD_NAME } from './cards/full-card/const';
 import { ANIMATED_BACKGROUND_CARD_NAME } from './cards/animated-background/const';
+import { registerTranslateConfig } from 'lit-translate';
+import { getEnglishTranslation } from './translations';
+
+registerTranslateConfig({ empty: getEnglishTranslation });
 
 // Extend Window interface for customCards
 declare global {

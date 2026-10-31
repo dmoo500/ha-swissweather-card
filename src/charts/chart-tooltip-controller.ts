@@ -8,6 +8,11 @@ import {
 } from 'lit';
 
 export const chartTooltipStyles = css`
+  .chart-tooltip-target.is-active {
+    fill: var(--primary-color, #03a9f4);
+    fill-opacity: 0.16;
+  }
+
   .chart-tooltip-target:focus-visible {
     outline: none;
     stroke: var(--primary-text-color, #222);
@@ -36,6 +41,8 @@ export const chartTooltipStyles = css`
 export class ChartTooltipController implements ReactiveController {
   private _label?: string;
   private _focusedLabel?: string;
+  private _activeTarget?: string;
+  private _focusedTarget?: string;
   private _focusDismissed = false;
   private readonly host: ReactiveControllerHost & { ownerDocument?: HTMLElement['ownerDocument'] };
   private _escapeDocument?: HTMLElement['ownerDocument'];
@@ -74,6 +81,7 @@ export class ChartTooltipController implements ReactiveController {
     this._focusDismissed = true;
     if (this._label === undefined) return;
     this._label = undefined;
+    this._activeTarget = undefined;
     this._removeEscapeListener();
     this.host.requestUpdate();
   };
@@ -93,22 +101,30 @@ export class ChartTooltipController implements ReactiveController {
       return;
     }
     this._label = label;
+    const key =
+      target && 'getAttribute' in target && typeof target.getAttribute === 'function'
+        ? target.getAttribute('data-tooltip-key')
+        : undefined;
+    this._activeTarget = typeof key === 'string' ? key : undefined;
     this.host.requestUpdate();
   };
 
   readonly focus = (event: Event): void => {
     this.show(event);
     this._focusedLabel = this._label;
+    this._focusedTarget = this._activeTarget;
     this._focusDismissed = false;
   };
 
   readonly blur = (): void => {
     this._focusedLabel = undefined;
+    this._focusedTarget = undefined;
     this.dismiss();
   };
 
   readonly pointerLeave = (): void => {
     this._label = this._focusDismissed ? undefined : this._focusedLabel;
+    this._activeTarget = this._focusDismissed ? undefined : this._focusedTarget;
     this.host.requestUpdate();
   };
 
@@ -137,12 +153,17 @@ export class ChartTooltipController implements ReactiveController {
   };
 
   target(x: number, y: number, width: number, height: number, label: string): TemplateResult {
+    const key = JSON.stringify([x, y, width, height, label]);
     return svg`<rect
-      class="chart-tooltip-target"
+      class=${
+        this._label && this._activeTarget === key
+          ? 'chart-tooltip-target is-active'
+          : 'chart-tooltip-target'
+      }
       x=${x} y=${y} width=${width} height=${height}
       fill="transparent" pointer-events="all"
       tabindex="0" role="button" aria-label=${label}
-      aria-describedby="chart-tooltip" data-tooltip=${label}
+      aria-describedby="chart-tooltip" data-tooltip=${label} data-tooltip-key=${key}
     />`;
   }
 

@@ -83,13 +83,53 @@ test('daily and hourly containers share accessible targets and interaction handl
   assert.match(markup, /fill="transparent"/);
   assert.match(markup, /tabindex="0" role="button" aria-label=/);
   assert.match(markup, /aria-describedby="chart-tooltip"/);
-  assert.deepEqual(target.values, [10, 8, 24, 80, '12:00: 15 °C', '12:00: 15 °C']);
+  assert.deepEqual(target.values, ['chart-tooltip-target', 10, 8, 24, 80, '12:00: 15 °C', '12:00: 15 °C', JSON.stringify([10, 8, 24, 80, '12:00: 15 °C'])]);
   const content = html`<svg></svg>`;
   const hourly = controller.render(content);
   const daily = controller.render(content, 'chart');
   assert.equal(hourly.values[0], 'chart-svg-area');
   assert.equal(daily.values[0], 'chart');
   assert.deepEqual(hourly.values.slice(1), daily.values.slice(1));
+});
+
+test('active interval marker follows the tooltip through pointer, click, focus and dismissal', () => {
+  const controller = new ChartTooltipController({ addController() {}, requestUpdate() {} });
+  const label = '12:00: 15 °C';
+  const first = () => controller.target(10, 8, 24, 80, label);
+  const second = () => controller.target(34, 8, 24, 80, label);
+  const event = (x, type = 'pointerover') => ({
+    type,
+    target: { getAttribute: name => name === 'data-tooltip' ? label : JSON.stringify([x, 8, 24, 80, label]) },
+  });
+  const active = target => target().values[0].includes('is-active');
+  assert.equal(active(first), false);
+  controller.activate(event(10, 'click'));
+  assert.equal(active(first), true);
+  assert.equal(active(second), false, 'identical labels do not select a different interval');
+  controller.show({ type: 'pointerover', target: null });
+  assert.equal(active(first), true, 'moving toward tooltip preserves the marker');
+  controller.preserveTooltip({ stopPropagation() {} });
+  assert.equal(active(first), true);
+  controller.pointerLeave();
+  assert.equal(active(first), false);
+  controller.focus(event(10, 'focusin'));
+  controller.show(event(34));
+  assert.equal(active(second), true);
+  assert.equal(active(first), false);
+  controller.pointerLeave();
+  assert.equal(active(first), true, 'restore focused interval with its tooltip');
+  controller.keydown({ key: 'Escape', preventDefault() {} });
+  controller.pointerLeave();
+  assert.equal(active(first), false);
+  controller.keydown({ ...event(10), key: 'Enter', preventDefault() {} });
+  assert.equal(active(first), true);
+  controller.blur();
+  assert.equal(active(first), false);
+  controller.activate(event(10, 'click'));
+  controller.hostDisconnected();
+  assert.equal(active(first), false);
+  assert.match(chartTooltipStyles.cssText, /\.chart-tooltip-target\.is-active\s*\{[^}]*fill-opacity:\s*0\.16;/s);
+  assert.doesNotMatch(chartTooltipStyles.cssText, /\.chart-tooltip-target\.is-active\s*\{[^}]*stroke/s);
 });
 
 test('non-target pointer movement preserves hover or focused details and honors dismissal', () => {
