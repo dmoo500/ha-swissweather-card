@@ -4,8 +4,13 @@
 [![Latest release](https://img.shields.io/github/v/release/dmoo500/ha-swissweather-card)](https://github.com/dmoo500/ha-swissweather-card/releases)
 [![License](https://img.shields.io/github/license/dmoo500/ha-swissweather-card)](LICENSE)
 [![Issues](https://img.shields.io/github/issues-raw/dmoo500/ha-swissweather-card)](https://github.com/dmoo500/ha-swissweather-card/issues)
+[![GitHub stars](https://img.shields.io/github/stars/dmoo500/ha-swissweather-card)](https://github.com/dmoo500/ha-swissweather-card/stargazers)
+[![GitHub watchers](https://img.shields.io/github/watchers/dmoo500/ha-swissweather-card)](https://github.com/dmoo500/ha-swissweather-card/watchers)
+[![GitHub last commit](https://img.shields.io/github/last-commit/dmoo500/ha-swissweather-card)](https://github.com/dmoo500/ha-swissweather-card/commits/main)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/dmoo500/ha-swissweather-card)
+[![TypeScript](https://img.shields.io/badge/TypeScript-6-blue?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 
-Swiss weather at a glance: forecasts, warnings, sunshine, wind, and pollen on your Home Assistant dashboard. Inspired by the SwissWeather app, built with TypeScript, Lit, and responsive SVG charts.
+Swiss weather at a glance: forecasts, warnings, sunshine, wind, pollen, and optional UV readings on your Home Assistant dashboard. Inspired by the SwissWeather app, built with TypeScript, Lit, and responsive SVG charts.
 
 Use the **Full Card** for an overview or combine **standalone cards** to build your own layout. An experimental animated-background card is also included.
 
@@ -34,6 +39,7 @@ Use the **Full Card** for an overview or combine **standalone cards** to build y
 | Chart interaction | Daily diagram and hourly temperature, precipitation, and wind tooltips for mouse, touch, and keyboard |
 | Weather warnings | Color-coded severity levels, hazard icons, and support for legacy or ranked warning sensors |
 | Pollen | Seven pollen types, severity badge, collapsible details, and optional particle counts |
+| UV Index | Current UV index and optional daily maximum from numeric sensors, with five intensity categories |
 | Presentation | Visual editors, configurable chart order, compact mode, and optional animated weather icons |
 
 Available data depends on your weather integration; installing the card does not create weather or sensor entities.
@@ -72,6 +78,7 @@ Screenshots illustrate example configurations and may differ from the latest bet
 - Forecast cards need a `weather.*` entity supporting `weather.get_forecasts`. Hourly charts require hourly forecasts; daily views require daily forecasts.
 - Sunshine duration, precipitation probability, and wind bearing appear only if the integration supplies them.
 - Warning and pollen cards need the corresponding sensor entities.
+- UV cards need a numeric `sensor.*` entity from another integration; the checked SwissWeather integration and ranked-warning fork do not expose UV data.
 
 Recommended integration: [hass-swissweather](https://github.com/izacus/hass-swissweather). Ranked warning sensors from [mastameista/hass-swissweather](https://github.com/mastameista/hass-swissweather) are also supported. Other Home Assistant weather integrations can be used, but may not provide every field.
 
@@ -129,6 +136,7 @@ All variants are included in the same JavaScript resource.
 | Wind | `custom:swissweather-wind-card` | Hourly speed and direction arrows |
 | Warnings | `custom:swissweather-warning-card` | Weather warning sensors |
 | Pollen | `custom:swissweather-pollen-card` | Pollen sensor summary and details |
+| UV Index | `custom:swissweather-uv-index-card` | Current UV index or daily maximum, with an optional second maximum sensor |
 | Animated Background | `custom:swissweather-animated-background-card` | Experimental weather scenes |
 
 For example, to add only a wind chart:
@@ -180,6 +188,10 @@ chart_order:
 | `show_precipitation` | `true` | Show hourly precipitation |
 | `show_sunshine` | `true` | Show hourly sunshine |
 | `show_wind` | `true` | Show hourly wind |
+| `show_uv` | `false` | Show the UV section below current weather, also in compact mode |
+| `uv_entity` | None | Numeric UV index sensor |
+| `uv_max_entity` | None | Optional daily maximum UV sensor |
+| `uv_reading_type` | `current` | Primary UV sensor represents `current` or `daily_max` |
 | `show_forecast` | `true` | Show daily forecasts |
 | `forecast_hours` | `6` | Hours requested for the hourly display |
 | `compact_mode` | `false` | Compact current metrics and daily diagram instead of daily tiles |
@@ -197,6 +209,38 @@ chart_order:
 Use your own sensor IDs. Ranked warning sensors take precedence over the legacy aggregated sensor. Hourly charts use forecast fields from the weather entity, not the optional current-value sensors.
 
 See [configuration examples](docs/configuration.md) and the [visual editor guide](docs/visual-editor-guide.md) for additional setup information.
+
+### UV Index
+
+The UV card uses the five intensity categories illustrated by [MeteoSwiss](https://www.meteoswiss.admin.ch/weather/weather-and-climate-from-a-to-z/uv-index.html): low (below 3), moderate (3 to below 6), high (6 to below 8), very high (8 to below 11), and extreme (11+). It shows numeric readings, category names, a colour legend, and each sensor's last update. Zero is valid; missing, unavailable, or invalid values are explicitly reported rather than shown as zero.
+
+The [original SwissWeather integration](https://github.com/izacus/hass-swissweather) and [ranked-warning fork](https://github.com/mastameista/hass-swissweather) currently provide no UV sensor or UV forecast field. Sunshine duration is not a UV index. Choose a numeric UV sensor from another integration, for example [OpenUV](https://www.home-assistant.io/integrations/openuv/); a text-only UV level sensor will not work.
+
+**OpenUV requires an API key and does not automatically refresh its sensors.** Configure an update automation following its integration documentation and API limits. The card only reads HA entities: it makes no external API requests and does not refresh the integration. The displayed sensor timestamp is not a guarantee that its underlying measurement or daily maximum is still current.
+
+Standalone card:
+
+```yaml
+type: custom:swissweather-uv-index-card
+entity: sensor.current_uv_index
+max_entity: sensor.max_uv_index  # Optional, distinct daily maximum
+reading_type: current
+```
+
+For a maximum-only card, set `entity` to your daily maximum sensor and `reading_type: daily_max`; omit `max_entity`. This is a sensor display, not an hourly or multi-day UV forecast.
+
+Optional Full Card section:
+
+```yaml
+type: custom:swissweather-card
+entity: weather.home
+show_uv: true
+uv_entity: sensor.current_uv_index
+uv_max_entity: sensor.max_uv_index
+uv_reading_type: current
+```
+
+Replace the example sensor IDs with your own. Existing dashboards remain unchanged until `show_uv` is enabled.
 
 ## Chart interaction
 
@@ -272,13 +316,18 @@ git clone https://github.com/dmoo500/ha-swissweather-card.git
 cd ha-swissweather-card
 corepack enable
 yarn install --immutable
-yarn validate       # TypeScript, ESLint, and formatting
+yarn validate       # TypeScript, ESLint, formatting, and README badges
+yarn validate:badges # Check badge links and the TypeScript major version offline
 yarn test           # Regression tests
 yarn build          # Build the root JavaScript bundle and source map
 yarn validate:hacs  # Validate the HACS distribution
 ```
 
 `yarn dev` rebuilds on file changes; it is not a live-reload server. `yarn serve` provides a local static server on port 8000.
+
+Pre-commit and CI also check the README badges. Update the static TypeScript badge when upgrading to a new major version.
+
+Visual editors bundle their own native form controls, including domain-filtered entity lists, numeric limits, and checkboxes. No internal HA forms or switches are needed. Missing configured entities remain selectable; use YAML to enter an entity that has not yet been created. Weather icons still use HA's internal `ha-icon` element, so icon compatibility should be checked with HA updates. The production bundle targets ES2022; this does not promise support for Home Assistant's older legacy-browser build.
 
 Keep shared chart behavior in the chart components/controllers and forecast fetching in the shared utilities. Changes to charts should work in both the Full Card and standalone cards.
 

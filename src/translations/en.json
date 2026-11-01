@@ -200,6 +200,37 @@
   "windy-variant-lightning-rainy": "Windy with lightning and rain",
   "windy-variant-pouring": "Windy with pouring rain",
   "windy-variant-exceptional": "Windy with exceptional weather",
+  "uv": {
+    "title": "UV Index",
+    "current": "Current UV index",
+    "daily_max": "Daily maximum",
+    "scale": "UV intensity scale",
+    "about": "About the UV index (MeteoSwiss)",
+    "updated": "Sensor updated: {{time}}",
+    "not_configured": "No UV sensor configured. Select a numeric UV index sensor.",
+    "status": {
+      "missing": "UV sensor not found. Check the selected entity.",
+      "unavailable": "UV sensor is unavailable or unknown.",
+      "invalid": "Invalid UV value. A non-negative numeric index is required."
+    },
+    "levels": {
+      "low": "Low",
+      "moderate": "Moderate",
+      "high": "High",
+      "very_high": "Very high",
+      "extreme": "Extreme"
+    },
+    "config": {
+      "entity": "UV index sensor",
+      "max_entity": "Daily maximum UV sensor (optional)",
+      "reading_type": "Primary reading",
+      "show_uv": "Show UV Index",
+      "entity_hint": "Numeric UV index sensor, for example from OpenUV. SwissWeather does not currently supply UV data.",
+      "max_entity_hint": "Optional daily maximum sensor. It is separate from the current UV index.",
+      "reading_type_hint": "Choose whether the primary sensor reports the current UV index or the daily maximum.",
+      "show_uv_hint": "Show the UV section in the Full Card. Disabled by default."
+    }
+  },
   "pollen": {
     "title": "Pollen levels",
     "no_data": "No pollen types enabled",

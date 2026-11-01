@@ -46,7 +46,7 @@ export class WarningCardEditor extends LitElement implements LovelaceCardEditor 
         color: var(--secondary-text-color);
         margin: 16px 0 4px;
       }
-      ha-form {
+      swissweather-editor-form {
         display: block;
       }
     `;
@@ -68,7 +68,7 @@ export class WarningCardEditor extends LitElement implements LovelaceCardEditor 
         <div class="header">
           <div class="header-title">⚠️ SwissWeather Warning Card</div>
         </div>
-        <ha-form
+        <swissweather-editor-form
           .hass=${this.hass}
           .data=${data}
           .schema=${warningSchema}
@@ -91,7 +91,7 @@ export class WarningCardEditor extends LitElement implements LovelaceCardEditor 
               }) as Record<string, string>
             )[s.name] ?? ''}
           @value-changed=${this._valueChanged}
-        ></ha-form>
+        ></swissweather-editor-form>
       </div>
     `;
   }

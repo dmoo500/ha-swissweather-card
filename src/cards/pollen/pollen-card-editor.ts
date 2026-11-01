@@ -78,7 +78,7 @@ export class PollenCardEditor extends LitElement implements LovelaceCardEditor {
         color: var(--secondary-text-color);
         margin: 8px 0 2px;
       }
-      ha-form {
+      swissweather-editor-form {
         display: block;
       }
     `;
@@ -113,17 +113,19 @@ export class PollenCardEditor extends LitElement implements LovelaceCardEditor {
           <button class="pollen-type-toggle" @click=${() => this._toggleType(type, !enabled)}>
             <span class="pollen-type-name">${_t(`pollen.types.${type}`)}</span>
           </button>
-          <ha-switch
+          <input
+            type="checkbox"
+            aria-label=${_t(`pollen.types.${type}`)}
             .checked=${enabled}
             @change=${(e: Event) => this._toggleType(type, (e.target as HTMLInputElement).checked)}
-          ></ha-switch>
+          />
         </div>
         ${
           enabled
             ? html`
                 <div class="pollen-type-fields">
                   <div class="field-label">${_t('pollen.config.level_sensor')}</div>
-                  <ha-form
+                  <swissweather-editor-form
                     .hass=${this.hass}
                     .data=${{ [levelKey]: levelValue }}
                     .schema=${[
@@ -136,9 +138,9 @@ export class PollenCardEditor extends LitElement implements LovelaceCardEditor {
                     .computeLabel=${() => _t('pollen.config.level_sensor')}
                     .computeHelper=${() => _t('pollen.config.level_sensor_hint')}
                     @value-changed=${this._valueChanged}
-                  ></ha-form>
+                  ></swissweather-editor-form>
                   <div class="field-label">${_t('pollen.config.raw_sensor')}</div>
-                  <ha-form
+                  <swissweather-editor-form
                     .hass=${this.hass}
                     .data=${{ [rawKey]: rawValue }}
                     .schema=${[
@@ -147,7 +149,7 @@ export class PollenCardEditor extends LitElement implements LovelaceCardEditor {
                     .computeLabel=${() => _t('pollen.config.raw_sensor')}
                     .computeHelper=${() => _t('pollen.config.raw_sensor_hint')}
                     @value-changed=${this._valueChanged}
-                  ></ha-form>
+                  ></swissweather-editor-form>
                 </div>
               `
             : ''

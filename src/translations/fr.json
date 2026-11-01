@@ -200,6 +200,37 @@
   "windy-variant-lightning-rainy": "Venteux, orageux et pluvieux",
   "windy-variant-pouring": "Venteux avec pluie torrentielle",
   "windy-variant-exceptional": "Venteux avec météo exceptionnelle",
+  "uv": {
+    "title": "Indice UV",
+    "current": "Indice UV actuel",
+    "daily_max": "Maximum journalier",
+    "scale": "Échelle d'intensité UV",
+    "about": "À propos de l'indice UV (MétéoSuisse)",
+    "updated": "Capteur mis à jour : {{time}}",
+    "not_configured": "Aucun capteur UV configuré. Sélectionnez un capteur numérique d'indice UV.",
+    "status": {
+      "missing": "Capteur UV introuvable. Vérifiez l'entité sélectionnée.",
+      "unavailable": "Le capteur UV est indisponible ou inconnu.",
+      "invalid": "Valeur UV invalide. Un indice numérique positif ou nul est requis."
+    },
+    "levels": {
+      "low": "Faible",
+      "moderate": "Modéré",
+      "high": "Élevé",
+      "very_high": "Très élevé",
+      "extreme": "Extrême"
+    },
+    "config": {
+      "entity": "Capteur d'indice UV",
+      "max_entity": "Capteur du maximum UV journalier (facultatif)",
+      "reading_type": "Valeur principale",
+      "show_uv": "Afficher l'indice UV",
+      "entity_hint": "Capteur numérique d'indice UV, par exemple d'OpenUV. SwissWeather ne fournit actuellement pas de données UV.",
+      "max_entity_hint": "Capteur facultatif du maximum journalier, distinct de l'indice UV actuel.",
+      "reading_type_hint": "Indiquez si le capteur principal fournit l'indice UV actuel ou le maximum journalier.",
+      "show_uv_hint": "Afficher la section UV dans la Full Card. Désactivée par défaut."
+    }
+  },
   "pollen": {
     "title": "Niveaux de pollen",
     "no_data": "Aucun type de pollen activé",

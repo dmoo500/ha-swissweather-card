@@ -26,7 +26,7 @@ export const fullCardEditorStyles = css`
     margin-top: 4px;
   }
 
-  ha-form {
+  swissweather-editor-form {
     display: block;
     margin-bottom: 24px;
   }
@@ -93,7 +93,7 @@ export const fullCardEditorStyles = css`
     color: var(--secondary-text-color);
     margin-top: 4px;
   }
-  ha-form {
+  swissweather-editor-form {
     display: block;
     margin-bottom: 24px;
   }

@@ -1,5 +1,6 @@
 import { PREFIX_NAME } from '../../const';
 import { BasicCardConfig } from '../basic';
+import type { UVReadingType } from '../uv-index/const';
 
 export const FULL_CARD_NAME = `${PREFIX_NAME}-card`;
 export const FULL_CARD_EDITOR_NAME = `${FULL_CARD_NAME}-editor`;
@@ -53,6 +54,33 @@ export const schema = [
         domain: 'sensor',
       },
     },
+  },
+  {
+    name: 'uv_entity',
+    description: 'uv.config.entity_hint',
+    selector: { entity: { domain: 'sensor' } },
+  },
+  {
+    name: 'uv_max_entity',
+    description: 'uv.config.max_entity_hint',
+    selector: { entity: { domain: 'sensor' } },
+  },
+  {
+    name: 'uv_reading_type',
+    description: 'uv.config.reading_type_hint',
+    selector: {
+      select: {
+        options: [
+          { value: 'current', label: 'uv.current' },
+          { value: 'daily_max', label: 'uv.daily_max' },
+        ],
+      },
+    },
+  },
+  {
+    name: 'show_uv',
+    description: 'uv.config.show_uv_hint',
+    selector: { boolean: {} },
   },
   {
     name: 'warning_entity',
@@ -169,6 +197,10 @@ export type CardConfig = BasicCardConfig & {
   wind_entity?: string;
   wind_direction_entity?: string;
   sunshine_entity?: string;
+  uv_entity?: string;
+  uv_max_entity?: string;
+  uv_reading_type?: UVReadingType;
+  show_uv?: boolean;
   precipitation_entity?: string;
   show_forecast?: boolean;
   forecast_hours?: number;

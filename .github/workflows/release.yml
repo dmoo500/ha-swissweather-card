@@ -109,7 +109,7 @@ jobs:
 
           ### 🔧 Compatibility
           - Home Assistant 2025.8+
-          - Modern browsers (Chrome 90+, Firefox 88+, Safari 14+)
+          - Current browsers with ES2022, custom elements, and SVG support
         files: |
           swissweather-card-${{ steps.version.outputs.VERSION }}.zip
           release/swissweather-card.js
