@@ -6034,7 +6034,7 @@ var na = class extends T {
   `;
 	}
 	_reading(e, t) {
-		let n = e ? this.hass?.states[e] : void 0, r = ta(n), i = $i(n?.state), a = this.hass?.selectedLanguage || this.hass?.language || "en", o = n?.last_updated ? new Date(n.last_updated) : void 0, s = i === void 0 ? void 0 : ea(i);
+		let n = e ? this.hass?.states[e] : void 0, r = ta(n), i = $i(n?.state), a = (this.hass?.selectedLanguage || this.hass?.language || "en").replace(/_/g, "-"), o = n?.last_updated ? new Date(n.last_updated) : void 0, s = i === void 0 ? void 0 : ea(i);
 		return x`<div class="reading">
       <div class="label">${F(`uv.${t}`)}</div>
       ${s && i !== void 0 ? x`
@@ -10724,10 +10724,10 @@ var Eo = class extends T {
         aria-describedby=${a ? `${t}-help` : ""}
         @change=${o}
       >
-        ${n.select?.multiple ? "" : x`<option value="" ?selected=${!i}>—</option>`}
+        ${n.select?.multiple ? "" : x`<option value="" .selected=${!i}>—</option>`}
         ${c.map((e) => x`<option
               value=${e.value}
-              ?selected=${Array.isArray(i) ? i.includes(e.value) : i === e.value}
+              .selected=${Array.isArray(i) ? i.includes(e.value) : i === e.value}
             >
               ${e.label}
             </option>`)}

@@ -14,6 +14,8 @@
 ### Fixed
 - Report missing, unavailable, and invalid UV values without confusing them with zero.
 - Correct the maintenance badge link to this repository.
+- Normalize underscore-separated locales for UV number and timestamp formatting.
+- Keep editor dropdown selections synchronized with configuration changes after user interaction.
 
 ## [2.1.0b1] - 2026-11-01
 

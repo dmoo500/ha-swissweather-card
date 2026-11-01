@@ -27,6 +27,15 @@ test('bundled entity selectors filter domains and preserve missing configured en
   );
 });
 
+test('dropdown options bind live selection properties for parent configuration updates', () => {
+  assert.doesNotMatch(source, /\?selected=/);
+  assert.match(source, /<option value="" \.selected=\$\{!value\}/);
+  assert.match(
+    source,
+    /\.selected=\$\{Array\.isArray\(value\) \? value\.includes\(option\.value\) : value === option\.value\}/
+  );
+});
+
 test('bundled form emits booleans, numeric values, cleared optionals and preserves unrelated data', () => {
   const card = parsed.statements.find(ts.isClassDeclaration);
   const method = card.members.find(member => member.name?.getText(parsed) === '_change');

@@ -105,7 +105,7 @@ export class UVIndex extends LitElement {
     const entity = entityId ? this.hass?.states[entityId] : undefined;
     const status = uvStatus(entity);
     const value = parseUVIndex(entity?.state);
-    const lang = this.hass?.selectedLanguage || this.hass?.language || 'en';
+    const lang = (this.hass?.selectedLanguage || this.hass?.language || 'en').replace(/_/g, '-');
     const updated = entity?.last_updated ? new Date(entity.last_updated) : undefined;
     const level = value === undefined ? undefined : uvLevel(value);
     return html`<div class="reading">

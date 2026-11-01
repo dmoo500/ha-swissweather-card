@@ -136,12 +136,12 @@ export class SwissWeatherEditorForm extends LitElement {
         aria-describedby=${helper ? `${name}-help` : ''}
         @change=${change}
       >
-        ${selector.select?.multiple ? '' : html`<option value="" ?selected=${!value}>—</option>`}
+        ${selector.select?.multiple ? '' : html`<option value="" .selected=${!value}>—</option>`}
         ${options.map(
           option =>
             html`<option
               value=${option.value}
-              ?selected=${Array.isArray(value) ? value.includes(option.value) : value === option.value}
+              .selected=${Array.isArray(value) ? value.includes(option.value) : value === option.value}
             >
               ${option.label}
             </option>`

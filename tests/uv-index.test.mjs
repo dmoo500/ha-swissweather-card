@@ -57,6 +57,44 @@ test('UV intensity categories cover every threshold without clipping extreme val
   for (const value of [-1, Infinity, NaN]) assert.throws(() => uvLevel(value), /Invalid UV index/);
 });
 
+test('UV reading formats numbers and timestamps with underscore-separated regional locales', async () => {
+  const source = await readFile(
+    new URL('../src/cards/uv-index/uv-index.ts', import.meta.url),
+    'utf8'
+  );
+  const parsed = ts.createSourceFile('uv.ts', source, ts.ScriptTarget.Latest, true);
+  const card = parsed.statements.find(ts.isClassDeclaration);
+  const method = card.members.find(member => member.name?.getText(parsed) === '_reading');
+  const { outputText } = ts.transpileModule(`class Probe { ${method.getText(parsed)} }`, {
+    compilerOptions: { target: ts.ScriptTarget.ES2022 },
+  });
+  const probe = new Function(
+    'html',
+    '_t',
+    'uvStatus',
+    'parseUVIndex',
+    'uvLevel',
+    `${outputText}; return new Probe();`
+  )(html, (key, values) => values?.time || key, uvStatus, parseUVIndex, uvLevel);
+  const entity = { state: '6.2', last_updated: '2026-11-01T13:00:00Z' };
+  for (const language of ['fr_CH', 'fr-CH', 'de_CH', 'it_CH']) {
+    probe.hass = { selectedLanguage: language, states: { 'sensor.uv': entity } };
+    const template = probe._reading('sensor.uv', 'current');
+    const reading = template.values.find(value =>
+      value?.strings?.join('').includes('class="value"')
+    );
+    assert.ok(
+      reading.values.includes(new Intl.NumberFormat(language.replace(/_/g, '-')).format(6.2))
+    );
+    const timestamp = template.values.find(value => value?.strings?.join('').includes('<time'));
+    assert.ok(
+      timestamp.values.includes(
+        new Date(entity.last_updated).toLocaleString(language.replace(/_/g, '-'))
+      )
+    );
+  }
+});
+
 test('UV card validates entity configuration and defaults to content-height Sections sizing', async () => {
   const source = await readFile(
     new URL('../src/cards/uv-index/uv-index-card.ts', import.meta.url),
