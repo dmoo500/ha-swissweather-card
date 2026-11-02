@@ -16,6 +16,8 @@
 - Correct the maintenance badge link to this repository.
 - Normalize underscore-separated locales for UV number and timestamp formatting.
 - Keep editor dropdown selections synchronized with configuration changes after user interaction.
+- Reuse editor entity lists and rendered options so unrelated sensor updates do not rebuild large dropdowns.
+- List likely matching UV, wind, sunshine, warning, and pollen sensors first while keeping all allowed sensors selectable.
 
 ## [2.1.0b1] - 2026-11-01
 

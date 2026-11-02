@@ -6,6 +6,8 @@ The SwissWeather Card Visual Editor provides user-friendly configuration directl
 
 From 2.1.0, editors use bundled native controls rather than Home Assistant's internal forms. Entity lists are filtered by domain and retain a configured entity even when it is missing. Optional selections can be cleared; numeric fields enforce their displayed limits. Use YAML to configure an entity that has not yet been created.
 
+Sensor fields place likely matching types first based on entity IDs and names (UV, wind, sunshine, warnings, and the respective pollen type). All sensors in the allowed domain remain available; the ordering is a suggestion, not a guarantee of matching data or an automatic selection.
+
 ### UV Index
 
 Choose **SwissWeather UV Index Card** in the card picker and select a numeric UV sensor. Set **Primary reading** to current UV index or daily maximum as appropriate. For current readings, an optional second sensor can display the daily maximum.

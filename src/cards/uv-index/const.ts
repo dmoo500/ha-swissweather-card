@@ -14,12 +14,14 @@ export interface UVIndexCardConfig extends LovelaceCardConfig {
 export const uvSchema = [
   {
     name: 'entity',
+    suggested: ['uv', 'ultraviolet'],
     required: true,
     description: 'uv.config.entity_hint',
     selector: { entity: { domain: 'sensor' } },
   },
   {
     name: 'max_entity',
+    suggested: ['uv', 'ultraviolet'],
     description: 'uv.config.max_entity_hint',
     selector: { entity: { domain: 'sensor' } },
   },

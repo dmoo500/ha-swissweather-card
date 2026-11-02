@@ -1,11 +1,18 @@
 import { LitElement, html, css, type TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import type { HomeAssistant } from '../types/home-assistant';
+import {
+  getEntityChoices,
+  prioritizeEntityChoices,
+  suggestedEntityTerms,
+  type EntityChoice,
+} from './entity-options';
 
 export interface EditorField {
   name: string;
   required?: boolean;
   description?: string;
+  suggested?: string[];
   selector: {
     entity?: { domain?: string | string[] };
     boolean?: object;
@@ -15,16 +22,6 @@ export interface EditorField {
   };
 }
 
-export function entityOptions(hass: HomeAssistant, field: EditorField, current: unknown): string[] {
-  const domain = field.selector.entity?.domain;
-  const domains = typeof domain === 'string' ? [domain] : domain;
-  const options = Object.keys(hass.states).filter(
-    id => !domains || domains.includes(id.split('.')[0])
-  );
-  if (typeof current === 'string' && current && !options.includes(current)) options.push(current);
-  return options.sort();
-}
-
 @customElement('swissweather-editor-form')
 export class SwissWeatherEditorForm extends LitElement {
   @property({ attribute: false }) hass?: HomeAssistant;
@@ -32,6 +29,39 @@ export class SwissWeatherEditorForm extends LitElement {
   @property({ attribute: false }) schema: Array<EditorField | undefined> = [];
   @property({ attribute: false }) computeLabel = (field: EditorField): string => field.name;
   @property({ attribute: false }) computeHelper = (_field: EditorField): string => '';
+  private readonly _entityTemplates = new Map<
+    string,
+    {
+      options: EntityChoice[];
+      value: unknown;
+      suggestions: string;
+      templates: TemplateResult[];
+    }
+  >();
+
+  private _entityOptions(field: EditorField, value: unknown): TemplateResult[] {
+    if (!this.hass) return [];
+    const options = getEntityChoices(this.hass.states, field.selector.entity?.domain);
+    const terms = field.suggested || suggestedEntityTerms(field.name);
+    const suggestions = JSON.stringify(terms);
+    const cached = this._entityTemplates.get(field.name);
+    if (cached?.options === options && cached.value === value && cached.suggestions === suggestions)
+      return cached.templates;
+    const renderedOptions =
+      typeof value === 'string' && value && !options.some(option => option.value === value)
+        ? [...options, { value, label: `${value} (${value})` }].sort((a, b) =>
+            a.value.localeCompare(b.value)
+          )
+        : options;
+    const templates = prioritizeEntityChoices(renderedOptions, terms).map(
+      option =>
+        html`<option value=${option.value} .selected=${value === option.value}>
+          ${option.label}
+        </option>`
+    );
+    this._entityTemplates.set(field.name, { options, value, suggestions, templates });
+    return templates;
+  }
 
   static styles = css`
     :host {
@@ -121,14 +151,9 @@ export class SwissWeatherEditorForm extends LitElement {
       />`;
     } else if (selector.entity || selector.select) {
       const options =
-        selector.entity && this.hass
-          ? entityOptions(this.hass, field, value).map(id => ({
-              value: id,
-              label: `${this.hass?.states[id]?.attributes.friendly_name || id} (${id})`,
-            }))
-          : selector.select?.options.map(option =>
-              typeof option === 'string' ? { value: option, label: option } : option
-            ) || [];
+        selector.select?.options.map(option =>
+          typeof option === 'string' ? { value: option, label: option } : option
+        ) || [];
       control = html`<select
         id=${name}
         ?required=${required}
@@ -137,15 +162,19 @@ export class SwissWeatherEditorForm extends LitElement {
         @change=${change}
       >
         ${selector.select?.multiple ? '' : html`<option value="" .selected=${!value}>—</option>`}
-        ${options.map(
-          option =>
-            html`<option
-              value=${option.value}
-              .selected=${Array.isArray(value) ? value.includes(option.value) : value === option.value}
-            >
-              ${option.label}
-            </option>`
-        )}
+        ${
+          selector.entity
+            ? this._entityOptions(field, value)
+            : options.map(
+                option =>
+                  html`<option
+                    value=${option.value}
+                    .selected=${Array.isArray(value) ? value.includes(option.value) : value === option.value}
+                  >
+                    ${option.label}
+                  </option>`
+              )
+        }
       </select>`;
     } else if (selector.number || selector.text) {
       control = html`<input

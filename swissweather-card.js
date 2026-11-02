@@ -10627,14 +10627,85 @@ var wo = class extends T {
 };
 A([D({ attribute: !1 }), k("design:type", Object)], wo.prototype, "hass", void 0), A([D({ attribute: !1 }), k("design:type", Object)], wo.prototype, "_config", void 0), wo = A([E(_o)], wo);
 //#endregion
-//#region src/components/editor-form.ts
-function To(e, t, n) {
-	let r = t.selector.entity?.domain, i = typeof r == "string" ? [r] : r, a = Object.keys(e.states).filter((e) => !i || i.includes(e.split(".")[0]));
-	return typeof n == "string" && n && !a.includes(n) && a.push(n), a.sort();
+//#region src/components/entity-options.ts
+function To(e) {
+	return Object.entries({
+		uv: ["uv", "ultraviolet"],
+		wind: [
+			"wind",
+			"gust",
+			"breeze"
+		],
+		sunshine: [
+			"sunshine",
+			"sunlight",
+			"sonnenschein"
+		],
+		warning: [
+			"warning",
+			"warnung",
+			"alert"
+		],
+		birch: ["birch", "birke"],
+		grasses: [
+			"grass",
+			"grasses",
+			"graeser",
+			"gräser"
+		],
+		alder: ["alder", "erle"],
+		hazel: ["hazel", "hasel"],
+		beech: ["beech", "buche"],
+		ash: ["ash", "esche"],
+		oak: ["oak", "eiche"]
+	}).find(([t]) => e.split("_").includes(t))?.[1] || [];
 }
-var Eo = class extends T {
+function Eo(e, t) {
+	if (!t.length) return e;
+	let n = [], r = [];
+	for (let i of e) {
+		let e = `${i.value} ${i.label}`.toLowerCase();
+		(t.some((t) => e.includes(t.toLowerCase())) ? n : r).push(i);
+	}
+	return [...n, ...r];
+}
+var Do, Oo = [], ko = /* @__PURE__ */ new Map();
+function Ao(e, t) {
+	if (e !== Do) {
+		Do = e;
+		let t = Object.keys(e);
+		(t.length !== Oo.length || Oo.some((t) => !e[t.value] || t.label !== `${e[t.value].attributes.friendly_name || t.value} (${t.value})`)) && (Oo = t.sort().map((t) => ({
+			value: t,
+			label: `${e[t].attributes.friendly_name || t} (${t})`
+		})), ko.clear());
+	}
+	let n = typeof t == "string" ? [t] : t;
+	if (!n) return Oo;
+	let r = JSON.stringify([...n].sort()), i = ko.get(r);
+	return i || (i = Oo.filter((e) => n.includes(e.value.split(".")[0])), ko.set(r, i)), i;
+}
+//#endregion
+//#region src/components/editor-form.ts
+var jo = class extends T {
 	constructor(...e) {
-		super(...e), this.data = {}, this.schema = [], this.computeLabel = (e) => e.name, this.computeHelper = (e) => "";
+		super(...e), this.data = {}, this.schema = [], this.computeLabel = (e) => e.name, this.computeHelper = (e) => "", this._entityTemplates = /* @__PURE__ */ new Map();
+	}
+	_entityOptions(e, t) {
+		if (!this.hass) return [];
+		let n = Ao(this.hass.states, e.selector.entity?.domain), r = e.suggested || To(e.name), i = JSON.stringify(r), a = this._entityTemplates.get(e.name);
+		if (a?.options === n && a.value === t && a.suggestions === i) return a.templates;
+		let o = Eo(typeof t == "string" && t && !n.some((e) => e.value === t) ? [...n, {
+			value: t,
+			label: `${t} (${t})`
+		}].sort((e, t) => e.value.localeCompare(t.value)) : n, r).map((e) => x`<option value=${e.value} .selected=${t === e.value}>
+          ${e.label}
+        </option>`);
+		return this._entityTemplates.set(e.name, {
+			options: n,
+			value: t,
+			suggestions: i,
+			templates: o
+		}), o;
 	}
 	static {
 		this.styles = o`
@@ -10710,10 +10781,7 @@ var Eo = class extends T {
         @change=${o}
       />`;
 		else if (n.entity || n.select) {
-			let c = n.entity && this.hass ? To(this.hass, e, i).map((e) => ({
-				value: e,
-				label: `${this.hass?.states[e]?.attributes.friendly_name || e} (${e})`
-			})) : n.select?.options.map((e) => typeof e == "string" ? {
+			let c = n.select?.options.map((e) => typeof e == "string" ? {
 				value: e,
 				label: e
 			} : e) || [];
@@ -10725,12 +10793,12 @@ var Eo = class extends T {
         @change=${o}
       >
         ${n.select?.multiple ? "" : x`<option value="" .selected=${!i}>—</option>`}
-        ${c.map((e) => x`<option
-              value=${e.value}
-              .selected=${Array.isArray(i) ? i.includes(e.value) : i === e.value}
-            >
-              ${e.label}
-            </option>`)}
+        ${n.entity ? this._entityOptions(e, i) : c.map((e) => x`<option
+                    value=${e.value}
+                    .selected=${Array.isArray(i) ? i.includes(e.value) : i === e.value}
+                  >
+                    ${e.label}
+                  </option>`)}
       </select>`;
 		} else if (n.number || n.text) s = x`<input
         id=${t}
@@ -10753,18 +10821,20 @@ var Eo = class extends T {
 		return x`${this.schema.filter((e) => !!e).map((e) => this._field(e))}`;
 	}
 };
-A([D({ attribute: !1 }), k("design:type", Object)], Eo.prototype, "hass", void 0), A([D({ attribute: !1 }), k("design:type", typeof Record > "u" ? Object : Record)], Eo.prototype, "data", void 0), A([D({ attribute: !1 }), k("design:type", typeof Array > "u" ? Object : Array)], Eo.prototype, "schema", void 0), A([D({ attribute: !1 }), k("design:type", Object)], Eo.prototype, "computeLabel", void 0), A([D({ attribute: !1 }), k("design:type", Object)], Eo.prototype, "computeHelper", void 0), Eo = A([E("swissweather-editor-form")], Eo);
+A([D({ attribute: !1 }), k("design:type", Object)], jo.prototype, "hass", void 0), A([D({ attribute: !1 }), k("design:type", typeof Record > "u" ? Object : Record)], jo.prototype, "data", void 0), A([D({ attribute: !1 }), k("design:type", typeof Array > "u" ? Object : Array)], jo.prototype, "schema", void 0), A([D({ attribute: !1 }), k("design:type", Object)], jo.prototype, "computeLabel", void 0), A([D({ attribute: !1 }), k("design:type", Object)], jo.prototype, "computeHelper", void 0), jo = A([E("swissweather-editor-form")], jo);
 //#endregion
 //#region src/cards/uv-index/const.ts
-var Do = `${z}-uv-index-card`, Oo = `${Do}-editor`, ko = [
+var Mo = `${z}-uv-index-card`, No = `${Mo}-editor`, Po = [
 	{
 		name: "entity",
+		suggested: ["uv", "ultraviolet"],
 		required: !0,
 		description: "uv.config.entity_hint",
 		selector: { entity: { domain: "sensor" } }
 	},
 	{
 		name: "max_entity",
+		suggested: ["uv", "ultraviolet"],
 		description: "uv.config.max_entity_hint",
 		selector: { entity: { domain: "sensor" } }
 	},
@@ -10779,7 +10849,7 @@ var Do = `${z}-uv-index-card`, Oo = `${Do}-editor`, ko = [
 			label: "uv.daily_max"
 		}] } }
 	}
-], Ao = class extends T {
+], Fo = class extends T {
 	static {
 		this.styles = o`
     :host {
@@ -10809,12 +10879,12 @@ var Do = `${z}-uv-index-card`, Oo = `${Do}-editor`, ko = [
 	}
 	static getStubConfig() {
 		return {
-			type: `custom:${Do}`,
+			type: `custom:${Mo}`,
 			entity: ""
 		};
 	}
 	static getConfigElement() {
-		return document.createElement(Oo);
+		return document.createElement(No);
 	}
 	render() {
 		return !this.hass || !this.config ? x`` : x`<ha-card
@@ -10827,10 +10897,10 @@ var Do = `${z}-uv-index-card`, Oo = `${Do}-editor`, ko = [
     ></ha-card>`;
 	}
 };
-A([D({ attribute: !1 }), k("design:type", Object)], Ao.prototype, "hass", void 0), A([D({ attribute: !1 }), k("design:type", Object)], Ao.prototype, "config", void 0), Ao = A([E(Do)], Ao);
+A([D({ attribute: !1 }), k("design:type", Object)], Fo.prototype, "hass", void 0), A([D({ attribute: !1 }), k("design:type", Object)], Fo.prototype, "config", void 0), Fo = A([E(Mo)], Fo);
 //#endregion
 //#region src/cards/uv-index/uv-index-card-editor.ts
-var jo = class extends T {
+var Io = class extends T {
 	static {
 		this.styles = o`
     :host {
@@ -10852,7 +10922,7 @@ var jo = class extends T {
 			...this._config,
 			reading_type: this._config?.reading_type || "current"
 		}}
-        .schema=${ko.map((e) => e.name === "reading_type" ? {
+        .schema=${Po.map((e) => e.name === "reading_type" ? {
 			...e,
 			selector: { select: { options: [{
 				value: "current",
@@ -10869,7 +10939,7 @@ var jo = class extends T {
 				entity: "",
 				...this._config,
 				...e.detail.value,
-				type: `custom:${Do}`
+				type: `custom:${Mo}`
 			}, this.dispatchEvent(new CustomEvent("config-changed", {
 				detail: { config: this._config },
 				bubbles: !0,
@@ -10881,17 +10951,17 @@ var jo = class extends T {
 };
 //#endregion
 //#region src/index.ts
-A([D({ attribute: !1 }), k("design:type", Object)], jo.prototype, "hass", void 0), A([D({ attribute: !1 }), k("design:type", Object)], jo.prototype, "_config", void 0), jo = A([E(Oo)], jo), N({ empty: it });
-var Mo = (e) => (t, n) => n.split(".")[0] === "weather" ? { config: {
+A([D({ attribute: !1 }), k("design:type", Object)], Io.prototype, "hass", void 0), A([D({ attribute: !1 }), k("design:type", Object)], Io.prototype, "_config", void 0), Io = A([E(No)], Io), N({ empty: it });
+var Lo = (e) => (t, n) => n.split(".")[0] === "weather" ? { config: {
 	type: `custom:${e}`,
 	entity: n
 } } : null;
 U({
-	type: Do,
+	type: Mo,
 	name: "SwissWeather UV Index Card",
 	description: "Current UV index and optional daily maximum from numeric sensors",
 	getEntitySuggestion: (e, t) => !t.startsWith("sensor.") || !/uv.*index|uv_index/i.test(t) ? null : { config: {
-		type: `custom:${Do}`,
+		type: `custom:${Mo}`,
 		entity: t,
 		reading_type: /max.*uv|uv.*max/i.test(t) ? "daily_max" : "current"
 	} }
@@ -10899,37 +10969,37 @@ U({
 	type: hn,
 	name: "SwissWeather Diagram Card",
 	description: "A comprehensive weather card for Home Assistant with Swiss weather warnings and forecasts",
-	getEntitySuggestion: Mo(hn)
+	getEntitySuggestion: Lo(hn)
 }), U({
 	type: ra,
 	name: "SwissWeather Daily Forecast Diagram Card",
 	description: "A card to show daily weather forecast as diagram",
-	getEntitySuggestion: Mo(ra)
+	getEntitySuggestion: Lo(ra)
 }), U({
 	type: Ea,
 	name: "SwissWeather Animated Background Card (Experimental) Editor",
 	description: "the SwissWeather Animated Background Card (Experimental)",
-	getEntitySuggestion: Mo(Ea)
+	getEntitySuggestion: Lo(Ea)
 }), U({
 	type: Wa,
 	name: "SwissWeather Temperature Chart Card",
 	description: "Hourly temperature forecast chart as standalone card",
-	getEntitySuggestion: Mo(Wa)
+	getEntitySuggestion: Lo(Wa)
 }), U({
 	type: Ka,
 	name: "SwissWeather Precipitation Chart Card",
 	description: "Hourly precipitation forecast chart as standalone card",
-	getEntitySuggestion: Mo(Ka)
+	getEntitySuggestion: Lo(Ka)
 }), U({
 	type: Ja,
 	name: "SwissWeather Sunshine Chart Card",
 	description: "Hourly sunshine duration chart as standalone card",
-	getEntitySuggestion: Mo(Ja)
+	getEntitySuggestion: Lo(Ja)
 }), U({
 	type: Xa,
 	name: "SwissWeather Wind Chart Card",
 	description: "Hourly wind speed & direction chart as standalone card",
-	getEntitySuggestion: Mo(Xa)
+	getEntitySuggestion: Lo(Xa)
 }), U({
 	type: uo,
 	name: "SwissWeather Warning Card",
@@ -10968,6 +11038,6 @@ U({
 	}
 });
 //#endregion
-export { j as DailyForecastChart, at as DailyForecastDiagram, sa as ForecastDiagramCard, oa as ForecastDiagramCardEditor, qe as ForecastTemperatureChart, Co as PollenCard, wo as PollenCardEditor, io as PrecipitationCard, ao as PrecipitationCardEditor, Xe as PrecipitationChart, oo as SunshineCard, so as SunshineCardEditor, Ze as SunshineChart, Va as SwissWeatherBGCard, Ua as SwissWeatherBGCardEditor, Z as SwissWeatherCard, _n as SwissWeatherCardEditor, no as TemperatureCard, ro as TemperatureCardEditor, Ao as UVIndexCard, jo as UVIndexCardEditor, mo as WarningCard, ho as WarningCardEditor, co as WindCard, lo as WindCardEditor, Qe as WindChart };
+export { j as DailyForecastChart, at as DailyForecastDiagram, sa as ForecastDiagramCard, oa as ForecastDiagramCardEditor, qe as ForecastTemperatureChart, Co as PollenCard, wo as PollenCardEditor, io as PrecipitationCard, ao as PrecipitationCardEditor, Xe as PrecipitationChart, oo as SunshineCard, so as SunshineCardEditor, Ze as SunshineChart, Va as SwissWeatherBGCard, Ua as SwissWeatherBGCardEditor, Z as SwissWeatherCard, _n as SwissWeatherCardEditor, no as TemperatureCard, ro as TemperatureCardEditor, Fo as UVIndexCard, Io as UVIndexCardEditor, mo as WarningCard, ho as WarningCardEditor, co as WindCard, lo as WindCardEditor, Qe as WindChart };
 
 //# sourceMappingURL=swissweather-card.js.map

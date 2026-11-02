@@ -327,7 +327,7 @@ yarn validate:hacs  # Validate the HACS distribution
 
 Pre-commit and CI also check the README badges. Update the static TypeScript badge when upgrading to a new major version.
 
-Visual editors bundle their own native form controls, including domain-filtered entity lists, numeric limits, and checkboxes. No internal HA forms or switches are needed. Missing configured entities remain selectable; use YAML to enter an entity that has not yet been created. Weather icons still use HA's internal `ha-icon` element, so icon compatibility should be checked with HA updates. The production bundle targets ES2022; this does not promise support for Home Assistant's older legacy-browser build.
+Visual editors bundle their own native form controls, including domain-filtered entity lists, numeric limits, and checkboxes. UV, wind, sunshine, warning, and pollen fields put likely matching sensors first, using entity IDs and names as hints; all sensors in the allowed domain remain selectable, and nothing is selected automatically. No internal HA forms or switches are needed. Missing configured entities remain selectable; use YAML to enter an entity that has not yet been created. Weather icons still use HA's internal `ha-icon` element, so icon compatibility should be checked with HA updates. The production bundle targets ES2022; this does not promise support for Home Assistant's older legacy-browser build.
 
 Keep shared chart behavior in the chart components/controllers and forecast fetching in the shared utilities. Changes to charts should work in both the Full Card and standalone cards.
 
