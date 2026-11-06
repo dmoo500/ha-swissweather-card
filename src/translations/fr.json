@@ -53,13 +53,13 @@
   "warning": {
     "config": {
       "show_warnings": "Afficher les alertes météo",
-      "warning_entity": "Alertes météo (ancien modèle)",
+      "warning_entity": "Alertes météo (ancien modèle, obsolète)",
       "primary_warning_entity": "Alerte météo principale",
       "secondary_warning_entity": "Alerte météo secondaire",
       "tertiary_warning_entity": "Alerte météo tertiaire",
       "descr": {
         "show_warnings": "Afficher les alertes météo si l'entité d'alerte est configurée et qu'une alerte est active.",
-        "warning_entity": "Ancien modèle : entité d'alerte créée par l'intégration SwissWeather originale (izacus/hass-swissweather). Ignorée si les entités classées ci-dessous sont configurées.",
+        "warning_entity": "Obsolète, mais toujours pris en charge : capteur d'alerte de izacus/hass-swissweather. Pour les nouvelles configurations, privilégiez les capteurs classés de MeteoSwiss Forecast & Warnings. Ne changez que lorsque les capteurs de remplacement sont disponibles. Ignoré si les capteurs classés sont configurés.",
         "primary_warning_entity": "Alerte météo principale (*_primary_weather_warning) de MeteoSwiss Forecast & Warnings. Si configurée, le nouveau modèle classé est activé.",
         "secondary_warning_entity": "Alerte météo secondaire (*_secondary_weather_warning) de MeteoSwiss Forecast & Warnings.",
         "tertiary_warning_entity": "Alerte météo tertiaire (*_tertiary_weather_warning) de MeteoSwiss Forecast & Warnings."

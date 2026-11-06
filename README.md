@@ -201,12 +201,14 @@ chart_order:
 | `wind_entity` | Weather entity value | Optional current wind-speed sensor |
 | `wind_direction_entity` | Weather entity value | Optional current wind-bearing sensor |
 | `sunshine_entity` | None | Optional current sunshine-duration sensor |
-| `warning_entity` | None | Legacy aggregated weather-warning sensor |
+| `warning_entity` | None | Deprecated legacy aggregated weather-warning sensor; still supported |
 | `primary_warning_entity` | None | Ranked primary warning sensor |
 | `secondary_warning_entity` | None | Ranked secondary warning sensor |
 | `tertiary_warning_entity` | None | Ranked tertiary warning sensor |
 
 Use your own sensor IDs. Ranked warning sensors take precedence over the legacy aggregated sensor. Hourly charts use forecast fields from the weather entity, not the optional current-value sensors.
+
+The legacy `warning_entity` option is deprecated, but remains available in both editors and continues to work. For new setups, prefer ranked warning sensors from [MeteoSwiss Forecast & Warnings](https://github.com/mastameista/ha-meteoswiss-forecast-warnings). To migrate, first install and configure that integration, then select its primary warning sensor and optionally its secondary and tertiary sensors. Do not remove your existing warning sensor until the replacements are available; there is no automatic migration.
 
 See [configuration examples](docs/configuration.md) and the [visual editor guide](docs/visual-editor-guide.md) for additional setup information.
 

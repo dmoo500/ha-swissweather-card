@@ -1,5 +1,11 @@
 # Release Notes
 
+## [2.1.1b3] - 2026-11-06
+
+### Changed
+- Mark the legacy weather-warning sensor as deprecated in the editors. Existing configurations and the sensor selector remain supported.
+- Recommend ranked sensors from MeteoSwiss Forecast & Warnings for new setups. Switch only after the replacement sensors are available.
+
 ## [2.1.1b2] - 2026-11-06
 
 ### Fixed

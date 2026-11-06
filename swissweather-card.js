@@ -1476,13 +1476,13 @@ var tt = {
 	warning: {
 		config: {
 			show_warnings: "Wetterwarnungen anzeigen",
-			warning_entity: "Wetterwarnungen (Legacy)",
+			warning_entity: "Wetterwarnungen (Legacy, veraltet)",
 			primary_warning_entity: "Primäre Wetterwarnung",
 			secondary_warning_entity: "Sekundäre Wetterwarnung",
 			tertiary_warning_entity: "Tertiäre Wetterwarnung",
 			descr: {
 				show_warnings: "Zeige Wetterwarnungen an, wenn die Wetterwarnung Entity gesetzt ist und aktuelle Warnungen existieren.",
-				warning_entity: "Legacy: Die Wetterwarnungen Entity wird von der ursprünglichen SwissWeather Integration angelegt (izacus/hass-swissweather). Wenn die neueren Ranked-Entities gesetzt sind, wird diese Entity ignoriert.",
+				warning_entity: "Veraltet, aber weiterhin unterstützt: Warnsensor von izacus/hass-swissweather. Für neue Konfigurationen werden gerankte Sensoren von MeteoSwiss Forecast & Warnings empfohlen. Erst umstellen, wenn Ersatzsensoren verfügbar sind. Wird bei konfigurierten gerankten Warnsensoren ignoriert.",
 				primary_warning_entity: "Primäre Wetterwarnung (*_primary_weather_warning) von MeteoSwiss Forecast & Warnings. Wenn gesetzt, wird das neue Ranked-Model aktiviert.",
 				secondary_warning_entity: "Sekundäre Wetterwarnung (*_secondary_weather_warning) von MeteoSwiss Forecast & Warnings.",
 				tertiary_warning_entity: "Tertiäre Wetterwarnung (*_tertiary_weather_warning) von MeteoSwiss Forecast & Warnings."
@@ -1734,13 +1734,13 @@ var tt = {
 	warning: {
 		config: {
 			show_warnings: "Show Weather Warnings",
-			warning_entity: "Weather Warnings (Legacy)",
+			warning_entity: "Weather Warnings (Legacy, deprecated)",
 			primary_warning_entity: "Primary Weather Warning",
 			secondary_warning_entity: "Secondary Weather Warning",
 			tertiary_warning_entity: "Tertiary Weather Warning",
 			descr: {
 				show_warnings: "Show weather warnings if the weather warning entity is set and the actual warning exists.",
-				warning_entity: "Legacy: The weather warnings entity created by the original SwissWeather integration (izacus/hass-swissweather). Ignored when the ranked warning entities below are configured.",
+				warning_entity: "Deprecated, but still supported: warning sensor from izacus/hass-swissweather. Prefer ranked sensors from MeteoSwiss Forecast & Warnings for new setups. Switch only after replacement sensors are available. Ignored when ranked warning sensors are configured.",
 				primary_warning_entity: "Primary weather warning entity (*_primary_weather_warning) from MeteoSwiss Forecast & Warnings. When set, the new ranked model is activated.",
 				secondary_warning_entity: "Secondary weather warning entity (*_secondary_weather_warning) from MeteoSwiss Forecast & Warnings.",
 				tertiary_warning_entity: "Tertiary weather warning entity (*_tertiary_weather_warning) from MeteoSwiss Forecast & Warnings."
@@ -1995,13 +1995,13 @@ var tt = {
 		warning: {
 			config: {
 				show_warnings: "Afficher les alertes météo",
-				warning_entity: "Alertes météo (ancien modèle)",
+				warning_entity: "Alertes météo (ancien modèle, obsolète)",
 				primary_warning_entity: "Alerte météo principale",
 				secondary_warning_entity: "Alerte météo secondaire",
 				tertiary_warning_entity: "Alerte météo tertiaire",
 				descr: {
 					show_warnings: "Afficher les alertes météo si l'entité d'alerte est configurée et qu'une alerte est active.",
-					warning_entity: "Ancien modèle : entité d'alerte créée par l'intégration SwissWeather originale (izacus/hass-swissweather). Ignorée si les entités classées ci-dessous sont configurées.",
+					warning_entity: "Obsolète, mais toujours pris en charge : capteur d'alerte de izacus/hass-swissweather. Pour les nouvelles configurations, privilégiez les capteurs classés de MeteoSwiss Forecast & Warnings. Ne changez que lorsque les capteurs de remplacement sont disponibles. Ignoré si les capteurs classés sont configurés.",
 					primary_warning_entity: "Alerte météo principale (*_primary_weather_warning) de MeteoSwiss Forecast & Warnings. Si configurée, le nouveau modèle classé est activé.",
 					secondary_warning_entity: "Alerte météo secondaire (*_secondary_weather_warning) de MeteoSwiss Forecast & Warnings.",
 					tertiary_warning_entity: "Alerte météo tertiaire (*_tertiary_weather_warning) de MeteoSwiss Forecast & Warnings."
@@ -2254,13 +2254,13 @@ var tt = {
 		warning: {
 			config: {
 				show_warnings: "Mostra allerte meteo",
-				warning_entity: "Allerte meteo (legacy)",
+				warning_entity: "Allerte meteo (legacy, deprecato)",
 				primary_warning_entity: "Allerta meteo primaria",
 				secondary_warning_entity: "Allerta meteo secondaria",
 				tertiary_warning_entity: "Allerta meteo terziaria",
 				descr: {
 					show_warnings: "Mostra le allerte meteo se l'entità allerte è impostata ed esiste un'allerta attiva.",
-					warning_entity: "Legacy: l'entità allerte meteo creata dall'integrazione SwissWeather originale (izacus/hass-swissweather). Ignorata quando sono configurate le entità allerta classificate qui sotto.",
+					warning_entity: "Deprecato, ma ancora supportato: sensore di allerta di izacus/hass-swissweather. Per le nuove configurazioni, preferire i sensori classificati di MeteoSwiss Forecast & Warnings. Passare ai nuovi sensori solo quando sono disponibili. Ignorato quando sono configurati i sensori classificati.",
 					primary_warning_entity: "Entità allerta meteo primaria (*_primary_weather_warning) da MeteoSwiss Forecast & Warnings. Se impostata, attiva il nuovo modello a livelli.",
 					secondary_warning_entity: "Entità allerta meteo secondaria (*_secondary_weather_warning) da MeteoSwiss Forecast & Warnings.",
 					tertiary_warning_entity: "Entità allerta meteo terziaria (*_tertiary_weather_warning) da MeteoSwiss Forecast & Warnings."
