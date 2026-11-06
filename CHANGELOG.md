@@ -1,5 +1,10 @@
 # Release Notes
 
+## [2.1.1b2] - 2026-11-06
+
+### Fixed
+- Keep warning text, links, and expand buttons readable on light red and orange backgrounds in dark themes, in both the warning card and Full Card.
+
 ## [2.1.1b1] - 2026-11-06
 
 ### Fixed
