@@ -1,6 +1,6 @@
 # Release Notes
 
-## [2.1.0] - Unreleased
+## [2.1.0] - 2026-11-06
 
 ### Added
 - Add a standalone UV Index card and an optional UV section in the Full Card, with current readings, daily maximum, intensity colours, and sensor timestamps.
@@ -18,6 +18,9 @@
 - Keep editor dropdown selections synchronized with configuration changes after user interaction.
 - Reuse editor entity lists and rendered options so unrelated sensor updates do not rebuild large dropdowns.
 - List likely matching UV, wind, sunshine, warning, and pollen sensors first while keeping all allowed sensors selectable.
+
+### Validation
+- 60 regression tests pass. TypeScript, lint, formatting, README badge checks, production build, and HACS validation pass.
 
 ## [2.1.0b1] - 2026-11-01
 
