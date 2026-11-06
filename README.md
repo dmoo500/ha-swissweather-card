@@ -251,7 +251,7 @@ chart_order:
 
 Replace the example sensor IDs with your own. Existing dashboards remain unchanged until `show_uv` is enabled.
 
-From beta 2.1.1b4, the Full Card's UV section can be moved with the editor's chart-order buttons or by placing `uv` in `chart_order`. The example places UV after wind and before the daily forecast. If `uv` is omitted, enabled UV readings retain their previous position before the charts. `show_uv: false` hides the section regardless of its position.
+From 2.1.1, the Full Card's UV section can be moved with the editor's chart-order buttons or by placing `uv` in `chart_order`. The example places UV after wind and before the daily forecast. If `uv` is omitted, enabled UV readings retain their previous position before the charts. `show_uv: false` hides the section regardless of its position.
 
 ## Chart interaction
 

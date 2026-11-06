@@ -14,7 +14,7 @@ Choose **SwissWeather UV Index Card** in the card picker and select a numeric UV
 
 In the Full Card editor, select the UV sensors under **Sensors** and enable **Show UV Index** under **Display Settings**. The section is disabled by default. SwissWeather itself does not expose UV data; see the [UV setup and OpenUV refresh requirements](../README.md#uv-index).
 
-From beta 2.1.1b4, under **Chart Order**, use the up/down buttons beside **UV Index** to move the section among the diagrams and daily forecast. Existing configurations initially place UV before the charts; moving it does not enable or disable **Show UV Index**. See the [YAML example](configuration.md#uv-index-210) for the `uv` entry in `chart_order`.
+From 2.1.1, under **Chart Order**, use the up/down buttons beside **UV Index** to move the section among the diagrams and daily forecast. Existing configurations initially place UV before the charts; moving it does not enable or disable **Show UV Index**. See the [YAML example](configuration.md#uv-index-210) for the `uv` entry in `chart_order`.
 
 ## 🚀 Quick Start
 
