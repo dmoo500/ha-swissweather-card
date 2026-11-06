@@ -59,11 +59,11 @@ export { getTranslations, getEnglishTranslation, translations } from './translat
         warning_entity:
           'Legacy: Die Wetterwarnungen Entity wird von der ursprünglichen SwissWeather Integration angelegt (izacus/hass-swissweather). Wenn die neueren Ranked-Entities gesetzt sind, wird diese Entity ignoriert.',
         primary_warning_entity:
-          'Primäre Wetterwarnung (*_primary_weather_warning) aus mastameista/hass-swissweather. Wenn gesetzt, wird das neue Ranked-Model aktiviert.',
+          'Primäre Wetterwarnung (*_primary_weather_warning) von MeteoSwiss Forecast & Warnings. Wenn gesetzt, wird das neue Ranked-Model aktiviert.',
         secondary_warning_entity:
-          'Sekundäre Wetterwarnung (*_secondary_weather_warning) aus mastameista/hass-swissweather.',
+          'Sekundäre Wetterwarnung (*_secondary_weather_warning) von MeteoSwiss Forecast & Warnings.',
         tertiary_warning_entity:
-          'Tertiäre Wetterwarnung (*_tertiary_weather_warning) aus mastameista/hass-swissweather.',
+          'Tertiäre Wetterwarnung (*_tertiary_weather_warning) von MeteoSwiss Forecast & Warnings.',
         precipitation_entity:
           'Die Niederschlags-Entity wird benötigt, um die Niederschlagsprognose anzuzeigen.',
         show_forecast:
@@ -226,11 +226,11 @@ export { getTranslations, getEnglishTranslation, translations } from './translat
         warning_entity:
           'Legacy: The weather warnings entity created by the original SwissWeather integration (izacus/hass-swissweather). Ignored when the ranked warning entities below are configured.',
         primary_warning_entity:
-          'Primary weather warning entity (*_primary_weather_warning) from mastameista/hass-swissweather. When set, the new ranked model is activated.',
+          'Primary weather warning entity (*_primary_weather_warning) from MeteoSwiss Forecast & Warnings. When set, the new ranked model is activated.',
         secondary_warning_entity:
-          'Secondary weather warning entity (*_secondary_weather_warning) from mastameista/hass-swissweather.',
+          'Secondary weather warning entity (*_secondary_weather_warning) from MeteoSwiss Forecast & Warnings.',
         tertiary_warning_entity:
-          'Tertiary weather warning entity (*_tertiary_weather_warning) from mastameista/hass-swissweather.',
+          'Tertiary weather warning entity (*_tertiary_weather_warning) from MeteoSwiss Forecast & Warnings.',
         precipitation_entity:
           'The precipitation entity is required to display the precipitation forecast.',
         show_forecast:

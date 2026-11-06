@@ -1483,9 +1483,9 @@ var tt = {
 			descr: {
 				show_warnings: "Zeige Wetterwarnungen an, wenn die Wetterwarnung Entity gesetzt ist und aktuelle Warnungen existieren.",
 				warning_entity: "Legacy: Die Wetterwarnungen Entity wird von der ursprünglichen SwissWeather Integration angelegt (izacus/hass-swissweather). Wenn die neueren Ranked-Entities gesetzt sind, wird diese Entity ignoriert.",
-				primary_warning_entity: "Primäre Wetterwarnung (*_primary_weather_warning) aus mastameista/hass-swissweather. Wenn gesetzt, wird das neue Ranked-Model aktiviert.",
-				secondary_warning_entity: "Sekundäre Wetterwarnung (*_secondary_weather_warning) aus mastameista/hass-swissweather.",
-				tertiary_warning_entity: "Tertiäre Wetterwarnung (*_tertiary_weather_warning) aus mastameista/hass-swissweather."
+				primary_warning_entity: "Primäre Wetterwarnung (*_primary_weather_warning) von MeteoSwiss Forecast & Warnings. Wenn gesetzt, wird das neue Ranked-Model aktiviert.",
+				secondary_warning_entity: "Sekundäre Wetterwarnung (*_secondary_weather_warning) von MeteoSwiss Forecast & Warnings.",
+				tertiary_warning_entity: "Tertiäre Wetterwarnung (*_tertiary_weather_warning) von MeteoSwiss Forecast & Warnings."
 			}
 		},
 		weather_warning: "Wetterwarnung aktiv",
@@ -1741,9 +1741,9 @@ var tt = {
 			descr: {
 				show_warnings: "Show weather warnings if the weather warning entity is set and the actual warning exists.",
 				warning_entity: "Legacy: The weather warnings entity created by the original SwissWeather integration (izacus/hass-swissweather). Ignored when the ranked warning entities below are configured.",
-				primary_warning_entity: "Primary weather warning entity (*_primary_weather_warning) from mastameista/hass-swissweather. When set, the new ranked model is activated.",
-				secondary_warning_entity: "Secondary weather warning entity (*_secondary_weather_warning) from mastameista/hass-swissweather.",
-				tertiary_warning_entity: "Tertiary weather warning entity (*_tertiary_weather_warning) from mastameista/hass-swissweather."
+				primary_warning_entity: "Primary weather warning entity (*_primary_weather_warning) from MeteoSwiss Forecast & Warnings. When set, the new ranked model is activated.",
+				secondary_warning_entity: "Secondary weather warning entity (*_secondary_weather_warning) from MeteoSwiss Forecast & Warnings.",
+				tertiary_warning_entity: "Tertiary weather warning entity (*_tertiary_weather_warning) from MeteoSwiss Forecast & Warnings."
 			}
 		},
 		weather_warning: "Weather warning active",
@@ -2002,9 +2002,9 @@ var tt = {
 				descr: {
 					show_warnings: "Afficher les alertes météo si l'entité d'alerte est configurée et qu'une alerte est active.",
 					warning_entity: "Ancien modèle : entité d'alerte créée par l'intégration SwissWeather originale (izacus/hass-swissweather). Ignorée si les entités classées ci-dessous sont configurées.",
-					primary_warning_entity: "Alerte météo principale (*_primary_weather_warning) de mastameista/hass-swissweather. Si configurée, le nouveau modèle classé est activé.",
-					secondary_warning_entity: "Alerte météo secondaire (*_secondary_weather_warning) de mastameista/hass-swissweather.",
-					tertiary_warning_entity: "Alerte météo tertiaire (*_tertiary_weather_warning) de mastameista/hass-swissweather."
+					primary_warning_entity: "Alerte météo principale (*_primary_weather_warning) de MeteoSwiss Forecast & Warnings. Si configurée, le nouveau modèle classé est activé.",
+					secondary_warning_entity: "Alerte météo secondaire (*_secondary_weather_warning) de MeteoSwiss Forecast & Warnings.",
+					tertiary_warning_entity: "Alerte météo tertiaire (*_tertiary_weather_warning) de MeteoSwiss Forecast & Warnings."
 				}
 			},
 			weather_warning: "Alerte météo active",
@@ -2261,9 +2261,9 @@ var tt = {
 				descr: {
 					show_warnings: "Mostra le allerte meteo se l'entità allerte è impostata ed esiste un'allerta attiva.",
 					warning_entity: "Legacy: l'entità allerte meteo creata dall'integrazione SwissWeather originale (izacus/hass-swissweather). Ignorata quando sono configurate le entità allerta classificate qui sotto.",
-					primary_warning_entity: "Entità allerta meteo primaria (*_primary_weather_warning) da mastameista/hass-swissweather. Se impostata, attiva il nuovo modello a livelli.",
-					secondary_warning_entity: "Entità allerta meteo secondaria (*_secondary_weather_warning) da mastameista/hass-swissweather.",
-					tertiary_warning_entity: "Entità allerta meteo terziaria (*_tertiary_weather_warning) da mastameista/hass-swissweather."
+					primary_warning_entity: "Entità allerta meteo primaria (*_primary_weather_warning) da MeteoSwiss Forecast & Warnings. Se impostata, attiva il nuovo modello a livelli.",
+					secondary_warning_entity: "Entità allerta meteo secondaria (*_secondary_weather_warning) da MeteoSwiss Forecast & Warnings.",
+					tertiary_warning_entity: "Entità allerta meteo terziaria (*_tertiary_weather_warning) da MeteoSwiss Forecast & Warnings."
 				}
 			},
 			weather_warning: "Allerta meteo attiva",
@@ -5698,52 +5698,52 @@ function Hi(e) {
 		gray: "var(--disabled-text-color, #9e9e9e)"
 	}[e?.toLowerCase()] ?? "var(--primary-text-color, #fff)";
 }
-function Ui(e, t, n, r, i = 0) {
-	let a = e.attributes;
-	if (!a.has_warning) return null;
-	let o = Hi(a.icon_color), s = a.icon || "mdi:alert", c = a.warning_type || a.level_name || e.state, l = !!n[t], u = !!(a.html_text || a.text || a.links?.length);
+function Ui(e, t, n, r, i, a = 0) {
+	let o = e.attributes;
+	if (!o.has_warning) return null;
+	let s = Hi(o.icon_color), c = o.icon || "mdi:alert", l = i.formatEntityState(e), u = !!n[t], d = !!(o.html_text || o.text || o.links?.length);
 	return x`
     <li style="margin-bottom: 12px;">
       <div style="display: flex; align-items: center; gap: 8px;">
-        <ha-icon icon="${s}" style="color: ${o}; flex-shrink: 0;"></ha-icon>
+        <ha-icon icon="${c}" style="color: ${s}; flex-shrink: 0;"></ha-icon>
         <div
           style="flex: 1; min-width: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px;"
         >
-          <span style="font-weight: bold;">${c}</span>
-          ${a.level_name ? x`<span style="font-size: 12px; opacity: 0.8;">(${a.level_name})</span>` : ""}
-          ${i > 0 ? x`<span
+          <span style="font-weight: bold;">${l}</span>
+          ${o.level_name ? x`<span style="font-size: 12px; opacity: 0.8;">(${o.level_name})</span>` : ""}
+          ${a > 0 ? x`<span
                   style="font-size: 12px; opacity: 0.75;"
-                  title="${F("warning.warnings_additional", { count: i })}"
+                  title="${F("warning.warnings_additional", { count: a })}"
                 >
-                  +${i}
+                  +${a}
                 </span>` : ""}
         </div>
-        ${u ? x`
+        ${d ? x`
                 <button
                   @click=${() => r(t)}
                   style="background:none;border:none;cursor:pointer;color:var(--primary-text-color,#fff);font-size:16px;flex-shrink:0;"
-                  title="${F(l ? "collapse" : "expand")}"
-                  aria-label="${F(l ? "collapse" : "expand")}"
+                  title="${F(u ? "collapse" : "expand")}"
+                  aria-label="${F(u ? "collapse" : "expand")}"
                 >
-                  <ha-icon icon="${l ? "mdi:chevron-up" : "mdi:chevron-down"}"></ha-icon>
+                  <ha-icon icon="${u ? "mdi:chevron-up" : "mdi:chevron-down"}"></ha-icon>
                 </button>
               ` : ""}
       </div>
-      ${l ? x`
+      ${u ? x`
               <div style="margin-top: 6px; font-size: 13px; opacity: 0.85;">
-                ${a.valid_from || a.valid_to ? x`
+                ${o.valid_from || o.valid_to ? x`
                         <div style="margin-bottom: 4px;">
-                          ${a.valid_from ? x`<strong>${F("warning.valid_from")}: </strong>${new Date(a.valid_from).toLocaleString()}&nbsp;` : ""}
-                          ${a.valid_to ? x`<strong>${F("warning.valid_to")}: </strong>${new Date(a.valid_to).toLocaleString()}` : ""}
+                          ${o.valid_from ? x`<strong>${F("warning.valid_from")}: </strong>${new Date(o.valid_from).toLocaleString()}&nbsp;` : ""}
+                          ${o.valid_to ? x`<strong>${F("warning.valid_to")}: </strong>${new Date(o.valid_to).toLocaleString()}` : ""}
                         </div>
                       ` : ""}
-                ${a.html_text ? x`<div
+                ${o.html_text ? x`<div
                         style="line-height: 1.4; margin-bottom: 4px;"
-                        .innerHTML="${Bi(a.html_text)}"
-                      ></div>` : a.text ? x`<div style="line-height: 1.4; margin-bottom: 4px;">${a.text}</div>` : ""}
-                ${a.links?.length ? x`
+                        .innerHTML="${Bi(o.html_text)}"
+                      ></div>` : o.text ? x`<div style="line-height: 1.4; margin-bottom: 4px;">${o.text}</div>` : ""}
+                ${o.links?.length ? x`
                         <div style="display: flex; flex-direction: column; gap: 2px;">
-                          ${a.links.map((e) => x`
+                          ${o.links.map((e) => x`
                               <a
                                 href="${e.url.startsWith("http") ? e.url : e.alt_url ?? e.url}"
                                 target="_blank"
@@ -5761,31 +5761,31 @@ function Ui(e, t, n, r, i = 0) {
     </li>
   `;
 }
-function Wi(e, t, n, r, i) {
-	let a = e.attributes;
-	if (!a.has_warning) return null;
-	let o = {
+function Wi(e, t, n, r, i, a) {
+	let o = e.attributes;
+	if (!o.has_warning) return null;
+	let s = {
 		red: "danger",
 		violet: "danger",
 		orange: "severe",
 		yellow: "warning"
-	}[a.icon_color?.toLowerCase()] ?? "info", s = !!t?.attributes?.has_warning, c = !!n?.attributes?.has_warning, l = a.additional_warning_count ?? 0, u = Math.max(l - +!!s - !!c, 0), d = 1 + l;
+	}[o.icon_color?.toLowerCase()] ?? "info", c = !!t?.attributes?.has_warning, l = !!n?.attributes?.has_warning, u = o.additional_warning_count ?? 0, d = Math.max(u - +!!c - !!l, 0), f = 1 + u;
 	return x`
-    <div class="warning-section ${o}">
-      <strong>${d === 1 ? F("warning.weather_warning") : F("warning.weather_warnings", { count: d })}</strong>
+    <div class="warning-section ${s}">
+      <strong>${f === 1 ? F("warning.weather_warning") : F("warning.weather_warnings", { count: f })}</strong>
       <ul style="margin: 6px 0 0 0; padding-left: 18px;">
         ${[
-		Ui(e, "primary", r, i, u),
-		t ? Ui(t, "secondary", r, i) : null,
-		n ? Ui(n, "tertiary", r, i) : null
+		Ui(e, "primary", r, i, a, d),
+		t ? Ui(t, "secondary", r, i, a) : null,
+		n ? Ui(n, "tertiary", r, i, a) : null
 	].filter(Boolean)}
       </ul>
     </div>
   `;
 }
 // src/utils/warning-renderer.ts
-function Gi(e, t, n, r, i, a) {
-	return t && t.attributes?.has_warning !== void 0 ? Wi(t, n, r, i, a) : e ? Vi(e, i, a) : null;
+function Gi(e, t, n, r, i, a, o) {
+	return t && t.attributes?.has_warning !== void 0 ? Wi(t, n, r, i, a, o) : e ? Vi(e, i, a) : null;
 }
 // src/utils/weather-forecast.ts
 var Ki = 2e4;
@@ -6148,7 +6148,7 @@ var Z = class extends T {
 		][Math.round(e / 22.5) % 16];
 	}
 	_renderWarningSection(e, t, n, r) {
-		return Gi(e, t, n, r, this._openWarnings, this._toggleWarning);
+		return Gi(e, t, n, r, this._openWarnings, this._toggleWarning, this.hass);
 	}
 	_renderForecastTemperature(e) {
 		return this._hourlyForecast.length > 0 ? x`<forecast-temperature-chart
@@ -10124,7 +10124,7 @@ var mo = class extends T {
 		let e = (this.hass.selectedLanguage || this.hass.language || "en").substring(0, 2);
 		e !== this._loadedLang && (this._loadedLang = e, P(e).then(() => this.requestUpdate()));
 		let t = this.config.primary_warning_entity ? this._getEntityState(this.config.primary_warning_entity) : null, n = this.config.secondary_warning_entity ? this._getEntityState(this.config.secondary_warning_entity) : null, r = this.config.tertiary_warning_entity ? this._getEntityState(this.config.tertiary_warning_entity) : null, i = this.config.warning_entity ? this._getEntityState(this.config.warning_entity) : null;
-		return t && t.attributes?.has_warning !== void 0 && !t.attributes.has_warning ? x`<div class="no-warnings">${F("warning.warnings_none")}</div>` : Gi(i, t, n, r, this._openWarnings, this._toggle) || x`<div class="no-warnings">${F("warning.warnings_none")}</div>`;
+		return t && t.attributes?.has_warning !== void 0 && !t.attributes.has_warning ? x`<div class="no-warnings">${F("warning.warnings_none")}</div>` : Gi(i, t, n, r, this._openWarnings, this._toggle, this.hass) || x`<div class="no-warnings">${F("warning.warnings_none")}</div>`;
 	}
 };
 // src/cards/warnings/warning-card-editor.ts

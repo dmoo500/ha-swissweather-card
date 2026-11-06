@@ -60,9 +60,9 @@
       "descr": {
         "show_warnings": "Afficher les alertes météo si l'entité d'alerte est configurée et qu'une alerte est active.",
         "warning_entity": "Ancien modèle : entité d'alerte créée par l'intégration SwissWeather originale (izacus/hass-swissweather). Ignorée si les entités classées ci-dessous sont configurées.",
-        "primary_warning_entity": "Alerte météo principale (*_primary_weather_warning) de mastameista/hass-swissweather. Si configurée, le nouveau modèle classé est activé.",
-        "secondary_warning_entity": "Alerte météo secondaire (*_secondary_weather_warning) de mastameista/hass-swissweather.",
-        "tertiary_warning_entity": "Alerte météo tertiaire (*_tertiary_weather_warning) de mastameista/hass-swissweather."
+        "primary_warning_entity": "Alerte météo principale (*_primary_weather_warning) de MeteoSwiss Forecast & Warnings. Si configurée, le nouveau modèle classé est activé.",
+        "secondary_warning_entity": "Alerte météo secondaire (*_secondary_weather_warning) de MeteoSwiss Forecast & Warnings.",
+        "tertiary_warning_entity": "Alerte météo tertiaire (*_tertiary_weather_warning) de MeteoSwiss Forecast & Warnings."
       }
     },
     "weather_warning": "Alerte météo active",

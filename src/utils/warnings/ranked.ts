@@ -1,6 +1,10 @@
 import { html, type TemplateResult } from 'lit';
 import { get as _t } from 'lit-translate';
-import type { HassEntity, RankedWarningAttributes } from '../../types/home-assistant';
+import type {
+  HassEntity,
+  HomeAssistant,
+  RankedWarningAttributes,
+} from '../../types/home-assistant';
 import { sanitizeHtml } from './shared';
 
 export function rankedIconColorToCSS(iconColor: string): string {
@@ -19,6 +23,7 @@ export function renderRankedSlot(
   slotId: string,
   openWarnings: Record<string, boolean>,
   toggle: (id: string) => void,
+  hass: HomeAssistant,
   effectiveAdditional = 0
 ): TemplateResult | null {
   const attrs = entity.attributes as RankedWarningAttributes & Record<string, any>;
@@ -26,7 +31,7 @@ export function renderRankedSlot(
 
   const color = rankedIconColorToCSS(attrs.icon_color);
   const icon = attrs.icon || 'mdi:alert';
-  const label = attrs.warning_type || attrs.level_name || entity.state;
+  const label = hass.formatEntityState(entity);
   const isOpen = !!openWarnings[slotId];
   const hasContent = !!(attrs.html_text || attrs.text || attrs.links?.length);
 
@@ -139,7 +144,8 @@ export function renderRankedWarnings(
   secondaryEntity: HassEntity | null | undefined,
   tertiaryEntity: HassEntity | null | undefined,
   openWarnings: Record<string, boolean>,
-  toggle: (id: string) => void
+  toggle: (id: string) => void,
+  hass: HomeAssistant
 ): TemplateResult | null {
   const primaryAttrs = primaryEntity.attributes as RankedWarningAttributes & Record<string, any>;
   if (!primaryAttrs.has_warning) return null;
@@ -168,9 +174,13 @@ export function renderRankedWarnings(
       : _t('warning.weather_warnings', { count: totalCount });
 
   const slots = [
-    renderRankedSlot(primaryEntity, 'primary', openWarnings, toggle, effectiveAdditional),
-    secondaryEntity ? renderRankedSlot(secondaryEntity, 'secondary', openWarnings, toggle) : null,
-    tertiaryEntity ? renderRankedSlot(tertiaryEntity, 'tertiary', openWarnings, toggle) : null,
+    renderRankedSlot(primaryEntity, 'primary', openWarnings, toggle, hass, effectiveAdditional),
+    secondaryEntity
+      ? renderRankedSlot(secondaryEntity, 'secondary', openWarnings, toggle, hass)
+      : null,
+    tertiaryEntity
+      ? renderRankedSlot(tertiaryEntity, 'tertiary', openWarnings, toggle, hass)
+      : null,
   ].filter(Boolean);
 
   return html`

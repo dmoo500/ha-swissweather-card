@@ -188,7 +188,8 @@ export class SwissWeatherCard extends LitElement {
       secondaryEntity,
       tertiaryEntity,
       this._openWarnings,
-      this._toggleWarning
+      this._toggleWarning,
+      this.hass
     );
   }
 

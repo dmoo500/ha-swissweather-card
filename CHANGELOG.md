@@ -1,5 +1,11 @@
 # Release Notes
 
+## [2.1.1b1] - 2026-11-06
+
+### Fixed
+- Display ranked warning states using Home Assistant's localized entity-state formatter.
+- Update README links to the current MeteoSwiss Forecast & Warnings integration repository.
+
 ## [2.1.0] - 2026-11-06
 
 ### Added

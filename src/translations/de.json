@@ -60,9 +60,9 @@
       "descr": {
         "show_warnings": "Zeige Wetterwarnungen an, wenn die Wetterwarnung Entity gesetzt ist und aktuelle Warnungen existieren.",
         "warning_entity": "Legacy: Die Wetterwarnungen Entity wird von der ursprünglichen SwissWeather Integration angelegt (izacus/hass-swissweather). Wenn die neueren Ranked-Entities gesetzt sind, wird diese Entity ignoriert.",
-        "primary_warning_entity": "Primäre Wetterwarnung (*_primary_weather_warning) aus mastameista/hass-swissweather. Wenn gesetzt, wird das neue Ranked-Model aktiviert.",
-        "secondary_warning_entity": "Sekundäre Wetterwarnung (*_secondary_weather_warning) aus mastameista/hass-swissweather.",
-        "tertiary_warning_entity": "Tertiäre Wetterwarnung (*_tertiary_weather_warning) aus mastameista/hass-swissweather."
+        "primary_warning_entity": "Primäre Wetterwarnung (*_primary_weather_warning) von MeteoSwiss Forecast & Warnings. Wenn gesetzt, wird das neue Ranked-Model aktiviert.",
+        "secondary_warning_entity": "Sekundäre Wetterwarnung (*_secondary_weather_warning) von MeteoSwiss Forecast & Warnings.",
+        "tertiary_warning_entity": "Tertiäre Wetterwarnung (*_tertiary_weather_warning) von MeteoSwiss Forecast & Warnings."
       }
     },
     "weather_warning": "Wetterwarnung aktiv",

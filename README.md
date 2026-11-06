@@ -80,7 +80,7 @@ Screenshots illustrate example configurations and may differ from the latest bet
 - Warning and pollen cards need the corresponding sensor entities.
 - UV cards need a numeric `sensor.*` entity from another integration; the checked SwissWeather integration and ranked-warning fork do not expose UV data.
 
-Recommended integration: [hass-swissweather](https://github.com/izacus/hass-swissweather). Ranked warning sensors from [mastameista/hass-swissweather](https://github.com/mastameista/hass-swissweather) are also supported. Other Home Assistant weather integrations can be used, but may not provide every field.
+Recommended integration: [hass-swissweather](https://github.com/izacus/hass-swissweather). Ranked warning sensors from [MeteoSwiss Forecast & Warnings](https://github.com/mastameista/ha-meteoswiss-forecast-warnings) are also supported. Other Home Assistant weather integrations can be used, but may not provide every field.
 
 ## Installation
 
@@ -214,7 +214,7 @@ See [configuration examples](docs/configuration.md) and the [visual editor guide
 
 The UV card uses the five intensity categories illustrated by [MeteoSwiss](https://www.meteoswiss.admin.ch/weather/weather-and-climate-from-a-to-z/uv-index.html): low (below 3), moderate (3 to below 6), high (6 to below 8), very high (8 to below 11), and extreme (11+). It shows numeric readings, category names, a colour legend, and each sensor's last update. Zero is valid; missing, unavailable, or invalid values are explicitly reported rather than shown as zero.
 
-The [original SwissWeather integration](https://github.com/izacus/hass-swissweather) and [ranked-warning fork](https://github.com/mastameista/hass-swissweather) currently provide no UV sensor or UV forecast field. Sunshine duration is not a UV index. Choose a numeric UV sensor from another integration, for example [OpenUV](https://www.home-assistant.io/integrations/openuv/); a text-only UV level sensor will not work.
+The [original SwissWeather integration](https://github.com/izacus/hass-swissweather) and [MeteoSwiss Forecast & Warnings](https://github.com/mastameista/ha-meteoswiss-forecast-warnings) currently provide no UV sensor or UV forecast field. Sunshine duration is not a UV index. Choose a numeric UV sensor from another integration, for example [OpenUV](https://www.home-assistant.io/integrations/openuv/); a text-only UV level sensor will not work.
 
 **OpenUV requires an API key and does not automatically refresh its sensors.** Configure an update automation following its integration documentation and API limits. The card only reads HA entities: it makes no external API requests and does not refresh the integration. The displayed sensor timestamp is not a guarantee that its underlying measurement or daily maximum is still current.
 

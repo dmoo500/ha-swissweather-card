@@ -136,7 +136,8 @@ export class WarningCard extends LitElement {
       secondaryEntity,
       tertiaryEntity,
       this._openWarnings,
-      this._toggle
+      this._toggle,
+      this.hass
     );
 
     if (!content) {
