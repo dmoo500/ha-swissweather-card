@@ -4,6 +4,7 @@ import { readFile } from 'node:fs/promises';
 import ts from 'typescript';
 import { html } from 'lit';
 import { parseUVIndex, uvLevel, uvStatus, UV_LEVELS } from '../src/cards/uv-index/uv-data.ts';
+import { getOrderedCharts } from '../src/cards/full-card/chart-order.ts';
 
 test('UV parsing distinguishes zero and fractional indices from missing or invalid data', () => {
   for (const [state, value] of [
@@ -177,7 +178,7 @@ test('Full Card UV section is opt-in and shares the same panel in compact and re
     html,
     () => Promise.resolve(),
     key => key,
-    () => [],
+    getOrderedCharts,
     () => html``,
     () => true
   );
@@ -185,6 +186,7 @@ test('Full Card UV section is opt-in and shares the same panel in compact and re
   probe._loadedLang = 'en';
   probe._getEntityState = () => ({ state: 'sunny', attributes: { temperature: 15 } });
   probe._renderCurrentWeatherSection = () => html``;
+  probe._hourlyForecast = [];
   const panels = template => {
     if (!template || typeof template !== 'object') return [];
     return [
@@ -195,7 +197,12 @@ test('Full Card UV section is opt-in and shares the same panel in compact and re
     ];
   };
   for (const compact_mode of [false, true]) {
-    probe.config = { entity: 'weather.home', compact_mode };
+    probe.config = {
+      entity: 'weather.home',
+      compact_mode,
+      chart_order: ['uv'],
+      show_forecast: false,
+    };
     assert.equal(panels(probe.render()).length, 0, 'existing configs do not acquire a UV section');
     probe.config = {
       ...probe.config,

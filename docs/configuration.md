@@ -64,7 +64,16 @@ show_uv: true
 uv_entity: sensor.current_uv_index
 uv_max_entity: sensor.max_uv_index
 uv_reading_type: current
+chart_order:
+  - temperature
+  - precipitation
+  - sunshine
+  - wind
+  - uv
+  - forecast
 ```
+
+From beta 2.1.1b4, this example places the UV section after wind and before the daily forecast. Move `uv` within `chart_order` to change its position, or use the Full Card editor's chart-order buttons. If `uv` is omitted, enabled UV readings appear before the charts as in existing configurations. `show_uv: false` hides the section regardless of the order.
 
 SwissWeather does not currently supply UV data. [OpenUV](https://www.home-assistant.io/integrations/openuv/) is one supported source; it requires an API key and an update automation. The card does not fetch or refresh UV data itself. See the [UV documentation](../README.md#uv-index) for limitations.
 

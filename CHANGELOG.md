@@ -1,5 +1,10 @@
 # Release Notes
 
+## [2.1.1b4] - 2026-11-06
+
+### Fixed
+- Allow the Full Card's UV section to be moved in the chart order, while preserving its previous position for existing configurations.
+
 ## [2.1.1b3] - 2026-11-06
 
 ### Changed

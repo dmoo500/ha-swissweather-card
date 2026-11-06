@@ -196,7 +196,7 @@ chart_order:
 | `forecast_hours` | `6` | Hours requested for the hourly display |
 | `compact_mode` | `false` | Compact current metrics and daily diagram instead of daily tiles |
 | `enable_animate_weather_icons` | Enabled in editor presets | Use animated rather than static weather icons |
-| `chart_order` | Temperature, precipitation, sunshine, wind, forecast | Section order; visibility switches still apply |
+| `chart_order` | UV, temperature, precipitation, sunshine, wind, forecast | Section order; use `uv` to position the UV section; visibility switches still apply |
 | `sun_entity` | `sun.sun` | Sun entity for sunrise/sunset markers |
 | `wind_entity` | Weather entity value | Optional current wind-speed sensor |
 | `wind_direction_entity` | Weather entity value | Optional current wind-bearing sensor |
@@ -240,9 +240,18 @@ show_uv: true
 uv_entity: sensor.current_uv_index
 uv_max_entity: sensor.max_uv_index
 uv_reading_type: current
+chart_order:
+  - temperature
+  - precipitation
+  - sunshine
+  - wind
+  - uv
+  - forecast
 ```
 
 Replace the example sensor IDs with your own. Existing dashboards remain unchanged until `show_uv` is enabled.
+
+From beta 2.1.1b4, the Full Card's UV section can be moved with the editor's chart-order buttons or by placing `uv` in `chart_order`. The example places UV after wind and before the daily forecast. If `uv` is omitted, enabled UV readings retain their previous position before the charts. `show_uv: false` hides the section regardless of its position.
 
 ## Chart interaction
 
@@ -308,6 +317,19 @@ localStorage.removeItem('swissweather-debug');
 - Long forecast ranges can crowd labels on narrow cards. Reduce `forecast_hours` or increase the available width.
 - Missing sunshine, probability, or direction readings usually mean the weather integration does not supply that field.
 - When reporting an issue, include the card version, Home Assistant version, browser, card configuration, and relevant console errors. Remove private location/entity details first.
+
+## Roadmap
+
+### Integration-based entity setup in the editors
+
+Planned, with no target release yet:
+
+- Start with the Full Card and warning card, with support for SwissWeather and MeteoSwiss Forecast & Warnings.
+- Reuse an integration entry already configured in Home Assistant; no new location setup is required. If multiple entries exist, let the user choose the intended one.
+- Identify related weather and sensor entities using Home Assistant registry metadata rather than relying only on entity names.
+- Preview the suggested field assignments and apply them only on request. Fill empty fields without overwriting existing selections, and keep manual selection available.
+- Ask the user to resolve ambiguous matches and clearly report missing sensors. Do not assign UV fields when the integration provides no UV data.
+- Extend the assistant to pollen and other card editors after the initial implementation.
 
 ## Development and contributing
 
