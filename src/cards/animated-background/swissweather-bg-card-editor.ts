@@ -49,31 +49,16 @@ export class SwissWeatherBGCardEditor extends LitElement implements LovelaceCard
       return html`<div>Loading...</div>`;
     }
     use((this.hass.selectedLanguage || this.hass.language || 'en').substring(0, 2));
-    // Prepare data for ha-form
+    // Prepare data for swissweather-editor-form
     const data = {
       entity: typeof this._config?.entity === 'string' ? this._config.entity : undefined,
       sun_entity:
         typeof this._config?.sun_entity === 'string' ? this._config.sun_entity : undefined,
-      forecast_mode:
-        typeof (this._config as any)?.forecast_mode === 'string'
-          ? (this._config as any).forecast_mode
-          : undefined,
-      show_sun_times:
-        typeof (this._config as any)?.show_sun_times === 'boolean'
-          ? (this._config as any).show_sun_times
-          : undefined,
-      show_day_temps:
-        typeof (this._config as any)?.show_day_temps === 'boolean'
-          ? (this._config as any).show_day_temps
-          : undefined,
-      temperature_font_size:
-        typeof (this._config as any)?.temperature_font_size === 'number'
-          ? (this._config as any).temperature_font_size
-          : undefined,
-      photo_mode:
-        typeof (this._config as any)?.photo_mode === 'boolean'
-          ? (this._config as any).photo_mode
-          : undefined,
+      forecast_mode: this._config?.forecast_mode ?? 'daily',
+      show_sun_times: this._config?.show_sun_times ?? true,
+      show_day_temps: this._config?.show_day_temps ?? true,
+      temperature_font_size: this._config?.temperature_font_size ?? 36,
+      photo_mode: this._config?.photo_mode ?? false,
     };
 
     const forecastModeSchema = schema.find(s => s.name === 'forecast_mode') as any;
@@ -105,7 +90,7 @@ export class SwissWeatherBGCardEditor extends LitElement implements LovelaceCard
         <!-- General -->
         <div class="group">
           <div class="group-title">${_t('bg_card.config.group_general') || 'General'}</div>
-          <ha-form
+          <swissweather-editor-form
             .hass=${this.hass}
             .data=${data}
             .schema=${[
@@ -116,13 +101,13 @@ export class SwissWeatherBGCardEditor extends LitElement implements LovelaceCard
             .computeLabel=${this._computeLabel}
             .computeHelper=${this._computeHelper}
             @value-changed=${this._valueChanged}
-          ></ha-form>
+          ></swissweather-editor-form>
         </div>
 
         <!-- Display -->
         <div class="group">
           <div class="group-title">${_t('bg_card.config.group_display') || 'Display'}</div>
-          <ha-form
+          <swissweather-editor-form
             .hass=${this.hass}
             .data=${data}
             .schema=${[
@@ -134,7 +119,7 @@ export class SwissWeatherBGCardEditor extends LitElement implements LovelaceCard
             .computeLabel=${this._computeLabel}
             .computeHelper=${this._computeHelper}
             @value-changed=${this._valueChanged}
-          ></ha-form>
+          ></swissweather-editor-form>
         </div>
 
         <!-- Configuration Preview -->
@@ -203,7 +188,7 @@ export class SwissWeatherBGCardEditor extends LitElement implements LovelaceCard
       };
     }
 
-    // Handle ha-form events
+    // Handle swissweather-editor-form events
     if (ev.type === 'value-changed') {
       // Preserve chart_order and other fields not present in the form
       const keepConfig: Partial<CardConfig> = {};

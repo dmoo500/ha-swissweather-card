@@ -33,6 +33,8 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
       'wind_entity',
       'wind_direction_entity',
       'sunshine_entity',
+      'uv_entity',
+      'uv_max_entity',
       'warning_entity',
       'primary_warning_entity',
       'secondary_warning_entity',
@@ -66,7 +68,7 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
       return html`<div>Loading...</div>`;
     }
     use((this.hass.selectedLanguage || this.hass.language || 'en').substring(0, 2));
-    // Prepare data for ha-form
+    // Prepare data for swissweather-editor-form
     const data = {
       entity: typeof this._config?.entity === 'string' ? this._config.entity : undefined,
       show_location: this._config?.show_location ?? true,
@@ -83,6 +85,10 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
         typeof this._config?.sunshine_entity === 'string'
           ? this._config.sunshine_entity
           : undefined,
+      uv_entity: this._config?.uv_entity,
+      uv_max_entity: this._config?.uv_max_entity,
+      uv_reading_type: this._config?.uv_reading_type ?? 'current',
+      show_uv: this._config?.show_uv ?? false,
       warning_entity:
         typeof this._config?.warning_entity === 'string' ? this._config.warning_entity : undefined,
       primary_warning_entity:
@@ -119,7 +125,7 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
         <!-- General -->
         <div class="group">
           <div class="group-title">${_t('config.group_general') || 'General'}</div>
-          <ha-form
+          <swissweather-editor-form
             .hass=${this.hass}
             .data=${data}
             .schema=${[
@@ -130,13 +136,13 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
             .computeLabel=${this._computeLabel}
             .computeHelper=${this._computeHelper}
             @value-changed=${this._valueChanged}
-          ></ha-form>
+          ></swissweather-editor-form>
         </div>
 
         <!-- Sensors -->
         <div class="group">
           <div class="group-title">${_t('config.group_sensors') || 'Sensors'}</div>
-          <ha-form
+          <swissweather-editor-form
             .hass=${this.hass}
             .data=${data}
             .schema=${[
@@ -147,19 +153,21 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
               schema.find(s => s.name === 'precipitation_entity'),
               schema.find(s => s.name === 'sun_entity'),
               schema.find(s => s.name === 'sunshine_entity'),
+              schema.find(s => s.name === 'uv_entity'),
+              schema.find(s => s.name === 'uv_max_entity'),
               schema.find(s => s.name === 'wind_entity'),
               schema.find(s => s.name === 'wind_direction_entity'),
             ].filter(Boolean)}
             .computeLabel=${this._computeLabel}
             .computeHelper=${this._computeHelper}
             @value-changed=${this._valueChanged}
-          ></ha-form>
+          ></swissweather-editor-form>
         </div>
 
         <!-- Display options -->
         <div class="group">
           <div class="group-title">${_t('config.group_display') || 'Display Options'}</div>
-          <ha-form
+          <swissweather-editor-form
             .hass=${this.hass}
             .data=${data}
             .schema=${[
@@ -169,6 +177,18 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
               schema.find(s => s.name === 'show_temperature'),
               schema.find(s => s.name === 'show_sunshine'),
               schema.find(s => s.name === 'show_wind'),
+              schema.find(s => s.name === 'show_uv'),
+              {
+                ...schema.find(s => s.name === 'uv_reading_type'),
+                selector: {
+                  select: {
+                    options: [
+                      { value: 'current', label: _t('uv.current') },
+                      { value: 'daily_max', label: _t('uv.daily_max') },
+                    ],
+                  },
+                },
+              },
               schema.find(s => s.name === 'enable_animate_weather_icons'),
               schema.find(s => s.name === 'show_warnings'),
               schema.find(s => s.name === 'compact_mode'),
@@ -176,7 +196,7 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
             .computeLabel=${this._computeLabel}
             .computeHelper=${this._computeHelper}
             @value-changed=${this._valueChanged}
-          ></ha-form>
+          ></swissweather-editor-form>
         </div>
         <!-- Chart order -->
         <div class="group">
@@ -246,6 +266,10 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
       wind_entity: _t('config.wind_entity'),
       wind_direction_entity: _t('config.wind_direction_entity'),
       sunshine_entity: _t('config.sunshine_entity'),
+      uv_entity: _t('uv.config.entity'),
+      uv_max_entity: _t('uv.config.max_entity'),
+      uv_reading_type: _t('uv.config.reading_type'),
+      show_uv: _t('uv.config.show_uv'),
       warning_entity: _t('warning.config.warning_entity'),
       primary_warning_entity: _t('warning.config.primary_warning_entity'),
       secondary_warning_entity: _t('warning.config.secondary_warning_entity'),
@@ -313,7 +337,7 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
       };
     }
 
-    // Handle ha-form events
+    // Handle swissweather-editor-form events
     if (ev.type === 'value-changed') {
       // Preserve chart_order and other fields not present in the form
       const keepConfig: Partial<CardConfig> = {};

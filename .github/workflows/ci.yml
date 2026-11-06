@@ -54,6 +54,9 @@ jobs:
     - name: Check formatting
       run: yarn format:check
 
+    - name: Check README badges
+      run: yarn validate:badges
+
     - name: Run regression tests
       run: yarn test
 

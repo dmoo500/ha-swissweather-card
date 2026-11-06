@@ -19,6 +19,7 @@ export default [
         customElements: 'readonly',
         HTMLElement: 'readonly',
         HTMLInputElement: 'readonly',
+        HTMLSelectElement: 'readonly',
         Event: 'readonly',
         CustomEvent: 'readonly',
         setTimeout: 'readonly', 

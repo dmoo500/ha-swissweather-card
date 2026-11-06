@@ -40,7 +40,7 @@ export class TemperatureCardEditor extends LitElement implements LovelaceCardEdi
         font-weight: bold;
         color: var(--primary-text-color, #dc143c);
       }
-      ha-form {
+      swissweather-editor-form {
         display: block;
       }
     `;
@@ -60,7 +60,7 @@ export class TemperatureCardEditor extends LitElement implements LovelaceCardEdi
         <div class="header">
           <div class="header-title">🌡️ SwissWeather Temperature Card</div>
         </div>
-        <ha-form
+        <swissweather-editor-form
           .hass=${this.hass}
           .data=${data}
           .schema=${baseSchema}
@@ -72,7 +72,7 @@ export class TemperatureCardEditor extends LitElement implements LovelaceCardEdi
               }) as Record<string, string>
             )[s.name] ?? s.name}
           @value-changed=${this._valueChanged}
-        ></ha-form>
+        ></swissweather-editor-form>
       </div>
     `;
   }

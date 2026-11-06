@@ -200,6 +200,37 @@
   "windy-variant-lightning-rainy": "Windig mit Blitz und Regen",
   "windy-variant-pouring": "Windig mit starkem Regen",
   "windy-variant-exceptional": "Windig mit aussergewöhnlichem Wetter",
+  "uv": {
+    "title": "UV-Index",
+    "current": "Aktueller UV-Index",
+    "daily_max": "Tagesmaximum",
+    "scale": "UV-Intensitätsskala",
+    "about": "Über den UV-Index (MeteoSchweiz)",
+    "updated": "Sensor aktualisiert: {{time}}",
+    "not_configured": "Kein UV-Sensor konfiguriert. Wähle einen numerischen UV-Index-Sensor.",
+    "status": {
+      "missing": "UV-Sensor nicht gefunden. Prüfe die ausgewählte Entität.",
+      "unavailable": "UV-Sensor ist nicht verfügbar oder unbekannt.",
+      "invalid": "Ungültiger UV-Wert. Ein nicht negativer numerischer Index ist erforderlich."
+    },
+    "levels": {
+      "low": "Niedrig",
+      "moderate": "Mässig",
+      "high": "Hoch",
+      "very_high": "Sehr hoch",
+      "extreme": "Extrem"
+    },
+    "config": {
+      "entity": "UV-Index-Sensor",
+      "max_entity": "UV-Tagesmaximum-Sensor (optional)",
+      "reading_type": "Hauptwert",
+      "show_uv": "UV-Index anzeigen",
+      "entity_hint": "Numerischer UV-Index-Sensor, zum Beispiel von OpenUV. SwissWeather liefert derzeit keine UV-Daten.",
+      "max_entity_hint": "Optionaler Sensor für das Tagesmaximum, getrennt vom aktuellen UV-Index.",
+      "reading_type_hint": "Wähle, ob der Hauptsensor den aktuellen UV-Index oder das Tagesmaximum meldet.",
+      "show_uv_hint": "UV-Bereich in der Full Card anzeigen. Standardmässig deaktiviert."
+    }
+  },
   "pollen": {
     "title": "Pollenbelastung",
     "no_data": "Keine Pollen-Typen aktiviert",

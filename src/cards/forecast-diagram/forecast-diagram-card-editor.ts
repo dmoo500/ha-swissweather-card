@@ -68,7 +68,7 @@ export class ForecastDiagramCardEditor extends LitElement implements LovelaceCar
         margin-top: 4px;
       }
 
-      ha-form {
+      swissweather-editor-form {
         display: block;
         margin-bottom: 24px;
       }
@@ -135,7 +135,7 @@ export class ForecastDiagramCardEditor extends LitElement implements LovelaceCar
         color: var(--secondary-text-color);
         margin-top: 4px;
       }
-      ha-form {
+      swissweather-editor-form {
         display: block;
         margin-bottom: 24px;
       }
@@ -181,7 +181,7 @@ export class ForecastDiagramCardEditor extends LitElement implements LovelaceCar
       return html`<div>Loading...</div>`;
     }
     use((this.hass.selectedLanguage || this.hass.language || 'en').substring(0, 2));
-    // Prepare data for ha-form
+    // Prepare data for swissweather-editor-form
     const data = {
       entity: typeof this._config?.entity === 'string' ? this._config.entity : undefined,
       sun_entity:
@@ -199,27 +199,27 @@ export class ForecastDiagramCardEditor extends LitElement implements LovelaceCar
         <!-- General -->
         <div class="group">
           <div class="group-title">${_t('forecast_diagram.config.group_general') || 'General'}</div>
-          <ha-form
+          <swissweather-editor-form
             .hass=${this.hass}
             .data=${data}
             .schema=${[schema.find(s => s.name === 'entity')].filter(Boolean)}
             .computeLabel=${this._computeLabel}
             .computeHelper=${this._computeHelper}
             @value-changed=${this._valueChanged}
-          ></ha-form>
+          ></swissweather-editor-form>
         </div>
 
         <!-- Sensors -->
         <div class="group">
           <div class="group-title">${_t('forecast_diagram.config.group_sensors') || 'Sensors'}</div>
-          <ha-form
+          <swissweather-editor-form
             .hass=${this.hass}
             .data=${data}
             .schema=${[schema.find(s => s.name === 'sun_entity')].filter(Boolean)}
             .computeLabel=${this._computeLabel}
             .computeHelper=${this._computeHelper}
             @value-changed=${this._valueChanged}
-          ></ha-form>
+          ></swissweather-editor-form>
         </div>
 
         <!-- Configuration Preview -->
@@ -284,7 +284,7 @@ export class ForecastDiagramCardEditor extends LitElement implements LovelaceCar
       };
     }
 
-    // Handle ha-form events
+    // Handle swissweather-editor-form events
     if (ev.type === 'value-changed') {
       // Preserve chart_order and other fields not present in the form
       const keepConfig: Partial<CardConfig> = {};

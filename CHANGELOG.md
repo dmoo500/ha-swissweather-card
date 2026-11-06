@@ -1,5 +1,41 @@
 # Release Notes
 
+## [2.1.0] - 2026-11-06
+
+### Added
+- Add a standalone UV Index card and an optional UV section in the Full Card, with current readings, daily maximum, intensity colours, and sensor timestamps.
+- Support numeric UV sensors from other integrations, including OpenUV; document its API key and update requirements. SwissWeather itself does not currently supply UV data.
+- Add README badge checks to pre-commit, local validation, and CI, including the TypeScript major version.
+
+### Changed
+- Bundle visual-editor form controls instead of depending on Home Assistant's internal forms and switches. Existing configuration fields, entity-domain filtering, and limits remain available.
+- Target ES2022 in the production build to match the documented browser requirement.
+
+### Fixed
+- Report missing, unavailable, and invalid UV values without confusing them with zero.
+- Correct the maintenance badge link to this repository.
+- Normalize underscore-separated locales for UV number and timestamp formatting.
+- Keep editor dropdown selections synchronized with configuration changes after user interaction.
+- Reuse editor entity lists and rendered options so unrelated sensor updates do not rebuild large dropdowns.
+- List likely matching UV, wind, sunshine, warning, and pollen sensors first while keeping all allowed sensors selectable.
+
+### Validation
+- 60 regression tests pass. TypeScript, lint, formatting, README badge checks, production build, and HACS validation pass.
+
+## [2.1.0b1] - 2026-11-01
+
+### Added
+- Try the new UV Index card on its own or enable the UV section in the Full Card. Display a current reading and an optional daily maximum with intensity colours and sensor update times.
+
+### Changed
+- Visual editors now use bundled controls instead of Home Assistant's internal forms and switches.
+- The card targets ES2022 browsers, and README badge checks help keep project links and the TypeScript version correct.
+
+### Setup and limitations
+- UV requires a numeric sensor from another integration; SwissWeather does not currently provide UV data. OpenUV is one option, but requires an API key and an update automation.
+- The UV card displays sensor readings, not an hourly or multi-day forecast. The Full Card's UV section is disabled by default.
+- This is a beta. Test the updated editors with your existing configuration before using them on your main dashboard.
+
 ## [2.0.2] - 2026-10-31
 
 ### Added

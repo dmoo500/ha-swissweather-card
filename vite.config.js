@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
   build: {
-    target: 'esnext',
+    target: 'es2022',
     lib: {
       entry: 'src/index.ts',
       name: 'SwissWeatherCard',
@@ -22,7 +22,7 @@ export default defineConfig({
     minify: true
   },
   esbuild: {
-    target: 'esnext',
+    target: 'es2022',
     format: 'esm'
   }
 });

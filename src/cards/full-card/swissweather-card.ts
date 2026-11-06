@@ -17,6 +17,7 @@ import { isDay } from '../../utils';
 import { renderWarningSection } from '../../utils/warning-renderer';
 import { fetchWeatherForecastsIndependently, forecastDebug } from '../../utils/weather-forecast';
 import { getOrderedCharts } from './chart-order';
+import '../uv-index/uv-index';
 
 registerTranslateConfig({
   // Loads the language by returning a JSON structure for a given language
@@ -105,6 +106,12 @@ export class SwissWeatherCard extends LitElement {
   public setConfig(config: CardConfig): void {
     if (!config.entity) {
       throw new Error('You need to define an entity');
+    }
+    for (const entity of [config.uv_entity, config.uv_max_entity]) {
+      if (entity && !entity.startsWith('sensor.')) throw new Error('UV entities must be sensors');
+    }
+    if (config.uv_reading_type && !['current', 'daily_max'].includes(config.uv_reading_type)) {
+      throw new Error('UV reading type must be current or daily_max');
     }
     this.config = config;
   }
@@ -496,6 +503,18 @@ export class SwissWeatherCard extends LitElement {
         visibility,
         sunshineEntity
       )}
+      ${
+        this.config.show_uv === true
+          ? html`<div style="margin:16px 0;">
+              <swissweather-uv-index
+                .hass=${this.hass}
+                .entity=${this.config.uv_entity}
+                .maxEntity=${this.config.uv_max_entity}
+                .readingType=${this.config.uv_reading_type || 'current'}
+              ></swissweather-uv-index>
+            </div>`
+          : ''
+      }
       ${orderedCharts}
     `;
   }

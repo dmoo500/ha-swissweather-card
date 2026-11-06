@@ -44,6 +44,30 @@ grid_options:
 
 ## Advanced Configuration Options
 
+### UV Index (2.1.0+)
+
+```yaml
+type: custom:swissweather-uv-index-card
+entity: sensor.current_uv_index
+max_entity: sensor.max_uv_index
+reading_type: current
+```
+
+Use your own numeric UV sensor entities. `max_entity` is optional; for a maximum-only card, use the maximum sensor as `entity`, set `reading_type: daily_max`, and omit `max_entity`.
+
+To show the same section in the Full Card:
+
+```yaml
+type: custom:swissweather-card
+entity: weather.home
+show_uv: true
+uv_entity: sensor.current_uv_index
+uv_max_entity: sensor.max_uv_index
+uv_reading_type: current
+```
+
+SwissWeather does not currently supply UV data. [OpenUV](https://www.home-assistant.io/integrations/openuv/) is one supported source; it requires an API key and an update automation. The card does not fetch or refresh UV data itself. See the [UV documentation](../README.md#uv-index) for limitations.
+
 ### Grid Layout and Display
 ```yaml
 type: custom:swissweather-card

@@ -200,6 +200,37 @@
   "windy-variant-lightning-rainy": "Ventoso con temporale e pioggia",
   "windy-variant-pouring": "Ventoso con pioggia intensa",
   "windy-variant-exceptional": "Ventoso con condizioni eccezionali",
+  "uv": {
+    "title": "Indice UV",
+    "current": "Indice UV attuale",
+    "daily_max": "Massimo giornaliero",
+    "scale": "Scala di intensità UV",
+    "about": "Informazioni sull'indice UV (MeteoSvizzera)",
+    "updated": "Sensore aggiornato: {{time}}",
+    "not_configured": "Nessun sensore UV configurato. Seleziona un sensore numerico dell'indice UV.",
+    "status": {
+      "missing": "Sensore UV non trovato. Controlla l'entità selezionata.",
+      "unavailable": "Il sensore UV non è disponibile o è sconosciuto.",
+      "invalid": "Valore UV non valido. È richiesto un indice numerico non negativo."
+    },
+    "levels": {
+      "low": "Basso",
+      "moderate": "Moderato",
+      "high": "Alto",
+      "very_high": "Molto alto",
+      "extreme": "Estremo"
+    },
+    "config": {
+      "entity": "Sensore dell'indice UV",
+      "max_entity": "Sensore del massimo UV giornaliero (facoltativo)",
+      "reading_type": "Valore principale",
+      "show_uv": "Mostra indice UV",
+      "entity_hint": "Sensore numerico dell'indice UV, ad esempio di OpenUV. SwissWeather attualmente non fornisce dati UV.",
+      "max_entity_hint": "Sensore facoltativo del massimo giornaliero, distinto dall'indice UV attuale.",
+      "reading_type_hint": "Scegli se il sensore principale indica l'indice UV attuale o il massimo giornaliero.",
+      "show_uv_hint": "Mostra la sezione UV nella Full Card. Disattivata per impostazione predefinita."
+    }
+  },
   "pollen": {
     "title": "Livelli di polline",
     "no_data": "Nessun tipo di polline attivato",

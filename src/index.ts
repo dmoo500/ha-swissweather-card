@@ -37,6 +37,10 @@ import { FULL_CARD_NAME } from './cards/full-card/const';
 import { ANIMATED_BACKGROUND_CARD_NAME } from './cards/animated-background/const';
 import { registerTranslateConfig } from 'lit-translate';
 import { getEnglishTranslation } from './translations';
+import './components/editor-form';
+import { UVIndexCard } from './cards/uv-index/uv-index-card';
+import { UVIndexCardEditor } from './cards/uv-index/uv-index-card-editor';
+import { UV_INDEX_CARD_NAME } from './cards/uv-index/const';
 
 registerTranslateConfig({ empty: getEnglishTranslation });
 
@@ -63,6 +67,22 @@ const weatherEntitySuggestion = (_type: string) => (_hass: HomeAssistant, entity
   if (entityId.split('.')[0] !== 'weather') return null;
   return { config: { type: `custom:${_type}`, entity: entityId } };
 };
+
+registerCustomCard({
+  type: UV_INDEX_CARD_NAME,
+  name: 'SwissWeather UV Index Card',
+  description: 'Current UV index and optional daily maximum from numeric sensors',
+  getEntitySuggestion: (_hass: HomeAssistant, entityId: string) => {
+    if (!entityId.startsWith('sensor.') || !/uv.*index|uv_index/i.test(entityId)) return null;
+    return {
+      config: {
+        type: `custom:${UV_INDEX_CARD_NAME}`,
+        entity: entityId,
+        reading_type: /max.*uv|uv.*max/i.test(entityId) ? 'daily_max' : 'current',
+      },
+    };
+  },
+});
 
 registerCustomCard({
   type: FULL_CARD_NAME,
@@ -145,6 +165,8 @@ registerCustomCard({
   },
 });
 export {
+  UVIndexCard,
+  UVIndexCardEditor,
   SwissWeatherCardEditor, // Full SwissWeather Card Editor
   SwissWeatherCard, // Full SwissWeather Card
   ForecastDiagramCardEditor, // Forecast Diagram Card Editor
