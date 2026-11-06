@@ -1,5 +1,5 @@
 import { type TemplateResult } from 'lit';
-import type { HassEntity } from '../types/home-assistant';
+import type { HassEntity, HomeAssistant } from '../types/home-assistant';
 import { renderLegacyWarnings } from './warnings/legacy';
 import { renderRankedWarnings } from './warnings/ranked';
 
@@ -12,7 +12,8 @@ export function renderWarningSection(
   secondaryEntity: HassEntity | null | undefined,
   tertiaryEntity: HassEntity | null | undefined,
   openWarnings: Record<string, boolean>,
-  toggle: (id: string) => void
+  toggle: (id: string) => void,
+  hass: HomeAssistant
 ): TemplateResult | null {
   if (primaryEntity && primaryEntity.attributes?.has_warning !== undefined) {
     return renderRankedWarnings(
@@ -20,7 +21,8 @@ export function renderWarningSection(
       secondaryEntity,
       tertiaryEntity,
       openWarnings,
-      toggle
+      toggle,
+      hass
     );
   }
   if (warningEntity) {

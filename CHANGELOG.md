@@ -1,5 +1,38 @@
 # Release Notes
 
+## [2.1.1] - 2026-11-06
+
+### Fixed
+- Display ranked warning labels in Home Assistant's language instead of internal keys.
+- Keep warning text, links, and expand buttons readable on light red and orange backgrounds in dark themes.
+- Allow the Full Card's UV section to be moved with the chart-order buttons or the `uv` entry in `chart_order`. Existing configurations retain the previous position and visibility.
+
+### Changed
+- Update integration links and editor guidance to MeteoSwiss Forecast & Warnings.
+- Mark legacy warning sensors as deprecated, while keeping existing configurations and editor selections supported. For new setups, prefer ranked sensors; migrate only when replacement sensors are available.
+
+## [2.1.1b4] - 2026-11-06
+
+### Fixed
+- Allow the Full Card's UV section to be moved in the chart order, while preserving its previous position for existing configurations.
+
+## [2.1.1b3] - 2026-11-06
+
+### Changed
+- Mark the legacy weather-warning sensor as deprecated in the editors. Existing configurations and the sensor selector remain supported.
+- Recommend ranked sensors from MeteoSwiss Forecast & Warnings for new setups. Switch only after the replacement sensors are available.
+
+## [2.1.1b2] - 2026-11-06
+
+### Fixed
+- Keep warning text, links, and expand buttons readable on light red and orange backgrounds in dark themes, in both the warning card and Full Card.
+
+## [2.1.1b1] - 2026-11-06
+
+### Fixed
+- Display ranked warning states using Home Assistant's localized entity-state formatter.
+- Update README links to the current MeteoSwiss Forecast & Warnings integration repository.
+
 ## [2.1.0] - 2026-11-06
 
 ### Added

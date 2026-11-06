@@ -80,7 +80,7 @@ Screenshots illustrate example configurations and may differ from the latest bet
 - Warning and pollen cards need the corresponding sensor entities.
 - UV cards need a numeric `sensor.*` entity from another integration; the checked SwissWeather integration and ranked-warning fork do not expose UV data.
 
-Recommended integration: [hass-swissweather](https://github.com/izacus/hass-swissweather). Ranked warning sensors from [mastameista/hass-swissweather](https://github.com/mastameista/hass-swissweather) are also supported. Other Home Assistant weather integrations can be used, but may not provide every field.
+Recommended integration: [hass-swissweather](https://github.com/izacus/hass-swissweather). Ranked warning sensors from [MeteoSwiss Forecast & Warnings](https://github.com/mastameista/ha-meteoswiss-forecast-warnings) are also supported. Other Home Assistant weather integrations can be used, but may not provide every field.
 
 ## Installation
 
@@ -196,17 +196,19 @@ chart_order:
 | `forecast_hours` | `6` | Hours requested for the hourly display |
 | `compact_mode` | `false` | Compact current metrics and daily diagram instead of daily tiles |
 | `enable_animate_weather_icons` | Enabled in editor presets | Use animated rather than static weather icons |
-| `chart_order` | Temperature, precipitation, sunshine, wind, forecast | Section order; visibility switches still apply |
+| `chart_order` | UV, temperature, precipitation, sunshine, wind, forecast | Section order; use `uv` to position the UV section; visibility switches still apply |
 | `sun_entity` | `sun.sun` | Sun entity for sunrise/sunset markers |
 | `wind_entity` | Weather entity value | Optional current wind-speed sensor |
 | `wind_direction_entity` | Weather entity value | Optional current wind-bearing sensor |
 | `sunshine_entity` | None | Optional current sunshine-duration sensor |
-| `warning_entity` | None | Legacy aggregated weather-warning sensor |
+| `warning_entity` | None | Deprecated legacy aggregated weather-warning sensor; still supported |
 | `primary_warning_entity` | None | Ranked primary warning sensor |
 | `secondary_warning_entity` | None | Ranked secondary warning sensor |
 | `tertiary_warning_entity` | None | Ranked tertiary warning sensor |
 
 Use your own sensor IDs. Ranked warning sensors take precedence over the legacy aggregated sensor. Hourly charts use forecast fields from the weather entity, not the optional current-value sensors.
+
+The legacy `warning_entity` option is deprecated, but remains available in both editors and continues to work. For new setups, prefer ranked warning sensors from [MeteoSwiss Forecast & Warnings](https://github.com/mastameista/ha-meteoswiss-forecast-warnings). To migrate, first install and configure that integration, then select its primary warning sensor and optionally its secondary and tertiary sensors. Do not remove your existing warning sensor until the replacements are available; there is no automatic migration.
 
 See [configuration examples](docs/configuration.md) and the [visual editor guide](docs/visual-editor-guide.md) for additional setup information.
 
@@ -214,7 +216,7 @@ See [configuration examples](docs/configuration.md) and the [visual editor guide
 
 The UV card uses the five intensity categories illustrated by [MeteoSwiss](https://www.meteoswiss.admin.ch/weather/weather-and-climate-from-a-to-z/uv-index.html): low (below 3), moderate (3 to below 6), high (6 to below 8), very high (8 to below 11), and extreme (11+). It shows numeric readings, category names, a colour legend, and each sensor's last update. Zero is valid; missing, unavailable, or invalid values are explicitly reported rather than shown as zero.
 
-The [original SwissWeather integration](https://github.com/izacus/hass-swissweather) and [ranked-warning fork](https://github.com/mastameista/hass-swissweather) currently provide no UV sensor or UV forecast field. Sunshine duration is not a UV index. Choose a numeric UV sensor from another integration, for example [OpenUV](https://www.home-assistant.io/integrations/openuv/); a text-only UV level sensor will not work.
+The [original SwissWeather integration](https://github.com/izacus/hass-swissweather) and [MeteoSwiss Forecast & Warnings](https://github.com/mastameista/ha-meteoswiss-forecast-warnings) currently provide no UV sensor or UV forecast field. Sunshine duration is not a UV index. Choose a numeric UV sensor from another integration, for example [OpenUV](https://www.home-assistant.io/integrations/openuv/); a text-only UV level sensor will not work.
 
 **OpenUV requires an API key and does not automatically refresh its sensors.** Configure an update automation following its integration documentation and API limits. The card only reads HA entities: it makes no external API requests and does not refresh the integration. The displayed sensor timestamp is not a guarantee that its underlying measurement or daily maximum is still current.
 
@@ -238,9 +240,18 @@ show_uv: true
 uv_entity: sensor.current_uv_index
 uv_max_entity: sensor.max_uv_index
 uv_reading_type: current
+chart_order:
+  - temperature
+  - precipitation
+  - sunshine
+  - wind
+  - uv
+  - forecast
 ```
 
 Replace the example sensor IDs with your own. Existing dashboards remain unchanged until `show_uv` is enabled.
+
+From 2.1.1, the Full Card's UV section can be moved with the editor's chart-order buttons or by placing `uv` in `chart_order`. The example places UV after wind and before the daily forecast. If `uv` is omitted, enabled UV readings retain their previous position before the charts. `show_uv: false` hides the section regardless of its position.
 
 ## Chart interaction
 
@@ -306,6 +317,19 @@ localStorage.removeItem('swissweather-debug');
 - Long forecast ranges can crowd labels on narrow cards. Reduce `forecast_hours` or increase the available width.
 - Missing sunshine, probability, or direction readings usually mean the weather integration does not supply that field.
 - When reporting an issue, include the card version, Home Assistant version, browser, card configuration, and relevant console errors. Remove private location/entity details first.
+
+## Roadmap
+
+### Integration-based entity setup in the editors
+
+Planned, with no target release yet:
+
+- Start with the Full Card and warning card, with support for SwissWeather and MeteoSwiss Forecast & Warnings.
+- Reuse an integration entry already configured in Home Assistant; no new location setup is required. If multiple entries exist, let the user choose the intended one.
+- Identify related weather and sensor entities using Home Assistant registry metadata rather than relying only on entity names.
+- Preview the suggested field assignments and apply them only on request. Fill empty fields without overwriting existing selections, and keep manual selection available.
+- Ask the user to resolve ambiguous matches and clearly report missing sensors. Do not assign UV fields when the integration provides no UV data.
+- Extend the assistant to pollen and other card editors after the initial implementation.
 
 ## Development and contributing
 

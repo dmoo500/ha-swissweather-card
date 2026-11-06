@@ -5,6 +5,7 @@ export interface ChartOrderOptions {
   showSunshine?: boolean;
   showWind?: boolean;
   showForecast?: boolean;
+  showUV?: boolean;
 }
 
 export interface OrderedChart {
@@ -14,10 +15,18 @@ export interface OrderedChart {
 
 const DEFAULT_CHART_ORDER = ['temperature', 'precipitation', 'sunshine', 'wind', 'forecast'];
 
+export function getChartOrder(chartOrder?: string[]): string[] {
+  const charts = Array.isArray(chartOrder) ? [...chartOrder] : [...DEFAULT_CHART_ORDER];
+  if (!charts.includes('uv')) charts.unshift('uv');
+  return charts;
+}
+
 export function getOrderedCharts(options: ChartOrderOptions): OrderedChart[] {
   const charts = Array.isArray(options.chartOrder)
     ? [...options.chartOrder]
     : [...DEFAULT_CHART_ORDER];
+
+  if (options.showUV === true && !charts.includes('uv')) charts.unshift('uv');
 
   if (options.showForecast !== false && !charts.includes('forecast')) {
     charts.push('forecast');

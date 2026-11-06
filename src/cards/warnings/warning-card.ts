@@ -11,6 +11,7 @@ import {
 } from './const';
 import { registerCustomCard } from '../../utils';
 import { renderWarningSection } from '../../utils/warning-renderer';
+import { warningSeverityStyles } from '../../utils/warnings/styles';
 
 registerTranslateConfig({ loader: lang => getTranslations(lang) });
 
@@ -49,15 +50,7 @@ export class WarningCard extends LitElement {
         margin-bottom: 8px;
       }
 
-      .warning-section.danger {
-        background: linear-gradient(90deg, #f8d7da 0%, #f5c6cb 100%);
-        border-color: var(--danger-border-color, #f1aeb5);
-      }
-
-      .warning-section.severe {
-        background: linear-gradient(90deg, #ffeaa7 0%, #fdcb6e 100%);
-        border-color: var(--severe-border-color, #e17055);
-      }
+      ${warningSeverityStyles}
 
       .no-warnings {
         opacity: 0.6;
@@ -136,7 +129,8 @@ export class WarningCard extends LitElement {
       secondaryEntity,
       tertiaryEntity,
       this._openWarnings,
-      this._toggle
+      this._toggle,
+      this.hass
     );
 
     if (!content) {

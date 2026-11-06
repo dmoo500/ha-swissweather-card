@@ -1,4 +1,5 @@
 import { css } from 'lit';
+import { warningSeverityStyles } from '../../utils/warnings/styles';
 
 export const fullCardStyles = css`
   :host {
@@ -50,15 +51,7 @@ export const fullCardStyles = css`
     margin-bottom: 20px;
   }
 
-  .warning-section.danger {
-    background: linear-gradient(90deg, #f8d7da 0%, #f5c6cb 100%);
-    border-color: var(--danger-border-color, #f1aeb5);
-  }
-
-  .warning-section.severe {
-    background: linear-gradient(90deg, #ffeaa7 0%, #fdcb6e 100%);
-    border-color: var(--severe-border-color, #e17055);
-  }
+  ${warningSeverityStyles}
 
   .warning-icon {
     font-size: 24px;

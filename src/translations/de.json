@@ -53,16 +53,16 @@
   "warning": {
     "config": {
       "show_warnings": "Wetterwarnungen anzeigen",
-      "warning_entity": "Wetterwarnungen (Legacy)",
+      "warning_entity": "Wetterwarnungen (Legacy, veraltet)",
       "primary_warning_entity": "Primäre Wetterwarnung",
       "secondary_warning_entity": "Sekundäre Wetterwarnung",
       "tertiary_warning_entity": "Tertiäre Wetterwarnung",
       "descr": {
         "show_warnings": "Zeige Wetterwarnungen an, wenn die Wetterwarnung Entity gesetzt ist und aktuelle Warnungen existieren.",
-        "warning_entity": "Legacy: Die Wetterwarnungen Entity wird von der ursprünglichen SwissWeather Integration angelegt (izacus/hass-swissweather). Wenn die neueren Ranked-Entities gesetzt sind, wird diese Entity ignoriert.",
-        "primary_warning_entity": "Primäre Wetterwarnung (*_primary_weather_warning) aus mastameista/hass-swissweather. Wenn gesetzt, wird das neue Ranked-Model aktiviert.",
-        "secondary_warning_entity": "Sekundäre Wetterwarnung (*_secondary_weather_warning) aus mastameista/hass-swissweather.",
-        "tertiary_warning_entity": "Tertiäre Wetterwarnung (*_tertiary_weather_warning) aus mastameista/hass-swissweather."
+        "warning_entity": "Veraltet, aber weiterhin unterstützt: Warnsensor von izacus/hass-swissweather. Für neue Konfigurationen werden gerankte Sensoren von MeteoSwiss Forecast & Warnings empfohlen. Erst umstellen, wenn Ersatzsensoren verfügbar sind. Wird bei konfigurierten gerankten Warnsensoren ignoriert.",
+        "primary_warning_entity": "Primäre Wetterwarnung (*_primary_weather_warning) von MeteoSwiss Forecast & Warnings. Wenn gesetzt, wird das neue Ranked-Model aktiviert.",
+        "secondary_warning_entity": "Sekundäre Wetterwarnung (*_secondary_weather_warning) von MeteoSwiss Forecast & Warnings.",
+        "tertiary_warning_entity": "Tertiäre Wetterwarnung (*_tertiary_weather_warning) von MeteoSwiss Forecast & Warnings."
       }
     },
     "weather_warning": "Wetterwarnung aktiv",

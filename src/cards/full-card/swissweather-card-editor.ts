@@ -5,6 +5,7 @@ import { fireEvent } from 'custom-card-helpers';
 import type { HomeAssistant, LovelaceCardEditor } from '../../types/home-assistant';
 import { getTranslations } from '../../translations';
 import { fullCardEditorStyles } from './swissweather-card-editor.styles';
+import { getChartOrder } from './chart-order';
 import { type CardConfig, FULL_CARD_EDITOR_NAME, FULL_CARD_NAME, schema } from './const';
 
 registerTranslateConfig({
@@ -54,15 +55,14 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
   protected render(): TemplateResult {
     // Chart order for the visual editor
     const chartOptions = [
+      { key: 'uv', label: _t('uv.title') },
       { key: 'temperature', label: _t('config.chart_temperature') || 'Temperature' },
       { key: 'precipitation', label: _t('config.chart_precipitation') || 'Precipitation' },
       { key: 'sunshine', label: _t('config.chart_sunshine') || 'Sunshine' },
       { key: 'wind', label: _t('config.chart_wind') || 'Wind' },
       { key: 'forecast', label: _t('config.chart_forecast') || 'Forecast' },
     ];
-    const chartOrder = Array.isArray(this._config?.chart_order)
-      ? this._config.chart_order
-      : chartOptions.map(o => o.key);
+    const chartOrder = getChartOrder(this._config?.chart_order);
 
     if (!this.hass) {
       return html`<div>Loading...</div>`;
@@ -244,9 +244,7 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
   private _moveChart(idx: number, dir: number) {
     // Move a chart up or down in the order list
     if (!this._config) return;
-    const chartOrder = Array.isArray(this._config.chart_order)
-      ? [...this._config.chart_order]
-      : ['temperature', 'precipitation', 'sunshine', 'wind', 'forecast'];
+    const chartOrder = getChartOrder(this._config.chart_order);
     const newIdx = idx + dir;
     if (newIdx < 0 || newIdx >= chartOrder.length) return;
     const tmp = chartOrder[idx];

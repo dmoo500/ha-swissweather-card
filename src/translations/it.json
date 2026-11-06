@@ -53,16 +53,16 @@
   "warning": {
     "config": {
       "show_warnings": "Mostra allerte meteo",
-      "warning_entity": "Allerte meteo (legacy)",
+      "warning_entity": "Allerte meteo (legacy, deprecato)",
       "primary_warning_entity": "Allerta meteo primaria",
       "secondary_warning_entity": "Allerta meteo secondaria",
       "tertiary_warning_entity": "Allerta meteo terziaria",
       "descr": {
         "show_warnings": "Mostra le allerte meteo se l'entità allerte è impostata ed esiste un'allerta attiva.",
-        "warning_entity": "Legacy: l'entità allerte meteo creata dall'integrazione SwissWeather originale (izacus/hass-swissweather). Ignorata quando sono configurate le entità allerta classificate qui sotto.",
-        "primary_warning_entity": "Entità allerta meteo primaria (*_primary_weather_warning) da mastameista/hass-swissweather. Se impostata, attiva il nuovo modello a livelli.",
-        "secondary_warning_entity": "Entità allerta meteo secondaria (*_secondary_weather_warning) da mastameista/hass-swissweather.",
-        "tertiary_warning_entity": "Entità allerta meteo terziaria (*_tertiary_weather_warning) da mastameista/hass-swissweather."
+        "warning_entity": "Deprecato, ma ancora supportato: sensore di allerta di izacus/hass-swissweather. Per le nuove configurazioni, preferire i sensori classificati di MeteoSwiss Forecast & Warnings. Passare ai nuovi sensori solo quando sono disponibili. Ignorato quando sono configurati i sensori classificati.",
+        "primary_warning_entity": "Entità allerta meteo primaria (*_primary_weather_warning) da MeteoSwiss Forecast & Warnings. Se impostata, attiva il nuovo modello a livelli.",
+        "secondary_warning_entity": "Entità allerta meteo secondaria (*_secondary_weather_warning) da MeteoSwiss Forecast & Warnings.",
+        "tertiary_warning_entity": "Entità allerta meteo terziaria (*_tertiary_weather_warning) da MeteoSwiss Forecast & Warnings."
       }
     },
     "weather_warning": "Allerta meteo attiva",

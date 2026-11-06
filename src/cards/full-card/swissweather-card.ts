@@ -188,7 +188,8 @@ export class SwissWeatherCard extends LitElement {
       secondaryEntity,
       tertiaryEntity,
       this._openWarnings,
-      this._toggleWarning
+      this._toggleWarning,
+      this.hass
     );
   }
 
@@ -402,6 +403,7 @@ export class SwissWeatherCard extends LitElement {
       showSunshine: this.config.show_sunshine,
       showWind: this.config.show_wind,
       showForecast: this.config.show_forecast,
+      showUV: this.config.show_uv,
     }).map(({ chart, showHourlyTitle }) => {
       let chartContent: TemplateResult | string = '';
       const showHourlyHeading = showHourlyTitle && this._hourlyForecast.length > 0;
@@ -411,6 +413,19 @@ export class SwissWeatherCard extends LitElement {
         this._hourlyForecast.length === 0 &&
         !this._forecastLoading;
       switch (chart) {
+        case 'uv':
+          chartContent =
+            this.config.show_uv === true
+              ? html`<div style="margin:16px 0;">
+                  <swissweather-uv-index
+                    .hass=${this.hass}
+                    .entity=${this.config.uv_entity}
+                    .maxEntity=${this.config.uv_max_entity}
+                    .readingType=${this.config.uv_reading_type || 'current'}
+                  ></swissweather-uv-index>
+                </div>`
+              : '';
+          break;
         case 'temperature':
           chartContent = this._renderForecastTemperature(forecastHours);
           break;
@@ -503,18 +518,6 @@ export class SwissWeatherCard extends LitElement {
         visibility,
         sunshineEntity
       )}
-      ${
-        this.config.show_uv === true
-          ? html`<div style="margin:16px 0;">
-              <swissweather-uv-index
-                .hass=${this.hass}
-                .entity=${this.config.uv_entity}
-                .maxEntity=${this.config.uv_max_entity}
-                .readingType=${this.config.uv_reading_type || 'current'}
-              ></swissweather-uv-index>
-            </div>`
-          : ''
-      }
       ${orderedCharts}
     `;
   }

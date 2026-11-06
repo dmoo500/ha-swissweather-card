@@ -8,6 +8,7 @@ export interface HomeAssistant {
   panelUrl: string;
   language: string;
   selectedLanguage: string | null;
+  formatEntityState: (entity: HassEntity) => string;
   resources: { [language: string]: { [category: string]: string } };
   localize: (key: string, ...args: any[]) => string;
   translationMetadata: TranslationMetadata;
