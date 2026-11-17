@@ -66,7 +66,7 @@
   },
   "dependencies": {
     "@mdi/js": "^7.4.47",
-    "custom-card-helpers": "^2.0.0",
+    "custom-card-helpers": "^2.1.0",
     "lit": "^3.3.3",
     "lit-translate": "^2.0.1",
     "marked": "^18.1.2"
