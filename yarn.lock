@@ -1774,7 +1774,7 @@ __metadata:
     lint-staged: "npm:^17.6.0"
     lit: "npm:^3.3.3"
     lit-translate: "npm:^2.0.1"
-    marked: "npm:^18.1.2"
+    marked: "npm:^18.2.1"
     prettier: "npm:^3.9.10"
     tslib: "npm:^2.9.1"
     typescript: "npm:^6.0.3"
@@ -2521,12 +2521,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"marked@npm:^18.1.2":
-  version: 18.1.2
-  resolution: "marked@npm:18.1.2"
+"marked@npm:^18.2.1":
+  version: 18.2.1
+  resolution: "marked@npm:18.2.1"
   bin:
     marked: bin/marked.js
-  checksum: 10c0/0e7312138d6cf866f59a28d2d97ab332ef1b6d1d09263306375a8e9c0e5a4ee892ff1e6ecb668a4959fab0c5f1008c3ddec16c861396fe7cce8f7810521484c9
+  checksum: 10c0/6b266b2b20b2cc7e4275087f6c32f8a1b7f9ce5e73e233a4f46614a59617b7afc8d613bbcb57bacaea5da8f6ad5a830fe10384564106d2d1afb354ba1b0bb9e0
   languageName: node
   linkType: hard
 
