@@ -1,6 +1,6 @@
 {
   "name": "ha-swissweather-card",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Home Assistant custom card recreating the SwissWeather app experience - optimized for HA 2025.8+",
   "main": "dist/swissweather-card.js",
   "homepage": "https://github.com/dmoo500/ha-swissweather-card",
@@ -59,17 +59,17 @@
     "eslint-plugin-promise": "^7.3.0",
     "husky": "^9.1.7",
     "lint-staged": "^17.6.0",
-    "prettier": "^3.9.10",
+    "prettier": "^3.10.1",
     "tslib": "^2.9.1",
     "typescript": "^6.0.3",
-    "vite": "^8.3.5"
+    "vite": "^8.3.8"
   },
   "dependencies": {
     "@mdi/js": "^7.4.47",
-    "custom-card-helpers": "^2.0.0",
+    "custom-card-helpers": "^2.1.0",
     "lit": "^3.3.3",
     "lit-translate": "^2.0.1",
-    "marked": "^18.1.2"
+    "marked": "^18.2.1"
   },
   "files": [
     "dist/",
