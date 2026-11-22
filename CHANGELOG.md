@@ -1,5 +1,10 @@
 # Release Notes
 
+## [2.1.2] - 2026-11-22
+
+### Changed
+- Updated dependencies and development tools.
+
 ## [2.1.1] - 2026-11-06
 
 ### Fixed
