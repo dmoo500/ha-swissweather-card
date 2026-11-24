@@ -55,6 +55,7 @@ export class SwissWeatherBGCardEditor extends LitElement implements LovelaceCard
       sun_entity:
         typeof this._config?.sun_entity === 'string' ? this._config.sun_entity : undefined,
       forecast_mode: this._config?.forecast_mode ?? 'daily',
+      temperature_order: this._config?.temperature_order ?? 'high_low',
       show_sun_times: this._config?.show_sun_times ?? true,
       show_day_temps: this._config?.show_day_temps ?? true,
       temperature_font_size: this._config?.temperature_font_size ?? 36,
@@ -74,6 +75,23 @@ export class SwissWeatherBGCardEditor extends LitElement implements LovelaceCard
                 { value: 'hourly', label: _t('bg_card.forecast_mode.hourly') },
                 { value: 'none', label: _t('bg_card.forecast_mode.none') },
               ],
+            },
+          },
+        }
+      : undefined;
+    const temperatureOrderSchema = schema.find(s => s.name === 'temperature_order');
+    const localizedTemperatureOrderSchema = temperatureOrderSchema
+      ? {
+          ...temperatureOrderSchema,
+          selector: {
+            ...temperatureOrderSchema.selector,
+            select: {
+              ...temperatureOrderSchema.selector.select,
+              options:
+                temperatureOrderSchema.selector.select?.options.map(option => ({
+                  ...option,
+                  label: _t(option.label),
+                })) ?? [],
             },
           },
         }
@@ -113,6 +131,7 @@ export class SwissWeatherBGCardEditor extends LitElement implements LovelaceCard
             .schema=${[
               localizedForecastModeSchema,
               schema.find(s => s.name === 'show_day_temps'),
+              localizedTemperatureOrderSchema,
               schema.find(s => s.name === 'show_sun_times'),
               schema.find(s => s.name === 'photo_mode'),
             ].filter(Boolean)}
@@ -143,6 +162,7 @@ export class SwissWeatherBGCardEditor extends LitElement implements LovelaceCard
       sun_entity: _t('bg_card.config.sun_entity'),
       forecast_mode: _t('bg_card.config.forecast_mode'),
       show_day_temps: _t('bg_card.config.show_day_temps'),
+      temperature_order: _t('config.temperature_order'),
       show_sun_times: _t('bg_card.config.show_sun_times'),
       temperature_font_size: _t('bg_card.config.temperature_font_size'),
       photo_mode: _t('bg_card.config.photo_mode'),

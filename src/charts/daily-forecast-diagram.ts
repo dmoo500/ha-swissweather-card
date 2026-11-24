@@ -6,6 +6,7 @@ import { filterForecastToDateKeys, getLocalForecastDateKey } from './forecast-da
 import { getTranslations } from '../translations';
 import { getPrecipitationValues } from './precipitation-values';
 import { ChartTooltipController, chartTooltipStyles } from './chart-tooltip-controller';
+import { getOrderedForecastTemperatures } from '../utils/forecast-temperature';
 
 @customElement('daily-forecast-diagram')
 export class DailyForecastDiagram extends LitElement {
@@ -414,12 +415,15 @@ export class DailyForecastDiagram extends LitElement {
     if (nDays > 0) {
       for (let d = 0; d < nDays; d++) {
         const x = chartX0 + d * dayWidth + dayWidth / 2; // center within inner chart area
-        const minTemp =
-          typeof days[d].templow === 'number'
-            ? Math.round(days[d].templow || days[d].temperature - 5)
-            : '';
         const maxTemp =
           typeof days[d].temperature === 'number' ? Math.round(days[d].temperature) : '';
+        const rawMinTemp = days[d].templow;
+        const minTemp = typeof rawMinTemp === 'number' ? Math.round(rawMinTemp) : '';
+        const orderedTemps = getOrderedForecastTemperatures(
+          maxTemp,
+          minTemp,
+          this.config?.temperature_order
+        );
         dayGroups.push(svg`
         <g>
           <!-- Weekday -->
@@ -434,7 +438,7 @@ export class DailyForecastDiagram extends LitElement {
               ${this.getWeatherIcon(days[d].condition || '', this.config.enable_animate_weather_icons ? 'animated' : 'mdiAsSVG', iconSize + 'px', true)}
           </foreignObject>
           <!-- Min/Max temp -->
-          <text class="weather-temp" x="${x}" y="${minmaxY}" text-anchor="middle" font-size="${minmaxFont}">${minTemp}°<tspan fill="#aaa"> | </tspan><tspan class="weather-temp">${maxTemp}°</tspan></text>
+          <text class="weather-temp" x="${x}" y="${minmaxY}" text-anchor="middle" font-size="${minmaxFont}">${orderedTemps[0].value}°<tspan fill="#aaa"> | </tspan><tspan class="weather-temp">${orderedTemps[1].value}°</tspan></text>
         </g>
       `);
       }

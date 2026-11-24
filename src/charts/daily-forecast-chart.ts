@@ -1,6 +1,7 @@
 import { LitElement, html, css, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import type { WeatherForecast } from '../types/home-assistant';
+import { getOrderedForecastTemperatures } from '../utils/forecast-temperature';
 
 @customElement('daily-forecast-chart')
 export class DailyForecastChart extends LitElement {
@@ -236,12 +237,16 @@ export class DailyForecastChart extends LitElement {
                             )}
                           </div>
                           <div class="forecast-temps ${this.compact ? 'compact' : ''}">
-                            <span class="temp-high">${Math.round((day as any).temperature)}°</span>
-                            <span class="temp-low"
-                              >${Math.round(
-                                (day as any).templow ?? (day as any).temperature - 5
-                              )}°</span
-                            >
+                            ${getOrderedForecastTemperatures(
+                              Math.round((day as any).temperature),
+                              Math.round((day as any).templow ?? (day as any).temperature - 5),
+                              this.config.temperature_order
+                            ).map(
+                              temperature =>
+                                html`<span class="temp-${temperature.kind}"
+                                  >${temperature.value}°</span
+                                >`
+                            )}
                           </div>
                         </div>
                       `
