@@ -1,5 +1,13 @@
 # Release Notes
 
+## [2.1.3] - 2026-11-25
+
+### Changed
+- Choose whether daily high or low temperatures appear first across the Full Card, Forecast Diagram Card, and Animated Background Card.
+
+### Fixed
+- Display a daily low temperature of 0° correctly.
+
 ## [2.1.3b1] - 2026-11-24
 
 ### Changed
