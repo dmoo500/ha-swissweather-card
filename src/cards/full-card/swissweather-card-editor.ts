@@ -104,6 +104,7 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
           ? this._config.tertiary_warning_entity
           : undefined,
       show_forecast: this._config?.show_forecast ?? true,
+      temperature_order: this._config?.temperature_order ?? 'high_low',
       forecast_hours: this._config?.forecast_hours ?? 6,
       show_temperature: this._config?.show_temperature ?? true,
       show_precipitation: this._config?.show_precipitation ?? true,
@@ -113,6 +114,23 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
       enable_animate_weather_icons: this._config?.enable_animate_weather_icons ?? true,
       compact_mode: this._config?.compact_mode ?? false,
     };
+    const temperatureOrderSchema = schema.find(s => s.name === 'temperature_order');
+    const localizedTemperatureOrderSchema = temperatureOrderSchema
+      ? {
+          ...temperatureOrderSchema,
+          selector: {
+            ...temperatureOrderSchema.selector,
+            select: {
+              ...temperatureOrderSchema.selector.select,
+              options:
+                temperatureOrderSchema.selector.select?.options.map(option => ({
+                  ...option,
+                  label: _t(option.label),
+                })) ?? [],
+            },
+          },
+        }
+      : undefined;
 
     return html`
       <div class="card-config">
@@ -173,6 +191,7 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
             .schema=${[
               schema.find(s => s.name === 'forecast_hours'),
               schema.find(s => s.name === 'show_forecast'),
+              localizedTemperatureOrderSchema,
               schema.find(s => s.name === 'show_precipitation'),
               schema.find(s => s.name === 'show_temperature'),
               schema.find(s => s.name === 'show_sunshine'),
@@ -273,6 +292,7 @@ export class SwissWeatherCardEditor extends LitElement implements LovelaceCardEd
       secondary_warning_entity: _t('warning.config.secondary_warning_entity'),
       tertiary_warning_entity: _t('warning.config.tertiary_warning_entity'),
       show_forecast: _t('config.show_forecast'),
+      temperature_order: _t('config.temperature_order'),
       forecast_hours: _t('config.forecast_hours'),
       show_temperature: _t('config.show_temperature'),
       show_precipitation: _t('config.show_precipitation'),

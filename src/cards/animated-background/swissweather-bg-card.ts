@@ -26,6 +26,7 @@ import {
   backgroundPhotoStyles,
 } from './styles';
 import { formatDateToWeekDay } from '../../charts';
+import { getOrderedForecastTemperatures } from '../../utils/forecast-temperature';
 import '../../charts/hourly-forecast-chart';
 import {
   renderDrizzleParticles,
@@ -250,15 +251,19 @@ export class SwissWeatherBGCard extends LitElement {
                     day && this.config.show_day_temps !== false
                       ? html`
                           <div class="forecast-temps">
-                            <span class="temp-high">
-                              <ha-icon icon="mdi:arrow-up-bold"></ha-icon>
-                              ${Math.round(day.temperature)}°
-                            </span>
-                            <span class="temp-low">
-                              <ha-icon icon="mdi:arrow-down-bold"></ha-icon> ${Math.round(
-                                day.templow || day.temperature - 5
-                              )}°
-                            </span>
+                            ${getOrderedForecastTemperatures(
+                              Math.round(day.temperature),
+                              Math.round(day.templow ?? day.temperature - 5),
+                              this.config.temperature_order
+                            ).map(
+                              temperature =>
+                                html`<span class="temp-${temperature.kind}">
+                                  <ha-icon
+                                    icon="mdi:arrow-${temperature.kind === 'high' ? 'up' : 'down'}-bold"
+                                  ></ha-icon>
+                                  ${temperature.value}°
+                                </span>`
+                            )}
                           </div>
                         `
                       : ''

@@ -1,6 +1,7 @@
 import { PREFIX_NAME } from '../../const';
 import { BasicCardConfig } from '../basic';
 import type { UVReadingType } from '../uv-index/const';
+import type { ForecastTemperatureOrder } from '../../utils/forecast-temperature';
 
 export const FULL_CARD_NAME = `${PREFIX_NAME}-card`;
 export const FULL_CARD_EDITOR_NAME = `${FULL_CARD_NAME}-editor`;
@@ -129,6 +130,18 @@ export const schema = [
     selector: { boolean: {} },
   },
   {
+    name: 'temperature_order',
+    description: 'config.descr.temperature_order',
+    selector: {
+      select: {
+        options: [
+          { value: 'high_low', label: 'config.temperature_order_high_low' },
+          { value: 'low_high', label: 'config.temperature_order_low_high' },
+        ],
+      },
+    },
+  },
+  {
     name: 'show_precipitation',
     description: 'config.descr.show_precipitation',
     selector: { boolean: {} },
@@ -203,6 +216,7 @@ export type CardConfig = BasicCardConfig & {
   show_uv?: boolean;
   precipitation_entity?: string;
   show_forecast?: boolean;
+  temperature_order?: ForecastTemperatureOrder;
   forecast_hours?: number;
   show_hourly?: boolean;
   show_warnings?: boolean;

@@ -1,5 +1,6 @@
 import { PREFIX_NAME } from '../../const';
 import { BasicCardConfig } from '../basic';
+import type { ForecastTemperatureOrder } from '../../utils/forecast-temperature';
 
 export const ANIMATED_BACKGROUND_CARD_NAME = `${PREFIX_NAME}-animated-background-card`;
 export const ANIMATED_BACKGROUND_CARD_EDITOR_NAME = `${ANIMATED_BACKGROUND_CARD_NAME}-editor`;
@@ -45,6 +46,19 @@ export const schema = [
     description: 'bg_card.config.descr.show_day_temps',
   },
   {
+    name: 'temperature_order',
+    required: false,
+    selector: {
+      select: {
+        options: [
+          { value: 'high_low', label: 'config.temperature_order_high_low' },
+          { value: 'low_high', label: 'config.temperature_order_low_high' },
+        ],
+      },
+    },
+    description: 'config.descr.temperature_order',
+  },
+  {
     name: 'temperature_font_size',
     required: false,
     selector: { number: { min: 12, max: 96, step: 1, mode: 'box' } },
@@ -65,4 +79,5 @@ export type CardConfig = BasicCardConfig & {
   show_day_temps?: boolean;
   photo_mode?: boolean;
   forecast_mode?: 'daily' | 'hourly' | 'none';
+  temperature_order?: ForecastTemperatureOrder;
 };

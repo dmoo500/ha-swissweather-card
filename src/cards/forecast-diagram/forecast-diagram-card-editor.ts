@@ -186,7 +186,25 @@ export class ForecastDiagramCardEditor extends LitElement implements LovelaceCar
       entity: typeof this._config?.entity === 'string' ? this._config.entity : undefined,
       sun_entity:
         typeof this._config?.sun_entity === 'string' ? this._config.sun_entity : undefined,
+      temperature_order: this._config?.temperature_order ?? 'high_low',
     };
+    const temperatureOrderSchema = schema.find(s => s.name === 'temperature_order');
+    const localizedTemperatureOrderSchema = temperatureOrderSchema
+      ? {
+          ...temperatureOrderSchema,
+          selector: {
+            ...temperatureOrderSchema.selector,
+            select: {
+              ...temperatureOrderSchema.selector.select,
+              options:
+                temperatureOrderSchema.selector.select?.options.map(option => ({
+                  ...option,
+                  label: _t(option.label),
+                })) ?? [],
+            },
+          },
+        }
+      : undefined;
 
     return html`
       <div class="card-config">
@@ -202,7 +220,10 @@ export class ForecastDiagramCardEditor extends LitElement implements LovelaceCar
           <swissweather-editor-form
             .hass=${this.hass}
             .data=${data}
-            .schema=${[schema.find(s => s.name === 'entity')].filter(Boolean)}
+            .schema=${[
+              schema.find(s => s.name === 'entity'),
+              localizedTemperatureOrderSchema,
+            ].filter(Boolean)}
             .computeLabel=${this._computeLabel}
             .computeHelper=${this._computeHelper}
             @value-changed=${this._valueChanged}
@@ -241,6 +262,7 @@ export class ForecastDiagramCardEditor extends LitElement implements LovelaceCar
     const labels: Record<string, string> = {
       entity: _t('forecast_diagram.config.entity'),
       sun_entity: _t('forecast_diagram.config.sun_entity'),
+      temperature_order: _t('config.temperature_order'),
     };
     return labels[schema.name] || schema.name;
   };

@@ -30,6 +30,7 @@ show_precipitation: true
 show_sunshine: true
 show_wind: false
 compact_mode: false
+temperature_order: high_low
 enable_animate_weather_icons: true
 chart_order:
   - temperature
@@ -40,6 +41,15 @@ chart_order:
 grid_options:
   columns: 2
   rows: 2
+```
+
+### Daily High/Low Temperature Order
+
+The `temperature_order` option controls whether daily high or low temperatures appear on the left. It is shared by the Full Card (including compact mode), Forecast Diagram Card, and Animated Background Card:
+
+```yaml
+temperature_order: high_low # High left, Low right (default)
+# temperature_order: low_high # Low left, High right
 ```
 
 ## Advanced Configuration Options
